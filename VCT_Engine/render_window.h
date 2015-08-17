@@ -3,15 +3,22 @@ struct WindowSettings
 {
     unsigned int width;
     unsigned int height;
-    WindowSettings() {};
+    std::string title;
+    WindowSettings() : width(1280), height(720), title("Default") {};
     virtual ~WindowSettings() {};
 };
 
 class RenderWindow
 {
+    private:
+        GLFWwindow * windowHandler;
+        bool isOpen;
+        WindowSettings settings;
     public:
+        int Open();
+        void SetAsCurrentContext();
         RenderWindow();
         virtual ~RenderWindow();
-    private:
-        WindowSettings settings;
+        GLFWwindow * Handler() const { return windowHandler; }
+        const WindowSettings& Settings() { return settings; }
 };
