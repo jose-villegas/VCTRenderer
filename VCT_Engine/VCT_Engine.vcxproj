@@ -73,6 +73,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -104,6 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -133,18 +135,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="scene\material.cpp" />
+    <ClCompile Include="scene\scene.cpp" />
+    <ClCompile Include="scene\camera.cpp" />
     <ClCompile Include="initializer.cpp" />
+    <ClCompile Include="scene\light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="scene\mesh.cpp" />
     <ClCompile Include="render_window.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="scene\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="scene\material.h" />
+    <ClInclude Include="scene\scene.h" />
+    <ClInclude Include="scene\camera.h" />
     <ClInclude Include="initializer.h" />
+    <ClInclude Include="scene\light.h" />
+    <ClInclude Include="scene\mesh.h" />
     <ClInclude Include="render_window.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="scene\texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

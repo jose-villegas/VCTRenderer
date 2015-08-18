@@ -1,0 +1,8 @@
+C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/include/GLFW/glfw3.h
+C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/include/GLFW/glfw3native.h
+C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/lib64/cmake/glfw/glfw3Config.cmake
+C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/lib64/cmake/glfw/glfw3ConfigVersion.cmake
+C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/lib64/cmake/glfw/glfwTargets.cmake
+C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/lib64/cmake/glfw/glfwTargets-release.cmake
+C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/lib64/pkgconfig/glfw3.pc
+C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/lib64/glfw3.lib

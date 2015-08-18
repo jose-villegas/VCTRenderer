@@ -13,3 +13,6 @@
 [submodule ".\\VCT_Engine\\dependencies\\assimp"]
 	path = .\\VCT_Engine\\dependencies\\assimp
 	url = https://github.com/assimp/assimp.git
+[submodule ".\\VCT_Engine\\dependencies\\glm"]
+	path = .\\VCT_Engine\\dependencies\\glm
+	url = https://github.com/g-truc/glm.git

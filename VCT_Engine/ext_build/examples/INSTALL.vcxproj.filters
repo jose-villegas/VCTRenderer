@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Jose\Documents\Tesis\source\VCT_Engine\VCT_Engine\ext_build\CMakeFiles\ddf6ccbd46734b6aa225d0870860365a\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{6B2BA24C-3008-453C-B425-CF2EFAD35E34}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

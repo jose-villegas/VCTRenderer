@@ -20,14 +20,14 @@ void Initializer::Start()
     if(err != GLEW_OK)
     {
         //Problem: glewInit failed, something is seriously wrong.
-        std::cout << "glewInit failed, aborting: " << glewGetErrorString(
-                      err) << std::endl;
+        std::cout << "glewInit failed, aborting: " << glewGetErrorString(err)
+                  << std::endl;
     }
 
     std::cout << "GLEW " << glewGetString(GLEW_VERSION) << std::endl;
     // OpenGL version
-    std::cout << "OpenGL " << glGetString(GL_VERSION) << "s, GLSL " <<
-              glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+    std::cout << "OpenGL " << glGetString(GL_VERSION) << "s, GLSL "
+              << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 }
 
 Initializer::~Initializer()
