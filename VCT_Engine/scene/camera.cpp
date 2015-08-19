@@ -4,6 +4,8 @@
 
 Camera::Camera()
 {
+    clipPlaneFar = 0.0f;
+    clipPlaneNear = 0.0f;
 }
 
 

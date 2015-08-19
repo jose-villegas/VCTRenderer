@@ -135,6 +135,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="interface\interface.cpp" />
+    <ClCompile Include="interface\imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="interface\imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="interface\imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="interface\imgui\imgui_impl_glfw_gl3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="scene\material.cpp" />
     <ClCompile Include="scene\scene.cpp" />
     <ClCompile Include="scene\camera.cpp" />
@@ -152,6 +177,14 @@
     <ClCompile Include="scene\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="interface\interface.h" />
+    <ClInclude Include="interface\imgui\imconfig.h" />
+    <ClInclude Include="interface\imgui\imgui.h" />
+    <ClInclude Include="interface\imgui\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="interface\imgui\imgui_internal.h" />
+    <ClInclude Include="interface\imgui\stb_rect_pack.h" />
+    <ClInclude Include="interface\imgui\stb_textedit.h" />
+    <ClInclude Include="interface\imgui\stb_truetype.h" />
     <ClInclude Include="scene\material.h" />
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\camera.h" />
@@ -161,6 +194,10 @@
     <ClInclude Include="render_window.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="scene\texture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="interface\imgui\LICENSE" />
+    <None Include="interface\imgui\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
