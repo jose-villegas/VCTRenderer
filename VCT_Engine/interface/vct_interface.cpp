@@ -22,8 +22,13 @@ void VCTInterface::Draw()
         ImGui::End();
     }
     {
-        ImGui::Combo("Escena", &activeScene, (const char**)availableScenes.data(),
+        ImGui::SetNextWindowPos(ImVec2(3, 3));
+        ImGui::Begin("Scene", nullptr,
+                     ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
+                     ImGuiWindowFlags_NoMove);
+        ImGui::Combo("", &activeScene, (const char**)availableScenes.data(),
                      availableScenes.size());
+        ImGui::End();
     }
 }
 
@@ -31,7 +36,7 @@ VCTInterface::VCTInterface()
 {
     const char* items[] = {"Sponza", "Cathedral"};
     int availableScenesSize = ((int)(sizeof(items) / sizeof(*items)));
-    activeScene = 0;
+    activeScene = -1;
 
     for(int i = 0; i < availableScenesSize; i++)
     {

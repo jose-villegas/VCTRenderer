@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="initializer.cpp" />
     <ClCompile Include="interface\interface.cpp" />
     <ClCompile Include="interface\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -163,7 +164,6 @@
     <ClCompile Include="scene\material.cpp" />
     <ClCompile Include="scene\scene.cpp" />
     <ClCompile Include="scene\camera.cpp" />
-    <ClCompile Include="initializer.cpp" />
     <ClCompile Include="scene\light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene\mesh.cpp" />

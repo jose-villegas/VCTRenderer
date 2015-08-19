@@ -54,13 +54,13 @@
     <ClCompile Include="interface\imgui\imgui_impl_glfw_gl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="initializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="interface\interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="interface\vct_interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="initializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

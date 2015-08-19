@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     RenderWindow renderWindow;
     VCTInterface gui;
     Initializer initializer;
-    // vct engine specific gui
+    oglplus::Context gl;
     // open window and set rendering context
     renderWindow.Open();
     renderWindow.SetAsCurrentContext();
@@ -18,14 +18,15 @@ int main(int argc, char* argv[])
     initializer.Start();
     // set interface to current renderwindow
     gui.Initialize(renderWindow);
+    gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     // draw
     while(!glfwWindowShouldClose(renderWindow.Handler()))
     {
         glfwPollEvents();
         gui.Draw();
-        glClearColor(0, 0, 0, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
+        gl.Clear().ColorBuffer().DepthBuffer(); glClear(GL_COLOR_BUFFER_BIT);
         gui.Render();
         glfwSwapBuffers(renderWindow.Handler());
     }
