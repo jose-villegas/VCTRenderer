@@ -22,14 +22,14 @@ void VCTInterface::Draw()
         ImGui::End();
     }
     {
-        ImGui::Combo("combo scroll", &activeScene, (const char**)availableScenes.data(),
+        ImGui::Combo("Escena", &activeScene, (const char**)availableScenes.data(),
                      availableScenes.size());
     }
 }
 
 VCTInterface::VCTInterface()
 {
-    const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK" };
+    const char* items[] = {"Sponza", "Cathedral"};
     int availableScenesSize = ((int)(sizeof(items) / sizeof(*items)));
     activeScene = 0;
 
