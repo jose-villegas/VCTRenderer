@@ -10,6 +10,8 @@ class Interface
         void Initialize(const RenderWindow &activeWindow);
         void Terminate();
         void Render();
-        void NewFrame();
+
+        // Application specific UI code
+        void Draw();
 };
 
