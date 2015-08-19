@@ -3,14 +3,14 @@
 #include "render_window.h"
 #include "initializer.h"
 #include "scene/scene.h"
-#include "interface/interface.h"
-#include "interface/imgui/imgui.h"
+#include "interface/vct_interface.h"
 
 int main(int argc, char* argv[])
 {
     RenderWindow renderWindow;
-    Interface gui;
+    VCTInterface gui;
     Initializer initializer;
+    // vct engine specific gui
     // open window and set rendering context
     renderWindow.Open();
     renderWindow.SetAsCurrentContext();
@@ -18,9 +18,6 @@ int main(int argc, char* argv[])
     initializer.Start();
     // set interface to current renderwindow
     gui.Initialize(renderWindow);
-    ImVec4 clear_color = ImColor(114, 144, 154);
-    bool show_test_window = true;
-    bool show_another_window = false;
 
     // draw
     while(!glfwWindowShouldClose(renderWindow.Handler()))

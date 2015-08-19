@@ -175,6 +175,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="scene\texture.cpp" />
+    <ClCompile Include="interface\vct_interface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="interface\interface.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="render_window.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="scene\texture.h" />
+    <ClInclude Include="interface\vct_interface.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="interface\imgui\LICENSE" />
