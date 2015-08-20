@@ -112,7 +112,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glewd.lib;libyaml-cppmdd.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew.lib;libyaml-cppmd.lib;glfw3.lib;zlibstatic.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,7 +131,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glewd.lib;libyaml-cppmdd.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew.lib;libyaml-cppmd.lib;glfw3.lib;zlibstatic.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
