@@ -7,14 +7,8 @@ Initializer::Initializer()
 {
 }
 
-void Initializer::Start()
+void Initializer::ContextDependant()
 {
-    std::cout << "Using: " << std::endl;
-
-    // GLFW
-    if(!glfwInit()) return;
-
-    std::cout << "GLFW " << glfwGetVersionString() << std::endl;
     // Initialzie GLEW
     GLenum err = glewInit();
 
@@ -32,6 +26,14 @@ void Initializer::Start()
               << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
     std::cout << "GLEW " << glewGetString(GLEW_VERSION) << std::endl;
     std::cout << "Ocornut's IMGUI " << ImGui::GetVersion();
+}
+
+void Initializer::ExternalLibs()
+{
+    // GLFW
+    if(!glfwInit()) return;
+
+    std::cout << "GLFW " << glfwGetVersionString() << std::endl;
 }
 
 Initializer::~Initializer()

@@ -63,6 +63,12 @@
     <ClCompile Include="initializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="util\scene_importer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render_window.h">
@@ -119,9 +125,16 @@
     <ClInclude Include="interface\vct_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="util\scene_importer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="interface\imgui\LICENSE" />
     <None Include="interface\imgui\README.md" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -2,7 +2,8 @@
 class Initializer
 {
     public:
-        void Start();
+        void ContextDependant();
+        void ExternalLibs();
         Initializer();
         ~Initializer();
 };

@@ -4,6 +4,8 @@
 #include "material.h"
 #include "mesh.h"
 #include "texture.h"
+#include "node.h"
+
 class Scene
 {
     public:
@@ -12,6 +14,7 @@ class Scene
         std::vector<Material> materials;
         std::vector<Mesh> meshes;
         std::vector<Texture> textures;
+        std::vector<Node> nodes;
         Scene();
         virtual ~Scene();
 };

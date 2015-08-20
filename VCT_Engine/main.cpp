@@ -11,15 +11,16 @@ int main(int argc, char* argv[])
     VCTInterface gui;
     Initializer initializer;
     oglplus::Context gl;
+    // initialize external dependencies
+    initializer.ExternalLibs();
     // open window and set rendering context
     renderWindow.Open();
     renderWindow.SetAsCurrentContext();
     // initialize context dependant external libs
-    initializer.Start();
+    initializer.ContextDependant();
     // set interface to current renderwindow
     gui.Initialize(renderWindow);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     // draw
     while(!glfwWindowShouldClose(renderWindow.Handler()))

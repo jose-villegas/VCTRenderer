@@ -2,7 +2,7 @@
 #include "material.h"
 
 
-Material::Material()
+Material::Material() : name("Default Material")
 {
 }
 
