@@ -3,7 +3,7 @@
 #include "texture_importer.h"
 
 // transforms picture to raw data and stores info in Texture class
-bool TextureImporter::ImportTexture(const std::string sFilepath,
+bool TextureImporter::ImportTexture(const std::string &sFilepath,
                                     Texture &outTexture)
 {
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilepath.c_str());

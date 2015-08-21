@@ -17,8 +17,8 @@ class SceneImporter
         virtual ~SceneImporter();
         bool Import(const std::string &sFilepath, Scene &outScene);
         // fine imports
-        Material ImportMaterial(aiMaterial *mMaterial);
-        Mesh ImportMesh(aiMesh *mMesh);
+        void ImportMaterial(aiMaterial *mMaterial, Material &outMaterial);
+        void ImportMesh(aiMesh *mMesh, Mesh &outMesh);
         void ProcessNodes(Scene &scene, aiNode* node, Node &newNode);
         void ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
                                     Material &material);

@@ -36,7 +36,9 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         // process material properties
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
-            outScene.materials.push_back(std::move(ImportMaterial(scene->mMaterials[i])));
+            Material * newMaterial = new Material();
+            ImportMaterial(scene->mMaterials[i], *newMaterial);
+            outScene.materials.push_back(newMaterial);
             ConsoleProgressBar("(Assimp) Materials", 45, i, scene->mNumMaterials);
         }
 
@@ -45,7 +47,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         // import per material and scene, textures
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
-            ImportMaterialTextures(outScene, scene->mMaterials[i], outScene.materials[i]);
+            ImportMaterialTextures(outScene, scene->mMaterials[i], *outScene.materials[i]);
             ConsoleProgressBar("(Assimp) Textures ", 45, i, scene->mNumMaterials);
         }
 
@@ -56,10 +58,12 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     {
         for(unsigned int i = 0; i < scene->mNumMeshes; i++)
         {
-            outScene.meshes.push_back(std::move(ImportMesh(scene->mMeshes[i])));
+            Mesh * newMesh = new Mesh();
+            ImportMesh(scene->mMeshes[i], *newMesh);
+            outScene.meshes.push_back(newMesh);
             // material assigned to mesh
-            outScene.meshes[i].material =
-                &outScene.materials[scene->mMeshes[i]->mMaterialIndex];
+            outScene.meshes[i]->material =
+                outScene.materials[scene->mMeshes[i]->mMaterialIndex];
             ConsoleProgressBar("(Assimp) Meshes   ", 45, i, scene->mNumMeshes);
         }
 
@@ -74,24 +78,23 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     return true;
 }
 
-Material SceneImporter::ImportMaterial(aiMaterial *mMaterial)
+void SceneImporter::ImportMaterial(aiMaterial *mMaterial, Material &outMaterial)
 {
-    Material newMaterial;
     // assimp scene material name extract
     aiString materialName;
     mMaterial->Get(AI_MATKEY_NAME, materialName);
 
     if(materialName.length > 0)
     {
-        newMaterial.name = materialName.C_Str();
+        outMaterial.name = materialName.C_Str();
     }
 
     // material factors
-    mMaterial->Get(AI_MATKEY_SHADING_MODEL, newMaterial.shadingModel);
-    mMaterial->Get(AI_MATKEY_BLEND_FUNC, newMaterial.blendMode);
-    mMaterial->Get(AI_MATKEY_REFRACTI, newMaterial.refractionIndex);
-    mMaterial->Get(AI_MATKEY_SHININESS, newMaterial.shininess);
-    mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, newMaterial.shininessStrenght);
+    mMaterial->Get(AI_MATKEY_SHADING_MODEL, outMaterial.shadingModel);
+    mMaterial->Get(AI_MATKEY_BLEND_FUNC, outMaterial.blendMode);
+    mMaterial->Get(AI_MATKEY_REFRACTI, outMaterial.refractionIndex);
+    mMaterial->Get(AI_MATKEY_SHININESS, outMaterial.shininess);
+    mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, outMaterial.shininessStrenght);
     // get material properties
     aiColor3D ambient(0.f), diffuse(0.f), specular(0.f);
     aiColor3D emissive(0.f), transparent(0.f);
@@ -100,18 +103,16 @@ Material SceneImporter::ImportMaterial(aiMaterial *mMaterial)
     mMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specular);
     mMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emissive);
     mMaterial->Get(AI_MATKEY_COLOR_TRANSPARENT, transparent);
-    newMaterial.ambient = glm::vec3(ambient.r, ambient.g, ambient.b);
-    newMaterial.diffuse = glm::vec3(diffuse.r, diffuse.g, diffuse.b);
-    newMaterial.specular = glm::vec3(specular.r, specular.g, specular.b);
-    newMaterial.emissive = glm::vec3(emissive.r, emissive.g, emissive.b);
-    newMaterial.transparent = glm::vec3(transparent.r, transparent.g,
+    outMaterial.ambient = glm::vec3(ambient.r, ambient.g, ambient.b);
+    outMaterial.diffuse = glm::vec3(diffuse.r, diffuse.g, diffuse.b);
+    outMaterial.specular = glm::vec3(specular.r, specular.g, specular.b);
+    outMaterial.emissive = glm::vec3(emissive.r, emissive.g, emissive.b);
+    outMaterial.transparent = glm::vec3(transparent.r, transparent.g,
                                         transparent.b);
-    return newMaterial;
 }
-Mesh SceneImporter::ImportMesh(aiMesh *mMesh)
+void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
 {
-    Mesh newMesh;
-    newMesh.name = mMesh->mName.length > 0 ? mMesh->mName.C_Str() : newMesh.name;
+    outMesh.name = mMesh->mName.length > 0 ? mMesh->mName.C_Str() : outMesh.name;
 
     if(mMesh->mNumVertices > 0)
     {
@@ -138,18 +139,16 @@ Mesh SceneImporter::ImportMesh(aiMesh *mMesh)
             }
 
             vertex.Orthonormalize();
-            newMesh.vertices.push_back(std::move(vertex));
+            outMesh.vertices.push_back(std::move(vertex));
         }
     }
 
     for(unsigned int i = 0; i < mMesh->mNumFaces; i++)
     {
-        newMesh.indices.push_back(mMesh->mFaces[i].mIndices[0]);
-        newMesh.indices.push_back(mMesh->mFaces[i].mIndices[1]);
-        newMesh.indices.push_back(mMesh->mFaces[i].mIndices[2]);
+        outMesh.indices.push_back(mMesh->mFaces[i].mIndices[0]);
+        outMesh.indices.push_back(mMesh->mFaces[i].mIndices[1]);
+        outMesh.indices.push_back(mMesh->mFaces[i].mIndices[2]);
     }
-
-    return newMesh;
 }
 
 void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
@@ -161,7 +160,7 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
     // meshes associated with this node
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
     {
-        newNode.meshes.push_back(&scene.meshes[node->mMeshes[i]]);
+        newNode.meshes.push_back(scene.meshes[node->mMeshes[i]]);
     }
 
     // push childrens in hierachy
@@ -191,21 +190,27 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
             std::string filepath = scene.directory + "\\" + std::string(texPath.data);
             // find if texture was already loaded previously
             bool alreadyLoaded = false;
+            int savedTextureIndex = 0;
 
-            for(unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; i++)
+            for(unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; ++i)
             {
-                alreadyLoaded |= scene.textures[i].filepath == filepath ? true : false;
+                alreadyLoaded |= scene.textures[i]->filepath == filepath ? true : false;
+                savedTextureIndex = i;
             }
 
             if(!alreadyLoaded)
             {
-                Texture newTexture;
+                Texture * newTexture(new Texture());
 
-                if(textureImporter.ImportTexture(filepath, newTexture))
+                if(textureImporter.ImportTexture(filepath, *newTexture))
                 {
-                    scene.textures.push_back(std::move(newTexture));
-                    material.textures[texType] = &scene.textures.back();
+                    scene.textures.push_back(newTexture);
+                    material.textures[texType] = newTexture;
                 }
+            }
+            else
+            {
+                material.textures[texType] = scene.textures[savedTextureIndex];
             }
         }
     }

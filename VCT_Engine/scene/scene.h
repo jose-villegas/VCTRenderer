@@ -12,11 +12,11 @@ class Scene
         std::string filepath;
         std::string directory;
 
-        std::vector<Camera> cameras;
-        std::vector<Light> lights;
-        std::vector<Material> materials;
-        std::vector<Mesh> meshes;
-        std::vector<Texture> textures;
+        std::vector<Camera *> cameras;
+        std::vector<Light *> lights;
+        std::vector<Material *> materials;
+        std::vector<Mesh *> meshes;
+        std::vector<Texture *> textures;
         Node rootNode;
         Scene();
         virtual ~Scene();

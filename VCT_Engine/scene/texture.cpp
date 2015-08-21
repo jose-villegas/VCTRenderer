@@ -11,12 +11,18 @@ void Texture::SaveTextureInfo(unsigned int height, unsigned int width,
         this->width = width;
         this->lineWidth = pitch;
         this->bitsPerPixel = bitsPerPixel;
-        this->rawData = data;
+        this->rawData.reset(data);
         this->loaded = true;
     }
 }
 
-Texture::Texture() : loaded(false)
+void Texture::FreeRawData()
+{
+    unsigned char * pRawData = this->rawData.release();
+    delete pRawData;
+}
+
+Texture::Texture() : loaded(false), rawData(nullptr)
 {
 }
 
