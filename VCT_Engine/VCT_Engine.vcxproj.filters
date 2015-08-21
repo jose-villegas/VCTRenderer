@@ -72,6 +72,9 @@
     <ClCompile Include="interface\render_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="util\command_line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -135,6 +138,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interface\render_window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\command_line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

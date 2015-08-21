@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="util\command_line.cpp" />
     <ClCompile Include="util\initializer.cpp" />
     <ClCompile Include="interface\interface.cpp" />
     <ClCompile Include="interface\imgui\imgui.cpp">
@@ -190,6 +191,7 @@
     <ClInclude Include="interface\imgui\stb_textedit.h" />
     <ClInclude Include="interface\imgui\stb_truetype.h" />
     <ClInclude Include="scene\node.h" />
+    <ClInclude Include="util\command_line.h" />
     <ClInclude Include="util\texture_importer.h" />
     <ClInclude Include="util\scene_importer.h" />
     <ClInclude Include="scene\material.h" />

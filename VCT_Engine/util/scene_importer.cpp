@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "scene_importer.h"
 #include "..\scene\scene.h"
+#include "command_line.h"
 
 SceneImporter::SceneImporter()
 {
@@ -13,23 +14,29 @@ SceneImporter::~SceneImporter()
 
 bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
 {
+    std::cout << "(Assimp) Processing File: " << sFilepath << std::endl;
     Assimp::Importer importer;
     const aiScene * scene = importer.ReadFile(sFilepath,
                             aiProcessPreset_TargetRealtime_Fast);
 
     if(!scene)
     {
-        std::cout << "Error loading file (Assimp): " << importer.GetErrorString() <<
+        std::cout << "(Assimp) Error Loading File: " << importer.GetErrorString() <<
                   std::endl;
         return false;
     }
+
+    std::cout << "(Assimp) Loading Scene:" << std::endl;
 
     if(scene->HasMaterials())
     {
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             outScene.materials.push_back(std::move(ImportMaterial(scene->mMaterials[i])));
+            ConsoleProgressBar("(Assimp) Materials", 45, i, scene->mNumMaterials);
         }
+
+        std::cout << std::endl;
     }
 
     if(scene->HasMeshes())
@@ -37,10 +44,10 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         for(unsigned int i = 0; i < scene->mNumMeshes; i++)
         {
             outScene.meshes.push_back(std::move(ImportMesh(scene->mMeshes[i])));
+            ConsoleProgressBar("(Assimp) Meshes   ", 45, i, scene->mNumMeshes);
         }
     }
 }
-
 Material SceneImporter::ImportMaterial(aiMaterial *mMaterial)
 {
     Material newMaterial;
@@ -87,14 +94,12 @@ Material SceneImporter::ImportMaterial(aiMaterial *mMaterial)
                                      &textureFilepath) == AI_SUCCESS)
             {
                 std::string fullPath = textureFilepath.data;
-                std::cout << fullPath << std::endl;
             }
         }
     }
 
     return newMaterial;
 }
-
 Mesh SceneImporter::ImportMesh(aiMesh *mMesh)
 {
     Mesh newMesh;
