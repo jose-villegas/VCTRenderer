@@ -135,7 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="initializer.cpp" />
+    <ClCompile Include="util\initializer.cpp" />
     <ClCompile Include="interface\interface.cpp" />
     <ClCompile Include="interface\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -162,6 +162,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="scene\node.cpp" />
+    <ClCompile Include="util\texture_importer.cpp" />
     <ClCompile Include="util\scene_importer.cpp" />
     <ClCompile Include="scene\material.cpp" />
     <ClCompile Include="scene\scene.cpp" />
@@ -169,7 +170,7 @@
     <ClCompile Include="scene\light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene\mesh.cpp" />
-    <ClCompile Include="render_window.cpp" />
+    <ClCompile Include="interface\render_window.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -189,14 +190,15 @@
     <ClInclude Include="interface\imgui\stb_textedit.h" />
     <ClInclude Include="interface\imgui\stb_truetype.h" />
     <ClInclude Include="scene\node.h" />
+    <ClInclude Include="util\texture_importer.h" />
     <ClInclude Include="util\scene_importer.h" />
     <ClInclude Include="scene\material.h" />
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\camera.h" />
-    <ClInclude Include="initializer.h" />
+    <ClInclude Include="util\initializer.h" />
     <ClInclude Include="scene\light.h" />
     <ClInclude Include="scene\mesh.h" />
-    <ClInclude Include="render_window.h" />
+    <ClInclude Include="interface\render_window.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="scene\texture.h" />
     <ClInclude Include="interface\vct_interface.h" />

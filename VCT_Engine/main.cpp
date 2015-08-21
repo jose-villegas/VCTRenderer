@@ -1,8 +1,8 @@
 // VCT_Engine.cpp : Defines the entry point for the console application.
 #include "stdafx.h"
-#include "render_window.h"
-#include "initializer.h"
 #include "scene/scene.h"
+#include "util/initializer.h"
+#include "interface/render_window.h"
 #include "interface/vct_interface.h"
 
 int main(int argc, char* argv[])

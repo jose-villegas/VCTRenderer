@@ -2,7 +2,7 @@
 #include "mesh.h"
 
 
-Mesh::Mesh()
+Mesh::Mesh() : name("Default Mesh")
 {
 }
 
@@ -11,9 +11,9 @@ Mesh::~Mesh()
 {
 }
 
-void Vertex::Orthogonalize()
+void Vertex::Orthonormalize()
 {
-    // Gram-Schmidt orthogonalize
+    // Gram-Schmidt orthonormalization
     this->tangent = glm::normalize(tangent - normal * glm::dot(normal, tangent));
 
     // Calculate handedness

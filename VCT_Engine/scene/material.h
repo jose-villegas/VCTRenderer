@@ -3,6 +3,25 @@
 class Material
 {
     public:
+        enum ShadingMode
+        {
+            Flat,
+            Gourad,
+            Phong,
+            Blinn,
+            Toon,
+            OrenNayar,
+            Minnaert,
+            CookTorrance,
+            NoShading,
+            Fresnel
+        };
+        enum BlendMode
+        {
+            Default,
+            Additive
+        };
+    public:
         std::string name;
 
         glm::vec3 ambient;
@@ -16,8 +35,8 @@ class Material
         float shininessStrenght;
         float refractionIndex;
 
-        int shadingModel;
-        int blendMode;
+        unsigned int shadingModel;
+        unsigned int blendMode;
 
         Material();
         ~Material();

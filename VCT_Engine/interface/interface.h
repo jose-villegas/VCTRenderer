@@ -1,5 +1,5 @@
 #pragma once
-#include "..\render_window.h"
+#include "render_window.h"
 
 class Interface
 {

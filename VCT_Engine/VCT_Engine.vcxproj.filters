@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="render_window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,9 +31,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scene\scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="scene\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scene\material.cpp">
@@ -60,24 +54,27 @@
     <ClCompile Include="interface\vct_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="initializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="util\scene_importer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scene\node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="scene\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\texture_importer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\initializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="interface\render_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="render_window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="initializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scene\camera.h">
@@ -125,10 +122,19 @@
     <ClInclude Include="interface\vct_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="scene\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="util\scene_importer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scene\node.h">
+    <ClInclude Include="util\texture_importer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\initializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interface\render_window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

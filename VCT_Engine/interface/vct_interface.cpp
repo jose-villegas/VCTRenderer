@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "vct_interface.h"
 #include "imgui\imgui.h"
+#include "..\util\scene_importer.h"
 
 
 void VCTInterface::Draw()
@@ -26,15 +27,36 @@ void VCTInterface::Draw()
         ImGui::Begin("Scene", nullptr,
                      ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
                      ImGuiWindowFlags_NoMove);
-        ImGui::Combo("", &activeScene, (const char**)availableScenes.data(),
-                     availableScenes.size());
+
+        if(ImGui::Combo("", &activeScene, (const char**)availableScenes.data(),
+                        availableScenes.size()))
+        {
+            static SceneImporter importer;
+            static Scene scene;
+
+            if(activeScene == 0)
+            {
+                importer.Import("models/crytek-sponza/sponza.obj", scene);
+            }
+
+            if(activeScene == 1)
+            {
+                importer.Import("models/dabrovic-sponza/sponza.obj", scene);
+            }
+
+            if(activeScene == 2)
+            {
+                importer.Import("models/sibenik/sibenik.obj", scene);
+            }
+        }
+
         ImGui::End();
     }
 }
 
 VCTInterface::VCTInterface()
 {
-    const char* items[] = {"Sponza", "Cathedral"};
+    const char* items[] = {"Crytek Sponza", "Dabrovic Sponza", "Sibenik Cathedral"};
     int availableScenesSize = ((int)(sizeof(items) / sizeof(*items)));
     activeScene = -1;
 

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "initializer.h"
-#include "interface\imgui\imgui.h"
-
+#include "..\interface\imgui\imgui.h"
 
 Initializer::Initializer()
 {
@@ -25,7 +24,7 @@ void Initializer::ContextDependant()
     std::cout << "OpenGL " << glGetString(GL_VERSION) << "s, GLSL "
               << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
     std::cout << "GLEW " << glewGetString(GLEW_VERSION) << std::endl;
-    std::cout << "Ocornut's IMGUI " << ImGui::GetVersion();
+    std::cout << "Ocornut's IMGUI " << ImGui::GetVersion() << std::endl;
 }
 
 void Initializer::ExternalLibs()
