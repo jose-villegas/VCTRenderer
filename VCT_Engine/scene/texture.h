@@ -1,5 +1,5 @@
 #pragma once
-//class Texture;
+class Texture;
 
 // holds information to opengl texture
 struct OGLTexture
@@ -12,7 +12,7 @@ struct OGLTexture
     unsigned int wrapS;
     unsigned int wrapT;
 
-    // GLuint UploadToGPU(Texture &ramTexture);
+    GLuint UploadToGPU(Texture &ramTexture, bool unloadFromRam = true);
 };
 
 class Texture
