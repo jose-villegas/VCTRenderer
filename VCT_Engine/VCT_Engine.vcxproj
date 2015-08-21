@@ -78,7 +78,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glewd.lib;libyaml-cppmdd.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glewd.lib;libyaml-cppmdd.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;FreeImaged.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -93,7 +93,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glewd.lib;libyaml-cppmdd.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glewd.lib;libyaml-cppmdd.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;FreeImaged.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -112,7 +112,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew.lib;libyaml-cppmd.lib;glfw3.lib;zlibstatic.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew.lib;libyaml-cppmd.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,11 +131,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew.lib;libyaml-cppmd.lib;glfw3.lib;zlibstatic.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew.lib;libyaml-cppmd.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="util\command_line.cpp" />
+    <ClCompile Include="util\miscellaneous.cpp" />
     <ClCompile Include="util\initializer.cpp" />
     <ClCompile Include="interface\interface.cpp" />
     <ClCompile Include="interface\imgui\imgui.cpp">
@@ -191,7 +191,7 @@
     <ClInclude Include="interface\imgui\stb_textedit.h" />
     <ClInclude Include="interface\imgui\stb_truetype.h" />
     <ClInclude Include="scene\node.h" />
-    <ClInclude Include="util\command_line.h" />
+    <ClInclude Include="util\miscellaneous.h" />
     <ClInclude Include="util\texture_importer.h" />
     <ClInclude Include="util\scene_importer.h" />
     <ClInclude Include="scene\material.h" />

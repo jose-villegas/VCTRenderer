@@ -4,8 +4,7 @@
 class TextureImporter
 {
     public:
-        Texture ImportTexture(const std::string sFilepath);
-
+        bool ImportTexture(const std::string sFilepath, Texture &outTexture);
         TextureImporter();
         virtual ~TextureImporter();
 };

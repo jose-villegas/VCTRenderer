@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "scene_importer.h"
 #include "..\scene\scene.h"
-#include "command_line.h"
+#include "miscellaneous.h"
 
 SceneImporter::SceneImporter()
 {
@@ -27,6 +27,9 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     }
 
     std::cout << "(Assimp) Loading Scene:" << std::endl;
+    // location info
+    outScene.filepath = sFilepath;
+    outScene.directory = GetDirectoryPath(sFilepath);
 
     if(scene->HasMaterials())
     {
@@ -39,7 +42,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
 
         std::cout << std::endl;
 
-        // import material textures
+        // import per material and scene, textures
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             ImportMaterialTextures(outScene, scene->mMaterials[i], outScene.materials[i]);
@@ -59,6 +62,8 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
                 &outScene.materials[scene->mMeshes[i]->mMaterialIndex];
             ConsoleProgressBar("(Assimp) Meshes   ", 45, i, scene->mNumMeshes);
         }
+
+        std::cout << std::endl;
     }
 
     if(scene->mRootNode != nullptr)
@@ -178,25 +183,29 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
         // only loading one
         if(textureTypeCount <= 0) { continue; }
 
-        aiString textureFilepath;
+        aiString texPath;
 
         if(mMaterial->GetTexture((aiTextureType)texType, 0,
-                                 &textureFilepath) == AI_SUCCESS)
+                                 &texPath) == AI_SUCCESS)
         {
+            std::string filepath = scene.directory + "\\" + std::string(texPath.data);
             // find if texture was already loaded previously
             bool alreadyLoaded = false;
 
             for(unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; i++)
             {
-                alreadyLoaded |= scene.textures[i].filepath == textureFilepath.data ?
-                                 true : false;
+                alreadyLoaded |= scene.textures[i].filepath == filepath ? true : false;
             }
 
             if(!alreadyLoaded)
             {
-                scene.textures.push_back(std::move(textureImporter.ImportTexture(
-                                                       textureFilepath.data)));
-                material.textures[texType] = &scene.textures.back();
+                Texture newTexture;
+
+                if(textureImporter.ImportTexture(filepath, newTexture))
+                {
+                    scene.textures.push_back(std::move(newTexture));
+                    material.textures[texType] = &scene.textures.back();
+                }
             }
         }
     }

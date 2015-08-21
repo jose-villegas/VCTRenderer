@@ -72,7 +72,7 @@
     <ClCompile Include="interface\render_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="util\command_line.cpp">
+    <ClCompile Include="util\miscellaneous.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,7 +140,7 @@
     <ClInclude Include="interface\render_window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="util\command_line.h">
+    <ClInclude Include="util\miscellaneous.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

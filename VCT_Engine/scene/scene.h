@@ -9,6 +9,9 @@
 class Scene
 {
     public:
+        std::string filepath;
+        std::string directory;
+
         std::vector<Camera> cameras;
         std::vector<Light> lights;
         std::vector<Material> materials;

@@ -31,13 +31,24 @@ class Texture
             Unknow,
             TEXTURE_TYPE_MAX
         };
+    public:
+        // indicates this texture was loaded from a file
+        bool loaded;
+        unsigned int textureType;
+
+        std::string filepath;
+
+        void SaveTextureInfo(unsigned int height, unsigned int width,
+                             unsigned int pitch, unsigned int bitsPerPixel, unsigned char * data);
     private:
         unsigned int height;
         unsigned int width;
-        unsigned int textureType;
-    public:
-        std::string filepath;
+        // line width in bytes
+        unsigned int lineWidth;
+        unsigned int bitsPerPixel;
 
+        unsigned char * rawData;
+    public:
         Texture();
         ~Texture();
 };

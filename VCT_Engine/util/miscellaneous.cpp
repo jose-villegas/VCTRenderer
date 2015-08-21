@@ -18,3 +18,8 @@ void ConsoleProgressBar(const std::string &title, int barWidth, int index,
     std::cout.flush();
 }
 
+std::string GetDirectoryPath(const std::string &filePath)
+{
+    size_t pos = filePath.find_last_of("\\/");
+    return (std::string::npos == pos) ? "" : filePath.substr(0, pos);
+}

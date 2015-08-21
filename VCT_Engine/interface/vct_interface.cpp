@@ -36,17 +36,17 @@ void VCTInterface::Draw()
 
             if(activeScene == 0)
             {
-                importer.Import("models/crytek-sponza/sponza.obj", scene);
+                importer.Import("models\\crytek-sponza\\sponza.obj", scene);
             }
 
             if(activeScene == 1)
             {
-                importer.Import("models/dabrovic-sponza/sponza.obj", scene);
+                importer.Import("models\\dabrovic-sponza\\sponza.obj", scene);
             }
 
             if(activeScene == 2)
             {
-                importer.Import("models/sibenik/sibenik.obj", scene);
+                importer.Import("models\\sibenik\\sibenik.obj", scene);
             }
         }
 
