@@ -95,12 +95,12 @@ Material SceneImporter::ImportMaterial(aiMaterial *mMaterial)
     {
         int textureTypeCount = mMaterial->GetTextureCount((aiTextureType)i);
 
-        for(int typeIndex = 0; typeIndex < textureTypeCount; typeIndex++)
+        // only loading one
+        if(textureTypeCount > 0)
         {
             aiString textureFilepath;
 
-            if(mMaterial->GetTexture((aiTextureType)i, typeIndex,
-                                     &textureFilepath) == AI_SUCCESS)
+            if(mMaterial->GetTexture((aiTextureType)i, 0, &textureFilepath) == AI_SUCCESS)
             {
                 std::string fullPath = textureFilepath.data;
             }

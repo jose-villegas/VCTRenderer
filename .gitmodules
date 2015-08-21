@@ -19,3 +19,6 @@
 [submodule "VCT_Engine/.\\dependencies\\imgui"]
 	path = VCT_Engine/.\\dependencies\\imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule ".\\VCT_Engine\\dependencies\\freeimage"]
+	path = .\\VCT_Engine\\dependencies\\freeimage
+	url = https://github.com/imazen/freeimage.git
