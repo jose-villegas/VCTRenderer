@@ -44,10 +44,19 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         for(unsigned int i = 0; i < scene->mNumMeshes; i++)
         {
             outScene.meshes.push_back(std::move(ImportMesh(scene->mMeshes[i])));
+            // material assigned to mesh
+            outScene.meshes[i].material =
+                &outScene.materials[scene->mMeshes[i]->mMaterialIndex];
             ConsoleProgressBar("(Assimp) Meshes   ", 45, i, scene->mNumMeshes);
         }
     }
+
+    if(scene->mRootNode != nullptr)
+    {
+        ProcessNodes(outScene, scene->mRootNode, outScene.rootNode);
+    }
 }
+
 Material SceneImporter::ImportMaterial(aiMaterial *mMaterial)
 {
     Material newMaterial;
@@ -142,4 +151,24 @@ Mesh SceneImporter::ImportMesh(aiMesh *mMesh)
     }
 
     return newMesh;
+}
+
+void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
+{
+    newNode.name = node->mName.length > 0 ? node->mName.C_Str() : newNode.name;
+    // transformation matrix
+    newNode.transformation = glm::make_mat4(node->mTransformation[0]);
+
+    // meshes associated with this node
+    for(unsigned int i = 0; i < node->mNumMeshes; i++)
+    {
+        newNode.meshes.push_back(&scene.meshes[node->mMeshes[i]]);
+    }
+
+    // push childrens in hierachy
+    for(unsigned int i = 0; i < node->mNumChildren; i++)
+    {
+        newNode.nodes.push_back(Node());
+        ProcessNodes(scene, node->mChildren[i], newNode.nodes[i]);
+    }
 }

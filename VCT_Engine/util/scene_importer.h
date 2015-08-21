@@ -14,5 +14,6 @@ class SceneImporter
         // fine imports
         Material ImportMaterial(aiMaterial *mMaterial);
         Mesh ImportMesh(aiMesh *mMesh);
+        void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode);
 };
 

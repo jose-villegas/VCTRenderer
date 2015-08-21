@@ -14,7 +14,7 @@ class Scene
         std::vector<Material> materials;
         std::vector<Mesh> meshes;
         std::vector<Texture> textures;
-        std::vector<Node> nodes;
+        Node rootNode;
         Scene();
         virtual ~Scene();
 };
