@@ -13,8 +13,6 @@
 x64/
 build/
 bld/
-lib/
-lib64/
 ext_build/
 [Bb]in/
 [Oo]bj/
