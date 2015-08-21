@@ -5,7 +5,7 @@ void ConsoleProgressBar(const std::string &title, int barWidth, int index,
 {
     std::cout << title + " [";
     float progress = (1.0f / last) * (index + 1);
-    int pos = barWidth * progress;
+    int pos = int(barWidth * progress);
 
     for(int i = 0; i < barWidth; ++i)
     {

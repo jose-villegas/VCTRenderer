@@ -28,13 +28,16 @@ class Texture
             Displacement,
             Lightmap,
             Reflection,
-            Unknow
+            Unknow,
+            TEXTURE_TYPE_MAX
         };
     private:
         unsigned int height;
         unsigned int width;
         unsigned int textureType;
     public:
+        std::string filepath;
+
         Texture();
         ~Texture();
 };

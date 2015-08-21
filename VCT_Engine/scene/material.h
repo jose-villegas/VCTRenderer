@@ -38,9 +38,9 @@ class Material
         unsigned int shadingModel;
         unsigned int blendMode;
 
+        std::array<Texture *, Texture::TEXTURE_TYPE_MAX> textures;;
+
         Material();
         ~Material();
-    private:
-        std::vector<Texture *> textures;
 };
 

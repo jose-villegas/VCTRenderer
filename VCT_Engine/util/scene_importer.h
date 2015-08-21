@@ -5,8 +5,13 @@
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
 
+#include "texture_importer.h"
+
 class SceneImporter
 {
+    private:
+        TextureImporter textureImporter;
+
     public:
         SceneImporter();
         virtual ~SceneImporter();
@@ -14,6 +19,8 @@ class SceneImporter
         // fine imports
         Material ImportMaterial(aiMaterial *mMaterial);
         Mesh ImportMesh(aiMesh *mMesh);
-        void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode);
+        void ProcessNodes(Scene &scene, aiNode* node, Node &newNode);
+        void ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
+                                    Material &material);
 };
 

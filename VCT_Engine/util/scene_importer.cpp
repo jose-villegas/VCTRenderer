@@ -30,10 +30,20 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
 
     if(scene->HasMaterials())
     {
+        // process material properties
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             outScene.materials.push_back(std::move(ImportMaterial(scene->mMaterials[i])));
             ConsoleProgressBar("(Assimp) Materials", 45, i, scene->mNumMaterials);
+        }
+
+        std::cout << std::endl;
+
+        // import material textures
+        for(unsigned int i = 0; i < scene->mNumMaterials; i++)
+        {
+            ImportMaterialTextures(outScene, scene->mMaterials[i], outScene.materials[i]);
+            ConsoleProgressBar("(Assimp) Textures ", 45, i, scene->mNumMaterials);
         }
 
         std::cout << std::endl;
@@ -55,6 +65,8 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     {
         ProcessNodes(outScene, scene->mRootNode, outScene.rootNode);
     }
+
+    return true;
 }
 
 Material SceneImporter::ImportMaterial(aiMaterial *mMaterial)
@@ -89,24 +101,6 @@ Material SceneImporter::ImportMaterial(aiMaterial *mMaterial)
     newMaterial.emissive = glm::vec3(emissive.r, emissive.g, emissive.b);
     newMaterial.transparent = glm::vec3(transparent.r, transparent.g,
                                         transparent.b);
-
-    for(unsigned int i = aiTextureType::aiTextureType_NONE;
-        i < aiTextureType::aiTextureType_UNKNOWN; i++)
-    {
-        int textureTypeCount = mMaterial->GetTextureCount((aiTextureType)i);
-
-        // only loading one
-        if(textureTypeCount > 0)
-        {
-            aiString textureFilepath;
-
-            if(mMaterial->GetTexture((aiTextureType)i, 0, &textureFilepath) == AI_SUCCESS)
-            {
-                std::string fullPath = textureFilepath.data;
-            }
-        }
-    }
-
     return newMaterial;
 }
 Mesh SceneImporter::ImportMesh(aiMesh *mMesh)
@@ -170,5 +164,40 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
     {
         newNode.nodes.push_back(Node());
         ProcessNodes(scene, node->mChildren[i], newNode.nodes[i]);
+    }
+}
+
+void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
+        Material &material)
+{
+    for(unsigned int texType = aiTextureType::aiTextureType_NONE;
+        texType < aiTextureType::aiTextureType_UNKNOWN; texType++)
+    {
+        int textureTypeCount = mMaterial->GetTextureCount((aiTextureType)texType);
+
+        // only loading one
+        if(textureTypeCount <= 0) { continue; }
+
+        aiString textureFilepath;
+
+        if(mMaterial->GetTexture((aiTextureType)texType, 0,
+                                 &textureFilepath) == AI_SUCCESS)
+        {
+            // find if texture was already loaded previously
+            bool alreadyLoaded = false;
+
+            for(unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; i++)
+            {
+                alreadyLoaded |= scene.textures[i].filepath == textureFilepath.data ?
+                                 true : false;
+            }
+
+            if(!alreadyLoaded)
+            {
+                scene.textures.push_back(std::move(textureImporter.ImportTexture(
+                                                       textureFilepath.data)));
+                material.textures[texType] = &scene.textures.back();
+            }
+        }
     }
 }

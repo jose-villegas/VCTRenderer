@@ -29,7 +29,7 @@ void VCTInterface::Draw()
                      ImGuiWindowFlags_NoMove);
 
         if(ImGui::Combo("", &activeScene, (const char**)availableScenes.data(),
-                        availableScenes.size()))
+                        (int)availableScenes.size()))
         {
             static SceneImporter importer;
             static Scene scene;
