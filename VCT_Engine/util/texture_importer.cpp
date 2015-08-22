@@ -4,7 +4,7 @@
 
 // transforms picture to raw data and stores info in Texture class
 bool TextureImporter::ImportTexture(const std::string &sFilepath,
-                                    Texture &outTexture)
+                                    RawTexture &outTexture)
 {
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilepath.c_str());
 
@@ -27,6 +27,11 @@ bool TextureImporter::ImportTexture(const std::string &sFilepath,
     if(FreeImage_FIFSupportsReading(fif))
     {
         dib = FreeImage_Load(fif, sFilepath.c_str());
+    }
+
+    if(FreeImage_GetBPP(dib) / 8 < 3)
+    {
+        dib = FreeImage_ConvertTo24Bits(dib);
     }
 
     // get raw data

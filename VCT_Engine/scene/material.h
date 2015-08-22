@@ -1,5 +1,6 @@
 #pragma once
 #include "texture.h"
+
 class Material
 {
     public:
@@ -38,7 +39,7 @@ class Material
         unsigned int shadingModel;
         unsigned int blendMode;
 
-        std::array<Texture *, Texture::TEXTURE_TYPE_MAX> textures;;
+        std::array<RawTexture *, RawTexture::TEXTURE_TYPE_MAX> textures;;
 
         Material();
         ~Material();

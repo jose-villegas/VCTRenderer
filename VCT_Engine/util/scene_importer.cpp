@@ -15,13 +15,13 @@ SceneImporter::~SceneImporter()
 bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
 {
     std::cout << "(Assimp) Processing File: " << sFilepath << std::endl;
-    Assimp::Importer importer;
-    const aiScene * scene = importer.ReadFile(sFilepath,
+    std::unique_ptr<Assimp::Importer> importer(new Assimp::Importer());
+    const aiScene * scene = importer->ReadFile(sFilepath,
                             aiProcessPreset_TargetRealtime_Fast);
 
     if(!scene)
     {
-        std::cout << "(Assimp) Error Loading File: " << importer.GetErrorString() <<
+        std::cout << "(Assimp) Error Loading File: " << importer->GetErrorString() <<
                   std::endl;
         return false;
     }
@@ -75,6 +75,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         ProcessNodes(outScene, scene->mRootNode, outScene.rootNode);
     }
 
+    std::cout << std::endl << "(Assimp) Scene Successfully Loaded" << std::endl;
     return true;
 }
 
@@ -167,7 +168,8 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
     for(unsigned int i = 0; i < node->mNumChildren; i++)
     {
         newNode.nodes.push_back(Node());
-        ProcessNodes(scene, node->mChildren[i], newNode.nodes[i]);
+        ProcessNodes(scene, node->mChildren[i], newNode.nodes.back());
+        ConsoleProgressBar("(Assimp) Nodes    ", 45, i, node->mNumChildren);
     }
 }
 
@@ -200,7 +202,7 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
 
             if(!alreadyLoaded)
             {
-                Texture * newTexture(new Texture());
+                RawTexture * newTexture(new RawTexture());
 
                 if(textureImporter.ImportTexture(filepath, *newTexture))
                 {

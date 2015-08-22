@@ -1,9 +1,36 @@
 #pragma once
-class Texture;
+class RawTexture;
 
 // holds information to opengl texture
-struct OGLTexture
+struct OGLTexture2D
 {
+    enum class MinFilter : unsigned int
+    {
+        Nearest = (unsigned int)oglplus::TextureMinFilter::Nearest,
+        Linear = (unsigned int)oglplus::TextureMinFilter::Linear,
+        NearestMipmapNearest = (unsigned int)oglplus::TextureMinFilter::NearestMipmapNearest,
+        LinearMipmapNearest = (unsigned int)oglplus::TextureMinFilter::LinearMipmapNearest,
+        NearestMipmapLinear = (unsigned int)oglplus::TextureMinFilter::NearestMipmapLinear,
+        LinearMipmapLinear = (unsigned int)oglplus::TextureMinFilter::LinearMipmapLinear
+    };
+
+    enum class MagFilter : unsigned int
+    {
+        Nearest = (unsigned int)oglplus::TextureMagFilter::Nearest,
+        Linear = (unsigned int)oglplus::TextureMagFilter::Linear
+    };
+
+    enum class WrapMode : unsigned int
+    {
+        Repeat = (unsigned int)oglplus::TextureWrap::Repeat,
+        MirroredRepeat = (unsigned int)oglplus::TextureWrap::MirroredRepeat,
+        ClampToEdge = (unsigned int)oglplus::TextureWrap::ClampToEdge,
+        ClampToBorder = (unsigned int)oglplus::TextureWrap::ClampToBorder
+    };
+
+    oglplus::Texture oglTexture;
+    RawTexture *baseTextureData;
+
     bool mipmapGenerated;
     glm::vec4 borderColor;
     unsigned int magFilter;
@@ -12,10 +39,13 @@ struct OGLTexture
     unsigned int wrapS;
     unsigned int wrapT;
 
-    GLuint UploadToGPU(Texture &ramTexture, bool unloadFromRam = true);
+    GLuint UploadToGPU(MinFilter minFilter = MinFilter::LinearMipmapLinear,
+                       MagFilter magFilter = MagFilter::Linear, WrapMode wrapS = WrapMode::Repeat,
+                       WrapMode wrapT = WrapMode::Repeat, bool unloadFromRAM = true,
+                       bool generateMipmaps = true, glm::vec4 borderColor = glm::vec4(0.f));
 };
 
-class Texture
+class RawTexture
 {
     public:
         enum TextureType
@@ -36,6 +66,7 @@ class Texture
             TEXTURE_TYPE_MAX
         };
     public:
+        OGLTexture2D oglTexture2D;
         // indicates this texture was loaded from a file
         bool loaded;
         unsigned int textureType;
@@ -56,10 +87,12 @@ class Texture
         std::unique_ptr<unsigned char> rawData;
     private:
         // No copying or copy assignment allowed of this class or any derived class
-        Texture(Texture const &);
-        Texture &operator=(Texture const &);
+        RawTexture(RawTexture const &);
+        RawTexture &operator=(RawTexture const &);
+
+        friend OGLTexture2D;
     public:
-        Texture();
-        ~Texture();
+        RawTexture();
+        ~RawTexture();
 };
 
