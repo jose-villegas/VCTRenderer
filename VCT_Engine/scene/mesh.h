@@ -44,14 +44,15 @@ class Mesh
 class OGLMesh : public Mesh
 {
     protected:
-        oglplus::Framebuffer oglFramebuffer;
+        oglplus::Buffer oglArrayBuffer;
+        oglplus::Buffer oglElementArrayBuffer;
 
         bool onGPUMemory;
     public:
         OGLMesh();
         virtual ~OGLMesh();
 
-        GLuint UploadToGPU();
+        void UploadToGPU(bool unloadFromRAM = true);
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLMesh(OGLMesh const &);
