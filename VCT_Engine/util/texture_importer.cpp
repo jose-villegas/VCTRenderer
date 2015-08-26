@@ -3,8 +3,8 @@
 #include "texture_importer.h"
 
 // transforms picture to raw data and stores info in Texture class
-bool TextureImporter::ImportTexture(const std::string &sFilepath,
-                                    RawTexture &outTexture)
+bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
+                                      RawTexture &outTexture)
 {
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilepath.c_str());
 
@@ -55,7 +55,7 @@ bool TextureImporter::ImportTexture(const std::string &sFilepath,
     memcpy(data, bits, buffer_size);
     // store data into texture class
     outTexture.filepath = sFilepath;
-    outTexture.SaveTextureInfo(height, width, lineWidth, bitsPerPixel, data);
+    outTexture.SaveTextureInfo(height, width, 1, lineWidth, bitsPerPixel, data);
     // unload free image struct handler
     FreeImage_Unload(dib);
     // successful image data extraction

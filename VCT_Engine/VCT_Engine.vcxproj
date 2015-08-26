@@ -206,7 +206,6 @@
     <ClInclude Include="interface\vct_interface.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="interface\imgui\LICENSE" />
     <None Include="interface\imgui\README.md" />
   </ItemGroup>

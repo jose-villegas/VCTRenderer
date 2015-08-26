@@ -16,7 +16,7 @@ class Scene
         std::vector<Light *> lights;
         std::vector<Material *> materials;
         std::vector<Mesh *> meshes;
-        std::vector<RawTexture *> textures;
+        std::vector<OGLTexture2D *> textures;
         Node rootNode;
         Scene();
         virtual ~Scene();

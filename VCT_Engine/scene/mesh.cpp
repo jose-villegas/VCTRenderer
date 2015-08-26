@@ -11,6 +11,12 @@ Mesh::~Mesh()
 {
 }
 
+void Mesh::FreeRawData()
+{
+    this->vertices.clear();
+    this->indices.clear();
+}
+
 void Vertex::Orthonormalize()
 {
     // Gram-Schmidt orthonormalization
@@ -21,4 +27,12 @@ void Vertex::Orthonormalize()
     {
         tangent = tangent * -1.0f;
     }
+}
+
+OGLMesh::OGLMesh() : onGPUMemory(false)
+{
+}
+
+OGLMesh::~OGLMesh()
+{
 }

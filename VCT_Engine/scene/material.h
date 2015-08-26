@@ -39,7 +39,7 @@ class Material
         unsigned int shadingModel;
         unsigned int blendMode;
 
-        std::array<RawTexture *, RawTexture::TEXTURE_TYPE_MAX> textures;;
+        std::array<OGLTexture2D *, RawTexture::TEXTURE_TYPE_MAX> textures;;
 
         Material();
         ~Material();

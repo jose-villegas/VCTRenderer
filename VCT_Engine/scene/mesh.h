@@ -29,7 +29,6 @@ class Mesh
     public:
         std::string name;
 
-        std::vector<Face> faces;
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
 
@@ -38,5 +37,25 @@ class Mesh
 
         Mesh();
         virtual ~Mesh();
+
+        void FreeRawData();
+};
+
+class OGLMesh : public Mesh
+{
+    protected:
+        oglplus::Framebuffer oglFramebuffer;
+
+        bool onGPUMemory;
+    public:
+        OGLMesh();
+        virtual ~OGLMesh();
+
+        GLuint UploadToGPU();
+    private:
+        // No copying or copy assignment allowed of this class or any derived class
+        OGLMesh(OGLMesh const &);
+        OGLMesh &operator=(OGLMesh const &);
+
 };
 

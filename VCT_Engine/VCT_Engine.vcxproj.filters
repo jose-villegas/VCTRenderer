@@ -147,6 +147,5 @@
   <ItemGroup>
     <None Include="interface\imgui\LICENSE" />
     <None Include="interface\imgui\README.md" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
