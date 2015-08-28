@@ -43,7 +43,7 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     oglArrayBuffer.Bind(Buffer::Target::Array);
     // upload whole vertex data to buffer
     Buffer::Data(Buffer::Target::Array, this->vertices, BufferUsage::StaticDraw);
-    /* setup vertex distribution */
+    /*                     setup vertex distribution                     */
     // positions
     VertexArrayAttrib(0).Pointer(3, DataType::Float, false, sizeof(Vertex),
                                  (const void*)0);
@@ -62,4 +62,10 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     oglElementArrayBuffer.Bind(Buffer::Target::ElementArray);
     Buffer::Data(Buffer::Target::ElementArray, this->indices,
                  BufferUsage::StaticDraw);
+
+    if(unloadFromRAM)
+    {
+        this->vertices.clear();
+        this->indices.clear();
+    }
 }

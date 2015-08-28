@@ -1,23 +1,23 @@
 // VCT_Engine.cpp : Defines the entry point for the console application.
 #include "stdafx.h"
 #include "scene/scene.h"
-#include "util/initializer.h"
+#include "misc/external_initializer.h"
 #include "interface/render_window.h"
 #include "interface/vct_interface.h"
 
 int main(int argc, char* argv[])
 {
     RenderWindow renderWindow;
-    VCTInterface gui;
-    Initializer initializer;
+    ExternalInitializer initializer;
     oglplus::Context gl;
+    VCT_ENGINE::UI gui;
     // initialize external dependencies
-    initializer.ExternalLibs();
+    initializer.Initialize();
     // open window and set rendering context
     renderWindow.Open();
     renderWindow.SetAsCurrentContext();
     // initialize context dependant external libs
-    initializer.ContextDependant();
+    initializer.InitializeContextDependant();
     // set interface to current renderwindow
     gui.Initialize(renderWindow);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);

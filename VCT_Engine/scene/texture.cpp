@@ -1,30 +1,13 @@
 #include "stdafx.h"
 #include "texture.h"
 
-
-void RawTexture::SaveTextureInfo(unsigned int height, unsigned int width,
-                                 unsigned int depth, unsigned int pitch, unsigned int bitsPerPixel,
-                                 unsigned char * data)
-{
-    if(!loaded)
-    {
-        this->height = height;
-        this->width = width;
-        this->depth = depth;
-        this->lineWidth = pitch;
-        this->bitsPerPixel = bitsPerPixel;
-        this->rawData.reset(data);
-        this->loaded = true;
-    }
-}
-
 void RawTexture::FreeRawData()
 {
     unsigned char * pRawData = this->rawData.release();
     delete pRawData;
 }
 
-RawTexture::RawTexture() : loaded(false), rawData(nullptr)
+RawTexture::RawTexture() : rawData(nullptr)
 {
 }
 

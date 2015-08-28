@@ -21,17 +21,14 @@ class RawTexture
             TEXTURE_TYPE_MAX
         };
     public:
-        bool loaded;
         std::set<TextureType> textureTypes;
-
-        std::string filepath;
-
-        void SaveTextureInfo(unsigned int height, unsigned int width,
-                             unsigned int depth, unsigned int pitch, unsigned int bitsPerPixel,
-                             unsigned char * data);
         // unloads raw data from RAM memory
         void FreeRawData();
+
+        std::string GetFilepath() const { return filepath; }
     protected:
+        std::string filepath;
+
         unsigned int height;
         unsigned int width;
         unsigned int depth;
@@ -47,6 +44,9 @@ class RawTexture
     public:
         RawTexture();
         ~RawTexture();
+    private:
+        // friends with
+        friend class TextureImporter;
 };
 
 // holds information to opengl texture

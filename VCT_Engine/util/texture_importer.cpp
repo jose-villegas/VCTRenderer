@@ -55,7 +55,12 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     memcpy(data, bits, buffer_size);
     // store data into texture class
     outTexture.filepath = sFilepath;
-    outTexture.SaveTextureInfo(height, width, 1, lineWidth, bitsPerPixel, data);
+    outTexture.height = height;
+    outTexture.width = width;
+    outTexture.depth = 1;
+    outTexture.lineWidth = lineWidth;
+    outTexture.bitsPerPixel = bitsPerPixel;
+    outTexture.rawData.reset(data);
     // unload free image struct handler
     FreeImage_Unload(dib);
     // successful image data extraction

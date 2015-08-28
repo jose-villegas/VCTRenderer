@@ -1,14 +1,16 @@
 #pragma once
 #include "interface.h"
 
-class VCTInterface : public Interface
+namespace VCT_ENGINE
 {
-    private:
-        std::vector<char *> availableScenes;
-        int activeScene;
-    public:
-        void Draw();
-        VCTInterface();
-        virtual ~VCTInterface();
-};
-
+    class UI : public Interface
+    {
+        private:
+            std::vector<char *> availableScenes;
+            int activeScene;
+        public:
+            void Draw();
+            UI();
+            virtual ~UI();
+    };
+}

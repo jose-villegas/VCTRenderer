@@ -2,9 +2,9 @@
 #include "vct_interface.h"
 #include "imgui\imgui.h"
 #include "..\util\scene_importer.h"
+using namespace VCT_ENGINE;
 
-
-void VCTInterface::Draw()
+void UI::Draw()
 {
     NewFrame();
     ImGuiIO& io = ImGui::GetIO();
@@ -36,17 +36,17 @@ void VCTInterface::Draw()
 
             if(activeScene == 0)
             {
-                importer.Import("models\\crytek-sponza\\sponza.obj", scene);
+                importer.Import("resources\\models\\crytek-sponza\\sponza.obj", scene);
             }
 
             if(activeScene == 1)
             {
-                importer.Import("models\\dabrovic-sponza\\sponza.obj", scene);
+                importer.Import("resources\\models\\dabrovic-sponza\\sponza.obj", scene);
             }
 
             if(activeScene == 2)
             {
-                importer.Import("models\\sibenik\\sibenik.obj", scene);
+                importer.Import("resources\\models\\sibenik\\sibenik.obj", scene);
             }
         }
 
@@ -54,7 +54,7 @@ void VCTInterface::Draw()
     }
 }
 
-VCTInterface::VCTInterface()
+UI::UI()
 {
     const char* items[] = {"Crytek Sponza", "Dabrovic Sponza", "Sibenik Cathedral"};
     int availableScenesSize = ((int)(sizeof(items) / sizeof(*items)));
@@ -67,6 +67,6 @@ VCTInterface::VCTInterface()
 }
 
 
-VCTInterface::~VCTInterface()
+UI::~UI()
 {
 }

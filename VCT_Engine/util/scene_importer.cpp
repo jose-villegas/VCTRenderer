@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "scene_importer.h"
 #include "..\scene\scene.h"
-#include "miscellaneous.h"
+#include "..\misc\miscellaneous.h"
+
 
 SceneImporter::SceneImporter()
 {
@@ -15,13 +16,13 @@ SceneImporter::~SceneImporter()
 bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
 {
     std::cout << "(Assimp) Processing File: " << sFilepath << std::endl;
-    std::unique_ptr<Assimp::Importer> importer(new Assimp::Importer());
-    const aiScene * scene = importer->ReadFile(sFilepath,
+    Assimp::Importer importer;
+    const aiScene * scene = importer.ReadFile(sFilepath,
                             aiProcessPreset_TargetRealtime_Fast);
 
     if(!scene)
     {
-        std::cout << "(Assimp) Error Loading File: " << importer->GetErrorString() <<
+        std::cout << "(Assimp) Error Loading File: " << importer.GetErrorString() <<
                   std::endl;
         return false;
     }
@@ -197,7 +198,7 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
 
             for(unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; ++i)
             {
-                alreadyLoaded |= scene.textures[i]->filepath == filepath ? true : false;
+                alreadyLoaded |= scene.textures[i]->GetFilepath() == filepath ? true : false;
                 savedTextureIndex = i;
             }
 

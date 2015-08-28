@@ -8,10 +8,11 @@
 
 class Scene
 {
-    public:
+    protected:
         std::string filepath;
         std::string directory;
 
+    public:
         std::vector<Camera *> cameras;
         std::vector<Light *> lights;
         std::vector<Material *> materials;
@@ -20,5 +21,8 @@ class Scene
         Node rootNode;
         Scene();
         virtual ~Scene();
+    private:
+        // friends with
+        friend class SceneImporter;
 };
 

@@ -135,8 +135,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="util\miscellaneous.cpp" />
-    <ClCompile Include="util\initializer.cpp" />
+    <ClCompile Include="misc\miscellaneous.cpp" />
+    <ClCompile Include="misc\external_initializer.cpp" />
     <ClCompile Include="interface\interface.cpp" />
     <ClCompile Include="interface\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -162,7 +162,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="core\renderer.cpp" />
     <ClCompile Include="scene\node.cpp" />
+    <ClCompile Include="util\shader_program.cpp" />
     <ClCompile Include="util\texture_importer.cpp" />
     <ClCompile Include="util\scene_importer.cpp" />
     <ClCompile Include="scene\material.cpp" />
@@ -190,14 +192,16 @@
     <ClInclude Include="interface\imgui\stb_rect_pack.h" />
     <ClInclude Include="interface\imgui\stb_textedit.h" />
     <ClInclude Include="interface\imgui\stb_truetype.h" />
+    <ClInclude Include="core\renderer.h" />
     <ClInclude Include="scene\node.h" />
-    <ClInclude Include="util\miscellaneous.h" />
+    <ClInclude Include="misc\miscellaneous.h" />
+    <ClInclude Include="util\shader_program.h" />
     <ClInclude Include="util\texture_importer.h" />
     <ClInclude Include="util\scene_importer.h" />
     <ClInclude Include="scene\material.h" />
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\camera.h" />
-    <ClInclude Include="util\initializer.h" />
+    <ClInclude Include="misc\external_initializer.h" />
     <ClInclude Include="scene\light.h" />
     <ClInclude Include="scene\mesh.h" />
     <ClInclude Include="interface\render_window.h" />
@@ -208,6 +212,8 @@
   <ItemGroup>
     <None Include="interface\imgui\LICENSE" />
     <None Include="interface\imgui\README.md" />
+    <None Include="resources\shaders\phong.frag" />
+    <None Include="resources\shaders\phong.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

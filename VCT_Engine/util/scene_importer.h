@@ -11,7 +11,6 @@ class SceneImporter
 {
     private:
         TextureImporter textureImporter;
-
     public:
         SceneImporter();
         virtual ~SceneImporter();
