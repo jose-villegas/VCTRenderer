@@ -24,16 +24,20 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter
                                  bool unloadFromRAM /*= true*/, bool generateMipmaps /*= true*/,
                                  glm::vec4 borderColor /*= glm::vec4(0.f)*/)
 {
+    // already loaded a texture
+    if(this->oglTexture) return 0;
+
     using namespace oglplus;
     Context gl;
     PixelDataFormat pdf = PixelDataFormat::BGRA;
     PixelDataInternalFormat pdif = PixelDataInternalFormat::RGBA8;
+    this->oglTexture = std::unique_ptr<Texture>(new oglplus::Texture());
     unsigned int bytesPerPixel = this->bitsPerPixel / 8;
     // proper data format
     pdf = bytesPerPixel <= 3 ? PixelDataFormat::BGR : pdf;
     pdif = bytesPerPixel <= 3 ? PixelDataInternalFormat::RGB8 : pdif;
     // create texture with raw data (upload to gpu)
-    gl.Bound(Texture::Target::_2D, this->oglTexture)
+    gl.Bound(Texture::Target::_2D, *this->oglTexture)
     .Image2D(0, PixelDataInternalFormat::RGB8, this->width, this->height, 0,
              PixelDataFormat::BGR, PixelDataType::UnsignedByte, this->rawData.get());
     // uploaded to gpu
@@ -47,12 +51,12 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter
     // gen mipmaps
     if(generateMipmaps)
     {
-        gl.Bound(Texture::Target::_2D, this->oglTexture).GenerateMipmap();
+        gl.Bound(Texture::Target::_2D, *this->oglTexture).GenerateMipmap();
         this->mipmapGenerated = true;
     }
 
     // opengl texture parameters
-    gl.Bound(Texture::Target::_2D, this->oglTexture)
+    gl.Bound(Texture::Target::_2D, *this->oglTexture)
     .MinFilter((TextureMinFilter)minFilter)
     .MagFilter((TextureMagFilter)magFilter)
     .WrapS((TextureWrap)wrapS)
@@ -67,12 +71,12 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter
     {
         oglplus::Vector<float, 4> color(borderColor.x, borderColor.y, borderColor.z,
                                         borderColor.w);
-        gl.Bound(Texture::Target::_2D, this->oglTexture).BorderColor(color);
+        gl.Bound(Texture::Target::_2D, *this->oglTexture).BorderColor(color);
         this->borderColor = borderColor;
     }
 
     // return ogl idenfier on success
-    return GetGLName(this->oglTexture);
+    return GetGLName(*this->oglTexture);
 }
 
 OGLTexture2D::OGLTexture2D()

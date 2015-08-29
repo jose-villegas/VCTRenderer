@@ -44,8 +44,8 @@ class Mesh
 class OGLMesh : public Mesh
 {
     protected:
-        oglplus::Buffer oglArrayBuffer;
-        oglplus::Buffer oglElementArrayBuffer;
+        std::unique_ptr<oglplus::Buffer> oglArrayBuffer;
+        std::unique_ptr<oglplus::Buffer> oglElementArrayBuffer;
 
         bool onGPUMemory;
     public:
@@ -53,6 +53,7 @@ class OGLMesh : public Mesh
         virtual ~OGLMesh();
 
         void UploadToGPU(bool unloadFromRAM = true);
+        void UploadToGPU(oglplus::Program &program, bool unloadFromRAM = true);
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLMesh(OGLMesh const &);

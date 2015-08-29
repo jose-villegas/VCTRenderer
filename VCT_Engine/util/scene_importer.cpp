@@ -27,7 +27,6 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         return false;
     }
 
-    std::cout << "(Assimp) Loading Scene:" << std::endl;
     // location info
     outScene.filepath = sFilepath;
     outScene.directory = GetDirectoryPath(sFilepath);
@@ -40,19 +39,13 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
             Material * newMaterial = new Material();
             ImportMaterial(scene->mMaterials[i], *newMaterial);
             outScene.materials.push_back(newMaterial);
-            ConsoleProgressBar("(Assimp) Materials", 45, i, scene->mNumMaterials);
         }
-
-        std::cout << std::endl;
 
         // import per material and scene, textures
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             ImportMaterialTextures(outScene, scene->mMaterials[i], *outScene.materials[i]);
-            ConsoleProgressBar("(Assimp) Textures ", 45, i, scene->mNumMaterials);
         }
-
-        std::cout << std::endl;
     }
 
     if(scene->HasMeshes())
@@ -65,10 +58,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
             // material assigned to mesh
             outScene.meshes[i]->material =
                 outScene.materials[scene->mMeshes[i]->mMaterialIndex];
-            ConsoleProgressBar("(Assimp) Meshes   ", 45, i, scene->mNumMeshes);
         }
-
-        std::cout << std::endl;
     }
 
     if(scene->mRootNode != nullptr)
@@ -76,7 +66,9 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         ProcessNodes(outScene, scene->mRootNode, outScene.rootNode);
     }
 
-    std::cout << std::endl << "(Assimp) Scene Successfully Loaded" << std::endl;
+    std::cout << "(Assimp) Scene (.." << outScene.filepath.substr(
+                  outScene.filepath.size() - 30, 30) << ") loaded successfully"
+              << std::endl;
     return true;
 }
 
@@ -171,7 +163,6 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
     {
         newNode.nodes.push_back(Node());
         ProcessNodes(scene, node->mChildren[i], newNode.nodes.back());
-        ConsoleProgressBar("(Assimp) Nodes    ", 45, i, node->mNumChildren);
     }
 }
 
@@ -211,7 +202,6 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
                     scene.textures.push_back(newTexture);
                     material.textures[texType] = newTexture;
                     newTexture->textureTypes.insert((RawTexture::TextureType)texType);
-                    newTexture->UploadToGPU();
                 }
             }
             else

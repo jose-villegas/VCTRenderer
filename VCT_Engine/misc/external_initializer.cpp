@@ -44,7 +44,7 @@ void ExternalInitializer::Initialize(bool printLibInfo /*= true*/)
     {
         std::cout << "GLFW " << glfwGetVersionString() << std::endl;
         std::cout << "Assimp " << aiGetVersionMajor() << "." << aiGetVersionMinor() <<
-                  std::endl;
+                  "." << aiGetVersionRevision() << std::endl;
         std::cout << "FreeImage " << FreeImage_GetVersion() << std::endl;
     }
 }

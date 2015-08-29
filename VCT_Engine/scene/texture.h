@@ -77,7 +77,7 @@ class OGLTexture2D : public RawTexture
             ClampToBorder = (unsigned int)oglplus::TextureWrap::ClampToBorder
         };
     protected:
-        oglplus::Texture oglTexture;
+        std::unique_ptr<oglplus::Texture> oglTexture;
 
         bool mipmapGenerated;
         glm::vec4 borderColor;

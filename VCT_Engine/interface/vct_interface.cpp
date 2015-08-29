@@ -31,23 +31,20 @@ void UI::Draw()
         if(ImGui::Combo("", &activeScene, (const char**)availableScenes.data(),
                         (int)availableScenes.size()))
         {
-            static SceneImporter importer;
-            static Scene scene;
-
-            if(activeScene == 0)
-            {
-                importer.Import("resources\\models\\crytek-sponza\\sponza.obj", scene);
-            }
-
-            if(activeScene == 1)
-            {
-                importer.Import("resources\\models\\dabrovic-sponza\\sponza.obj", scene);
-            }
-
-            if(activeScene == 2)
-            {
-                importer.Import("resources\\models\\sibenik\\sibenik.obj", scene);
-            }
+            //static SceneImporter importer;
+            //static Scene scene;
+            //if(activeScene == 0)
+            //{
+            //    importer.Import("resources\\models\\crytek-sponza\\sponza.obj", scene);
+            //}
+            //if(activeScene == 1)
+            //{
+            //    importer.Import("resources\\models\\dabrovic-sponza\\sponza.obj", scene);
+            //}
+            //if(activeScene == 2)
+            //{
+            //    importer.Import("resources\\models\\sibenik\\sibenik.obj", scene);
+            //}
         }
 
         ImGui::End();

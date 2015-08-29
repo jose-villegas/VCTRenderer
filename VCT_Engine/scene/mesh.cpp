@@ -39,8 +39,17 @@ OGLMesh::~OGLMesh()
 
 void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
 {
+    if(oglElementArrayBuffer || oglArrayBuffer) return;
+
     using namespace oglplus;
-    oglArrayBuffer.Bind(Buffer::Target::Array);
+    // create buffers
+    oglElementArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
+    oglArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
+    // upload indices
+    oglElementArrayBuffer->Bind(Buffer::Target::ElementArray);
+    Buffer::Data(Buffer::Target::ElementArray, this->indices,
+                 BufferUsage::StaticDraw);
+    oglArrayBuffer->Bind(Buffer::Target::Array);
     // upload whole vertex data to buffer
     Buffer::Data(Buffer::Target::Array, this->vertices, BufferUsage::StaticDraw);
     /*                     setup vertex distribution                     */
@@ -59,9 +68,46 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     // bitangents
     VertexArrayAttrib(4).Pointer(3, DataType::Float, false, sizeof(Vertex),
                                  (const void*)44);
-    oglElementArrayBuffer.Bind(Buffer::Target::ElementArray);
+
+    if(unloadFromRAM)
+    {
+        this->vertices.clear();
+        this->indices.clear();
+    }
+}
+
+void OGLMesh::UploadToGPU(oglplus::Program &program,
+                          bool unloadFromRAM /*= true*/)
+{
+    if(oglElementArrayBuffer || oglArrayBuffer) return;
+
+    using namespace oglplus;
+    // create buffers
+    oglElementArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
+    oglArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
+    // upload indices
+    oglElementArrayBuffer->Bind(Buffer::Target::ElementArray);
     Buffer::Data(Buffer::Target::ElementArray, this->indices,
                  BufferUsage::StaticDraw);
+    oglArrayBuffer->Bind(Buffer::Target::Array);
+    // upload whole vertex data to buffer
+    Buffer::Data(Buffer::Target::Array, this->vertices, BufferUsage::StaticDraw);
+    /*                     setup vertex distribution                     */
+    // positions
+    (program | 0).Pointer(3, DataType::Float, false, sizeof(Vertex),
+                          (const void*)0);
+    // normals
+    (program | 1).Pointer(3, DataType::Float, false, sizeof(Vertex),
+                          (const void*)12);
+    // uvs
+    (program | 2).Pointer(2, DataType::Float, false, sizeof(Vertex),
+                          (const void*)24);
+    // tangents
+    (program | 3).Pointer(3, DataType::Float, false, sizeof(Vertex),
+                          (const void*)32);
+    // bitangents
+    (program | 4).Pointer(3, DataType::Float, false, sizeof(Vertex),
+                          (const void*)44);
 
     if(unloadFromRAM)
     {
