@@ -7,7 +7,7 @@ namespace VCT_ENGINE
     {
         private:
             SceneImporter sceneImporter;
-            std::array<Scene, 3> demoScenes;
+            std::array<std::unique_ptr<Scene>, 3> demoScenes;
             std::thread importerThread[3];
 
             bool demoScenesLoaded;
