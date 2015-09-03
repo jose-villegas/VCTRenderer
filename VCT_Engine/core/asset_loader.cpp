@@ -17,7 +17,7 @@ void VCT_ENGINE::AssetLoader::LoadDemoScenes()
 
     for(unsigned int i = 0; i < 3; i++)
     {
-        this->demoScenes[0] = std::unique_ptr<Scene>(new Scene());
+        this->demoScenes[i] = std::unique_ptr<Scene>(new Scene());
     }
 
     importerThread[0] = std::thread(&SceneImporter::Import, SceneImporter(),
@@ -29,4 +29,14 @@ void VCT_ENGINE::AssetLoader::LoadDemoScenes()
                                     "resources\\models\\sibenik\\sibenik.obj", std::ref(*this->demoScenes[2]));
     // import scenes
     demoScenesLoaded = true;
+}
+
+void VCT_ENGINE::AssetLoader::LoadShaders()
+{
+}
+
+Scene * VCT_ENGINE::AssetLoader::GetScene(
+    const unsigned int index)
+{
+    return demoScenes[index].get();
 }

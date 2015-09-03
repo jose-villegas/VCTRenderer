@@ -52,7 +52,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     {
         for(unsigned int i = 0; i < scene->mNumMeshes; i++)
         {
-            Mesh * newMesh = new Mesh();
+            OGLMesh * newMesh = new OGLMesh();
             ImportMesh(scene->mMeshes[i], *newMesh);
             outScene.meshes.push_back(newMesh);
             // material assigned to mesh

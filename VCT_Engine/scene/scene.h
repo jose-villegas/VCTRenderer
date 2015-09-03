@@ -16,7 +16,7 @@ class Scene
         std::vector<Camera *> cameras;
         std::vector<Light *> lights;
         std::vector<Material *> materials;
-        std::vector<Mesh *> meshes;
+        std::vector<OGLMesh *> meshes;
         std::vector<OGLTexture2D *> textures;
         Node rootNode;
         Scene();
