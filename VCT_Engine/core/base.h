@@ -24,9 +24,12 @@ namespace VCT_ENGINE
         public:
             virtual ~Base();
             static Base * Instance();
-
+            // returns interface handler
             VCT_ENGINE::UI &GetUI() { return userInterface; }
+            // returns context active rendering window
             RenderWindow &GetRenderWindow() { return renderWindow; }
+            // rendering main loop
+            void MainLoop();
     };
 
 }

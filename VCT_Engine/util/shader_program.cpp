@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "shader_program.h"
+#include "misc\miscellaneous.h"
 
 void ShaderInfo::CleanSource()
 {
@@ -10,10 +11,12 @@ void ShaderInfo::SourceFromFile(ShaderClass shaderType,
                                 const std::string &sFilepath)
 {
     this->shaderType = shaderType;
+    this->filePath = sFilepath;
     std::ifstream shaderFile(sFilepath);
     shaderFile.seekg(0, std::ios::end);
     this->shaderSource.reserve(shaderFile.tellg());
     shaderFile.seekg(0, std::ios::beg);
+    SkipBOM(shaderFile); // skips utf-8 byte order mark
     this->shaderSource.assign((std::istreambuf_iterator<char>(shaderFile)),
                               std::istreambuf_iterator<char>());
 }
@@ -39,6 +42,9 @@ void OGLShader::Compile()
         : this->shaderType == ShaderClass::TessEvaluation ? ShaderType::TessEvaluation
         : ShaderType::Geometry;
     // create shader with source
-    this->shaderHandler.reset(new oglplus::Shader(sType,
-                              (GLSLSource)this->shaderSource));
+    Shader * newShader = new Shader(sType, (GLSLSource)this->shaderSource);
+    // finally try to compile
+    newShader->Compile();
+    // save shader pointer to handler
+    this->shaderHandler.reset(newShader);
 }

@@ -33,6 +33,12 @@ void VCT_ENGINE::AssetLoader::LoadDemoScenes()
 
 void VCT_ENGINE::AssetLoader::LoadShaders()
 {
+    std::unique_ptr<OGLShaderProgram> phongProgram(new OGLShaderProgram());
+    OGLShader phongVert, phongFrag;
+    phongVert.SourceFromFile(ShaderInfo::Vertex, "resources\\shaders\\phong.vert");
+    phongFrag.SourceFromFile(ShaderInfo::Fragment,
+                             "resources\\shaders\\phong.frag");
+    phongVert.Compile(); phongFrag.Compile();
 }
 
 Scene * VCT_ENGINE::AssetLoader::GetScene(

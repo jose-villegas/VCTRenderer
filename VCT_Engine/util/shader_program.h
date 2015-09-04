@@ -16,8 +16,10 @@ class ShaderInfo
         virtual ~ShaderInfo() {};
 
         void CleanSource();
-        void SourceFromFile(ShaderClass shaderType, const std::string &sFilepath);
-        void SourceFromString(ShaderClass shaderType, const std::string &sourceString);
+        virtual void SourceFromFile(ShaderClass shaderType,
+                                    const std::string &sFilepath);
+        virtual void SourceFromString(ShaderClass shaderType,
+                                      const std::string &sourceString);
     protected:
         ShaderClass shaderType;
         std::string filePath;

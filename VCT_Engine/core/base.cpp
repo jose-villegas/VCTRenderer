@@ -16,7 +16,8 @@ Base::Base()
     // set interface to current renderwindow
     userInterface.Initialize(renderWindow);
     // load engine demo scene assets
-    assetLoader.LoadDemoScenes();
+    // assetLoader.LoadDemoScenes();
+    assetLoader.LoadShaders();
 }
 
 
@@ -32,4 +33,22 @@ Base * VCT_ENGINE::Base::Instance()
     }
 
     return coreInstance;
+}
+
+void VCT_ENGINE::Base::MainLoop()
+{
+    // gl context handler
+    oglplus::Context gl;
+    // black screen initiallly
+    gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    // render loop
+    while(!glfwWindowShouldClose(renderWindow.Handler()))
+    {
+        glfwPollEvents();
+        userInterface.Draw();
+        gl.Clear().ColorBuffer().DepthBuffer(); glClear(GL_COLOR_BUFFER_BIT);
+        userInterface.Render();
+        glfwSwapBuffers(renderWindow.Handler());
+    }
 }

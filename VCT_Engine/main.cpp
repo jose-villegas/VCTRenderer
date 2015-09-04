@@ -2,25 +2,45 @@
 #include "stdafx.h"
 #include "core\base.h"
 
+// debug mode controller
+#define VCT_ENGINE_LOW_PROFILE
 
 int main(int argc, char* argv[])
 {
-    VCT_ENGINE::Base * engineCore = VCT_ENGINE::Base::Instance();
-    // gl handler
-    oglplus::Context gl;
-    // black screen initiallly
-    gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    // pause in positive case
+    bool errorCaptured = false;
+    #ifdef VCT_ENGINE_LOW_PROFILE
 
-    // render loop
-    while(!glfwWindowShouldClose(engineCore->GetRenderWindow().Handler()))
+    try
     {
-        glfwPollEvents();
-        engineCore->GetUI().Draw();
-        gl.Clear().ColorBuffer().DepthBuffer(); glClear(GL_COLOR_BUFFER_BIT);
-        engineCore->GetUI().Render();
-        glfwSwapBuffers(engineCore->GetRenderWindow().Handler());
+        // instance engine core to load all assets and relevant data
+        VCT_ENGINE::Base * engineCore = VCT_ENGINE::Base::Instance();
+        // start rendering main loop
+        engineCore->MainLoop();
+    }
+    catch(oglplus::ProgramBuildError& pbe)
+    {
+        std::cerr << pbe.Log() << std::endl;
+        errorCaptured = true;
+    }
+    catch(oglplus::Error& err)
+    {
+        std::cerr << "Error (in " << err.GLFunc()
+                  << "') [" << err.SourceFile()
+                  << ":" << err.SourceLine()
+                  << "]: " << err.what() << std::endl;
+        errorCaptured = true;
     }
 
+    if(errorCaptured) std::cin.get();
+
+    #else // DEBUG
+    // instance engine core to load all assets and relevant data
+    VCT_ENGINE::Base * engineCore = VCT_ENGINE::Base::Instance();
+    // start rendering main loop
+    engineCore->MainLoop();
+    #endif // RELEASE
+    // exit application
     return 0;
 }
 

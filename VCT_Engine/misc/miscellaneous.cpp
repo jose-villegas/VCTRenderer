@@ -23,3 +23,18 @@ std::string GetDirectoryPath(const std::string &filePath)
     size_t pos = filePath.find_last_of("\\/");
     return (std::string::npos == pos) ? "" : filePath.substr(0, pos);
 }
+
+void SkipBOM(std::ifstream &in)
+{
+    char test[3] = { 0 };
+    in.read(test, 3);
+
+    if((unsigned char)test[0] == 0xEF &&
+       (unsigned char)test[1] == 0xBB &&
+       (unsigned char)test[2] == 0xBF)
+    {
+        return;
+    }
+
+    in.seekg(0);
+}

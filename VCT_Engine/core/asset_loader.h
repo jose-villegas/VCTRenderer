@@ -8,7 +8,8 @@ namespace VCT_ENGINE
     {
         private:
             SceneImporter sceneImporter;
-            std::vector<OGLShaderProgram *> engineShaders;
+            std::unordered_map<std::string, std::unique_ptr<OGLShaderProgram>>
+                    engineShaders;
             std::array<std::unique_ptr<Scene>, 3> demoScenes;
             std::thread importerThread[3];
 
