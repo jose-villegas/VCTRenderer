@@ -1,4 +1,4 @@
-﻿#version 440
+#version 440
 uniform struct Matrices
 {
     mat4 modelView;

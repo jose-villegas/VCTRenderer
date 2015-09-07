@@ -7,9 +7,9 @@
 
 int main(int argc, char* argv[])
 {
+    #ifdef VCT_ENGINE_LOW_PROFILE // DEBUG
     // pause in positive case
     bool errorCaptured = false;
-    #ifdef VCT_ENGINE_LOW_PROFILE
 
     try
     {
@@ -34,12 +34,12 @@ int main(int argc, char* argv[])
 
     if(errorCaptured) std::cin.get();
 
-    #else // DEBUG
+    #else // RELEASE
     // instance engine core to load all assets and relevant data
     VCT_ENGINE::Base * engineCore = VCT_ENGINE::Base::Instance();
     // start rendering main loop
     engineCore->MainLoop();
-    #endif // RELEASE
+    #endif
     // exit application
     return 0;
 }

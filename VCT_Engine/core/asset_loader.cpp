@@ -2,16 +2,16 @@
 #include "asset_loader.h"
 using namespace VCT_ENGINE;
 
-AssetLoader::AssetLoader() : demoScenesLoaded(false)
+Assets::Assets() : demoScenesLoaded(false)
 {
 }
 
 
-AssetLoader::~AssetLoader()
+Assets::~Assets()
 {
 }
 
-void VCT_ENGINE::AssetLoader::LoadDemoScenes()
+void VCT_ENGINE::Assets::LoadDemoScenes()
 {
     if(demoScenesLoaded) return;
 
@@ -31,17 +31,25 @@ void VCT_ENGINE::AssetLoader::LoadDemoScenes()
     demoScenesLoaded = true;
 }
 
-void VCT_ENGINE::AssetLoader::LoadShaders()
+void VCT_ENGINE::Assets::LoadShaders()
 {
-    std::unique_ptr<OGLShaderProgram> phongProgram(new OGLShaderProgram());
-    OGLShader phongVert, phongFrag;
-    phongVert.SourceFromFile(ShaderInfo::Vertex, "resources\\shaders\\phong.vert");
-    phongFrag.SourceFromFile(ShaderInfo::Fragment,
-                             "resources\\shaders\\phong.frag");
-    phongVert.Compile(); phongFrag.Compile();
+    using namespace oglplus;
+    // load shaders source code
+    Shader phongVert(ShaderType::Vertex,
+                     GLSLSource::FromFile("resources\\shaders\\phong.vert"));
+    Shader phongFrag(ShaderType::Fragment,
+                     GLSLSource::FromFile("resources\\shaders\\phong.frag"));
+    // compile vertex and fragment s code
+    phongFrag.Compile(); phongVert.Compile();
+    // create a new shader program and attach the shaders
+    Program * phongShader = new Program();
+    phongShader->AttachShader(phongVert);
+    phongShader->AttachShader(phongFrag);
+    // store reference in asset load class
+    this->engineShaders["Phong"] = phongShader;
 }
 
-Scene * VCT_ENGINE::AssetLoader::GetScene(
+Scene * VCT_ENGINE::Assets::GetScene(
     const unsigned int index)
 {
     return demoScenes[index].get();

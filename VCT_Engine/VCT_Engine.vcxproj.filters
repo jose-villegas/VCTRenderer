@@ -72,9 +72,6 @@
     <ClCompile Include="util\texture_importer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="util\shader_program.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,9 +147,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="util\texture_importer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\shader_program.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\renderer.h">

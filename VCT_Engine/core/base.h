@@ -13,7 +13,7 @@ namespace VCT_ENGINE
             UI userInterface;
             RenderWindow renderWindow;
             ExternalInitializer initializer;
-            AssetLoader assetLoader;
+            Assets assetLoader;
             // unique engine core instance
             static Base * coreInstance;
             // No copying, copy, move assignment allowed of this class or any derived class
