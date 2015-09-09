@@ -54,6 +54,10 @@ class OGLMesh : public Mesh
 
         void UploadToGPU(bool unloadFromRAM = true);
         void UploadToGPU(oglplus::Program &program, bool unloadFromRAM = true);
+
+        void SetupBufferPointers(oglplus::Program &program);
+        void BindBuffers();
+        void DrawMesh();
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLMesh(OGLMesh const &);

@@ -45,6 +45,8 @@ void VCT_ENGINE::Assets::LoadShaders()
     Program * phongShader = new Program();
     phongShader->AttachShader(phongVert);
     phongShader->AttachShader(phongFrag);
+    // link attached shaders
+    phongShader->Link();
     // store reference in asset load class
     this->engineShaders["Phong"] = phongShader;
 }
