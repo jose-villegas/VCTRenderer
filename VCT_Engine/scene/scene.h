@@ -11,7 +11,6 @@ class Scene
     protected:
         std::string filepath;
         std::string directory;
-
     public:
         std::vector<Camera *> cameras;
         std::vector<Light *> lights;
@@ -21,6 +20,9 @@ class Scene
         Node rootNode;
         Scene();
         virtual ~Scene();
+
+        std::string GetFilepath() const { return filepath; }
+        std::string GetDirectory() const { return directory; }
     private:
         // friends with
         friend class SceneImporter;

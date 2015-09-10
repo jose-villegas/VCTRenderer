@@ -1,5 +1,6 @@
 #include "stdafx.h"
-#include "asset_loader.h"
+#include "assets.h"
+#include "base.h"
 using namespace VCT_ENGINE;
 
 Assets::Assets() : demoScenesLoaded(false)
@@ -27,6 +28,18 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
                                     std::ref(*this->demoScenes[1]));
     importerThread[2] = std::thread(&SceneImporter::Import, SceneImporter(),
                                     "resources\\models\\sibenik\\sibenik.obj", std::ref(*this->demoScenes[2]));
+
+    for(unsigned int i = 0; i < 3; i++)
+    {
+        importerThread[i].join();
+        // transfer directories to exec info
+        std::string &sFilepath = this->demoScenes[i]->GetFilepath();
+        char * cFilepath = new char[sFilepath.size() + 1];
+        std::copy(sFilepath.begin(), sFilepath.end(), cFilepath);
+        cFilepath[sFilepath.size()] = '\0';
+        Base::Instance()->execInfo.availableScenes.push_back(cFilepath);
+    }
+
     // import scenes
     demoScenesLoaded = true;
 }

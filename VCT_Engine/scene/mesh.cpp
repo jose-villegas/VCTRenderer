@@ -68,12 +68,17 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     // bitangents
     VertexArrayAttrib(4).Pointer(3, DataType::Float, false, sizeof(Vertex),
                                  (const void*)44);
+    // save number of faces and vertices for rendering
+    this->indicesCount = this->indices.size();
+    this->vertexCount = this->vertices.size();
 
     if(unloadFromRAM)
     {
         this->vertices.clear();
         this->indices.clear();
     }
+
+    onGPUMemory = true;
 }
 
 void OGLMesh::UploadToGPU(oglplus::Program &program,
@@ -108,17 +113,28 @@ void OGLMesh::UploadToGPU(oglplus::Program &program,
     // bitangents
     (program | 4).Pointer(3, oglplus::DataType::Float, false, sizeof(Vertex),
                           (const void*)44);
+    // save number of faces and vertices for rendering
+    this->indicesCount = this->indices.size();
+    this->vertexCount = this->vertices.size();
 
     if(unloadFromRAM)
     {
         this->vertices.clear();
         this->indices.clear();
     }
+
+    onGPUMemory = true;
 }
 
 void OGLMesh::BindBuffers()
 {
     this->oglArrayBuffer->Bind(oglplus::Buffer::Target::Array);
+}
+
+void OGLMesh::DrawMesh()
+{
+    gl.DrawElements(oglplus::PrimitiveType::Triangles, indicesCount,
+                    oglplus::DataType::UnsignedInt);
 }
 
 void OGLMesh::SetupBufferPointers(oglplus::Program &program)
@@ -138,5 +154,4 @@ void OGLMesh::SetupBufferPointers(oglplus::Program &program)
     // bitangents
     (program | 4).Pointer(3, oglplus::DataType::Float, false, sizeof(Vertex),
                           (const void*)44);
-}
 }

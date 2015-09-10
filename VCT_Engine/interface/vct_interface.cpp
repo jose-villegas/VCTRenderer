@@ -2,12 +2,14 @@
 #include "vct_interface.h"
 #include "imgui\imgui.h"
 #include "..\util\scene_importer.h"
+#include "core\base.h"
 using namespace VCT_ENGINE;
 
 void UI::Draw()
 {
     NewFrame();
-    ImGuiIO& io = ImGui::GetIO();
+    static ImGuiIO& io = ImGui::GetIO();
+    ExecutionInfo * execInfo = &Base::Instance()->execInfo;
     //ImGui::ShowTestWindow();
     // performance window
     {
@@ -27,40 +29,20 @@ void UI::Draw()
         ImGui::Begin("Scene", nullptr,
                      ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
                      ImGuiWindowFlags_NoMove);
-
-        if(ImGui::Combo("", &activeScene, (const char**)availableScenes.data(),
-                        (int)availableScenes.size()))
-        {
-            //static SceneImporter importer;
-            //static Scene scene;
-            //if(activeScene == 0)
-            //{
-            //    importer.Import("resources\\models\\crytek-sponza\\sponza.obj", scene);
-            //}
-            //if(activeScene == 1)
-            //{
-            //    importer.Import("resources\\models\\dabrovic-sponza\\sponza.obj", scene);
-            //}
-            //if(activeScene == 2)
-            //{
-            //    importer.Import("resources\\models\\sibenik\\sibenik.obj", scene);
-            //}
-        }
-
+        // active scene selector
+        ImGui::PushItemWidth(350);
+        ImGui::Combo("Active", &execInfo->activeScene,
+                     (const char**)execInfo->availableScenes.data(),
+                     (int)execInfo->availableScenes.size());
+        ImGui::PopItemWidth();
+        //ImGui::ShowTestWindow();
         ImGui::End();
     }
 }
 
 UI::UI()
 {
-    const char* items[] = {"Crytek Sponza", "Dabrovic Sponza", "Sibenik Cathedral"};
-    int availableScenesSize = ((int)(sizeof(items) / sizeof(*items)));
-    activeScene = -1;
-
-    for(int i = 0; i < availableScenesSize; i++)
-    {
-        this->availableScenes.push_back((char *)items[i]);
-    }
+    //activeScene = -1;
 }
 
 
