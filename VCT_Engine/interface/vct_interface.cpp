@@ -8,9 +8,10 @@ using namespace VCT_ENGINE;
 void UI::Draw()
 {
     NewFrame();
-    static ImGuiIO& io = ImGui::GetIO();
-    ExecutionInfo * execInfo = &Base::Instance()->execInfo;
-    //ImGui::ShowTestWindow();
+    // information resources for gui building
+    static ImGuiIO&  io = ImGui::GetIO();
+    static Assets * engineAssets = &Base::Instance()->GetAssets();
+    static ExecutionInfo * executionInfo = &Base::Instance()->GetExecInfo();
     // performance window
     {
         ImGui::SetNextWindowSize(ImVec2(150, 50));
@@ -31,9 +32,9 @@ void UI::Draw()
                      ImGuiWindowFlags_NoMove);
         // active scene selector
         ImGui::PushItemWidth(350);
-        ImGui::Combo("Active", &execInfo->activeScene,
-                     (const char**)execInfo->availableScenes.data(),
-                     (int)execInfo->availableScenes.size());
+        ImGui::Combo("Active", &executionInfo->activeScene,
+                     (const char**)engineAssets->GetAvailableScenes().data(),
+                     (int)engineAssets->GetAvailableScenes().size());
         ImGui::PopItemWidth();
         //ImGui::ShowTestWindow();
         ImGui::End();
@@ -42,7 +43,6 @@ void UI::Draw()
 
 UI::UI()
 {
-    //activeScene = -1;
 }
 
 

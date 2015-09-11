@@ -9,7 +9,6 @@ namespace VCT_ENGINE
     class ExecutionInfo
     {
         public:
-            std::vector<char *> availableScenes;
             int activeScene;
 
             virtual ~ExecutionInfo() {};
@@ -32,11 +31,10 @@ namespace VCT_ENGINE
             Base(Base const &&);
             // imports assets and initializes engine libraries
             void Initialize();
-        public:
-            virtual ~Base();
-
             // contains information about application runtime
             ExecutionInfo execInfo;
+        public:
+            virtual ~Base();
 
             static Base * Instance();
             // returns interface handler
@@ -45,6 +43,10 @@ namespace VCT_ENGINE
             RenderWindow &GetRenderWindow() { return renderWindow; }
             // rendering main loop
             void MainLoop();
+            // returns the engine assets handler class
+            Assets &GetAssets() { return assetLoader; }
+            // runtime base engine info
+            ExecutionInfo &GetExecInfo() { return execInfo; }
     };
 
 }

@@ -5,6 +5,9 @@ using namespace VCT_ENGINE;
 
 Assets::Assets() : demoScenesLoaded(false)
 {
+    //availableScenes.push_back("resources\\models\\crytek-sponza\\sponza.obj");
+    //availableScenes.push_back("resources\\models\\dabrovic-sponza\\sponza.obj");
+    //availableScenes.push_back("ddresources\\models\\sibenik\\sibenik.obj");
 }
 
 
@@ -29,6 +32,7 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
     importerThread[2] = std::thread(&SceneImporter::Import, SceneImporter(),
                                     "resources\\models\\sibenik\\sibenik.obj", std::ref(*this->demoScenes[2]));
 
+    // save scene filepaths as available scenes for execution
     for(unsigned int i = 0; i < 3; i++)
     {
         importerThread[i].join();
@@ -37,7 +41,7 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
         char * cFilepath = new char[sFilepath.size() + 1];
         std::copy(sFilepath.begin(), sFilepath.end(), cFilepath);
         cFilepath[sFilepath.size()] = '\0';
-        Base::Instance()->execInfo.availableScenes.push_back(cFilepath);
+        this->availableScenes.push_back(cFilepath);
     }
 
     // import scenes
