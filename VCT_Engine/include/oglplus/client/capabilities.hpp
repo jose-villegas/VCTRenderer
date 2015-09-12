@@ -182,7 +182,7 @@ public:
 
 } // namespace aux
 
-class CapabilityState
+class CurrentCapabilities
 {
 public:
 	oglplus::enums::EnumToClass<

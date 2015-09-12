@@ -21,19 +21,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scene\camera.cpp">
+    <ClCompile Include="core\assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scene\light.cpp">
+    <ClCompile Include="core\base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scene\mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="scene\scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="scene\material.cpp">
+    <ClCompile Include="core\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="interface\imgui\imgui.cpp">
@@ -51,19 +45,37 @@
     <ClCompile Include="interface\interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="interface\render_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="interface\vct_interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\external_initializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\miscellaneous.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scene\node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interface\render_window.cpp">
+    <ClCompile Include="scene\scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scene\texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="misc\miscellaneous.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="util\scene_importer.cpp">
@@ -72,16 +84,7 @@
     <ClCompile Include="util\texture_importer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="misc\external_initializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\base.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\assets.cpp">
+    <ClCompile Include="interface\imgui\extra_fonts\binary_to_compressed_c.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,25 +92,22 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scene\camera.h">
+    <ClInclude Include="core\assets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scene\light.h">
+    <ClInclude Include="core\base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scene\mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\material.h">
+    <ClInclude Include="core\renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interface\imgui\imconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interface\imgui\imgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interface\imgui\imgui_impl_glfw_gl3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interface\imgui\imgui_internal.h">
@@ -122,25 +122,40 @@
     <ClInclude Include="interface\imgui\stb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interface\imgui\imgui_impl_glfw_gl3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="interface\interface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="interface\vct_interface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scene\node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interface\render_window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scene\texture.h">
+    <ClInclude Include="interface\vct_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\external_initializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="misc\miscellaneous.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="util\scene_importer.h">
@@ -149,23 +164,21 @@
     <ClInclude Include="util\texture_importer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="misc\external_initializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\assets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="interface\imgui\LICENSE" />
-    <None Include="interface\imgui\README.md" />
     <None Include="resources\shaders\phong.frag" />
     <None Include="resources\shaders\phong.vert" />
+    <None Include="interface\imgui\LICENSE" />
+    <None Include="interface\imgui\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="interface\imgui\extra_fonts\Cousine-Regular.ttf" />
+    <Font Include="interface\imgui\extra_fonts\DroidSans.ttf" />
+    <Font Include="interface\imgui\extra_fonts\Karla-Regular.ttf" />
+    <Font Include="interface\imgui\extra_fonts\ProggyClean.ttf" />
+    <Font Include="interface\imgui\extra_fonts\ProggyTiny.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="interface\imgui\extra_fonts\README.txt" />
   </ItemGroup>
 </Project>

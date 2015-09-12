@@ -136,20 +136,6 @@ protected:
 public:
 	typedef SettingHolder<T, P> Holder;
 
-	SettingStack& Indexed(GLuint index)
-	{
-		assert(index == 0);
-		(void)index;
-		return *this;
-	}
-
-	inline
-	SettingStack&
-	operator [] (GLuint index)
-	{
-		return Indexed(index);
-	}
-
 	inline
 	Holder Push(T value)
 	{

@@ -85,7 +85,7 @@ public:
 
 } // namespace aux
 
-class ScissorTestState
+class ScissorTest
 {
 public:
 	aux::Scissor Scissor;

@@ -1,17 +1,17 @@
 /**
- *  @file oglplus/context/logic_ops.hpp
+ *  @file oglplus/context/logical_ops.hpp
  *  @brief Wrappers for color logical operations
  *
  *  @author Matus Chochlik
  *
- *  Copyright 2010-2015 Matus Chochlik. Distributed under the Boost
+ *  Copyright 2010-2014 Matus Chochlik. Distributed under the Boost
  *  Software License, Version 1.0. (See accompanying file
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
 #pragma once
-#ifndef OGLPLUS_CONTEXT_LOGIC_OPS_1201040722_HPP
-#define OGLPLUS_CONTEXT_LOGIC_OPS_1201040722_HPP
+#ifndef OGLPLUS_CONTEXT_LOGICAL_OPS_1201040722_HPP
+#define OGLPLUS_CONTEXT_LOGICAL_OPS_1201040722_HPP
 
 #include <oglplus/glfunc.hpp>
 #include <oglplus/color_logic_operation.hpp>
@@ -23,7 +23,7 @@ namespace context {
 /**
  *  @ingroup ogl_context
  */
-class LogicOpState
+class LogicalOps
 {
 public:
 #if OGLPLUS_DOCUMENTATION_ONLY || GL_VERSION_3_0
