@@ -30,13 +30,21 @@
 #include <array>
 #include <math.h>
 // glm math library headers
-#include <glm/glm.hpp>
+#include "glm/gtc/quaternion.hpp"
+#include "glm/gtx/transform.hpp"
 #include <glm/common.hpp>
-#include <glm/gtx/matrix_operation.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/norm.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <glm/detail/type_vec3.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/color_space.hpp>
 #include <glm/gtx/common.hpp>
 #include <glm/gtx/compatibility.hpp>
-#include <glm/gtx/color_space.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/matrix_operation.hpp>
+#include <glm/gtx/norm.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/vec3.hpp>
+// intel thread building blocks library for multi-threading
+#include <tbb/tbb.h>

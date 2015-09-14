@@ -5,9 +5,10 @@ using namespace VCT_ENGINE;
 
 Assets::Assets() : demoScenesLoaded(false)
 {
-    //availableScenes.push_back("resources\\models\\crytek-sponza\\sponza.obj");
-    //availableScenes.push_back("resources\\models\\dabrovic-sponza\\sponza.obj");
-    //availableScenes.push_back("ddresources\\models\\sibenik\\sibenik.obj");
+    // available scenes for execution
+    availableScenes.push_back("resources\\models\\crytek-sponza\\sponza.obj");
+    availableScenes.push_back("resources\\models\\dabrovic-sponza\\sponza.obj");
+    availableScenes.push_back("resources\\models\\sibenik\\sibenik.obj");
 }
 
 
@@ -24,27 +25,13 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
         this->demoScenes[i] = std::unique_ptr<Scene>(new Scene());
     }
 
-    importerThread[0] = std::thread(&SceneImporter::Import, SceneImporter(),
-                                    "resources\\models\\crytek-sponza\\sponza.obj", std::ref(*this->demoScenes[0]));
-    importerThread[1] = std::thread(&SceneImporter::Import, SceneImporter(),
-                                    "resources\\models\\dabrovic-sponza\\sponza.obj",
-                                    std::ref(*this->demoScenes[1]));
-    importerThread[2] = std::thread(&SceneImporter::Import, SceneImporter(),
-                                    "resources\\models\\sibenik\\sibenik.obj", std::ref(*this->demoScenes[2]));
-
-    // save scene filepaths as available scenes for execution
-    for(unsigned int i = 0; i < 3; i++)
+    // import scenes, in parallel
+    tbb::parallel_for(size_t(0), availableScenes.size(),
+                      [ = ](size_t i)
     {
-        importerThread[i].join();
-        // transfer directories to exec info
-        std::string &sFilepath = this->demoScenes[i]->GetFilepath();
-        char * cFilepath = new char[sFilepath.size() + 1];
-        std::copy(sFilepath.begin(), sFilepath.end(), cFilepath);
-        cFilepath[sFilepath.size()] = '\0';
-        this->availableScenes.push_back(cFilepath);
-    }
-
-    // import scenes
+        sceneImporter.Import(availableScenes[i], *demoScenes[i]);
+    });
+    // finally loaded
     demoScenesLoaded = true;
 }
 

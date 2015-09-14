@@ -6,10 +6,15 @@ class Node
     public:
         std::string name;
 
-        glm::mat4 transformation;
+        glm::vec3 position;
+        glm::vec3 scaling;
+        glm::quat rotation;
+
         std::vector<Mesh *> meshes;
         std::vector<Node> nodes;
         Node();
         virtual ~Node();
+
+        glm::mat4 &GetTransformMatrix() const;
 };
 
