@@ -12,11 +12,11 @@ class Scene
         std::string filepath;
         std::string directory;
     public:
-        std::vector<Camera *> cameras;
-        std::vector<Light *> lights;
-        std::vector<Material *> materials;
-        std::vector<OGLMesh *> meshes;
-        std::vector<OGLTexture2D *> textures;
+        std::vector<std::shared_ptr<Camera>> cameras;
+        std::vector<std::shared_ptr<Light>> lights;
+        std::vector<std::shared_ptr<Material>> materials;
+        std::vector<std::shared_ptr<OGLMesh>> meshes;
+        std::vector<std::shared_ptr<OGLTexture2D>> textures;
         Node rootNode;
         Scene();
         virtual ~Scene();

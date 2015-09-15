@@ -16,7 +16,7 @@ struct Vertex
 
 struct Face
 {
-    std::array<Vertex *, 3> vertices;
+    std::array <std::shared_ptr<Vertex>, 3> vertices;
     std::array<unsigned int, 3> indices;
     glm::vec3 normal;
 
@@ -33,7 +33,7 @@ class Mesh
         std::vector<unsigned int> indices;
 
         // material used by mesh
-        Material * material;
+        std::shared_ptr<Material> material;
 
         Mesh();
         virtual ~Mesh();

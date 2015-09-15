@@ -7,16 +7,16 @@
 
 int main(int argc, char* argv[])
 {
+    using namespace VCT_ENGINE;
     #ifdef VCT_ENGINE_LOW_PROFILE // DEBUG
     // pause in positive case
     bool errorCaptured = false;
 
     try
     {
-        // instance engine core to load all assets and relevant data
-        VCT_ENGINE::Base * engineCore = VCT_ENGINE::Base::Instance();
-        // start rendering main loop
-        engineCore->MainLoop();
+        // instance engine core to load all assets and
+        // relevant data and start rendering main loop
+        Base::Instance()->MainLoop();
     }
     catch(oglplus::ProgramBuildError& pbe)
     {
@@ -35,10 +35,9 @@ int main(int argc, char* argv[])
     if(errorCaptured) std::cin.get();
 
     #else // RELEASE
-    // instance engine core to load all assets and relevant data
-    VCT_ENGINE::Base * engineCore = VCT_ENGINE::Base::Instance();
-    // start rendering main loop
-    engineCore->MainLoop();
+    // instance engine core to load all assets and
+    // relevant data and start rendering main loop
+    Base::Instance()->MainLoop();
     #endif
     // exit application
     return 0;

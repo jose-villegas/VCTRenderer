@@ -3,8 +3,10 @@
 
 void RawTexture::FreeRawData()
 {
+    if(!this->rawData) return;
+
     unsigned char * pRawData = this->rawData.release();
-    delete pRawData;
+    delete []pRawData;
 }
 
 RawTexture::RawTexture() : rawData(nullptr)
@@ -14,7 +16,7 @@ RawTexture::RawTexture() : rawData(nullptr)
 
 RawTexture::~RawTexture()
 {
-    this->textureTypes.clear();
+    FreeRawData();
 }
 
 GLuint OGLTexture2D::UploadToGPU(MinFilter

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "base.h"
 using namespace VCT_ENGINE;
-Base * VCT_ENGINE::Base::coreInstance = nullptr;
 
 // initializes base engine assets and libs
 Base::Base()
@@ -13,14 +12,16 @@ Base::~Base()
 {
 }
 
-Base * VCT_ENGINE::Base::Instance()
+std::shared_ptr<Base> &VCT_ENGINE::Base::Instance()
 {
-    if(!coreInstance)
+    static std::shared_ptr<Base> instance = nullptr;
+
+    if(!instance)
     {
-        return coreInstance = new Base();
+        instance.reset(new Base());
     }
 
-    return coreInstance;
+    return instance;
 }
 
 void VCT_ENGINE::Base::MainLoop()

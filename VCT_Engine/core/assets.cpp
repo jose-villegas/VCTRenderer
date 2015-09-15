@@ -20,15 +20,11 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
 {
     if(demoScenesLoaded) return;
 
-    for(unsigned int i = 0; i < 3; i++)
-    {
-        this->demoScenes[i] = std::unique_ptr<Scene>(new Scene());
-    }
-
+    demoScenes.resize(availableScenes.size());
     // import scenes, in parallel
-    tbb::parallel_for(size_t(0), availableScenes.size(),
-                      [ = ](size_t i)
+    tbb::parallel_for(size_t(0), availableScenes.size(), [ = ](size_t i)
     {
+        demoScenes[i] = std::unique_ptr<Scene>(new Scene());
         sceneImporter.Import(availableScenes[i], *demoScenes[i]);
     });
     // finally loaded

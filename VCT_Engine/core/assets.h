@@ -11,9 +11,7 @@ namespace VCT_ENGINE
             // indicates when all threads have ended loading scenes
             bool demoScenesLoaded;
             // all scenes data used by the base engine are stored here
-            std::array<std::unique_ptr<Scene>, 3> demoScenes;
-            // raw data importing is made using multiple threads
-            std::thread importerThread[3];
+            std::vector<std::unique_ptr<Scene>> demoScenes;
             // all program shaders used by the base engine stored here
             std::unordered_map<std::string, oglplus::Program *>engineShaders;
             // stores names of available scenes

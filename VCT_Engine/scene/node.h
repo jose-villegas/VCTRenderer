@@ -10,7 +10,7 @@ class Node
         glm::vec3 scaling;
         glm::quat rotation;
 
-        std::vector<Mesh *> meshes;
+        std::vector<std::shared_ptr<OGLMesh>> meshes;
         std::vector<Node> nodes;
         Node();
         virtual ~Node();

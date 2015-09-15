@@ -36,7 +36,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         // process material properties
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
-            Material * newMaterial = new Material();
+            std::shared_ptr<Material> newMaterial(new Material());
             ImportMaterial(scene->mMaterials[i], *newMaterial);
             outScene.materials.push_back(newMaterial);
         }
@@ -52,7 +52,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     {
         for(unsigned int i = 0; i < scene->mNumMeshes; i++)
         {
-            OGLMesh * newMesh = new OGLMesh();
+            std::shared_ptr<OGLMesh> newMesh(new OGLMesh());
             ImportMesh(scene->mMeshes[i], *newMesh);
             outScene.meshes.push_back(newMesh);
             // material assigned to mesh
@@ -199,7 +199,7 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
 
             if(!alreadyLoaded)
             {
-                OGLTexture2D * newTexture(new OGLTexture2D());
+                std::shared_ptr<OGLTexture2D> newTexture(new OGLTexture2D());
 
                 if(textureImporter.ImportTexture2D(filepath, *newTexture))
                 {

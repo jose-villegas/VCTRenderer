@@ -22,13 +22,11 @@ namespace VCT_ENGINE
             RenderWindow renderWindow;
             ExternalInitializer initializer;
             Assets assetLoader;
-            // unique engine core instance
-            static Base * coreInstance;
             // No copying, copy, move assignment allowed of this class or any derived class
             Base();
-            Base(Base const &);
-            Base & operator=(Base const &);
-            Base(Base const &&);
+            Base(Base const &r);
+            Base & operator=(Base const &r);
+            Base(Base const &&r);
             // imports assets and initializes engine libraries
             void Initialize();
             // contains information about application runtime
@@ -36,7 +34,7 @@ namespace VCT_ENGINE
         public:
             virtual ~Base();
 
-            static Base * Instance();
+            static std::shared_ptr<Base> &Instance();
             // returns interface handler
             VCT_ENGINE::UI & GetUI() { return userInterface; }
             // returns context active rendering window
