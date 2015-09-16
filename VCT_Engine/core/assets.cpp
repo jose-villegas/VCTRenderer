@@ -20,8 +20,9 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
 {
     if(demoScenesLoaded) return;
 
+    // reserve space for available scenes for use
     demoScenes.resize(availableScenes.size());
-    // import scenes, in parallel
+    // import scenes raw data, in parallel
     tbb::parallel_for(size_t(0), availableScenes.size(), [ = ](size_t i)
     {
         demoScenes[i] = std::unique_ptr<Scene>(new Scene());

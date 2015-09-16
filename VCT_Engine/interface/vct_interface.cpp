@@ -9,7 +9,7 @@ void UI::Draw()
 {
     NewFrame();
     // information resources for gui building
-    static ImGuiIO&  io = ImGui::GetIO();
+    ImGuiIO&  io = ImGui::GetIO();
     static Assets * engineAssets = &Base::Instance()->GetAssets();
     static ExecutionInfo * executionInfo = &Base::Instance()->GetExecInfo();
     // performance window

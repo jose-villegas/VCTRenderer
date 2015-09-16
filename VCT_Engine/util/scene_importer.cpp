@@ -54,10 +54,9 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         {
             std::shared_ptr<OGLMesh> newMesh(new OGLMesh());
             ImportMesh(scene->mMeshes[i], *newMesh);
-            outScene.meshes.push_back(newMesh);
             // material assigned to mesh
-            outScene.meshes[i]->material =
-                outScene.materials[scene->mMeshes[i]->mMaterialIndex];
+            newMesh->material = outScene.materials[scene->mMeshes[i]->mMaterialIndex];
+            outScene.meshes.push_back(newMesh);
         }
     }
 

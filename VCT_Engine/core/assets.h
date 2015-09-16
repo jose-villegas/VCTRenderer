@@ -14,8 +14,8 @@ namespace VCT_ENGINE
             std::vector<std::unique_ptr<Scene>> demoScenes;
             // all program shaders used by the base engine stored here
             std::unordered_map<std::string, oglplus::Program *>engineShaders;
-            // stores names of available scenes
-            std::vector<char *> availableScenes;
+            // stores locations of available scenes files
+            std::vector<const char *> availableScenes;
         public:
             Assets();
             virtual ~Assets();
@@ -23,7 +23,7 @@ namespace VCT_ENGINE
             void LoadShaders();
             Scene * GetScene(const unsigned int index);
 
-            const std::vector<char *> &GetAvailableScenes() { return availableScenes; }
+            const std::vector<const char *> &GetAvailableScenes() { return availableScenes; }
     };
 }
 
