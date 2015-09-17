@@ -18,6 +18,7 @@ class Scene
         std::vector<std::shared_ptr<OGLMesh>> meshes;
         std::vector<std::shared_ptr<OGLTexture2D>> textures;
         Node rootNode;
+
         Scene();
         virtual ~Scene();
 

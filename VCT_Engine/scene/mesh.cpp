@@ -131,7 +131,7 @@ void OGLMesh::BindBuffers()
     this->oglArrayBuffer->Bind(oglplus::Buffer::Target::Array);
 }
 
-void OGLMesh::DrawMesh()
+void OGLMesh::DrawElements()
 {
     gl.DrawElements(oglplus::PrimitiveType::Triangles, indicesCount,
                     oglplus::DataType::UnsignedInt);

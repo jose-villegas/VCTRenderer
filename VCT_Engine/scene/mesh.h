@@ -61,7 +61,7 @@ class OGLMesh : public Mesh
 
         void SetupBufferPointers(oglplus::Program &program);
         void BindBuffers();
-        void DrawMesh();
+        void DrawElements();
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLMesh(OGLMesh const &);

@@ -15,3 +15,7 @@ glm::mat4 & Node::GetTransformMatrix() const
     return glm::translate(position) * glm::mat4_cast(rotation) * glm::scale(
                scaling);
 }
+
+void Node::Draw()
+{
+}

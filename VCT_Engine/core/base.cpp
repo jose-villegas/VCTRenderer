@@ -59,6 +59,6 @@ void VCT_ENGINE::Base::Initialize()
     // set interface to current renderwindow
     userInterface.Initialize(renderWindow);
     // load engine demo scene assets
-    assetLoader.LoadDemoScenes();
     assetLoader.LoadShaders();
+    assetLoader.LoadDemoScenes();
 }

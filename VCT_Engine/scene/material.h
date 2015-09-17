@@ -40,7 +40,9 @@ class Material
         unsigned int blendMode;
 
         std::array<std::shared_ptr<OGLTexture2D>, RawTexture::TEXTURE_TYPE_MAX>
-        textures;;
+        textures;
+
+        std::shared_ptr<oglplus::Program> materialShader;
 
         Material();
         ~Material();

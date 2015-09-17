@@ -16,5 +16,10 @@ class Node
         virtual ~Node();
 
         glm::mat4 &GetTransformMatrix() const;
+
+        // draws only the meshes associated to the node
+        void Draw();
+        // draws the meshes associated to the parents and all descendants
+        void DrawRecursive();
 };
 

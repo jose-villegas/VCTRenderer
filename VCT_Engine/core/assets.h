@@ -11,11 +11,11 @@ namespace VCT_ENGINE
             // indicates when all threads have ended loading scenes
             bool demoScenesLoaded;
             // all scenes data used by the base engine are stored here
-            std::vector<std::unique_ptr<Scene>> demoScenes;
+            std::vector<std::shared_ptr<Scene>> demoScenes;
             // all program shaders used by the base engine stored here
-            std::unordered_map<std::string, oglplus::Program *>engineShaders;
+            std::vector<std::shared_ptr<oglplus::Program>> engineShaders;
             // stores locations of available scenes files
-            std::vector<const char *> availableScenes;
+            std::vector<const char *> sceneFilepaths;
         public:
             Assets();
             virtual ~Assets();
@@ -23,7 +23,7 @@ namespace VCT_ENGINE
             void LoadShaders();
             Scene * GetScene(const unsigned int index);
 
-            const std::vector<const char *> &GetAvailableScenes() { return availableScenes; }
+            const std::vector<const char *> &GetAvailableScenes() { return sceneFilepaths; }
     };
 }
 

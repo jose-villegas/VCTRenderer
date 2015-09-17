@@ -6,9 +6,9 @@ using namespace VCT_ENGINE;
 Assets::Assets() : demoScenesLoaded(false)
 {
     // available scenes for execution
-    availableScenes.push_back("resources\\models\\crytek-sponza\\sponza.obj");
-    availableScenes.push_back("resources\\models\\dabrovic-sponza\\sponza.obj");
-    availableScenes.push_back("resources\\models\\sibenik\\sibenik.obj");
+    sceneFilepaths.push_back("resources\\models\\crytek-sponza\\sponza.obj");
+    sceneFilepaths.push_back("resources\\models\\dabrovic-sponza\\sponza.obj");
+    sceneFilepaths.push_back("resources\\models\\sibenik\\sibenik.obj");
 }
 
 
@@ -21,12 +21,12 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
     if(demoScenesLoaded) return;
 
     // reserve space for available scenes for use
-    demoScenes.resize(availableScenes.size());
+    demoScenes.resize(sceneFilepaths.size());
     // import scenes raw data, in parallel
-    tbb::parallel_for(size_t(0), availableScenes.size(), [ = ](size_t i)
+    tbb::parallel_for(size_t(0), sceneFilepaths.size(), [ = ](size_t i)
     {
         demoScenes[i] = std::unique_ptr<Scene>(new Scene());
-        sceneImporter.Import(availableScenes[i], *demoScenes[i]);
+        sceneImporter.Import(sceneFilepaths[i], *demoScenes[i]);
     });
     // finally loaded
     demoScenesLoaded = true;
@@ -43,13 +43,13 @@ void VCT_ENGINE::Assets::LoadShaders()
     // compile vertex and fragment s code
     phongFrag.Compile(); phongVert.Compile();
     // create a new shader program and attach the shaders
-    Program * phongShader = new Program();
+    std::shared_ptr<Program> phongShader(new Program());
     phongShader->AttachShader(phongVert);
     phongShader->AttachShader(phongFrag);
     // link attached shaders
     phongShader->Link();
     // store reference in asset load class
-    this->engineShaders["Phong"] = phongShader;
+    this->engineShaders.push_back(phongShader);
 }
 
 Scene * VCT_ENGINE::Assets::GetScene(
