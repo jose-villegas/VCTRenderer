@@ -15,8 +15,11 @@ class RenderWindow
         GLFWwindow * windowHandler;
         bool isOpen;
         WindowSettings settings;
+
+        static void onErrorCallback(int code, const char * description);
     public:
         int Open();
+        void Destroy();
         void SetPosition(const int x, const int y);
         void SetAsCurrentContext();
         RenderWindow();

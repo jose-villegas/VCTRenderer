@@ -42,8 +42,6 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter
     gl.Bound(Texture::Target::_2D, *this->oglTexture)
     .Image2D(0, PixelDataInternalFormat::RGB8, this->width, this->height, 0,
              PixelDataFormat::BGR, PixelDataType::UnsignedByte, this->rawData.get());
-    // uploaded to gpu
-    onGPUMemory = true;
 
     if(unloadFromRAM)
     {
@@ -77,6 +75,7 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter
         this->borderColor = borderColor;
     }
 
+    this->onGPUMemory = true;
     // return ogl idenfier on success
     return GetGLName(*this->oglTexture);
 }

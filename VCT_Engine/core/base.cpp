@@ -26,39 +26,56 @@ std::shared_ptr<Base> &VCT_ENGINE::Base::Instance()
 
 void VCT_ENGINE::Base::MainLoop()
 {
+    using namespace oglplus;
     // import assets and initialize ext libraries
     this->Initialize();
     // gl context handler
-    oglplus::Context gl;
-    // black screen initiallly
-    gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    Context gl;
+    // ogl flags setup
+    gl.Enable(Capability::DepthTest);
+    gl.Enable(Capability::CullFace);
+    gl.CullFace(oglplus::Face::Back);
+    gl.Viewport(1280, 720);
 
     // render loop
     while(!glfwWindowShouldClose(renderWindow.Handler()))
     {
+        gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        gl.Clear().ColorBuffer().DepthBuffer();
+        // poll window inputs
         glfwPollEvents();
         // draw custom engine ui
         userInterface.Draw();
-        gl.Clear().ColorBuffer().DepthBuffer(); glClear(GL_COLOR_BUFFER_BIT);
+        // start geometry pass for deferred rendering
+
+        if(execInfo.activeScene >= 0 &&
+           execInfo.activeScene < assetLoader->GetNumberOfAvailableScenes())
+        {
+            assetLoader->GetScene(execInfo.activeScene).rootNode.DrawRecursive();
+        }
+
+        // ui render over scene
         userInterface.Render();
+        // finally swap current frame
         glfwSwapBuffers(renderWindow.Handler());
     }
 
     userInterface.Terminate();
+    // release reserved data early (context dependant)
+    assetLoader.reset(nullptr);
 }
 
 void VCT_ENGINE::Base::Initialize()
 {
-    // initialize external dependencies
-    initializer.Initialize();
     // open window and set rendering context
-    renderWindow.Open();
+    renderWindow.Open(); // creates rendering context
     renderWindow.SetAsCurrentContext();
     // initialize context dependant external libs
     initializer.InitializeContextDependant();
     // set interface to current renderwindow
     userInterface.Initialize(renderWindow);
     // load engine demo scene assets
-    assetLoader.LoadShaders();
-    assetLoader.LoadDemoScenes();
+    assetLoader = std::move(std::unique_ptr<Assets>(new Assets()));
+    assetLoader->LoadDeferredShaders();
+    assetLoader->LoadDemoScenes();
 }

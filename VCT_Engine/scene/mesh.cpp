@@ -42,35 +42,20 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     if(oglElementArrayBuffer || oglArrayBuffer) return;
 
     using namespace oglplus;
-    // create buffers
-    oglElementArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
+    oglVertexArray = std::unique_ptr<VertexArray>(new VertexArray());
+    oglVertexArray->Bind();
+    // create vertex buffer object and upload vertex data
     oglArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
-    // upload indices
+    oglArrayBuffer->Bind(Buffer::Target::Array);
+    Buffer::Data(Buffer::Target::Array, this->vertices, BufferUsage::StaticDraw);
+    // create element (indices) buffer object and upload data
+    oglElementArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
     oglElementArrayBuffer->Bind(Buffer::Target::ElementArray);
     Buffer::Data(Buffer::Target::ElementArray, this->indices,
                  BufferUsage::StaticDraw);
-    oglArrayBuffer->Bind(Buffer::Target::Array);
-    // upload whole vertex data to buffer
-    Buffer::Data(Buffer::Target::Array, this->vertices, BufferUsage::StaticDraw);
-    /*                     setup vertex distribution                     */
-    // positions
-    VertexArrayAttrib(0).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                                 (const void*)0);
-    // normals
-    VertexArrayAttrib(1).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                                 (const void*)12);
-    // uvs
-    VertexArrayAttrib(2).Pointer(2, DataType::Float, false, sizeof(Vertex),
-                                 (const void*)24);
-    // tangents
-    VertexArrayAttrib(3).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                                 (const void*)32);
-    // bitangents
-    VertexArrayAttrib(4).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                                 (const void*)44);
     // save number of faces and vertices for rendering
-    this->indicesCount = this->indices.size();
-    this->vertexCount = this->vertices.size();
+    this->indicesCount = (unsigned int)this->indices.size();
+    this->vertexCount = (unsigned int)this->vertices.size();
 
     if(unloadFromRAM)
     {
@@ -81,54 +66,19 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     onGPUMemory = true;
 }
 
-void OGLMesh::UploadToGPU(oglplus::Program &program,
-                          bool unloadFromRAM /*= true*/)
+void OGLMesh::BindVertexArray()
 {
-    if(oglElementArrayBuffer || oglArrayBuffer) return;
-
-    // create buffers
-    oglElementArrayBuffer = std::unique_ptr<oglplus::Buffer>(new oglplus::Buffer());
-    oglArrayBuffer = std::unique_ptr<oglplus::Buffer>(new oglplus::Buffer());
-    // upload indices
-    oglElementArrayBuffer->Bind(oglplus::Buffer::Target::ElementArray);
-    oglplus::Buffer::Data(oglplus::Buffer::Target::ElementArray, this->indices,
-                          oglplus::BufferUsage::StaticDraw);
-    oglArrayBuffer->Bind(oglplus::Buffer::Target::Array);
-    // upload whole vertex data to buffer
-    oglplus::Buffer::Data(oglplus::Buffer::Target::Array, this->vertices,
-                          oglplus::BufferUsage::StaticDraw);
-    /*                     setup vertex distribution                     */
-    // positions
-    (program | 0).Pointer(3, oglplus::DataType::Float, false, sizeof(Vertex),
-                          (const void*)0);
-    // normals
-    (program | 1).Pointer(3, oglplus::DataType::Float, false, sizeof(Vertex),
-                          (const void*)12);
-    // uvs
-    (program | 2).Pointer(2, oglplus::DataType::Float, false, sizeof(Vertex),
-                          (const void*)24);
-    // tangents
-    (program | 3).Pointer(3, oglplus::DataType::Float, false, sizeof(Vertex),
-                          (const void*)32);
-    // bitangents
-    (program | 4).Pointer(3, oglplus::DataType::Float, false, sizeof(Vertex),
-                          (const void*)44);
-    // save number of faces and vertices for rendering
-    this->indicesCount = this->indices.size();
-    this->vertexCount = this->vertices.size();
-
-    if(unloadFromRAM)
-    {
-        this->vertices.clear();
-        this->indices.clear();
-    }
-
-    onGPUMemory = true;
+    this->oglVertexArray->Bind();
 }
 
-void OGLMesh::BindBuffers()
+void OGLMesh::BindArrayBuffer()
 {
     this->oglArrayBuffer->Bind(oglplus::Buffer::Target::Array);
+}
+
+void OGLMesh::BindElementArrayBuffer()
+{
+    this->oglElementArrayBuffer->Bind(oglplus::Buffer::Target::ElementArray);
 }
 
 void OGLMesh::DrawElements()
@@ -137,7 +87,7 @@ void OGLMesh::DrawElements()
                     oglplus::DataType::UnsignedInt);
 }
 
-void OGLMesh::SetupBufferPointers(oglplus::Program &program)
+void OGLMesh::BufferPointers(oglplus::Program &program)
 {
     // positions
     (program | 0).Pointer(3, oglplus::DataType::Float, false, sizeof(Vertex),
@@ -154,4 +104,18 @@ void OGLMesh::SetupBufferPointers(oglplus::Program &program)
     // bitangents
     (program | 4).Pointer(3, oglplus::DataType::Float, false, sizeof(Vertex),
                           (const void*)44);
+}
+
+void OGLMesh::BufferSetup(oglplus::Program &program)
+{
+    // positions
+    (program | 0).Setup<float>(3).Enable();
+    // normals
+    (program | 1).Setup<float>(3).Enable();
+    // uvs
+    (program | 2).Setup<float>(2).Enable();
+    // tangents
+    (program | 3).Setup<float>(3).Enable();
+    // bitangents
+    (program | 4).Setup<float>(3).Enable();
 }

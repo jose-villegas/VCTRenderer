@@ -33,7 +33,7 @@ class Mesh
         std::vector<unsigned int> indices;
 
         // material used by mesh
-        std::shared_ptr<Material> material;
+        std::shared_ptr<OGLMaterial> material;
 
         Mesh();
         virtual ~Mesh();
@@ -48,20 +48,25 @@ class OGLMesh : public Mesh
 
         std::unique_ptr<oglplus::Buffer> oglArrayBuffer;
         std::unique_ptr<oglplus::Buffer> oglElementArrayBuffer;
-
+        std::unique_ptr<oglplus::VertexArray> oglVertexArray;
         bool onGPUMemory;
         unsigned int indicesCount;
         unsigned int vertexCount;
     public:
+
         OGLMesh();
         virtual ~OGLMesh();
 
         void UploadToGPU(bool unloadFromRAM = true);
-        void UploadToGPU(oglplus::Program &program, bool unloadFromRAM = true);
+        void BindVertexArray();
+        void BindArrayBuffer();
+        void BindElementArrayBuffer();
 
-        void SetupBufferPointers(oglplus::Program &program);
-        void BindBuffers();
+        void BufferPointers(oglplus::Program &program);
+        void BufferSetup(oglplus::Program &program);
+
         void DrawElements();
+        bool OnGPUMemory() const { return onGPUMemory; }
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLMesh(OGLMesh const &);

@@ -42,9 +42,16 @@ class Material
         std::array<std::shared_ptr<OGLTexture2D>, RawTexture::TEXTURE_TYPE_MAX>
         textures;
 
-        std::shared_ptr<oglplus::Program> materialShader;
-
         Material();
         ~Material();
+};
+
+class OGLMaterial : public Material
+{
+    public:
+        std::shared_ptr<oglplus::Program> materialShader;
+
+        OGLMaterial();
+        ~OGLMaterial();
 };
 

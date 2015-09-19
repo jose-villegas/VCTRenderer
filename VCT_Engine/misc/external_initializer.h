@@ -2,8 +2,8 @@
 class ExternalInitializer
 {
     public:
-        void InitializeContextDependant(bool printLibInfo = true);
-        void Initialize(bool printLibInfo = true);
+        void InitializeContextDependant();
+        void PrintLibInfo();
         ExternalInitializer();
         ~ExternalInitializer();
 };

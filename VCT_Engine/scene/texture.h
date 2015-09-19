@@ -87,6 +87,7 @@ class OGLTexture2D : public RawTexture
         WrapMode wrapT;
 
         bool onGPUMemory;
+
     public:
         OGLTexture2D();
         virtual ~OGLTexture2D();
@@ -94,6 +95,7 @@ class OGLTexture2D : public RawTexture
                            MagFilter magFilter = MagFilter::Linear, WrapMode wrapS = WrapMode::Repeat,
                            WrapMode wrapT = WrapMode::Repeat, bool unloadFromRAM = true,
                            bool generateMipmaps = true, glm::vec4 borderColor = glm::vec4(0.f));
+        bool OnGPUMemory() const { return onGPUMemory; }
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLTexture2D(OGLTexture2D const &);

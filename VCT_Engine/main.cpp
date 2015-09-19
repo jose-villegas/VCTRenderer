@@ -3,7 +3,7 @@
 #include "core\base.h"
 
 // debug mode controller
-#define VCT_ENGINE_LOW_PROFILE
+//#define VCT_ENGINE_LOW_PROFILE
 
 int main(int argc, char* argv[])
 {

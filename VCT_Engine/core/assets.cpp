@@ -28,32 +28,45 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
         demoScenes[i] = std::unique_ptr<Scene>(new Scene());
         sceneImporter.Import(sceneFilepaths[i], *demoScenes[i]);
     });
+
+    for(auto it = demoScenes.begin(); it != demoScenes.end(); ++it)
+    {
+        // upload to GPU meshes buffers
+        for(auto mesh = (*it)->meshes.begin(); mesh != (*it)->meshes.end(); ++mesh)
+        {
+            (*mesh)->UploadToGPU();
+        }
+
+        // upload to GPU textures 2d
+        for(auto tex = (*it)->textures.begin(); tex != (*it)->textures.end(); ++tex)
+        {
+            (*tex)->UploadToGPU();
+        }
+    }
+
     // finally loaded
     demoScenesLoaded = true;
 }
 
-void VCT_ENGINE::Assets::LoadShaders()
+void VCT_ENGINE::Assets::LoadDeferredShaders()
 {
     using namespace oglplus;
-    // load shaders source code
-    Shader phongVert(ShaderType::Vertex,
-                     GLSLSource::FromFile("resources\\shaders\\phong.vert"));
-    Shader phongFrag(ShaderType::Fragment,
-                     GLSLSource::FromFile("resources\\shaders\\phong.frag"));
-    // compile vertex and fragment s code
-    phongFrag.Compile(); phongVert.Compile();
+    deferredShaders[0] = std::shared_ptr<Program>(new Program());
+    // load shaders source code and compile
+    VertexShader geomVert(
+        GLSLSource::FromFile("resources\\shaders\\geometry_pass.vert"));
+    geomVert.Compile();
+    FragmentShader geomFrag(
+        GLSLSource::FromFile("resources\\shaders\\geometry_pass.frag"));
+    geomFrag.Compile();
     // create a new shader program and attach the shaders
-    std::shared_ptr<Program> phongShader(new Program());
-    phongShader->AttachShader(phongVert);
-    phongShader->AttachShader(phongFrag);
+    deferredShaders[0]->AttachShader(geomVert);
+    deferredShaders[0]->AttachShader(geomFrag);
     // link attached shaders
-    phongShader->Link();
-    // store reference in asset load class
-    this->engineShaders.push_back(phongShader);
+    deferredShaders[0]->Link().Use();
 }
 
-Scene * VCT_ENGINE::Assets::GetScene(
-    const unsigned int index)
+Scene &VCT_ENGINE::Assets::GetScene(const unsigned int index)
 {
-    return demoScenes[index].get();
+    return *demoScenes[index];
 }

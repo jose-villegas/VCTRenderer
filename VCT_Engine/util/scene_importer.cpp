@@ -36,7 +36,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         // process material properties
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
-            std::shared_ptr<Material> newMaterial(new Material());
+            std::shared_ptr<OGLMaterial> newMaterial(new OGLMaterial());
             ImportMaterial(scene->mMaterials[i], *newMaterial);
             outScene.materials.push_back(newMaterial);
         }

@@ -247,8 +247,8 @@
   <ItemGroup>
     <None Include="interface\imgui\LICENSE" />
     <None Include="interface\imgui\README.md" />
-    <None Include="resources\shaders\phong.frag" />
-    <None Include="resources\shaders\phong.vert" />
+    <None Include="resources\shaders\geometry_pass.frag" />
+    <None Include="resources\shaders\geometry_pass.vert" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="interface\imgui\extra_fonts\Cousine-Regular.ttf" />

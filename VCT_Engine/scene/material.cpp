@@ -10,3 +10,11 @@ Material::Material() : name("Default Material")
 Material::~Material()
 {
 }
+
+OGLMaterial::OGLMaterial()
+{
+}
+
+OGLMaterial::~OGLMaterial()
+{
+}
