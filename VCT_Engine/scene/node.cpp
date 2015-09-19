@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "node.h"
-#include "core\base.h"
-using namespace VCT_ENGINE;
 
 Node::Node() : name("Default Node")
 {
@@ -24,9 +22,6 @@ void Node::Draw()
     {
         if(!(*it)->OnGPUMemory()) continue;
 
-        //(*it)->BindArrayBuffer();
-        //(*it)->BufferPointers(Base::Instance()->GetAssets().GetGeometryPassShader());
-        //(*it)->BindElementArrayBuffer();
         (*it)->BindVertexArrayObject();
         (*it)->DrawElements();
     }

@@ -1,13 +1,12 @@
 // VCT_Engine.cpp : Defines the entry point for the console application.
 #include "stdafx.h"
-#include "core\base.h"
+#include "core\engine_base.h"
 
 // debug mode controller
 //#define VCT_ENGINE_LOW_PROFILE
 
 int main(int argc, char* argv[])
 {
-    using namespace VCT_ENGINE;
     #ifdef VCT_ENGINE_LOW_PROFILE // DEBUG
     // pause in positive case
     bool errorCaptured = false;
@@ -16,7 +15,7 @@ int main(int argc, char* argv[])
     {
         // instance engine core to load all assets and
         // relevant data and start rendering main loop
-        Base::Instance()->MainLoop();
+        EngineBase::Instance()->MainLoop();
     }
     catch(oglplus::ProgramBuildError& pbe)
     {
@@ -37,7 +36,7 @@ int main(int argc, char* argv[])
     #else // RELEASE
     // instance engine core to load all assets and
     // relevant data and start rendering main loop
-    Base::Instance()->MainLoop();
+    EngineBase::Instance()->MainLoop();
     #endif
     // exit application
     return 0;

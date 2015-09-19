@@ -1,9 +1,8 @@
 #include "stdafx.h"
-#include "assets.h"
-#include "base.h"
-using namespace VCT_ENGINE;
+#include "engine_assets.h"
+#include "engine_base.h"
 
-Assets::Assets() : demoScenesLoaded(false)
+EngineAssets::EngineAssets() : demoScenesLoaded(false)
 {
     // available scenes for execution
     sceneFilepaths.push_back("resources\\models\\crytek-sponza\\sponza.obj");
@@ -12,11 +11,11 @@ Assets::Assets() : demoScenesLoaded(false)
 }
 
 
-Assets::~Assets()
+EngineAssets::~EngineAssets()
 {
 }
 
-void VCT_ENGINE::Assets::LoadDemoScenes()
+void EngineAssets::LoadDefaultScenes()
 {
     if(demoScenesLoaded) return;
 
@@ -48,25 +47,12 @@ void VCT_ENGINE::Assets::LoadDemoScenes()
     demoScenesLoaded = true;
 }
 
-void VCT_ENGINE::Assets::LoadDeferredShaders()
-{
-    using namespace oglplus;
-    deferredShaders[0] = std::shared_ptr<Program>(new Program());
-    // load shaders source code and compile
-    VertexShader geomVert(
-        GLSLSource::FromFile("resources\\shaders\\geometry_pass.vert"));
-    geomVert.Compile();
-    FragmentShader geomFrag(
-        GLSLSource::FromFile("resources\\shaders\\geometry_pass.frag"));
-    geomFrag.Compile();
-    // create a new shader program and attach the shaders
-    deferredShaders[0]->AttachShader(geomVert);
-    deferredShaders[0]->AttachShader(geomFrag);
-    // link attached shaders
-    deferredShaders[0]->Link().Use();
-}
-
-Scene &VCT_ENGINE::Assets::GetScene(const unsigned int index)
+Scene &EngineAssets::GetScene(const unsigned int index)
 {
     return *demoScenes[index];
+}
+
+void EngineAssets::LoadAssets()
+{
+    LoadDefaultScenes();
 }

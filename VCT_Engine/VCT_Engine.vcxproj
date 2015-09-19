@@ -158,9 +158,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="core\assets.cpp" />
-    <ClCompile Include="core\base.cpp" />
+    <ClCompile Include="core\engine_assets.cpp" />
+    <ClCompile Include="core\engine_base.cpp" />
     <ClCompile Include="core\renderer.cpp" />
+    <ClCompile Include="core\deferred_handler.cpp" />
     <ClCompile Include="interface\imgui\extra_fonts\binary_to_compressed_c.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -218,9 +219,10 @@
     <ClCompile Include="util\texture_importer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\assets.h" />
-    <ClInclude Include="core\base.h" />
+    <ClInclude Include="core\engine_assets.h" />
+    <ClInclude Include="core\engine_base.h" />
     <ClInclude Include="core\renderer.h" />
+    <ClInclude Include="core\deferred_handler.h" />
     <ClInclude Include="interface\imgui\imconfig.h" />
     <ClInclude Include="interface\imgui\imgui.h" />
     <ClInclude Include="interface\imgui\imgui_impl_glfw_gl3.h" />

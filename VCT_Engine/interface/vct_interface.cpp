@@ -2,15 +2,14 @@
 #include "vct_interface.h"
 #include "imgui\imgui.h"
 #include "..\util\scene_importer.h"
-#include "core\base.h"
-using namespace VCT_ENGINE;
+#include "core\engine_base.h"
 
 void UI::Draw()
 {
     // information resources for gui building
     ImGuiIO&  io = ImGui::GetIO();
-    static Assets * engineAssets = &Base::Instance()->GetAssets();
-    static ExecutionInfo * executionInfo = &Base::Instance()->GetExecInfo();
+    static EngineAssets * engineAssets = &EngineBase::Instance()->GetAssets();
+    static ExecutionInfo * executionInfo = &EngineBase::Instance()->GetExecInfo();
     // performance window
     {
         ImGui::SetNextWindowSize(ImVec2(150, 50));

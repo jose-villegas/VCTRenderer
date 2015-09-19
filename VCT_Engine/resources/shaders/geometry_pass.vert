@@ -24,10 +24,12 @@ out vec3 bitangent;
 void main(void)
 {
     vec4 vertexPos = vec4(vertexPosition, 1.0f);
-    texCoord = vertexTexCoord;
+    // space transform
     normal = normalize(matrix.normal * vec4(vertexNormal, 0.0f)).xyz;
     position = (matrix.modelView * vertexPos).xyz;
+    // simple assignments
     tangent = vertexTangent;
     bitangent = vertexBitangent;
+    texCoord = vertexTexCoord;
     gl_Position = matrix.modelViewProjection * vertexPos;
 }
