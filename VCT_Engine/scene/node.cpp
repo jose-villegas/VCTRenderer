@@ -24,7 +24,6 @@ void Node::Draw()
     {
         if(!(*it)->OnGPUMemory()) continue;
 
-        (*it)->BindVertexArray();
         (*it)->BindArrayBuffer();
         (*it)->BufferPointers(Base::Instance()->GetAssets().GetGeometryPassShader());
         (*it)->BindElementArrayBuffer();

@@ -7,7 +7,6 @@ using namespace VCT_ENGINE;
 
 void UI::Draw()
 {
-    NewFrame();
     // information resources for gui building
     ImGuiIO&  io = ImGui::GetIO();
     static Assets * engineAssets = &Base::Instance()->GetAssets();

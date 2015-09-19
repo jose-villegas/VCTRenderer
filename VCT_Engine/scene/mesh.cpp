@@ -42,8 +42,6 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     if(oglElementArrayBuffer || oglArrayBuffer) return;
 
     using namespace oglplus;
-    oglVertexArray = std::unique_ptr<VertexArray>(new VertexArray());
-    oglVertexArray->Bind();
     // create vertex buffer object and upload vertex data
     oglArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
     oglArrayBuffer->Bind(Buffer::Target::Array);
@@ -64,11 +62,6 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     }
 
     onGPUMemory = true;
-}
-
-void OGLMesh::BindVertexArray()
-{
-    this->oglVertexArray->Bind();
 }
 
 void OGLMesh::BindArrayBuffer()

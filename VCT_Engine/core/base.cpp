@@ -32,9 +32,6 @@ void VCT_ENGINE::Base::MainLoop()
     // gl context handler
     Context gl;
     // ogl flags setup
-    gl.Enable(Capability::DepthTest);
-    gl.Enable(Capability::CullFace);
-    gl.CullFace(oglplus::Face::Back);
     gl.Viewport(1280, 720);
 
     // render loop
@@ -45,8 +42,16 @@ void VCT_ENGINE::Base::MainLoop()
         // poll window inputs
         glfwPollEvents();
         // draw custom engine ui
+        userInterface.NewFrame();
         userInterface.Draw();
-        // start geometry pass for deferred rendering
+        //// start geometry pass for deferred rendering
+        assetLoader->GetGeometryPassShader().Use();
+        // reset gl state flags after imgui draw
+        gl.ClearDepth(1.0f);
+        gl.Enable(Capability::DepthTest);
+        gl.Enable(Capability::CullFace);
+        gl.FrontFace(FaceOrientation::CCW);
+        gl.CullFace(oglplus::Face::Back);
 
         if(execInfo.activeScene >= 0 &&
            execInfo.activeScene < assetLoader->GetNumberOfAvailableScenes())
