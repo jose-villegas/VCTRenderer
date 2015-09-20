@@ -38,7 +38,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         {
             std::shared_ptr<OGLMaterial> newMaterial(new OGLMaterial());
             ImportMaterial(scene->mMaterials[i], *newMaterial);
-            outScene.materials.push_back(newMaterial);
+            outScene.materials.push_back(std::move(newMaterial));
         }
 
         // import per material and scene, textures
@@ -56,7 +56,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
             ImportMesh(scene->mMeshes[i], *newMesh);
             // material assigned to mesh
             newMesh->material = outScene.materials[scene->mMeshes[i]->mMaterialIndex];
-            outScene.meshes.push_back(newMesh);
+            outScene.meshes.push_back(std::move(newMesh));
         }
     }
 
@@ -65,10 +65,101 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         ProcessNodes(outScene, scene->mRootNode, outScene.rootNode);
     }
 
+    // if these objects don't exist in scene, they are created by default
+
+    if(scene->HasCameras())
+    {
+        for(unsigned int i = 0; i < scene->mNumCameras; i++)
+        {
+            std::shared_ptr<Camera> newCamera(new Camera());
+            ImportCamera(scene->mCameras[i], *newCamera);
+            outScene.cameras.push_back(std::move(newCamera));
+        }
+    }
+    else
+    {
+        outScene.cameras.push_back(std::shared_ptr<Camera>(new Camera()));
+    }
+
+    if(scene->HasLights())
+    {
+        for(unsigned int i = 0; i < scene->mNumLights; i++)
+        {
+            std::shared_ptr<Light> newLight(new Light());
+            ImportLight(scene->mLights[i], *newLight);
+            outScene.lights.push_back(std::move(newLight));
+        }
+    }
+    else
+    {
+        outScene.lights.push_back(std::shared_ptr<Light>(new Light()));
+    }
+
     std::cout << "(Assimp) Scene (.." << outScene.filepath.substr(
                   outScene.filepath.size() - 30, 30) << ") loaded successfully"
               << std::endl;
     return true;
+}
+
+void SceneImporter::ImportLight(aiLight * light, Light &newLight)
+{
+    newLight.ambient = glm::vec3(
+                           light->mColorAmbient.r,
+                           light->mColorAmbient.g,
+                           light->mColorAmbient.b
+                       );
+    newLight.diffuse = glm::vec3(
+                           light->mColorDiffuse.r,
+                           light->mColorDiffuse.g,
+                           light->mColorDiffuse.b
+                       );
+    newLight.specular = glm::vec3(
+                            light->mColorSpecular.r,
+                            light->mColorSpecular.g,
+                            light->mColorSpecular.b
+                        );
+    newLight.direction = glm::vec3(
+                             light->mDirection.x,
+                             light->mDirection.y,
+                             light->mDirection.z
+                         );
+    newLight.position = glm::vec3(
+                            light->mPosition.x,
+                            light->mPosition.y,
+                            light->mPosition.z
+                        );
+    newLight.lightType = light->mType == aiLightSourceType::aiLightSource_POINT ?
+                         Light::Point : light->mType == aiLightSourceType::aiLightSource_DIRECTIONAL ?
+                         Light::Directional : light->mType == aiLightSourceType::aiLightSource_SPOT ?
+                         Light::Spot : Light::Point;
+    newLight.angleInnerCone = light->mAngleInnerCone;
+    newLight.angleOuterCone = light->mAngleOuterCone;
+    newLight.attenuation.constant = light->mAttenuationConstant;
+    newLight.attenuation.linear = light->mAttenuationLinear;
+    newLight.attenuation.quadratic = light->mAttenuationQuadratic;
+}
+
+void SceneImporter::ImportCamera(aiCamera * cam, Camera &newCamera)
+{
+    newCamera.aspectRatio = cam->mAspect;
+    newCamera.clipPlaneFar = cam->mClipPlaneFar;
+    newCamera.clipPlaneNear = cam->mClipPlaneNear;
+    newCamera.horizontalFoV = cam->mHorizontalFOV;
+    newCamera.position = glm::vec3(
+                             cam->mPosition.x,
+                             cam->mPosition.y,
+                             cam->mPosition.z
+                         );
+    newCamera.lookAt = glm::vec3(
+                           cam->mLookAt.x,
+                           cam->mLookAt.y,
+                           cam->mLookAt.z
+                       );
+    newCamera.up = glm::vec3(
+                       cam->mUp.x,
+                       cam->mUp.y,
+                       cam->mUp.z
+                   );
 }
 
 void SceneImporter::ImportMaterial(aiMaterial *mMaterial, Material &outMaterial)
@@ -114,23 +205,33 @@ void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
             outMesh.vertices.push_back(Vertex());
             Vertex * vertex = &outMesh.vertices.back();
             // store mesh data
-            vertex->position = glm::vec3(mMesh->mVertices[i].x,
-                                         mMesh->mVertices[i].y,
-                                         mMesh->mVertices[i].z);
-            vertex->normal = glm::vec3(mMesh->mNormals[i].x,
-                                       mMesh->mNormals[i].y,
-                                       mMesh->mNormals[i].z);
-            vertex->uv = glm::vec2(mMesh->mTextureCoords[0]->x,
-                                   mMesh->mTextureCoords[0]->y);
+            vertex->position = glm::vec3(
+                                   mMesh->mVertices[i].x,
+                                   mMesh->mVertices[i].y,
+                                   mMesh->mVertices[i].z
+                               );
+            vertex->normal = glm::vec3(
+                                 mMesh->mNormals[i].x,
+                                 mMesh->mNormals[i].y,
+                                 mMesh->mNormals[i].z
+                             );
+            vertex->uv = glm::vec2(
+                             mMesh->mTextureCoords[0]->x,
+                             mMesh->mTextureCoords[0]->y
+                         );
 
             if(mMesh->HasTangentsAndBitangents())
             {
-                vertex->tangent = glm::vec3(mMesh->mTangents[i].x,
-                                            mMesh->mTangents[i].y,
-                                            mMesh->mTangents[i].z);
-                vertex->bitangent = glm::vec3(mMesh->mBitangents[i].x,
-                                              mMesh->mBitangents[i].y,
-                                              mMesh->mBitangents[i].z);
+                vertex->tangent = glm::vec3(
+                                      mMesh->mTangents[i].x,
+                                      mMesh->mTangents[i].y,
+                                      mMesh->mTangents[i].z
+                                  );
+                vertex->bitangent = glm::vec3(
+                                        mMesh->mBitangents[i].x,
+                                        mMesh->mBitangents[i].y,
+                                        mMesh->mBitangents[i].z
+                                    );
             }
 
             vertex->Orthonormalize();

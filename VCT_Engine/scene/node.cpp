@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "node.h"
+#include "core\engine_base.h"
 
 Node::Node() : name("Default Node")
 {
@@ -18,6 +19,12 @@ glm::mat4 & Node::GetTransformMatrix() const
 
 void Node::Draw()
 {
+    if(meshes.empty()) return;
+
+    // node model transform, position * rotation * scale
+    EngineBase::Instance()->GetRenderer().matrices
+    .UpdateModelMatrix(GetTransformMatrix());
+
     for(auto it = this->meshes.begin(); it != this->meshes.end(); ++it)
     {
         if(!(*it)->OnGPUMemory()) continue;

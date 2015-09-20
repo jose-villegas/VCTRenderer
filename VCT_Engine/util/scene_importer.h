@@ -15,11 +15,14 @@ class SceneImporter
         SceneImporter();
         virtual ~SceneImporter();
         bool Import(const std::string &sFilepath, Scene &outScene);
+
         // fine imports
         void ImportMaterial(aiMaterial *mMaterial, Material &outMaterial);
         void ImportMesh(aiMesh *mMesh, Mesh &outMesh);
         void ProcessNodes(Scene &scene, aiNode* node, Node &newNode);
         void ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
                                     Material &material);
+        void ImportCamera(aiCamera * cam, Camera &newCamera);
+        void ImportLight(aiLight * light, Light &newLight);
 };
 

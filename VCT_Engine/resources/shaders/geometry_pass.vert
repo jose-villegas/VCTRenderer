@@ -1,5 +1,6 @@
 #version 440
-uniform struct Matrices
+
+layout(std140) uniform Matrices
 {
     mat4 modelView;
     mat4 modelViewProjection;

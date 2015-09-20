@@ -8,6 +8,10 @@ class TransformMatrices
     public:
         TransformMatrices();
         virtual ~TransformMatrices();
+
+        void UpdateModelMatrix(const glm::mat4x4 &rModel);
+        void UpdateViewMatrix(const glm::mat4x4 &rView);
+        void UpdateProjectionMatrix(const glm::mat4x4 &rProjection);
     private:
         glm::mat4x4 modelView;
         glm::mat4x4 modelViewProjection;
@@ -23,12 +27,12 @@ class Renderer
     private:
         DeferredHandler deferredHandler;
     public:
+        TransformMatrices matrices;
+
         Renderer();
         virtual ~Renderer();
 
         void Initialize();
-        // setups all objects for drawing frame
-        void NewFrame();
         // calls drawing instructions
-        void Draw(Scene &activeScene);
+        void Render(Scene &activeScene);
 };

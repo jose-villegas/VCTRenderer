@@ -43,13 +43,12 @@ void EngineBase::MainLoop()
         // draw custom engine ui
         userInterface.NewFrame();
         userInterface.Draw();
-        // start geometry pass for deferred rendering
-        renderer->NewFrame();
+
         // reset gl state flags after imgui draw
 
         if(execInfo.activeScene >= 0 && execInfo.activeScene < nAvailableScenes)
         {
-            renderer->Draw(assetLoader->GetScene(execInfo.activeScene));
+            renderer->Render(assetLoader->GetScene(execInfo.activeScene));
         }
 
         // ui render over scene

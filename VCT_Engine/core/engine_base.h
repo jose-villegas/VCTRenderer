@@ -10,9 +10,10 @@ class ExecutionInfo
 {
     public:
         int activeScene;
+        int activeCamera;
 
         virtual ~ExecutionInfo() {};
-        ExecutionInfo() : activeScene(-1) {};
+        ExecutionInfo() : activeScene(-1), activeCamera(0) {};
 };
 
 class EngineBase
@@ -51,4 +52,6 @@ class EngineBase
         EngineAssets &GetAssets() { return *assetLoader; }
         // runtime base engine info
         ExecutionInfo &GetExecInfo() { return execInfo; }
+        // renderer contains necesarry shaders and state handling for deferred rendering
+        Renderer &GetRenderer() { return *renderer; }
 };

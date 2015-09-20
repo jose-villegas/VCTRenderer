@@ -4,11 +4,21 @@ struct Attenuation
     float constant;
     float linear;
     float quadratic;
+
+    Attenuation() : constant(1.0f), linear(0.2f), quadratic(0.08f) {};
+    virtual ~Attenuation() {};
 };
 
 class Light
 {
-    private:
+    public:
+        enum LightType
+        {
+            Directional,
+            Point,
+            Spot
+        };
+
         float angleInnerCone;
         float angleOuterCone;
         Attenuation attenuation;
@@ -17,8 +27,8 @@ class Light
         glm::vec3 specular;
         glm::vec3 direction;
         glm::vec3 position;
-        unsigned int lightType;
-    public:
+        LightType lightType;
+
         Light();
         virtual ~Light();
 };
