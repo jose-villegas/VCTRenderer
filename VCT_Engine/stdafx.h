@@ -17,20 +17,24 @@
 #include <oglplus/object/group.hpp>
 #include <oglplus/interop/glm.hpp>
 // standard and stl library headers
-#include <iostream>
-#include <stdexcept>
-#include <memory>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <set>
 #include <algorithm>
-#include <unordered_map>
-#include <thread>
 #include <array>
-#include <math.h>
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <set>
+#include <sstream>
+#include <stdexcept>
+#include <streambuf>
+#include <string>
+#include <thread>
+#include <unordered_map>
+#include <vector>
 // glm math library headers
+#include "glm/detail/type_mat.hpp"
+#include "glm/gtc/matrix_inverse.hpp"
 #include "glm/gtc/quaternion.hpp"
+#include "glm/gtx/transform.hpp"
 #include "glm/gtx/transform.hpp"
 #include <glm/common.hpp>
 #include <glm/detail/type_vec3.hpp>

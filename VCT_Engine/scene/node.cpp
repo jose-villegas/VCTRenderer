@@ -4,6 +4,9 @@
 
 Node::Node() : name("Default Node")
 {
+    position = glm::vec3(0.0f, 0.0f, 0.0f);
+    scaling = glm::vec3(1.0f, 1.0f, 1.0f);
+    rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 
@@ -11,19 +14,23 @@ Node::~Node()
 {
 }
 
-glm::mat4 & Node::GetTransformMatrix() const
+glm::mat4 Node::GetTransformMatrix() const
 {
-    return glm::translate(position) * glm::mat4_cast(rotation) * glm::scale(
-               scaling);
+    return glm::translate(position) *
+           glm::mat4_cast(rotation) *
+           glm::scale(scaling);
 }
 
 void Node::Draw()
 {
     if(meshes.empty()) return;
 
-    // node model transform, position * rotation * scale
-    EngineBase::Instance()->GetRenderer().matrices
-    .UpdateModelMatrix(GetTransformMatrix());
+    static Renderer *renderer = &EngineBase::Instance()->GetRenderer();
+    renderer->transformMatrices.UpdateModelMatrix(GetTransformMatrix());
+    renderer->transformMatrices.RecalculateMatrices();
+    renderer->transformMatrices.SetUniforms(
+        renderer->GetDeferredHandler().GetGeometryPass()
+    );
 
     for(auto it = this->meshes.begin(); it != this->meshes.end(); ++it)
     {

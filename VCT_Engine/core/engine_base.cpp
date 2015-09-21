@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "engine_base.h"
 
+
 // initializes base engine assets and libs
 EngineBase::EngineBase()
 {
@@ -44,8 +45,6 @@ void EngineBase::MainLoop()
         userInterface.NewFrame();
         userInterface.Draw();
 
-        // reset gl state flags after imgui draw
-
         if(execInfo.activeScene >= 0 && execInfo.activeScene < nAvailableScenes)
         {
             renderer->Render(assetLoader->GetScene(execInfo.activeScene));
@@ -72,10 +71,10 @@ void EngineBase::Initialize()
     initializer.InitializeContextDependant();
     // set interface to current renderwindow
     userInterface.Initialize(renderWindow);
-    // initialize deferred shading renderer / manager
-    renderer = std::unique_ptr<Renderer>(new Renderer());
-    renderer->Initialize();
     // load engine demo scene assets
     assetLoader = std::unique_ptr<EngineAssets>(new EngineAssets());
     assetLoader->LoadAssets();
+    // initialize deferred shading renderer / manager
+    renderer = std::unique_ptr<Renderer>(new Renderer());
+    renderer->Initialize();
 }

@@ -44,32 +44,33 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     using namespace oglplus;
     this->oglVertexArray = std::unique_ptr<VertexArray>(new VertexArray());
     oglVertexArray->Bind();
+    // create vertex buffer object and upload vertex data
+    oglArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
+    oglArrayBuffer->Bind(Buffer::Target::Array);
+    Buffer::Data(Buffer::Target::Array, this->vertices);
+    // setup vertex data interleaving
+    size_t vertexSize = sizeof(Vertex);
+    DataType dType = DataType::Float;
+    // position
+    VertexArrayAttrib(0).Pointer(3, dType, 0, vertexSize, (void*)0).Enable();
+    // normals
+    VertexArrayAttrib(1).Pointer(3, dType, 0, vertexSize, (void*)12).Enable();
+    // uvs
+    VertexArrayAttrib(2).Pointer(2, dType, 0, vertexSize, (void*)24).Enable();
+    // tangents
+    VertexArrayAttrib(3).Pointer(3, dType, 0, vertexSize, (void*)32).Enable();
+    // bitangents
+    VertexArrayAttrib(4).Pointer(3, dType, 0, vertexSize, (void*)44).Enable();
+    // create element (indices) buffer object and upload data
+    oglElementArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
+    oglElementArrayBuffer->Bind(Buffer::Target::ElementArray);
+    Buffer::Data(Buffer::Target::ElementArray, this->indices);
     // ogl attrib flags set
     gl.ClearDepth(1.0f);
     gl.Enable(Capability::DepthTest);
     gl.Enable(Capability::CullFace);
     gl.FrontFace(FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
-    // create vertex buffer object and upload vertex data
-    oglArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
-    oglArrayBuffer->Bind(Buffer::Target::Array);
-    Buffer::Data(Buffer::Target::Array, this->vertices, BufferUsage::StaticDraw);
-    // setup vertex data interleaving
-    VertexArrayAttrib(0)	// position
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const void*)0).Enable();
-    VertexArrayAttrib(1)	// normals
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const void*)12).Enable();
-    VertexArrayAttrib(2)	// uvs
-    .Pointer(2, DataType::Float, false, sizeof(Vertex), (const void*)24).Enable();
-    VertexArrayAttrib(3)	// tangents
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const void*)32).Enable();
-    VertexArrayAttrib(4)	// bitangents
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const void*)44).Enable();
-    // create element (indices) buffer object and upload data
-    oglElementArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
-    oglElementArrayBuffer->Bind(Buffer::Target::ElementArray);
-    Buffer::Data(Buffer::Target::ElementArray, this->indices,
-                 BufferUsage::StaticDraw);
     // save number of faces and vertices for rendering
     this->indicesCount = (unsigned int)this->indices.size();
     this->vertexCount = (unsigned int)this->vertices.size();

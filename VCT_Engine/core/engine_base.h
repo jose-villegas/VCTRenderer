@@ -13,7 +13,7 @@ class ExecutionInfo
         int activeCamera;
 
         virtual ~ExecutionInfo() {};
-        ExecutionInfo() : activeScene(-1), activeCamera(0) {};
+        ExecutionInfo() : activeScene(0), activeCamera(0) {};
 };
 
 class EngineBase

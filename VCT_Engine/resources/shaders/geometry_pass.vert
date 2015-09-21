@@ -1,7 +1,6 @@
-#version 440
+#version 330
 
-layout(std140) uniform Matrices
-{
+uniform struct Matrices {
     mat4 modelView;
     mat4 modelViewProjection;
     mat4 model;
@@ -22,15 +21,16 @@ out vec2 texCoord;
 out vec3 tangent;
 out vec3 bitangent;
 
-void main(void)
+void main()
 {
     vec4 vertexPos = vec4(vertexPosition, 1.0f);
-    // space transform
-    normal = normalize(matrix.normal * vec4(vertexNormal, 0.0f)).xyz;
-    position = (matrix.modelView * vertexPos).xyz;
-    // simple assignments
-    tangent = vertexTangent;
-    bitangent = vertexBitangent;
     texCoord = vertexTexCoord;
+    // space transform
+    normal = vertexNormal;
+    // position = (matrix.view * matrix.model * vertexPos).xyz;
+    // model to camera view
+    // tangent = (matrix.view * matrix.model * vec4(vertexTangent, 0.f)).xyz;
+    // bitangent = (matrix.view * matrix.model * vec4(vertexBitangent, 0.f)).xyz;
+    // final drawing pos
     gl_Position = matrix.modelViewProjection * vertexPos;
 }
