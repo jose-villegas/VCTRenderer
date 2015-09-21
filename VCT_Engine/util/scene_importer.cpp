@@ -202,39 +202,44 @@ void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
     {
         for(unsigned int i = 0; i < mMesh->mNumVertices; i++)
         {
-            outMesh.vertices.push_back(Vertex());
-            Vertex * vertex = &outMesh.vertices.back();
+            Vertex vertex;
             // store mesh data
-            vertex->position = glm::vec3(
-                                   mMesh->mVertices[i].x,
-                                   mMesh->mVertices[i].y,
-                                   mMesh->mVertices[i].z
-                               );
-            vertex->normal = glm::vec3(
-                                 mMesh->mNormals[i].x,
-                                 mMesh->mNormals[i].y,
-                                 mMesh->mNormals[i].z
-                             );
-            vertex->uv = glm::vec2(
-                             mMesh->mTextureCoords[0]->x,
-                             mMesh->mTextureCoords[0]->y
-                         );
+            vertex.position = glm::vec3(
+                                  mMesh->mVertices[i].x,
+                                  mMesh->mVertices[i].y,
+                                  mMesh->mVertices[i].z
+                              );
+            vertex.normal = glm::vec3(
+                                mMesh->mNormals[i].x,
+                                mMesh->mNormals[i].y,
+                                mMesh->mNormals[i].z
+                            );
+
+            if(mMesh->HasTextureCoords(0))
+            {
+                vertex.uv = glm::vec3(
+                                mMesh->mTextureCoords[0]->x,
+                                mMesh->mTextureCoords[0]->y,
+                                mMesh->mTextureCoords[0]->z
+                            );
+            }
 
             if(mMesh->HasTangentsAndBitangents())
             {
-                vertex->tangent = glm::vec3(
-                                      mMesh->mTangents[i].x,
-                                      mMesh->mTangents[i].y,
-                                      mMesh->mTangents[i].z
-                                  );
-                vertex->bitangent = glm::vec3(
-                                        mMesh->mBitangents[i].x,
-                                        mMesh->mBitangents[i].y,
-                                        mMesh->mBitangents[i].z
-                                    );
+                vertex.tangent = glm::vec3(
+                                     mMesh->mTangents[i].x,
+                                     mMesh->mTangents[i].y,
+                                     mMesh->mTangents[i].z
+                                 );
+                vertex.bitangent = glm::vec3(
+                                       mMesh->mBitangents[i].x,
+                                       mMesh->mBitangents[i].y,
+                                       mMesh->mBitangents[i].z
+                                   );
             }
 
-            vertex->Orthonormalize();
+            vertex.Orthonormalize();
+            outMesh.vertices.push_back(vertex);
         }
     }
 

@@ -3,14 +3,14 @@
 struct Vertex
 {
     glm::vec3 position;
+    glm::vec3 uv;
     glm::vec3 normal;
-    glm::vec2 uv;
     glm::vec3 tangent;
     glm::vec3 bitangent;
 
-    Vertex() : position(glm::vec3(0)), normal(glm::vec3(0)), uv(glm::vec2(0)),
-        tangent(glm::vec3(0)), bitangent(glm::vec3(0)) {};
-    virtual ~Vertex() {};
+    Vertex();
+    // no virtual destructor, it increases class sizeof() by 4 bytes
+    ~Vertex();
     void Orthonormalize();
 };
 

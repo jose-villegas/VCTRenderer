@@ -2,7 +2,7 @@
 #include "camera.h"
 
 
-Camera::Camera() : clipPlaneFar(30.0f), clipPlaneNear(0.5f),
+Camera::Camera() : clipPlaneFar(100.0f), clipPlaneNear(1.0f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
 {
     this->position = glm::vec3(0.0f, 0.0f, 0.0f);

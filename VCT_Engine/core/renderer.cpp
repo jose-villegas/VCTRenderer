@@ -18,12 +18,18 @@ void Renderer::Render(Scene &activeScene)
 {
     using namespace oglplus;
     static std::shared_ptr<EngineBase> engine = EngineBase::Instance();
+    // opengl flags
+    gl.ClearDepth(1.0f);
+    gl.Enable(Capability::DepthTest);
+    gl.Enable(Capability::CullFace);
+    gl.FrontFace(FaceOrientation::CCW);
+    gl.CullFace(oglplus::Face::Back);
     // activate geometry pass shader program
     deferredHandler.UseGeometryPass();
     // play with camera position
     activeScene.cameras[engine->GetExecInfo().activeCamera]->position =
         glm::vec3(
-            std::cos(glfwGetTime()) * 5.0f, 0.0f, std::sin(glfwGetTime()) * 5.0f
+            std::cos(glfwGetTime()) * 10.0f, 0.0f, std::sin(glfwGetTime()) * 10.0f
         );
     // update view and projection transform, default camera at [0] position
     transformMatrices.UpdateProjectionMatrix(

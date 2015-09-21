@@ -49,6 +49,7 @@
 #include <glm/gtx/matrix_operation.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/orthonormalize.hpp>
 #include <glm/vec3.hpp>
 // intel thread building blocks library for multi-threading
 #include <tbb/tbb.h>

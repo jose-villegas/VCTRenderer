@@ -29,7 +29,7 @@ void UI::Draw()
                      ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
                      ImGuiWindowFlags_NoMove);
         // active scene selector
-        ImGui::PushItemWidth(350);
+        ImGui::PushItemWidth(450);
         ImGui::Combo("Active", &executionInfo->activeScene,
                      (const char**)engineAssets->GetAvailableScenes().data(),
                      (int)engineAssets->GetAvailableScenes().size());

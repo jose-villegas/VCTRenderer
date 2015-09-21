@@ -39,8 +39,8 @@ class TransformMatrices
 class Renderer
 {
     private:
+        static oglplus::Context gl;
         DeferredHandler deferredHandler;
-
     public:
         TransformMatrices transformMatrices;
 
