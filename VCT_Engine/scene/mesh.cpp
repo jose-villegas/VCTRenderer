@@ -22,10 +22,6 @@ Vertex::Vertex()
     position = normal = tangent = bitangent = uv = glm::vec3(0.0f);
 }
 
-Vertex::~Vertex()
-{
-}
-
 void Vertex::Orthonormalize()
 {
     normal = glm::normalize(normal);

@@ -15,7 +15,6 @@ SceneImporter::~SceneImporter()
 
 bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
 {
-    std::cout << "(Assimp) Processing File: " << sFilepath << '\n';
     Assimp::Importer importer;
     const aiScene * scene = importer.ReadFile(sFilepath,
                             aiProcessPreset_TargetRealtime_Fast);
@@ -95,9 +94,6 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         outScene.lights.push_back(std::shared_ptr<Light>(new Light()));
     }
 
-    std::cout << "(Assimp) Scene (.." << outScene.filepath.substr(
-                  outScene.filepath.size() - 30, 30) << ") loaded successfully"
-              << std::endl;
     return true;
 }
 

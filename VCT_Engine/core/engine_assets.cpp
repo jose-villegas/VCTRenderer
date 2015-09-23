@@ -7,7 +7,7 @@ EngineAssets::EngineAssets() : demoScenesLoaded(false)
     // available scenes for execution
     //sceneFilepaths.push_back("resources\\models\\crytek-sponza\\sponza.obj");
     //sceneFilepaths.push_back("resources\\models\\dabrovic-sponza\\sponza.obj");
-    //sceneFilepaths.push_back("resources\\models\\sibenik\\sibenik.obj");
+    sceneFilepaths.push_back("resources\\models\\sibenik\\sibenik.obj");
     sceneFilepaths.push_back("resources\\models\\cornell-box\\CornellBox-Empty-CO.obj");
     sceneFilepaths.push_back("resources\\models\\cornell-box\\CornellBox-Empty-RG.obj");
     sceneFilepaths.push_back("resources\\models\\cornell-box\\CornellBox-Empty-Squashed.obj");
@@ -33,8 +33,14 @@ void EngineAssets::LoadDefaultScenes()
     // import scenes raw data, in parallel
     tbb::parallel_for(size_t(0), sceneFilepaths.size(), [ = ](size_t i)
     {
+        std::string cutFilePath = std::string(sceneFilepaths[i]);
+        cutFilePath = cutFilePath.substr(cutFilePath.size() - 30, 30);
+        std::cout << "(EngineAssets) Processing File: (.." + cutFilePath + ")\n";
+        // create and import scene from file path
         demoScenes[i] = std::unique_ptr<Scene>(new Scene());
         sceneImporter.Import(sceneFilepaths[i], *demoScenes[i]);
+        // scene finally loaded
+        std::cout << "(EngineAssets) Loaded Scene: (.." + cutFilePath + ")\n";
     });
 
     for(auto it = demoScenes.begin(); it != demoScenes.end(); ++it)

@@ -9,8 +9,6 @@ struct Vertex
     glm::vec3 bitangent;
 
     Vertex();
-    // no virtual destructor, it increases class sizeof() by 4 bytes
-    ~Vertex();
     void Orthonormalize();
 };
 

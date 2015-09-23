@@ -29,7 +29,7 @@ void Renderer::Render(Scene &activeScene)
     // play with camera position
     activeScene.cameras[engine->GetExecInfo().activeCamera]->position =
         glm::vec3(
-            std::cos(glfwGetTime()) * 10.0f, 0.0f, std::sin(glfwGetTime()) * 10.0f
+            std::cos(glfwGetTime()) * 10.0f, 2.0f, std::sin(glfwGetTime()) * 10.0f
         );
     // update view and projection transform, default camera at [0] position
     transformMatrices.UpdateProjectionMatrix(
