@@ -52,17 +52,17 @@ TransformMatrices::~TransformMatrices()
 
 void TransformMatrices::UpdateModelMatrix(const glm::mat4x4 &rModel)
 {
-    this->matrices.model = std::move(rModel);
+    this->matrices.model = rModel;
 }
 
 void TransformMatrices::UpdateViewMatrix(const glm::mat4x4 &rView)
 {
-    this->matrices.view = std::move(rView);
+    this->matrices.view = rView;
 }
 
 void TransformMatrices::UpdateProjectionMatrix(const glm::mat4x4 &rProjection)
 {
-    this->matrices.projection = std::move(rProjection);
+    this->matrices.projection = rProjection;
 }
 
 void TransformMatrices::RecalculateMatrices()
