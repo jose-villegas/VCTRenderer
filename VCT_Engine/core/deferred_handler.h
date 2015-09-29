@@ -3,16 +3,33 @@
 class DeferredHandler
 {
     private:
+        enum GBufferTextureType
+        {
+            Position,
+            Diffuse,
+            Normal,
+            TexCoord,
+            GBUFFER_TEXTURE_TYPE_MAX
+        };
+        static oglplus::Context gl;
         // deferred shader programs
         oglplus::Program geometryPass;
-        oglplus::VertexShader vsGeometryPass;
-        oglplus::FragmentShader fsGeometryPass;
-
         oglplus::Program lightPass;
-        oglplus::VertexShader vLightPass;
+
+        oglplus::FragmentShader fsGeometryPass;
         oglplus::FragmentShader fsLightPass;
+        oglplus::VertexShader vLightPass;
+        oglplus::VertexShader vsGeometryPass;
+
+        oglplus::Framebuffer geomBuffer;
+        oglplus::Texture bDepthTexture;
+        std::array<oglplus::Texture, GBUFFER_TEXTURE_TYPE_MAX> bTextures;
+
+        void LoadShaders();
+        void InitializeGBuffer(unsigned int windowWith, unsigned int windowHeight);
     public:
-        DeferredHandler();
+        DeferredHandler(unsigned int windowWith, unsigned int windowHeight);
+
         virtual ~DeferredHandler();
 
         void UseGeometryPass() const { geometryPass.Use(); }

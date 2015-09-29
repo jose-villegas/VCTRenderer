@@ -1,6 +1,7 @@
 #pragma once
 #include "scene\scene.h"
 #include "deferred_handler.h"
+#include "interface\render_window.h"
 
 struct Matrices
 {
@@ -44,7 +45,7 @@ class Renderer
     public:
         TransformMatrices transformMatrices;
 
-        Renderer();
+        Renderer(RenderWindow &rWindow);
         virtual ~Renderer();
 
         void Initialize();

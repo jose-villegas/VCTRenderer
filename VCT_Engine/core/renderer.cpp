@@ -2,7 +2,8 @@
 #include "renderer.h"
 #include "engine_base.h"
 
-Renderer::Renderer()
+Renderer::Renderer(RenderWindow &rWindow)
+    : deferredHandler(rWindow.Settings().width, rWindow.Settings().height)
 {
 }
 

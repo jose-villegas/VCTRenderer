@@ -17,6 +17,7 @@ int RenderWindow::Open()
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, false);
     this->windowHandler = glfwCreateWindow(this->settings.width,
                                            this->settings.height,
                                            this->settings.title.c_str(),

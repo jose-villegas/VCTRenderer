@@ -75,6 +75,6 @@ void EngineBase::Initialize()
     assetLoader = std::unique_ptr<EngineAssets>(new EngineAssets());
     assetLoader->LoadAssets();
     // initialize deferred shading renderer / manager
-    renderer = std::unique_ptr<Renderer>(new Renderer());
+    renderer = std::unique_ptr<Renderer>(new Renderer(renderWindow));
     renderer->Initialize();
 }

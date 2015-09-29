@@ -25,5 +25,5 @@ class RenderWindow
         RenderWindow();
         virtual ~RenderWindow();
         GLFWwindow * Handler() const { return windowHandler; }
-        const WindowSettings& Settings() { return settings; }
+        const WindowSettings& Settings() const { return settings; }
 };
