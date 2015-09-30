@@ -1,0 +1,36 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/======================]
+[section:boolean Boolean]
+[/======================]
+
+[heading oglplus/boolean.hpp]
+
+OGLplus defines a wrapper for ['boolean] values represented in
+OpenGL, OpenAL, etc. by integer types with wider than one-bit range.
+
+Instances of this type are implicitly constructible from and convertible to
+[^bool] values and also explicitly constructible from values of the underlying
+type (like [^GLint], [^ALint], [^EGLBoolean], etc.)
+Instances of [^Boolean] can be in three states: [^true], [^false] and ['indeterminate],
+(i.e. [*both] the [^operator bool] and [^operator !] can return [^false] for some
+instances).
+
+[import boolean.hpp]
+
+[heading:impl Implementation]
+
+[oglplus_bool_impl]
+
+[heading:def Definition]
+
+[oglplus_boolean]
+
+[heading:examples Examples]
+
+[import boolean.cpp]
+[oglplus_boolean_example_1]
+
+[endsect]

@@ -1,0 +1,67 @@
+#  Copyright 2009-2013 Matus Chochlik. Distributed under the Boost
+#  Software License, Version 1.0. (See accompanying file
+#  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#
+#---------------------------------------------------------------------------
+# Project related configuration options
+#---------------------------------------------------------------------------
+@INCLUDE = ../Doxyfile.common
+
+PROJECT_NAME           = "EGLplus"
+
+SORT_BY_SCOPE_NAME     = YES
+HIDE_SCOPE_NAMES       = NO
+
+OUTPUT_DIRECTORY       = ../../../_build/doc/doxygen/eglplus
+
+INPUT = \
+	../../include/eglplus \
+	../../tutorial/eglplus \
+	../../../include/eglplus/enums \
+	../../../include/eglplus \
+	../../../example/eglplus
+
+INCLUDE_PATH = \
+	../../../include/ \
+	../../../implement/ \
+	../../../example
+
+EXAMPLE_PATH = \
+	../../tutorial/eglplus \
+	../../../example/eglplus
+
+PREDEFINED             = \
+	"OGLPLUS_NO_SITE_CONFIG=1" \
+	"EGLPLUS_NO_ENUM_VALUE_NAMES=0" \
+	"EGLPLUS_DONT_TEST_OBJECT_TYPE=1" \
+	"EGLPLUS_NO_UTF8_CHECKS=0" \
+	"EGLPLUS_NO_GLFUNC_CHECKS=1" \
+	"EGLPLUS_NO_ENUM_VALUE_NAMES=1" \
+	"EGLPLUS_NO_ENUM_VALUE_RANGES=1" \
+	"EGLPLUS_CUSTOM_ERROR_HANDLING=0" \
+	"EGLPLUS_ERROR_INFO_NO_GL_SYMBOL=0" \
+	"EGLPLUS_ERROR_INFO_NO_FILE=0" \
+	"EGLPLUS_ERROR_INFO_NO_LINE=0" \
+	"EGLPLUS_ERROR_INFO_NO_FUNC=0" \
+	"EGLPLUS_ERROR_INFO_NO_CLASS_NAME=0" \
+	"EGLPLUS_ERROR_INFO_NO_BIND_TARGET=0" \
+	"EGLPLUS_DOXYGEN_PARSE=1" \
+	"EGLPLUS_DOCUMENTATION_ONLY=1" \
+	"EGLPLUS_NOEXCEPT()=" \
+	"EGLPLUS_NOEXCEPT_IF()=" \
+	"EGLPLUS_CONSTEXPR=const" \
+	"EGLPLUS_ENUM_CLASS_BEGIN(NAME,TYPE)=enum class NAME : TYPE {" \
+	"EGLPLUS_ENUM_CLASS_END=};"
+
+ALIASES                += EGLplus="@em EGLplus"
+ALIASES                += eglsymbols="@par Related EGL symbols:"
+ALIASES                += eglfunref{1}=" <code>egl\1</code>"
+ALIASES                += egldefref{1}=" <code>EGL_\1</code>"
+
+HTML_HEADER            = header.html
+HTML_FOOTER            = footer.html
+HTML_STYLESHEET        = eglplus.css
+
+GENERATE_HTML = YES
+GENERATE_XML = NO
+

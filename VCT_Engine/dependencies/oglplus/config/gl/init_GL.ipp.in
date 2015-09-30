@@ -1,0 +1,219 @@
+/**
+ *  Copyright 2010-2015 Matus Chochlik. Distributed under the Boost
+ *  Software License, Version 1.0. (See accompanying file
+ *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ */
+
+#include <oglplus/gl.hpp>
+
+#if @GLX_FOUND@
+#include <oglplus/glx/context.hpp>
+#include <oglplus/glx/fb_configs.hpp>
+#include <oglplus/glx/version.hpp>
+#include <oglplus/glx/pbuffer.hpp>
+#include <oglplus/x11/color_map.hpp>
+#include <oglplus/x11/visual_info.hpp>
+#include <oglplus/x11/display.hpp>
+#elif @GLFW3_FOUND@
+#include <GLFW/glfw3.h>
+#elif @GLFW_FOUND@
+#include <GL/glfw.h>
+#elif @GLUT_FOUND@
+# if defined(__APPLE__) && __APPLE__
+# include <GLUT/glut.h>
+# else
+# include <GL/glut.h>
+# endif
+#elif @SDL_FOUND@
+#include <SDL/SDL.h>
+#endif
+
+#include <type_traits>
+#include <iostream>
+
+template <typename Func>
+bool oglplus_config_test_gl_func(Func func)
+{
+	return (func != nullptr);
+}
+
+#define OGLPLUS_CONFIG_ASSERT_GL_FUNC(NAME) \
+	if(!oglplus_config_test_gl_func(NAME)) \
+	{ \
+		std::cerr \
+			<< "Required function: " \
+			<< #NAME \
+			<< " not available." \
+			<< std::endl; \
+		++missing_gl_symbols; \
+	}
+
+#define OGLPLUS_CONFIG_MISSING_GL_CONST(NAME) \
+		std::cerr \
+			<< "Required constant: " \
+			<< #NAME \
+			<< " not available." \
+			<< std::endl; \
+		++missing_gl_symbols; \
+
+bool do_query_gl(void);
+
+static const char* title = "GL feature detection";
+
+#if @GLX_FOUND@
+bool query_gl_GLX(void)
+{
+	using namespace oglplus;
+	x11::Display display;
+	glx::Version version(display);
+	version.AssertAtLeast(1, 3);
+
+	static int visual_attribs[] =
+	{
+		GLX_X_RENDERABLE    , True,
+		GLX_DRAWABLE_TYPE   , GLX_PBUFFER_BIT,
+		GLX_RENDER_TYPE     , GLX_RGBA_BIT,
+		GLX_X_VISUAL_TYPE   , GLX_TRUE_COLOR,
+		GLX_RED_SIZE        , 8,
+		GLX_GREEN_SIZE      , 8,
+		GLX_BLUE_SIZE       , 8,
+		GLX_ALPHA_SIZE      , 8,
+		GLX_DEPTH_SIZE      , 24,
+		GLX_STENCIL_SIZE    , 8,
+		None
+	};
+	glx::FBConfig fbc = glx::FBConfigs(
+		display,
+		visual_attribs
+	).FindBest(display);
+
+	x11::VisualInfo vi(display, fbc);
+
+	glx::Context context(
+		display, fbc,
+		OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR,
+		OGLPLUS_CONFIG_QUERY_GL_VER_MINOR
+	);
+
+	const int pbuffer_attribs [] = {
+		GLX_PBUFFER_WIDTH  , 64,
+		GLX_PBUFFER_HEIGHT , 64,
+		None
+	};
+
+	glx::Pbuffer pbuffer(display, fbc, pbuffer_attribs);
+
+	context.MakeCurrent(pbuffer);
+	oglplus::GLAPIInitializer gl_api;
+
+	return do_query_gl();
+}
+#elif @GLFW3_FOUND@
+bool query_gl_GLFW3(void)
+{
+	if(!glfwInit()) return true;
+
+	GLFWwindow* win = glfwCreateWindow(64, 64, title, NULL, NULL);
+	if(!win)
+	{
+		glfwTerminate();
+		return true;
+	}
+	glfwMakeContextCurrent(win);
+	oglplus::GLAPIInitializer gl_api;
+
+	bool result = do_query_gl();
+
+	glfwTerminate();
+
+	return result;
+}
+#elif @GLFW_FOUND@
+bool query_gl_GLFW(void)
+{
+	if(!glfwInit()) return true;
+
+	if(!glfwOpenWindow(64, 64, 8, 8, 8, 8, 24, 8, GLFW_WINDOW))
+	{
+		glfwTerminate();
+		return true;
+	}
+	glfwSetWindowTitle(title);
+	oglplus::GLAPIInitializer gl_api;
+
+	bool result = do_query_gl();
+
+	glfwTerminate();
+
+	return result;
+}
+#elif @GLUT_FOUND@
+bool query_gl_GLUT(int argc, char **argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(
+#if defined(__APPLE__) && __APPLE__ && defined(GLUT_3_2_CORE_PROFILE)
+		GLUT_3_2_CORE_PROFILE|
+#endif
+		GLUT_DOUBLE|
+		GLUT_RGBA|
+		GLUT_DEPTH|
+		GLUT_STENCIL
+	);
+	glutInitWindowSize(64, 64);
+	glutInitWindowPosition(0, 0);
+	glutCreateWindow(title);
+
+	oglplus::GLAPIInitializer gl_api;
+
+	return do_query_gl();
+}
+#elif @SDL_FOUND@
+bool query_gl_SDL(void)
+{
+	if(SDL_Init(SDL_INIT_VIDEO) != 0)
+		return false;
+
+	if(!SDL_SetVideoMode(
+		64, 64, 32,
+		SDL_HWSURFACE |
+		SDL_GL_DOUBLEBUFFER |
+		SDL_OPENGL
+	))
+	{
+		SDL_Quit();
+		return false;
+	}
+	SDL_WM_SetCaption(title, nullptr);
+
+	oglplus::GLAPIInitializer gl_api;
+
+	bool result = do_query_gl();
+
+	SDL_Quit();
+
+	return result;
+}
+#endif
+
+bool query_gl(int argc, char **argv)
+{
+#if @GLX_FOUND@
+	return query_gl_GLX();
+#elif @GLFW3_FOUND@
+	return query_gl_GLFW3();
+#elif @GLFW_FOUND@
+	return query_gl_GLFW();
+#elif @GLUT_FOUND@
+	return query_gl_GLUT(argc,argv);
+#elif @SDL_FOUND@
+	return query_gl_SDL();
+#else
+	return true;
+#endif
+}
+
+int main(int argc, char **argv)
+{
+	return query_gl(argc,argv)?0:1;
+}

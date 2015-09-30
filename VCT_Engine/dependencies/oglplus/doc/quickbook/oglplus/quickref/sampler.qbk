@@ -1,0 +1,30 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------]
+[section:sampler Samplers]
+[/-----------------------]
+
+[header oglplus/sampler.hpp]
+
+[import sampler.hpp]
+
+[heading:common Common sampler operations]
+
+[oglplus_sampler_common]
+
+[heading Operations with direct state access]
+
+[oglplus_sampler_1]
+[oglplus_sampler_2]
+
+[heading:def Definition]
+
+[oglplus_sampler_def]
+
+[heading:syntax_sugar Syntax sugar operators]
+
+[oglplus_sampler_sugar]
+
+[endsect]

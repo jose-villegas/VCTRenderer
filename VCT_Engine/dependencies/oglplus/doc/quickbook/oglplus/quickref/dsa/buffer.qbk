@@ -1,0 +1,27 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------------]
+[section:dsa_buffer DSA Buffers]
+[/-----------------------------]
+
+[header oglplus/dsa/buffer.hpp]
+
+[import buffer.hpp]
+
+[heading DSA Operations with explicit selector]
+
+[oglplus_dsa_buffer_1]
+[oglplus_dsa_buffer_2]
+
+[heading:def Definition]
+
+[oglplus_dsa_buffer_def]
+[def __DSABufferOps [link oglplus.quickref.dsa_buffer.def DSABufferOps]]
+
+[heading:syntax_sugar Syntax sugar operators]
+
+[oglplus_dsa_buffer_sugar]
+
+[endsect]

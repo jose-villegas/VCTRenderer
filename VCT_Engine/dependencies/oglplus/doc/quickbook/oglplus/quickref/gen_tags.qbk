@@ -1,0 +1,33 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=======================================]
+[section:gen_tags Object creation methods]
+[/=======================================]
+
+[header oglplus/wrapper.hpp]
+
+__OpenGL__ supports two kinds of object creation functions:
+
+# The [^glGen*] functions, which just generate a new object name, but
+  don't have to actually initialize the actual GL object. The construction
+  is usually postponed until the call to [^glBind*].
+
+# The [^glCreate*] functions, which both generate a name and initialize
+  the new object.
+
+Prior to GL version 4.5 some objects like __Texture, __Buffer, __Query etc.
+were created just by using the [^glGen*] functions and some objects
+like __Program and __Shader just by the [^glCreate*] functions.
+Since GL version 4.5 it is possible to choose the construction method
+for several types of objects (for example to create a new buffer either
+the [^glGenBuffers] or [^glCreateBuffers] function can be used.
+
+__OGLplus__ distinguishes the object construction methods
+as listed above at compile-time by using the following tag types:
+
+[import gen_tags.hpp]
+[oglplus_gen_tags]
+
+[endsect]

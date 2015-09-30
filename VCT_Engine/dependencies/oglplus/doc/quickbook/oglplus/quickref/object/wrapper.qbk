@@ -1,0 +1,130 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+
+[import wrapper.hpp]
+
+[/--------------------------------------------]
+[section:gendelops [^Gen]/[^Delete] operations]
+[/--------------------------------------------]
+
+[header oglplus/object/wrapper.hpp]
+
+The [^ObjGenDelOps] template class provides a unified interface for the GL's
+[^glGen*], [^glCreate*], [^glDelete*] and [^glIs*] functions for various
+object types specified by the __ObjTag template parameter.
+
+[oglplus_object_ObjGenDelOps]
+
+[endsect]
+
+[/-----------------------------------]
+[section:ops Type specific operations]
+[/-----------------------------------]
+
+[header oglplus/object/wrapper.hpp]
+
+[^ObjBindingOps] implements operations related to binding objects to
+an explicit or implicit binding point.
+
+[oglplus_object_ObjBindingOps]
+
+[^ObjCommonOps] implements operations applicable to any object of the type
+specified by __ObjTag independent of the [link oglplus.quickref.ops_tags operation kind].
+
+[oglplus_object_ObjCommonOps]
+
+[^ObjZeroOps] implements operations applicable to any object of the type
+specified by __ObjTag, including objects with name zero (which has special
+meaning for certain object types), using operations kind specified by __OpsTag.
+
+[oglplus_object_ObjZeroOps]
+
+The [^ObjectOps] template class is specialized for various object types
+(like textures, buffers, queries, etc.) specified by the __ObjTag and
+operation kinds specified by type __OpsTag and implements appropriate
+interface for the particular object type. For example the specialization
+of [^ObjectOps] for [^tag::DirectState] __OpsTag and [^tag::Texture] __ObjTag
+wraps texture-related GL functions with direct state access, etc.
+
+[oglplus_object_ObjectOps]
+
+[endsect]
+
+[/-----------------------------]
+[section:subtype Object subtype]
+[/-----------------------------]
+
+[header oglplus/object/wrapper.hpp]
+
+Some object types (for example __Shader, __Texture or __Query) can be
+further classified into subtypes.
+The [^ObjectSubtype] __Metafunction allows to query the type
+(usually an [link oglplus.quickref.enums enumeration]) that is used
+to distinguish the individual subtypes.
+
+[oglplus_object_ObjectSubtype]
+
+[endsect]
+
+[/---------------------]
+[section:wrapper Object]
+[/---------------------]
+
+[header oglplus/object/wrapper.hpp]
+
+The main purpose of [^Object] is to do lifetime management of the underlying
+GL objects and managing textual description assigned to them. It uses the __ObjGenDelOps
+template to create new instance of an OpenGL object in the constructor and to delete
+it in the destructor [^Object] unlike an __ObjHandle also inherits from a specialization
+of __ObjectOps which implements wrappers for GL functions related to the underlying
+GL object.
+
+Since GL does not support object copying, instances of [^Object] are ['move-only].
+
+[oglplus_object_Object]
+
+[heading:typedefs Typedefs]
+
+The library end-users rarely need to use this template directly. Use the [^typedef]s
+of the individual instantiations instead:
+
+* __Texture
+* __Buffer
+* __Framebuffer
+* __Renderbuffer
+* __Query
+* __ProgramPipeline
+* __Program
+* __TransformFeedback
+* __Sampler
+* __VertexArray
+* __Shader
+* __PerfMonitorAMD
+* __PathNV
+
+[heading:obj_zero Object zero]
+
+[^ObjectZero] wraps objects with GL name zero ([^0]).
+Depending on the object type (specified by __ObjTag) the semantics
+is either "no-object" (for example __NoBuffer, __NoRenderbuffer, etc.)
+or "default-object" (for example __DefaultTexture or __DefaultFramebuffer).
+
+[oglplus_object_ObjectZero]
+
+[heading:handle ObjHandle]
+
+In certain situations it is desirable to have a lifetime management wrapper
+for GL objects without any specific set object operations attached to it.
+The [^ObjHandle] serves for this purpose. Similar to [^Object] it manages
+the lifetime of a GL object by using the __ObjGenDelOps, but does not inherit
+from any __ObjectOps specialization.
+
+[oglplus_object_ObjHandle]
+
+[endsect]
+
+
+
+

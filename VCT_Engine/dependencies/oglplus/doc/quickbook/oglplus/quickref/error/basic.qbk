@@ -1,0 +1,24 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------]
+[section:basic Basic exception class]
+[/----------------------------------]
+
+[header oglplus/error/basic.hpp]
+
+__Error is an exception class for general OpenGL errors.
+Instances of this exception class are thrown whenever an error is detected
+during the execution of OpenGL API calls in the __OGLplus__ code.
+This class is derived from the standard [^runtime_error] exception and thus
+the basic error message can be obtained by calling its [^what()] member function.
+There are several other classes derived for more specific error types,
+like GL shading language compilation and linking errors, limit errors, etc.
+
+[import basic.hpp]
+
+[oglplus_error_Error_1]
+[oglplus_error_Error_2]
+
+[endsect]

@@ -1,0 +1,33 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------------------]
+[section:bound Currently bound objects]
+[/------------------------------------]
+
+[header oglplus/object/bound.hpp]
+
+Specializations of [^BoundObjOps] for various object tags
+(currently for __tag_Buffer, __tag_Framebuffer, __tag_Renderbuffer and __tag_Texture)
+have the same set of functions as __ObjectOps<__tag_ExplicitSel, __ObjTag> with
+the difference, that the static functions with a [^Target] parameter from __ObjectOps
+are turned into member functions of [^BoundObjOps] without the Target argument.
+Instances of [^BoundObjOps] have instead a data member called [^target], which is passed
+implicitly when calling one of the member functions.
+
+[import bound.hpp]
+
+[heading:ops Operations]
+
+[oglplus_object_BoundObjOps]
+
+[heading:obj_ops Specialization of [^ObjectOps]]
+
+[oglplus_object_ObjectOps_CurrentBound]
+
+[heading:ref_spec Specialization of [^Reference]]
+
+[oglplus_object_Reference_CurrentBound]
+
+[endsect]

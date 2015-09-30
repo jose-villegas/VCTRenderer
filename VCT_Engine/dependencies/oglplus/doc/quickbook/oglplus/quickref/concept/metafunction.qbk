@@ -1,0 +1,19 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------------------]
+[section:metafunction Metafunctions]
+[/---------------------------------]
+
+A [^Metafunction] is a compile-time metaprogramming primitive that ['evaluates]
+into a type. Types modelling this concept must have a member [^typedef] called
+[^Type] - the result of the metafunction. OGLplus end-users rarely need to work
+with metafunctions directly, they are used mostly as internal implementation
+details.
+
+[import metafunction.hpp]
+
+[oglplus_concept_Metafunction]
+
+[endsect]

@@ -1,0 +1,18 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------------------]
+[section:optional Optional modifier]
+[/---------------------------------]
+
+[header oglplus/prog_var/optional.hpp]
+
+The [^Optional] modifier template inherits from __ProgVar and
+provides a new set of constructors which do not throw __ProgVarError
+if the requested GPU program variable cannot be located.
+
+[import optional.hpp]
+[oglplus_prog_var_optional]
+
+[endsect]

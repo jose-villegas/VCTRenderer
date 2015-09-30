@@ -1,0 +1,11 @@
+# Copyright 2012-2013 Matus Chochlik. Distributed under the Boost
+# Software License, Version 1.0. (See accompanying file
+# LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+NONE
+INVERSE_DISTANCE
+INVERSE_DISTANCE_CLAMPED
+LINEAR_DISTANCE
+LINEAR_DISTANCE_CLAMPED
+EXPONENT_DISTANCE
+EXPONENT_DISTANCE_CLAMPED
+

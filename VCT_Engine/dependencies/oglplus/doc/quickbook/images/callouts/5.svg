@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="14"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="5.svg">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3781">
+      <stop
+         style="stop-color:#4568b7;stop-opacity:1;"
+         offset="0"
+         id="stop3783" />
+      <stop
+         style="stop-color:#9ab2d7;stop-opacity:1;"
+         offset="1"
+         id="stop3785" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3781"
+       id="linearGradient3804"
+       gradientUnits="userSpaceOnUse"
+       x1="0.5"
+       y1="6"
+       x2="17.5"
+       y2="6"
+       gradientTransform="translate(0,2)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3781"
+       id="linearGradient4497"
+       x1="0.5535714"
+       y1="5.0223212"
+       x2="23.446428"
+       y2="5.0223212"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="22.4"
+     inkscape:cx="18.316385"
+     inkscape:cy="9.8378203"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="929"
+     inkscape:window-height="973"
+     inkscape:window-x="749"
+     inkscape:window-y="24"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="1"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1038.3622)">
+    <path
+       transform="translate(0,1040.3622)"
+       style="fill:url(#linearGradient4497);stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:2;stroke-opacity:1;stroke-dashoffset:0;fill-opacity:1.0"
+       d="m 4,-1.4464286 14.044643,0 c 3.910569,1.46951303 5.049065,4.9166412 5.401786,6.2946429 0,1.662 -3.739786,6.6428567 -5.401786,6.6428567 l -14.4910716,0 C 1.8915714,11.491071 0.55357143,9.662 0.55357143,8 l 0,-6 C 0.55357143,0.338 2.338,-1.4464286 4,-1.4464286 z"
+       id="path4489"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sccsssss" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Garuda;-inkscape-font-specification:Garuda"
+       x="6.8482099"
+       y="1050.1559"
+       id="text4536"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4538"
+         x="6.8482099"
+         y="1050.1559"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;stroke:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Purisa;-inkscape-font-specification:Purisa Bold">5</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4540"
+       y="1050.1559"
+       x="6.8482099"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Garuda;-inkscape-font-specification:Garuda"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Purisa;-inkscape-font-specification:Purisa Bold"
+         y="1050.1559"
+         x="6.8482099"
+         id="tspan4542"
+         sodipodi:role="line">5</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.1882353;stroke:none;stroke-width:0.50000000000000000;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       d="M 12 6 C 7.8104981 6 3.895493 6.2567877 0.5625 6.71875 L 0.5625 10 C 0.5625 11.662 1.9005 13.5 3.5625 13.5 L 18.03125 13.5 C 19.69325 13.5 23.4375 8.50575 23.4375 6.84375 C 23.428248 6.8076042 23.416619 6.75767 23.40625 6.71875 C 20.079917 6.2594025 16.176653 6 12 6 z "
+       transform="translate(0,1038.3622)"
+       id="path4544" />
+    <path
+       sodipodi:nodetypes="sccsssss"
+       inkscape:connector-curvature="0"
+       id="path3807"
+       d="m 4,-1.4464286 14.044643,0 c 3.910569,1.46951303 5.049065,4.9166412 5.401786,6.2946429 0,1.662 -3.739786,6.6428567 -5.401786,6.6428567 l -14.4910716,0 C 1.8915714,11.491071 0.55357143,9.662 0.55357143,8 l 0,-6 C 0.55357143,0.338 2.338,-1.4464286 4,-1.4464286 z"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:2;stroke-opacity:1;stroke-dashoffset:0"
+       transform="translate(0,1040.3622)" />
+  </g>
+</svg>

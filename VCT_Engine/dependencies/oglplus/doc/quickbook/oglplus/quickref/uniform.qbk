@@ -1,0 +1,33 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------]
+[section:uniform Uniforms]
+[/-----------------------]
+
+[header oglplus/uniform.hpp]
+
+[import uniform.hpp]
+
+[heading:loc_ops Basic location operations]
+[oglplus_uniform_loc_ops]
+[def __ProgVarLocOps_Uniform [link oglplus.quickref.uniform.loc_ops ProgVarLocOps]]
+
+[heading:get_set_ops Value get/set operations]
+[oglplus_uniform_get_set_ops]
+[def __ProgVarGetSetOps_Uniform [link oglplus.quickref.uniform.get_set_ops ProgVarGetSetOps]]
+
+[heading:def Definition]
+[oglplus_uniform_def]
+
+[heading:untyped Untyped]
+[oglplus_untyped_uniform]
+
+[heading:examples Examples of usage]
+
+[import uniform.cpp]
+[oglplus_uniform_example_1]
+[oglplus_uniform_example_2]
+
+[endsect]

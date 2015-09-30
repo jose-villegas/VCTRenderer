@@ -1,0 +1,14 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------------------------]
+[section:draw_buffer_index Draw buffer index]
+[/------------------------------------------]
+
+[header oglplus/draw_buffer_index.hpp]
+
+[import draw_buffer_index.hpp]
+[oglplus_draw_buffer_index]
+
+[endsect]

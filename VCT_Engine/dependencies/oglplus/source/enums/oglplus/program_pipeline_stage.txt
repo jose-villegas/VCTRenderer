@@ -1,0 +1,11 @@
+# Copyright 2010-2014 Matus Chochlik. Distributed under the Boost
+# Software License, Version 1.0. (See accompanying file
+# LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#@bitfield#
+VERTEX_SHADER_BIT:VertexShader::VERTEX_SHADER
+TESS_CONTROL_SHADER_BIT:TessControlShader::TESS_CONTROL_SHADER
+TESS_EVALUATION_SHADER_BIT:TessEvaluationShader::TESS_EVALUATION_SHADER
+GEOMETRY_SHADER_BIT:GeometryShader::GEOMETRY_SHADER
+FRAGMENT_SHADER_BIT:FragmentShader::FRAGMENT_SHADER
+COMPUTE_SHADER_BIT:ComputeShader::COMPUTE_SHADER
+ALL_SHADER_BITS:AllShaders

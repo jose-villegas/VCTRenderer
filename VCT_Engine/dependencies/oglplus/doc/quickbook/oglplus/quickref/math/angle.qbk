@@ -1,0 +1,74 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------]
+[section:angle Angles]
+[/-------------------]
+
+[header oglplus/math/angle.hpp]
+
+[import angle.hpp]
+[def __T [link oglplus.quickref.math.angle.def T]]
+
+__Angle is a lightweight class allowing more natural construction and
+usage of planar angle values. The storage requirements are the same
+as for the template parameter type [^__T], but the [^Angle] template gives
+the [^T] type special meaning and implements a set of angle-related member
+and friend functions. There are also several associated free functions
+for creating new instances of [^Angle].
+
+[heading:def Definition]
+
+[oglplus_math_angle]
+
+[heading:ctrs Constructors]
+
+[oglplus_math_angle_ctrs]
+
+[heading:ctr_fns Construction functions]
+
+These functions allow to construct instances of [^Angle] from values in various
+units.
+
+[oglplus_math_angle_ctr_fns]
+
+[heading:value Angle value]
+
+[oglplus_math_angle_value]
+
+[heading:compare Comparison operators]
+
+[oglplus_math_angle_compare]
+
+[heading:ops Member operators]
+
+Operators modifying [^this] instance of [^Angle].
+
+[oglplus_math_angle_ops]
+
+[heading:friend_ops Friend operators]
+
+Friend operators returning new instance of [^Angle] without modifying the arguments.
+
+[oglplus_math_angle_friend_ops]
+
+[heading:fns Member functions]
+
+[oglplus_math_angle_fns]
+
+[heading:fns Friend functions]
+
+[oglplus_math_angle_friend_fns]
+
+[heading:trig_fns Trigonometric functions]
+
+[oglplus_math_angle_trig_fns]
+
+[oglplus_math_angle_end]
+
+[heading:ext_defs Other definitions]
+
+[oglplus_math_angle_ext_defs]
+
+[endsect]

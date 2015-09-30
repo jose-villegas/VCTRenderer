@@ -1,0 +1,223 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[chapter Quick reference
+	[quickbook 1.6]
+	[id oglplus.quickref]
+]
+
+[section:intro Introduction]
+
+This quick reference describes the public API of the __OGLplus__ library.
+The implementation details, i.e. parts of of OGLplus not listed in this
+reference should not be used by the library users and are subject to
+change without any prior notice.
+
+Note, that several classes or types described here (for example function
+parameter types or return value types), are just
+[link oglplus.quickref.concept concepts] - named lists of type
+constraints not concrete types. The actual types conforming to these concepts
+are implementation details and usually instantiation of templates.
+If values of such types are returned from a function and need to be stored
+in variables, then the [^auto] type specifier (or the [^decltype] operator)
+should be used to determine the actual type.
+Whenever this is the case, it is clearly noted in the section describing
+the concept.
+
+Unless stated otherwise, all OGLplus definitions are made inside of the
+top-level [^oglplus] namespace or in namespaces nested inside
+of namespace [^oglplus].
+
+The namespace-definition opening,
+
+``
+namespace oglplus {
+``
+and closing,
+
+``
+} // namespace oglplus
+``
+statements are assumed, but omitted for the sake of brevity from this reference.
+
+[endsect]
+
+[def __ObjCommonOps_Buffer [link oglplus.quickref.buffer.common ObjCommonOps]]
+[def __ObjCommonOps_Framebuffer [link oglplus.quickref.framebuffer.common ObjCommonOps]]
+[def __ObjCommonOps_Renderbuffer [link oglplus.quickref.renderbuffer.common ObjCommonOps]]
+[def __ObjCommonOps_Texture [link oglplus.quickref.texture.common ObjCommonOps]]
+[def __ObjCommonOps_Sampler [link oglplus.quickref.sampler.common ObjCommonOps]]
+[def __ObjCommonOps_VertexArray [link oglplus.quickref.vertex_array.common ObjCommonOps]]
+[def __ObjCommonOps_Shader [link oglplus.quickref.shader.common ObjCommonOps]]
+[def __ObjCommonOps_ProgramPipeline [link oglplus.quickref.program_pipeline.common ObjCommonOps]]
+[def __ObjCommonOps_TransformFeedback [link oglplus.quickref.transform_feedback.common ObjCommonOps]]
+
+[def __ObjectOps_Explicit_Buffer [link oglplus.quickref.buffer.ops ObjectOps]]
+[def __ObjectOps_Explicit_Framebuffer [link oglplus.quickref.framebuffer.ops ObjectOps]]
+[def __ObjectOps_Explicit_Renderbuffer [link oglplus.quickref.renderbuffer.ops ObjectOps]]
+[def __ObjectOps_Explicit_Texture [link oglplus.quickref.texture.ops ObjectOps]]
+
+[def __ObjectOps_Bound [link oglplus.quickref.object.bound.obj_ops ObjectOps]]
+[def __Reference_ObjectOps_Bound [link oglplus.quickref.object.bound.ref_spec Reference]]
+
+[def __BoundObjOps_Buffer [link oglplus.quickref.bound_buffer.ops BoundObjOps]]
+[def __BoundObjOps_Framebuffer [link oglplus.quickref.bound_framebuffer.ops BoundObjOps]]
+[def __BoundObjOps_Renderbuffer [link oglplus.quickref.bound_renderbuffer.ops BoundObjOps]]
+[def __BoundObjOps_Texture [link oglplus.quickref.bound_texture.ops BoundObjOps]]
+
+[def __context_Errors [link oglplus.quickref.context.errors context::Errors]]
+[def __context_Capabilities [link oglplus.quickref.context.capabilities context::Capabilities]]
+[def __context_ClipControlState [link oglplus.quickref.context.clip_control.state context::ClipControlState]]
+[def __context_ViewportExtents [link oglplus.quickref.context.viewport.helpers context::ViewportExtents]]
+[def __context_ViewportDepthRange [link oglplus.quickref.context.viewport.helpers context::ViewportDepthRange]]
+[def __context_ViewportState [link oglplus.quickref.context.viewport.state context::ViewportState]]
+[def __context_ViewportOps [link oglplus.quickref.context.viewport.ops context::ViewportOps]]
+[def __context_BufferSelection [link oglplus.quickref.context.buffer_selection context::BufferSelection]]
+[def __context_BufferMaskingState [link oglplus.quickref.context.buffer_masking.state context::BufferMaskingState]]
+[def __context_BufferClearingState [link oglplus.quickref.context.buffer_clearing.state context::BufferClearingState]]
+[def __context_BufferClearingOps [link oglplus.quickref.context.buffer_clearing.ops context::BufferClearingOps]]
+[def __context_RasterizationState [link oglplus.quickref.context.rasterization.state context::RasterizationState]]
+[def __context_RasterizationOps [link oglplus.quickref.context.rasterization.ops context::RasterizationOps]]
+[def __context_DrawingState [link oglplus.quickref.context.drawing.state context::DrawingState]]
+[def __context_DrawingOps [link oglplus.quickref.context.drawing.ops context::DrawingOps]]
+[def __context_ComputingOps [link oglplus.quickref.context.computing context::ComputingOps]]
+[def __context_DepthTest [link oglplus.quickref.context.depth_test context::DepthTest]]
+[def __context_StencilTest [link oglplus.quickref.context.stencil_test context::StencilTest]]
+[def __context_ScissorTest [link oglplus.quickref.context.scissor_test context::ScissorTest]]
+[def __context_ScissorRectangle [link oglplus.quickref.context.scissor_test context::ScissorRectangle]]
+[def __context_LogicOpState [link oglplus.quickref.context.logic_ops context::LogicOpState]]
+[def __context_PixelOps [link oglplus.quickref.context.pixel_ops.ops context::PixelOps]]
+[def __context_PixelState [link oglplus.quickref.context.pixel_ops.state context::PixelState]]
+[def __context_BlendEquationSeparate [link oglplus.quickref.context.blending.helpers context::BlendEquationSeparate]]
+[def __context_BlendFunctionSeparate [link oglplus.quickref.context.blending.helpers context::BlendFunctionSeparate]]
+[def __context_BlendingOps [link oglplus.quickref.context.blending.ops context::BlendingOps]]
+[def __context_BlendingState [link oglplus.quickref.context.blending.state context::BlendingState]]
+[def __context_Synchronization [link oglplus.quickref.context.synchronization context::Synchronization]]
+[def __context_Hints [link oglplus.quickref.context.hints context::Hints]]
+[def __context_LimitQueries [link oglplus.quickref.context.limit_queries context::LimitQueries]]
+[def __context_NumericQueries [link oglplus.quickref.context.numeric_queries context::NumericQueries]]
+[def __context_StringQueries [link oglplus.quickref.context.string_queries context::StringQueries]]
+[def __context_ObjectBinding [link oglplus.quickref.context.object_binding context::ObjectBinding]]
+[def __context_ObjectDSA [link oglplus.quickref.context.object_dsa context::ObjectDSA]]
+
+[def __context_RGBAValue [link oglplus.quickref.context.helpers.rgba_value context::RGBAValue]]
+[def __context_RGBAMask [link oglplus.quickref.context.helpers.rgba_mask context::RGBAMask]]
+[def __context_PolygonModes [link oglplus.quickref.context.rasterization.helpers context::PolygonModes]]
+[def __context_PolygonOffsPara [link oglplus.quickref.context.rasterization.helpers context::PolygonOffsPara]]
+[def __context_ClipControlParams [link oglplus.quickref.context.clip_control.params context::ClipControlParams]]
+[def __context_StencilFuncArgs [link oglplus.quickref.context.stencil_test.args context::StencilFuncArgs]]
+[def __context_StencilOperations [link oglplus.quickref.context.stencil_test.ops context::StencilOperations]]
+
+[def __enums_EnumToClass_SingleFace [link oglplus.quickref.face_mode.single_face_class enums::EnumToClass]]
+[def __enums_EnumToClass_LimitQuery [link oglplus.quickref.limit_query.class enums::EnumToClass]]
+[def __enums_EnumToClass_HintTarget [link oglplus.quickref.hint.target_class enums::EnumToClass]]
+[def __enums_EnumToClass_Capability [link oglplus.quickref.capability.capability_class enums::EnumToClass]]
+[def __enums_EnumToClass_PixelParameter [link oglplus.quickref.pixel_parameter.class enums::EnumToClass]]
+[def __enums_EnumToClass_TextureTarget [link oglplus.quickref.texture.target_class enums::EnumToClass]]
+[def __enums_EnumToClass_BufferTarget [link oglplus.quickref.buffer.target_class enums::EnumToClass]]
+[def __enums_EnumToClass_BufferIndexedTarget [link oglplus.quickref.buffer.indexed_target_class enums::EnumToClass]]
+[def __enums_EnumToClass_FramebufferTarget [link oglplus.quickref.framebuffer.target_class enums::EnumToClass]]
+[def __enums_EnumToClass_RenderbufferTarget [link oglplus.quickref.renderbuffer.target_class enums::EnumToClass]]
+
+[include quickref/concept.qbk]
+[include quickref/string.qbk]
+[include quickref/error.qbk]
+[include quickref/gen_tags.qbk]
+[include quickref/ops_tags.qbk]
+[include quickref/object.qbk]
+
+[include quickref/buffer.qbk]
+[include quickref/buffer_map.qbk]
+[include quickref/bound/buffer.qbk]
+[include quickref/dsa/buffer.qbk]
+[include quickref/dsa/buffer_map.qbk]
+[include quickref/vertex_array.qbk]
+[include quickref/dsa/vertex_array.qbk]
+[include quickref/texture.qbk]
+[include quickref/bound/texture.qbk]
+[include quickref/dsa/texture.qbk]
+[include quickref/sampler.qbk]
+[include quickref/framebuffer.qbk]
+[include quickref/bound/framebuffer.qbk]
+[include quickref/dsa/framebuffer.qbk]
+[include quickref/renderbuffer.qbk]
+[include quickref/bound/renderbuffer.qbk]
+[include quickref/dsa/renderbuffer.qbk]
+[include quickref/shader.qbk]
+[include quickref/program.qbk]
+[include quickref/program_pipeline.qbk]
+[include quickref/query.qbk]
+[include quickref/transform_feedback.qbk]
+[include quickref/dsa/transform_feedback.qbk]
+[include quickref/sync.qbk]
+
+[include quickref/vertex_attrib_slot.qbk]
+[include quickref/frag_data_slot.qbk]
+[include quickref/texture_handle.qbk]
+
+[include quickref/prog_var.qbk]
+[include quickref/uniform.qbk]
+[include quickref/dsa/uniform.qbk]
+[include quickref/uniform_block.qbk]
+[include quickref/shader_storage_block.qbk]
+[include quickref/uniform_subroutines.qbk]
+[include quickref/vertex_attrib.qbk]
+[include quickref/dsa/vertex_attrib.qbk]
+[include quickref/frag_data.qbk]
+
+[include quickref/draw_buffer_index.qbk]
+[include quickref/viewport_index.qbk]
+
+[include quickref/context.qbk]
+
+[include quickref/client_context.qbk]
+
+[include quickref/capability.qbk]
+[include quickref/hint.qbk]
+[include quickref/limit_query.qbk]
+[include quickref/string_query.qbk]
+[include quickref/compare_function.qbk]
+[include quickref/stencil_operation.qbk]
+[include quickref/access_specifier.qbk]
+
+[include quickref/data_type.qbk]
+[include quickref/face_mode.qbk]
+[include quickref/clip_control.qbk]
+[include quickref/blend_function.qbk]
+[include quickref/color_buffer.qbk]
+[include quickref/buffer_select_bit.qbk]
+[include quickref/shader_type.qbk]
+[include quickref/pixel_data.qbk]
+[include quickref/pixel_parameter.qbk]
+[include quickref/blit_filter.qbk]
+[include quickref/color_logic_operation.qbk]
+[include quickref/polygon_mode.qbk]
+[include quickref/precision_type.qbk]
+[include quickref/primitive_type.qbk]
+[include quickref/provoke_mode.qbk]
+[include quickref/patch_parameter.qbk]
+[include quickref/program_interface.qbk]
+
+[include quickref/memory_barrier.qbk]
+
+[include quickref/context_profile_bit.qbk]
+[include quickref/context_flag_bit.qbk]
+[include quickref/context_release_behavior.qbk]
+[include quickref/reset_notif_strategy.qbk]
+[include quickref/graphics_reset_status.qbk]
+
+[include quickref/config.qbk]
+[include quickref/math.qbk]
+[include quickref/boolean.qbk]
+[include quickref/size_type.qbk]
+[include quickref/bitfield.qbk]
+[include quickref/enums.qbk]
+[include quickref/limited_value.qbk]
+[include quickref/glsl_source.qbk]
+[include quickref/glsl_string.qbk]
+[include quickref/output_data.qbk]
+[include quickref/detail/attrib_list.qbk]
+[include quickref/utils.qbk]
+
+[include quickref/images.qbk]

@@ -1,0 +1,28 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------------]
+[section:glfunc Missing function errors]
+[/-------------------------------------]
+
+[header oglplus/error/glfunc.hpp]
+
+Exception class for situations when a pointer to a GL function is invalid.
+OGLplus optionally (based on the value of the __OGLPLUS_NO_GLFUNC_CHECKS
+compile-time switch) checks, if pointers to OpenGL functions are valid
+(i.e. not nullptr). OpenGL functions are usually called through pointers,
+when using a library such as __GLEW__, which tries to find and get the addresses
+of GL functions from the GL library dynamically at run-time. Sometimes
+the pointers to several of the functions remain uninitialized and usually
+result in a memory violation and program termination if called.
+The [^MissingFunction] exception class indicates that the usage
+of such uninitialized function pointer was detected at run-time
+and allows the application to avoid memory access violation and terminate
+more gracefully.
+
+[import glfunc.hpp]
+
+[oglplus_error_MissingFunction]
+
+[endsect]

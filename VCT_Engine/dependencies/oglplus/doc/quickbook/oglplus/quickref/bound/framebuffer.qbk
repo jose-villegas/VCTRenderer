@@ -1,0 +1,20 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------------------------------------]
+[section:bound_framebuffer Currently bound framebuffers]
+[/-----------------------------------------------------]
+
+A specialization of __BoundObjOps allows to operate on the currently bound
+framebuffer without the need to explicitly specify the framebuffer target in every function call.
+
+[header oglplus/bound/framebuffer.hpp]
+
+[import framebuffer.hpp]
+
+[heading:ops Operations on currently bound framebuffer]
+
+[oglplus_object_BoundObjOps_Framebuffer]
+
+[endsect]

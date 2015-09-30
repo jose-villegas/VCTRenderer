@@ -1,0 +1,26 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------------]
+[section:buffer_clearing Buffer clearing]
+[/--------------------------------------]
+
+[header oglplus/context/buffer_clearing.hpp]
+
+[import buffer_clearing.hpp]
+
+[heading:helpers Helper classes]
+
+[oglplus_context_BufferClearing_helpers]
+
+The [^BufferClearing] class is a wrapper for the operations,
+which are used to clear the draw buffers.
+
+[heading:state State]
+[oglplus_context_BufferClearingState]
+
+[heading:ops Operations]
+[oglplus_context_BufferClearingOps]
+
+[endsect]

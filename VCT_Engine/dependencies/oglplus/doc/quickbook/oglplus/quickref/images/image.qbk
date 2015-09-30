@@ -1,0 +1,20 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------]
+[section:image Image]
+[/------------------]
+
+[header oglplus/images/image.hpp]
+
+The [^Image] class is used to store bitmap image data and various parameters,
+like its ['width], ['height], ['depth], pixel data ['type],
+['format] and ['internal format].
+It is used mostly as a parameter type for __Texture, __Renderbuffer and
+other similar functions.
+
+[import image.hpp]
+[oglplus_images_Image]
+
+[endsect]

@@ -1,0 +1,111 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------]
+[section:buffer Buffers]
+[/---------------------]
+
+[header oglplus/buffer.hpp]
+
+[import buffer.hpp]
+
+[heading:common Common buffer operations]
+
+[oglplus_buffer_common_1]
+[oglplus_buffer_common_2]
+[oglplus_buffer_common_3]
+
+[heading:ops Operations with explicit selector]
+
+[oglplus_buffer_1]
+[oglplus_buffer_2]
+
+[heading:def Definition]
+
+[oglplus_buffer_def]
+
+[heading:syntax_sugar Syntax sugar operators]
+
+[oglplus_buffer_sugar]
+
+[heading:target Target]
+
+[header oglplus/buffer_target.hpp]
+[import enums/buffer_target.hpp]
+[oglplus_enums_buffer_target]
+
+[heading:target_class Target to class]
+
+[import enums/buffer_target_class.hpp]
+[oglplus_enums_buffer_target_class]
+
+[heading:indexed_target IndexedTarget]
+
+[header oglplus/buffer_target.hpp]
+[import enums/buffer_indexed_target.hpp]
+[oglplus_enums_buffer_indexed_target]
+
+[heading:indexed_target_class Indexed target to class]
+
+[import enums/buffer_indexed_target_class.hpp]
+[oglplus_enums_buffer_indexed_target_class]
+
+[heading:binding Indexed binding point numbers]
+
+[header oglplus/buffer_binding.hpp]
+[import buffer_binding.hpp]
+[oglplus_buffer_binding]
+
+[heading:usage Usage]
+
+[header oglplus/buffer_usage.hpp]
+[import enums/buffer_usage.hpp]
+[oglplus_enums_buffer_usage]
+
+[heading:storage_bit Storage bits]
+
+[header oglplus/buffer_storage_bit.hpp]
+[import enums/buffer_storage_bit.hpp]
+[oglplus_enums_buffer_storage_bit]
+
+[heading:size Size]
+
+The [^BufferSize] class is used to store GPU buffer sizes in units of machine byte.
+Instances of this class are mostly used as parameters to buffer-related functions
+specifying buffer data offset and size.
+
+[header oglplus/buffer_size.hpp]
+[import buffer_size.hpp]
+[oglplus_buffer_size]
+
+The [^BufferTypedSize] template class is a helper ancestor of [^BufferSize]
+that is used to construct instances of [^BufferSize] with fixed data type.
+
+[oglplus_buffer_typed_size]
+
+[heading:data Data]
+
+The [^BufferData] class is used to store a pointer to and the size of a block
+of memory containing data to be uploaded to a GPU buffer.
+Instances of this class are mostly used as parameters to buffer-related functions
+specifying buffer data to be uploaded to the GPU's memory.
+
+[note This class does not do an internal deep copy of the data passed to the constructors.
+The original memory block must not be free'd while any instances of [^BufferData]
+referencing it are in use.
+]
+
+[header oglplus/buffer_data.hpp]
+[import buffer_data.hpp]
+[oglplus_buffer_data]
+
+[heading:gpu_address GPU address]
+
+The [^BufferGPUAddress] class encapsulates buffers GPU address value.
+
+[header oglplus/buffer_gpu_addr.hpp]
+[import buffer_gpu_addr.hpp]
+[oglplus_buffer_gpu_address]
+
+[endsect]

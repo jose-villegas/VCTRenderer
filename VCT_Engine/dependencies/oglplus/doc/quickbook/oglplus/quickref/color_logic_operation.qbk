@@ -1,0 +1,17 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------------------------]
+[section:color_logic_operation Color logic operation]
+[/--------------------------------------------------]
+
+[header oglplus/color_logic_operation.hpp]
+[import enums/color_logic_operation.hpp]
+[oglplus_enums_color_logic_operation]
+
+[heading:typedefs Typedefs]
+[import color_logic_operation.hpp]
+[oglplus_color_logic_operation_typedefs]
+
+[endsect]

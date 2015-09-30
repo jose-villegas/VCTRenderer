@@ -1,0 +1,25 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------]
+[section:lazy Lazy modifier]
+[/-------------------------]
+
+[header oglplus/prog_var/lazy.hpp]
+
+By default the GPU program variable wrappers implemented by __ProgVar
+are eagerly initialized in the constructor. This means that the __ProgramName
+passed as the argument to the constructor must be compiled, linked and current
+when the location of a variable is queried by its identifier.
+
+However, in some situations it is desirable to postpone the initialization
+to a later time. The [^Lazy] modifier template inherits from __ProgVar and
+changes the behavior of its constructors. It just internally stores
+the identifier string and postpones the search for the variable in the
+GPU program until it is actually required or requested by the user.
+
+[import lazy.hpp]
+[oglplus_prog_var_lazy]
+
+[endsect]

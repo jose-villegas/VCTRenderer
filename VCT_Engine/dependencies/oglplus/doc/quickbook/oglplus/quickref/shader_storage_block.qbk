@@ -1,0 +1,24 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------------------------]
+[section:shader_storage_block Shader storage blocks]
+[/-------------------------------------------------]
+
+[header oglplus/shader_storage_block.hpp]
+
+[import shader_storage_block.hpp]
+
+[heading:loc_ops Basic block location operations]
+[oglplus_shader_storage_block_loc_ops]
+[def __ProgVarLocOps_ShaderStorageBlock [link oglplus.quickref.shader_storage_block.loc_ops ProgVarLocOps]]
+
+[heading:common_ops Common shader storage block operations]
+[oglplus_shader_storage_block_common_ops]
+[def __ProgVarCommonOps_ShaderStorage [link oglplus.quickref.shader_storage_block.common_ops ProgVarCommonOps]]
+
+[heading:def Definition]
+[oglplus_shader_storage_block_def]
+
+[endsect]

@@ -1,0 +1,25 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------------]
+[section:frag_data Fragment output data]
+[/-------------------------------------]
+
+
+[header oglplus/frag_data.hpp]
+
+[import frag_data.hpp]
+
+[heading:loc_ops Basic location operations]
+[oglplus_frag_data_loc_ops]
+[def __ProgVarLocOps_FragData [link oglplus.quickref.frag_data.loc_ops ProgVarLocOps]]
+
+[heading:common_ops Common operations]
+[oglplus_frag_data_common_ops]
+[def __ProgVarCommonOps_FragData [link oglplus.quickref.frag_data.common_ops ProgVarCommonOps]]
+
+[heading:def Definition]
+[oglplus_frag_data_def]
+
+[endsect]

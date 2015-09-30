@@ -1,0 +1,56 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=================================]
+[section:context Current GL context]
+[/=================================]
+
+This section describes classes and functions wrapping operations on the current
+OpenGL context, which are not related to any explicitly allocated
+object or resource, i.e. operations like enabling and disabling
+various OpenGL capabilities and changing the state
+values of the current context.
+
+[heading [^Context]]
+
+[header oglplus/context.hpp]
+
+[^Context] is a stateless class wrapping all current GL context operations.
+The actual functionality is implemented by subclasses in the [^context] namespace,
+but the library end-users should rarely need to use them directly.
+
+[import context.hpp]
+[oglplus_Context]
+
+[heading:examples Examples of usage]
+
+[import context.cpp]
+[oglplus_Context_example_1]
+
+[include context/errors.qbk]
+[include context/capabilities.qbk]
+[include context/clip_control.qbk]
+[include context/viewport.qbk]
+[include context/buffer_selection.qbk]
+[include context/buffer_masking.qbk]
+[include context/buffer_clearing.qbk]
+[include context/rasterization.qbk]
+[include context/drawing.qbk]
+[include context/computing.qbk]
+[include context/depth_test.qbk]
+[include context/stencil_test.qbk]
+[include context/scissor_test.qbk]
+[include context/logic_ops.qbk]
+[include context/pixel_ops.qbk]
+[include context/blending.qbk]
+[include context/synchronization.qbk]
+[include context/hints.qbk]
+[include context/limit_queries.qbk]
+[include context/numeric_queries.qbk]
+[include context/string_queries.qbk]
+[include context/object_binding.qbk]
+[include context/object_dsa.qbk]
+[include context/helpers.qbk]
+
+[endsect]

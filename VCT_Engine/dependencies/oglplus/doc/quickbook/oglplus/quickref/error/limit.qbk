@@ -1,0 +1,22 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------]
+[section:limit Limit errors]
+[/-------------------------]
+
+[header oglplus/error/limit.hpp]
+
+Exception indicating that a GL implementation-defined limit has been exceeded.
+Instances of this class are thrown if an instance of a numeric
+type is assigned a value that it is outside of an implementation
+dependent range. This includes things like limits on the number of texture
+units of the GPU, maximum texture dimensions, maximum number of draw
+buffers, vertex attributes, etc.
+
+[import limit.hpp]
+
+[oglplus_error_LimitError]
+
+[endsect]

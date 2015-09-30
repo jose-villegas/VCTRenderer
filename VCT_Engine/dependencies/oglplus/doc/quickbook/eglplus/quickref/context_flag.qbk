@@ -1,0 +1,14 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------]
+[section:context_flag Context flag]
+[/--------------------------------]
+
+[header eglplus/context_flag.hpp]
+
+[import enums/context_flag.hpp]
+[eglplus_enums_context_flag]
+
+[endsect]

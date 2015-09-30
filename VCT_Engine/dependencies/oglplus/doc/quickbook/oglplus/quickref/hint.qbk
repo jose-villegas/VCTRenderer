@@ -1,0 +1,23 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------]
+[section:hint Hint]
+[/----------------]
+
+[header oglplus/hint.hpp]
+
+[heading:target Target]
+[import enums/hint_target.hpp]
+[oglplus_enums_hint_target]
+
+[heading:target_class Target to class]
+[import enums/hint_target_class.hpp]
+[oglplus_enums_hint_target_class]
+
+[heading:option Option]
+[import enums/hint_option.hpp]
+[oglplus_enums_hint_option]
+
+[endsect]

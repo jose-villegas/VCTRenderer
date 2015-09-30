@@ -1,0 +1,17 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------]
+[section:string Strings]
+[/---------------------]
+
+[header oglplus/config/string.hpp]
+
+The following options influence the behaviour of OGLplus string wrappers.
+
+[import string.hpp]
+[oglplus_config_string]
+
+[endsect]
+

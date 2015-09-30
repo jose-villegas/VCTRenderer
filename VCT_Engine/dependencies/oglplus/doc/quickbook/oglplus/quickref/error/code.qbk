@@ -1,0 +1,19 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------]
+[section:code Error code enumeration]
+[/----------------------------------]
+
+[header oglplus/error/code.hpp]
+
+[^ErrorCode] [link oglplus.quickref.enums enumerates] the GL error code values.
+The GL error code can be obtained for example by calling the [^Code] member
+function of __Error.
+
+[import ../enums/error_code.hpp]
+
+[oglplus_enums_error_code]
+
+[endsect]

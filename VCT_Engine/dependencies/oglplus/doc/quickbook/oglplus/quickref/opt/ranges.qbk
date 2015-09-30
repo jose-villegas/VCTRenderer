@@ -1,0 +1,66 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------]
+[section:ranges Ranges]
+[/--------------------]
+
+[header oglplus/opt/ranges.hpp]
+
+This header implements utilities for working with types conforming to
+the __Range concept.
+
+[import ranges.hpp]
+[import ranges.cpp]
+
+All range-related utilities are implemented in the [^oglplus::ranges]
+namespace:
+
+[oglplus_opt_ranges_begin]
+
+[heading:isa [^IsRange]]
+
+The [^IsRange] boolean __Metafunction allows to check if a type
+conforms to the __Range concept:
+[oglplus_opt_ranges_IsRange]
+
+[heading:any [^AnyRange]]
+
+The [^AnyRange] template is a type erasure for all types conforming
+to [^__Range<Element>] - i.e. a range whose element type is implicitly
+convertible to the [^Element] type template parameter of [^AnyRange].
+[^AnyRange] is typically used as a parameter type for functions
+implementing complex range algorithms.
+
+[oglplus_opt_ranges_AnyRange]
+
+[heading:funcs Functions]
+
+The following functions traverse, filter of modify ranges and can be
+easily composed into complex algorithms.
+
+[oglplus_opt_ranges_funcs]
+
+[oglplus_opt_ranges_end]
+
+[heading:examples Examples]
+
+Print the value names of all values in the [^__ObjectType]
+and the [^__ShaderType] enumerations to the standard output.
+
+[oglplus_opt_ranges_ex_for_cat_tfm]
+
+Check if the [^GL_EXT_direct_state_access] extension is implemented.
+
+[oglplus_opt_ranges_ex_ext_dsa]
+
+Print the number of [^ARB] GL extensions.
+
+[oglplus_opt_ranges_ex_cnt_arb_ext]
+
+Print the GL extension with the longest name.
+
+[oglplus_opt_ranges_ex_max_ext_name]
+
+[endsect]

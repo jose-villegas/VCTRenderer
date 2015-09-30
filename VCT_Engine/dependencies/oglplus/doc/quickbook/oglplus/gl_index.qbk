@@ -1,0 +1,17 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[chapter OpenGL function and constant index
+	[quickbook 1.6]
+	[id oglplus.gl_index]
+]
+
+[section:intro Introduction]
+
+This section cross-references OpenGL functions and constants with OGLplus classes,
+functions and enumerations using them.
+
+TODO
+
+[endsect]

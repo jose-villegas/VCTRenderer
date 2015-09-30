@@ -1,0 +1,17 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=======================================]
+[section:gen_tags Object creation methods]
+[/=======================================]
+
+[header oalplus/object/wrapper.hpp]
+
+__OALplus__ distinguishes the object construction methods
+as listed above at compile-time by using the following tag types:
+
+[import gen_tags.hpp]
+[oalplus_gen_tags]
+
+[endsect]

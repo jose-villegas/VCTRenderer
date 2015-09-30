@@ -1,0 +1,39 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------]
+[section:device Devices]
+[/---------------------]
+
+[header oalplus/device.hpp]
+
+[import device.hpp]
+
+[heading Common device operations]
+
+[oalplus_device_common]
+
+[heading Playback operations]
+
+[^DeviceOps<tag::Playback>] implements audio playback device-specific operations.
+[note Do not use this class directly, use __Device instead.]
+
+[oalplus_device_playback_ops]
+
+[heading Capture operations]
+
+[^DeviceOps<tag::Capture>] implements audio capture device-specific operations.
+[note Do not use this class directly, use __CaptureDevice instead.]
+
+[oalplus_device_capture_ops]
+
+[heading:playback Playback device]
+
+[oalplus_playback_device]
+
+[heading:capture Capture device]
+
+[oalplus_capture_device]
+
+[endsect]

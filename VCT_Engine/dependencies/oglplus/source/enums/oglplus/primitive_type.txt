@@ -1,0 +1,15 @@
+# Copyright 2010-2011 Matus Chochlik. Distributed under the Boost
+# Software License, Version 1.0. (See accompanying file
+# LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+POINTS
+LINE_STRIP
+LINE_LOOP
+LINES
+TRIANGLE_STRIP
+TRIANGLE_FAN
+TRIANGLES
+LINES_ADJACENCY
+LINE_STRIP_ADJACENCY
+TRIANGLES_ADJACENCY
+TRIANGLE_STRIP_ADJACENCY
+PATCHES

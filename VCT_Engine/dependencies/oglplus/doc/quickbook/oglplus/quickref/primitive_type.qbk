@@ -1,0 +1,22 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------------------]
+[section:primitive_type Primitive type]
+[/------------------------------------]
+
+[header oglplus/primitive_type.hpp]
+
+[import enums/primitive_type.hpp]
+[oglplus_enums_primitive_type]
+
+[heading:tess_gen Tesselation generator]
+[import enums/tess_gen_primitive_type.hpp]
+[oglplus_enums_tess_gen_primitive_type]
+
+[heading:spacing Primitive spacing]
+[import enums/tess_gen_primitive_spacing.hpp]
+[oglplus_enums_tess_gen_primitive_spacing]
+
+[endsect]

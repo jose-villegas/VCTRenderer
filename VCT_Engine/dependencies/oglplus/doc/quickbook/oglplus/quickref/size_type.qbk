@@ -1,0 +1,27 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=========================]
+[section:size_type SizeType]
+[/=========================]
+
+[heading oglplus/size_type.hpp]
+
+OGLplus defines a wrapper for size types represented in
+OpenGL, OpenAL, etc. by integer like [^GLsizei] or [^GLsizeiptr].
+
+Instances of this type are constructible from integral types and the constructors
+can throw if the initial value is negative or out of range.
+
+[import size_type.hpp]
+
+[heading:impl Implementation]
+
+[oglplus_size_impl]
+
+[heading:def Definition]
+
+[oglplus_size_type_def]
+
+[endsect]

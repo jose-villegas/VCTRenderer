@@ -1,0 +1,27 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/========================]
+[section:bitfield Bitfield]
+[/========================]
+
+[header oglplus/bitfield.hpp]
+
+The [^Bitfield] template serves as a wrapper for OpenGL bitfields. It allows to combine
+strongly-typed enumerated values into a single bitfield value.
+
+Library end-user applications rarely need to use this class directly.
+Instantiations of this template are used as types for parameters in functions
+taking bitfields based on strongly-type enumerations. When constructing a bitfield
+the application simply passes the enumerated value or a combination of enumerated
+values using the bitwise-or operator or initializer list.
+
+[import bitfield.hpp]
+[oglplus_bitfield]
+
+[heading:examples Examples of usage]
+[import bitfield.cpp]
+[oglplus_bitfield_example_1]
+
+[endsect]

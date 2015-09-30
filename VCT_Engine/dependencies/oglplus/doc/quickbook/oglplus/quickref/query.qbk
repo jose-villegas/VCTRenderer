@@ -1,0 +1,38 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------]
+[section:query Queries]
+[/--------------------]
+
+[header oglplus/query.hpp]
+
+[import query.hpp]
+
+[heading Common query operations]
+[oglplus_query_common]
+
+[heading Operations with direct state access]
+[oglplus_query_1]
+
+[heading:activator Activator]
+[oglplus_query_activator]
+
+[heading:conditional_render Conditional render]
+[oglplus_conditional_render]
+
+[heading:execution Execution]
+[oglplus_query_execution]
+
+[heading:target Target]
+
+[import enums/query_target.hpp]
+[oglplus_enums_query_target]
+
+[heading:conditional_render_mode Conditional render mode]
+
+[import enums/conditional_render_mode.hpp]
+[oglplus_enums_conditional_render_mode]
+
+[endsect]

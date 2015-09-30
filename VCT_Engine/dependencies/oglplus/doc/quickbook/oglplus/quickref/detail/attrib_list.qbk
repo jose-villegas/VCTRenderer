@@ -1,0 +1,20 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------------------]
+[section:attrib_list Attribute list]
+[/---------------------------------]
+
+Instantiations of [^AttributeList] are used to build a list
+of attribute / value pairs. Such lists are usually built
+by sequentially adding new pairs and then by finishing the list.
+
+[^FinishedAttributeList]s are used to store and pass the underlying
+list of values to the functions requiring them.
+
+[import attrib_list.hpp]
+
+[oglplus_attrib_list]
+
+[endsect]

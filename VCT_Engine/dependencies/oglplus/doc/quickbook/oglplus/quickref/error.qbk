@@ -1,0 +1,31 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=========================================]
+[section:error Error reporting and handling]
+[/=========================================]
+
+In order to detect and report any errors that occured during the calls
+to OpenGL functions, OGLplus consistently checks the result of the [glfunc GetError]
+function and if an error is indicated it throws an instance of an appropriate exception
+class. The exceptions (described below) contain a lot of useful information about
+the error and are highly configurable. In debug builds all available information
+about the errors can be included, on the other hand when high performance is required
+most of the data members can be compiled-away by setting the appropriate
+[link oglplus.quickref.config.error compile-time configuration options] making
+the exceptions more lightweight.
+
+[include error/code.qbk]
+[include error/basic.qbk]
+[include error/glfunc.qbk]
+[include error/limit.qbk]
+[include error/object.qbk]
+[include error/prog_var.qbk]
+[include error/program.qbk]
+[include error/framebuffer.qbk]
+
+[include error/deferred_handler.qbk]
+[include error/outcome.qbk]
+
+[endsect]

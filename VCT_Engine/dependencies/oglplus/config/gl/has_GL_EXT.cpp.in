@@ -1,0 +1,19 @@
+/**
+ *  Copyright 2010-2015 Matus Chochlik. Distributed under the Boost
+ *  Software License, Version 1.0. (See accompanying file
+ *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ */
+#define OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR 3
+#define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR 0
+
+#include "init_GL.ipp"
+#include "has_GL_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@.ipp"
+
+#include <cstring>
+#include <cstddef>
+
+bool do_query_gl(void)
+{
+	return does_have_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@();
+}
+

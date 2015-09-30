@@ -1,0 +1,18 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------------------]
+[section:object_binding Object binding]
+[/------------------------------------]
+
+[header oglplus/client/object_binding.hpp]
+
+[import object_binding.hpp]
+
+[oglplus_client_CurrentObjects1]
+[oglplus_client_CurrentObjects2]
+[oglplus_client_CurrentObjects3]
+[oglplus_client_CurrentObjects4]
+
+[endsect]

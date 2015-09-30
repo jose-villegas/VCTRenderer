@@ -1,0 +1,33 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------]
+[section:type Object type]
+[/-----------------------]
+
+[header oglplus/object/type.hpp]
+
+The [^ObjectType] type [link oglplus.quickref.enums enumerates] the GL object type values.
+
+[import ../enums/object_type.hpp]
+
+[oglplus_enums_object_type]
+
+[heading:ops Type-related functions]
+
+The object type can be obtained by calling the [^ObjectType] static member function
+of [^ObjTypeOps<__ObjTag>], which is a public base class of OGLplus
+[link oglplus.quickref.object.wrapper object wrappers].
+It can also be used as a standalone class when instantiated with one of the
+[link oglplus.quickref.object.tags object tags]. For example
+[^ObjTypeOps<tag::Buffer>::ObjectType()] returns [^__ObjectType::Buffer], etc.
+
+[note If the underlying GL constant value like [^GL_FRAMEBUFFER] or [^GL_TEXTURE], etc.
+is not defined, then the [^ObjectType] member function returns [^__ObjectType::None].]
+
+[import type.hpp]
+
+[oglplus_object_ObjTypeOps]
+
+[endsect]

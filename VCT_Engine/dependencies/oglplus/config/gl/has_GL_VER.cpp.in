@@ -1,0 +1,62 @@
+/**
+ *  Copyright 2010-2014 Matus Chochlik. Distributed under the Boost
+ *  Software License, Version 1.0. (See accompanying file
+ *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ */
+#define OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR @OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR@
+#define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR @OGLPLUS_CONFIG_QUERY_GL_VER_MINOR@
+
+#include "init_GL.ipp"
+
+bool do_query_gl(void)
+{
+#if !@OGLPLUS_CONFIG_STRICT_VERSION_CHECK@
+	std::cout << "Skipping strict version check" << std::endl;
+	return true;
+#elif !defined @OGLPLUS_CONFIG_QUERY_GL_VER@
+	std::cerr << "@OGLPLUS_CONFIG_QUERY_GL_VER@ not defined!" << std::endl;
+	return false;
+#elif !@OGLPLUS_CONFIG_QUERY_GL_VER@
+	std::cerr << "@OGLPLUS_CONFIG_QUERY_GL_VER@ is zero!" << std::endl;
+	return false;
+#else
+	std::cout
+		<< "Detecting GL version: "
+		<< @OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR@
+		<< "."
+		<< @OGLPLUS_CONFIG_QUERY_GL_VER_MINOR@
+		<< std::endl;
+
+	GLint req_major = @OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR@;
+	GLint req_minor = @OGLPLUS_CONFIG_QUERY_GL_VER_MINOR@;
+	GLint sup_major = 0;
+	GLint sup_minor = 0;
+	glGetIntegerv(GL_MAJOR_VERSION, &sup_major);
+	glGetIntegerv(GL_MINOR_VERSION, &sup_minor);
+
+	if(sup_major <  req_major)
+	{
+		std::cerr
+			<< "Supported major version: "
+			<< sup_major
+			<< " is less than required: "
+			<< req_major
+			<< std::endl;
+		return false;
+	}
+	if((sup_major == req_major) && (sup_minor < req_minor))
+	{
+		std::cerr
+			<< "Supported minor version: "
+			<< sup_major
+			<< " is less than required: "
+			<< req_major
+			<< std::endl;
+		return false;
+	}
+	unsigned missing_gl_symbols = 0;
+#include "assert_GL_VER_symbols.ipp"
+	return missing_gl_symbols == 0;
+#endif
+}
+

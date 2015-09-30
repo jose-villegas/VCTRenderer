@@ -1,0 +1,13 @@
+# Copyright 2012-2015 Matus Chochlik. Distributed under the Boost
+# Software License, Version 1.0. (See accompanying file
+# LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#ALUTErrorCode#
+OUT_OF_MEMORY
+INVALID_OPERATION
+NO_CURRENT_CONTEXT
+AL_ERROR_ON_ENTRY
+ALC_ERROR_ON_ENTRY
+UNSUPPORTED_FILE_TYPE
+UNSUPPORTED_FILE_SUBTYPE
+CORRUPT_OR_TRUNCATED_DATA
+

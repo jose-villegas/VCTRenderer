@@ -1,0 +1,19 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------------]
+[section:def String container]
+[/---------------------------]
+
+[header oglplus/string/def.hpp]
+
+This header defines basic string-related class and functions.
+
+The [^String] class has the same interface as an [^std::basic_string<GLchar>]
+except that the string stored inside must be UTF-8 encoded.
+
+[import def.hpp]
+[oglplus_string_def]
+
+[endsect]

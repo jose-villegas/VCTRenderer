@@ -1,0 +1,25 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------------]
+[section:object Object errors]
+[/---------------------------]
+
+[header oglplus/error/object.hpp]
+
+[import object.hpp]
+
+Exception class indicating that an
+[link oglplus.quickref.object OGLplus object]-related error
+has occured.
+
+[oglplus_error_ObjectError]
+
+__ObjectPairError indicates that an error related to a pair of OGLplus
+objects has occured. The two objects in the pair are referred-to
+as ['object] and ['subject].
+
+[oglplus_error_ObjectPairError]
+
+[endsect]

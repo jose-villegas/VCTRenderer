@@ -1,0 +1,24 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------]
+[section:listener Listener]
+[/------------------------]
+
+[^Listener] is an AL context-specific monostate object representing the listener.
+
+[header oalplus/listener.hpp]
+
+[import listener.hpp]
+
+[heading:helpers Helper classes]
+
+[def __ListenerOrientation [link oalplus.quickref.listener.helpers ListenerOrientation]]
+[oalplus_listener_helpers]
+
+[heading:ops Listener operations]
+
+[oalplus_listener_common_1]
+
+[endsect]

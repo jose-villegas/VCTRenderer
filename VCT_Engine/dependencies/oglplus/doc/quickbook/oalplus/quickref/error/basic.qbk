@@ -1,0 +1,23 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------]
+[section:basic Basic exception class]
+[/----------------------------------]
+
+[header oalplus/error/basic.hpp]
+
+__Error is an exception class for general OpenAL errors.
+Instances of this exception class are thrown whenever an error is detected
+during the execution of OpenAL API calls in the OALplus code.
+This class is derived from the standard [^runtime_error] exception and thus
+the basic error message can be obtained by calling its [^what()] member function.
+There are several other classes derived for more specific error types.
+
+[import basic.hpp]
+
+[oalplus_error_Error_1]
+[oalplus_error_Error_2]
+
+[endsect]

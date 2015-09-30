@@ -1,0 +1,19 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------------------------]
+[section:program_interface Program interface]
+[/------------------------------------------]
+
+[header oglplus/program_interface.hpp]
+
+[import enums/program_interface.hpp]
+[oglplus_enums_program_interface]
+
+[heading:resource_property Resource property]
+[import enums/program_resource_property.hpp]
+[oglplus_enums_program_resource_property]
+
+
+[endsect]

@@ -1,0 +1,28 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------------------]
+[section:limited_value Limited values]
+[/-----------------------------------]
+
+[header oglplus/limited_value.hpp]
+
+[import limited_value.hpp]
+
+[^LimitedCount] is a base class storing limited implementation-dependent numeric values.
+It checks if the given numeric value is in the implementation-dependent range
+of allowed values and throws an __LimitError exception if it is not.
+
+[note Do not use this templates directly, use the derived types
+or the typedefs of instantiations instead.
+]
+
+[oglplus_limited_value]
+
+[heading:examples Examples of usage]
+
+[import limited_value.cpp]
+[oglplus_limited_value_example_1]
+
+[endsect]

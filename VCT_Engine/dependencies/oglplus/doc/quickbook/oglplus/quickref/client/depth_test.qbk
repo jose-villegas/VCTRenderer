@@ -1,0 +1,17 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------]
+[section:depth_test Depth test]
+[/----------------------------]
+
+[header oglplus/client/depth_test.hpp]
+
+[import depth_test.hpp]
+
+[heading:state State]
+
+[oglplus_client_DepthTestState]
+
+[endsect]

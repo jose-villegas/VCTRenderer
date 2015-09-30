@@ -1,0 +1,64 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------------]
+[section:setting Client context settings]
+[/--------------------------------------]
+
+[header oglplus/client/setting.hpp]
+
+[import setting.hpp]
+
+[heading:holder Setting holder]
+
+Instances of [^SettingHolder] are created by various instantiations of
+__SettingStack when a new value is pushed on top of the stack.
+The purpose of a setting holder is to keep that value on top of the stack.
+While an instance of [^SettingHolder] is alive, then the associated value
+is kept on the stack. Once the holder is destroyed, the associated value
+is popped from the stack an the previous GL context setting is restored
+(to the next value on the stack). The values can also be popped (once)
+explicitly by calling the [^Pop] member function.
+
+OGLplus library client applications should never need to instantiate
+[^SettingHolder] directly. Either use the [^auto] keyword or the typedefs
+in [^SettingStack].
+
+[oglplus_client_SettingHolder]
+
+[heading:stack Setting stack]
+
+Instances of [^SettingStack] are used to maintain and manage the the values
+of a single particular GL context setting. In the constructor they query the
+initial value of the managed setting and push it on top of the stack.
+The user can then repeatedly query the values (without actually querying GL state)
+by the [^Set] member functions, change the value of the setting (both locally and
+in the GL context if necessary) by calling the [^Set] member functions,
+[^Push] new values on top of the stack while keeping the previous ones (and changing
+the GL context if necessary) and finally to [^Pop] the values from the stack
+either implicitly or explicitly (and updating the GL context accordingly). 
+
+OGLplus library client applications should never need to instantiate
+[^SettingStack] directly. The (direct or indirect) members of __ClientContext
+should be used.
+
+[oglplus_client_SettingStack]
+
+[heading:stack_indexed Indexed setting stack]
+
+Instances of [^SettingStackIndexed] are used to manage the values of indexed
+GL context settings. They maintain a sequence of __SettingStack instances, each
+for a single setting at a particular ['index].
+The individual setting stacks are accessed via the [^Indexed] member function
+or the [^operator\[\]]. The settings on the zero-th index can be also manipulated
+directly be calling the [^Push], [^Get] and [^Set] member functions which have
+the same semantics as in __SettingStack.
+
+OGLplus library client applications should never need to instantiate
+[^SettingStack] directly. The (direct or indirect) members of __ClientContext
+should be used.
+
+[oglplus_client_SettingStackIndexed]
+
+[endsect]

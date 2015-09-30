@@ -1,0 +1,71 @@
+#  Copyright 2009-2013 Matus Chochlik. Distributed under the Boost
+#  Software License, Version 1.0. (See accompanying file
+#  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#
+#---------------------------------------------------------------------------
+# Project related configuration options
+#---------------------------------------------------------------------------
+@INCLUDE = ../Doxyfile.common
+
+PROJECT_NAME           = "OALplus"
+
+SORT_BY_SCOPE_NAME     = YES
+HIDE_SCOPE_NAMES       = NO
+
+OUTPUT_DIRECTORY       = ../../../_build/doc/doxygen/oalplus
+
+INPUT = \
+	../../include/oalplus \
+	../../tutorial/oalplus \
+	../../../include/oalplus/enums \
+	../../../include/oalplus \
+	../../../example/oalplus
+
+INCLUDE_PATH = \
+	../../../include/ \
+	../../../implement/ \
+	../../../example
+
+EXAMPLE_PATH = \
+	../../tutorial/oalplus \
+	../../../example/oalplus
+
+PREDEFINED             = \
+	"OGLPLUS_NO_SITE_CONFIG=1" \
+	"OALPLUS_NO_ENUM_VALUE_NAMES=0" \
+	"OALPLUS_DONT_TEST_OBJECT_TYPE=1" \
+	"OALPLUS_NO_UTF8_CHECKS=0" \
+	"OALPLUS_NO_GLFUNC_CHECKS=1" \
+	"OALPLUS_NO_ENUM_VALUE_NAMES=1" \
+	"OALPLUS_NO_ENUM_VALUE_RANGES=1" \
+	"OALPLUS_CUSTOM_ERROR_HANDLING=0" \
+	"OALPLUS_ERROR_INFO_NO_GL_SYMBOL=0" \
+	"OALPLUS_ERROR_INFO_NO_FILE=0" \
+	"OALPLUS_ERROR_INFO_NO_LINE=0" \
+	"OALPLUS_ERROR_INFO_NO_FUNC=0" \
+	"OALPLUS_ERROR_INFO_NO_CLASS_NAME=0" \
+	"OALPLUS_ERROR_INFO_NO_BIND_TARGET=0" \
+	"OALPLUS_DOXYGEN_PARSE=1" \
+	"OALPLUS_DOCUMENTATION_ONLY=1" \
+	"OALPLUS_NOEXCEPT()=" \
+	"OALPLUS_NOEXCEPT_IF()=" \
+	"OALPLUS_CONSTEXPR=const" \
+	"OALPLUS_ENUM_CLASS_BEGIN(NAME,TYPE)=enum class NAME : TYPE {" \
+	"OALPLUS_ENUM_CLASS_END=};"
+
+ALIASES                += OALplus="@em OALplus"
+ALIASES                += alsymbols="@par Related OpenAL symbols:"
+ALIASES                += alfunref{1}=" <code>al\1</code>"
+ALIASES                += aldefref{1}=" <code>AL_\1</code>"
+ALIASES                += alcfunref{1}=" <code>alc\1</code>"
+ALIASES                += alcdefref{1}=" <code>ALC_\1</code>"
+ALIASES                += alutfunref{1}=" <code>alut\1</code>"
+ALIASES                += alutdefref{1}=" <code>ALUT_\1</code>"
+
+HTML_HEADER            = header.html
+HTML_FOOTER            = footer.html
+HTML_STYLESHEET        = oalplus.css
+
+GENERATE_HTML = YES
+GENERATE_XML = NO
+

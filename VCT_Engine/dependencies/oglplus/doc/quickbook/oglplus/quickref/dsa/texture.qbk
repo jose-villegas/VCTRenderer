@@ -1,0 +1,30 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------]
+[section:dsa_texture DSA textures]
+[/-------------------------------]
+
+[header oglplus/dsa/texture.hpp]
+
+[import texture.hpp]
+
+[heading Operations with explicit selector]
+
+[oglplus_dsa_texture_1]
+[oglplus_dsa_texture_2]
+[oglplus_dsa_texture_3]
+[oglplus_dsa_texture_4]
+[oglplus_dsa_texture_5]
+[oglplus_dsa_texture_6]
+
+[heading:def Definition]
+
+[oglplus_dsa_texture_def]
+
+[heading:sugar Syntax sugar]
+
+[oglplus_dsa_texture_sugar1]
+
+[endsect]

@@ -1,0 +1,27 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------]
+[section:object Object-related]
+[/----------------------------]
+
+[header oglplus/config/object.hpp]
+
+The following preprocessor options influence behaviour related to
+OGLplus objects.
+
+[import object.hpp]
+
+The following options enable or disable the texture OGLplus object descriptions.
+
+[note Object descriptions use statically initialized data which
+may cause problems if the final executable is built together from
+several different object files. Because of this, if object descriptions
+are enabled it is recommended that OGLplus applications are built with
+__OGLPLUS_LINK_LIBRARY set to non-zero or are built as a single translation
+unit.]
+[oglplus_config_object_desc]
+
+[endsect]
+

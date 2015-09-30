@@ -1,0 +1,18 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/===========================]
+[section:utils Misc utilities]
+[/===========================]
+
+This section lists several miscelaneous utility types and functions not related
+directly to work with OpenGL, but used by other parts of OGLplus and also utilities
+that are not included by [^oglplus/all.hpp], but can be optionally included
+and used by the library end-users.
+
+[include utils/nothing.qbk]
+
+[include opt/ranges.qbk]
+
+[endsect]

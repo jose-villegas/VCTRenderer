@@ -1,0 +1,1199 @@
+Version 0.66.0
+
+- The DeferredHandler class and the Outcome<T> template have been refactored.
+- New overload of Texture::Wrap has been added.
+- The ClientContext and its SettingStack helper classes have been updated.
+- Libpng allocation checks have been added to the PNG image loader.
+- The GL3W include path has been fixed.
+- Minor fixes in the build system have been made.
+- The Quickbook documentation has been updated.
+
+Version 0.65.0
+
+- The devel/testing implementation of EGL was updated to support multisampling.
+- The GLX and EGL example harnesses were refactored and updated
+  to use multisampling when the --samples option is specified.
+- The ViewportIndex and DrawBufferIndex types were added.
+- Context and ClientContext were updated to use the new types.
+- A wrapper for NV_fragment_coverage_to_color was added.
+- The PolygonMode enumeration was updated.
+- Most of the examples were changed to use GLSL 120/130/140/150.
+- Several bugs and problems were fixed.
+- The build system was updated to detect the availability of C++ override.
+- The Quickbook documentation was updated.
+
+
+Version 0.64.0
+
+- The DeferredHandler and the Outcome<T> classes which allow
+  to defer and/or cancel calling of error handlers were added.
+- New overloads of Shader::Compile, Shader::CompileInclude,
+  Program::Link and Program::Validate and ProgramPipeline::Validate,
+  which return Outcome<T> instead of handling errors eagerly were added.
+- Some of the examples were changed to show the usage of the new features.
+- Some of the examples were changed to use GLSL 120/130/140/150.
+- Some of the older examples were removed.
+- The Quickbook documentation was updated.
+
+Version 0.63.0
+
+- Some clang -Weverything compilation warnings were fixed.
+- New overloads of CameraMatrix::Perspective functions were added.
+- The internals of OALplus and EGLplus were refactored.
+- Support for Shader-storage buffer objects was added.
+- A bug in the Cloud and BrushedMetal image generators were fixed.
+- A problem with the NV path command enumeration was fixed.
+
+
+Version 0.62.0
+
+- Some clang -Weverything compilation warnings were fixed.
+- The SizeType class was updated.
+- Other minor changes were made in the implementation details.
+- A missing-identifier bug was fixed in images::Image.
+- The Quickbook documentation was updated.
+
+
+Version 0.61.0
+
+- The GL version detection in the build system was updated
+  to work better on MacOS.
+- A preprocessor switch for enabling/disabling of Boost.Config was added.
+- Wrappers for ARB_clip_control were added.
+- Exceptions in OALplus were updated.
+  - Error code enumerations were added.
+  - ErrorAL was added.
+  - The Code member function was added to ErrorAL, ErrorALC and ErrorALUT.
+- Some compiler warnings were silenced.
+- The SizeType and BigSizeType classes were added and some occurences
+  of GLsizei and GLsizeiptr were replaced by them.
+- The Quickbook documentation was updated.
+
+
+Version 0.60.0
+
+- The Boolean wrapper was updated, the operator ~ was added.
+- The Object::HasInstance function was added.
+- The native GL context wrappers were updated.
+- The DSA Texture, Buffer and Framebuffer were partially refactored.
+- The SingleFace enumeration was added.
+- The FragmentData and FragmentDataSlot typedefs were added.
+- A new standalone example was added.
+- The oalplus::CurrentContext class was renamed to ContextMadeCurrent.
+- Missing #ifdefs were added around specializations of EnumAssocType.
+- The Quickbook documentation was updated.
+
+Version 0.59.0
+
+- Problems with move construction and move-assignment of objects
+  were fixed.
+- The Boolean wrappers were added.
+- The Quickbook documentation was updated.
+
+Version 0.58.0
+
+- Noexcept specifiers were added to some functions.
+- The oalplus::GetALName function was added.
+- Small changes were made to oalplus::Listener and Device wrappers.
+- Several assignments constructors were fixed to prevent problems with
+  self assignment.
+- The GL/AL object wrappers were refactored.
+- Most of the standalone examples were backported to MSVC.
+- Some MSVC warnings were fixed.
+- Collisions between preprocessor macros and variable names were fixed.
+- A problem that caused access violations in GL feature tests was fixed.
+- The Quickbook documentation was updated.
+
+Version 0.57.0
+
+- The setting stack functionality in oglplus::ClientContext was reimplemented.
+- Noexcept specifiers were added to some functions.
+- The script for auto-generating of the enumeration headers was updated,
+  now almost everything related to the enumerations is auto-generated.
+- A bug in the definition of EnumValueRange was fixed.
+- Minor problems in the GLSL shaders in the examples were fixed.
+- The Quickbook documentation was updated.
+
+Version 0.56.0
+
+- The new state getter/setter functions were added to oglplus::Context.
+- The oglplus::ClientContext class was updated, wrappers for other GL state
+  variables and functions were added.
+- A problem with the wxGL example harness on Windows was fixed.
+- A missing include was added to the GLFW3 example harness.
+- The GLM interoperability classes were updated to work with both older
+  and newer versions of GLM.
+- Minor fixes were made in the enumeration types.
+- The automatically-generated enumeration headers were and the related
+  tools were updated.
+- The EnumAssocType and EnumAssocGLType metafunctions were added.
+- The build system was updated, check of support for strongly-typed
+  enum template parameters was added.
+- The quickbook documentation was updated.
+
+Version 0.55.0
+
+- The EnumToClass helper template and its specializations were added.
+- Some of the base classes of oglplus::Context were refactored and updated.
+- The oglplus::ClientContext class, maintaining and managing GL state was added.
+- Some of the shape builders were backported to platforms not supporting
+  primitive restart indices.
+- A bug in the Texture::Active getter was fixed.
+- The quickbook documentation was updated.
+
+Version 0.54.0
+
+- The TransformFeedback::Activator and Pauser classes were moved
+  to namespace level.
+- A bug in Matrix-by-scalar multiplcation was fixed.
+- A new overload of Context::ClearColor with ColorClearValue parameter
+  was added.
+- Minor changes were made in the GLSLSource and BufferSize classes
+- The build system was updated make C++ SCOPED_ENUMS a requirement.
+- Clang++ warnings and errors were fixed.
+- MSVC warnings related to conversion to bool were fixed.
+- Some of the shape builders were backported to platforms not supporting
+  primitive restart indices.
+- The quickbook documentation was updated.
+
+
+Version 0.53.0
+
+- GL version detection in the build system was updated and should now
+  be even more reliable.
+- Minor changes were made to the ObjHandle wrapper.
+- A bug in vector uniform setting was fixed.
+- The quickbook docs were updated.
+
+
+Version 0.52.0
+
+- The tools for automatic-generation of the enumeration headers were updated
+  and the headers were re-generated.
+- The OutputData class was added and used in Texture.
+- Regressions in the text rendering utilities were fixed.
+- Regressions in GLES v3 and android support were fixed.
+- Wrappers and enumerations for KHR_blend_equation_advanced were added.
+- New constructor was added to the ProgVar template.
+- The Object template was refactored, ObjHandle was added.
+- The documentation was updated.
+
+
+Version 0.51.0
+
+- Smart enumeration values were added to OALplus and EGLplus.
+- The QueryTarget enumeration was updated.
+- The LimitQuery enumeration was updated.
+- The ErrorCode enumeration was updated.
+- Detection of GL 4.5 and ARB_direct_state_access was added to the build system.
+- Wrappers for GL 4.5 / ARB_direct_state_access functions for
+  - Texture
+  - Buffer
+  - Framebuffer
+  - Renderbuffer
+  - TransformFeedback
+  - VertexArray
+  - Vertex attributes
+  were added.
+- The EXT_direct_state_access wrappers were moved to the ./oglplus/dsa/ext
+  subdirectory.
+- The EXT_dsa wrappers were renamed from DSA{Object} to DSA{Object}EXT.
+- Wrappers for ARB_sparse_buffer and ARB_robustness were added.
+- The Query class was updated
+  - The BeginConditionalRender and EndConditionalRender functions were added.
+  - The ConditionalRenderMode enumeration was added.
+  - The ConditionalRender class was added.
+- Several header files were renamed.
+- The Quickbook documentation was updated.
+
+
+Version 0.50.0
+
+- Support for different methods of GL object construction was added.
+- The implementation of smart-enums was updated and the smart-enum-values
+  were added.
+- The context::ClearBuffers class was renamed to context::BufferClearing.
+- The Capability enumeration was updated.
+- The StaticGroup class template was updated.
+- The Range utilities were updated, the Contains, Has and CountIf
+  functionw were added.
+- The StrQueryRange::Size member function was added.
+- The implementation of Nothing was moved from ./detail/ to ./utils/.
+- The Error::Code function was added.
+- The MultiplyBy and DivideBy functions in Vector were renabled to
+  Multiply and Divide.
+- The FragData class was added.
+- The Set function was removed from UniformBlock.
+- New constructors and comparison operators were added to StrCRef.
+- All occurences of StrLit were replaced by StrCRef and the StrLit class
+  was completely removed.
+- Syntax sugar operators for Sampler were added.
+- The MissingFunction exception class was moved into a separate file.
+- Several examples were updated and/or fixed.
+- Detection of GL version 4.5 was added to the build system.
+- The Quickbook documentation was updated.
+
+Version 0.49.0
+
+- Wrappers for the ARB_shading_language_include extension was added.
+- The Program::Build functions were added.
+- The GLSLString and GLSLStrings classes were added.
+- The GLSLSource class was updated.
+- The implementation of Shader::Source and ShaderProgram was updated.
+- The BufferSize and BufferData types were added.
+- The {DSA}Buffer::Data and {DSA}Buffer::SubData functions were changed
+  to use the BufferSize and BufferData types.
+- The {DSA}Buffer::RawData functions were added.
+- The {DSA}Buffer::Resize functions were added.
+- The Indices() and Instructions() member functions of the shape
+  generators/loaders were made more generic.
+- Several bugs were fixed:
+  - Some shader errors in examples.
+  - A problem in the ObjMesh loader was fixed.
+  - Several problems in the build-system
+- Several examples were updated to show the usage of the new features.
+- The documentation was updated.
+- The pre-generated MSVC10 solution and projects were removed.
+
+
+Version 0.48.0
+
+- Wrapper for the ARB_copy_image extension was added.
+- Wrapper for NV_copy_image and GLX_NV_copy image was added.
+- The BezierCurves class was updated
+  - Support for non-connected sequences of curves was added.
+  - The Derivative function was added.
+  - New constructors were added.
+- The capture functions of oalplus::Device class were split into
+  a separate class - CaptureDevice.
+- The Specifier, CaptureSpecifier and Extensions functions were added
+  to oalplus::Device.
+- The oalplus::ALCError::Device function was added.
+- One of the older examples was removed.
+- Several bugs were fixed.
+  - A missing #ifdef guard was added to texture.
+  - A problem with Pango/Cairo text rendering was fixed.
+- The compile-time configuration options were changes.
+- The oglplus::Error::GLLib function was added.
+- The oglplus::Error::GLFuncName function was renamed to GLFunc.
+- The oalplus::Error::ALLibName and ALFuncName functions were renamed
+  to ALLib and ALFunc.
+- The eglplus::Error::EGLFuncName function was renamed to EGLFunc.
+- The generated config headers oglplus/fix_gl_version.hpp and
+  oglplus/site_config.hpp were moved to oglplus/config/fix_gl_version.hpp
+  and oglplus/config/site.hpp.
+- The Boost.Quickbook-based documentation has been started.
+
+
+Version 0.47.0
+
+- The Group<> template class was added.
+- The compile-time configuration headers were split into separate files.
+- The Hardwired program class was removed.
+- The QuickProgram class was reimplemented.
+- Added wrapper for NV_draw_texture extension.
+- The voronoi/worley cell image generators were added.
+- Updated the error handling, added the Value and Limit functions to Error.
+- Moved some of the functions to the implement/ directory.
+- Re-added support for GLM vector and matrix uniforms.
+- Added support for GLM uniform typechecking.
+- Two new examples were added.
+- One of the older examples were removed.
+- Some of the existing examples were updated.
+- Updates to the build system:
+  - Added detection of KHR_debug availability.
+  - Added the BOOST_NO_CXX11_* macros.
+
+Version 0.46.0
+
+This release brings complete rewrite of several key parts, including
+the object and GPU program variable wrappers, error reporting and handling,
+source directory structure, and others. Refer to the relase notes for this
+release for further details.
+
+Version 0.45.0
+
+- The new object binding interface was updated, the DefaultTexture, NoBuffer,
+  NoVertexArray, NoRenderbuffer, NoProgram, NoProgramPipeline and NoSampler
+  classes were added.
+- Context::Direct(object) function for providing direct state access wrapper
+  for an object was added.
+- Wrappers for native (GLX and WGL) GL context and surface were added.
+- The ExposeGLName function replacing Expose(Object) was added.
+- The Capability enumeration was updated.
+- TransformFeedback was updated, BeginPoints, BeginLines and BeginTriangles
+  convenience functions were added.
+- The images::SortNWMap image generator for creating images encoding a bitonic
+  sorting network was added.
+- The wrapper for ARB_robustness extension was updated:
+  - The ARB_robustness class was added.
+  - ContextFlagBit enumeration was updated.
+  - The GraphicsResetStatus and ResetNotificationStrategy enumerations were
+    added.
+- The DSABufferEXT::TypedMap class was refactored into the DSABufferRawMapEXT
+  and DSABufferTypedMapEXT classes.
+- Wrappers for the NV_shader_buffer_load and NV_texture_barrier extensions
+  were added.
+- Sources and cmake scripts for building the oglplus, oalplus and eglplus
+  link libraries were added.
+- The build system was updated.
+- The --search-dir was added to the configure.py script.
+- A new example showing the usage of images::SortNWMap was added.
+- The documentation was updated and several bugs were fixed.
+
+Version 0.44.0
+
+- The NV_path_rendering wrapper was updated.
+  - The PathNVSpec and BriefPathNVSpec classes were added.
+  - Enumerations were moved into separate headers and updated.
+  - New functions were added to PathNV and PathArrayNV.
+- The ARB_compatibility wrapper implementation was refactored and updated.
+- New wrappers for EXT_direct_state_access functions were added.
+- The GLM adaptor was updated.
+- The build system was updated:
+  - Support for SDL and GLX in the GL version and extension detection was added.
+  - The GL version detection helpers were updated.
+- The cloud_trace advanced example was updated.
+- The Blender blend file loader was updated.
+- A bug in the OBJ file loader was fixed.
+- Several breaking changes were made:
+  - The Exposed<Object> class and the Expose function was removed.
+    The FriendOf<Object> class should be used instead.
+  - The AutoBind<Object> class was removed.
+  - The Bound<Object> class and the Bind free function were marked
+    as deprecated and prepared for removal.
+- A new API for binding of objects and binding querying was added to Context.
+- Several of the older oglplus examples were removed including projects
+  from the manually generated MSVC solutions.
+- Many of the existing examples were updated to show the new features.
+
+
+Version 0.43.0
+
+
+- The OptionalUniform<T>::TrySet function was added.
+- The Current<Object> and AutoRebind<Object> template classes were added.
+- The metaballs seamless texture image generators were added.
+- New functions and operators were added to Angle<T>.
+- The TextureFilter enumeration and related functions were added.
+- Syntax sugar operator for Buffer::SubData was added.
+- Syntax sugar operators for specifying texture level image were added.
+- Syntax sugar operator for setting transform feedback varyings was added
+  to Program.
+- The wrapper for DSA compatibility matrix stack functions was refactored.
+- A new advanced example 'cloud_trace' was added.
+- Several of the existing examples were updated to show the new features.
+- Detection of the NV_copy_image extension was added to the build system.
+- The detection of C++11 chrono library was updated in the build system.
+- Several problems with the detection of third party libraries were fixed.
+- Some parts of the code were reorganized and moved to separate source files.
+
+
+Version 0.42.0
+
+- The Format and InternalFormat typedef were added to Texture.
+- The images::ImageSpec class was added.
+- The ClearImage, ClearSubImage, InvalidateImage, InvalidateSubImage and Image
+  functions were added to Texture.
+- An overload of Renderbuffer::Storage accepting images::ImageSpec was added.
+- Several syntax-sugar operators for specifying the attributes and simple
+  manipulation of Texture, Buffer, Framebuffer and Renderbuffer were added.
+- The ContextFlagBit and ContextProfileBit enumerations were added.
+- The ProfileMask and Flags and the NumShadingLanguageVersion,
+  ShadingLanguageVersion and ShadingLanguageVersion functions were added
+  to Context.
+- Multisampling-related functions were added to Context.
+- The ProgramResourceProperty enumeration was updated.
+- A bug in the GLSLSource class, related to reading GLSL from input streams
+  was fixed.
+- Changes to the build system:
+  - Updated GL version detection.
+  - Updated the configure.py script to use the LD_LIBRARY_PATH variable.
+- A two examples were added and several of the existing examples were updated
+  to show the usage of the new features.
+- One of the older examples was removed.
+- Several documentation updates were made.
+
+Version 0.41.0
+
+- The ShaderProgram class was added.
+- The BufferMapAccess enumeration was updated.
+- The Unmap, FlushRange and FlushElements functions were added to Buffer maps.
+- The InvalidateData and InvalidateSubData functions were added to Buffer;
+- The FramebufferBuffer enumeration was added.
+- The Invalidate function was added to Framebuffer.
+- The EnumArray<T> template for passing of arrays of enum values was added.
+- Wrappers for the glClearBuffer functions were added.
+- A new harness for OGLplus examples using Qt5 was added.
+- An unofficial X11/glX-based implementation of the EGL API, with several
+  extensions was added.
+- Support for client extensions were added to EGLplus.
+- eglplus::Context was updated, a new overload of MakeCurrent was added,
+  and the Release member function was added.
+- Several examples were updated to show the new features.
+- A new script for rendering videos from OGLplus examples was added.
+- Several problems in the build system were fixed.
+
+Version 0.40.0
+
+- Experimental support for OpenGL ES 3.0 was added.
+- A first example for the Android platform, usable with the Android NDK
+  with GLESv3 was added.
+- The Texture::GetImage function was added.
+- The Buffer::TypedMap<T> template was re-factored into two namespace level
+  classes: BufferRawMap and BufferTypedMap<T>.
+- New constructors were added to Vector<T, N>.
+- The images::FilteredImage template base class was reimplemented.
+- The images::Transformed class was renamed to images::TransformComponents.
+- The images::FlipImageAxes filter was added.
+- The XPMImage loader was updated to support non-standard 3D XPM images.
+- Implementations of multiple functions were moved to the implement/ directory.
+- Several bugs were fixed.
+- The build system was updated:
+  - Detection of GL version was updated, the automatically-generated
+    oglplus/fix_gl_version.hpp file was added.
+  - Problem with Pango/Cairo detection was fixed.
+  - A problem with building the OGLplus library was fixed.
+  - Several other bugs were fixes.
+
+Version 0.39.0
+
+- The PNG class was renamed to PNGImage.
+- The XPMImage class was added.
+- The Quaternion<T> template class was added.
+- The SLERP functor for Quaternion and Vector was added.
+- The Vector::Unit constructor function was added.
+- The Vector::Normalize function was added.
+- The CameraMatrix::ScreenStretch constructor function was added.
+- The Angle::ArcSin and Angle::ArcCos constructor functions were added.
+- The *= and /= operators were added to Angle.
+- Overloads of the Bind function were added to the DSATexture, DSARenderbuffer
+  and DSABuffer.
+- A bug in the LinearGradient class was fixed.
+- A bug in the pango/cairo text renderer was fixed.
+- The bitmap glyph-based text renderer was made compatible with MSVC11.
+- The inline keyword was added to the shader user-defined literals.
+- The const specifier was added to the data pointer parameters in Buffer::Data
+  and Buffer::SubData.
+- Cleanup and minor optimizations were made in the oglplus and standalone
+  examples.
+- The video frame output was updated in the example harnesses to support
+  custom resolutions.
+- A problem with the XML debug output was fixed.
+- Several updates to the build system were made, the FOLDER property was added.
+- The documentation was updated.
+
+Version 0.38.0
+
+- The Group<Object> class template for grouping externally managed objects
+  was added, together with specializations implementing ARB_multi_bind
+  operations on Buffer, Sampler and Texture.
+- The DSAFramebufferEXT, DSARenderbufferEXT and DSAVertexArrayEXT classes
+  implementing direct-state-access operations were added.
+- Forwarding headers defining the DSATexture, DSABuffer, DSAFrameBuffer,
+  DSARenderbuffer, DSAVertexArray and DSAVertexArrayAttrib were added.
+- The Managed<Object> class template was updated to be compatible with
+  the direct-state-access objects.
+- A new example was added and one of the older examples was updated to show
+  the usage of the direct-state-access classes.
+- The BoundingSphere functions in the shape builders were updated to use
+  the Sphere class instead of Vector for the return value.
+- The FOLDER properties were added to the build system to put targets
+  into solution folders when they are supported.
+
+
+Version 0.37.0
+
+
+- The DSABufferEXT class, a wrapper for direct state access buffer operations
+  was added.
+- The BufferMapAccess enumeration was reimplemented.
+- The BufferStorageBit enumeration was added.
+- Support for ARB_buffer_storage was added.
+- Support for ARB_bindless_texture was added.
+- Support for ARB_seamless_cubemap_per_texture, ARB_texture_stencil8 and
+  ARB_texture_mirror_clamp_to_edge was added.
+- The BufferTarget enumeration was updated.
+- A problem in the Texture::Swizzle* functions was fixed.
+- The SimpleSubdivSphere and SubdivSphere shape parameteric builders were added.
+- The GL version and extension detection in the build system was refactored and
+  partialy reimplemented.
+- The code for finding various third-party libraries in the build system was
+  refactored and updated.
+- Identifiers reserved by standard C++ starting with underscore and an uppercase
+  letter were replaced.
+- Support for GLFW-3 was added to the build system and a GLFW-3-based example
+  harness was added.
+- Several new examples showing the new features were added.
+- The documentation has been updated - a tutorial explaining how the library can
+  be built and used was added.
+
+Version 0.36.0
+
+- General code cleanup was performed - implementations of larger functions
+  were moved into separate files in the /implement/ directory and its subdirs.
+  This should make the headers less cluttered and more readable.
+  Some functions were also moved into the library.
+- Support for fullscreen mode was added to the GLUT-based example harness.
+- Reusable filters for the ARB_debug_output extension wrappers were added.
+- A wrapper for the KHR_debug extension was added.
+- An XSLT template for formatting the XML output from the ARB_debug_output or
+  KHR_debug wrappers was added.
+- PolygonMode getter was added to OGLplus context.
+- The oglplus shapes::ShapeAnalyzer utility was added.
+- An example showing the usage of the ShapeAnalyzer was added.
+- An example showing the usage of the Blender file parser was added.
+- Ambuguity in the CamMatrix::Perspective function was fixed.
+- A new constructor was added to some specializations of Vector.
+- Typos in the MaxAnisotropy and Anisotropy getters of Texture were fixed.
+- The documentation was updated.
+
+Version 0.35.0
+
+- Mostly a bugfix release.
+- OGLplus changes:
+  - The all-in-one 'library' header file was update, some of the functions
+    from ObjMesh and from the image generators were moved into the lib.
+  - The oglplus/image.hpp header was moved to oglplus/images/image.hpp.
+  - A problem with 'None' being defined as a PP symbol on some plattforms
+    was fixed in the implementation of Program.
+- Changes to examples:
+  - Some minor bugs were fixed in the OGLplus examples.
+- Changes to the build system
+  - The detection of GL version and GL extensions was reimplemented
+    to be more robust and reliable.
+  - The dependencies/requirements for most examples were updated accordingly.
+  - Detection if the OGLplus library can be built was added.
+  - The detection of C++11 variadic templates was updated to be more reliable.
+
+Version 0.34.0
+
+- OGLplus changes:
+  - The DSATextureEXT class - a direct-state-access replacement for Texture was
+    added and can be used where the EXT_direct_state_access extension is
+    available.
+  - Support for anisotropic filtering was added to Texture and DSATextureEXT.
+  - The PointAndVector, TwistedTorus and the Cage parametric shape vertex
+    attribute builders were added.
+  - The Buffer::Target::Query value is now initialized from core GL instead of
+    the AMD extension.
+  - The AutoBind<Object> template was reimplemented and the Array<Object> template
+    was specialized for AutoBind.
+  - Some syntax-sugar operators were added to the Capability and Functionality
+    enumerations for a more convenient enabling/disabling of GL capabilities.
+  - The text rendering utilities were updated and a simple SW 2D text rendering
+    utility was added.
+  - The ValueInRightAngles and ValueInFullCircles getter functions were added
+    to the Angle<T> template class.
+- Updates to examples:
+  - Several new examples were added and some of the existing examples were updated
+    to show the new OGLplus features.
+  - Several old examples were removed.
+  - The ARB_debug_output in the GLX example 'harness' was updated to remove
+    duplicate messages.
+  - Several minor tweaks and optimizations were made to the existing examples.
+- Updates to the build system:
+  - The --generator option that allows to specify the cmake generator was added
+    to the configure scripts.
+  - The --with-msvc option was added to the configure.bat script.
+  - The --jobs option was added to the configure scripts.
+  - The automatic selection of the GL initialization library was improved.
+  - GL version detection was improved, GL 4.4 is now supported by the build system.
+  - GL extension detection was improved.
+  - Several other minor bugs were fixed.
+  - The glcorearb.h and glext.h headers were added to the third_party includes
+    and are used as fallback if no other GL API library is available.
+  - A problem in OpenAL detection/configuration was fixed.
+  - The requirements/dependencies for examples were updated.
+  - Detection of the UNICODE_LITERALS C++11 feature was added.
+
+Version 0.33.0
+
+- OGLplus changes
+  - The MaxLevel getter and setter functions were added to Texture.
+  - A new CamMatrix::LookingAt constructor function was added.
+  - Minor changes were made to the shapes::ObjMesh loader.
+  - The shapes::Cube generator was reimplemented.
+  - An EGL harness for off-screen screenshot and video rendering was added.
+  - The SepStrRange helper class was moved to OGLplus and re-used in both
+    OALplus and EGLplus.
+  - The normal map image generator was changed - the height value is now inverted.
+  - Range-based traversal of GL extensions was added to Context.
+  - An example showing extension string traversal was added.
+  - An example printing the various GL implementation limits was added.
+  - Two new examples showing shell-based parallax mapping were added.
+  - The glcorearb.h header was added to the third_party includes for convenience.
+- OALplus changes
+  - String queries were added to Context.
+  - Const qualifiers were removed from Source::Gain and Source::MaxDistance
+    setter functions.
+  - Static specifier was added to Context::Extensions.
+  - Re-used the Angle template from OGLplus.
+  - Minor problem in the Array template was fixed.
+  - Support for construction with attributes was added to CurrentContext.
+  - Two new examples were added and the existing ones were updated.
+- EGLplus changes
+  - Three new getter functions were added to Config.
+- Changes in the build system and configuration script
+  - The GL context intialization was re-implemented.
+  - The --use-gl-window-lib option was renamed to --use-gl-init-lib.
+- Minor updates and typo fixes were made to the doxygen documentation.
+
+
+Version 0.32.0
+
+- Merged the EGLplus library into the main development branch
+  - EGLplus is a wrapper around EGL similar to what OGLplus
+    is to OpenGL.
+  - Four new examples showing the usage of EGL were added.
+- Updates to the build system
+  - The X11/GLX detection was refactored.
+  - Options for forcing GL header and context initialization library
+    were added to the configure.sh bash script.
+  - Support for building some parts of OALplus and EGLplus into
+    a library was added.
+  - The `--max-gl-version' option that allows to limit the maximum GL version
+    to be used was added to the configure.py script.
+- The friend functions of Angle<T> were re-implemented.
+- The Pointer* and Setup* functions of VertexAttrib were reimplemented
+  - NOTE: this is an interface breaking change.
+  - The former Pointer function was split into Pointer/IPointer/LPointer.
+  - The former Format function was split into Format/IFormat/LFormat.
+  - The Setup functions were reimplemented.
+    - The examples were updated to use the templated VertexAttrib::Setup.
+    - This changes should minimize the link failures due to unresolved
+      references to glVertexAttribLPointer.
+- Reimplemented Quick/HardwiredProgram.
+  - NOTE: this is an interface breaking change.
+  - The separable attribute is now true_type or false_type instead of bool.
+  - This change allows to use non-separable Quick/Hardwired programs
+     with lower versions of GL than 4.1.
+- Update of Bitfield
+  - Updated OGLplus Bitfield so that it can be used with enumerations
+    from EGLplus and OALplus.
+- Other minor changes and updates.
+
+Version 0.31.0
+
+- Merged the OALplus library into the main development branch
+  - OALplus is a wrapper around OpenAL similar to what OGLplus
+    is to OpenGL.
+- Documentation updates and fixups.
+  - A new tutorial for OALplus was added.
+  - Some problems in the existing tutorials were fixed.
+  - The readme file was updated.
+- Updates in the build system
+  - A problem with the dependencies for GLFW-based test fixture was fixed.
+  - A Qt4/OpenGL-based example harness was added.
+  - A bug in parsing of LDFLAGS in the configure.py was fixed.
+  - The require_all_dependencies cmake function was updated to include
+    the <LIBRARY>_USE_FILE if it is available for a dependency.
+- A bug in the Query::Execution class was fixed.
+- Several other minor bugs were fixed.
+- Compatilitity with MacOS X and other systems using older versions
+  of OpenGL was improved.
+- New utility scripts were added.
+- Several new examples were added.
+
+Version 0.30.0
+
+- An .obj file loader was added.
+- 2 new examples showing the usage of the .obj loader were added.
+- Added several new simple .obj models used by the examples.
+- The build system was updated:
+  - Updated example dependencies/requirements.
+  - Added instructions for building .obj models.
+  - Updated and fixed some problems in documentation building.
+  - Fixed a problem with building of the test fixtures.
+- Problem with scoped enums emulation in uniform_typecheck.hpp was fixed.
+- A wrapper for glTextureView was added to Texture.
+- A wrapper for glGetShaderPrecisionFormat was added to Shader.
+- The Size function was added to Buffer and Bound<Buffer>.
+- A problem with generating of the bound/*.hpp was fixed.
+
+Version 0.29.0
+
+- The build system was updated and several problems were fixed:
+  - A check if a standard threads implementation is available was added.
+  - The management of example and test case dependencies and
+    requirements was reimplemented.
+  - Available GL version detection was added and the detection of GL
+    extensions was updated.
+  - A problem with standalone examples depending on libPNG was fixed,
+    they are now built only if libPNG is available.
+  - Some problems in the configure.py script were fixed and new features
+    were added.
+- The test suite for oglplus was moved to test/oglplus/.
+- A test case checking if all configured examples build properly was added.
+- The AtomicCounterBindingPoint and ShaderStorageBufferBindingPoint
+  types were added.
+- The BindBaseAtomicCounter and BindBaseShaderStorage functions were
+  added to Buffer.
+- The preprocessor symbols related to compiler capabilities were
+  moved into a separate header file.
+- Header dependencies were updated in several files.
+- Several new examples showing the usage with GL 3.0 and GLSL 1.2
+  (working with Mesa 3D 9.0) were added.
+- Some of the existing examples were updated.
+
+Version 0.28.0
+
+- The VertexAttribute setup functions were reimplemented.
+- The Vector and Matrix template classes were reimplemented
+  from scratch.
+- The bitmap glyph text rendering utility was refactored.
+- A new text rendering utility based on Sean Barrett's truetype
+  font rasterization library was added.
+- A type erasure for text rendering utilities was added.
+- Primitive restarting in shape drawing functions was updated.
+- The enumeration classes were reimplemented.
+- The Grid shape builder was added.
+- The TrySet function was added to OptionalUniform<T>.
+- The GLSLSource class was updated.
+- The build system was updated.
+- A testing framework and first test cases were added.
+- Several new examples (including the first advanced) were added.
+- Some of the existing examples were updated or optimized.
+- Minor changes were made to the readme file and to the documentation.
+
+Version 0.27.0
+
+- Bug in construction of perspective matrices was fixed.
+- Several bugs in the examples and example harnesses were fixed.
+- Added the Query::Activator class
+- The front() and back() functions were added to Array<Object>
+- Support for instanced rendering was added to the shape
+  generators/loaders.
+
+Version 0.26.0
+
+- The example "harnesses" were reimplemented, the GL context creation
+  libraries were separated from the GL API libraries and various
+  combinations of GLX/GLUT/GLFW/SDL/wxGL with gl3.h/glcorearb.h/GLEW/GL3W
+  are now supported.
+- Some of the other example "harnesses" now support making screenshots.
+- The build system was updated and some problems were fixed.
+- Support for multi-threaded rendering was added to the GLX "harness".
+- Several new examples were added including one showing multi-threaded
+  rendering.
+- The MSVC projects/solutions were updated.
+- The Screen shape builder was added.
+- The Image<T> template was reimplemented to the images::Image
+  class. The related image loading/generating classes were updated.
+- Many complex functions were updated to support compilation
+  into a library.
+- The Blender's .blend file parser was optimized.
+
+Version 0.25.0
+
+- The implementation of Uniforms has been refactored and updated.
+- Support for Uniform typechecking was added.
+- Support for defining Uniforms from GLSL data types was added.
+- Mapping of GLSL data types to C++ types was added.
+- The ShaderVariableError exception was added.
+- Some problems in the shape builders were fixed.
+- Functions for generating bi-normal vectors for shape vertices
+  was added to some of the existing shape builders.
+- Fixed a bug related to primitive restarting in examples.
+- Fixed a minor problem with Matrix.
+- The ShapeWrapperWithAdjacency helper class was added.
+- The PatchParameter enumeration and a wrapper for the
+  glPatchParameteri function was added.
+- Several new examples were added.
+
+Version 0.24.0
+
+- Several problems in the BlenderMesh shape loader were fixed.
+- A new example showing the usage of shapes::BlenderMesh was added.
+- The Program interface traversal functions were updated.
+- A function for getting information (name, data type, program
+  interface index, etc.) about an uniform was added.
+- The SLDataType enumeration was updated.
+- Documentaion was updated.
+
+Version 0.23.0
+
+- The List function and ListOf template class that can be used
+  as a replacement for initializer lists were added.
+- The OGLPLUS_STD_VECTOR_INIT macro was replaced with List and ListOf
+  in the examples.
+- Some of the examples were backported to MSVC10 using ListOf and List.
+- Some optimizations were made in the error handling subsystem.
+- The GLUT/GLEW example 'harness' was updated.
+- Problems in the texture image loading utilities used by the examples
+  were fixed.
+- The BlenderMesh 'shape loader' for loading of meshes from Blender's
+  .blend files was added.
+- Other minor changes and bugfixes were made.
+- A couple of new examples were added.
+
+Version 0.22.0
+
+- The Optional<Object> template class allowing optionally initialized
+  objects like textures, samplers, framebuffres, shaders, programs, etc.
+  was added.
+- Some problems in the ARB_debug_output wrapper were fixed.
+- Several new examples were added.
+- Several new textures were added.
+- The gradient image generator was added.
+- Some problems in the PNG file loaded were fixed.
+- The build system was updated to use a fallback texture if a texture
+  cannot be rendered from source and a prebuilt texture is not
+  available.
+- Some features of shape builders and several examples were
+  backported to MSVC
+- Several other minor bugs and problems were fixed
+
+Version 0.21.0
+
+- A utility for parsing Blender's .blend files was added.
+- The OptionalUnifom class and its variants were added.
+- The common base code for standalone examples was updated.
+- A tool for bitmap-glyph-based text renreding was added.
+- A tool for Pango/Cairo-based text renreding was added.
+- Several problems in the build system were fixed.
+- The SubroutineUniforms class was updated, a Preset
+  type and Load, Save and Apply functions were added.
+- Problems with calling conventions on MinGW were fixed.
+- Problems with building on 64-bit systems were fixed.
+- Multiple examples showing the new features were added.
+
+Version 0.20.0
+
+- The subscript operator was added to Uniform which allows to
+  set the individual elements of uniform array variables separatelly.
+- The GetLocation, GetCommonLocation, QueryLocation and
+  QueryCommonLocation member functions were added to VertexAttribute.
+- Minor changes in Subroutine uniforms were made.
+- Added the IncompleteFramebuffer exception and
+  the Framebuffer::Complete function.
+- Destructors that could potentially throw were rewritten.
+- Support for loading GLSLSource from a file was added.
+- A wxWidgets/wxGL-based "harness" for the examples was added.
+- Fixed a bug in the program resource traversal functions
+  and classes
+- Fixed a problem with GL extension availability detection
+- Updated the enumerations in the NV_path_rendering extension
+- Some problems in the build system were fixed.
+- Automatic index type detection was added to some overloads
+  of Context::DrawElements.
+- Several new examples were added.
+- The documentation and the README file was updated.
+
+Version 0.19.0
+
+- Some parts of OGLplus can now optionally be built into a library
+  and linked to the applications based on the value of the
+  OGLPLUS_LINK_LIBRARY preprocessor switch.
+- The implementation of the EnumValueName function was refactored.
+- The EnumValueRange function was added.
+- Wrappers for GL 4.3 program interface, compute shader dispatching,
+  and debug output functionality were added.
+- Support for GL/glcorearb.h header was added to the build system.
+- The configuration script for the build system was updated.
+- The smart enumerations header was moved to the oglplus/opt dir.
+- Wrappers for BufferClearData and BufferClearSubData were added.
+- Wrappers for texture functions were added.
+- Operator << was added to Program for attaching shaders.
+- The shader literals were added.
+- Several new enumeration types and new values to the existing
+  enumerations were added.
+- New example showing a soft body simulation was added.
+- New example showing the usage of shader literals was added.
+- The documentation and README was updated.
+- Several bugs were fixed.
+
+Version 0.18.0
+
+- Added the OneOf template allowing to pass values
+  of several different types with a common representation
+  as parameter to certain functions.
+- Wrapper for glDrawBuffers was added to Context
+- The FramebufferColorAttachment enumeration was added.
+- The implementation of CameraMatrix::LookingAt was updated.
+- A bug in Buffer::SubData has been fixed.
+- Several other minor changes were made and bugs fixed.
+- The build system has been updated.
+- New examples were added.
+
+
+Version 0.17.0
+
+- Improved support for MSVC (2010 and 11)
+- Backporting to clang (tested with version 3.0).
+- Updated the build system to detect required C++11 features
+  and external dependencies and building only examples with
+  all prerequisites.
+- Updated the configuration script.
+- Reimplementation of uniform variables. Lazily-initialized
+  uniforms were added and the wrappers for GL setter functions
+  were rewritten from scratch.
+- The Squares image generator was added.
+- Checking of pointers to GL functions was added.
+- Concatenation of StrLit objects was optimized.
+- Multiple bugs were fixed and several other optimizations
+  were made.
+- Several examples were updated and/or optimized.
+- The documentation has been updated and a new tutorial was
+  added.
+
+
+Version 0.16.0
+
+- Backporting to MSVC 2010.
+- Several bugs were fixed.
+- Optimizations were made to the Matrix template
+
+Version 0.15.0
+
+- The OGLPLUS_LOW_PROFILE preprocessor option was added
+  for disabling non-essential features of OGLplus resulting
+  in smaller executable sized, better compilation and execution
+  times.
+- The GLSLSource wrapper/loader for source code strings
+  was added.
+- The StrLit wrapper for c-string literals was added.
+- Some optimizations were made on Angle, Vector, Object,
+  Array, and some other classes.
+- The Specialized<> modifier template was added.
+- Major refactoring of internal implementation of Objects
+  (Textures, Buffers, Shaders, Programs, etc.) and related
+  classes was made.
+- Added support for Subroutine uniforms.
+- The list of Buffer's indexed target values was updated.
+- The Icosahedron shape builder was added.
+- Support for vectors and matrices from the GLM library was
+  added.
+- The Submatrix*(...) functions for exatration of a submatrix
+  were added to Matrix.
+- The GLUT/GLEW example harness was updated to print framerates
+  and polygon count statistics to the standard output.
+- Several bugs in the cmake build system and the related
+  scripts were fixed.
+- The oglplus/bound/*.hpp headers were added to the repository
+  and are not build by the build system anymore (this removed
+  dependencies on doxygen and xsltproc).
+- The OGLPLUS_PP_DEFS symbol was added to the MSVC 11 solution.
+- Several new projects were added to the MSVC 11 solution.
+- Several examples showing the new features were added and some
+  of the previously existing examples were optimized.
+- The documentation content and stylesheets were updated.
+
+
+Version 0.14.0
+
+- A wrapper for the AMD_performance_monitor extension was added.
+- The build system was updated and some bugs were fixed.
+- The configure.bat script for windows was added.
+- OGLplus now works with MinGW.
+- New examples were added.
+- The documentation was updated.
+
+Version 0.13.0
+
+- Detection of availability of several C++11 features was added
+  to the cmake-based build system.
+- Most parts of OGLplus now work with MSVC 11. Several minor interface
+  changes and updates were made in the process.
+- A MSVC solution/project files were added for building of examples.
+- The HardwiredTupleProgram template was added.
+- A new 'RevolveY' shape builder was added.
+- The "smart enum" classes which make the usage of strongly-typed enums
+  more convenient were added.
+- New examples were added and some of the existing were updated to show
+  the new features.
+
+Version 0.12.1
+
+- Several problems and omissions in the NV_path_rendering extension
+  wrapper were fixed
+- The ARB_compatibility wrapper was updated
+- A wrapper for a subset of EXT_direct_state_access was added
+- A new example showing dynamic text rendering using NV_path_rendering
+  was added
+
+Version 0.12.0
+
+- Wrappers for several GL extensions (including ARB_compatibility,
+  ARB_debug_output, NV_path_rendering, ATI_meminfo) were added
+  (some of them still work-in-progress).
+- The build system was updated and some problems were fixed.
+- The error checking/reporting subsystem was updated and now
+  can be partially compiled away if necessary.
+- New camera matrix constructors were added and some of the
+  existing were renamed.
+- The Object helper template was partially refactored.
+- Several new examples were added.
+
+Version 0.11.2
+
+- Update of the build system
+
+Version 0.11.1
+
+- CMake configuration/build system was added
+- The old build system was removed
+- Headers and sources were updated for better compatibility with GLEW
+- Documentation was updated and a readme file was added
+- Added several new textures
+
+Version 0.11.0
+
+- Several typedefs that were members of Object(s) were moved to the
+  oglplus namespace and renamed for better interface consistency
+- Wrappers for many different GL-context value queries were added
+- Wrappers for viewport-array-related operations were added
+- Wrappers for Renderbuffer and Sync-related queries were added
+- Wrappers for TexStorage and BindImageTexture were added to Texture
+  and a typo in it's interface was fixed
+- Several new enumerations were added including access specifier, image
+  unit format and others
+- Some of the texture image generators were updated, including the
+  Newton fractal and Cloud
+- Several new examples were added and some of the existing were optimized
+- Few minor bugs were fixed and the documentation was updated
+
+Version 0.10.0
+
+- Enumerations and functions related to querying of implementation-dependent
+  limits were added
+- A new special shape builder that can be used for space division
+  and implicit surface polygonization was added
+- Edge drawing instructions were added to the Plane and WickerTorus
+  shape builders were added
+- The CosineWave function was added
+- The function for inverting of FaceOrientation was added
+- A bug in the interface of Texture was fixed
+- Several bugs in the examples were fixed
+- OpenGL hint-related functions and enums were added
+- Pixel storage and transfer-related functions and enums were added
+- Several new examples were added and the documentation was updated
+
+Version 0.9.0
+
+- The AutoBind class template was added
+- The HardwiredProgram template was added
+- New constructors to the QuickProgram class were added
+- Wrappers for Flush and Finish functions were added
+- The former Uniform and ProgramUniform classes were turned
+  to class templates
+- The way uniform matrices are set was changes
+- The VertexAttrib and the VertexAttribArray classes were updated
+- The examples were updated accordingly and two new were added
+- The Matrix4f and Matrix4d typedefs were renamed to Mat4f and Mat4d
+- New matrix typedefs Mat[234]x[234][fd] and Mat[234][fd] were added
+- Several new texture images were added
+- The shape builders were updated
+- Documentation was updated
+
+
+Version 0.8.0
+
+- New constructors were added to the shader classes allowing
+  to specify the source and compile the shader during construction
+- The QuickProgram class, which allows to specify shaders and link
+  the program during construction was added
+- The current OpenGL context function wrappers were reorganized
+  to several classes
+- Wrappers for draw commands were added
+- The ProvokeMode enumeration was added
+- Wrappers for VertexAttribDivisor and PrimitiveRestartIndex were added
+- Several new compile-time configuration options were added
+- Update of the error handling, support for customized handling of
+  errors was added
+- Several new examples were added some problems in the existing examples were fixed
+- Two new textures were added
+- A new tutorial was written
+- Other documentation updates and fixes
+- A new shape builder was added (the WickerTorus)
+- The Cube and Plane shape builders were updated
+- The ST texture coordinates were switched in the Torus shape builder
+- A new image filter, which allows to transform the image pixel components
+  by a matrix was added
+
+Version 0.7.0
+
+- Several problems in the Makefile were fixed
+- A 2D-plane math utility was added
+- A new Plane shape builder was added
+- The SpiralSphere shape builder was updated
+- Clip distance-related functionality was added
+- Scissor-test related function wrappers were added
+- Several new examples were added and some of the existing were updated
+- Documentation updates and typo fixes
+
+Version 0.6.0
+
+- Added the first two tutorials, reorganized and updated the documentation
+- Added a new shape builder
+- Added new examples
+
+Version 0.5.1
+
+- Fixed bugs that caused compilation failures in g++ 4.6.x
+
+Version 0.5.0
+
+- Compile-time checks for available OpenGL enumerations and functions were added
+- New Buffer Target was added
+- New function wrappers were added to Context
+- New capabilities were added to the Capability enumeration
+- Wrapper class for sync objects was added
+- Memory barrier-related enumerations and function wrappers were added
+- Support for iteration over program shaders was added
+- Additional query functions for program parameters were added
+- Query functions for program pipeline parameters were added
+- The TessGenPrimitiveType and TessGenPrimitiveSpacing enumerations were added
+- Vertex attribute and uniform setters have now better diagnostic
+- Framebuffer status enumeration and completeness query functions were added
+- Color buffer-related enumerations and function wrappers were added
+- Ortho Matrix construction was added
+- Several bugs in the examples were fixed
+- New examples were added including two standalone examples
+- The documentation was updated
+- The build system was updated
+
+Version 0.4.0
+
+- A bug in the install script which caused it to exit before
+  installing anything was fixed
+- New member functions were added to ProgramPipeline
+- Wrapper class ProgramUniform* functionality was added
+- New Uniform setter functions were added
+- New examples were added
+- The documentation was updated
+
+Version 0.3.0
+
+- The CameraMatrix::Perspective function has been reimplemented
+- The camera and projection matrices in the examples were fixed
+  accordingly
+- Several bugs in the example shaders (mostly related to lighting)
+  were fixed and some of the examples were slightly optimized
+- Added Tangentials to the Sphere shape generator
+- Added an example showing single-pass dynamic cube map rendering
+  and environment mapping
+- Added a new setter function to Uniform
+- The documentation was updated
+- Several other minor updates were made
+
+Version 0.2.0
+
+- Functions for texture parameter queries were added
+- Functions for texture image specification and query were added
+- The SineWave function was added
+- The Default Target in renderbuffer was renamed to Renderbuffer and
+  in transform feedback wrapper to TransformFeedback
+- Few new wrapper functions were added to Renderbuffer and Framebuffer
+- The Attachments enumeration was aded to framebuffer
+- Renderbuffer and Framebuffer were added to the set of "Bindable" objects
+- Major documentation updates were made
+- Several minor bugs and typos in the documentation were fixed
+- New examples were added
+- Several other minor updates were made
+
+Version 0.1.0
+First released version, wrapping the basic OpenGL functionality
+
+Version 0.0.1
+The initial version

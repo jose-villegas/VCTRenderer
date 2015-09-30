@@ -1,0 +1,23 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=======================]
+[section:concept Concepts]
+[/=======================]
+
+This section describes concepts - named sets of requirements placed on actual types.
+None of the types or classes decribed in this section are actual types and none
+of them can be used by the library's end-user code. They are here just to describe
+the requirements that the types conforming to the individual concepts must satisfy
+in order to be considered models of those concepts. The concepts described here
+are also used are function parameters or return value types in this reference.
+In such cases the actual type is an implementation detail.
+If values of such types are returned from a function and need to be stored in variables,
+then the [^auto] type specifier (or the [^decltype] operator) should be used to
+determine the concrete type.
+
+[include concept/range.qbk]
+[include concept/metafunction.qbk]
+
+[endsect]

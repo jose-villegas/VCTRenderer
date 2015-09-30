@@ -1,0 +1,71 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------]
+[section:framebuffer Framebuffers]
+[/-------------------------------]
+
+[header oglplus/framebuffer.hpp]
+
+[import framebuffer.hpp]
+
+[heading:common Common framebuffer operations]
+
+[oglplus_framebuffer_common]
+
+[heading:ops Operations with explicit selector]
+
+[oglplus_framebuffer_1]
+[oglplus_framebuffer_2]
+
+[heading:def Definition]
+
+[oglplus_framebuffer_def]
+
+[heading:syntax_sugar Syntax sugar operators]
+
+[oglplus_framebuffer_sugar]
+
+[heading:target Target]
+
+[header oglplus/framebuffer_target.hpp]
+[import enums/framebuffer_target.hpp]
+[oglplus_enums_framebuffer_target]
+
+[heading:target_class Target to class]
+
+[import enums/framebuffer_target_class.hpp]
+[oglplus_enums_framebuffer_target_class]
+
+[heading:buffer Buffer]
+
+[header oglplus/framebuffer_attachment.hpp]
+[import enums/framebuffer_buffer.hpp]
+[oglplus_enums_framebuffer_buffer]
+
+[heading:attachment Attachment]
+
+[header oglplus/framebuffer_attachment.hpp]
+[import enums/framebuffer_attachment.hpp]
+[oglplus_enums_framebuffer_attachment]
+
+[heading:color_attachment Color attachment]
+
+[header oglplus/framebuffer_attachment.hpp]
+[import enums/framebuffer_color_attachment.hpp]
+[oglplus_enums_framebuffer_color_attachment]
+
+[heading:color_attachment_number Color attachment number]
+
+[header oglplus/framebuffer_attachment.hpp]
+[import framebuffer_attachment.hpp]
+[oglplus_framebuffer_color_attachment_number]
+
+[heading:status Status]
+
+[header oglplus/framebuffer_status.hpp]
+[import enums/framebuffer_status.hpp]
+[oglplus_enums_framebuffer_status]
+
+[endsect]

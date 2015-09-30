@@ -1,0 +1,23 @@
+/**
+ *  Copyright 2010-2013 Matus Chochlik. Distributed under the Boost
+ *  Software License, Version 1.0. (See accompanying file
+ *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ */
+
+#include <GL/glew.h>
+
+bool do_query_gl(void)
+{
+#if !defined GL_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@
+	return false;
+#elif !GL_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@
+	return false;
+#else
+	return true;
+#endif
+}
+
+int main(void)
+{
+	return do_query_gl()?0:1;
+}

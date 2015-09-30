@@ -1,0 +1,102 @@
+#  Copyright 2009-2014 Matus Chochlik. Distributed under the Boost
+#  Software License, Version 1.0. (See accompanying file
+#  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#
+#---------------------------------------------------------------------------
+# Project related configuration options
+#---------------------------------------------------------------------------
+@INCLUDE = ../Doxyfile.common
+
+PROJECT_NAME           = "OGLplus"
+
+SORT_BY_SCOPE_NAME     = YES
+HIDE_SCOPE_NAMES       = NO
+
+OUTPUT_DIRECTORY       = ../../../_build/doc/doxygen/oglplus
+
+INPUT = \
+	../../include/oglplus \
+	../../tutorial/oglplus \
+	../../../include/oglplus \
+	../../../include/oglplus/math \
+	../../../include/oglplus/string \
+	../../../include/oglplus/object \
+	../../../include/oglplus/prog_var \
+	../../../include/oglplus/bound \
+	../../../include/oglplus/dsa \
+	../../../include/oglplus/error \
+	../../../include/oglplus/context \
+	../../../include/oglplus/native \
+	../../../include/oglplus/utils \
+	../../../include/oglplus/ext \
+	../../../include/oglplus/ext/ARB_robustness \
+	../../../include/oglplus/ext/ARB_compatibility \
+	../../../include/oglplus/ext/EXT_direct_state_access \
+	../../../include/oglplus/ext/NV_path_rendering \
+	../../../include/oglplus/ext/ARB_debug_output \
+	../../../include/oglplus/ext/KHR_debug \
+	../../../include/oglplus/opt \
+	../../../include/oglplus/shapes \
+	../../../include/oglplus/images \
+	../../../example/standalone \
+	../../../example/oglplus
+
+INCLUDE_PATH = \
+	../../include/ \
+	../../../include/ \
+	../../../implement/ \
+	../../../example
+
+EXAMPLE_PATH = \
+	../../tutorial/oglplus \
+	../../../example \
+	../../../_build \
+	../../../_build/doc/doxygen/oglplus
+
+PREDEFINED             = \
+	"OGLPLUS_NO_SITE_CONFIG=1" \
+	"OGLPLUS_LOW_PROFILE=0" \
+	"OGLPLUS_LINK_LIBRARY=0" \
+	"OGLPLUS_LAZY_STR_LIT=0" \
+	"OGLPLUS_NO_ENUM_VALUE_NAMES=0" \
+	"OGLPLUS_NO_OBJECT_DESCS=0" \
+	"OGLPLUS_DONT_TEST_OBJECT_TYPE=1" \
+	"OGLPLUS_NO_UTF8_CHECKS=0" \
+	"OGLPLUS_NO_GLFUNC_CHECKS=1" \
+	"OGLPLUS_NO_ENUM_VALUE_NAMES=1" \
+	"OGLPLUS_NO_ENUM_VALUE_RANGES=1" \
+	"OGLPLUS_NO_UNIFORM_TYPECHECK=0" \
+	"OGLPLUS_CUSTOM_ERROR_HANDLING=0" \
+	"OGLPLUS_ERROR_INFO_NO_GL_SYMBOL=0" \
+	"OGLPLUS_ERROR_INFO_NO_FILE=0" \
+	"OGLPLUS_ERROR_INFO_NO_LINE=0" \
+	"OGLPLUS_ERROR_INFO_NO_FUNC=0" \
+	"OGLPLUS_ERROR_INFO_NO_CLASS_NAME=0" \
+	"OGLPLUS_ERROR_INFO_NO_BIND_TARGET=0" \
+	"OGLPLUS_ERROR_INFO_NO_OBJECT_DESC=0" \
+	"OGLPLUS_ERROR_NO_PROPAGATION_INFO=0" \
+	"OGLPLUS_ERROR_NO_PROPERTIES=0" \
+	"OGLPLUS_DOXYGEN_PARSE=1" \
+	"OGLPLUS_DOCUMENTATION_ONLY=1" \
+	"OGLPLUS_NOEXCEPT()=" \
+	"OGLPLUS_NOEXCEPT_IF()=" \
+	"OGLPLUS_CONSTEXPR=const" \
+	"OGLPLUS_ENUM_CLASS_BEGIN(NAME,TYPE)=enum class NAME : TYPE {" \
+	"OGLPLUS_ENUM_CLASS_END=};"
+
+ALIASES                += oglplus_screenshot{1}="@image html \1.png"
+ALIASES                += glsymbols="@par Related OpenGL symbols:"
+ALIASES                += glfunref{1}=" <a href='http://www.opengl.org/sdk/docs/man4/xhtml/gl\1.xml'>gl\1</a>"
+ALIASES                += gldefref{1}=" <code>GL_\1</code>"
+ALIASES                += glextref{2}=" <a href='http://www.opengl.org/registry/specs/\1/\2.txt'>GL_\1_\2</a>"
+ALIASES                += glverreq{2}=" <em>Requires OpenGL \1.\2.</em>"
+ALIASES                += glextreq{2}=" <em>Requires the <a href='http://www.opengl.org/registry/specs/\1/\2.txt'>GL_\1_\2</a> extension.</em>"
+ALIASES                += glvoereq{4}=" <em>Requires OpenGL \1.\2 or the <a href='http://www.opengl.org/registry/specs/\3/\4.txt'>GL_\3_\4</a> extension.</em>"
+
+HTML_HEADER            = header.html
+HTML_FOOTER            = footer.html
+HTML_STYLESHEET        = oglplus.css
+
+GENERATE_HTML = YES
+GENERATE_XML = NO
+

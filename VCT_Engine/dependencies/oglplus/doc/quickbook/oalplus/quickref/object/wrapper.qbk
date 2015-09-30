@@ -1,0 +1,64 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+
+[import wrapper.hpp]
+
+[/--------------------------------------------]
+[section:gendelops [^Gen]/[^Delete] operations]
+[/--------------------------------------------]
+
+[header oalplus/object/wrapper.hpp]
+
+The [^ObjGenDelOps] template class provides a unified interface for the AL's
+[^alGen*], [^alDelete*] and [^alIs*] functions for various
+object types specified by the __ObjTag template parameter.
+
+[oalplus_object_ObjGenDelOps]
+
+[endsect]
+
+[/-----------------------------------]
+[section:ops Type specific operations]
+[/-----------------------------------]
+
+[header oalplus/object/wrapper.hpp]
+
+The [^ObjectOps] template class is specialized for various object types
+(like buffers, sources, etc.) specified by the __ObjTag and
+operation kinds specified by type __OpsTag and implements appropriate
+interface for the particular object type.
+
+[oalplus_object_ObjectOps]
+
+[endsect]
+
+[/---------------------]
+[section:wrapper Object]
+[/---------------------]
+
+[header oalplus/object/wrapper.hpp]
+
+The main purpose of [^Object] is to do lifetime management of the underlying
+AL objects and managing textual description assigned to them. It uses the __ObjGenDelOps
+template to create new instance of an OpenAL object in the constructor and to delete
+t in the destructor.
+
+Since AL does not support object copying, instances of [^Object] are ['move-only].
+
+[oalplus_object_Object]
+
+[heading:typedefs Typedefs]
+
+The library end-users rarely need to use this template directly. Use the [^typedef]s
+of the individual instantiations instead:
+
+* __Buffer
+* __Source
+
+[endsect]
+
+
+
+

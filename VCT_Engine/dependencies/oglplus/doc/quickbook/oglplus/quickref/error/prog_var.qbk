@@ -1,0 +1,19 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------------------------]
+[section:prog_var Program variable errors]
+[/---------------------------------------]
+
+[header oglplus/error/prog_var.hpp]
+
+[import prog_var.hpp]
+
+Exception class indicating that an error related to a program
+variable (like an __Uniform, __VertexAttrib, etc.) has occured.
+
+[oglplus_error_ProgVarError]
+
+
+[endsect]

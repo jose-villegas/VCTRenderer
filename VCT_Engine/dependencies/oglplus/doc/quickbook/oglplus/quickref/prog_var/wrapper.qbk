@@ -1,0 +1,57 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------]
+[section:wrapper Wrapper]
+[/----------------------]
+
+[header oglplus/prog_var/wrapper.hpp]
+
+[import wrapper.hpp]
+
+[heading:loc_ops Basic program variable location operations]
+
+Specializations of the [^ProgVarLocOps] template implement basic
+operations working on the locations of various types of GPU program variables,
+most notably finding the location of a variable by their identifiers
+or in some cases binding the variables to a particular location.
+
+[oglplus_prog_var_loc_ops]
+
+[heading:common_ops Common program variable operations]
+
+Specializations of [^ProgVarCommonOps] implement operations specific to particular
+types of GPU program variables, but independent of their data type, type-checking or
+state access rules.
+
+[oglplus_prog_var_common_ops]
+
+Specializations of [^ProgVarGetSetOps] implement the functionality of retrieving
+or setting of values of GPU program variables for which such operations do make sense.
+
+[heading:get_set_ops Get/set program variable operations]
+
+[oglplus_prog_var_get_set_ops]
+
+Specializations of [^ProgVarTypecheck] implement the typechecking functionality
+for those GPU program variables where it makes sense (for example __Uniform
+can check if the type used as the template argument matches the type declared
+in the GLSL shader).
+
+[heading:typecheck Program variable typechecking]
+
+[oglplus_prog_var_typecheck]
+
+[heading:prog_var [^ProgVar]]
+
+Depending on the __VarTag and the rest of the template arguments [^ProgVar] (directly
+or indirectly) inherits from
+__ProgVarLoc and from various specializations of __ProgVarCommonOps, __ProgVarGetSetOps
+and __ProgVarTypecheck. [^ProgVar] is directly used as the definition of most of the
+GPU program variable wrappers like __VertexAttrib, __Uniform, __UniformBlock, __Subroutine,
+__SubroutineUniform, __ShaderStorageBlock and __FragData.
+
+[oglplus_prog_var_wrapper]
+
+[endsect]

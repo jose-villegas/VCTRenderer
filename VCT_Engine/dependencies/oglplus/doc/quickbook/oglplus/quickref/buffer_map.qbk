@@ -1,0 +1,30 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------------]
+[section:buffer_map Buffer maps]
+[/-----------------------------]
+
+[header oglplus/buffer_map.hpp]
+
+[import buffer_map.hpp]
+
+[heading:raw Raw]
+
+The [^BufferRawMap] allows to map the contents of a GPU buffer
+into the client's address space.
+
+[oglplus_buffer_raw_map]
+
+[heading:typed Types]
+
+[oglplus_buffer_typed_map]
+
+[heading:access Access]
+
+[header oglplus/buffer_map_access.hpp]
+[import enums/buffer_map_access.hpp]
+[oglplus_enums_buffer_map_access]
+
+[endsect]

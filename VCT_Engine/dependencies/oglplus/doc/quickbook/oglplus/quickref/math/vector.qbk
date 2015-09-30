@@ -1,0 +1,76 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------]
+[section:vector Vectors]
+[/---------------------]
+
+[header oglplus/math/vector.hpp]
+
+The [^Vector] class is used by OGLplus as the native template for
+(degenerate) ['1-D] and ['2-D], ['3-D] and ['4-D] vector types. Values of [^Vector]
+are mostly used to specify GLSL [^vec2], [^vec3], [^vec4]
+uniform values, but [^Vector] is powerful enough to be used as
+a general-purpose N-dimensional space vector type in many other situations
+and is used ubiquitously in the oglplus examples.
+
+[import vector.hpp]
+[def __T [link oglplus.quickref.math.vector.def T]]
+[def __N [link oglplus.quickref.math.vector.def N]]
+
+The [^Vector] class is a template with a pair of parameters; [^__T] and [^__N]
+denoting the underlying data-type and the dimension of the vector.
+The actual class is implemented as a set
+of template specializations which have many common member and friend functions,
+but there are also some differences between vectors of different dimensions.
+
+[heading:def Definition]
+
+The following unspecialized template is a synopsis of the interface common
+to all instantiations of [^Vector]. The differences to the specializations
+are noted below.
+
+[oglplus_math_vector]
+
+[heading:ctrs Constructors]
+
+[oglplus_math_vector_ctrs]
+
+[heading:swizzle Access to named coordinates and subvectors]
+
+[oglplus_math_vector_swizzle]
+
+[heading:ops Member operators]
+
+Member operators modifying [^this].
+
+[oglplus_math_vector_ops]
+
+[heading:friend_ops Friend operators]
+
+Friend operators returning new vectors without modifying the arguments.
+
+[oglplus_math_vector_friend_ops]
+
+[heading:fns Member functions]
+
+[oglplus_math_vector_fns]
+
+[heading:friend_fns Friend functions]
+
+[oglplus_math_vector_friend_fns]
+
+[oglplus_math_vector_end]
+
+[heading:spec_friends Special friend functions]
+
+[oglplus_math_vector_spec_friends]
+
+[heading:typedefs Typedefs]
+
+This header also defines several 1 to 4-dimensional __Vector [^typedef]s for convenience.
+
+[oglplus_math_vector_typedefs]
+
+[endsect]

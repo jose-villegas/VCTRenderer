@@ -1,0 +1,4 @@
+Qt5Core
+Qt5Gui
+Qt5OpenGL
+

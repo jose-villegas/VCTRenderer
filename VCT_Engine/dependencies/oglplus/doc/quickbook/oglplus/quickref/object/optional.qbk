@@ -1,0 +1,22 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------]
+[section:optional Optional]
+[/------------------------]
+
+[header oglplus/object/optional.hpp]
+
+The [^Optional] template class is a modifier for [link oglplus.quickref.object.wrapper
+objects] and in contrast to [^__Object] it [*does] allow to construct uninitialized
+instances which can be initialized later.
+
+An [^Optional<__Object>] can be used everywhere an [^__Object] could be
+used, but it must be initialized (the [^HasValidName()] member function
+must return true), otherwise usage results in undefined behavior.
+
+[import optional.hpp]
+[oglplus_object_Optional]
+
+[endsect]

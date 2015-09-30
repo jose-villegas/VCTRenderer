@@ -1,0 +1,2 @@
+VERTEX_SHADER:default_vis_cue.vs
+FRAGMENT_SHADER:default_vis_cue.fs

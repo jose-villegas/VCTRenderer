@@ -1,0 +1,17 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------]
+[section:basic General configuration]
+[/----------------------------------]
+
+[header oglplus/config/basic.hpp]
+
+This section lists general compile-time configuration options of OGLplus.
+
+[import basic.hpp]
+[oglplus_config_basic]
+
+[endsect]
+

@@ -1,0 +1,116 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------]
+[section:texture Textures]
+[/-----------------------]
+
+[header oglplus/texture.hpp]
+
+[import texture.hpp]
+
+[heading Subtype]
+
+[oglplus_texture_subtype]
+
+[heading:common Common texture operations]
+
+[oglplus_texture_common]
+
+[heading:ops Operations with explicit selector]
+
+[oglplus_texture_1]
+[oglplus_texture_2]
+[oglplus_texture_3]
+[oglplus_texture_4]
+[oglplus_texture_5]
+[oglplus_texture_6]
+
+[heading:def Definition]
+
+[oglplus_texture_def]
+
+[heading:sugar Syntax sugar]
+
+[oglplus_texture_sugar1]
+[oglplus_texture_sugar2]
+
+[heading:target Target]
+
+[header oglplus/texture_target.hpp]
+[import enums/texture_target.hpp]
+[oglplus_enums_texture_target]
+
+[heading:target_class Target to class]
+
+[import enums/texture_target_class.hpp]
+[oglplus_enums_texture_target_class]
+
+[heading:compare_mode Compare mode]
+
+[header oglplus/texture_compare.hpp]
+[import enums/texture_compare_mode.hpp]
+[oglplus_enums_texture_compare_mode]
+
+[heading:filter Minification and magnification filters]
+
+[header oglplus/texture_filter.hpp]
+
+[import enums/texture_filter.hpp]
+[oglplus_enums_texture_filter]
+
+[import enums/texture_min_filter.hpp]
+[oglplus_enums_texture_min_filter]
+
+[import enums/texture_mag_filter.hpp]
+[oglplus_enums_texture_mag_filter]
+
+[heading:swizzle_coord Swizzle coordinate]
+[header oglplus/texture_swizzle.hpp]
+[import enums/texture_swizzle_coord.hpp]
+[oglplus_enums_texture_swizzle_coord]
+
+[heading:swizzle Swizzle mode]
+[header oglplus/texture_swizzle.hpp]
+[import enums/texture_swizzle.hpp]
+[oglplus_enums_texture_swizzle]
+
+[heading:swizzle_tuple Swizzle tuple]
+[header oglplus/texture_swizzle.hpp]
+[import texture_swizzle.hpp]
+[oglplus_texture_swizzle_tuple]
+
+[heading:wrap_coord Wrap coordinate]
+[header oglplus/texture_wrap.hpp]
+[import enums/texture_wrap_coord.hpp]
+[oglplus_enums_texture_wrap_coord]
+
+[heading:wrap Wrap mode]
+[header oglplus/texture_wrap.hpp]
+[import enums/texture_wrap.hpp]
+[oglplus_enums_texture_wrap]
+
+[heading:unit_selector Unit selector]
+[header oglplus/texture_unit.hpp]
+[import texture_unit.hpp]
+[oglplus_texture_unit_selector]
+
+[heading:examples Examples of usage]
+
+[import texture.cpp]
+
+[heading:example_setup_1 Typical setup of a 2D texture]
+
+This code snippet shows a typical setup for a 2D texture.
+See also [link oglplus.quickref.bound_texture.example_setup_1 a more convenient way how
+to setup textures] by using the [link oglplus.quickref.object.bound currently bound objects].
+
+[oglplus_texture_example_setup_1]
+
+The [link oglplus.quickref.texture.sugar syntax sugar operators] provide another
+convenient alternative for setting up texture parameters and image data.
+
+[oglplus_texture_example_setup_2]
+
+[endsect]

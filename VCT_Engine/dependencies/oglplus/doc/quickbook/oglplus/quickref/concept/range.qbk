@@ -1,0 +1,24 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------]
+[section:range Ranges]
+[/-------------------]
+
+[^Range] is a [link oglplus.quickref.concept concept] for classes, which allow
+simple forward traversal of elements of a specified type. As with other concepts
+the [^Range] templated class does not actually exist and cannot be used in end-user
+code. It is used here to describe the requirements that all actual types conforming
+to this concept must satisfy. If this concept is used as a function return value
+type, then the actual type must be obtained by using the [^auto] type specifier or
+with the [^decltype] operator.
+
+There is also a whole [link oglplus.quickref.utils.ranges set of utilities] for working
+with real types conforming to the __Range concept.
+
+[import range.hpp]
+
+[oglplus_concept_Range]
+
+[endsect]

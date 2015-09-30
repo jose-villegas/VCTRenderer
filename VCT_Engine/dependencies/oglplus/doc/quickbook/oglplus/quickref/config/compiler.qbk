@@ -1,0 +1,24 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------------]
+[section:compiler Compiler capabilities]
+[/-------------------------------------]
+
+[header oglplus/config/compiler.hpp]
+
+This header is used by the rest of the library to determine the
+[link oglplus.quickref.config.site.compiler capabilities]
+of the currently used compiler.
+The values are taken either externally from the build system
+through the compiler command-line or an IDE or from the
+[link oglplus.quickref.config.site site-configuration header]
+or from the [link oglplus.quickref.config.site.boost_config Boost.Config]
+library.
+
+[import compiler.hpp]
+[oglplus_config_compiler]
+
+[endsect]
+

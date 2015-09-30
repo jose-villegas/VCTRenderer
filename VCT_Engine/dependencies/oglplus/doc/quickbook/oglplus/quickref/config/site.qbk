@@ -1,0 +1,75 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------------]
+[section:site Site-configuration]
+[/------------------------------]
+
+[header oglplus/config/site.hpp]
+
+The [^cmake]-based build system detects the compiler-capabilities, installed
+third-party libraries and supported GL version and extensions and generates two
+site configuration files [^oglplus/config/site.hpp] and
+[^oglplus/config/fix_gl_version.hpp] (located in the [^$(BUILD_DIR)/include] subdirectory).
+User applications can reuse these files if the same compiler, GL API library and external
+libraries are used or can disable their use by defining the __OGLPLUS_NO_SITE_CONFIG
+preprocessor symbol.
+
+Alternatively the user can define their own [^oglplus/config/site.hpp] file
+(either as a system-wide or application-specific configuration) and set
+the options described below to values (either zero or non-zero integer) appropriate
+to their system setup and used compiler.
+
+This header should generally [*not] be used by the library end-users. In order
+to detect the compiler capabilities use the
+[link oglplus.quickref.config.compiler compiler configuration header].
+
+[import site.hpp]
+[section:third_party Third-party libraries]
+
+The first set of options concerns the availability of third-party libraries used
+by some parts of the code.
+
+[oglplus_config_site_1]
+
+[endsect]
+[section:gl_api_lib GL-API library]
+
+The following options select which GL API library ([^GL/glcorearb.h],
+[^GL3/gl3.h], [^GL/glew.h], etc.) is used when the OGLplus'
+[^oglplus/gl.hpp] header is included. The first one defined
+as a non-zero integer value in the order as listed here,
+is used. At least one of the options listed here must be non-zero.
+
+[oglplus_config_site_2]
+
+[endsect]
+[section:boost_config Boost.Config]
+
+The next option enables or disables the usage of the Boost.Config library
+for compiler configuration. If set to a non-zero integer the [^boost/config.hpp]
+header is included, otherwise it is not.
+
+[oglplus_config_site_3]
+
+[endsect]
+[section:compiler Compiler]
+
+The following options indicate compiler capabilities. If one of these
+options is set to a non-zero integer value, the corresponding capability
+is not implemented. The first set of options listed right below are overridden
+by Boost.Config (when __OGLPLUS_USE_BOOST_CONFIG is set to a non-zero value),
+if they are not defined before including this header by other means.
+
+[oglplus_config_site_4]
+[oglplus_config_site_5]
+
+The next options are not influenced by Boost.Config.
+
+[oglplus_config_site_6]
+
+[endsect]
+
+[endsect]
+

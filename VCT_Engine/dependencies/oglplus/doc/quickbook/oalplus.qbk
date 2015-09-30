@@ -1,0 +1,84 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[part OALplus
+	[quickbook 1.6]
+	[id oalplus]
+]
+
+[/Quick reference links]
+
+[def __String [link oalplus.quickref.string String]]
+[def __StrCRef [link oalplus.quickref.string StrCRef]]
+
+[def __Boolean [link oalplus.quickref.boolean.def Boolean]]
+
+[def __Error [link oalplus.quickref.error.basic Error]]
+
+[def __GenTag [link oalplus.quickref.gen_tags GenTag]]
+[def __tag_Generate [link oalplus.quickref.gen_tags tag::Generate]]
+[def __tag_DirectState [link oalplus.quickref.ops_tags tag::DirectState]]
+
+[def __ObjectName [link oalplus.quickref.object.name ObjectName]]
+[def __BufferName [link oalplus.quickref.object.name.typedefs BufferName]]
+[def __SourceName [link oalplus.quickref.object.name.typedefs SourceName]]
+
+[def __ObjectOps [link oalplus.quickref.object.ops ObjectOps]]
+[def __Object [link oalplus.quickref.object.wrapper Object]]
+[def __Optional [link oalplus.quickref.object.optional Optional]]
+[def __Reference [link oalplus.quickref.object.reference Reference]]
+[def __Sequence [link oalplus.quickref.object.sequence Sequence]]
+[def __Group [link oalplus.quickref.object.group Group]]
+
+[def __ObjTag [link oalplus.quickref.object.tags ObjTag]]
+[def __tag_Buffer [link oalplus.quickref.object.tags tag::Buffer]]
+[def __tag_Source [link oalplus.quickref.object.tags tag::Source]]
+
+[def __tag_Playback [link oalplus.quickref.object.tags tag::Playback]]
+[def __tag_Capture [link oalplus.quickref.object.tags tag::Capture]]
+
+[def __Device [link oalplus.quickref.device.playback Device]]
+[def __CaptureDevice [link oalplus.quickref.device.capture CaptureDevice]]
+
+[def __Buffer [link oalplus.quickref.buffer Buffer]]
+[def __Source [link oalplus.quickref.source Source]]
+[def __Listener [link oalplus.quickref.listener Listener]]
+
+[def __DataFormat [link oalplus.quickref.data_format DataFormat]]
+[def __SourceState [link oalplus.quickref.source_state SourceState]]
+[def __SourceType [link oalplus.quickref.source_type SourceType]]
+[def __DistanceModel [link oalplus.quickref.distance_model DistanceModel]]
+[def __ContextAttrib [link oalplus.quickref.context_attrib ContextAttrib]]
+[def __StringQuery [link oalplus.quickref.string_query StringQuery]]
+
+[def __FinishedAttributeList [link oalplus.quickref.attrib_list FinishedAttributeList]]
+[def __AttributeList [link oalplus.quickref.attrib_list AttributeList]]
+
+[def __ContextAttribs [link oalplus.quickref.context.attribs ContextAttribs]]
+[def __FinishedContextAttribs [link oalplus.quickref.context.attribs FinishedContextAttribs]]
+[def __Context [link oalplus.quickref.context.wrapper Context]]
+[def __ContextMadeCurrent [link oalplus.quickref.context.made_current ContextMadeCurrent]]
+
+[def __ALUtilityToolkit [link oalplus.quickref.alut ALUtilityToolkit]]
+
+[def __Angle [link oalplus.quickref.math.angle Angle]]
+[def __Vector [link oalplus.quickref.math.vector Vector]]
+[def __Vec3f [link oalplus.quickref.math.vector Vec3f]]
+
+[/---------]
+[/Templates]
+[/---------]
+
+[template alfunc[Name] [^al[Name]]]
+[template alcfunc[Name] [^alc[Name]]]
+[template alutfunc[Name] [^alut[Name]]]
+[template alconst[Name] [*[^AL_[Name]]]]
+[template alcconst[Name] [*[^ALC_[Name]]]]
+
+[/--------]
+[/Chapters]
+[/--------]
+
+[include oalplus/intro.qbk]
+[include oalplus/quickref.qbk]

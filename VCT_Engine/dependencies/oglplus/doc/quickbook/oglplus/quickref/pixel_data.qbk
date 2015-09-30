@@ -1,0 +1,31 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------------------]
+[section:pixel_data Pixel data type and format]
+[/--------------------------------------------]
+
+[header oglplus/pixel_data.hpp]
+
+[heading:type Type]
+[import enums/pixel_data_type.hpp]
+[oglplus_enums_pixel_data_type]
+
+[heading:format Format]
+[import enums/pixel_data_format.hpp]
+[oglplus_enums_pixel_data_format]
+
+[heading:internal_fmt Internal format]
+[import enums/pixel_data_internal_format.hpp]
+[oglplus_enums_pixel_data_internal_format]
+
+[heading:image_unit_fmt Image unit format]
+[import enums/image_unit_format.hpp]
+[oglplus_enums_image_unit_format]
+
+[heading:typedefs Typedefs]
+[import pixel_data.hpp]
+[oglplus_pixel_data_typedefs]
+
+[endsect]

@@ -1,0 +1,19 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------]
+[section:limit_query Limit queries]
+[/--------------------------------]
+
+[header oglplus/limit_query.hpp]
+
+[import enums/limit_query.hpp]
+[oglplus_enums_limit_query]
+
+[heading:class [^LimitQuery] to class]
+
+[import enums/limit_query_class.hpp]
+[oglplus_enums_limit_query_class]
+
+[endsect]

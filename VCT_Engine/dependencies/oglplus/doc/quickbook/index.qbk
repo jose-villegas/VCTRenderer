@@ -1,0 +1,93 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[book oglplus.org
+	[quickbook 1.6]
+	[lang en]
+	[id index]
+	[authors [Chochlík, Matúš]]
+	[copyright 2008-2015 Matúš Chochlík]
+	[source-mode c++]
+	[license
+		Distributed under the Boost Software License, Version 1.0.
+		See accompanying file LICENSE_1_0.txt or copy at
+		[@http://www.boost.org/LICENSE_1_0.txt]
+	]
+]
+
+[/------]
+[/Macros]
+[/------]
+
+[template header [path] [*[^#include]] [^<[path]>]]
+
+[def __times__ \u00D7]
+[def __pi__ \u03C0]
+[def __two_pi__ 2\u03C0]
+[def __half_pi__ \u03C0/2]
+
+[def __OGLplus__ [@ http://oglplus.org/ OGLplus]]
+[def __OALplus__ OALplus]
+[def __EGLplus__ EGLplus]
+[def __OpenGL__ [@ http://www.opengl.org/ OpenGL]]
+[def __OpenAL__ ['OpenAL]]
+[def __GLEW__ ['GLEW]]
+[def __GL3W__ ['GL3W]]
+[def __LibPNG__ ['LibPNG]]
+[def __Pango_Cairo__ ['Pango/Cairo]]
+
+
+[def nullptr [^nullptr]]
+
+[def __UNSPECIFIED <UNSPECIFIED>]
+[def __Unspecified <Unspecified>]
+
+[def __Nothing [link oglplus.quickref.utils.nothing Nothing]]
+
+
+[def __Range [link oglplus.quickref.concept.range ['Range]]]
+[def __Metafunction [link oglplus.quickref.concept.metafunction ['Metafunction]]]
+
+[def __EnumValueRange [link oglplus.quickref.enums.functions EnumValueRange]]
+[def __EnumValueName [link oglplus.quickref.enums.functions EnumValueName]]
+[def __EnumArray [link oglplus.quickref.enums.array EnumArray]]
+[def __OneOf [link oglplus.quickref.enums.one_of OneOf]]
+[def __EnumToClass [link oglplus.quickref.enums.enum_to_class EnumToClass]]
+[def __enums_EnumToClass [link oglplus.quickref.enums.enum_to_class enums::EnumToClass]]
+
+
+[def __oglplus_String [link oglplus.quickref.string.def oglplus::String]]
+[def __oglplus_StrCRef [link oglplus.quickref.string.ref oglplus::StrCRef]]
+[def __oglplus_Bitfield [link oglplus.quickref.bitfield oglplus::Bitfield]]
+
+[def __oglplus_BoolImpl [link oglplus.quickref.boolean oglplus::BoolImpl]]
+
+[def __oglplus_Angle [link oglplus.quickref.math.angle oglplus::Angle]]
+[def __oglplus_Vector [link oglplus.quickref.math.vector oglplus::Vector]]
+
+[def __oglplus_ObjectName [link oglplus.quickref.object.name oglplus::ObjectName]]
+[def __oglplus_ObjGenDelOps [link oglplus.quickref.object.ops oglplus::ObjGenDelOps]]
+[def __oglplus_ObjectOps [link oglplus.quickref.object.ops oglplus::ObjectOps]]
+[def __oglplus_Object [link oglplus.quickref.object.wrapper oglplus::Object]]
+[def __oglplus_Optional [link oglplus.quickref.object.optional oglplus::Optional]]
+[def __oglplus_Reference [link oglplus.quickref.object.reference oglplus::Reference]]
+[def __oglplus_Sequence [link oglplus.quickref.object.sequence oglplus::Sequence]]
+[def __oglplus_SeqIterator [link oglplus.quickref.object.sequence.iter oglplus::SeqIterator]]
+
+[def __oglplus_Group [link oglplus.quickref.object.group oglplus::Group]]
+[def __oglplus_StaticGroup [link oglplus.quickref.object.group oglplus::StaticGroup]]
+
+[def __oglplus_FinishedAttributeList [link oglplus.quickref.attrib_list oglplus::FinishedAttributeList]]
+[def __oglplus_AttributeList [link oglplus.quickref.attrib_list oglplus::AttributeList]]
+
+[/--------]
+[/Chapters]
+[/--------]
+
+[note This documentation is work-in progress and currently does not
+cover many of the implemented features.]
+
+[include oglplus.qbk]
+[include oalplus.qbk]
+[include eglplus.qbk]

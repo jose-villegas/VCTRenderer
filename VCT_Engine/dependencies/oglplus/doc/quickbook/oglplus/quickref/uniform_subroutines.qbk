@@ -1,0 +1,38 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------------------]
+[section:uniform_subroutines Uniform subroutines]
+[/----------------------------------------------]
+
+[header oglplus/uniform_subroutines.hpp]
+
+[import uniform_subroutines.hpp]
+
+[heading:loc_ops Basic location operations]
+
+[oglplus_subroutine_loc_ops]
+[def __ProgVarLocOps_Subroutine [link oglplus.quickref.uniform_subroutines.loc_ops ProgVarLocOps]]
+
+[oglplus_subroutine_uniform_loc_ops]
+[def __ProgVarLocOps_SurboutineUniform [link oglplus.quickref.uniform_subroutines.loc_ops ProgVarLocOps]]
+
+[heading:prog_var Specializations of [^ProgVar]]
+
+[oglplus_subroutine_prog_var]
+[def __ProgVar_Subroutine [link oglplus.quickref.uniform_subroutines.prog_var ProgVar]]
+
+[oglplus_subroutine_uniform_prog_var]
+[def __ProgVar_SubroutineUniform [link oglplus.quickref.uniform_subroutines.prog_var ProgVar]]
+
+[heading:def Definitions]
+
+[oglplus_subroutine_def]
+[oglplus_subroutine_uniform_def]
+
+[heading:manager Manager]
+
+[oglplus_uniform_subroutines]
+
+[endsect]

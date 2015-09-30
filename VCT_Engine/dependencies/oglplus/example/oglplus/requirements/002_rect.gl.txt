@@ -1,0 +1,2 @@
+GL_ARB_separate_shader_objects
+GL_VERSION_3_0

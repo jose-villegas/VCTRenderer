@@ -1,0 +1,14 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------]
+[section:source_state Source state]
+[/--------------------------------]
+
+[header oalplus/source_state.hpp]
+
+[import enums/source_state.hpp]
+[oalplus_enums_source_state]
+
+[endsect]

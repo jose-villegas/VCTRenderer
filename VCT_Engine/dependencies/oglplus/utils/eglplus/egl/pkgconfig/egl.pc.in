@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: egl
+Description: Unofficial implementation of EGL API by OGLplus.
+Version: 1.4.0
+Cflags: -I${includedir}
+Libs: -L${libdir} -lEGL @EGL_EXT_LIBRARIES@
+

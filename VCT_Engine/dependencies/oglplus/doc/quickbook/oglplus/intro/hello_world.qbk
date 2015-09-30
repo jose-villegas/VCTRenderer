@@ -1,0 +1,19 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/==============================]
+[section:hello_world Hello world]
+[/==============================]
+
+The following code shows a basic, working example of usage of the OGLplus library,
+using the GLUT and GLEW libraries.
+
+[import hello_world.cpp]
+
+[oglplus_example_hello_world_1]
+[oglplus_example_hello_world_2]
+[oglplus_example_hello_world_3]
+[oglplus_example_hello_world_4]
+
+[endsect]

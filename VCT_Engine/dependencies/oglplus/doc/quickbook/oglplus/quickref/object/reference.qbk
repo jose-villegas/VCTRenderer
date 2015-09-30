@@ -1,0 +1,29 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------]
+[section:reference Reference]
+[/--------------------------]
+
+[header oglplus/object/reference.hpp]
+
+[^Reference] allows to make managed copies of instances of [^__Object].
+Since OpenGL does not support copying of objects, the __Object wrapper
+is move-only.
+
+There are however situations, when a temporary reference
+to the original object (with the knowledge that this original will
+be kept alive during the whole lifetime of the copy) is needed.
+The [^Reference] template class allows to do such temporary references,
+which have the same members and friend functions as the original
+object, and can be used in the same way, provided that the original
+instance is not destroyed while the managed copy is in use.
+
+Instances of [^Reference] are for example created when accessing
+or iterating through the elements of a __Sequence.
+
+[import reference.hpp]
+[oglplus_object_Reference]
+
+[endsect]

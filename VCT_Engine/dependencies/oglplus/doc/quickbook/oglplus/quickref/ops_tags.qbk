@@ -1,0 +1,38 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/===============================]
+[section:ops_tags Operation kinds]
+[/===============================]
+
+[header oglplus/fwd.hpp]
+
+The functions in __OpenGL__ can be divided into several distinct categories
+based on how the object that the functions operate on is specified:
+
+# The object is bound to a specific named ['binding point] - ['target]
+  and the target identifier is passed as an argument to the function.
+  Such functions are referred to as having an ['explicit selector].
+
+# The object is bound to an implicit target (i.e. bound by using the
+  appropriate function without any explicit target identifier) and
+  the function is called without any target identifier).
+  Such functions are referred to as having an ['implicit selector].
+
+# The object is accessed directly by its unique GL ['name].
+  Such functions are referred to as having ['direct state access].
+
+In some cases (for example if the
+[@http://www.opengl.org/registry/specs/EXT/direct_state_access.txt
+[^EXT_direct_state_access] extension] is implemented) there
+are several functions implementing the same operation, but differing
+in the way how the object that they operate on in selected.
+
+__OGLplus__ distinguishes the categories or kinds of the functions
+as listed above at compile-time by using the following tag types:
+
+[import ops_tags.hpp]
+[oglplus_ops_tags]
+
+[endsect]

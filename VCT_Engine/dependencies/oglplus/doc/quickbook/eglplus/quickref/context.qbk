@@ -1,0 +1,24 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=======================]
+[section:context Contexts]
+[/=======================]
+
+[header eglplus/context.hpp]
+
+[^Context] is a wrapper around [^EGLContext].
+
+[import context.hpp]
+
+[heading:attribs Context attributes]
+
+[eglplus_context_attribs]
+
+[heading:wrapper Context]
+
+[eglplus_context_1]
+[eglplus_context_2]
+
+[endsect]

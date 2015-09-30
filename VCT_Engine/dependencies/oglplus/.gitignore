@@ -1,0 +1,15 @@
+/_*
+/doc/quickbook/bin
+/doc/quickbook/html
+/fonts
+/models
+/textures
+/example/???plus/000_*
+/example/???plus/dependencies/000_*
+/example/???plus/requirements/000_*
+/example/???plus/resources/000_*
+.*.swp
+*.sdf
+*.user
+*.opensdf
+*.suo

@@ -1,0 +1,15 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------]
+[section:limit_queries Limit queries]
+[/----------------------------------]
+
+[header oglplus/client/limit_queries.hpp]
+
+[import limit_queries.hpp]
+
+[oglplus_client_LimitQueries]
+
+[endsect]

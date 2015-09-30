@@ -1,0 +1,6 @@
+cube_0_right
+cube_1_left
+cube_2_top
+cube_3_bottom
+cube_4_front
+cube_5_back

@@ -1,0 +1,27 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------]
+[section:name Name]
+[/----------------]
+
+[header oglplus/object/name.hpp]
+
+The `ObjectName` template wraps the raw `GLuint` name
+of a GL object (texture, VBO, FBO, RBO, sampler, query, etc.).
+Since all types of GL objects share the same namespace (the domain of the `GLuint`
+type) it is easy to confuse objects of different types.
+
+In order to avoid such mismatches, the `ObjTag` template parameter of `ObjectName`
+conveys information about the actual object type and prevents for example passing
+a texture name to a function requiring a buffer, etc.
+
+[import name.hpp]
+[oglplus_object_name]
+
+[heading:typedefs Convenience typedefs]
+
+[oglplus_object_name_typedefs]
+
+[endsect]

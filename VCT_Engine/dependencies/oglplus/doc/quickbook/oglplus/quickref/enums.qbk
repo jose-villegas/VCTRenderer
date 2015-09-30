@@ -1,0 +1,92 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=========================]
+[section:enums Enumerations]
+[/=========================]
+
+[heading oglplus/enumerations.hpp]
+
+OGLplus defines many enumeration types grouping together GL constants
+that logically belong together. The strong typing on the enumerations
+also prevents in many cases errors like passing invalid constant to
+a GL function since the OGLplus function wrappers use appropriate
+enumeration types for parameters instead of the generic [^GLenum] type.
+
+[note Many of the GL constant values used in the enumerations are only
+available in specific GL versions or with certain GL extensions. If
+the underlying GL constant is not defined when the enumeration definition
+is processed then the corresponding value is not present in the enumeration.
+]
+
+[import enums.hpp]
+[import enums.cpp]
+
+[heading:functions Functions]
+
+For (almost) all enumeration types the following functions are overloaded.
+
+[oglplus_enums_functions]
+
+For example:
+
+[oglplus_enums_functions_example_1]
+
+[heading:array Enum arrays]
+
+The [^EnumArray] template class is used by several functions as the parameter
+type and allows to pass an array of multiple enumerated values to be passed
+as an argument.
+[note The lifetime of an instance of [^EnumArray] must not exceed the lifetime
+of the original array of [^Enum]s from which the [^EnumArray] was initialized.]
+
+[oglplus_enums_EnumArray]
+
+[heading:one_of OneOf]
+
+The [^OneOf] template class is used to merge several enumeration types
+into a single type. Instances of [^OneOf] can be implicitly constructed from
+a value from any of the merged enumeration types. [^OneOf] is mostly used
+as the parameter type in functions that can accept values from multiple
+different enumerations.
+
+[note The following definition is just a pseudo-code used for documentation
+purposes and differs from the actual implementation of [^OneOf] in certain
+aspects. [^OneOf] should not be used in library client code directly,
+the only supported operation is construction from an enumeration value.
+]
+
+[oglplus_enums_OneOf]
+
+For example:
+
+[oglplus_enums_OneOf_example_1]
+
+[heading:enum_to_class EnumToClass]
+
+Specializations of the [^EnumToClass] template for various enumerations
+can be used to create classes which have member variables with the same names
+as are the names of the values in the enumeration. The type of the member variables
+is defined by the [^Transform] template which takes values of the specified [^Enumeration]
+as an argument.
+
+[oglplus_enums_EnumToClass]
+
+For example for a [^SomeEnum] enumeration:
+
+[oglplus_enums_EnumToClass_ex1]
+
+with the following transformation template:
+
+[oglplus_enums_EnumToClass_ex2]
+
+the following instantiation of [^EnumToClass]
+
+[oglplus_enums_EnumToClass_ex3]
+
+results in a class which is equivalent to:
+
+[oglplus_enums_EnumToClass_ex4]
+
+[endsect]

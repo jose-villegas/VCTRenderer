@@ -1,0 +1,14 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------]
+[section:vg_colorspace VG colorspace]
+[/----------------------------------]
+
+[header eglplus/vg_colorspace.hpp]
+
+[import enums/vg_colorspace.hpp]
+[eglplus_enums_vg_colorspace]
+
+[endsect]

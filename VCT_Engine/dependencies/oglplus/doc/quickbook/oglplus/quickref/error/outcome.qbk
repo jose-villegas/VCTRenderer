@@ -1,0 +1,59 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------]
+[section:outcome Function outcome]
+[/-------------------------------]
+
+[header oglplus/error/outcome.hpp]
+
+Most OGLplus functions throw exceptions (or generally call the [^HandleError]
+function) eagerly within their body immediately after an error is detected.
+In some cases it is however desirable to allow to postpone or cancel the
+error handling. Such function return an instance of the [^Outcome<T>] class
+template.
+
+[import outcome.hpp]
+[import outcome.cpp]
+
+[oglplus_error_Outcome]
+
+[heading:example_1 Example of usage]
+
+The following snippet shows the usage of [^Outcome] returned
+by [^__Shader::Compile(std::noexcept_t)].
+The logical operator short circuiting together with
+the [^DoneWithoutError] and [^Done] member function allows
+to find the first shader source which can be compiled in the
+current GL context. Note that the last line uses the [^Done] function
+which throws in case that even the last shader source fails to compile.
+
+[oglplus_error_Outcome_example_1]
+
+[heading:positive Positive outcome]
+
+[^PositiveOutcome] adds two boolean operators to [^Outcome]: explicit conversion
+to [^bool] which returns [^true] if the instance of [^Outcome] does not hold
+an error handler (i.e. if the function call which returned it finished successfully)
+or [^false] otherwise, and [^operator !] which does the opposite.
+
+[oglplus_error_PositiveOutcome]
+
+The following code shows the usage of [^PositiveOutcome] and the [^Succeeded] function.
+
+[oglplus_error_PositiveOutcome_example_1]
+
+[heading:negative Negative outcome]
+
+Similar to __PositiveOutcome, [^NegativeOutcome] also adds two boolean operators
+to [^Outcome], however the logic is inverted. Explicit conversion to [^bool]
+returns [^true] in case of an error and [^false] otherwise.
+
+[oglplus_error_NegativeOutcome]
+
+The following code shows the usage of [^NegativeOutcome] and the [^Failed] function.
+
+[oglplus_error_NegativeOutcome_example_1]
+
+[endsect]

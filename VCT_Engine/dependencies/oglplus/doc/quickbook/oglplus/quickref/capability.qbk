@@ -1,0 +1,62 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------------]
+[section:capability Capabilities]
+[/------------------------------]
+
+[header oglplus/capability.hpp]
+
+[heading [^Capability]]
+
+This enumeration lists GL capabilities i.e. features that can
+be enabled, disabled or queried by the
+[link oglplus.quickref.context.capabilities [^Enable]],
+[link oglplus.quickref.context.capabilities [^Disable]] and
+[link oglplus.quickref.context.capabilities [^IsEnabled]]
+member functions of the __Context class.
+
+[import enums/capability.hpp]
+[oglplus_enums_capability]
+
+For example:
+
+[import capability.cpp]
+[oglplus_capability_ex_1]
+
+[heading:capability_class [^Capability] to class]
+
+[import enums/capability_class.hpp]
+[oglplus_enums_capability_class]
+
+[heading:functionality [^Functionality]]
+
+Functionalities are similar to capabilities in that they can be
+enabled, disabled or queried by the
+[link oglplus.quickref.context.capabilities [^Enable]],
+[link oglplus.quickref.context.capabilities [^Disable]] and
+[link oglplus.quickref.context.capabilities [^IsEnabled]]
+member functions of the __Context class.
+
+The difference between them is that functionalities
+have multiple 0-based-indexed 'slots' that can be enabled or disabled.
+One example of a [^Functionality] is [^ClipDistance] where the i-th 'slot' enables
+the i-th clipping plane.
+
+[import enums/functionality.hpp]
+[oglplus_enums_functionality]
+
+[heading Syntax sugar]
+
+The [^Capability] and [^Functionality] enumerations have several syntax-sugar
+operators allowing less verbose use.
+
+[import capability.hpp]
+[oglplus_capability_syntax_sugar]
+
+For example:
+
+[oglplus_capability_ex_ss]
+
+[endsect]

@@ -1,0 +1,32 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------]
+[section:desc Textual descriptions]
+[/--------------------------------]
+
+[header oglplus/object/desc.hpp]
+
+Objects with OpenGL names (unsigned integers) can optionally have a textual
+description. This is useful for diagnostic purposes, for example in an application
+with lots of different shaders it is easier to track the source of compilation,
+linking or validation errors when the individual shader or program objects
+have a human-readable description which is attached to the exception raised
+by the error.
+
+The descriptions are assigned to objects by using the __ObjectDesc class.
+
+[import desc.hpp]
+[oglplus_object_desc]
+
+[heading:example Examples of usage]
+
+The following snippet shows how to attach textual descriptions to objects
+like __Shader or __Program and how to get it back from an exception
+thrown by one of the described objects.
+
+[import desc.cpp]
+[oglplus_object_desc_example_1]
+
+[endsect]

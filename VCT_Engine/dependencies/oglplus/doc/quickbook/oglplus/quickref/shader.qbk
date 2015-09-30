@@ -1,0 +1,26 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/---------------------]
+[section:shader Shaders]
+[/---------------------]
+
+[header oglplus/shader.hpp]
+
+[import shader.hpp]
+
+[heading:common Common shader operations]
+
+[oglplus_shader_common]
+
+[heading Operations with direct state access]
+
+[oglplus_shader_1]
+[oglplus_shader_2]
+
+[heading:specialized Specialized shaders]
+
+[oglplus_spec_shader_1]
+
+[endsect]

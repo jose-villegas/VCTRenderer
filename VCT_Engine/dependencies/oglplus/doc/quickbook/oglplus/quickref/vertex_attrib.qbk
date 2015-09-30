@@ -1,0 +1,31 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------------]
+[section:vertex_attrib Vertex attributes]
+[/--------------------------------------]
+
+[header oglplus/vertex_attrib.hpp]
+
+[import vertex_attrib.hpp]
+
+[heading:loc_ops Basic vertex attribute location operations]
+[oglplus_vertex_attrib_loc_ops]
+[def __ProgVarLocOps_VertexAttrib [link oglplus.quickref.vertex_attrib.loc_ops ProgVarCommonOps]]
+
+[heading:common_ops Common operations]
+[oglplus_vertex_attrib_common_ops]
+[def __ProgVarCommonOps_VertexAttrib [link oglplus.quickref.vertex_attrib.common_ops ProgVarCommonOps]]
+
+[heading:get_set_ops Get/set operations]
+[oglplus_vertex_attrib_get_set_ops]
+[def __ProgVarGetSetOps_VertexAttrib [link oglplus.quickref.vertex_attrib.get_set_ops ProgVarGetSetOps]]
+
+[heading:def Definition]
+[oglplus_vertex_attrib_def]
+
+[heading:array Vertex array attributes]
+[oglplus_vertex_array_attrib]
+
+[endsect]

@@ -1,0 +1,107 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/===========================================================]
+[section:client_context Client-side wrapper of the GL context]
+[/===========================================================]
+
+[def __SettingHolder [link oglplus.quickref.client_context.setting.holder SettingHolder]]
+[def __SettingStack [link oglplus.quickref.client_context.setting.stack SettingStack]]
+[def __SettingStackIndexed [link oglplus.quickref.client_context.setting.stack_indexed SettingStackIndexed]]
+
+[def __client_SettingHolder [link oglplus.quickref.client_context.setting.holder client::SettingHolder]]
+[def __client_SettingStack [link oglplus.quickref.client_context.setting.stack client::SettingStack]]
+[def __client_SettingStackIndexed [link oglplus.quickref.client_context.setting.stack_indexed client::SettingStackIndexed]]
+
+[def __client_BlendingOps [link oglplus.quickref.client_context.blending.ops client::BlendingOps]]
+[def __client_BlendingState [link oglplus.quickref.client_context.blending.state client::BlendingState]]
+
+[def __client_BufferClearingOps [link oglplus.quickref.client_context.buffer_clearing.ops client::BufferClearingOps]]
+[def __client_BufferClearingState [link oglplus.quickref.client_context.buffer_clearing.state client::BufferClearingState]]
+
+[def __client_BufferMaskingState [link oglplus.quickref.client_context.buffer_masking.state client::BufferMaskingState]]
+
+[def __client_CapabilityState [link oglplus.quickref.client_context.capabilities.state client::CapabilityState]]
+
+[def __client_ClipControlState [link oglplus.quickref.client_context.clip_control.state client::ClipControlState]]
+
+[def __client_ComputingOps [link oglplus.quickref.client_context.computing.ops client::ComputingOps]]
+
+[def __client_RasterizationState [link oglplus.quickref.client_context.rasterization.state client::RasterizationState]]
+[def __client_RasterizationOps [link oglplus.quickref.client_context.rasterization.ops client::RasterizationOps]]
+
+[def __client_DepthTestState [link oglplus.quickref.client_context.depth_test.state client::DepthTestState]]
+[def __client_StencilTestState [link oglplus.quickref.client_context.stencil_test.state client::StencilTestState]]
+[def __client_ScissorTestState [link oglplus.quickref.client_context.scissor_test.state client::ScissorTestState]]
+[def __client_ViewportState [link oglplus.quickref.client_context.viewport.state client::ViewportState]]
+
+[def __client_DrawingOps [link oglplus.quickref.client_context.drawing.ops client::DrawingOps]]
+[def __client_DrawingState [link oglplus.quickref.client_context.drawing.state client::DrawingState]]
+
+[def __client_HintState [link oglplus.quickref.client_context.hints.state client::HintState]]
+[def __client_LimitQueries [link oglplus.quickref.client_context.limit_queries client::LimitQueries]]
+[def __client_NumericQueries [link oglplus.quickref.client_context.numeric_queries client::NumericQueries]]
+[def __client_StringQueries [link oglplus.quickref.client_context.string_queries client::StringQueries]]
+
+[def __client_LogicOpState [link oglplus.quickref.client_context.logic_ops.state client::LogicOpState]]
+[def __client_PixelOps [link oglplus.quickref.client_context.pixel_ops.ops client::PixelOps]]
+[def __client_PixelState [link oglplus.quickref.client_context.pixel_ops.state client::PixelState]]
+
+[def __client_Synchronization [link oglplus.quickref.client_context.synchronization client::Synchronization]]
+
+[def __client_CurrentObjects [link oglplus.quickref.client_context.object_binding client::CurrentObjects]]
+
+[heading [^ClientContext]]
+
+[header oglplus/client_context.hpp]
+
+The [^ClientContext] class keeps local copies of most of the GL context state variable
+values and allows to query and manipulate them more efficiently.
+During construction an instance of [^ClientContext] queries the values
+of all GL state variables, which are managed by it.
+When successfully constructed the members of this instance can be used to obtain
+the cached value without actually querying GL. Furthermore the values can also be
+modified and pushed and subsequently popped from a stack. The modification operations
+compare the new value with the current and call to the functions from the GL API which
+change the GL state are made only if they are different.
+The stack functionality allows to temporarily change the value of a GL context setting
+and restore the previous value later.
+
+[note In order to function properly, the use of [^ClientContext] should not be mixed
+with direct or indirect (through __Context) calls to the GL API changing the GL state,
+because this would cause the internal state of [^ClientContext] to go out of sync.
+This also means that in order to manage the state of a single GL context only
+a single instance of [^ClientContext] should be used.]
+
+[import client_context.hpp]
+[oglplus_ClientContext]
+
+[heading:examples Examples of usage]
+
+[import client_context.cpp]
+[oglplus_ClientContext_example_1]
+
+[include client/setting.qbk]
+[include client/blending.qbk]
+[include client/buffer_clearing.qbk]
+[include client/buffer_masking.qbk]
+[include client/capabilities.qbk]
+[include client/clip_control.qbk]
+[include client/computing.qbk]
+[include client/depth_test.qbk]
+[include client/stencil_test.qbk]
+[include client/scissor_test.qbk]
+[include client/viewport.qbk]
+[include client/drawing.qbk]
+[include client/hints.qbk]
+[include client/limit_queries.qbk]
+[include client/numeric_queries.qbk]
+[include client/string_queries.qbk]
+[include client/logic_ops.qbk]
+[include client/pixel_ops.qbk]
+[include client/synchronization.qbk]
+[include client/rasterization.qbk]
+[include client/object_binding.qbk]
+
+[endsect]

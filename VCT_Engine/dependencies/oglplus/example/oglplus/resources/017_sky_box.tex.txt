@@ -1,0 +1,6 @@
+cloudy_day-cm_0
+cloudy_day-cm_1
+cloudy_day-cm_2
+cloudy_day-cm_3
+cloudy_day-cm_4
+cloudy_day-cm_5

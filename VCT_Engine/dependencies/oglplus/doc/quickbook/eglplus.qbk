@@ -1,0 +1,80 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[part EGLplus
+	[quickbook 1.6]
+	[id eglplus]
+]
+
+[/Quick reference links]
+
+[def __String [link eglplus.quickref.string String]]
+[def __StrCRef [link eglplus.quickref.string StrCRef]]
+
+[def __Bitfield [link eglplus.quickref.bitfield Bitfield]]
+[def __Boolean [link eglplus.quickref.boolean Boolean]]
+
+[def __FinishedAttributeList [link eglplus.quickref.attrib_list FinishedAttributeList]]
+[def __AttributeList [link eglplus.quickref.attrib_list AttributeList]]
+
+[def __EGLInitializer [link eglplus.quickref.initializer EGLInitializer]]
+[def __LibEGL [link eglplus.quickref.initializer.alias LibEGL]]
+
+[def __Display [link eglplus.quickref.display Display]]
+
+[def __ConfigAttribs [link eglplus.quickref.configs.attribs ConfigAttribs]]
+[def __FinishedConfigAttribs [link eglplus.quickref.configs.attribs FinishedConfigAttribs]]
+[def __Config [link eglplus.quickref.configs.config Config]]
+[def __Configs [link eglplus.quickref.configs.wrapper Configs]]
+
+[def __ContextAttribs [link eglplus.quickref.context.attribs ContextAttribs]]
+[def __FinishedContextAttribs [link eglplus.quickref.context.attribs FinishedContextAttribs]]
+[def __Context [link eglplus.quickref.context.wrapper Context]]
+
+[def __ContextFlag [link eglplus.quickref.context_flag ContextFlag]]
+
+[def __SurfaceAttribs [link eglplus.quickref.surface.attribs SurfaceAttribs]]
+[def __FinishedSurfaceAttribs [link eglplus.quickref.surface.attribs FinishedSurfaceAttribs]]
+[def __Surface [link eglplus.quickref.surface.wrapper Surface]]
+
+[def __ConfigAttrib [link eglplus.quickref.config_attrib ConfigAttrib]]
+[def __ConfigCaveat [link eglplus.quickref.config_caveat ConfigCaveat]]
+[def __ContextAttrib [link eglplus.quickref.context_attrib ContextAttrib]]
+[def __SurfaceAttrib [link eglplus.quickref.surface_attrib SurfaceAttrib]]
+
+[def __ColorBufferType [link eglplus.quickref.color_buffer_type ColorBufferType]]
+[def __TransparentType [link eglplus.quickref.transparent_type TransparentType]]
+[def __RenderableTypeBit [link eglplus.quickref.renderable_type_bit RenderableTypeBit]]
+[def __SurfaceTypeBit [link eglplus.quickref.surface_type_bit SurfaceTypeBit]]
+
+[def __TextureTarget [link eglplus.quickref.texture_target TextureTarget]]
+[def __TextureFormat [link eglplus.quickref.texture_format TextureFormat]]
+[def __RenderBuffer [link eglplus.quickref.render_buffer RenderBuffer]]
+[def __SwapBehavior [link eglplus.quickref.swap_behavior SwapBehavior]]
+[def __MultisampleResolve [link eglplus.quickref.multisample_resolve MultisampleResolve]]
+
+[def __GLColorspace [link eglplus.quickref.gl_colorspace GLColorSpace]]
+[def __VGColorspace [link eglplus.quickref.vg_colorspace VGColorSpace]]
+[def __VGAlphaFormat [link eglplus.quickref.vg_alpha_format VGAlphaFormat]]
+
+[def __RenderingAPI [link eglplus.quickref.rendering_api RenderingAPI]]
+[def __OpenGLResetNotificationStrategy [link eglplus.quickref.opengl_rns OpenGLResetNotificationStrategy]]
+[def __OpenGLProfileBit [link eglplus.quickref.opengl_profile_bit OpenGLProfileBit]]
+[def __StringQuery [link eglplus.quickref.string_query StringQuery]]
+[def __ErrorCode [link eglplus.quickref.error_code ErrorCode]]
+
+[/---------]
+[/Templates]
+[/---------]
+
+[template eglfunc[Name] [^egl[Name]]]
+[template eglconst[Name] [*[^EGL_[Name]]]]
+
+[/--------]
+[/Chapters]
+[/--------]
+
+[include eglplus/intro.qbk]
+[include eglplus/quickref.qbk]
+

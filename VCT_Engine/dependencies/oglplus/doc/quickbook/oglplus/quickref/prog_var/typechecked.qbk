@@ -1,0 +1,19 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------------]
+[section:typechecked Typechecking modifier]
+[/----------------------------------------]
+
+[header oglplus/prog_var/typechecked.hpp]
+
+By default the GPU program variable wrappers like __Uniform or __ProgramUniform
+are are not typechecked. The [^Typechecked] modifier template inherits from
+a particular specialization of __ProgVar but uses __tag_Typecheck as template
+argument which enables the type-checking.
+
+[import typechecked.hpp]
+[oglplus_prog_var_typechecked]
+
+[endsect]

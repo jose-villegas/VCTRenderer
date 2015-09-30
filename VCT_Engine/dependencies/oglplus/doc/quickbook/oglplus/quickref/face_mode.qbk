@@ -1,0 +1,41 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------------------------]
+[section:face_mode Face orientation and mode]
+[/------------------------------------------]
+
+[header oglplus/face_mode.hpp]
+
+[heading:face Facing]
+
+[import enums/face.hpp]
+[oglplus_enums_face]
+
+[heading:face_class [^Face] to class]
+
+[import enums/face_class.hpp]
+[oglplus_enums_face_class]
+
+[heading:single_face Single face]
+
+[import enums/single_face.hpp]
+[oglplus_enums_single_face]
+
+[heading:single_face_class [^SingleFace] to class]
+
+[import enums/single_face_class.hpp]
+[oglplus_enums_single_face_class]
+
+[heading:orientation Orientation]
+
+[import enums/face_orientation.hpp]
+[oglplus_enums_face_orientation]
+
+[heading:fns Functions]
+
+[import face_mode.hpp]
+[oglplus_face_mode_fns]
+
+[endsect]

@@ -1,0 +1,18 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------------]
+[section:compare_function Compare function]
+[/----------------------------------------]
+
+[header oglplus/compare_function.hpp]
+
+[import enums/compare_function.hpp]
+[oglplus_enums_compare_function]
+
+[heading:typedefs Typedefs]
+[import compare_function.hpp]
+[oglplus_compare_function_typedefs]
+
+[endsect]

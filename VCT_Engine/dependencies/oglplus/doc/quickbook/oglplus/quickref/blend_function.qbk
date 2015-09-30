@@ -1,0 +1,20 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------------------------]
+[section:blend_function Blend function and equation]
+[/-------------------------------------------------]
+
+[header oglplus/blend_function.hpp]
+
+[import enums/blend_function.hpp]
+[oglplus_enums_blend_function]
+
+[import enums/blend_equation.hpp]
+[oglplus_enums_blend_equation]
+
+[import enums/blend_equation_advanced.hpp]
+[oglplus_enums_blend_equation_advanced]
+
+[endsect]

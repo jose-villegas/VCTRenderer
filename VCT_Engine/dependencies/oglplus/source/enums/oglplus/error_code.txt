@@ -1,0 +1,13 @@
+# Copyright 2010-2014 Matus Chochlik. Distributed under the Boost
+# Software License, Version 1.0. (See accompanying file
+# LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+NO_ERROR
+OUT_OF_MEMORY
+INVALID_ENUM
+INVALID_VALUE
+INVALID_OPERATION
+INVALID_FRAMEBUFFER_OPERATION
+STACK_OVERFLOW
+STACK_UNDERFLOW
+TABLE_TOO_LARGE
+CONTEXT_LOST

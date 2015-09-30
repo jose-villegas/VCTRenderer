@@ -1,0 +1,17 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=========================================]
+[section:prog_var OGLplus program variables]
+[/=========================================]
+
+[include prog_var/tags.qbk]
+[include prog_var/location.qbk]
+[include prog_var/wrapper.qbk]
+
+[include prog_var/typechecked.qbk]
+[include prog_var/optional.qbk]
+[include prog_var/lazy.qbk]
+
+[endsect]

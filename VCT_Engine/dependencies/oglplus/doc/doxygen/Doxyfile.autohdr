@@ -1,0 +1,76 @@
+#  Copyright 2009-2014 Matus Chochlik. Distributed under the Boost
+#  Software License, Version 1.0. (See accompanying file
+#  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#
+#---------------------------------------------------------------------------
+# Project related configuration options
+#---------------------------------------------------------------------------
+@INCLUDE = ./Doxyfile.common
+
+PROJECT_NAME           = "OGLplus"
+
+OUTPUT_DIRECTORY       = ../../_build/
+
+INPUT = ../../include/oglplus
+
+GENERATE_HTML = NO
+GENERATE_XML = YES
+
+HIDE_UNDOC_CLASSES     = NO
+HIDE_UNDOC_RELATIONS   = NO
+
+PREDEFINED             = \
+		"GL_VERSION_3_0=1" \
+		"GL_VERSION_3_1=1" \
+		"GL_VERSION_3_2=1" \
+		"GL_VERSION_3_3=1" \
+		"GL_VERSION_4_0=1" \
+		"GL_VERSION_4_1=1" \
+		"GL_VERSION_4_2=1" \
+		"GL_VERSION_4_3=1" \
+		"OGLPLUS_NO_SITE_CONFIG=1" \
+		"OGLPLUS_LOW_PROFILE=0" \
+		"OGLPLUS_LINK_LIBRARY=0" \
+		"OGLPLUS_LAZY_STR_LIT=0" \
+		"OGLPLUS_NO_ENUM_VALUE_NAMES=0" \
+		"OGLPLUS_NO_OBJECT_DESCS=0" \
+		"OGLPLUS_DONT_TEST_OBJECT_TYPE=1" \
+		"OGLPLUS_NO_UTF8_CHECKS=0" \
+		"OGLPLUS_NO_GLFUNC_CHECKS=1" \
+		"OGLPLUS_NO_ENUM_VALUE_NAMES=1" \
+		"OGLPLUS_NO_ENUM_VALUE_RANGES=1" \
+		"OGLPLUS_NO_UNIFORM_TYPECHECK=0" \
+		"OGLPLUS_CUSTOM_ERROR_HANDLING=0" \
+		"OGLPLUS_ERROR_INFO_NO_GL_SYMBOL=0" \
+		"OGLPLUS_ERROR_INFO_NO_FILE=0" \
+		"OGLPLUS_ERROR_INFO_NO_LINE=0" \
+		"OGLPLUS_ERROR_INFO_NO_FUNC=0" \
+		"OGLPLUS_ERROR_INFO_NO_CLASS_NAME=0" \
+		"OGLPLUS_ERROR_INFO_NO_BIND_TARGET=0" \
+		"OGLPLUS_ERROR_INFO_NO_OBJECT_DESC=0" \
+		"OGLPLUS_ERROR_NO_PROPAGATION_INFO=0" \
+		"OGLPLUS_ERROR_NO_PROPERTIES=0" \
+		"OGLPLUS_DOXYGEN_PARSE=1" \
+		"OGLPLUS_DOCUMENTATION_ONLY=1" \
+		"OGLPLUS_NOEXCEPT()=" \
+		"OGLPLUS_NOEXCEPT_IF()=" \
+		"OGLPLUS_CONSTEXPR=const" \
+		"OGLPLUS_ENUM_CLASS_BEGIN(NAME,TYPE)=enum class NAME : TYPE {" \
+		"OGLPLUS_ENUM_CLASS_END=};"
+
+ALIASES                += oglplus_screenshot=""
+ALIASES                += glsymbols=""
+ALIASES                += glfunref{1}=""
+ALIASES                += gldefref{1}=""
+ALIASES                += glextref{2}=""
+ALIASES                += glverreq{2}=" _oglplus_req_gl_ver(\1_\2)"
+ALIASES                += glextreq{2}=" _oglplus_req_gl_ext(\1_\2)"
+ALIASES                += glvoereq{4}=" _oglplus_req_gl_ver(\1_\2) _oglplus_req_gl_ext(\3_\4)"
+
+CALL_GRAPH = NO
+CALLER_GRAPH = NO
+CLASS_GRAPH = NO
+INCLUDE_GRAPH = NO
+INCLUDED_BY_GRAPH = NO
+DIRECTORY_GRAPH = NO
+INLINE_INHERITED_MEMB = NO

@@ -1,0 +1,155 @@
+.TH CONFIGURE-OGLPLUS 1 "2014-01-18" "Configuration script for OGLplus."
+.SH "NAME"
+configure-oglplus \- configuration script for the OGLplus library.
+.SH "SYNOPSIS"
+.B configure-oglplus
+[
+OPTIONS
+]
+.SH "DESCRIPTION"
+This script is a more user-friendly way to invoke the cmake-based
+build system of \fBOGLplus\fR.
+.SH "OPTIONS"
+.TP
+\fB-h\fR, \fB--help\fR
+show this help message and exit
+.TP
+\fB--generate-bash-complete\fR
+Generates bash completion script for this configure script and quits. For internal use only.
+.TP
+\fB--generate-manual\fR
+Generates a man-compatible manual. For internal use only.
+.TP
+\fB--prefix\fR <\fIINSTALL_PREFIX\fR>
+Specifies the installation prefix. The path must be absolute or relative to the current working directory from which \fBconfigure-oglplus\fR is invoked.
+.TP
+\fB--build-dir\fR <\fIBUILD_DIR\fR>
+Specifies the work directory for cmake, where the cached files, generated makefiles and the intermediate build files will be placed. The specified path must be either absolute or relative to the current working directory from which \fBconfigure-oglplus\fR is invoked (default = '\fB_build\fR').
+.TP
+\fB--include-dir\fR <\fIINCLUDE_DIRS\fR>, \fB-I\fR <\fIINCLUDE_DIRS\fR>
+Specifies additional directory to search when looking for external headers like \fIGL/glew.h or GL3/gl3.h\fR. The specified path must be absolute or relative to the current working directory from which \fBconfigure-oglplus\fR is invoked. This option may be specified multiple times to add multiple directories to the search list.
+.TP
+\fB--library-dir\fR <\fILIBRARY_DIRS\fR>, \fB-L\fR <\fILIBRARY_DIRS\fR>
+Specifies additional directory to search when looking for compiled libraries like GL, GLEW, glut, png, etc. The specified path must be absolute or relative to the current working directory from which configure is invoked. This option may be specified multiple times to add multiple directories to the search list.
+.TP
+\fB--use-cxxflags\fR
+Uses the directories specified by the -I options in \fICXXFLAGS\fR (if available) and adds them to the values specified by --include-dir.
+.TP
+\fB--use-ldflags\fR
+Uses the directories specified by the -L options in \fILDFLAGS\fR (if available) and adds them to the values specified by --library-dir.
+.TP
+\fB--low-profile\fR {\fBTrue\fR,\fBFalse\fR}
+Enables or disables the low profile mode (see the documentation for the \fIOGLPLUS_LOW_PROFILE\fR compile-time switch). If this option is used, then the specified value is written to the oglplus/site_config.hpp file, otherwise it is set to the default value in oglplus/config.hpp and may be overriden in sources by defining this preprocessor symbol or by using the appropriate compiler command-line switch or build environment setting.
+.TP
+\fB--info-only\fR
+With this option configure only generates a python script containing information about the available configurations on the current machine.
+.TP
+\fB--build-examples\fR {\fBTrue\fR,\fBFalse\fR}
+Determines whether the examples should be built (default = \fBTrue\fR).
+.TP
+\fB--no-examples\fR
+Do not build the examples and the textures. Equivalent to --build-examples=False.
+.TP
+\fB--build-docs\fR {\fBTrue\fR,\fBFalse\fR}
+Determines whether the documentation should be built (default = \fBTrue\fR).
+.TP
+\fB--no-docs\fR
+Do not build the documentation. Equivalent to --build-docs=False.
+.TP
+\fB--make-screenshots\fR {\fBTrue\fR,\fBFalse\fR}
+Determines whether screenshots from OGLplus examples should be made when building the documentation (default = \fBFalse\fR).
+.TP
+\fB--screenshots\fR
+Equivalent to --make-screenshots=True.
+.TP
+\fB--max-gl-version\fR
+Sets the maximum OpenGL version to be used. The cmake OpenGL version detection is only rudimentary and not 100% reliable and may return a higher OpenGL version than actually available. This option can be used to limit the maximal version number.
+.TP
+\fB--strict-gl-version-detection\fR
+Enables (or disables) strict GL version and extension detection. In relaxed (non-strict) mode the only thing that is detected is whether specific GL symbols are defined like GL_VERSION_x_y or GL_EXT_extension_name. In strict mode a GL context is initialized and the GL version and extension list is queried and processed.
+.TP
+\fB--use-gl-api-lib\fR {\fBGLEW\fR,\fBGL3W\fR,\fBGLCOREARB_H\fR,\fBGL3_H\fR}
+Forces the use of a specific header or library which defines the GL symbols (types, functions, defines, etc.). If this option is used then the header must be installed somewhere in the system include directories or in directories specified with --include-dir and the corresponding binary libraries must be installed in system library directories or in directories specified with the --library-dir option.
+.TP
+\fB--use-glew\fR
+Forces the use of the GLEW library to define the GL symbols used in OGLplus examples. Equivalent to --use-gl-api-lib=GLEW.
+.TP
+\fB--use-gl3w\fR
+Forces the use of the GL3W library to define the GL symbols used in OGLplus examples. Equivalent to --use-gl-api-lib=GL3W.
+.TP
+\fB--use-glcorearb-h\fR
+Forces the use of the \fIGL/glcorearb.h\fR header to define the GL symbols used in OGLplus examples. Equivalent to --use-gl-api-lib=GLCOREARB_H.
+.TP
+\fB--use-gl3-h\fR
+Forces the use of the \fIGL3/gl3.h\fR header to define the GL symbols used in OGLplus examples. Equivalent to --use-gl-api-lib=GL3_H.
+.TP
+\fB--use-gl-init-lib\fR {\fBGLUT\fR,\fBGLFW3\fR,\fBGLFW\fR,\fBWXGL\fR,\fBSDL\fR,\fBGLX\fR,\fBQT4GL\fR,\fBQT5GL\fR,\fBEGL\fR}
+Forces the use of a specific window library which initializes the default GL context. This option allows to force a specific example 'harness'.
+.TP
+\fB--use-glut\fR
+Forces the use of the GLUT library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=GLUT.
+.TP
+\fB--use-glfw3\fR
+Forces the use of the GLFW3 library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=GLFW3.
+.TP
+\fB--use-glfw\fR
+Forces the use of the GLFW library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=GLFW.
+.TP
+\fB--use-wxgl\fR
+Forces the use of the wxGL library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=WXGL.
+.TP
+\fB--use-sdl\fR
+Forces the use of the SDL library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=SDL.
+.TP
+\fB--use-glx\fR
+Forces the use of the glX library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=GLX.
+.TP
+\fB--use-qt4gl\fR
+Forces the use of the Qt4GL library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=QT4GL.
+.TP
+\fB--use-qt5gl\fR
+Forces the use of the Qt5GL library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=QT5GL.
+.TP
+\fB--use-egl\fR
+Forces the use of the EGL library to create the window and initialize the GL context in OGLplus examples. Equivalent to --use-gl-init-lib=EGL.
+.TP
+\fB--from-scratch\fR
+Remove any previous cached and intermediate files and run the configuration process from scratch. Specifying this option causes the build directory to be deleted and recreated.
+.TP
+\fB--quiet\fR
+Do not print regular messages, errors are still printed to stderr. Also any cmake output is still printed.
+.TP
+\fB--quick\fR
+Skips some optional steps in the configuration process.
+.TP
+\fB--jobs\fR
+Specifies the number of parallel build jobs to be used, if applicable for the used build tool.
+.TP
+\fB--build\fR
+If possible, after running cmake also invoke the build tool and build the project. This is currently supported only for certain build tools.
+.TP
+\fB--with-tests\fR
+Configure the testsuite.
+.TP
+\fB--generator\fR
+Specify the cmake generator to be used.
+.TP
+\fB--debug-config\fR
+Enable debugging of the cmake build system.
+.TP
+\fB--debug-gl-ver-error\fR
+Enable debugging of problems with GL version detetion.
+.TP
+\fB--debug-lib-error\fR
+Enable debugging of problems with building the library.
+.TP
+\fB--cmake\fR
+Everything following this option will be passed to cmake verbatim.
+.SH "AUTHOR"
+Matus Chochlik, chochlik@gmail.com
+.SH "COPYRIGHT"
+Copyright (c) 2008-2014 Matus Chochlik
+.PP
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the Boost Software License, Version 1.0.
+(See a copy at http://www.boost.org/LICENSE_1_0.txt)

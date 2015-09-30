@@ -1,0 +1,7 @@
+# Copyright 2010-2012 Matus Chochlik. Distributed under the Boost
+# Software License, Version 1.0. (See accompanying file
+# LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#PathNVFontTarget#
+STANDARD_FONT_NAME_NV:Standard
+SYSTEM_FONT_NAME_NV:System
+FILE_NAME_NV:FileName

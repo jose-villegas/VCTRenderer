@@ -1,0 +1,15 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------------------]
+[section:buffer_select_bit Buffer selection bits]
+[/----------------------------------------------]
+
+[header oglplus/buffer_select_bit.hpp]
+
+[import enums/buffer_select_bit.hpp]
+
+[oglplus_enums_buffer_select_bit]
+
+[endsect]

@@ -1,0 +1,37 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------]
+[section:context Context]
+[/----------------------]
+
+[header oalplus/context.hpp]
+
+[import context.hpp]
+
+[heading:attribs Attributes]
+
+[oalplus_context_attribs]
+
+[heading:ops Operations]
+
+[^ContextOps] is a base wrapper for OpenAL context operations.
+
+[note Do not use this class directly, use Context instead.]
+
+[oalplus_context_ops_1]
+[oalplus_context_ops_2]
+
+[heading:wrapper Context]
+
+[oalplus_context]
+
+[heading:made_current Context made current]
+
+[^ContextMadeCurrent] is a specialization of __Context which also makes
+the wrapped context current before the constructor finishes.
+
+[oalplus_context_made_current]
+
+[endsect]

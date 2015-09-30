@@ -19,3 +19,6 @@
 [submodule ".\\VCT_Engine\\dependencies\\freeimage"]
 	path = .\\VCT_Engine\\dependencies\\freeimage
 	url = https://github.com/imazen/freeimage.git
+[submodule ".\\VCT_Engine\\dependencies\\oglplus"]
+	path = .\\VCT_Engine\\dependencies\\oglplus
+	url = https://github.com/matus-chochlik/oglplus.git

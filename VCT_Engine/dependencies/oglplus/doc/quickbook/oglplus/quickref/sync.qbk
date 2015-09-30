@@ -1,0 +1,36 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/------------------------]
+[section:sync Sync objects]
+[/------------------------]
+
+[header oglplus/sync.hpp]
+
+[heading Synchronization object operations]
+
+[import sync.hpp]
+[oglplus_sync]
+
+[heading:condition Condition]
+
+[import enums/sync_condition.hpp]
+[oglplus_enums_sync_condition]
+
+[heading:type Type]
+
+[import enums/sync_type.hpp]
+[oglplus_enums_sync_type]
+
+[heading:status Status]
+
+[import enums/sync_status.hpp]
+[oglplus_enums_sync_status]
+
+[heading:wait_result Wait result]
+
+[import enums/sync_wait_result.hpp]
+[oglplus_enums_sync_wait_result]
+
+[endsect]

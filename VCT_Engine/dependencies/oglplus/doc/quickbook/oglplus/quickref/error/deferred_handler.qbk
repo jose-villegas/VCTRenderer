@@ -1,0 +1,26 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------------------------------]
+[section:deferred_handler Deferred error handlers]
+[/-----------------------------------------------]
+
+[header oglplus/error/deferred_handler.hpp]
+
+Most OGLplus functions throw exceptions (or generally call the [^HandleError]
+function) eagerly within their body immediately after an error is detected.
+In some cases it is however desirable to allow to postpone or cancel the
+error handling. Such function return (usually indirectly) a class which
+is derived from or contains an instance of [^DeferredHandler] which
+wraps the error handler function and unless it is cancelled it invokes it
+at the latest in the destructor.
+
+There are very few reasons to use [^DeferredHandler] directly in library user
+code. Use the derived or related classes like __Outcome instead.
+
+[import deferred_handler.hpp]
+
+[oglplus_error_DeferredHandler]
+
+[endsect]

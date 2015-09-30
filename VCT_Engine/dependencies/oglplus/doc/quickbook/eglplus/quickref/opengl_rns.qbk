@@ -1,0 +1,14 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/----------------------------------------------------]
+[section:opengl_rns OpenGL reset notification strategy]
+[/----------------------------------------------------]
+
+[header eglplus/opengl_rns.hpp]
+
+[import enums/opengl_rns.hpp]
+[eglplus_enums_opengl_rns]
+
+[endsect]

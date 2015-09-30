@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <BuildDir>$(SolutionDir)\..\..\..\_build</BuildDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IntDir>$(BuildDir)\msvc\Intermediate\$(ProjectName)\$(ConfigurationName)\</IntDir>
+    <OutDir>$(BuildDir)\msvc\$(ConfigurationName)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OGLPLUS_DEP_INCLUDE_DIRS);$(SolutionDir);$(SolutionDir)\..\..\..\include;$(SolutionDir)\..\..\..\implement;$(SolutionDir)\..\..\..\utils</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_USE_MATH_DEFINES;$(OGLPLUS_PP_DEFS);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OGLPLUS_DEP_LIBRARY_DIRS)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(OGLPLUS_DEP_LIBS);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <BuildLog>
+      <Path>$(TEMP)\OGLplus\$(ProjectName).log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="BuildDir">
+      <Value>$(BuildDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

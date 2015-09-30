@@ -1,0 +1,21 @@
+/**
+ *  .file oglplus/can_build_lib.cpp
+ *  .brief Helper file for detection if the library can be built
+ *
+ *  @author Matus Chochlik
+ *
+ *  Copyright 2010-2015 Matus Chochlik. Distributed under the Boost
+ *  Software License, Version 1.0. (See accompanying file
+ *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ */
+
+#include <oglplus/gl.hpp>
+#include <oglplus/config/fix_gl_version.hpp>
+#include <oglplus/config/fix_gl_extension.hpp>
+#define OGLPLUS_LINK_LIBRARY 1
+#include <oglplus/lib.hpp>
+
+int main(void)
+{
+	return 0;
+}

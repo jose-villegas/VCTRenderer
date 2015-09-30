@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <OGLPLUS_DEP_INCLUDE_DIRS_>C:\Path\To\GLEW\include;C:\Path\To\FreeGLUT\include</OGLPLUS_DEP_INCLUDE_DIRS_>
+    <OGLPLUS_DEP_LIBRARY_DIRS_>C:\Path\To\GLEW\lib;C:\Path\To\FreeGLUT\lib</OGLPLUS_DEP_LIBRARY_DIRS_>
+    <OGLPLUS_DEP_LIBS_>glew32s.lib;freeglut_static.lib</OGLPLUS_DEP_LIBS_>
+    <OGLPLUS_PP_DEFS_>GLEW_STATIC;FREEGLUT_STATIC</OGLPLUS_PP_DEFS_>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="OGLPLUS_DEP_INCLUDE_DIRS_">
+      <Value>$(OGLPLUS_DEP_INCLUDE_DIRS_)</Value>
+    </BuildMacro>
+    <BuildMacro Include="OGLPLUS_DEP_LIBRARY_DIRS_">
+      <Value>$(OGLPLUS_DEP_LIBRARY_DIRS_)</Value>
+    </BuildMacro>
+    <BuildMacro Include="OGLPLUS_DEP_LIBS_">
+      <Value>$(OGLPLUS_DEP_LIBS_)</Value>
+    </BuildMacro>
+    <BuildMacro Include="OGLPLUS_PP_DEFS_">
+      <Value>$(OGLPLUS_PP_DEFS_)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,75 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[chapter Quick reference
+	[quickbook 1.6]
+	[id eglplus.quickref]
+]
+
+[section:intro Introduction]
+
+This quick reference describes the public API of the __EGLplus__ library.
+The implementation details, i.e. parts of of EGLplus not listed in this
+reference should not be used by the library users and are subject to
+change without any prior notice.
+
+Unless stated otherwise, all EGLplus definitions are made inside of the
+top-level [^eglplus] namespace or in namespaces nested inside
+of namespace [^eglplus].
+
+The namespace-definition opening,
+
+``
+namespace eglplus {
+``
+and closing,
+
+``
+} // namespace eglplus
+``
+statements are assumed, but omitted for the sake of brevity from this reference.
+
+[endsect]
+
+[include quickref/string.qbk]
+
+[include quickref/initializer.qbk]
+
+[include quickref/display.qbk]
+[include quickref/configs.qbk]
+[include quickref/context.qbk]
+[include quickref/surface.qbk]
+
+[include quickref/attrib_list.qbk]
+[include quickref/bitfield.qbk]
+[include quickref/boolean.qbk]
+
+[include quickref/context_attrib.qbk]
+[include quickref/context_flag.qbk]
+[include quickref/config_attrib.qbk]
+[include quickref/config_caveat.qbk]
+
+[include quickref/color_buffer_type.qbk]
+[include quickref/rendering_api.qbk]
+[include quickref/render_buffer.qbk]
+[include quickref/renderable_type_bit.qbk]
+[include quickref/surface_attrib.qbk]
+[include quickref/surface_type_bit.qbk]
+
+[include quickref/transparent_type.qbk]
+
+[include quickref/vg_alpha_format.qbk]
+[include quickref/vg_colorspace.qbk]
+
+[include quickref/gl_colorspace.qbk]
+[include quickref/multisample_resolve.qbk]
+[include quickref/opengl_profile_bit.qbk]
+[include quickref/opengl_rns.qbk]
+
+[include quickref/texture_format.qbk]
+[include quickref/texture_target.qbk]
+
+[include quickref/swap_behavior.qbk]
+
+[include quickref/string_query.qbk]

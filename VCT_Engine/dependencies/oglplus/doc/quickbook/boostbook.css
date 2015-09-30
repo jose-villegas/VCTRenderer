@@ -1,0 +1,157 @@
+body
+{
+	font-family: Lucida Grande, Verdana, Geneva, Arial, sans-serif;
+	background-color: #606060;
+}
+
+body hr
+{
+	display: none;
+}
+
+body > div.spirit-nav
+{
+	background-color: #9090D0;
+	border: solid black 8px;
+	overflow: hidden;
+	box-shadow: inset 1px 1px 2px 1px #404040;
+
+	padding: 3px;
+}
+
+div.spirit-nav a img
+{
+	margin: 3px;
+	box-shadow: 0px 0px 2px 2px #B0B0E0;
+}
+
+div.spirit-nav a img:hover
+{
+	margin: 3px;
+	box-shadow: 0px 0px 2px 2px #D8D8E8;
+}
+
+body > div.book,
+body > div.part,
+body > div.chapter,
+body > div.section
+{
+	background-color: #FEFEFE;
+	border-top: solid black 1px;
+	border-left: solid black 8px;
+	border-right: solid black 8px;
+	border-bottom: solid black 8px;
+	box-shadow: inset 1px 1px 2px 1px #404040;
+
+	padding: 1em;
+	overflow: hidden;
+}
+
+div.copyright-footer
+{
+	color: #B0B0B0;
+}
+
+div.copyright-footer a
+{
+	color: #E0E0E0;
+}
+
+div.calloutlist
+{
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	border: solid #E0E0E0 1px;
+	background-color: #F8F8F4;
+	float: right;
+	width: 37%;
+	overflow: hidden;
+	box-shadow: 1px 0px 2px 2px #808080;
+}
+
+.calloutlist table
+{
+	font-size: 75%;
+}
+
+div.section,
+div.section > h2,
+div.section > h3,
+div.section > h4,
+div.section > h5,
+div.section > p
+{
+	clear: both;
+}
+
+div.section + div.section,
+div.section > h2,
+div.section > h3,
+div.section > h4,
+div.section > h5
+{
+	padding-top: 1em;
+}
+
+pre.programlisting
+{
+	margin-top: 0;
+	margin-bottom: 0;
+	border: solid #E0E0E0 1px;
+	background-color: #E8E8E4;
+	padding-right: 1em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	float: left;
+	width: 60%;
+	overflow: hidden;
+}
+
+.programlisting .preprocessor
+{
+	font-weight: 600;
+	color: #303090;
+}
+.programlisting .keyword
+{
+	font-weight: 500;
+	color: #4040A0;
+}
+.programlisting .identifier
+{
+	font-weight: 400;
+	color: #101020;
+}
+.programlisting .string
+{
+	font-weight: 600;
+	color: #303080;
+}
+
+code.literal
+{
+	color: #101020;
+}
+
+a
+{
+	text-decoration: none;
+	text-shadow: 1px 1px 1px rgba(40, 40, 40, 0.2);
+}
+
+a:link
+{
+	color: #6060A0;
+}
+
+a:visited
+{
+	color: #404080;
+}
+
+a:hover
+{
+	color: #202040;
+	text-shadow: 1px 1px 1px rgba(40, 40, 40, 0.5);
+}
+

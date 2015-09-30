@@ -1,0 +1,40 @@
+/**
+ *  Copyright 2010-2015 Matus Chochlik. Distributed under the Boost
+ *  Software License, Version 1.0. (See accompanying file
+ *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ */
+
+#include <cstring>
+#include <cstddef>
+
+inline
+bool does_have_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@(void)
+{
+#if !defined GL_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@
+	return false;
+#elif !GL_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@
+	return false;
+#else
+	const char* ext_vendor = "@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@";
+	const char* ext_name = "@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@";
+	GLint num_ext = 0;
+	glGetIntegerv(GL_NUM_EXTENSIONS, &num_ext);
+
+	for(GLint i=0; i<num_ext; ++i)
+	{
+		const char* ext_str = (const char*)glGetStringi(GL_EXTENSIONS, i);
+
+		std::ptrdiff_t o0 = 0;
+		std::ptrdiff_t o1 = 3;
+		std::ptrdiff_t o2 = 3+std::strlen(ext_vendor)+1;
+		if(
+			(std::strstr(ext_str, "GL_") == ext_str+o0) &&
+			(std::strstr(ext_str, ext_vendor) == ext_str+o1) &&
+			(std::strstr(ext_str, ext_name) == ext_str+o2) &&
+			(std::strcmp(ext_str+o2, ext_name) == 0)
+		) return true;
+	}
+	return false;
+#endif
+}
+

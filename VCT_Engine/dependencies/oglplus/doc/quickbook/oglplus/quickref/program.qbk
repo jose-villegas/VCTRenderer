@@ -1,0 +1,68 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-----------------------]
+[section:program Programs]
+[/-----------------------]
+
+[header oglplus/program.hpp]
+
+[import program.hpp]
+[import program.cpp]
+
+[heading Common program operations]
+[oglplus_program_common]
+
+[heading Operations with direct state access]
+
+[oglplus_program_1]
+[oglplus_program_2]
+[oglplus_program_3]
+[oglplus_program_4]
+[oglplus_program_5]
+
+[heading:def Definition]
+
+[oglplus_program_def]
+
+[heading Example]
+
+The following code snippet shows the basic setup of a __Program.
+
+[oglplus_program_example_1]
+
+[heading:sugar Syntax sugar]
+
+[oglplus_program_sugar]
+
+[heading Examples]
+
+The syntax sugar operators make attaching shaders to a program
+less verbose as shown here:
+[oglplus_program_sugar_example_1]
+
+These operators also simplify the specification of transform feedback varyings:
+[oglplus_program_sugar_example_2]
+
+[heading:shader_program Shader program]
+
+[oglplus_shader_program]
+
+[heading:quick_program Quick program]
+
+This class allows to supply a list of shaders and other parameters
+to the constructor. The shaders are attached to the __Program
+and it is linked and made active. Optionally the program can also
+be made separable.
+
+[oglplus_quick_program]
+
+[heading:resource Program resource]
+
+[header oglplus/program_resource.hpp]
+
+[import program_resource.hpp]
+[oglplus_program_resource]
+
+[endsect]

@@ -1,0 +1,52 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/--------------------------------------------]
+[section:transform_feedback Transform feedback]
+[/--------------------------------------------]
+
+[header oglplus/transform_feedback.hpp]
+
+[import transform_feedback.hpp]
+
+[heading:common Common transform feedback operations]
+
+[oglplus_transform_feedback_common]
+
+[heading:def Definition]
+
+[oglplus_transform_feedback_def]
+
+[heading:activator Activator]
+
+[oglplus_transform_feedback_activator]
+
+[heading:pauser Pauser]
+
+[oglplus_transform_feedback_pauser]
+
+[heading:target Target]
+
+[header oglplus/transform_feedback_target.hpp]
+[import enums/transform_feedback_target.hpp]
+[oglplus_enums_transform_feedback_target]
+
+[heading:target_class Target to class]
+
+[import enums/transform_feedback_target_class.hpp]
+[oglplus_enums_transform_feedback_target_class]
+
+[heading:mode Mode]
+
+[header oglplus/transform_feedback_mode.hpp]
+[import enums/transform_feedback_mode.hpp]
+[oglplus_enums_transform_feedback_mode]
+
+[heading:primitive_type Primitive type]
+
+[header oglplus/transform_feedback_primitive_type.hpp]
+[import enums/transform_feedback_primitive_type.hpp]
+[oglplus_enums_transform_feedback_primitive_type]
+
+[endsect]

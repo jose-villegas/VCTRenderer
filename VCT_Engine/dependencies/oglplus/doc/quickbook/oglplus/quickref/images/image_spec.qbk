@@ -1,0 +1,24 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------------------]
+[section:image_spec Image specification]
+[/-------------------------------------]
+
+[header oglplus/images/image_spec.hpp]
+
+The [^ImageSpec] class is used to specify various parameters of
+a texture image, like its ['width], ['height], ['depth], pixel data ['type],
+['format] and ['internal format] and a pointer to and size of a block
+of memory where the raw image data is stored. It is used mostly as
+a parameter type for __Texture, __Renderbuffer and other similar functions.
+
+[^ImageSpec] defines multiple constructors which allow to specify values
+for various subsets of the parameters listed above and initialize
+the unspecified parameters with appropriate default values.
+
+[import image_spec.hpp]
+[oglplus_images_ImageSpec]
+
+[endsect]

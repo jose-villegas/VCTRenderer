@@ -1,0 +1,18 @@
+[/ Copyright 2014-2015 Matus Chochlik. Distributed under the Boost  ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/=================================]
+[section:attrib_list Attribute list]
+[/=================================]
+
+[header eglplus/attrib_list.hpp]
+
+Attribute lists are used mostly for configuration of instances
+of the __Context, __Surface and __Configs classes. They store a list
+of attribute / value pairs, finalized by a special value.
+
+[import attrib_list.hpp]
+[eglplus_attrib_list]
+
+[endsect]

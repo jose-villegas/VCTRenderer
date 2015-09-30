@@ -1,0 +1,22 @@
+[/ Copyright 2014 Matus Chochlik. Distributed under the Boost       ]
+[/ Software License, Version 1.0. (See accompanying file            ]
+[/ LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) ]
+
+[/-------------------------]
+[section:enums Enumerations]
+[/-------------------------]
+
+[header oglplus/config/enums.hpp]
+
+The preprocessor options defined here control behavior related
+to the OGLplus [link oglplus.quickref.enums enumerations].
+The functions for iteration through all
+available values in an enumerated type and the functions for returning
+the GL names of the enumeration values can be either enabled or
+disabled by these options.
+
+[import enums.hpp]
+[oglplus_config_enums]
+
+[endsect]
+
