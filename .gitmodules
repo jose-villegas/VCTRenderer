@@ -7,9 +7,6 @@
 [submodule ".\\VCT_Engine\\dependencies\\glew-cmake"]
 	path = .\\VCT_Engine\\dependencies\\glew-cmake
 	url = https://github.com/Perlmint/glew-cmake.git
-[submodule ".\\VCT_Engine\\dependencies\\oglplus"]
-	path = .\\VCT_Engine\\dependencies\\oglplus
-	url = https://github.com/matus-chochlik/oglplus.git
 [submodule ".\\VCT_Engine\\dependencies\\assimp"]
 	path = .\\VCT_Engine\\dependencies\\assimp
 	url = https://github.com/assimp/assimp.git
