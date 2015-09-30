@@ -41,11 +41,12 @@ class Renderer
 {
     private:
         static oglplus::Context gl;
+        const RenderWindow * renderWindow;
         DeferredHandler deferredHandler;
     public:
         TransformMatrices transformMatrices;
 
-        Renderer(RenderWindow &rWindow);
+        Renderer(const RenderWindow &rWindow);
         virtual ~Renderer();
 
         void Initialize();

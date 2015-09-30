@@ -37,5 +37,7 @@ class DeferredHandler
 
         oglplus::Program &GetGeometryPass() { return geometryPass; }
         oglplus::Program &GetLightPass() { return lightPass; }
+
+        void BindGBuffer(oglplus::Framebuffer::Target &bindingMode);
 };
 

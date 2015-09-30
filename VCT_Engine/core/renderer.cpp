@@ -2,9 +2,10 @@
 #include "renderer.h"
 #include "engine_base.h"
 
-Renderer::Renderer(RenderWindow &rWindow)
-    : deferredHandler(rWindow.Settings().width, rWindow.Settings().height)
+Renderer::Renderer(const RenderWindow &rWindow) : deferredHandler(
+        rWindow.Settings().width, rWindow.Settings().height)
 {
+    renderWindow = &rWindow;
 }
 
 Renderer::~Renderer()

@@ -87,3 +87,8 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
 DeferredHandler::~DeferredHandler()
 {
 }
+
+void DeferredHandler::BindGBuffer(oglplus::Framebuffer::Target &bindingMode)
+{
+    gl.Bind(bindingMode, geomBuffer);
+}

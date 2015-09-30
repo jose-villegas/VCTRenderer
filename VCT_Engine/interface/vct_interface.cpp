@@ -23,6 +23,7 @@ void UI::Draw()
         ImGui::Text("FPS: (%.1f)", io.Framerate);
         ImGui::End();
     }
+    // scene selector
     {
         ImGui::SetNextWindowPos(ImVec2(3, 3));
         ImGui::Begin("Scene", nullptr,
@@ -34,7 +35,6 @@ void UI::Draw()
                      (const char**)engineAssets->GetAvailableScenes().data(),
                      (int)engineAssets->GetAvailableScenes().size());
         ImGui::PopItemWidth();
-        //ImGui::ShowTestWindow();
         ImGui::End();
     }
 }
