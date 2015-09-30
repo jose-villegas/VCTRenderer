@@ -56,20 +56,20 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     Buffer::Data(Buffer::Target::Array, this->vertices);
     // setup vertex data interleaving
     // position
-    VertexArrayAttrib(VertexAttribSlot(0))
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)0).Enable();
+    VertexArrayAttrib(VertexAttribSlot(0)).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)0);
     // uvs
-    VertexArrayAttrib(VertexAttribSlot(1))
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)12).Enable();
+    VertexArrayAttrib(VertexAttribSlot(1)).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)12);
     // normals
-    VertexArrayAttrib(VertexAttribSlot(2))
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)24).Enable();
+    VertexArrayAttrib(VertexAttribSlot(2)).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)24);
     // tangents
-    VertexArrayAttrib(VertexAttribSlot(3))
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)36).Enable();
+    VertexArrayAttrib(VertexAttribSlot(3)).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)36);
     // bitangents
-    VertexArrayAttrib(VertexAttribSlot(4))
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)48).Enable();
+    VertexArrayAttrib(VertexAttribSlot(4)).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)48);
     // create element (indices) buffer object and upload data
     oglElementArrayBuffer = std::unique_ptr<Buffer>(new Buffer());
     oglElementArrayBuffer->Bind(Buffer::Target::ElementArray);
@@ -113,20 +113,20 @@ void OGLMesh::DrawElements()
 void OGLMesh::BufferPointers(oglplus::Program &program)
 {
     using namespace oglplus;
-    (program | 0).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                          (const GLvoid*)0).Enable();
+    (program | 0).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)0);
     // uvs
-    (program | 1).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                          (const GLvoid*)12).Enable();
+    (program | 1).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)12);
     // normals
-    (program | 2).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                          (const GLvoid*)24).Enable();
+    (program | 2).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)24);
     // tangents
-    (program | 3).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                          (const GLvoid*)36).Enable();
+    (program | 3).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)36);
     // bitangents
-    (program | 4).Pointer(3, DataType::Float, false, sizeof(Vertex),
-                          (const GLvoid*)48).Enable();
+    (program | 4).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), (const GLvoid*)48);
 }
 
 void OGLMesh::BufferSetup(oglplus::Program &program)

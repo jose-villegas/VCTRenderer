@@ -6,27 +6,33 @@ class DeferredHandler
         enum GBufferTextureType
         {
             Position,
-            Diffuse,
             Normal,
-            TexCoord,
+            AlbedoSpecular,
             GBUFFER_TEXTURE_TYPE_MAX
         };
         static oglplus::Context gl;
         // deferred shader programs
         oglplus::Program geometryPass;
         oglplus::Program lightPass;
-
         oglplus::FragmentShader fsGeometryPass;
         oglplus::FragmentShader fsLightPass;
         oglplus::VertexShader vLightPass;
         oglplus::VertexShader vsGeometryPass;
 
+        // geometry buffer
         oglplus::Framebuffer geomBuffer;
         oglplus::Texture bDepthTexture;
+        std::vector<oglplus::Context::ColorBuffer> openedColorBuffers;
         std::array<oglplus::Texture, GBUFFER_TEXTURE_TYPE_MAX> bTextures;
+
+        // full screen quad
+        oglplus::VertexArray fsQuadVertexArray;
+        oglplus::Buffer fsQuadVertexBuffer;
+        oglplus::Buffer fsQuadElementBuffer;
 
         void LoadShaders();
         void InitializeGBuffer(unsigned int windowWith, unsigned int windowHeight);
+        void CreateFullscreenQuad();
     public:
         DeferredHandler(unsigned int windowWith, unsigned int windowHeight);
 
@@ -38,6 +44,7 @@ class DeferredHandler
         oglplus::Program &GetGeometryPass() { return geometryPass; }
         oglplus::Program &GetLightPass() { return lightPass; }
 
-        void BindGBuffer(oglplus::Framebuffer::Target &bindingMode);
+        void BindGBuffer(const oglplus::Framebuffer::Target &bindingMode);
+        void ReadGBuffer(const GBufferTextureType &gBufferTexType);
 };
 
