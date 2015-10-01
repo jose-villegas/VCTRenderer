@@ -2,6 +2,7 @@
 #include "scene_importer.h"
 #include "..\scene\scene.h"
 #include "..\misc\miscellaneous.h"
+#include "scene\texture.h"
 
 
 SceneImporter::SceneImporter()
@@ -338,6 +339,6 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
 
     if(!materialHasTexture)
     {
-        std::cout << " ";
+        material.AddTexture(OGLTexture2D::GetDefaultTexture(), RawTexture::Diffuse);
     }
 }

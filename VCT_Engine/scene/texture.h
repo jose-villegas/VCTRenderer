@@ -97,6 +97,9 @@ class OGLTexture2D : public RawTexture
                            bool generateMipmaps = true, glm::vec4 borderColor = glm::vec4(0.f));
         bool OnGPUMemory() const { return onGPUMemory; }
         void Bind();
+
+        static const std::shared_ptr<OGLTexture2D> &GetDefaultTexture();
+        static const std::shared_ptr<OGLTexture2D> &GetErrorTexture();
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLTexture2D(OGLTexture2D const &);
