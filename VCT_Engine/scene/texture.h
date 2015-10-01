@@ -96,6 +96,7 @@ class OGLTexture2D : public RawTexture
                            WrapMode wrapT = WrapMode::Repeat, bool unloadFromRAM = true,
                            bool generateMipmaps = true, glm::vec4 borderColor = glm::vec4(0.f));
         bool OnGPUMemory() const { return onGPUMemory; }
+        void Bind();
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLTexture2D(OGLTexture2D const &);

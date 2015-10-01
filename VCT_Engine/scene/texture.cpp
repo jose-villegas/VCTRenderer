@@ -80,6 +80,11 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter
     return GetGLName(*this->oglTexture);
 }
 
+void OGLTexture2D::Bind()
+{
+    this->oglTexture->Bind(oglplus::Texture::Target::_2D);
+}
+
 OGLTexture2D::OGLTexture2D()
 {
 }

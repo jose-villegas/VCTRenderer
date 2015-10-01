@@ -141,6 +141,33 @@ DeferredHandler::~DeferredHandler()
 {
 }
 
+bool DeferredHandler::IsSamplerAvailable(RawTexture::TextureType texType)
+{
+    // geom shader source available samplers
+    if(texType == RawTexture::Ambient ||
+       texType == RawTexture::Specular ||
+       texType == RawTexture::Diffuse) return true;
+
+    return false;
+}
+
+void DeferredHandler::SetSamplerUniform(const oglplus::Program &program,
+                                        RawTexture::TextureType texType)
+{
+    if(texType == RawTexture::Ambient)
+    {
+        oglplus::Uniform<int>(program, "ambientMap").Set(texType);
+    }
+    else if(texType == RawTexture::Specular)
+    {
+        oglplus::Uniform<int>(program, "specularMap").Set(texType);
+    }
+    else if(texType == RawTexture::Diffuse)
+    {
+        oglplus::Uniform<int>(program, "diffuseMap").Set(texType);
+    }
+}
+
 void DeferredHandler::BindGBuffer(const oglplus::Framebuffer::Target
                                   &bindingMode)
 {

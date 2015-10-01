@@ -31,7 +31,7 @@ class Mesh
         std::vector<unsigned int> indices;
 
         // material used by mesh
-        std::shared_ptr<OGLMaterial> material;
+        std::shared_ptr<Material> material;
 
         Mesh();
         virtual ~Mesh();

@@ -3,6 +3,8 @@
 
 class Material
 {
+    private:
+        std::vector<std::pair<std::shared_ptr<OGLTexture2D>, RawTexture::TextureType>>textures;
     public:
         enum ShadingMode
         {
@@ -22,7 +24,6 @@ class Material
             Default,
             Additive
         };
-    public:
         std::string name;
 
         glm::vec3 ambient;
@@ -39,19 +40,11 @@ class Material
         unsigned int shadingModel;
         unsigned int blendMode;
 
-        std::array<std::shared_ptr<OGLTexture2D>, RawTexture::TEXTURE_TYPE_MAX>
-        textures;
+        void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
+                        RawTexture::TextureType texType);
+        void SetTextureUniforms(const oglplus::Program &program);
 
         Material();
         ~Material();
-};
-
-class OGLMaterial : public Material
-{
-    public:
-        std::shared_ptr<oglplus::Program> materialShader;
-
-        OGLMaterial();
-        ~OGLMaterial();
 };
 

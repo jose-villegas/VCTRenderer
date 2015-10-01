@@ -35,7 +35,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         // process material properties
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
-            std::shared_ptr<OGLMaterial> newMaterial(new OGLMaterial());
+            std::shared_ptr<Material> newMaterial(new Material());
             ImportMaterial(scene->mMaterials[i], *newMaterial);
             outScene.materials.push_back(std::move(newMaterial));
         }
@@ -55,7 +55,13 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
             ImportMesh(scene->mMeshes[i], *newMesh);
             // material assigned to mesh
             newMesh->material = outScene.materials[scene->mMeshes[i]->mMaterialIndex];
-            outScene.meshes.push_back(std::move(newMesh));
+            // sort the meshes by material
+            auto it = std::lower_bound(
+                          outScene.meshes.begin(), outScene.meshes.end(), newMesh,
+                          [ = ](std::shared_ptr<OGLMesh> lhs, std::shared_ptr<OGLMesh> rhs)
+                          -> bool { return lhs->material->name < rhs->material->name; }
+                      );
+            outScene.meshes.insert(it, std::move(newMesh));
         }
     }
 
@@ -274,6 +280,8 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
 void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
         Material &material)
 {
+    bool materialHasTexture = false;
+
     for(unsigned int texType = aiTextureType::aiTextureType_NONE;
         texType < aiTextureType::aiTextureType_UNKNOWN; texType++)
     {
@@ -283,6 +291,8 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
         if(textureTypeCount <= 0) { continue; }
 
         aiString texPath;
+        // material has at least one texture
+        materialHasTexture = true;
 
         if(mMaterial->GetTexture((aiTextureType)texType, 0,
                                  &texPath) == AI_SUCCESS)
@@ -305,16 +315,29 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
                 if(textureImporter.ImportTexture2D(filepath, *newTexture))
                 {
                     scene.textures.push_back(newTexture);
-                    material.textures[texType] = newTexture;
+                    material.AddTexture(newTexture, (RawTexture::TextureType)texType);
                     newTexture->textureTypes.insert((RawTexture::TextureType)texType);
                 }
-            }
+                else
+                {
+                    std::cout << "(SceneImporter) Error Loading Texture: " << filepath;
+                }
+            } // raw data from this texture has been previously loaded
             else
             {
-                material.textures[texType] = scene.textures[savedTextureIndex];
-                material.textures[texType]->textureTypes.insert((RawTexture::TextureType)
-                        texType);
+                // just add reference and associate a new texture type
+                material.AddTexture(
+                    scene.textures[savedTextureIndex], (RawTexture::TextureType)texType
+                );
+                scene.textures[savedTextureIndex]->textureTypes.insert(
+                    (RawTexture::TextureType)texType
+                );
             }
         }
+    }
+
+    if(!materialHasTexture)
+    {
+        std::cout << " ";
     }
 }

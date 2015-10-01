@@ -1,4 +1,5 @@
 #pragma once
+#include "scene\texture.h"
 
 class DeferredHandler
 {
@@ -43,6 +44,9 @@ class DeferredHandler
 
         oglplus::Program &GetGeometryPass() { return geometryPass; }
         oglplus::Program &GetLightPass() { return lightPass; }
+        static bool IsSamplerAvailable(RawTexture::TextureType texType);
+        static void SetSamplerUniform(const oglplus::Program &program,
+                                      RawTexture::TextureType texType);
 
         void BindGBuffer(const oglplus::Framebuffer::Target &bindingMode);
         void ReadGBuffer(const GBufferTextureType &gBufferTexType);
