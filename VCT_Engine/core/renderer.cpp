@@ -20,8 +20,12 @@ void Renderer::Render(Scene &activeScene)
 {
     using namespace oglplus;
     static std::shared_ptr<EngineBase> engine = EngineBase::Instance();
+    // bind gbuffer for writing
+    deferredHandler.BindGBuffer(FramebufferTarget::Draw);
+    gl.Clear().ColorBuffer().DepthBuffer();
     // opengl flags
     gl.ClearDepth(1.0f);
+    //gl.Disable(Capability::Blend);
     gl.Enable(Capability::DepthTest);
     gl.Enable(Capability::CullFace);
     gl.FrontFace(FaceOrientation::CCW);
@@ -30,15 +34,11 @@ void Renderer::Render(Scene &activeScene)
     deferredHandler.UseGeometryPass();
     // play with camera position
     activeScene.cameras[engine->GetExecInfo().activeCamera]->position =
-        glm::vec3(
-            std::cos(glfwGetTime()) * 10.0f,
-            -5,
-            std::sin(glfwGetTime()) * 10.0f
-        );
+        glm::vec3(0.0f, -12.5f, 0.0f);
     activeScene.cameras[engine->GetExecInfo().activeCamera]->lookAt =
         glm::vec3(
             std::sin(glfwGetTime()),
-            -10,
+            -12.5f,
             std::cos(glfwGetTime())
         );
     activeScene.cameras[engine->GetExecInfo().activeCamera]->clipPlaneFar =
@@ -52,6 +52,8 @@ void Renderer::Render(Scene &activeScene)
     );
     // draw whole scene hierachy tree from root node
     activeScene.rootNode.DrawRecursive();
+    // unbind geom buffer
+    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
 }
 
 TransformMatrices::TransformMatrices()
@@ -90,8 +92,8 @@ void TransformMatrices::SetUniforms(oglplus::Program &program)
     // set actually used uniforms
     Uniform<glm::mat4x4>(program, "matrices.modelViewProjection")
     .Set(matrices.modelViewProjection);
-    //Uniform<glm::mat4x4>(program, "matrices.modelView")
-    //.Set(matrices.modelView);
-    //Uniform<glm::mat4x4>(program, "matrices.normal")
-    //.Set(matrices.normal);
+    Uniform<glm::mat4x4>(program, "matrices.modelView")
+    .Set(matrices.modelView);
+    Uniform<glm::mat4x4>(program, "matrices.normal")
+    .Set(matrices.normal);
 }

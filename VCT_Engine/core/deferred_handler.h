@@ -3,14 +3,16 @@
 
 class DeferredHandler
 {
-    private:
+    public:
         enum GBufferTextureType
         {
             Position,
             Normal,
-            AlbedoSpecular,
+            Albedo,
+            Specular,
             GBUFFER_TEXTURE_TYPE_MAX
         };
+    private:
         static oglplus::Context gl;
         // deferred shader programs
         oglplus::Program geometryPass;
@@ -48,7 +50,10 @@ class DeferredHandler
         static void SetSamplerUniform(oglplus::Program &program,
                                       RawTexture::TextureType texType);
 
-        void BindGBuffer(const oglplus::Framebuffer::Target &bindingMode);
+        void BindGBuffer(const oglplus::FramebufferTarget &bindingMode);
         void ReadGBuffer(const GBufferTextureType &gBufferTexType);
+        // returns texture handlers to gbuffer color buffers
+        const std::array<oglplus::Texture, GBUFFER_TEXTURE_TYPE_MAX>
+        &GetGBufferTextures() const { return bTextures; }
 };
 

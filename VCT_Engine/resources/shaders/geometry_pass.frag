@@ -1,6 +1,9 @@
 #version 440
 
-layout(location = 0) out vec4 fragColor;
+layout(location = 0) out vec3 gPosition;
+layout(location = 1) out vec3 gNormal;
+layout(location = 2) out vec3 gAlbedo;
+layout(location = 3) out float gSpecular;
 
 in vec3 position;
 in vec3 texCoord;
@@ -24,11 +27,13 @@ uniform sampler2D ambientMap;
 
 void main()
 {
-    vec3 color = texture(ambientMap, texCoord.xy).rgb * material.ambient;
-    color += texture(diffuseMap, texCoord.xy).rgb * material.diffuse;
-    color += texture(specularMap, texCoord.xy).rgb * material.specular;
-    vec3 lDir = normalize(vec3(0.0f, 1.0f, 0.0f) - position);
-    vec3 iDiff = color * max(dot(normal, lDir), 0.0f);
-    iDiff = clamp(iDiff, 0.0f, 1.0f);
-    fragColor = vec4(color, 1.0f);
+    // store fragment position in gbuffer texture
+    gPosition = position;
+    // store per fragment normal
+    gNormal = normalize(normal);
+    // store albedo rgb
+    gAlbedo = texture(ambientMap, texCoord.xy).rgb * material.ambient 
+              + texture(diffuseMap, texCoord.xy).rgb * material.diffuse;
+    // store specular intensity
+    gSpecular = (texture(specularMap, texCoord.xy).rgb * material.specular).r;
 }

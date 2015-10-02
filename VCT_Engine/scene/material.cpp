@@ -20,9 +20,12 @@ void Material::SetMaterialUniforms(oglplus::Program &program)
     else { activeMaterial = this; }
 
     // set material values
-    oglplus::Uniform<glm::vec3>(program, "material.ambient").Set(this->ambient);
-    oglplus::Uniform<glm::vec3>(program, "material.diffuse").Set(this->diffuse);
-    oglplus::Uniform<glm::vec3>(program, "material.specular").Set(this->specular);
+    oglplus::Uniform<glm::vec3>(program, "material.ambient").Set(ambient);
+    oglplus::Uniform<glm::vec3>(program, "material.diffuse").Set(diffuse);
+    oglplus::Uniform<glm::vec3>(program, "material.specular").Set(specular);
+    //oglplus::Uniform<float>(program, "material.shininess").Set(shininess);
+    //oglplus::Uniform<float>(program,
+    //                        "material.refractionIndex").Set(refractionIndex);
 
     // set material textures
     for(auto it = programSamplers.begin(); it != programSamplers.end(); ++it)

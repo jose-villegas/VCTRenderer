@@ -77,7 +77,7 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
 {
     using namespace oglplus;
     openedColorBuffers.clear();
-    geomBuffer.Bind(Framebuffer::Target::Draw);
+    geomBuffer.Bind(FramebufferTarget::Draw);
     // position color buffer
     gl.Bound(Texture::Target::_2D, bTextures[GBufferTextureType::Position])
     .Image2D(
@@ -87,7 +87,7 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
     geomBuffer.AttachTexture(
-        Framebuffer::Target::Draw,
+        FramebufferTarget::Draw,
         FramebufferColorAttachment::_0, bTextures[GBufferTextureType::Position], 0
     );
     openedColorBuffers.push_back(FramebufferColorAttachment::_0);
@@ -100,23 +100,36 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
     geomBuffer.AttachTexture(
-        Framebuffer::Target::Draw,
+        FramebufferTarget::Draw,
         FramebufferColorAttachment::_1, bTextures[GBufferTextureType::Normal], 0
     );
     openedColorBuffers.push_back(FramebufferColorAttachment::_1);
-    // color + specular color buffer
-    gl.Bound(Texture::Target::_2D, bTextures[GBufferTextureType::AlbedoSpecular])
+    // albedo color buffer
+    gl.Bound(Texture::Target::_2D, bTextures[GBufferTextureType::Albedo])
     .Image2D(
-        0, PixelDataInternalFormat::RGBA8, windowWith, windowHeight,
-        0, PixelDataFormat::RGBA, PixelDataType::Float, nullptr
+        0, PixelDataInternalFormat::RGB8, windowWith, windowHeight,
+        0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
     ) // 8 bit per component texture
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
     geomBuffer.AttachTexture(
-        Framebuffer::Target::Draw,
-        FramebufferColorAttachment::_2, bTextures[GBufferTextureType::AlbedoSpecular], 0
+        FramebufferTarget::Draw,
+        FramebufferColorAttachment::_2, bTextures[GBufferTextureType::Albedo], 0
     );
     openedColorBuffers.push_back(FramebufferColorAttachment::_2);
+    // specular intensity and shininess buffer
+    gl.Bound(Texture::Target::_2D, bTextures[GBufferTextureType::Specular])
+    .Image2D(
+        0, PixelDataInternalFormat::R8, windowWith, windowHeight,
+        0, PixelDataFormat::Red, PixelDataType::Float, nullptr
+    ) // 8 bit per component texture
+    .MinFilter(TextureMinFilter::Nearest)
+    .MagFilter(TextureMagFilter::Nearest);
+    geomBuffer.AttachTexture(
+        FramebufferTarget::Draw,
+        FramebufferColorAttachment::_3, bTextures[GBufferTextureType::Specular], 0
+    );
+    openedColorBuffers.push_back(FramebufferColorAttachment::_3);
     // depth buffer
     gl.Bound(Texture::Target::_2D, bDepthTexture)
     .Image2D(
@@ -124,10 +137,10 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
         0, PixelDataFormat::DepthComponent, PixelDataType::Float, nullptr
     ); // high precision float texture
     geomBuffer.AttachTexture(
-        Framebuffer::Target::Draw,
+        FramebufferTarget::Draw,
         FramebufferAttachment::Depth, bDepthTexture, 0
     );
-    gl.DrawBuffers(bTextures.size(), openedColorBuffers.data());
+    gl.DrawBuffers(openedColorBuffers.size(), openedColorBuffers.data());
 
     if(!Framebuffer::IsComplete(Framebuffer::Target::Draw))
     {
@@ -177,7 +190,7 @@ void DeferredHandler::SetSamplerUniform(oglplus::Program &program,
     }
 }
 
-void DeferredHandler::BindGBuffer(const oglplus::Framebuffer::Target
+void DeferredHandler::BindGBuffer(const oglplus::FramebufferTarget
                                   &bindingMode)
 {
     gl.Bind(bindingMode, geomBuffer);

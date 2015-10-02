@@ -18,6 +18,7 @@
 #include <oglplus/interop/glm.hpp>
 // standard and stl library headers
 #include <algorithm>
+#include <numeric>
 #include <array>
 #include <fstream>
 #include <iostream>
