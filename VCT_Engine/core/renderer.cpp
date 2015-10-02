@@ -31,8 +31,18 @@ void Renderer::Render(Scene &activeScene)
     // play with camera position
     activeScene.cameras[engine->GetExecInfo().activeCamera]->position =
         glm::vec3(
-            std::cos(glfwGetTime()) * 10.0f, 2.0f, std::sin(glfwGetTime()) * 10.0f
+            std::cos(glfwGetTime()) * 10.0f,
+            -5,
+            std::sin(glfwGetTime()) * 10.0f
         );
+    activeScene.cameras[engine->GetExecInfo().activeCamera]->lookAt =
+        glm::vec3(
+            std::sin(glfwGetTime()),
+            -10,
+            std::cos(glfwGetTime())
+        );
+    activeScene.cameras[engine->GetExecInfo().activeCamera]->clipPlaneFar =
+        10000.0f;
     // update view and projection transform, default camera at [0] position
     transformMatrices.UpdateProjectionMatrix(
         activeScene.cameras[engine->GetExecInfo().activeCamera]->GetProjecctionMatrix()
@@ -80,8 +90,8 @@ void TransformMatrices::SetUniforms(oglplus::Program &program)
     // set actually used uniforms
     Uniform<glm::mat4x4>(program, "matrices.modelViewProjection")
     .Set(matrices.modelViewProjection);
-    Uniform<glm::mat4x4>(program, "matrices.modelView")
-    .Set(matrices.modelView);
-    Uniform<glm::mat4x4>(program, "matrices.normal")
-    .Set(matrices.normal);
+    //Uniform<glm::mat4x4>(program, "matrices.modelView")
+    //.Set(matrices.modelView);
+    //Uniform<glm::mat4x4>(program, "matrices.normal")
+    //.Set(matrices.normal);
 }

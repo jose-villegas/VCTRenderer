@@ -4,7 +4,8 @@
 class Material
 {
     private:
-        std::vector<std::pair<std::shared_ptr<OGLTexture2D>, RawTexture::TextureType>>textures;
+        std::array <std::shared_ptr<OGLTexture2D>,
+            RawTexture::TEXTURE_TYPE_MAX> textures;
     public:
         enum ShadingMode
         {
@@ -42,7 +43,7 @@ class Material
 
         void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                         RawTexture::TextureType texType);
-        void SetTextureUniforms(const oglplus::Program &program);
+        void SetMaterialUniforms(oglplus::Program &program);
 
         Material();
         ~Material();

@@ -77,6 +77,7 @@ class OGLTexture2D : public RawTexture
             ClampToBorder = (unsigned int)oglplus::TextureWrap::ClampToBorder
         };
     protected:
+        static oglplus::Context gl;
         std::unique_ptr<oglplus::Texture> oglTexture;
 
         bool mipmapGenerated;
@@ -92,14 +93,18 @@ class OGLTexture2D : public RawTexture
         OGLTexture2D();
         virtual ~OGLTexture2D();
         GLuint UploadToGPU(MinFilter minFilter = MinFilter::LinearMipmapLinear,
-                           MagFilter magFilter = MagFilter::Linear, WrapMode wrapS = WrapMode::Repeat,
-                           WrapMode wrapT = WrapMode::Repeat, bool unloadFromRAM = true,
-                           bool generateMipmaps = true, glm::vec4 borderColor = glm::vec4(0.f));
+                           MagFilter magFilter = MagFilter::Linear,
+                           WrapMode wrapS = WrapMode::Repeat,
+                           WrapMode wrapT = WrapMode::Repeat,
+                           bool unloadFromRAM = true,
+                           bool generateMipmaps = true,
+                           glm::vec4 borderColor = glm::vec4(0.f));
         bool OnGPUMemory() const { return onGPUMemory; }
         void Bind();
+        int Name() { return oglplus::GetName(*oglTexture); };
 
-        static const std::shared_ptr<OGLTexture2D> &GetDefaultTexture();
-        static const std::shared_ptr<OGLTexture2D> &GetErrorTexture();
+        static std::unique_ptr<OGLTexture2D> &GetDefaultTexture();
+        static std::unique_ptr<OGLTexture2D> &GetErrorTexture();
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLTexture2D(OGLTexture2D const &);

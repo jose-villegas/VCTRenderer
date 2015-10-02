@@ -30,7 +30,6 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter
     if(this->oglTexture) return 0;
 
     using namespace oglplus;
-    Context gl;
     PixelDataFormat pdf = PixelDataFormat::BGRA;
     PixelDataInternalFormat pdif = PixelDataInternalFormat::RGBA8;
     this->oglTexture = std::unique_ptr<Texture>(new oglplus::Texture());
@@ -85,21 +84,22 @@ void OGLTexture2D::Bind()
     this->oglTexture->Bind(oglplus::Texture::Target::_2D);
 }
 
-const std::shared_ptr<OGLTexture2D> & OGLTexture2D::GetDefaultTexture()
+std::unique_ptr<OGLTexture2D> & OGLTexture2D::GetDefaultTexture()
 {
-    static std::shared_ptr<OGLTexture2D> instance = nullptr;
+    static std::unique_ptr<OGLTexture2D> instance = nullptr;
 
     if(!instance)
     {
         // default texture is white
         OGLTexture2D *defaultTexture = new OGLTexture2D();
+        defaultTexture->filepath = "!defaultTexture";
         defaultTexture->width = 1;
         defaultTexture->height = 1;
         defaultTexture->lineWidth = 1;
         defaultTexture->depth = 1;
         defaultTexture->bitsPerPixel = 32;
-        defaultTexture->rawData.reset(new unsigned char[3] { 255, 255, 255});
-        // upload raw data to texture
+        defaultTexture->rawData.reset(new unsigned char[3] {255, 255, 255});
+        // upload data to gpu
         defaultTexture->UploadToGPU();
 
         // texture types conveyed by default
@@ -117,33 +117,34 @@ const std::shared_ptr<OGLTexture2D> & OGLTexture2D::GetDefaultTexture()
     return instance;
 }
 
-const std::shared_ptr<OGLTexture2D> & OGLTexture2D::GetErrorTexture()
+std::unique_ptr<OGLTexture2D> & OGLTexture2D::GetErrorTexture()
 {
-    static std::shared_ptr<OGLTexture2D> instance = nullptr;
+    static std::unique_ptr<OGLTexture2D> instance = nullptr;
 
     if(!instance)
     {
         // error texture is purple
-        OGLTexture2D *defaultTexture = new OGLTexture2D();
-        defaultTexture->width = 1;
-        defaultTexture->height = 1;
-        defaultTexture->lineWidth = 1;
-        defaultTexture->depth = 1;
-        defaultTexture->bitsPerPixel = 32;
-        defaultTexture->rawData.reset(new unsigned char[3] { 128, 0, 128});
-        // upload raw data to texture
-        defaultTexture->UploadToGPU();
+        OGLTexture2D *errorTexture = new OGLTexture2D();
+        errorTexture->filepath = "!errorTexture";
+        errorTexture->width = 1;
+        errorTexture->height = 1;
+        errorTexture->lineWidth = 1;
+        errorTexture->depth = 1;
+        errorTexture->bitsPerPixel = 32;
+        errorTexture->rawData.reset(new unsigned char[3] {128, 0, 128});
+        // upload data to gpu
+        errorTexture->UploadToGPU();
 
         // texture types conveyed by default
         for(unsigned int i = 0; i < RawTexture::TEXTURE_TYPE_MAX; ++i)
         {
-            defaultTexture->textureTypes.insert(
+            errorTexture->textureTypes.insert(
                 RawTexture::TextureType(RawTexture::None + i)
             );
         }
 
         // save to instance
-        instance.reset(defaultTexture);
+        instance.reset(errorTexture);
     }
 
     return instance;

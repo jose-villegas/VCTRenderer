@@ -129,9 +129,11 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
     );
     gl.DrawBuffers(bTextures.size(), openedColorBuffers.data());
 
-    if(Framebuffer::IsComplete(Framebuffer::Target::Draw))
+    if(!Framebuffer::IsComplete(Framebuffer::Target::Draw))
     {
-        std::cout << "(DeferredHandler) Framebuffer Error:" << geomBuffer.Status;
+        FramebufferStatus status = Framebuffer::Status(Framebuffer::Target::Draw);
+        std::cout << "(DeferredHandler) Framebuffer Error:"
+                  << (unsigned int)status;
     }
 
     Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));
@@ -141,30 +143,37 @@ DeferredHandler::~DeferredHandler()
 {
 }
 
-bool DeferredHandler::IsSamplerAvailable(RawTexture::TextureType texType)
+const std::vector<RawTexture::TextureType> & DeferredHandler::ProgramSamplers()
 {
-    // geom shader source available samplers
-    if(texType == RawTexture::Ambient ||
-       texType == RawTexture::Specular ||
-       texType == RawTexture::Diffuse) return true;
+    static std::vector<RawTexture::TextureType> programSamplers;
 
-    return false;
+    if(programSamplers.empty())
+    {
+        programSamplers =
+        {
+            RawTexture::Diffuse,
+            RawTexture::Specular,
+            RawTexture::Ambient
+        };
+    }
+
+    return programSamplers;
 }
 
-void DeferredHandler::SetSamplerUniform(const oglplus::Program &program,
+void DeferredHandler::SetSamplerUniform(oglplus::Program &program,
                                         RawTexture::TextureType texType)
 {
     if(texType == RawTexture::Ambient)
     {
-        oglplus::Uniform<int>(program, "ambientMap").Set(texType);
+        oglplus::UniformSampler(program, "ambientMap").Set(texType);
     }
     else if(texType == RawTexture::Specular)
     {
-        oglplus::Uniform<int>(program, "specularMap").Set(texType);
+        oglplus::UniformSampler(program, "specularMap").Set(texType);
     }
     else if(texType == RawTexture::Diffuse)
     {
-        oglplus::Uniform<int>(program, "diffuseMap").Set(texType);
+        oglplus::UniformSampler(program, "diffuseMap").Set(texType);
     }
 }
 

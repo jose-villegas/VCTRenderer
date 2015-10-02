@@ -221,9 +221,9 @@ void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
             if(mMesh->HasTextureCoords(0))
             {
                 vertex.uv = glm::vec3(
-                                mMesh->mTextureCoords[0]->x,
-                                mMesh->mTextureCoords[0]->y,
-                                mMesh->mTextureCoords[0]->z
+                                mMesh->mTextureCoords[0][i].x,
+                                mMesh->mTextureCoords[0][i].y,
+                                mMesh->mTextureCoords[0][i].z
                             );
             }
 
@@ -321,7 +321,7 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
                 }
                 else
                 {
-                    std::cout << "(SceneImporter) Error Loading Texture: " << filepath;
+                    std::cout << "(SceneImporter) Error Loading Texture: " << filepath << std::endl;
                 }
             } // raw data from this texture has been previously loaded
             else
@@ -335,10 +335,5 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
                 );
             }
         }
-    }
-
-    if(!materialHasTexture)
-    {
-        material.AddTexture(OGLTexture2D::GetDefaultTexture(), RawTexture::Diffuse);
     }
 }

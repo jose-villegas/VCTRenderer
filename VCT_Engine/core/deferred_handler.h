@@ -44,8 +44,8 @@ class DeferredHandler
 
         oglplus::Program &GetGeometryPass() { return geometryPass; }
         oglplus::Program &GetLightPass() { return lightPass; }
-        static bool IsSamplerAvailable(RawTexture::TextureType texType);
-        static void SetSamplerUniform(const oglplus::Program &program,
+        static const std::vector<RawTexture::TextureType> &ProgramSamplers();
+        static void SetSamplerUniform(oglplus::Program &program,
                                       RawTexture::TextureType texType);
 
         void BindGBuffer(const oglplus::Framebuffer::Target &bindingMode);

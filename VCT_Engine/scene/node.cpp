@@ -36,6 +36,9 @@ void Node::Draw()
     {
         if(!(*it)->OnGPUMemory()) continue;
 
+        (*it)->material->SetMaterialUniforms(
+            renderer->GetDeferredHandler().GetGeometryPass()
+        );
         (*it)->BindVertexArrayObject();
         (*it)->DrawElements();
     }

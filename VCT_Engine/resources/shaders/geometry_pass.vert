@@ -7,6 +7,12 @@ out vec3 tangent;
 out vec3 bitangent;
 out vec3 normalView;
 
+layout(location = 0) in vec3 vertexPosition;
+layout(location = 1) in vec3 vertexTexCoord;
+layout(location = 2) in vec3 vertexNormal;
+layout(location = 3) in vec3 vertexTangent;
+layout(location = 4) in vec3 vertexBitangent;
+
 uniform struct Matrices
 {
     mat4 modelView;
@@ -16,12 +22,6 @@ uniform struct Matrices
     mat4 projection;
     mat4 normal;
 } matrices;
-
-layout(location = 0) in vec3 vertexPosition;
-layout(location = 1) in vec3 vertexTexCoord;
-layout(location = 2) in vec3 vertexNormal;
-layout(location = 3) in vec3 vertexTangent;
-layout(location = 4) in vec3 vertexBitangent;
 
 void main()
 {
