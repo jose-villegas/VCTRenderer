@@ -26,7 +26,7 @@ class TransformMatrices
         void RecalculateMatrices();
 
         void SetUniforms(oglplus::Program &program);
-    public:
+    private:
         Matrices matrices;
 
         oglplus::Uniform<glm::mat4x4> uModelView;
@@ -35,6 +35,11 @@ class TransformMatrices
         oglplus::Uniform<glm::mat4x4> uView;
         oglplus::Uniform<glm::mat4x4> uProjection;
         oglplus::Uniform<glm::mat4x4> uNormal;
+
+        bool modelMatrixChanged;
+        bool viewMatrixChanged;
+        bool projectionMatrixChanged;
+        bool modelViewMatrixChanged;
 };
 
 class Renderer

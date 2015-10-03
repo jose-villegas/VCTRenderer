@@ -260,9 +260,9 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
     // transformation matrix decomposition using assimp implementation
     aiVector3D position; aiVector3D scaling; aiQuaternion rotation;
     node->mTransformation.Decompose(scaling, rotation, position);
-    newNode.position = glm::vec3(position.x, position.y, position.z);
-    newNode.scaling = glm::vec3(scaling.x, scaling.y, scaling.z);
-    newNode.rotation = glm::quat(rotation.w, rotation.x, rotation.y, rotation.z);
+    newNode.Position(glm::vec3(position.x, position.y, position.z));
+    newNode.Scaling(glm::vec3(scaling.x, scaling.y, scaling.z));
+    newNode.Rotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
 
     // meshes associated with this node
     for(unsigned int i = 0; i < node->mNumMeshes; i++)

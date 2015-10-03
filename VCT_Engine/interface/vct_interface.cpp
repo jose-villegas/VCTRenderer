@@ -52,7 +52,7 @@ void UI::Draw()
             static int numSamples = 100;
             // start window
             ImGui::Text("Framerate: (%.1f)", io.Framerate);
-            float accum = std::accumulate(frameSamples.begin(), frameSamples.end(), 0);
+            float accum = std::accumulate(frameSamples.begin(), frameSamples.end(), 0.0f);
             // average framerate
             ImGui::SameLine();
             ImGui::Text("Avg/Min/Max: (%.1f, %.1f, %.1f)", accum / frameSamples.size(),
@@ -76,7 +76,7 @@ void UI::Draw()
 
             // draw plotline with frame samples
             ImGui::PlotLines("##Lines", frameSamples.data(), frameSamples.size(), 0.0f,
-                             "", minfSample, maxfSample, ImVec2(600.0f, 80.0f));
+                             "", minfSample, maxfSample, ImVec2(584.0f, 80.0f));
         }
 
         if(ImGui::CollapsingHeader("Geometry Buffer Textures"))
@@ -89,7 +89,7 @@ void UI::Draw()
                         deferredHandler->GetGBufferTextures()
                         [DeferredHandler::GBufferTextureType::Position]
                     ),
-                    ImVec2(150, 150), ImVec2(1, 1), ImVec2(0, 0)
+                    ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
                 ImGui::Text("Position");
                 ImGui::EndGroup();
@@ -103,7 +103,7 @@ void UI::Draw()
                         deferredHandler->GetGBufferTextures()
                         [DeferredHandler::GBufferTextureType::Normal]
                     ),
-                    ImVec2(150, 150), ImVec2(1, 1), ImVec2(0, 0)
+                    ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
                 ImGui::Text("Normal");
                 ImGui::EndGroup();
@@ -117,7 +117,7 @@ void UI::Draw()
                         deferredHandler->GetGBufferTextures()
                         [DeferredHandler::GBufferTextureType::Albedo]
                     ),
-                    ImVec2(150, 150), ImVec2(1, 1), ImVec2(0, 0)
+                    ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
                 ImGui::Text("Albedo");
                 ImGui::EndGroup();
@@ -131,7 +131,7 @@ void UI::Draw()
                         deferredHandler->GetGBufferTextures()
                         [DeferredHandler::GBufferTextureType::Specular]
                     ),
-                    ImVec2(150, 150), ImVec2(1, 1), ImVec2(0, 0)
+                    ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
                 ImGui::Text("Specular");
                 ImGui::EndGroup();
