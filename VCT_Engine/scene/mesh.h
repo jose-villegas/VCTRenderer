@@ -1,35 +1,19 @@
 #pragma once
 #include "material.h"
-struct Vertex
-{
-    glm::vec3 position;
-    glm::vec3 uv;
-    glm::vec3 normal;
-    glm::vec3 tangent;
-    glm::vec3 bitangent;
-
-    Vertex();
-    void Orthonormalize();
-};
-
-struct Face
-{
-    std::array <std::shared_ptr<Vertex>, 3> vertices;
-    std::array<unsigned int, 3> indices;
-    glm::vec3 normal;
-
-    Face() : normal(glm::vec3(0)) {};
-    virtual ~Face() {};
-};
+#include "types\vertex.h"
+#include "types\bounding_volume.h"
 
 class Mesh
 {
-    public:
-        std::string name;
 
+    public:
+        // node boundaries
+        BoundingVolume boundaries;
+        // mesh identifier
+        std::string name;
+        // mesh raw data
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
-
         // material used by mesh
         std::shared_ptr<Material> material;
 
@@ -47,6 +31,7 @@ class OGLMesh : public Mesh
         std::unique_ptr<oglplus::Buffer> oglArrayBuffer;
         std::unique_ptr<oglplus::Buffer> oglElementArrayBuffer;
         std::unique_ptr<oglplus::VertexArray> oglVertexArray;
+
         bool onGPUMemory;
         unsigned int indicesCount;
         unsigned int vertexCount;

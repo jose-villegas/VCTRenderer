@@ -2,45 +2,8 @@
 #include "scene\scene.h"
 #include "deferred_handler.h"
 #include "interface\render_window.h"
-
-struct Matrices
-{
-    glm::mat4x4 modelView;
-    glm::mat4x4 modelViewProjection;
-    glm::mat4x4 model;
-    glm::mat4x4 view;
-    glm::mat4x4 projection;
-    glm::mat4x4 normal;
-};
-
-class TransformMatrices
-{
-    public:
-        TransformMatrices();
-        virtual ~TransformMatrices();
-
-        void UpdateModelMatrix(const glm::mat4x4 &rModel);
-        void UpdateViewMatrix(const glm::mat4x4 &rView);
-        void UpdateProjectionMatrix(const glm::mat4x4 &rProjection);
-
-        void RecalculateMatrices();
-
-        void SetUniforms(oglplus::Program &program);
-    private:
-        Matrices matrices;
-
-        oglplus::Uniform<glm::mat4x4> uModelView;
-        oglplus::Uniform<glm::mat4x4> uModelViewProjection;
-        oglplus::Uniform<glm::mat4x4> uModel;
-        oglplus::Uniform<glm::mat4x4> uView;
-        oglplus::Uniform<glm::mat4x4> uProjection;
-        oglplus::Uniform<glm::mat4x4> uNormal;
-
-        bool modelMatrixChanged;
-        bool viewMatrixChanged;
-        bool projectionMatrixChanged;
-        bool modelViewMatrixChanged;
-};
+#include "types\transform_matrices.h"
+#include "types\frustum.h"
 
 class Renderer
 {
@@ -49,13 +12,16 @@ class Renderer
         const RenderWindow * renderWindow;
         DeferredHandler deferredHandler;
     public:
+        static bool FrustumCulling;
+
         TransformMatrices transformMatrices;
+        Frustum	viewFrustum;
 
         Renderer(const RenderWindow &rWindow);
         virtual ~Renderer();
 
         void Initialize();
         // calls drawing instructions
-        void Render(Scene &activeScene);
+        void Render(Scene &activeScene, Camera &activeCamera);
         DeferredHandler &GetDeferredHandler() { return deferredHandler; }
 };

@@ -12,10 +12,15 @@ class Node
         // position, scale or rotation changed
         bool transformChanged;
     public:
+        // node boundaries
+        BoundingVolume boundaries;
+        // node identifier
         std::string name;
-
+        // meshes associated and children
         std::vector<std::shared_ptr<OGLMesh>> meshes;
         std::vector<Node> nodes;
+
+
         Node();
         virtual ~Node();
 
@@ -26,6 +31,8 @@ class Node
         void Draw();
         // draws the meshes associated to the parents and all descendants
         void DrawRecursive();
+        // call drawElements per mesh
+        void DrawMeshes();
         // transformations
         void Transform(const glm::vec3 &position,
                        const glm::vec3 &scaling,

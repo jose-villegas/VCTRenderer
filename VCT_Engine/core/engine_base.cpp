@@ -47,7 +47,11 @@ void EngineBase::MainLoop()
 
         if(execInfo.activeScene >= 0 && execInfo.activeScene < nAvailableScenes)
         {
-            renderer->Render(assetLoader->GetScene(execInfo.activeScene));
+            renderer->Render(
+                assetLoader->GetScene(execInfo.activeScene),
+                *assetLoader->GetScene(execInfo.activeScene)
+                .cameras[execInfo.activeCamera]
+            );
         }
 
         // ui render over scene

@@ -241,8 +241,12 @@ void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
                                    );
             }
 
+            // update boundaries with current position
+            outMesh.boundaries.TryMinMax(vertex.position, vertex.position);
+            // gram-schmidt orthonormalization
             vertex.Orthonormalize();
-            outMesh.vertices.push_back(vertex);
+            // new vertex to raw mesh data
+            outMesh.vertices.push_back(std::move(vertex));
         }
     }
 
@@ -268,13 +272,23 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         newNode.meshes.push_back(scene.meshes[node->mMeshes[i]]);
+        // node boundaries based on mesh boundaries
+        newNode.boundaries.TryMinMax(
+            scene.meshes[node->mMeshes[i]]->boundaries.minPoint,
+            scene.meshes[node->mMeshes[i]]->boundaries.maxPoint
+        );
     }
 
     // push childrens in hierachy
     for(unsigned int i = 0; i < node->mNumChildren; i++)
     {
-        newNode.nodes.push_back(Node());
+        newNode.nodes.push_back(std::move(Node()));
         ProcessNodes(scene, node->mChildren[i], newNode.nodes.back());
+        // node boundaries based on children node boundaries
+        newNode.boundaries.TryMinMax(
+            newNode.nodes.back().boundaries.minPoint,
+            newNode.nodes.back().boundaries.maxPoint
+        );
     }
 }
 

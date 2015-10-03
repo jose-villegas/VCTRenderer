@@ -33,21 +33,18 @@ void Node::RecalculateModelMatrix()
     }
 }
 
-void Node::Draw()
+void Node::DrawMeshes()
 {
-    if(meshes.empty()) return;
-
     static Renderer *renderer = &EngineBase::Instance()->GetRenderer();
-    // update matrices with node model matrix
-    RecalculateModelMatrix();
-    renderer->transformMatrices.UpdateModelMatrix(GetModelMatrix());
-    renderer->transformMatrices.RecalculateMatrices();
-    renderer->transformMatrices.SetUniforms(
-        renderer->GetDeferredHandler().GetGeometryPass()
-    );
 
     for(auto it = this->meshes.begin(); it != this->meshes.end(); ++it)
     {
+        // frustum culling per mesh boundaries
+        if(Renderer::FrustumCulling)
+        {
+            if(!renderer->viewFrustum.BoxInFrustum((*it)->boundaries)) return;
+        }
+
         if(!(*it)->OnGPUMemory()) continue;
 
         (*it)->material->SetMaterialUniforms(
@@ -58,9 +55,49 @@ void Node::Draw()
     }
 }
 
+void Node::Draw()
+{
+    static Renderer *renderer = &EngineBase::Instance()->GetRenderer();
+    // update matrices with node model matrix
+    RecalculateModelMatrix();
+    renderer->transformMatrices.UpdateModelMatrix(GetModelMatrix());
+    renderer->transformMatrices.RecalculateMatrices();
+
+    // frustum culling
+    if(Renderer::FrustumCulling)
+    {
+        if(!renderer->viewFrustum.BoxInFrustum(boundaries)) return;
+    }
+
+    renderer->transformMatrices.SetUniforms(
+        renderer->GetDeferredHandler().GetGeometryPass()
+    );
+    // draw elements per mesh
+    DrawMeshes();
+}
+
 void Node::DrawRecursive()
 {
-    this->Draw();
+    static Renderer *renderer = &EngineBase::Instance()->GetRenderer();
+    // update matrices with node model matrix
+    RecalculateModelMatrix();
+    // update with node model matrix
+    renderer->transformMatrices.UpdateModelMatrix(GetModelMatrix());
+    // recalculate model-dependant transform matrices
+    renderer->transformMatrices.RecalculateMatrices();
+
+    // frustum culling per node boundaries
+    if(Renderer::FrustumCulling)
+    {
+        if(!renderer->viewFrustum.BoxInFrustum(boundaries)) return;
+    }
+
+    // set matrices uniform with updated matrices
+    renderer->transformMatrices.SetUniforms(
+        renderer->GetDeferredHandler().GetGeometryPass()
+    );
+    // draw elements per mesh
+    DrawMeshes();
 
     // draw descendants
     for(auto it = this->nodes.begin(); it != this->nodes.end(); ++it)
