@@ -9,7 +9,7 @@ Node::Node() : name("Default Node")
     scaling = glm::vec3(1.0f, 1.0f, 1.0f);
     rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
     transformChanged = true;
-    RecalculateModelMatrix(); // initially as invalid
+    GetModelMatrix(); // initially as invalid
 }
 
 
@@ -17,14 +17,19 @@ Node::~Node()
 {
 }
 
-const glm::mat4x4 &Node::RecalculateModelMatrix()
+glm::mat4x4 Node::GetModelMatrix() const
+{
+    return modelMatrix;
+}
+
+void Node::RecalculateModelMatrix()
 {
     if(transformChanged)
     {
         transformChanged = false;
-        return modelMatrix = glm::translate(position) *
-                             glm::mat4_cast(rotation) *
-                             glm::scale(scaling);
+        modelMatrix = glm::translate(position) *
+                      glm::mat4_cast(rotation) *
+                      glm::scale(scaling);
     }
 }
 
@@ -34,7 +39,8 @@ void Node::Draw()
 
     static Renderer *renderer = &EngineBase::Instance()->GetRenderer();
     // update matrices with node model matrix
-    renderer->transformMatrices.UpdateModelMatrix(RecalculateModelMatrix());
+    RecalculateModelMatrix();
+    renderer->transformMatrices.UpdateModelMatrix(GetModelMatrix());
     renderer->transformMatrices.RecalculateMatrices();
     renderer->transformMatrices.SetUniforms(
         renderer->GetDeferredHandler().GetGeometryPass()

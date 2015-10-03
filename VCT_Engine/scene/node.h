@@ -19,7 +19,8 @@ class Node
         Node();
         virtual ~Node();
 
-        const glm::mat4x4 &RecalculateModelMatrix();
+        glm::mat4x4 GetModelMatrix() const;
+        void RecalculateModelMatrix();
 
         // draws only the meshes associated to the node
         void Draw();
