@@ -40,9 +40,10 @@ void Node::DrawMeshes()
     for(auto it = this->meshes.begin(); it != this->meshes.end(); ++it)
     {
         // frustum culling per mesh boundaries
-        if(Renderer::FrustumCulling)
+        if(Renderer::FrustumCulling && this->meshes.size() > 1)
         {
-            if(!renderer->viewFrustum.BoxInFrustum((*it)->boundaries)) return;
+            if(!renderer->viewFrustum.BoxInFrustum((*it)->boundaries * modelMatrix))
+                continue;
         }
 
         if(!(*it)->OnGPUMemory()) continue;
@@ -60,13 +61,13 @@ void Node::Draw()
     static Renderer *renderer = &EngineBase::Instance()->GetRenderer();
     // update matrices with node model matrix
     RecalculateModelMatrix();
-    renderer->transformMatrices.UpdateModelMatrix(GetModelMatrix());
+    renderer->transformMatrices.UpdateModelMatrix(modelMatrix);
     renderer->transformMatrices.RecalculateMatrices();
 
     // frustum culling
     if(Renderer::FrustumCulling)
     {
-        if(!renderer->viewFrustum.BoxInFrustum(boundaries)) return;
+        if(!renderer->viewFrustum.BoxInFrustum(boundaries * modelMatrix)) return;
     }
 
     renderer->transformMatrices.SetUniforms(
@@ -82,14 +83,14 @@ void Node::DrawRecursive()
     // update matrices with node model matrix
     RecalculateModelMatrix();
     // update with node model matrix
-    renderer->transformMatrices.UpdateModelMatrix(GetModelMatrix());
+    renderer->transformMatrices.UpdateModelMatrix(modelMatrix);
     // recalculate model-dependant transform matrices
     renderer->transformMatrices.RecalculateMatrices();
 
     // frustum culling per node boundaries
     if(Renderer::FrustumCulling)
     {
-        if(!renderer->viewFrustum.BoxInFrustum(boundaries)) return;
+        if(!renderer->viewFrustum.BoxInFrustum(boundaries * modelMatrix)) return;
     }
 
     // set matrices uniform with updated matrices

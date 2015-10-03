@@ -20,7 +20,6 @@ void Renderer::Initialize()
 void Renderer::Render(Scene &activeScene, Camera &activeCamera)
 {
     using namespace oglplus;
-    static std::shared_ptr<EngineBase> engine = EngineBase::Instance();
     // bind gbuffer for writing
     deferredHandler.BindGBuffer(FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
@@ -33,7 +32,7 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     gl.CullFace(oglplus::Face::Back);
     // activate geometry pass shader program
     deferredHandler.UseGeometryPass();
-    // play with camera position
+    // play with camera parameters
     activeCamera.position = glm::vec3(0.0f, -12.5f, 0.0f);
     activeCamera.lookAt =
         glm::vec3(
@@ -42,9 +41,13 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
             std::cos(glfwGetTime())
         );
     activeCamera.clipPlaneFar = 10000.0f;
-    // update view and projection transform, default camera at [0] position
+    // update view and projection matrices with camera parameters
     transformMatrices.UpdateProjectionMatrix(activeCamera.GetProjecctionMatrix());
     transformMatrices.UpdateViewMatrix(activeCamera.GetViewMatrix());
+
+    // update frustum planes with new viewProjection matrix
+    if(FrustumCulling) transformMatrices.UpdateFrustumPlanes(viewFrustum);
+
     // draw whole scene hierachy tree from root node
     activeScene.rootNode.DrawRecursive();
     // unbind geom buffer

@@ -1,4 +1,6 @@
 #pragma once
+#include "frustum.h"
+
 struct Matrices
 {
     glm::mat4x4 modelView;
@@ -22,6 +24,8 @@ class TransformMatrices
         void RecalculateMatrices();
 
         void SetUniforms(oglplus::Program &program);
+        // passes viewProjection matrix to calculate frustum planes
+        void UpdateFrustumPlanes(Frustum &fUpdate);
     private:
         Matrices matrices;
 

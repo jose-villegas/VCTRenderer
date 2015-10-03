@@ -46,9 +46,9 @@ void UI::Draw()
         if(ImGui::CollapsingHeader("Framerate Metrics"))
         {
             // frame rate samples for plotline
-            static std::vector<float> frameSamples(100);
             static float minfSample = std::numeric_limits<float>::infinity();
             static float maxfSample = std::numeric_limits<float>::lowest();
+            static std::vector<float> frameSamples(100);
             static int numSamples = 100;
             // start window
             ImGui::Text("Framerate: (%.1f)", io.Framerate);
@@ -57,6 +57,14 @@ void UI::Draw()
             ImGui::SameLine();
             ImGui::Text("Avg/Min/Max: (%.1f, %.1f, %.1f)", accum / frameSamples.size(),
                         minfSample, maxfSample);
+            ImGui::SameLine();
+
+            if(ImGui::Button("Reset"))
+            {
+                minfSample = std::numeric_limits<float>::infinity();
+                maxfSample = std::numeric_limits<float>::lowest();
+            }
+
             // num of framerate samples
 
             if(ImGui::InputInt("# Frame Samples", &numSamples))

@@ -22,8 +22,4 @@ class Frustum
         bool BoxInFrustum(const BoundingVolume &bVolume);
     private:
         glm::vec4 fPlane[6];
-
-        inline int HalfPlaneTest(const glm::vec3 &p, const glm::vec3 &normal,
-                                 float offset);
 };
-

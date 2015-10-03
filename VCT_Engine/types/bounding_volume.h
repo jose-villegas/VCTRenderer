@@ -14,3 +14,14 @@ class BoundingVolume
         void TryMinMax(const glm::vec3 &vMin, const glm::vec3 &vMax);
 };
 
+inline BoundingVolume operator*(const BoundingVolume &lhs,
+                                const glm::mat4 &rhs)
+{
+    // copy source values
+    BoundingVolume result = lhs;
+    // transform points
+    result.maxPoint = glm::vec3(glm::vec4(result.maxPoint, 1.0f) * rhs);
+    result.minPoint = glm::vec3(glm::vec4(result.minPoint, 1.0f) * rhs);
+    // result modified b volume
+    return result;
+}

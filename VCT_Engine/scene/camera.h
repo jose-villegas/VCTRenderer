@@ -15,5 +15,6 @@ class Camera
 
         glm::mat4x4 GetViewMatrix() const;
         glm::mat4x4 GetProjecctionMatrix() const;
+        glm::mat4x4 GetViewProjectionMatrix() const;
 };
 

@@ -39,14 +39,15 @@ void Frustum::CalculatePlanes(const glm::mat4x4 &mvMatrix)
                              mvMatrix[1][3] + mvMatrix[1][2],
                              mvMatrix[2][3] + mvMatrix[2][2],
                              mvMatrix[3][3] + mvMatrix[3][2]);
+
     // Normalize them
-    //for(int i = 0; i < 6; i++)
-    //{
-    //    float invl = std::sqrt(fPlane[i].x * fPlane[i].x +
-    //                           fPlane[i].y * fPlane[i].y +
-    //                           fPlane[i].z * fPlane[i].z);
-    //    fPlane[i] /= invl;
-    //}
+    for(int i = 0; i < 6; i++)
+    {
+        float invl = std::sqrt(fPlane[i].x * fPlane[i].x +
+                               fPlane[i].y * fPlane[i].y +
+                               fPlane[i].z * fPlane[i].z);
+        fPlane[i] /= invl;
+    }
 }
 
 bool Frustum::BoxInFrustum(const BoundingVolume &bVolume)

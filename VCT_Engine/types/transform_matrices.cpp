@@ -66,13 +66,6 @@ void TransformMatrices::RecalculateMatrices()
     {
         matrices.normal = glm::inverseTranspose(matrices.modelView);
     }
-
-    // can recalculate frustum in this case
-    if(Renderer::FrustumCulling && viewMatrixChanged || projectionMatrixChanged)
-    {
-        EngineBase::Instance()->GetRenderer().viewFrustum
-        .CalculatePlanes(matrices.projection * matrices.view);
-    }
 }
 
 void TransformMatrices::SetUniforms(oglplus::Program &program)
@@ -96,5 +89,14 @@ void TransformMatrices::SetUniforms(oglplus::Program &program)
     {
         Uniform<glm::mat4x4>(program, "matrices.normal")
         .Set(matrices.normal);
+    }
+}
+
+void TransformMatrices::UpdateFrustumPlanes(Frustum &fUpdate)
+{
+    // can recalculate frustum in this case
+    if(viewMatrixChanged || projectionMatrixChanged)
+    {
+        fUpdate.CalculatePlanes(matrices.projection * matrices.view);
     }
 }
