@@ -35,12 +35,16 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter
     this->oglTexture = std::unique_ptr<Texture>(new oglplus::Texture());
     unsigned int bytesPerPixel = this->bitsPerPixel / 8;
     // proper data format
-    pdf = bytesPerPixel <= 3 ? PixelDataFormat::BGR : pdf;
-    pdif = bytesPerPixel <= 3 ? PixelDataInternalFormat::RGB8 : pdif;
+    pdf = bytesPerPixel == 3 ? PixelDataFormat::BGR : pdf;
+    pdif = bytesPerPixel == 3 ? PixelDataInternalFormat::RGB8 : pdif;
+    pdf = bytesPerPixel == 2 ? PixelDataFormat::RG : pdf;
+    pdif = bytesPerPixel == 2 ? PixelDataInternalFormat::RG8 : pdif;
+    pdf = bytesPerPixel == 1 ? PixelDataFormat::Red : pdf;
+    pdif = bytesPerPixel == 1 ? PixelDataInternalFormat::R8 : pdif;
     // create texture with raw data (upload to gpu)
     gl.Bound(Texture::Target::_2D, *this->oglTexture)
-    .Image2D(0, PixelDataInternalFormat::RGB8, this->width, this->height, 0,
-             PixelDataFormat::BGR, PixelDataType::UnsignedByte, this->rawData.get());
+    .Image2D(0, pdif, this->width, this->height, 0, pdf,
+             PixelDataType::UnsignedByte, this->rawData.get());
 
     if(unloadFromRAM)
     {

@@ -177,8 +177,6 @@ void SceneImporter::ImportMaterial(aiMaterial *mMaterial, Material &outMaterial)
     }
 
     // material factors
-    mMaterial->Get(AI_MATKEY_SHADING_MODEL, outMaterial.shadingModel);
-    mMaterial->Get(AI_MATKEY_BLEND_FUNC, outMaterial.blendMode);
     mMaterial->Get(AI_MATKEY_REFRACTI, outMaterial.refractionIndex);
     mMaterial->Get(AI_MATKEY_SHININESS, outMaterial.shininess);
     mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, outMaterial.shininessStrenght);
@@ -297,8 +295,9 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
 {
     bool materialHasTexture = false;
 
-    for(unsigned int texType = aiTextureType::aiTextureType_NONE;
-        texType < aiTextureType::aiTextureType_UNKNOWN; texType++)
+    for(aiTextureType texType = aiTextureType::aiTextureType_NONE;
+        texType < aiTextureType::aiTextureType_UNKNOWN;
+        texType = aiTextureType(texType + 1))
     {
         int textureTypeCount = mMaterial->GetTextureCount((aiTextureType)texType);
 
@@ -316,6 +315,11 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
             // find if texture was already loaded previously
             bool alreadyLoaded = false;
             int savedTextureIndex = 0;
+
+            // for wavefront obj we assump bump = normal map
+            if(GetExtension(scene.filepath) == "obj" &&
+               texType == aiTextureType::aiTextureType_HEIGHT)
+            { texType = aiTextureType::aiTextureType_NORMALS; }
 
             for(unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; ++i)
             {
@@ -341,12 +345,10 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
             else
             {
                 // just add reference and associate a new texture type
-                material.AddTexture(
-                    scene.textures[savedTextureIndex], (RawTexture::TextureType)texType
-                );
-                scene.textures[savedTextureIndex]->textureTypes.insert(
-                    (RawTexture::TextureType)texType
-                );
+                material.AddTexture(scene.textures[savedTextureIndex],
+                                    (RawTexture::TextureType)texType);
+                scene.textures[savedTextureIndex]->textureTypes.insert
+                ((RawTexture::TextureType)texType);
             }
         }
     }

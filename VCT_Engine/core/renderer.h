@@ -24,4 +24,21 @@ class Renderer
         // calls drawing instructions
         void Render(Scene &activeScene, Camera &activeCamera);
         DeferredHandler &GetDeferredHandler() { return deferredHandler; }
+        // program uniform setters
+        void SetMatricesUniforms() const;
+        void SetMaterialUniforms(const Material &mat) const;
+        void SetTextureUniforms() const;
+        void SetTextureUniform(RawTexture::TextureType texType) const;
+
+        const std::vector<RawTexture::TextureType>
+        &ActiveSamplers() const;
+
+        const std::vector<TransformMatrices::TransformMatrixId>
+        &ActiveTransformMatrices() const;
+
+        const std::vector<Material::MaterialFloat3PropertyId>
+        &ActiveMaterialFloat3Properties() const;
+
+        const std::vector<Material::MaterialFloat1PropertyId>
+        &ActiveMaterialFloat1Properties() const;
 };

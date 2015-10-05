@@ -24,5 +24,12 @@ class SceneImporter
         void ImportLight(aiLight * light, Light &newLight);
         void ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
                                     Material &material);
+
 };
+
+inline const std::string GetExtension(const std::string &sFilepath)
+{
+    std::string result = sFilepath.substr(sFilepath.find_last_of(".") + 1);
+    return result == sFilepath ? "" : result;
+}
 

@@ -14,6 +14,17 @@ struct Matrices
 class TransformMatrices
 {
     public:
+        enum TransformMatrixId
+        {
+            ModelView,
+            ModelViewProjection,
+            Model,
+            View,
+            Projection,
+            Normal,
+            TRANSFORM_MATRIX_ID_MAX
+        };
+
         TransformMatrices();
         virtual ~TransformMatrices();
 
@@ -22,10 +33,15 @@ class TransformMatrices
         void UpdateProjectionMatrix(const glm::mat4x4 &rProjection);
 
         void RecalculateMatrices();
-
-        void SetUniforms(oglplus::Program &program);
         // passes viewProjection matrix to calculate frustum planes
         void UpdateFrustumPlanes(Frustum &fUpdate);
+        // access to matrices
+        const glm::mat4x4 &GetModelView() const { return matrices.modelView; };
+        const glm::mat4x4 &GetModelViewProjection() const { return matrices.modelViewProjection; };
+        const glm::mat4x4 &GetModel() const { return matrices.model; };
+        const glm::mat4x4 &GetView() const { return matrices.view; };
+        const glm::mat4x4 &GetProjection() const { return matrices.projection; };
+        const glm::mat4x4 &GetNormal() const { return matrices.normal; };
     private:
         Matrices matrices;
 

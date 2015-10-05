@@ -34,7 +34,12 @@ void EngineAssets::LoadDefaultScenes()
     tbb::parallel_for(size_t(0), sceneFilepaths.size(), [ = ](size_t i)
     {
         std::string cutFilePath = std::string(sceneFilepaths[i]);
-        cutFilePath = cutFilePath.substr(cutFilePath.size() - 30, 30);
+
+        if(cutFilePath.size() > 30)
+        {
+            cutFilePath = cutFilePath.substr(cutFilePath.size() - 30, 30);
+        }
+
         std::cout << "(EngineAssets) Processing File: (.." + cutFilePath + ")\n";
         // create and import scene from file path
         demoScenes[i] = std::unique_ptr<Scene>(new Scene());

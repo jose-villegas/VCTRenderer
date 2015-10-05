@@ -7,6 +7,24 @@ class Material
         std::array <std::shared_ptr<OGLTexture2D>,
             RawTexture::TEXTURE_TYPE_MAX> textures;
     public:
+        enum MaterialFloat3PropertyId
+        {
+            Ambient,
+            Diffuse,
+            Specular,
+            Emissive,
+            Transparent,
+            MATERIAL_FLOAT3_PROPERTY_ID_MAX
+        };
+        enum MaterialFloat1PropertyId
+        {
+            Opacity,
+            Shininess,
+            ShininessStrenght,
+            RefractionIndex,
+            MATERIAL_FLOAT1_PROPERTY_ID_MAX
+        };
+
         enum ShadingMode
         {
             Flat,
@@ -25,6 +43,9 @@ class Material
             Default,
             Additive
         };
+        static glm::vec3 White;
+        static glm::vec3 Black;
+
         std::string name;
 
         glm::vec3 ambient;
@@ -38,12 +59,10 @@ class Material
         float shininessStrenght;
         float refractionIndex;
 
-        unsigned int shadingModel;
-        unsigned int blendMode;
-
+        bool HasTexture(RawTexture::TextureType texType) const { return textures[texType] != nullptr; };
         void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                         RawTexture::TextureType texType);
-        void SetMaterialUniforms(oglplus::Program &program);
+        void SetMaterialUniforms();
 
         Material();
         ~Material();

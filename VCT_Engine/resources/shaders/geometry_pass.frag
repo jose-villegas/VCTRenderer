@@ -16,24 +16,40 @@ uniform struct Material {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+    vec3 emissive;
     vec3 transparent;
+
+    float opacity;
     float shininess;
+    float shininessStrenght;
     float refractionIndex;
+
+    uint shadingModel;
+    uint blendMode;
 } material;
 
 uniform sampler2D diffuseMap;
 uniform sampler2D specularMap;
-uniform sampler2D ambientMap;
+uniform sampler2D normalMap;
+
+uniform float alphaCutoff = 0.1f;
 
 void main()
 {
+    // store albedo rgb
+    vec4 diffuseColor = texture(diffuseMap, texCoord.xy);
+
+    if(diffuseColor.a <= alphaCutoff)
+    {
+        discard;
+    }
+
+    gAlbedo = diffuseColor.rgb * material.diffuse;
+    // store specular intensity
+    vec4 specularIntensity = texture(specularMap, texCoord.xy);
+    gSpecular = (specularIntensity.rgb * material.specular).r;
     // store fragment position in gbuffer texture
     gPosition = position;
     // store per fragment normal
     gNormal = normalize(normal);
-    // store albedo rgb
-    gAlbedo = texture(ambientMap, texCoord.xy).rgb * material.ambient 
-              + texture(diffuseMap, texCoord.xy).rgb * material.diffuse;
-    // store specular intensity
-    gSpecular = (texture(specularMap, texCoord.xy).rgb * material.specular).r;
 }

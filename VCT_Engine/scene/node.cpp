@@ -42,15 +42,14 @@ void Node::DrawMeshes()
         // frustum culling per mesh boundaries
         if(Renderer::FrustumCulling && this->meshes.size() > 1)
         {
-            if(!renderer->viewFrustum.BoxInFrustum((*it)->boundaries * modelMatrix))
-                continue;
+            if(!renderer->viewFrustum.BoxInFrustum
+               ((*it)->boundaries * renderer->transformMatrices
+                .GetModel())) continue;
         }
 
         if(!(*it)->OnGPUMemory()) continue;
 
-        (*it)->material->SetMaterialUniforms(
-            renderer->GetDeferredHandler().GetGeometryPass()
-        );
+        (*it)->material->SetMaterialUniforms();
         (*it)->BindVertexArrayObject();
         (*it)->DrawElements();
     }
@@ -67,12 +66,12 @@ void Node::Draw()
     // frustum culling
     if(Renderer::FrustumCulling)
     {
-        if(!renderer->viewFrustum.BoxInFrustum(boundaries * modelMatrix)) return;
+        if(!renderer->viewFrustum.BoxInFrustum
+           (boundaries * renderer->transformMatrices
+            .GetModel())) return;
     }
 
-    renderer->transformMatrices.SetUniforms(
-        renderer->GetDeferredHandler().GetGeometryPass()
-    );
+    renderer->SetMatricesUniforms();
     // draw elements per mesh
     DrawMeshes();
 }
@@ -90,13 +89,13 @@ void Node::DrawRecursive()
     // frustum culling per node boundaries
     if(Renderer::FrustumCulling)
     {
-        if(!renderer->viewFrustum.BoxInFrustum(boundaries * modelMatrix)) return;
+        if(!renderer->viewFrustum.BoxInFrustum
+           (boundaries * renderer->transformMatrices
+            .GetModel())) return;
     }
 
     // set matrices uniform with updated matrices
-    renderer->transformMatrices.SetUniforms(
-        renderer->GetDeferredHandler().GetGeometryPass()
-    );
+    renderer->SetMatricesUniforms();
     // draw elements per mesh
     DrawMeshes();
 

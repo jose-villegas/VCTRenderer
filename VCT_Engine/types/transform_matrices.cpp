@@ -68,30 +68,6 @@ void TransformMatrices::RecalculateMatrices()
     }
 }
 
-void TransformMatrices::SetUniforms(oglplus::Program &program)
-{
-    using namespace oglplus;
-
-    // set actually used uniforms
-    if(viewMatrixChanged || modelMatrixChanged)
-    {
-        Uniform<glm::mat4x4>(program, "matrices.modelView")
-        .Set(matrices.modelView);
-    }
-
-    if(modelViewMatrixChanged || projectionMatrixChanged)
-    {
-        Uniform<glm::mat4x4>(program, "matrices.modelViewProjection")
-        .Set(matrices.modelViewProjection);
-    }
-
-    if(modelViewMatrixChanged)
-    {
-        Uniform<glm::mat4x4>(program, "matrices.normal")
-        .Set(matrices.normal);
-    }
-}
-
 void TransformMatrices::UpdateFrustumPlanes(Frustum &fUpdate)
 {
     // can recalculate frustum in this case

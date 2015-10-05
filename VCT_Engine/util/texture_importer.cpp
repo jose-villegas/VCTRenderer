@@ -2,6 +2,8 @@
 #include "FreeImage.h"
 #include "texture_importer.h"
 
+bool TextureImporter::Minimum24Bits = false;
+
 // transforms picture to raw data and stores info in Texture class
 bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
                                       RawTexture &outTexture)
@@ -29,7 +31,7 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
         dib = FreeImage_Load(fif, sFilepath.c_str());
     }
 
-    if(FreeImage_GetBPP(dib) / 8 < 3)
+    if(Minimum24Bits && FreeImage_GetBPP(dib) / 8 < 3)
     {
         dib = FreeImage_ConvertTo24Bits(dib);
     }
@@ -43,6 +45,7 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     unsigned int bitsPerPixel = FreeImage_GetBPP(dib);
 
     // If this somehow one of these failed (they shouldn't), return failure
+
     if((bitsPerPixel == 0) || (height == 0) || (width == 0) || !bits)
     {
         FreeImage_Unload(dib);
