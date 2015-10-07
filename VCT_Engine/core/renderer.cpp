@@ -19,6 +19,9 @@ void Renderer::Initialize()
 
 void Renderer::Render(Scene &activeScene, Camera &activeCamera)
 {
+    glm::mat3 test = glm::mat3(glm::vec3(2), glm::vec3(3), glm::vec3(1));
+    glm::mat3 test2 = test;
+    glm::vec3 test3 = test2 * glm::vec3(0, 0, 1);
     using namespace oglplus;
     // bind gbuffer for writing
     deferredHandler.BindGBuffer(FramebufferTarget::Draw);
@@ -33,11 +36,11 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     // activate geometry pass shader program
     deferredHandler.UseGeometryPass();
     // play with camera parameters
-    activeCamera.position = glm::vec3(0.0f, -12.5f, 0.0f);
+    activeCamera.position = glm::vec3(0.0f, 0.50f, -2.0f);
     activeCamera.lookAt =
         glm::vec3(
             std::sin(glfwGetTime() * 0.5f),
-            -12.5f,
+            1.0f,
             std::cos(glfwGetTime() * 0.5f)
         );
     activeCamera.clipPlaneFar = 10000.0f;
@@ -148,6 +151,16 @@ void Renderer::SetMaterialUniforms(const Material &mat) const
         deferredHandler.geometryPass.SetUniform
         (Material::RefractionIndex, mat.refractionIndex) : 0;
     }
+
+    for(auto it = ActiveMaterialUInt1Properties().begin();
+        it != ActiveMaterialUInt1Properties().end(); ++it)
+    {
+        (*it) == Material::NormalMapping ?
+        deferredHandler.geometryPass.SetUniform(
+            Material::NormalMapping,
+            mat.HasTexture(RawTexture::Normals) ? 1 : 0
+        ) : 0;
+    }
 }
 
 void Renderer::SetTextureUniforms() const
@@ -186,4 +199,10 @@ const std::vector<Material::MaterialFloat1PropertyId>
 & Renderer::ActiveMaterialFloat1Properties() const
 {
     return deferredHandler.geometryPass.ActiveMaterialFloat1Properties();
+}
+
+const std::vector<Material::MaterialUInt1PropertyId>
+& Renderer::ActiveMaterialUInt1Properties() const
+{
+    return deferredHandler.geometryPass.ActiveMaterialUInt1Properties();
 }

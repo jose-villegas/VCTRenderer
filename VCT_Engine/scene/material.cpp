@@ -7,6 +7,11 @@
 glm::vec3 Material::White = glm::vec3(1.0f);;
 glm::vec3 Material::Black = glm::vec3(1.0f);
 
+bool Material::HasTexture(RawTexture::TextureType texType) const
+{
+    return textures[texType] != nullptr;
+}
+
 void Material::AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                           RawTexture::TextureType texType)
 {
@@ -32,8 +37,8 @@ void Material::SetMaterialUniforms()
         oglplus::Texture::Active(*it);
 
         if(textures[*it]) { textures[*it]->Bind(); }
-        // default (1,1,1) 1hx1w texture
-        else { OGLTexture2D::GetDefaultTexture()->Bind(); }
+        else // default (1,1,1) 1hx1w texture
+        { OGLTexture2D::GetDefaultTexture()->Bind(); }
 
         // set active uniform samplers id
         renderer->SetTextureUniform(*it);

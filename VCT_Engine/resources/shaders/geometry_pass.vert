@@ -5,7 +5,6 @@ out vec3 texCoord;
 out vec3 normal;
 out vec3 tangent;
 out vec3 bitangent;
-out vec3 normalView;
 
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec3 vertexTexCoord;
@@ -32,9 +31,8 @@ void main()
     normal = (matrices.normal * vertexNorm).xyz;
     position = (matrices.modelView * vertexPos).xyz;
     // model to camera view
-    normalView = (matrices.modelView * vertexNorm).xyz;
-    tangent = (matrices.modelView * vec4(vertexTangent, 0.0f)).xyz;
-    bitangent = (matrices.modelView * vec4(vertexBitangent, 0.0f)).xyz;
+    tangent = (matrices.normal * vec4(vertexTangent, 0.0f)).xyz;
+    bitangent = (matrices.normal * vec4(vertexBitangent, 0.0f)).xyz;
     // final drawing pos
     gl_Position = matrices.modelViewProjection * vertexPos;
 }

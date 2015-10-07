@@ -10,15 +10,14 @@ in vec3 texCoord;
 in vec3 normal;
 in vec3 tangent;
 in vec3 bitangent;
-in vec3 normalView;
 
-vec3 bumpedNormal(vec3 normView, vec3 tangent, vec3 bitangent, vec3 fragNormal)                                                                     
+vec3 bumpedNormal(vec3 vNormal, vec3 vTangent, vec3 vBitangent, vec3 tNormal)                                                                     
 {                                                                                           
-    vec3 norm = normalize(normView);
-    vec3 tang = normalize(tangent);
-    vec3 bTan = normalize(bitangent);
+    vec3 norm = normalize(vNormal);
+    vec3 tang = normalize(vTangent);
+    vec3 bTan = normalize(vBitangent);
 
-    vec3 bumpedNormal = 2.0 * fragNormal - vec3(1.0, 1.0, 1.0);          
+    vec3 bumpedNormal = 2.0 * tNormal - vec3(1.0);          
     tang = normalize(tang - dot(tang, norm) * norm);                                                                                                                             
 
     mat3 TBN = mat3(tang, bTan, norm); 
@@ -37,6 +36,8 @@ uniform struct Material {
     float shininess;
     float shininessStrenght;
     float refractionIndex;
+
+    uint useNormalsMap;
 } material;
 
 uniform sampler2D diffuseMap;
@@ -62,6 +63,13 @@ void main()
     // store fragment position in gbuffer texture
     gPosition = position;
     // store per fragment normal
-    vec3 rgbNormal = texture(normalsMap, texCoord.xy).rgb;
-    gNormal = bumpedNormal(normalView, tangent, bitangent, rgbNormal);
+    vec3 bNormal = material.useNormalsMap == 1 ? 
+                    bumpedNormal(
+                        normal, 
+                        tangent, 
+                        bitangent, 
+                        texture(normalsMap, texCoord.xy).rgb
+                    ) : normalize(normal);
+
+    gNormal = bNormal;
 }

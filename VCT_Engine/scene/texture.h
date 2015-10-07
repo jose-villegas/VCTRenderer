@@ -89,6 +89,8 @@ class OGLTexture2D : public RawTexture
 
         bool onGPUMemory;
 
+        static OGLTexture2D * CreateColorTexture(std::string texName,
+                glm::u8vec3 texColor);
     public:
         OGLTexture2D();
         virtual ~OGLTexture2D();
@@ -104,6 +106,7 @@ class OGLTexture2D : public RawTexture
         int Name() { return oglplus::GetName(*oglTexture); };
 
         static std::unique_ptr<OGLTexture2D> &GetDefaultTexture();
+        static std::unique_ptr<OGLTexture2D> &GetDefaultNormalTexture();
         static std::unique_ptr<OGLTexture2D> &GetErrorTexture();
     private:
         // No copying or copy assignment allowed of this class or any derived class

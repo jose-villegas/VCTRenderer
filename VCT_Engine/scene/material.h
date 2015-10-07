@@ -24,6 +24,11 @@ class Material
             RefractionIndex,
             MATERIAL_FLOAT1_PROPERTY_ID_MAX
         };
+        enum MaterialUInt1PropertyId
+        {
+            NormalMapping,
+            MATERIAL_UINT1_PROPERTY_ID_MAX
+        };
 
         enum ShadingMode
         {
@@ -59,7 +64,7 @@ class Material
         float shininessStrenght;
         float refractionIndex;
 
-        bool HasTexture(RawTexture::TextureType texType) const { return textures[texType] != nullptr; };
+        bool HasTexture(RawTexture::TextureType texType) const;
         void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                         RawTexture::TextureType texType);
         void SetMaterialUniforms();

@@ -41,4 +41,7 @@ class Renderer
 
         const std::vector<Material::MaterialFloat1PropertyId>
         &ActiveMaterialFloat1Properties() const;
+
+        const std::vector<Material::MaterialUInt1PropertyId>
+        &ActiveMaterialUInt1Properties() const;
 };

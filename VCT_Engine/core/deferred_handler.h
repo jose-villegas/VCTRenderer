@@ -14,7 +14,9 @@ class DeferredProgram
         void SetUniform(Material::MaterialFloat3PropertyId mF3Id,
                         const glm::vec3 &val) const;
         void SetUniform(Material::MaterialFloat1PropertyId mF1Id,
-                        const float val)const;
+                        const float val) const;
+        void SetUniform(Material::MaterialUInt1PropertyId mF1Id,
+                        const unsigned int val)const;
 
         const std::vector<RawTexture::TextureType>
         &ActiveSamplers() const { return aSamplers; };
@@ -23,10 +25,13 @@ class DeferredProgram
         &ActiveTransformMatrices() const { return aMatrices; };
 
         const std::vector<Material::MaterialFloat3PropertyId>
-        &ActiveMaterialFloat3Properties() const { return aF3Material; };
+        &ActiveMaterialFloat3Properties() const { return aFloat3Material; };
 
         const std::vector<Material::MaterialFloat1PropertyId>
-        &ActiveMaterialFloat1Properties() const { return aF1Material; };
+        &ActiveMaterialFloat1Properties() const { return aFloat1Material; };
+
+        const std::vector<Material::MaterialUInt1PropertyId>
+        &ActiveMaterialUInt1Properties() const { return aUInt1Material; };
     private:
         oglplus::FragmentShader sFragment;
         oglplus::VertexShader sVertex;
@@ -44,11 +49,14 @@ class DeferredProgram
             Material::MATERIAL_FLOAT3_PROPERTY_ID_MAX> materialFloat3;
         std::array<std::unique_ptr<oglplus::Uniform<float>>,
             Material::MATERIAL_FLOAT1_PROPERTY_ID_MAX> materialFloat1;
+        std::array<std::unique_ptr<oglplus::Uniform<unsigned int>>,
+            Material::MATERIAL_UINT1_PROPERTY_ID_MAX> materialUInt1;
 
         std::vector<RawTexture::TextureType> aSamplers;
         std::vector<TransformMatrices::TransformMatrixId> aMatrices;
-        std::vector<Material::MaterialFloat3PropertyId> aF3Material;
-        std::vector<Material::MaterialFloat1PropertyId> aF1Material;
+        std::vector<Material::MaterialFloat3PropertyId> aFloat3Material;
+        std::vector<Material::MaterialFloat1PropertyId> aFloat1Material;
+        std::vector<Material::MaterialUInt1PropertyId> aUInt1Material;
 };
 
 class DeferredHandler

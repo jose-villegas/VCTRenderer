@@ -234,7 +234,7 @@ void DeferredProgram::ExtractActiveUniforms()
             if(addF3MatType != -1)
             {
                 materialFloat3[addF3MatType].reset(new Uniform<glm::vec3>(program, uName));
-                aF3Material.push_back((Material::MaterialFloat3PropertyId)addF3MatType);
+                aFloat3Material.push_back((Material::MaterialFloat3PropertyId)addF3MatType);
             }
         }
         else if(uType == SLDataType::Float)
@@ -249,7 +249,19 @@ void DeferredProgram::ExtractActiveUniforms()
             if(addF1MatType != -1)
             {
                 materialFloat1[addF1MatType].reset(new Uniform<float>(program, uName));
-                aF1Material.push_back((Material::MaterialFloat1PropertyId)addF1MatType);
+                aFloat1Material.push_back((Material::MaterialFloat1PropertyId)addF1MatType);
+            }
+        }
+        else if(uType == SLDataType::UnsignedInt)
+        {
+            int addUint1MatType = -1;
+            addUint1MatType =
+                uName == "material.useNormalsMap" ? Material::NormalMapping : -1;
+
+            if(addUint1MatType != -1)
+            {
+                materialUInt1[addUint1MatType].reset(new Uniform<unsigned int>(program, uName));
+                aUInt1Material.push_back((Material::MaterialUInt1PropertyId)addUint1MatType);
             }
         }
     }
@@ -288,5 +300,14 @@ void DeferredProgram::SetUniform(Material::MaterialFloat1PropertyId mF1Id,
     if(materialFloat1[mF1Id])
     {
         materialFloat1[mF1Id]->Set(val);
+    }
+}
+
+void DeferredProgram::SetUniform(Material::MaterialUInt1PropertyId mF1Id,
+                                 const unsigned int val) const
+{
+    if(materialUInt1[mF1Id])
+    {
+        materialUInt1[mF1Id]->Set(val);
     }
 }

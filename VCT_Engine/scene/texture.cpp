@@ -88,6 +88,29 @@ void OGLTexture2D::Bind()
     this->oglTexture->Bind(oglplus::Texture::Target::_2D);
 }
 
+OGLTexture2D * OGLTexture2D::CreateColorTexture(std::string texName,
+        glm::u8vec3 texColor)
+{
+    OGLTexture2D *defaultTexture = new OGLTexture2D();
+    defaultTexture->filepath = texName;
+    defaultTexture->width = 1;
+    defaultTexture->height = 1;
+    defaultTexture->lineWidth = 1;
+    defaultTexture->depth = 1;
+    defaultTexture->bitsPerPixel = 24;
+    defaultTexture->rawData.reset(new unsigned char[3] {texColor.b, texColor.g, texColor.r});
+
+    // texture types conveyed by default
+    for(unsigned int i = 0; i < RawTexture::TEXTURE_TYPE_MAX; ++i)
+    {
+        defaultTexture->textureTypes.insert(
+            RawTexture::TextureType(RawTexture::None + i)
+        );
+    }
+
+    return defaultTexture;
+}
+
 std::unique_ptr<OGLTexture2D> & OGLTexture2D::GetDefaultTexture()
 {
     static std::unique_ptr<OGLTexture2D> instance = nullptr;
@@ -95,27 +118,28 @@ std::unique_ptr<OGLTexture2D> & OGLTexture2D::GetDefaultTexture()
     if(!instance)
     {
         // default texture is white
-        OGLTexture2D *defaultTexture = new OGLTexture2D();
-        defaultTexture->filepath = "!defaultTexture";
-        defaultTexture->width = 1;
-        defaultTexture->height = 1;
-        defaultTexture->lineWidth = 1;
-        defaultTexture->depth = 1;
-        defaultTexture->bitsPerPixel = 32;
-        defaultTexture->rawData.reset(new unsigned char[3] {255, 255, 255});
-        // upload data to gpu
-        defaultTexture->UploadToGPU();
-
-        // texture types conveyed by default
-        for(unsigned int i = 0; i < RawTexture::TEXTURE_TYPE_MAX; ++i)
-        {
-            defaultTexture->textureTypes.insert(
-                RawTexture::TextureType(RawTexture::None + i)
-            );
-        }
-
+        std::string texName = "!defaultTexture";
+        glm::u8vec3 texColor = glm::u8vec3(255, 255, 255);
         // save to instance
-        instance.reset(defaultTexture);
+        instance.reset(CreateColorTexture(texName, texColor));
+        instance->UploadToGPU();
+    }
+
+    return instance;
+}
+
+std::unique_ptr<OGLTexture2D> & OGLTexture2D::GetDefaultNormalTexture()
+{
+    static std::unique_ptr<OGLTexture2D> instance = nullptr;
+
+    if(!instance)
+    {
+        // default texture is white
+        std::string texName = "!defaultNormalTexture";
+        glm::u8vec3 texColor = glm::u8vec3(128, 128, 255);
+        // save to instance
+        instance.reset(CreateColorTexture(texName, texColor));
+        instance->UploadToGPU();
     }
 
     return instance;
@@ -127,28 +151,12 @@ std::unique_ptr<OGLTexture2D> & OGLTexture2D::GetErrorTexture()
 
     if(!instance)
     {
-        // error texture is purple
-        OGLTexture2D *errorTexture = new OGLTexture2D();
-        errorTexture->filepath = "!errorTexture";
-        errorTexture->width = 1;
-        errorTexture->height = 1;
-        errorTexture->lineWidth = 1;
-        errorTexture->depth = 1;
-        errorTexture->bitsPerPixel = 32;
-        errorTexture->rawData.reset(new unsigned char[3] {128, 0, 128});
-        // upload data to gpu
-        errorTexture->UploadToGPU();
-
-        // texture types conveyed by default
-        for(unsigned int i = 0; i < RawTexture::TEXTURE_TYPE_MAX; ++i)
-        {
-            errorTexture->textureTypes.insert(
-                RawTexture::TextureType(RawTexture::None + i)
-            );
-        }
-
+        // default texture is white
+        std::string texName = "!errorTexture";
+        glm::u8vec3 texColor = glm::u8vec3(128, 0, 128);
         // save to instance
-        instance.reset(errorTexture);
+        instance.reset(CreateColorTexture(texName, texColor));
+        instance->UploadToGPU();
     }
 
     return instance;
