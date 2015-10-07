@@ -12,6 +12,20 @@ in vec3 tangent;
 in vec3 bitangent;
 in vec3 normalView;
 
+vec3 bumpedNormal(vec3 normView, vec3 tangent, vec3 bitangent, vec3 fragNormal)                                                                     
+{                                                                                           
+    vec3 norm = normalize(normView);
+    vec3 tang = normalize(tangent);
+    vec3 bTan = normalize(bitangent);
+
+    vec3 bumpedNormal = 2.0 * fragNormal - vec3(1.0, 1.0, 1.0);          
+    tang = normalize(tang - dot(tang, norm) * norm);                                                                                                                             
+
+    mat3 TBN = mat3(tang, bTan, norm); 
+                                                  
+    return normalize(TBN * bumpedNormal);                                                                       
+}
+
 uniform struct Material {
     vec3 ambient;
     vec3 diffuse;
@@ -23,16 +37,13 @@ uniform struct Material {
     float shininess;
     float shininessStrenght;
     float refractionIndex;
-
-    uint shadingModel;
-    uint blendMode;
 } material;
 
 uniform sampler2D diffuseMap;
 uniform sampler2D specularMap;
-uniform sampler2D normalMap;
+uniform sampler2D normalsMap;
 
-uniform float alphaCutoff = 0.1f;
+uniform float alphaCutoff = 0.1;
 
 void main()
 {
@@ -46,10 +57,11 @@ void main()
 
     gAlbedo = diffuseColor.rgb * material.diffuse;
     // store specular intensity
-    vec4 specularIntensity = texture(specularMap, texCoord.xy);
-    gSpecular = (specularIntensity.rgb * material.specular).r;
+    vec3 specularIntensity = texture(specularMap, texCoord.xy).rgb;
+    gSpecular = (specularIntensity * material.specular).r;
     // store fragment position in gbuffer texture
     gPosition = position;
     // store per fragment normal
-    gNormal = normalize(normal);
+    vec3 rgbNormal = texture(normalsMap, texCoord.xy).rgb;
+    gNormal = bumpedNormal(normalView, tangent, bitangent, rgbNormal);
 }

@@ -5,9 +5,9 @@
 EngineAssets::EngineAssets() : demoScenesLoaded(false)
 {
     // available scenes for execution
-    //sceneFilepaths.push_back("resources\\models\\crytek-sponza\\sponza.obj");
+    sceneFilepaths.push_back("resources\\models\\crytek-sponza\\sponza.obj");
     //sceneFilepaths.push_back("resources\\models\\dabrovic-sponza\\sponza.obj");
-    sceneFilepaths.push_back("resources\\models\\sibenik\\sibenik.obj");
+    //sceneFilepaths.push_back("resources\\models\\sibenik\\sibenik.obj");
     //sceneFilepaths.push_back("resources\\models\\cornell-box\\CornellBox-Empty-CO.obj");
     //sceneFilepaths.push_back("resources\\models\\cornell-box\\CornellBox-Empty-RG.obj");
     //sceneFilepaths.push_back("resources\\models\\cornell-box\\CornellBox-Empty-Squashed.obj");

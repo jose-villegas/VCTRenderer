@@ -99,6 +99,21 @@ void UI::Draw()
                     ),
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
+
+                if(ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Image(
+                        (void *)(intptr_t)GetName(
+                            deferredHandler->GetGBufferTextures()
+                            [DeferredHandler::GBufferTextureType::Position]
+                        ),
+                        ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
+                        ImVec2(1, 1), ImVec2(0, 0)
+                    );
+                    ImGui::EndTooltip();
+                }
+
                 ImGui::Text("Position");
                 ImGui::EndGroup();
             }
@@ -113,6 +128,21 @@ void UI::Draw()
                     ),
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
+
+                if(ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Image(
+                        (void *)(intptr_t)GetName(
+                            deferredHandler->GetGBufferTextures()
+                            [DeferredHandler::GBufferTextureType::Normal]
+                        ),
+                        ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
+                        ImVec2(1, 1), ImVec2(0, 0)
+                    );
+                    ImGui::EndTooltip();
+                }
+
                 ImGui::Text("Normal");
                 ImGui::EndGroup();
             }
@@ -127,6 +157,21 @@ void UI::Draw()
                     ),
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
+
+                if(ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Image(
+                        (void *)(intptr_t)GetName(
+                            deferredHandler->GetGBufferTextures()
+                            [DeferredHandler::GBufferTextureType::Albedo]
+                        ),
+                        ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
+                        ImVec2(1, 1), ImVec2(0, 0)
+                    );
+                    ImGui::EndTooltip();
+                }
+
                 ImGui::Text("Albedo");
                 ImGui::EndGroup();
             }
@@ -141,6 +186,21 @@ void UI::Draw()
                     ),
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
+
+                if(ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Image(
+                        (void *)(intptr_t)GetName(
+                            deferredHandler->GetGBufferTextures()
+                            [DeferredHandler::GBufferTextureType::Specular]
+                        ),
+                        ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
+                        ImVec2(1, 1), ImVec2(0, 0)
+                    );
+                    ImGui::EndTooltip();
+                }
+
                 ImGui::Text("Specular");
                 ImGui::EndGroup();
             }
