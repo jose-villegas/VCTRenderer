@@ -36,7 +36,7 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     // activate geometry pass shader program
     deferredHandler.UseGeometryPass();
     // play with camera parameters
-    activeCamera.position = glm::vec3(0.0f, 0.50f, -2.0f);
+    activeCamera.position = glm::vec3(0.0f, 0.50f, -3.0f);
     activeCamera.lookAt =
         glm::vec3(
             std::sin(glfwGetTime() * 0.5f),

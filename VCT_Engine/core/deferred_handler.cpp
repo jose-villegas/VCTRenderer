@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "deferred_handler.h"
 
-
 DeferredHandler::DeferredHandler(unsigned int windowWith,
                                  unsigned int windowHeight)
 {
@@ -49,7 +48,31 @@ void DeferredHandler::CreateFullscreenQuad()
 void DeferredHandler::LoadShaders()
 {
     using namespace oglplus;
-    // load shaders source code and compile
+    // light pass shader source code and compile
+    std::ifstream vsLightPassFile("resources\\shaders\\light_pass.vert");
+    std::string vsLightPassSource(
+        (std::istreambuf_iterator<char>(vsLightPassFile)),
+        std::istreambuf_iterator<char>()
+    );
+    lightPass.sVertex.Source(vsLightPassSource.c_str());
+    lightPass.sVertex.Compile();
+    // fragment shader
+    std::ifstream fsLightPassFile("resources\\shaders\\light_pass.frag");
+    std::string fsLightPassSource(
+        (std::istreambuf_iterator<char>(fsLightPassFile)),
+        std::istreambuf_iterator<char>()
+    );
+    lightPass.sFragment.Source(fsLightPassSource.c_str());
+    lightPass.sFragment.Compile();
+    // create a new shader program and attach the shaders
+    lightPass.program.AttachShader(lightPass.sVertex);
+    lightPass.program.AttachShader(lightPass.sFragment);
+    // link attached shaders
+    lightPass.program.Link().Use();
+    // extract relevant uniforms
+    lightPass.ExtractActiveUniforms();
+    vsLightPassFile.close(); fsLightPassFile.close();
+    // geometry pass shader source code and compile
     std::ifstream vsGeomPassFile("resources\\shaders\\geometry_pass.vert");
     std::string vsGeomPassSource(
         (std::istreambuf_iterator<char>(vsGeomPassFile)),
@@ -72,6 +95,7 @@ void DeferredHandler::LoadShaders()
     geometryPass.program.Link().Use();
     // extract relevant uniforms
     geometryPass.ExtractActiveUniforms();
+    vsGeomPassFile.close(); fsGeomPassFile.close();
 }
 
 void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
@@ -81,7 +105,8 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
     openedColorBuffers.clear();
     geomBuffer.Bind(FramebufferTarget::Draw);
     // position color buffer
-    gl.Bound(Texture::Target::_2D, bTextures[GBufferTextureType::Position])
+    gl.Bound(Texture::Target::_2D,
+             bTextures[(unsigned int)GBufferTextureId::Position])
     .Image2D(
         0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
@@ -90,11 +115,13 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
     .MagFilter(TextureMagFilter::Nearest);
     geomBuffer.AttachTexture(
         FramebufferTarget::Draw,
-        FramebufferColorAttachment::_0, bTextures[GBufferTextureType::Position], 0
+        FramebufferColorAttachment::_0,
+        bTextures[(unsigned int)GBufferTextureId::Position], 0
     );
     openedColorBuffers.push_back(FramebufferColorAttachment::_0);
     // normal color buffer
-    gl.Bound(Texture::Target::_2D, bTextures[GBufferTextureType::Normal])
+    gl.Bound(Texture::Target::_2D,
+             bTextures[(unsigned int)GBufferTextureId::Normal])
     .Image2D(
         0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
@@ -103,11 +130,14 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
     .MagFilter(TextureMagFilter::Nearest);
     geomBuffer.AttachTexture(
         FramebufferTarget::Draw,
-        FramebufferColorAttachment::_1, bTextures[GBufferTextureType::Normal], 0
+        FramebufferColorAttachment::_1,
+        bTextures[(unsigned int)GBufferTextureId::Normal],
+        0
     );
     openedColorBuffers.push_back(FramebufferColorAttachment::_1);
     // albedo color buffer
-    gl.Bound(Texture::Target::_2D, bTextures[GBufferTextureType::Albedo])
+    gl.Bound(Texture::Target::_2D,
+             bTextures[(unsigned int)GBufferTextureId::Albedo])
     .Image2D(
         0, PixelDataInternalFormat::RGB8, windowWith, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
@@ -116,11 +146,14 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
     .MagFilter(TextureMagFilter::Nearest);
     geomBuffer.AttachTexture(
         FramebufferTarget::Draw,
-        FramebufferColorAttachment::_2, bTextures[GBufferTextureType::Albedo], 0
+        FramebufferColorAttachment::_2,
+        bTextures[(unsigned int)GBufferTextureId::Albedo],
+        0
     );
     openedColorBuffers.push_back(FramebufferColorAttachment::_2);
     // specular intensity and shininess buffer
-    gl.Bound(Texture::Target::_2D, bTextures[GBufferTextureType::Specular])
+    gl.Bound(Texture::Target::_2D,
+             bTextures[(unsigned int)GBufferTextureId::Specular])
     .Image2D(
         0, PixelDataInternalFormat::R8, windowWith, windowHeight,
         0, PixelDataFormat::Red, PixelDataType::Float, nullptr
@@ -129,7 +162,8 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
     .MagFilter(TextureMagFilter::Nearest);
     geomBuffer.AttachTexture(
         FramebufferTarget::Draw,
-        FramebufferColorAttachment::_3, bTextures[GBufferTextureType::Specular], 0
+        FramebufferColorAttachment::_3,
+        bTextures[(unsigned int)GBufferTextureId::Specular], 0
     );
     openedColorBuffers.push_back(FramebufferColorAttachment::_3);
     // depth buffer
@@ -164,9 +198,15 @@ void DeferredHandler::BindGBuffer(const oglplus::FramebufferTarget
     gl.Bind(bindingMode, geomBuffer);
 }
 
-void DeferredHandler::ReadGBuffer(const GBufferTextureType &gBufferTexType)
+void DeferredHandler::ReadGBuffer(const GBufferTextureId &gBufferTexType)
 {
-    gl.ReadBuffer(openedColorBuffers[gBufferTexType]);
+    gl.ReadBuffer(openedColorBuffers[(unsigned int)gBufferTexType]);
+}
+
+const oglplus::Texture & DeferredHandler::GetGBufferTexture(
+    GBufferTextureId tID) const
+{
+    return bTextures[(unsigned int)tID];
 }
 
 void DeferredProgram::ExtractActiveUniforms()
@@ -182,6 +222,7 @@ void DeferredProgram::ExtractActiveUniforms()
         if(uType == SLDataType::Sampler2D)
         {
             int addSamplerType = -1;
+            // texture samplers
             addSamplerType =
                 uName == "noneMap" ? RawTexture::None :
                 uName == "diffuseMap" ? RawTexture::Diffuse :

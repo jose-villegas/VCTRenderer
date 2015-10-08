@@ -2,12 +2,13 @@
 #include "stdafx.h"
 #include "core\engine_base.h"
 
-// debug mode controller
-//#define VCT_ENGINE_LOW_PROFILE
+#ifdef _VISUAL_LEAK_DETECTOR
+    #include "vld.h"
+#endif
 
 int main(int argc, char* argv[])
 {
-    #ifdef VCT_ENGINE_LOW_PROFILE // DEBUG
+    #ifndef NDEBUG // DEBUG
     // pause in positive case
     bool errorCaptured = false;
 

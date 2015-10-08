@@ -94,8 +94,8 @@ void UI::Draw()
                 ImGui::BeginGroup();
                 ImGui::Image(
                     (void *)(intptr_t)GetName(
-                        deferredHandler->GetGBufferTextures()
-                        [DeferredHandler::GBufferTextureType::Position]
+                        deferredHandler->GetGBufferTexture
+                        (GBufferTextureId::Position)
                     ),
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
@@ -105,8 +105,8 @@ void UI::Draw()
                     ImGui::BeginTooltip();
                     ImGui::Image(
                         (void *)(intptr_t)GetName(
-                            deferredHandler->GetGBufferTextures()
-                            [DeferredHandler::GBufferTextureType::Position]
+                            deferredHandler->GetGBufferTexture
+                            (GBufferTextureId::Position)
                         ),
                         ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
                         ImVec2(1, 1), ImVec2(0, 0)
@@ -123,8 +123,8 @@ void UI::Draw()
                 ImGui::BeginGroup();
                 ImGui::Image(
                     (void *)(intptr_t)GetName(
-                        deferredHandler->GetGBufferTextures()
-                        [DeferredHandler::GBufferTextureType::Normal]
+                        deferredHandler->GetGBufferTexture
+                        (GBufferTextureId::Normal)
                     ),
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
@@ -134,8 +134,8 @@ void UI::Draw()
                     ImGui::BeginTooltip();
                     ImGui::Image(
                         (void *)(intptr_t)GetName(
-                            deferredHandler->GetGBufferTextures()
-                            [DeferredHandler::GBufferTextureType::Normal]
+                            deferredHandler->GetGBufferTexture
+                            (GBufferTextureId::Normal)
                         ),
                         ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
                         ImVec2(1, 1), ImVec2(0, 0)
@@ -152,8 +152,8 @@ void UI::Draw()
                 ImGui::BeginGroup();
                 ImGui::Image(
                     (void *)(intptr_t)GetName(
-                        deferredHandler->GetGBufferTextures()
-                        [DeferredHandler::GBufferTextureType::Albedo]
+                        deferredHandler->GetGBufferTexture
+                        (GBufferTextureId::Albedo)
                     ),
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
@@ -163,8 +163,8 @@ void UI::Draw()
                     ImGui::BeginTooltip();
                     ImGui::Image(
                         (void *)(intptr_t)GetName(
-                            deferredHandler->GetGBufferTextures()
-                            [DeferredHandler::GBufferTextureType::Albedo]
+                            deferredHandler->GetGBufferTexture
+                            (GBufferTextureId::Albedo)
                         ),
                         ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
                         ImVec2(1, 1), ImVec2(0, 0)
@@ -181,8 +181,8 @@ void UI::Draw()
                 ImGui::BeginGroup();
                 ImGui::Image(
                     (void *)(intptr_t)GetName(
-                        deferredHandler->GetGBufferTextures()
-                        [DeferredHandler::GBufferTextureType::Specular]
+                        deferredHandler->GetGBufferTexture
+                        (GBufferTextureId::Specular)
                     ),
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
@@ -192,8 +192,8 @@ void UI::Draw()
                     ImGui::BeginTooltip();
                     ImGui::Image(
                         (void *)(intptr_t)GetName(
-                            deferredHandler->GetGBufferTextures()
-                            [DeferredHandler::GBufferTextureType::Specular]
+                            deferredHandler->GetGBufferTexture
+                            (GBufferTextureId::Specular)
                         ),
                         ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
                         ImVec2(1, 1), ImVec2(0, 0)

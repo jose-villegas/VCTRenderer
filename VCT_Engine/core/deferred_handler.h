@@ -3,35 +3,17 @@
 #include "types\transform_matrices.h"
 #include "scene\material.h"
 
+enum class GBufferTextureId : unsigned int
+{
+    Position,
+    Normal,
+    Albedo,
+    Specular,
+    GBUFFER_TEXTURE_TYPE_MAX
+};
+
 class DeferredProgram
 {
-    public:
-        void ExtractActiveUniforms();
-
-        void SetUniform(TransformMatrices::TransformMatrixId mId,
-                        const glm::mat4x4 &val) const;
-
-        void SetUniform(RawTexture::TextureType tId, const int val) const;
-
-        void SetUniform(Material::MaterialFloat3PropertyId mF3Id,
-                        const glm::vec3 &val) const;
-        void SetUniform(Material::MaterialFloat1PropertyId mF1Id,
-                        const float val) const;
-        void SetUniform(Material::MaterialUInt1PropertyId mF1Id,
-                        const unsigned int val)const;
-
-        const std::vector<RawTexture::TextureType>
-        &ActiveSamplers() const { return aSamplers; };
-
-        const std::vector<TransformMatrices::TransformMatrixId>
-        &ActiveTransformMatrices() const { return aMatrices; };
-
-        const std::vector<Material::MaterialFloat3PropertyId>
-        &ActiveMaterialFloat3Properties() const { return aFloat3Material; };
-        const std::vector<Material::MaterialFloat1PropertyId>
-        &ActiveMaterialFloat1Properties() const { return aFloat1Material; };
-        const std::vector<Material::MaterialUInt1PropertyId>
-        &ActiveMaterialUInt1Properties() const { return aUInt1Material; };
     private:
         oglplus::FragmentShader sFragment;
         oglplus::VertexShader sVertex;
@@ -59,19 +41,39 @@ class DeferredProgram
         std::vector<Material::MaterialFloat3PropertyId> aFloat3Material;
         std::vector<Material::MaterialFloat1PropertyId> aFloat1Material;
         std::vector<Material::MaterialUInt1PropertyId> aUInt1Material;
+    public:
+        void ExtractActiveUniforms();
+
+        void SetUniform(TransformMatrices::TransformMatrixId mId,
+                        const glm::mat4x4 &val) const;
+
+        void SetUniform(RawTexture::TextureType tId, const int val) const;
+        void SetUniform(GBufferTextureId tId, const int val) const;
+
+        void SetUniform(Material::MaterialFloat3PropertyId mF3Id,
+                        const glm::vec3 &val) const;
+        void SetUniform(Material::MaterialFloat1PropertyId mF1Id,
+                        const float val) const;
+        void SetUniform(Material::MaterialUInt1PropertyId mF1Id,
+                        const unsigned int val)const;
+
+        const std::vector<RawTexture::TextureType>
+        &ActiveSamplers() const { return aSamplers; };
+
+        const std::vector<TransformMatrices::TransformMatrixId>
+        &ActiveTransformMatrices() const { return aMatrices; };
+
+        const std::vector<Material::MaterialFloat3PropertyId>
+        &ActiveMaterialFloat3Properties() const { return aFloat3Material; };
+        const std::vector<Material::MaterialFloat1PropertyId>
+        &ActiveMaterialFloat1Properties() const { return aFloat1Material; };
+        const std::vector<Material::MaterialUInt1PropertyId>
+        &ActiveMaterialUInt1Properties() const { return aUInt1Material; };
 };
 
 class DeferredHandler
 {
     public:
-        enum GBufferTextureType
-        {
-            Position,
-            Normal,
-            Albedo,
-            Specular,
-            GBUFFER_TEXTURE_TYPE_MAX
-        };
         // deferred shader programs handlers
         DeferredProgram geometryPass;
         DeferredProgram lightPass;
@@ -81,7 +83,8 @@ class DeferredHandler
         oglplus::Framebuffer geomBuffer;
         oglplus::Texture bDepthTexture;
         std::vector<oglplus::Context::ColorBuffer> openedColorBuffers;
-        std::array<oglplus::Texture, GBUFFER_TEXTURE_TYPE_MAX> bTextures;
+        std::array<oglplus::Texture, (size_t)GBufferTextureId::GBUFFER_TEXTURE_TYPE_MAX>
+        bTextures;
         // full screen quad
         oglplus::VertexArray fsQuadVertexArray;
         oglplus::Buffer fsQuadVertexBuffer;
@@ -99,9 +102,8 @@ class DeferredHandler
         void UseLightPass() const { lightPass.program.Use(); }
 
         void BindGBuffer(const oglplus::FramebufferTarget &bindingMode);
-        void ReadGBuffer(const GBufferTextureType &gBufferTexType);
+        void ReadGBuffer(const GBufferTextureId &gBufferTexType);
         // returns texture handlers to gbuffer color buffers
-        const std::array<oglplus::Texture, GBUFFER_TEXTURE_TYPE_MAX>
-        &GetGBufferTextures() const { return bTextures; }
+        const oglplus::Texture &GetGBufferTexture(GBufferTextureId tID) const;
 };
 

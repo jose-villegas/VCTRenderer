@@ -1,6 +1,10 @@
 // glm pre-processors
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_PURE
+// debug mode controller
+#ifdef NDEBUG
+    #define OGLPLUS_LOW_PROFILE 1
+#endif
 // opengl and context creation headers
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>

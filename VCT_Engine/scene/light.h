@@ -6,7 +6,7 @@ struct Attenuation
     float quadratic;
 
     Attenuation() : constant(1.0f), linear(0.2f), quadratic(0.08f) {};
-    virtual ~Attenuation() {};
+    ~Attenuation() {};
 };
 
 class Light
@@ -21,12 +21,16 @@ class Light
 
         float angleInnerCone;
         float angleOuterCone;
-        Attenuation attenuation;
+
         glm::vec3 ambient;
         glm::vec3 diffuse;
         glm::vec3 specular;
+
         glm::vec3 direction;
         glm::vec3 position;
+
+        Attenuation attenuation;
+
         LightType lightType;
 
         Light();

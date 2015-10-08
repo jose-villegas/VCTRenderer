@@ -11,21 +11,7 @@ in vec3 normal;
 in vec3 tangent;
 in vec3 bitangent;
 
-vec3 bumpedNormal(vec3 vNormal, vec3 vTangent, vec3 vBitangent, vec3 tNormal)                                                                     
-{                                                                                           
-    vec3 norm = normalize(vNormal);
-    vec3 tang = normalize(vTangent);
-    vec3 bTan = normalize(vBitangent);
-
-    vec3 bumpedNormal = 2.0 * tNormal - vec3(1.0);          
-    tang = normalize(tang - dot(tang, norm) * norm);                                                                                                                             
-
-    mat3 TBN = mat3(tang, bTan, norm); 
-                                                  
-    return normalize(TBN * bumpedNormal);                                                                       
-}
-
-uniform struct Material {
+struct Material {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -38,13 +24,30 @@ uniform struct Material {
     float refractionIndex;
 
     uint useNormalsMap;
-} material;
+};
+
+uniform Material material;
 
 uniform sampler2D diffuseMap;
 uniform sampler2D specularMap;
 uniform sampler2D normalsMap;
 
 uniform float alphaCutoff = 0.1;
+
+vec3 bumpedNormal()                                                                     
+{                                                                                           
+    vec3 norm = normalize(normal);
+    vec3 tang = normalize(tangent);
+    vec3 bTan = normalize(bitangent);
+    vec3 tNormal = texture(normalsMap, texCoord.xy).rgb;
+
+    vec3 bumpedNormal = 2.0 * tNormal - vec3(1.0);          
+    tang = normalize(tang - dot(tang, norm) * norm);                                                                                                                             
+
+    mat3 TBN = mat3(tang, bTan, norm); 
+                                                  
+    return normalize(TBN * bumpedNormal);                                                                       
+}
 
 void main()
 {
@@ -63,13 +66,5 @@ void main()
     // store fragment position in gbuffer texture
     gPosition = position;
     // store per fragment normal
-    vec3 bNormal = material.useNormalsMap == 1 ? 
-                    bumpedNormal(
-                        normal, 
-                        tangent, 
-                        bitangent, 
-                        texture(normalsMap, texCoord.xy).rgb
-                    ) : normalize(normal);
-
-    gNormal = bNormal;
+    gNormal = material.useNormalsMap == 1 ? bumpedNormal() : normalize(normal);
 }
