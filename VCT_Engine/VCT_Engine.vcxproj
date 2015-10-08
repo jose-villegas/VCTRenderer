@@ -261,6 +261,8 @@
     <None Include="interface\imgui\README.md" />
     <None Include="resources\shaders\geometry_pass.frag" />
     <None Include="resources\shaders\geometry_pass.vert" />
+    <None Include="resources\shaders\light_pass.frag" />
+    <None Include="resources\shaders\light_pass.vert" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="interface\imgui\extra_fonts\Cousine-Regular.ttf" />

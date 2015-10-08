@@ -10,7 +10,9 @@ class DeferredProgram
 
         void SetUniform(TransformMatrices::TransformMatrixId mId,
                         const glm::mat4x4 &val) const;
+
         void SetUniform(RawTexture::TextureType tId, const int val) const;
+
         void SetUniform(Material::MaterialFloat3PropertyId mF3Id,
                         const glm::vec3 &val) const;
         void SetUniform(Material::MaterialFloat1PropertyId mF1Id,
@@ -26,10 +28,8 @@ class DeferredProgram
 
         const std::vector<Material::MaterialFloat3PropertyId>
         &ActiveMaterialFloat3Properties() const { return aFloat3Material; };
-
         const std::vector<Material::MaterialFloat1PropertyId>
         &ActiveMaterialFloat1Properties() const { return aFloat1Material; };
-
         const std::vector<Material::MaterialUInt1PropertyId>
         &ActiveMaterialUInt1Properties() const { return aUInt1Material; };
     private:
@@ -53,7 +53,9 @@ class DeferredProgram
             Material::MATERIAL_UINT1_PROPERTY_ID_MAX> materialUInt1;
 
         std::vector<RawTexture::TextureType> aSamplers;
+
         std::vector<TransformMatrices::TransformMatrixId> aMatrices;
+
         std::vector<Material::MaterialFloat3PropertyId> aFloat3Material;
         std::vector<Material::MaterialFloat1PropertyId> aFloat1Material;
         std::vector<Material::MaterialUInt1PropertyId> aUInt1Material;
