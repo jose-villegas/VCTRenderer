@@ -19,13 +19,12 @@ void Renderer::Initialize()
 
 void Renderer::Render(Scene &activeScene, Camera &activeCamera)
 {
-    glm::mat3 test = glm::mat3(glm::vec3(2), glm::vec3(3), glm::vec3(1));
-    glm::mat3 test2 = test;
-    glm::vec3 test3 = test2 * glm::vec3(0, 0, 1);
     using namespace oglplus;
     // bind gbuffer for writing
     deferredHandler.BindGBuffer(FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
+    // activate geometry pass shader program
+    deferredHandler.UseGeometryPass();
     // opengl flags
     gl.ClearDepth(1.0f);
     //gl.Disable(Capability::Blend);
@@ -33,14 +32,12 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     gl.Enable(Capability::CullFace);
     gl.FrontFace(FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
-    // activate geometry pass shader program
-    deferredHandler.UseGeometryPass();
     // play with camera parameters
-    activeCamera.position = glm::vec3(0.0f, 0.50f, -3.0f);
+    activeCamera.position = glm::vec3(0.0f, 30.50f, 0.0f);
     activeCamera.lookAt =
         glm::vec3(
             std::sin(glfwGetTime() * 0.5f),
-            1.0f,
+            30.50f,
             std::cos(glfwGetTime() * 0.5f)
         );
     activeCamera.clipPlaneFar = 10000.0f;
@@ -53,8 +50,14 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
 
     // draw whole scene hierachy tree from root node
     activeScene.rootNode.DrawRecursive();
-    // unbind geom buffer
+    // start light pass
     DefaultFramebuffer().Bind(FramebufferTarget::Draw);
+    gl.Clear().ColorBuffer().DepthBuffer();
+    // bind gbuffer for reading
+    deferredHandler.UseLightPass();
+    deferredHandler.ActivateGBufferTextures();
+    deferredHandler.SetLightPassUniforms(activeCamera.position);
+    deferredHandler.RenderFSQuad();
 }
 
 void Renderer::SetMatricesUniforms() const

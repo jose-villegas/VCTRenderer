@@ -33,7 +33,7 @@ void DeferredHandler::CreateFullscreenQuad()
     VertexArrayAttrib(VertexAttribSlot(1)).Enable() // uvs
     .Pointer(2, DataType::Float, false, 5 * sizeof(float), (const GLvoid*)12);
     // data for element buffer array
-    static const std::array<float, 6> indexData =
+    static const std::array<unsigned int, 6> indexData =
     {
         0, 1, 2, // first triangle
         2, 1, 3, // second triangle
@@ -43,6 +43,15 @@ void DeferredHandler::CreateFullscreenQuad()
     Buffer::Data(Buffer::Target::ElementArray, indexData);
     // unbind vao
     NoVertexArray().Bind();
+}
+
+void DeferredHandler::RenderFSQuad()
+{
+    fsQuadVertexArray.Bind();
+    gl.DrawElements(
+        oglplus::PrimitiveType::Triangles, 6,
+        oglplus::DataType::UnsignedInt
+    );
 }
 
 void DeferredHandler::LoadShaders()
@@ -71,6 +80,8 @@ void DeferredHandler::LoadShaders()
     lightPass.program.Link().Use();
     // extract relevant uniforms
     lightPass.ExtractActiveUniforms();
+    lightPass.viewPosLightpass = oglplus::Uniform<glm::vec3>
+                                 (lightPass.program, "viewPosition");
     vsLightPassFile.close(); fsLightPassFile.close();
     // geometry pass shader source code and compile
     std::ifstream vsGeomPassFile("resources\\shaders\\geometry_pass.vert");
@@ -203,6 +214,47 @@ void DeferredHandler::ReadGBuffer(const GBufferTextureId &gBufferTexType)
     gl.ReadBuffer(openedColorBuffers[(unsigned int)gBufferTexType]);
 }
 
+void DeferredHandler::ActivateGBufferTextures()
+{
+    // bind and active position gbuffer texture
+    oglplus::Texture::Active((unsigned int)GBufferTextureId::Position);
+    bTextures[(unsigned int)GBufferTextureId::Position]
+    .Bind(oglplus::TextureTarget::_2D);
+    // bind and active normal gbuffer texture
+    oglplus::Texture::Active((unsigned int)GBufferTextureId::Normal);
+    bTextures[(unsigned int)GBufferTextureId::Normal]
+    .Bind(oglplus::TextureTarget::_2D);
+    // bind and active albedo gbuffer texture
+    oglplus::Texture::Active((unsigned int)GBufferTextureId::Albedo);
+    bTextures[(unsigned int)GBufferTextureId::Albedo]
+    .Bind(oglplus::TextureTarget::_2D);
+    // bind and active specular gbuffer texture
+    oglplus::Texture::Active((unsigned int)GBufferTextureId::Specular);
+    bTextures[(unsigned int)GBufferTextureId::Specular]
+    .Bind(oglplus::TextureTarget::_2D);
+}
+
+void DeferredHandler::SetLightPassUniforms(const glm::vec3 &viewPosition)
+{
+    lightPass.viewPosLightpass.Set(viewPosition);
+    lightPass.SetUniform(
+        GBufferTextureId::Position,
+        (unsigned int)GBufferTextureId::Position
+    );
+    lightPass.SetUniform(
+        GBufferTextureId::Normal,
+        (unsigned int)GBufferTextureId::Normal
+    );
+    lightPass.SetUniform(
+        GBufferTextureId::Albedo,
+        (unsigned int)GBufferTextureId::Albedo
+    );
+    lightPass.SetUniform(
+        GBufferTextureId::Specular,
+        (unsigned int)GBufferTextureId::Specular
+    );
+}
+
 const oglplus::Texture & DeferredHandler::GetGBufferTexture(
     GBufferTextureId tID) const
 {
@@ -237,6 +289,12 @@ void DeferredProgram::ExtractActiveUniforms()
                 uName == "lightMap" ? RawTexture::Lightmap :
                 uName == "reflectionMap" ? RawTexture::Reflection :
                 uName == "unknowMap" ? RawTexture::Unknow : -1;
+            // gbuffer samplers to read
+            addSamplerType == -1 ? addSamplerType =
+                uName == "gPosition" ? (int)GBufferTextureId::Position :
+                uName == "gNormal" ? (int)GBufferTextureId::Normal :
+                uName == "gAlbedo" ? (int)GBufferTextureId::Albedo :
+                uName == "gSpecular" ? (int)GBufferTextureId::Specular : -1 : -1;
 
             if(addSamplerType != -1)
             {
@@ -350,5 +408,13 @@ void DeferredProgram::SetUniform(Material::MaterialUInt1PropertyId mF1Id,
     if(materialUInt1[mF1Id])
     {
         materialUInt1[mF1Id]->Set(val);
+    }
+}
+
+void DeferredProgram::SetUniform(GBufferTextureId tId, const int val) const
+{
+    if(samplers[(unsigned int)tId])
+    {
+        samplers[(unsigned int)tId]->Set(val);
     }
 }

@@ -41,6 +41,8 @@ class DeferredProgram
         std::vector<Material::MaterialFloat3PropertyId> aFloat3Material;
         std::vector<Material::MaterialFloat1PropertyId> aFloat1Material;
         std::vector<Material::MaterialUInt1PropertyId> aUInt1Material;
+
+        oglplus::Uniform<glm::vec3> viewPosLightpass;
     public:
         void ExtractActiveUniforms();
 
@@ -103,7 +105,12 @@ class DeferredHandler
 
         void BindGBuffer(const oglplus::FramebufferTarget &bindingMode);
         void ReadGBuffer(const GBufferTextureId &gBufferTexType);
+        // binds and sets as active all gbuffer textures ids
+        void ActivateGBufferTextures();
+        void SetLightPassUniforms(const glm::vec3 &viewPosition);
         // returns texture handlers to gbuffer color buffers
         const oglplus::Texture &GetGBufferTexture(GBufferTextureId tID) const;
+
+        void RenderFSQuad();
 };
 

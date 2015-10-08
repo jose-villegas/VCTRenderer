@@ -44,7 +44,7 @@ vec3 bumpedNormal()
     vec3 bumpedNormal = 2.0 * tNormal - vec3(1.0);          
     tang = normalize(tang - dot(tang, norm) * norm);                                                                                                                             
 
-    mat3 TBN = mat3(tang, bTan, norm); 
+    mat3 TBN = transpose(mat3(tang, bTan, norm)); 
                                                   
     return normalize(TBN * bumpedNormal);                                                                       
 }

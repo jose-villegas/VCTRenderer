@@ -316,7 +316,6 @@ newmtl fabric_g
 	Ke 0.0000 0.0000 0.0000
 	map_Ka textures\sponza_curtain_blue_diff.tga
 	map_Kd textures\sponza_curtain_blue_diff.tga
-	map_Ks textures\sponza_fabric_spec.tga
 	map_bump textures\Sponza_Curtain_Blue_normal.tga
 	bump textures\Sponza_Curtain_Blue_normal.tga
 
@@ -333,7 +332,6 @@ newmtl fabric_c
 	Ke 0.0000 0.0000 0.0000
 	map_Ka textures\sponza_curtain_diff.tga
 	map_Kd textures\sponza_curtain_diff.tga
-	map_Ks textures\sponza_fabric_spec.tga
 	map_bump textures\Sponza_Curtain_Red_normal.tga
 	bump textures\Sponza_Curtain_Red_normal.tga
 
@@ -350,7 +348,6 @@ newmtl fabric_f
 	Ke 0.0000 0.0000 0.0000
 	map_Ka textures\sponza_curtain_green_diff.tga
 	map_Kd textures\sponza_curtain_green_diff.tga
-	map_Ks textures\sponza_fabric_spec.tga
 	map_bump textures\Sponza_Curtain_Green_normal.tga
 	bump textures\Sponza_Curtain_Green_normal.tga
 
