@@ -33,11 +33,11 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     gl.FrontFace(FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
     // play with camera parameters
-    activeCamera.position = glm::vec3(0.0f, 30.50f, 0.0f);
+    activeCamera.position = glm::vec3(0.0f, 0.50f, 0.0f);
     activeCamera.lookAt =
         glm::vec3(
             std::sin(glfwGetTime() * 0.5f),
-            30.50f,
+            0.50f,
             std::cos(glfwGetTime() * 0.5f)
         );
     activeCamera.clipPlaneFar = 10000.0f;
@@ -98,69 +98,69 @@ void Renderer::SetMatricesUniforms() const
     }
 }
 
-void Renderer::SetMaterialUniforms(const Material &mat) const
+void Renderer::SetMaterialUniforms(const OGLMaterial &mat) const
 {
     for(auto it = ActiveMaterialFloat3Properties().begin();
         it != ActiveMaterialFloat3Properties().end(); ++it)
     {
-        (*it) == Material::Ambient ?
+        (*it) == OGLMaterial::Ambient ?
         deferredHandler.geometryPass.SetUniform(
-            Material::Ambient,
+            OGLMaterial::Ambient,
             mat.HasTexture(RawTexture::Ambient) ?
             mat.White : mat.ambient
         )
-        : (*it) == Material::Diffuse ?
+        : (*it) == OGLMaterial::Diffuse ?
         deferredHandler.geometryPass.SetUniform(
-            Material::Diffuse,
+            OGLMaterial::Diffuse,
             mat.HasTexture(RawTexture::Diffuse) ?
             mat.White : mat.diffuse
         )
-        : (*it) == Material::Specular ?
+        : (*it) == OGLMaterial::Specular ?
         deferredHandler.geometryPass.SetUniform(
-            Material::Specular,
+            OGLMaterial::Specular,
             mat.HasTexture(RawTexture::Specular) ?
             mat.White : mat.specular
         )
-        : (*it) == Material::Emissive ?
+        : (*it) == OGLMaterial::Emissive ?
         deferredHandler.geometryPass.SetUniform(
-            Material::Emissive,
+            OGLMaterial::Emissive,
             mat.HasTexture(RawTexture::Emissive) ?
             mat.White : mat.emissive
         )
-        : (*it) == Material::Transparent ?
+        : (*it) == OGLMaterial::Transparent ?
         deferredHandler.geometryPass.SetUniform
-        (Material::Transparent, mat.transparent) : 0;
+        (OGLMaterial::Transparent, mat.transparent) : 0;
     }
 
     for(auto it = ActiveMaterialFloat1Properties().begin();
         it != ActiveMaterialFloat1Properties().end(); ++it)
     {
-        (*it) == Material::Opacity ?
+        (*it) == OGLMaterial::Opacity ?
         deferredHandler.geometryPass.SetUniform(
-            Material::Opacity,
+            OGLMaterial::Opacity,
             mat.HasTexture(RawTexture::Opacity) ?
             1.0f : mat.opacity
         )
-        : (*it) == Material::Shininess ?
+        : (*it) == OGLMaterial::Shininess ?
         deferredHandler.geometryPass.SetUniform(
-            Material::Shininess,
+            OGLMaterial::Shininess,
             mat.HasTexture(RawTexture::Shininess) ?
             0.0f : mat.shininess
         )
-        : (*it) == Material::ShininessStrenght ?
+        : (*it) == OGLMaterial::ShininessStrenght ?
         deferredHandler.geometryPass.SetUniform
-        (Material::ShininessStrenght, mat.shininessStrenght)
-        : (*it) == Material::RefractionIndex ?
+        (OGLMaterial::ShininessStrenght, mat.shininessStrenght)
+        : (*it) == OGLMaterial::RefractionIndex ?
         deferredHandler.geometryPass.SetUniform
-        (Material::RefractionIndex, mat.refractionIndex) : 0;
+        (OGLMaterial::RefractionIndex, mat.refractionIndex) : 0;
     }
 
     for(auto it = ActiveMaterialUInt1Properties().begin();
         it != ActiveMaterialUInt1Properties().end(); ++it)
     {
-        (*it) == Material::NormalMapping ?
+        (*it) == OGLMaterial::NormalMapping ?
         deferredHandler.geometryPass.SetUniform(
-            Material::NormalMapping,
+            OGLMaterial::NormalMapping,
             mat.HasTexture(RawTexture::Normals) ? 1 : 0
         ) : 0;
     }
@@ -192,19 +192,19 @@ const std::vector<TransformMatrices::TransformMatrixId>
     return deferredHandler.geometryPass.ActiveTransformMatrices();
 }
 
-const std::vector<Material::MaterialFloat3PropertyId>
+const std::vector<OGLMaterial::MaterialFloat3PropertyId>
 & Renderer::ActiveMaterialFloat3Properties() const
 {
     return deferredHandler.geometryPass.ActiveMaterialFloat3Properties();
 }
 
-const std::vector<Material::MaterialFloat1PropertyId>
+const std::vector<OGLMaterial::MaterialFloat1PropertyId>
 & Renderer::ActiveMaterialFloat1Properties() const
 {
     return deferredHandler.geometryPass.ActiveMaterialFloat1Properties();
 }
 
-const std::vector<Material::MaterialUInt1PropertyId>
+const std::vector<OGLMaterial::MaterialUInt1PropertyId>
 & Renderer::ActiveMaterialUInt1Properties() const
 {
     return deferredHandler.geometryPass.ActiveMaterialUInt1Properties();

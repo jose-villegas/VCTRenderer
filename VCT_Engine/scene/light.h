@@ -34,6 +34,6 @@ class Light
         LightType lightType;
 
         Light();
-        virtual ~Light();
+        ~Light();
 };
 

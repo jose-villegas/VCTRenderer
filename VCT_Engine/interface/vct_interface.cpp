@@ -84,7 +84,7 @@ void UI::Draw()
 
             // draw plotline with frame samples
             ImGui::PlotLines("##Lines", frameSamples.data(), frameSamples.size(), 0.0f,
-                             "", minfSample, maxfSample, ImVec2(584.0f, 80.0f));
+                             "", minfSample, maxfSample, ImVec2(584, 80));
         }
 
         if(ImGui::CollapsingHeader("Geometry Buffer Textures"))

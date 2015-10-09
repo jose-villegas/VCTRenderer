@@ -26,7 +26,7 @@ class Renderer
         DeferredHandler &GetDeferredHandler() { return deferredHandler; }
         // program uniform setters
         void SetMatricesUniforms() const;
-        void SetMaterialUniforms(const Material &mat) const;
+        void SetMaterialUniforms(const OGLMaterial &mat) const;
         void SetTextureUniforms() const;
         void SetTextureUniform(RawTexture::TextureType texType) const;
 
@@ -36,12 +36,12 @@ class Renderer
         const std::vector<TransformMatrices::TransformMatrixId>
         &ActiveTransformMatrices() const;
 
-        const std::vector<Material::MaterialFloat3PropertyId>
+        const std::vector<OGLMaterial::MaterialFloat3PropertyId>
         &ActiveMaterialFloat3Properties() const;
 
-        const std::vector<Material::MaterialFloat1PropertyId>
+        const std::vector<OGLMaterial::MaterialFloat1PropertyId>
         &ActiveMaterialFloat1Properties() const;
 
-        const std::vector<Material::MaterialUInt1PropertyId>
+        const std::vector<OGLMaterial::MaterialUInt1PropertyId>
         &ActiveMaterialUInt1Properties() const;
 };

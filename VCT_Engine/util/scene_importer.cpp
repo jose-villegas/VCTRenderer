@@ -36,9 +36,9 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         // process material properties
         for(unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
-            std::shared_ptr<Material> newMaterial(new Material());
+            std::shared_ptr<OGLMaterial> newMaterial(new OGLMaterial());
             ImportMaterial(scene->mMaterials[i], *newMaterial);
-            outScene.materials.push_back(std::move(newMaterial));
+            outScene.materials.push_back(newMaterial);
         }
 
         // import per material and scene, textures
@@ -56,7 +56,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
             ImportMesh(scene->mMeshes[i], *newMesh);
             // material assigned to mesh
             newMesh->material = outScene.materials[scene->mMeshes[i]->mMaterialIndex];
-            // sort the meshes by material
+            // sort the meshes by material to reduce gl calls
             auto it = std::lower_bound(
                           outScene.meshes.begin(), outScene.meshes.end(), newMesh,
                           [ = ](std::shared_ptr<OGLMesh> lhs, std::shared_ptr<OGLMesh> rhs)
@@ -77,28 +77,28 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     {
         for(unsigned int i = 0; i < scene->mNumCameras; i++)
         {
-            std::shared_ptr<Camera> newCamera(new Camera());
-            ImportCamera(scene->mCameras[i], *newCamera);
+            Camera newCamera;
+            ImportCamera(scene->mCameras[i], newCamera);
             outScene.cameras.push_back(std::move(newCamera));
         }
     }
     else
     {
-        outScene.cameras.push_back(std::shared_ptr<Camera>(new Camera()));
+        outScene.cameras.push_back(std::move(Camera()));
     }
 
     if(scene->HasLights())
     {
         for(unsigned int i = 0; i < scene->mNumLights; i++)
         {
-            std::shared_ptr<Light> newLight(new Light());
-            ImportLight(scene->mLights[i], *newLight);
+            Light newLight;
+            ImportLight(scene->mLights[i], newLight);
             outScene.lights.push_back(std::move(newLight));
         }
     }
     else
     {
-        outScene.lights.push_back(std::shared_ptr<Light>(new Light()));
+        outScene.lights.push_back(std::move(Light()));
     }
 
     return true;
@@ -165,7 +165,8 @@ void SceneImporter::ImportCamera(aiCamera * cam, Camera &newCamera)
                    );
 }
 
-void SceneImporter::ImportMaterial(aiMaterial *mMaterial, Material &outMaterial)
+void SceneImporter::ImportMaterial(aiMaterial *mMaterial,
+                                   OGLMaterial &outMaterial)
 {
     // assimp scene material name extract
     aiString materialName;
@@ -291,7 +292,7 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
 }
 
 void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
-        Material &material)
+        OGLMaterial &material)
 {
     bool materialHasTexture = false;
 

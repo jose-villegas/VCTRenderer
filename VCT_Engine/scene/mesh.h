@@ -15,7 +15,7 @@ class Mesh
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
         // material used by mesh
-        std::shared_ptr<Material> material;
+        std::shared_ptr<OGLMaterial> material;
 
         Mesh();
         virtual ~Mesh();

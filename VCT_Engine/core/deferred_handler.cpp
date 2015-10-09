@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "deferred_handler.h"
+#include "scene\light.h"
 
 DeferredHandler::DeferredHandler(unsigned int windowWith,
                                  unsigned int windowHeight)
@@ -80,8 +81,10 @@ void DeferredHandler::LoadShaders()
     lightPass.program.Link().Use();
     // extract relevant uniforms
     lightPass.ExtractActiveUniforms();
-    lightPass.viewPosLightpass = oglplus::Uniform<glm::vec3>
-                                 (lightPass.program, "viewPosition");
+    // extract uniform buffer object
+    lightPass.lightsUBlock = oglplus::UniformBlock(lightPass.program,
+                             "AvailableLights");
+    // close source files
     vsLightPassFile.close(); fsLightPassFile.close();
     // geometry pass shader source code and compile
     std::ifstream vsGeomPassFile("resources\\shaders\\geometry_pass.vert");
@@ -106,6 +109,7 @@ void DeferredHandler::LoadShaders()
     geometryPass.program.Link().Use();
     // extract relevant uniforms
     geometryPass.ExtractActiveUniforms();
+    // close source files
     vsGeomPassFile.close(); fsGeomPassFile.close();
 }
 
@@ -265,15 +269,24 @@ void DeferredProgram::ExtractActiveUniforms()
 {
     using namespace oglplus;
     Program::ActiveUniformRange uRange = program.ActiveUniforms();
+    ;
 
     for(unsigned int i = 0; i < uRange.Size(); i++)
     {
         std::string uName = uRange.At(i).Name();
         SLDataType uType = uRange.At(i).Type();
 
+        if(uType == SLDataType::FloatVec3)
+        {
+            uName == "viewPosition"
+            ? viewPosLightpass =
+                oglplus::Uniform<glm::vec3>
+                (program, "viewPosition") : 0;
+        }
+
         if(uType == SLDataType::Sampler2D)
         {
-            int addSamplerType = -1;
+            int addSamplerType = -1, addGSamplerType = -1;
             // texture samplers
             addSamplerType =
                 uName == "noneMap" ? RawTexture::None :
@@ -290,16 +303,24 @@ void DeferredProgram::ExtractActiveUniforms()
                 uName == "reflectionMap" ? RawTexture::Reflection :
                 uName == "unknowMap" ? RawTexture::Unknow : -1;
             // gbuffer samplers to read
-            addSamplerType == -1 ? addSamplerType =
+            addGSamplerType =
                 uName == "gPosition" ? (int)GBufferTextureId::Position :
                 uName == "gNormal" ? (int)GBufferTextureId::Normal :
                 uName == "gAlbedo" ? (int)GBufferTextureId::Albedo :
-                uName == "gSpecular" ? (int)GBufferTextureId::Specular : -1 : -1;
+                uName == "gSpecular" ? (int)GBufferTextureId::Specular : -1;
 
+            // geometry pass active samplers
             if(addSamplerType != -1)
             {
                 samplers[addSamplerType].reset(new UniformSampler(program, uName));
                 aSamplers.push_back((RawTexture::TextureType)addSamplerType);
+            }
+
+            // g buffer active samplers
+            if(addGSamplerType != -1)
+            {
+                gSamplers[addGSamplerType].reset(new UniformSampler(program, uName));
+                aGSamplers.push_back((GBufferTextureId)addGSamplerType);
             }
         }
         else if(uType == SLDataType::FloatMat4)
@@ -324,43 +345,43 @@ void DeferredProgram::ExtractActiveUniforms()
         {
             int addF3MatType = -1;
             addF3MatType =
-                uName == "material.ambient" ? Material::Ambient :
-                uName == "material.diffuse" ? Material::Diffuse :
-                uName == "material.specular" ? Material::Specular :
-                uName == "material.emissive" ? Material::Emissive :
-                uName == "material.transparent" ? Material::Transparent : -1;
+                uName == "material.ambient" ? OGLMaterial::Ambient :
+                uName == "material.diffuse" ? OGLMaterial::Diffuse :
+                uName == "material.specular" ? OGLMaterial::Specular :
+                uName == "material.emissive" ? OGLMaterial::Emissive :
+                uName == "material.transparent" ? OGLMaterial::Transparent : -1;
 
             if(addF3MatType != -1)
             {
                 materialFloat3[addF3MatType].reset(new Uniform<glm::vec3>(program, uName));
-                aFloat3Material.push_back((Material::MaterialFloat3PropertyId)addF3MatType);
+                aFloat3Material.push_back((OGLMaterial::MaterialFloat3PropertyId)addF3MatType);
             }
         }
         else if(uType == SLDataType::Float)
         {
             int addF1MatType = -1;
             addF1MatType =
-                uName == "material.opacity" ? Material::Opacity :
-                uName == "material.shininess" ? Material::Shininess :
-                uName == "material.shininessStrenght" ? Material::ShininessStrenght :
-                uName == "material.refractionIndex" ? Material::RefractionIndex : -1;
+                uName == "material.opacity" ? OGLMaterial::Opacity :
+                uName == "material.shininess" ? OGLMaterial::Shininess :
+                uName == "material.shininessStrenght" ? OGLMaterial::ShininessStrenght :
+                uName == "material.refractionIndex" ? OGLMaterial::RefractionIndex : -1;
 
             if(addF1MatType != -1)
             {
                 materialFloat1[addF1MatType].reset(new Uniform<float>(program, uName));
-                aFloat1Material.push_back((Material::MaterialFloat1PropertyId)addF1MatType);
+                aFloat1Material.push_back((OGLMaterial::MaterialFloat1PropertyId)addF1MatType);
             }
         }
         else if(uType == SLDataType::UnsignedInt)
         {
             int addUint1MatType = -1;
             addUint1MatType =
-                uName == "material.useNormalsMap" ? Material::NormalMapping : -1;
+                uName == "material.useNormalsMap" ? OGLMaterial::NormalMapping : -1;
 
             if(addUint1MatType != -1)
             {
                 materialUInt1[addUint1MatType].reset(new Uniform<unsigned int>(program, uName));
-                aUInt1Material.push_back((Material::MaterialUInt1PropertyId)addUint1MatType);
+                aUInt1Material.push_back((OGLMaterial::MaterialUInt1PropertyId)addUint1MatType);
             }
         }
     }
@@ -384,7 +405,7 @@ void DeferredProgram::SetUniform(RawTexture::TextureType tId,
     }
 }
 
-void DeferredProgram::SetUniform(Material::MaterialFloat3PropertyId mF3Id,
+void DeferredProgram::SetUniform(OGLMaterial::MaterialFloat3PropertyId mF3Id,
                                  const glm::vec3 &val) const
 {
     if(materialFloat3[mF3Id])
@@ -393,7 +414,7 @@ void DeferredProgram::SetUniform(Material::MaterialFloat3PropertyId mF3Id,
     }
 }
 
-void DeferredProgram::SetUniform(Material::MaterialFloat1PropertyId mF1Id,
+void DeferredProgram::SetUniform(OGLMaterial::MaterialFloat1PropertyId mF1Id,
                                  const float val) const
 {
     if(materialFloat1[mF1Id])
@@ -402,7 +423,7 @@ void DeferredProgram::SetUniform(Material::MaterialFloat1PropertyId mF1Id,
     }
 }
 
-void DeferredProgram::SetUniform(Material::MaterialUInt1PropertyId mF1Id,
+void DeferredProgram::SetUniform(OGLMaterial::MaterialUInt1PropertyId mF1Id,
                                  const unsigned int val) const
 {
     if(materialUInt1[mF1Id])
@@ -413,8 +434,8 @@ void DeferredProgram::SetUniform(Material::MaterialUInt1PropertyId mF1Id,
 
 void DeferredProgram::SetUniform(GBufferTextureId tId, const int val) const
 {
-    if(samplers[(unsigned int)tId])
+    if(gSamplers[(unsigned int)tId])
     {
-        samplers[(unsigned int)tId]->Set(val);
+        gSamplers[(unsigned int)tId]->Set(val);
     }
 }

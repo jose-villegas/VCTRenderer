@@ -3,6 +3,23 @@
 
 class Material
 {
+    public:
+        glm::vec3 ambient;
+        glm::vec3 diffuse;
+        glm::vec3 specular;
+        glm::vec3 emissive;
+        glm::vec3 transparent;
+
+        float opacity;
+        float shininess;
+        float shininessStrenght;
+        float refractionIndex;
+
+        unsigned int materialFlags;
+};
+
+class OGLMaterial : public Material
+{
     private:
         std::array <std::shared_ptr<OGLTexture2D>,
             RawTexture::TEXTURE_TYPE_MAX> textures;
@@ -53,23 +70,12 @@ class Material
 
         std::string name;
 
-        glm::vec3 ambient;
-        glm::vec3 diffuse;
-        glm::vec3 specular;
-        glm::vec3 emissive;
-        glm::vec3 transparent;
-
-        float opacity;
-        float shininess;
-        float shininessStrenght;
-        float refractionIndex;
-
         bool HasTexture(RawTexture::TextureType texType) const;
         void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                         RawTexture::TextureType texType);
         void SetMaterialUniforms();
 
-        Material();
-        ~Material();
+        OGLMaterial();
+        virtual ~OGLMaterial();
 };
 

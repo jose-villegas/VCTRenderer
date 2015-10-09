@@ -49,7 +49,7 @@ void EngineBase::MainLoop()
         {
             renderer->Render(
                 assetLoader->GetScene(execInfo.activeScene),
-                *assetLoader->GetScene(execInfo.activeScene)
+                assetLoader->GetScene(execInfo.activeScene)
                 .cameras[execInfo.activeCamera]
             );
         }
