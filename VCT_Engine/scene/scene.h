@@ -17,6 +17,7 @@ class Scene
         std::vector<std::shared_ptr<OGLMaterial>> materials;
 
         std::vector<Camera> cameras;
+        // default directional light keep at index:0
         std::vector<Light> lights;
 
         Node rootNode;

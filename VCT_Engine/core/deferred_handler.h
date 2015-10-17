@@ -2,6 +2,7 @@
 #include "scene\texture.h"
 #include "types\transform_matrices.h"
 #include "scene\material.h"
+#include "scene\light.h"
 
 enum class GBufferTextureId : unsigned int
 {
@@ -10,6 +11,12 @@ enum class GBufferTextureId : unsigned int
     Albedo,
     Specular,
     GBUFFER_TEXTURE_TYPE_MAX
+};
+
+enum class DeferredStage : unsigned int
+{
+    Geometry,
+    Lighting
 };
 
 class DeferredProgram
@@ -44,16 +51,41 @@ class DeferredProgram
         std::vector<OGLMaterial::MaterialUInt1PropertyId> aUInt1Material;
 
         // light pass uniforms
-        oglplus::Uniform<glm::vec3> viewPosLightpass;
-        oglplus::UniformBlock lightsUBlock;
-        oglplus::Buffer lightUBufferObject;
+        struct LightUniform
+        {
+            oglplus::Uniform<float> angleInnerCone;
+            oglplus::Uniform<float> angleOuterCone;
+            oglplus::Uniform<glm::vec3> ambient;
+            oglplus::Uniform<glm::vec3> diffuse;
+            oglplus::Uniform<glm::vec3> specular;
+
+            oglplus::Uniform<glm::vec3> position;
+            oglplus::Uniform<glm::vec3> direction;
+
+            struct AttenuationUniform
+            {
+                oglplus::Uniform<float> constant;
+                oglplus::Uniform<float> linear;
+                oglplus::Uniform<float> quadratic;
+            } attenuation;
+
+            oglplus::Uniform<unsigned int> lightType;
+        };
+
+        LightUniform directionalLight;
+        std::vector<LightUniform> pointLight;
+        std::vector<LightUniform> spotLight;
+        oglplus::Uniform<glm::vec3> viewPosUniform;
 
         std::array<std::unique_ptr<oglplus::UniformSampler>,
             (int)GBufferTextureId::GBUFFER_TEXTURE_TYPE_MAX> gSamplers;
 
         std::vector<GBufferTextureId> aGSamplers;
+
+        void ExtractLightPassUniform(oglplus::SLDataType uType, std::string uName);
+        void ExtractGeometryPassUniform(oglplus::SLDataType uType, std::string uName);
     public:
-        void ExtractActiveUniforms();
+        void ExtractActiveUniforms(DeferredStage dStage);
 
         void SetUniform(TransformMatrices::TransformMatrixId mId,
                         const glm::mat4x4 &val) const;
@@ -85,6 +117,7 @@ class DeferredProgram
 class DeferredHandler
 {
     public:
+
         // deferred shader programs handlers
         DeferredProgram geometryPass;
         DeferredProgram lightPass;
@@ -116,7 +149,8 @@ class DeferredHandler
         void ReadGBuffer(const GBufferTextureId &gBufferTexType);
         // binds and sets as active all gbuffer textures ids
         void ActivateGBufferTextures();
-        void SetLightPassUniforms(const glm::vec3 &viewPosition);
+        void SetLightPassUniforms(const glm::vec3 &viewPosition,
+                                  const std::vector<Light> &lights);
         // returns texture handlers to gbuffer color buffers
         const oglplus::Texture &GetGBufferTexture(GBufferTextureId tID) const;
 

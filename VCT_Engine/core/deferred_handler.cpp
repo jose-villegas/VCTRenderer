@@ -80,10 +80,7 @@ void DeferredHandler::LoadShaders()
     // link attached shaders
     lightPass.program.Link().Use();
     // extract relevant uniforms
-    lightPass.ExtractActiveUniforms();
-    // extract uniform buffer object
-    lightPass.lightsUBlock = oglplus::UniformBlock(lightPass.program,
-                             "AvailableLights");
+    lightPass.ExtractActiveUniforms(DeferredStage::Lighting);
     // close source files
     vsLightPassFile.close(); fsLightPassFile.close();
     // geometry pass shader source code and compile
@@ -108,7 +105,7 @@ void DeferredHandler::LoadShaders()
     // link attached shaders
     geometryPass.program.Link().Use();
     // extract relevant uniforms
-    geometryPass.ExtractActiveUniforms();
+    geometryPass.ExtractActiveUniforms(DeferredStage::Geometry);
     // close source files
     vsGeomPassFile.close(); fsGeomPassFile.close();
 }
@@ -238,9 +235,11 @@ void DeferredHandler::ActivateGBufferTextures()
     .Bind(oglplus::TextureTarget::_2D);
 }
 
-void DeferredHandler::SetLightPassUniforms(const glm::vec3 &viewPosition)
+void DeferredHandler::SetLightPassUniforms(const glm::vec3 &viewPosition,
+        const std::vector<Light> &lights)
 {
-    lightPass.viewPosLightpass.Set(viewPosition);
+    using namespace oglplus;
+    lightPass.viewPosUniform.Set(viewPosition);
     lightPass.SetUniform(
         GBufferTextureId::Position,
         (unsigned int)GBufferTextureId::Position
@@ -265,124 +264,173 @@ const oglplus::Texture & DeferredHandler::GetGBufferTexture(
     return bTextures[(unsigned int)tID];
 }
 
-void DeferredProgram::ExtractActiveUniforms()
+void DeferredProgram::ExtractActiveUniforms(DeferredStage dStage)
 {
     using namespace oglplus;
     Program::ActiveUniformRange uRange = program.ActiveUniforms();
-    ;
 
     for(unsigned int i = 0; i < uRange.Size(); i++)
     {
         std::string uName = uRange.At(i).Name();
         SLDataType uType = uRange.At(i).Type();
+        dStage == DeferredStage::Lighting
+        ? ExtractLightPassUniform(uType, uName)
+        : ExtractGeometryPassUniform(uType, uName);
+    }
+}
 
-        if(uType == SLDataType::FloatVec3)
+void DeferredProgram::ExtractLightPassUniform(oglplus::SLDataType uType,
+        std::string uName)
+{
+    using namespace oglplus;
+
+    // extract light uniform data
+
+    if(uType == SLDataType::FloatVec3)
+    {
+        Uniform<glm::vec3> *vec3ToSet =
+            uName == "viewPosition" ? &viewPosUniform : // camera position, for specular
+            uName == "directionalLight.ambient" ? &directionalLight.ambient :
+            uName == "directionalLight.diffuse" ? &directionalLight.diffuse :
+            uName == "directionalLight.specular" ? &directionalLight.specular :
+            uName == "directionalLight.position" ? &directionalLight.position :
+            uName == "directionalLight.direction" ? &directionalLight.direction : nullptr;
+
+        if(vec3ToSet != nullptr) *vec3ToSet = Uniform<glm::vec3>(program, uName);
+    }
+
+    if(uType == SLDataType::Float)
+    {
+        Uniform<float> *vec3ToSet =
+            uName == "directionalLight.angleInnerCone" ? &directionalLight.angleInnerCone :
+            uName == "directionalLight.angleOuterCone" ? &directionalLight.angleOuterCone :
+            uName == "directionalLight.attenuation.constant" ?
+            &directionalLight.attenuation.constant :
+            uName == "directionalLight.attenuation.linear" ?
+            &directionalLight.attenuation.linear :
+            uName == "directionalLight.attenuation.quadratic" ?
+            &directionalLight.attenuation.quadratic : nullptr;
+
+        if(vec3ToSet != nullptr) *vec3ToSet = Uniform<float>(program, uName);
+    }
+
+    if(uType == SLDataType::UnsignedInt)
+    {
+        Uniform<unsigned int> *vec3ToSet =
+            uName == "directionalLight.lightType" ? &directionalLight.lightType : nullptr;
+
+        if(vec3ToSet != nullptr) *vec3ToSet = Uniform<unsigned int>(program, uName);
+    }
+
+    if(uType == SLDataType::Sampler2D)
+    {
+        int addGSamplerType = -1;
+        // gbuffer samplers to read
+        addGSamplerType =
+            uName == "gPosition" ? (int)GBufferTextureId::Position :
+            uName == "gNormal" ? (int)GBufferTextureId::Normal :
+            uName == "gAlbedo" ? (int)GBufferTextureId::Albedo :
+            uName == "gSpecular" ? (int)GBufferTextureId::Specular : -1;
+
+        // g buffer active samplers
+        if(addGSamplerType != -1)
         {
-            uName == "viewPosition"
-            ? viewPosLightpass =
-                oglplus::Uniform<glm::vec3>
-                (program, "viewPosition") : 0;
+            gSamplers[addGSamplerType].reset(new UniformSampler(program, uName));
+            aGSamplers.push_back((GBufferTextureId)addGSamplerType);
         }
+    }
+}
 
-        if(uType == SLDataType::Sampler2D)
+void DeferredProgram::ExtractGeometryPassUniform(oglplus::SLDataType uType,
+        std::string uName)
+{
+    using namespace oglplus;
+
+    if(uType == SLDataType::Sampler2D)
+    {
+        int addSamplerType = -1;
+        // texture samplers
+        addSamplerType =
+            uName == "noneMap" ? RawTexture::None :
+            uName == "diffuseMap" ? RawTexture::Diffuse :
+            uName == "specularMap" ? RawTexture::Specular :
+            uName == "ambientMap" ? RawTexture::Ambient :
+            uName == "emissiveMap" ? RawTexture::Emissive :
+            uName == "heightMap" ? RawTexture::Height :
+            uName == "normalsMap" ? RawTexture::Normals :
+            uName == "shininessMap" ? RawTexture::Shininess :
+            uName == "opacityMap" ? RawTexture::Opacity :
+            uName == "displacementMap" ? RawTexture::Displacement :
+            uName == "lightMap" ? RawTexture::Lightmap :
+            uName == "reflectionMap" ? RawTexture::Reflection :
+            uName == "unknowMap" ? RawTexture::Unknow : -1;
+
+        // geometry pass active samplers
+        if(addSamplerType != -1)
         {
-            int addSamplerType = -1, addGSamplerType = -1;
-            // texture samplers
-            addSamplerType =
-                uName == "noneMap" ? RawTexture::None :
-                uName == "diffuseMap" ? RawTexture::Diffuse :
-                uName == "specularMap" ? RawTexture::Specular :
-                uName == "ambientMap" ? RawTexture::Ambient :
-                uName == "emissiveMap" ? RawTexture::Emissive :
-                uName == "heightMap" ? RawTexture::Height :
-                uName == "normalsMap" ? RawTexture::Normals :
-                uName == "shininessMap" ? RawTexture::Shininess :
-                uName == "opacityMap" ? RawTexture::Opacity :
-                uName == "displacementMap" ? RawTexture::Displacement :
-                uName == "lightMap" ? RawTexture::Lightmap :
-                uName == "reflectionMap" ? RawTexture::Reflection :
-                uName == "unknowMap" ? RawTexture::Unknow : -1;
-            // gbuffer samplers to read
-            addGSamplerType =
-                uName == "gPosition" ? (int)GBufferTextureId::Position :
-                uName == "gNormal" ? (int)GBufferTextureId::Normal :
-                uName == "gAlbedo" ? (int)GBufferTextureId::Albedo :
-                uName == "gSpecular" ? (int)GBufferTextureId::Specular : -1;
-
-            // geometry pass active samplers
-            if(addSamplerType != -1)
-            {
-                samplers[addSamplerType].reset(new UniformSampler(program, uName));
-                aSamplers.push_back((RawTexture::TextureType)addSamplerType);
-            }
-
-            // g buffer active samplers
-            if(addGSamplerType != -1)
-            {
-                gSamplers[addGSamplerType].reset(new UniformSampler(program, uName));
-                aGSamplers.push_back((GBufferTextureId)addGSamplerType);
-            }
+            samplers[addSamplerType].reset(new UniformSampler(program, uName));
+            aSamplers.push_back((RawTexture::TextureType)addSamplerType);
         }
-        else if(uType == SLDataType::FloatMat4)
-        {
-            int addMat4Type = -1;
-            addMat4Type =
-                uName == "matrices.modelView" ? TransformMatrices::ModelView :
-                uName == "matrices.modelViewProjection" ?
-                TransformMatrices::ModelViewProjection :
-                uName == "matrices.model" ? TransformMatrices::Model :
-                uName == "matrices.view" ? TransformMatrices::View :
-                uName == "matrices.projection" ? TransformMatrices::Projection :
-                uName == "matrices.normal" ? TransformMatrices::Normal : -1;
+    }
+    else if(uType == SLDataType::FloatMat4)
+    {
+        int addMat4Type = -1;
+        addMat4Type =
+            uName == "matrices.modelView" ? TransformMatrices::ModelView :
+            uName == "matrices.modelViewProjection" ?
+            TransformMatrices::ModelViewProjection :
+            uName == "matrices.model" ? TransformMatrices::Model :
+            uName == "matrices.view" ? TransformMatrices::View :
+            uName == "matrices.projection" ? TransformMatrices::Projection :
+            uName == "matrices.normal" ? TransformMatrices::Normal : -1;
 
-            if(addMat4Type != -1)
-            {
-                matrices[addMat4Type].reset(new Uniform<glm::mat4x4>(program, uName));
-                aMatrices.push_back((TransformMatrices::TransformMatrixId)addMat4Type);
-            }
+        if(addMat4Type != -1)
+        {
+            matrices[addMat4Type].reset(new Uniform<glm::mat4x4>(program, uName));
+            aMatrices.push_back((TransformMatrices::TransformMatrixId)addMat4Type);
         }
-        else if(uType == SLDataType::FloatVec3)
-        {
-            int addF3MatType = -1;
-            addF3MatType =
-                uName == "material.ambient" ? OGLMaterial::Ambient :
-                uName == "material.diffuse" ? OGLMaterial::Diffuse :
-                uName == "material.specular" ? OGLMaterial::Specular :
-                uName == "material.emissive" ? OGLMaterial::Emissive :
-                uName == "material.transparent" ? OGLMaterial::Transparent : -1;
+    }
+    else if(uType == SLDataType::FloatVec3)
+    {
+        int addF3MatType = -1;
+        addF3MatType =
+            uName == "material.ambient" ? OGLMaterial::Ambient :
+            uName == "material.diffuse" ? OGLMaterial::Diffuse :
+            uName == "material.specular" ? OGLMaterial::Specular :
+            uName == "material.emissive" ? OGLMaterial::Emissive :
+            uName == "material.transparent" ? OGLMaterial::Transparent : -1;
 
-            if(addF3MatType != -1)
-            {
-                materialFloat3[addF3MatType].reset(new Uniform<glm::vec3>(program, uName));
-                aFloat3Material.push_back((OGLMaterial::MaterialFloat3PropertyId)addF3MatType);
-            }
+        if(addF3MatType != -1)
+        {
+            materialFloat3[addF3MatType].reset(new Uniform<glm::vec3>(program, uName));
+            aFloat3Material.push_back((OGLMaterial::MaterialFloat3PropertyId)addF3MatType);
         }
-        else if(uType == SLDataType::Float)
-        {
-            int addF1MatType = -1;
-            addF1MatType =
-                uName == "material.opacity" ? OGLMaterial::Opacity :
-                uName == "material.shininess" ? OGLMaterial::Shininess :
-                uName == "material.shininessStrenght" ? OGLMaterial::ShininessStrenght :
-                uName == "material.refractionIndex" ? OGLMaterial::RefractionIndex : -1;
+    }
+    else if(uType == SLDataType::Float)
+    {
+        int addF1MatType = -1;
+        addF1MatType =
+            uName == "material.opacity" ? OGLMaterial::Opacity :
+            uName == "material.shininess" ? OGLMaterial::Shininess :
+            uName == "material.shininessStrenght" ? OGLMaterial::ShininessStrenght :
+            uName == "material.refractionIndex" ? OGLMaterial::RefractionIndex : -1;
 
-            if(addF1MatType != -1)
-            {
-                materialFloat1[addF1MatType].reset(new Uniform<float>(program, uName));
-                aFloat1Material.push_back((OGLMaterial::MaterialFloat1PropertyId)addF1MatType);
-            }
+        if(addF1MatType != -1)
+        {
+            materialFloat1[addF1MatType].reset(new Uniform<float>(program, uName));
+            aFloat1Material.push_back((OGLMaterial::MaterialFloat1PropertyId)addF1MatType);
         }
-        else if(uType == SLDataType::UnsignedInt)
-        {
-            int addUint1MatType = -1;
-            addUint1MatType =
-                uName == "material.useNormalsMap" ? OGLMaterial::NormalMapping : -1;
+    }
+    else if(uType == SLDataType::UnsignedInt)
+    {
+        int addUint1MatType = -1;
+        addUint1MatType =
+            uName == "material.useNormalsMap" ? OGLMaterial::NormalMapping : -1;
 
-            if(addUint1MatType != -1)
-            {
-                materialUInt1[addUint1MatType].reset(new Uniform<unsigned int>(program, uName));
-                aUInt1Material.push_back((OGLMaterial::MaterialUInt1PropertyId)addUint1MatType);
-            }
+        if(addUint1MatType != -1)
+        {
+            materialUInt1[addUint1MatType].reset(new Uniform<unsigned int>(program, uName));
+            aUInt1Material.push_back((OGLMaterial::MaterialUInt1PropertyId)addUint1MatType);
         }
     }
 }

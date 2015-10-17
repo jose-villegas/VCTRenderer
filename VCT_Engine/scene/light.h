@@ -14,6 +14,7 @@ class Light
     public:
         enum LightType
         {
+            Disabled,
             Directional,
             Point,
             Spot

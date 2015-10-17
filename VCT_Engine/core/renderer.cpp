@@ -56,7 +56,7 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     // bind gbuffer for reading
     deferredHandler.UseLightPass();
     deferredHandler.ActivateGBufferTextures();
-    deferredHandler.SetLightPassUniforms(activeCamera.position);
+    deferredHandler.SetLightPassUniforms(activeCamera.position, activeScene.lights);
     deferredHandler.RenderFSQuad();
 }
 
