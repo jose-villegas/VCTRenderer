@@ -1,0 +1,732 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{BA0B56C4-8C6D-3A21-82A3-C1BF0F964678}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>assimp</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\Debug\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">assimp.dir\Debug\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">assimpd</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\Release\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">assimp.dir\Release\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">assimp</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\MinSizeRel\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">assimp.dir\MinSizeRel\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">assimp</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\RelWithDebInfo\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">assimp.dir\RelWithDebInfo\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">assimp</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;ASSIMP_BUILD_BOOST_WORKAROUND;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";assimp_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;ASSIMP_BUILD_BOOST_WORKAROUND;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";assimp_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 /debug %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\contrib\zlib\Debug\zlibstaticd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/Debug/assimpd.lib</ImportLibrary>
+      <ProgramDataBaseFile>F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/Debug/assimpd.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_BOOST_WORKAROUND;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";assimp_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_BOOST_WORKAROUND;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";assimp_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\contrib\zlib\Release\zlibstatic.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/Release/assimp.lib</ImportLibrary>
+      <ProgramDataBaseFile>F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/Release/assimp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_BOOST_WORKAROUND;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";assimp_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_BOOST_WORKAROUND;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";assimp_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\contrib\zlib\MinSizeRel\zlibstatic.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/MinSizeRel/assimp.lib</ImportLibrary>
+      <ProgramDataBaseFile>F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/MinSizeRel/assimp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_BOOST_WORKAROUND;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";assimp_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ASSIMP_BUILD_BOOST_WORKAROUND;ASSIMP_BUILD_DLL_EXPORT;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";assimp_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\..\contrib\unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 /debug %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\contrib\zlib\RelWithDebInfo\zlibstatic.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/RelWithDebInfo/assimp.lib</ImportLibrary>
+      <ProgramDataBaseFile>F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/RelWithDebInfo/assimp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/code/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-HF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp" "-BF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build" --check-stamp-file "F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/code/CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/code/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-HF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp" "-BF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build" --check-stamp-file "F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/code/CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/code/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-HF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp" "-BF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build" --check-stamp-file "F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/code/CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/code/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-HF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp" "-BF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build" --check-stamp-file "F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/code/CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\code\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\fast_atof.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\qnan.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BaseImporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BaseProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Importer.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ScenePrivate.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ByteSwap.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DefaultProgressHandler.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DefaultIOStream.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DefaultIOSystem.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CInterfaceIOWrapper.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Hash.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFF.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MemoryIOWrapper.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ParsingUtils.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\StreamReader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\StringComparison.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SGSpatialSort.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\VertexTriangleAdjacency.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\GenericProperty.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SpatialSort.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SceneCombiner.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ScenePreprocessor.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SkeletonMeshBuilder.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SplitByBoneCountProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SmoothingGroups.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\StandardShapes.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TargetAnimation.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\RemoveComments.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Subdivision.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Vertex.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LineSplitter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TinyFormatter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Profiler.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LogAux.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Bitmap.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\LogStream.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\Logger.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\NullLogger.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Win32DebugLogStream.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FileLogStream.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\StdOStreamLogStream.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlobIOSystem.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CalcTangentsProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ComputeUVMappingProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ConvertToLHProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FindDegenerates.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FindInstancesProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FindInvalidDataProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FixNormalsStep.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\GenFaceNormalsProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\GenVertexNormalsProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PretransformVertices.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ImproveCacheLocality.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\JoinVerticesProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LimitBoneWeightsProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\RemoveRedundantMaterials.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\RemoveVCProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SortByPTypeProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SplitLargeMeshes.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TextureTransform.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TriangulateProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ValidateDataStructure.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OptimizeGraph.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OptimizeMeshes.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DeboneProcess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ProcessHelper.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PolyTools.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MakeVerboseFormat.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\3DSHelper.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\3DSLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ACLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ASELoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ASEParser.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\B3DImporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BVHLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ColladaHelper.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ColladaLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ColladaParser.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ColladaExporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DXFLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DXFHelper.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CSMLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\HMPFileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\HMPLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\HalfLifeFileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IRRLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IRRMeshLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IRRShared.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWOAnimation.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWOFileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWOLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWSLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD2FileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD2Loader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD2NormalTable.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD3FileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD3Loader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD5Loader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD5Parser.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDCFileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDCLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDCNormalTable.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDLDefaultColorMap.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDLFileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDLLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MaterialSystem.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\NFFLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OFFLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjFileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjFileImporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjFileMtlImporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjFileParser.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjTools.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjExporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreImporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreStructs.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreParsingUtils.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreBinarySerializer.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreXmlSerializer.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PlyLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PlyParser.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PlyExporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3DLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3BSPFileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3BSPFileParser.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3BSPFileImporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3BSPZipArchive.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\RawLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SMDLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STLLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STLExporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TerragenLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\UnrealLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\XFileHelper.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\XFileImporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\XFileParser.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD4FileData.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MS3DLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\COBLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\COBScene.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderDNA.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderDNA.inl" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderScene.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderSceneGen.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderIntermediate.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderModifier.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderBMesh.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderTessellator.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\NDOLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCReaderGen.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCUtil.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STEPFile.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STEPFileReader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STEPFileEncoding.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\XGLLoader.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXCompileConfig.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXImporter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXParser.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXTokenizer.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXImportSettings.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXConverter.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXUtil.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXDocument.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXProperties.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\irrXMLWrapper.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\irrXML\CXMLReaderImpl.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\irrXML\heapsort.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\irrXML\irrArray.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\irrXML\irrString.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\irrXML\irrTypes.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\irrXML\irrXML.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\ConvertUTF\ConvertUTF.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\unzip\crypt.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\unzip\ioapi.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\unzip\unzip.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\common\shapes.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\common\utils.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\sweep\advancing_front.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\sweep\cdt.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\sweep\sweep.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\sweep\sweep_context.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\clipper\clipper.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\math\common_factor_rt.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\foreach.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\format.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\scoped_array.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\scoped_ptr.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\shared_array.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\shared_ptr.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\make_shared.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\static_assert.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround\boost\tuple\tuple.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\anim.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\ai_assert.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\camera.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\color4.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\color4.inl" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\config.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\defs.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\cfileio.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\light.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\material.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\material.inl" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\matrix3x3.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\matrix3x3.inl" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\matrix4x4.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\matrix4x4.inl" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\mesh.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\postprocess.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\quaternion.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\quaternion.inl" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\scene.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\metadata.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\texture.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\types.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\vector2.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\vector2.inl" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\vector3.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\vector3.inl" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\version.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\cimport.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\importerdesc.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\Importer.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\IOStream.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\IOSystem.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\cexport.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\Exporter.hpp" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include\assimp\Compiler\pstdint.h" />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Assimp.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BaseImporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BaseProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PostStepRegistry.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ImporterRegistry.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DefaultIOStream.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DefaultIOSystem.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Importer.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SGSpatialSort.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\VertexTriangleAdjacency.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SpatialSort.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SceneCombiner.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ScenePreprocessor.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SkeletonMeshBuilder.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SplitByBoneCountProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\StandardShapes.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TargetAnimation.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\RemoveComments.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Subdivision.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Bitmap.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DefaultLogger.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Exporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\AssimpCExport.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CalcTangentsProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ComputeUVMappingProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ConvertToLHProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FindDegenerates.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FindInstancesProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FindInvalidDataProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FixNormalsStep.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\GenFaceNormalsProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\GenVertexNormalsProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PretransformVertices.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ImproveCacheLocality.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\JoinVerticesProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LimitBoneWeightsProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\RemoveRedundantMaterials.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\RemoveVCProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SortByPTypeProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SplitLargeMeshes.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TextureTransform.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TriangulateProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ValidateDataStructure.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OptimizeGraph.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OptimizeMeshes.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DeboneProcess.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ProcessHelper.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MakeVerboseFormat.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\3DSConverter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\3DSLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ACLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ASELoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ASEParser.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\B3DImporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BVHLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ColladaLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ColladaParser.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ColladaExporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\DXFLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\CSMLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\HMPLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IRRLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IRRMeshLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IRRShared.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWOAnimation.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWOBLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWOLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWOMaterial.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\LWSLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD2Loader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD3Loader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD5Loader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MD5Parser.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDCLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDLLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MDLMaterialLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MaterialSystem.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\NFFLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OFFLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjFileImporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjFileMtlImporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjFileParser.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\ObjExporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreImporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreStructs.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreBinarySerializer.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreXmlSerializer.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\OgreMaterial.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PlyLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PlyParser.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\PlyExporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3DLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3BSPFileParser.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3BSPFileImporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\Q3BSPZipArchive.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\RawLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\SMDLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STLLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STLExporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\TerragenLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\UnrealLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\XFileImporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\XFileParser.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\MS3DLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\COBLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderDNA.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderScene.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderModifier.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderBMesh.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BlenderTessellator.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\NDOLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCReaderGen.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCUtil.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCGeometry.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCMaterial.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCProfile.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCCurve.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCBoolean.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\IFCOpenings.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STEPFileReader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\STEPFileEncoding.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\XGLLoader.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXImporter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXParser.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXTokenizer.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXConverter.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXUtil.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXDocument.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXProperties.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXMeshGeometry.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXMaterial.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXModel.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXAnimation.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXNodeAttribute.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXDeformer.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXBinaryTokenizer.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\FBXDocumentUtil.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\irrXML\irrXML.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\ConvertUTF\ConvertUTF.c" >
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\unzip\ioapi.c" >
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\unzip\unzip.c" >
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\common\shapes.cc"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\sweep\advancing_front.cc"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\sweep\cdt.cc"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\sweep\sweep.cc"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\poly2tri\poly2tri\sweep\sweep_context.cc"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\clipper\clipper.cpp"  />
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\AssimpPCH.cpp"  />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/ZERO_CHECK.vcxproj">
+      <Project>DBA26C3B-BE24-3B88-B8EC-5624D3FC0185</Project>
+    </ProjectReference>
+    <ProjectReference Include="F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/contrib/zlib/zlibstatic.vcxproj">
+      <Project>E9634D9F-94B5-3E41-8E58-E61FEDE6BD63</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

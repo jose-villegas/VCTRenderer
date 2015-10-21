@@ -1,0 +1,10 @@
+prefix=F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_install
+exec_prefix=F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_install/bin
+libdir=F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_install/lib
+includedir=F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_install/include/assimp
+
+Name: Assimp
+Description: Import various well-known 3D model formats in an uniform manner.
+Version: 3.1.1
+Libs: -L${libdir} -lassimp
+Cflags: -I${includedir}

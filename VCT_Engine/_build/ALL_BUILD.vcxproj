@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{79B0EC13-AB18-35AC-98D2-E6FD11486D33}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\include;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\code\BoostWorkaround;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-HF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp" "-BF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build" --check-stamp-file "F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeSystemSpecificInitialize.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeCCompiler.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCommonLanguageInclude.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\revision.h.in;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPkgConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeParseArguments.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\PrecompiledHeader.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp.pc.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\cmake_uninstall.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp-config.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp-config-version.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\FindZLIB.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\FindPkgMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPkgConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckTypeSize.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFileCXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckFunctionExists.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-HF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp" "-BF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build" --check-stamp-file "F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeSystemSpecificInitialize.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeCCompiler.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCommonLanguageInclude.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\revision.h.in;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPkgConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeParseArguments.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\PrecompiledHeader.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp.pc.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\cmake_uninstall.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp-config.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp-config-version.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\FindZLIB.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\FindPkgMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPkgConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckTypeSize.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFileCXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckFunctionExists.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-HF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp" "-BF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build" --check-stamp-file "F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeSystemSpecificInitialize.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeCCompiler.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCommonLanguageInclude.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\revision.h.in;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPkgConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeParseArguments.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\PrecompiledHeader.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp.pc.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\cmake_uninstall.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp-config.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp-config-version.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\FindZLIB.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\FindPkgMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPkgConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckTypeSize.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFileCXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckFunctionExists.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" "-HF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp" "-BF:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build" --check-stamp-file "F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/dependencies/assimp/CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeSystemSpecificInitialize.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeCCompiler.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\3.4.0-rc1\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeCommonLanguageInclude.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\revision.h.in;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPkgConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeParseArguments.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\PrecompiledHeader.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp.pc.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\cmake_uninstall.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp-config.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\assimp-config-version.cmake.in;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\FindZLIB.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\cmake-modules\FindPkgMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPkgConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckTypeSize.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckIncludeFileCXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.4\Modules\CheckFunctionExists.cmake;F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/code/assimp.vcxproj">
+      <Project>BA0B56C4-8C6D-3A21-82A3-C1BF0F964678</Project>
+    </ProjectReference>
+    <ProjectReference Include="F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/_build/contrib/zlib/zlibstatic.vcxproj">
+      <Project>E9634D9F-94B5-3E41-8E58-E61FEDE6BD63</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

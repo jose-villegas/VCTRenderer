@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\adler32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\crc32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\deflate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\gzclose.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\gzlib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\gzread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\gzwrite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\inflate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\infback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\inftrees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\inffast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\trees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\uncompr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\zutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\_build\contrib\zlib\zconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\zlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\crc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\deflate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\gzguts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\inffast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\inffixed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\inflate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\inftrees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\trees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\zutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\Documents\Visual Studio 2015\Projects\VCT_Engine\VCT_Engine\dependencies\assimp\contrib\zlib\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2DADA933-7252-3B5B-9B9E-1681BE2AA9E4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{5AEDA2CE-6617-372F-8BC2-356A7BC26CF0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
