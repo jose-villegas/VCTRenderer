@@ -1,0 +1,11 @@
+prefix=C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine
+exec_prefix=C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/bin
+libdir=C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/lib
+includedir=C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine/include/assimp
+
+Name: Assimp
+Description: Import various well-known 3D model formats in an uniform manner.
+Version: 3.1.1
+Libs: -L${libdir} -lassimp
+Libs.private:  
+Cflags: -I${includedir}

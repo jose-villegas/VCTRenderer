@@ -1,0 +1,13 @@
+prefix=C:/Users/Jose/Documents/Tesis/source/VCT_Engine/VCT_Engine
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib64
+
+Name: GLFW
+Description: A multi-platform library for OpenGL, window and input
+Version: 3.1.1
+URL: http://www.glfw.org/
+Requires.private: 
+Libs: -L${libdir} -lglfw3
+Libs.private:  -lgdi32 -lopengl32
+Cflags: -I${includedir}
