@@ -20,7 +20,7 @@ void Renderer::Initialize()
 void Renderer::Render(Scene &activeScene, Camera &activeCamera)
 {
     using namespace oglplus;
-    // bind gbuffer for writing
+    // bind g buffer for writing
     deferredHandler.BindGBuffer(FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
@@ -48,12 +48,12 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     // update frustum planes with new viewProjection matrix
     if(FrustumCulling) transformMatrices.UpdateFrustumPlanes(viewFrustum);
 
-    // draw whole scene hierachy tree from root node
+    // draw whole scene hierarchy tree from root node
     activeScene.rootNode.DrawRecursive();
     // start light pass
     DefaultFramebuffer().Bind(FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
-    // bind gbuffer for reading
+    // bind g buffer for reading
     deferredHandler.UseLightPass();
     deferredHandler.ActivateGBufferTextures();
     deferredHandler.SetLightPassUniforms(activeCamera.position, activeScene.lights);

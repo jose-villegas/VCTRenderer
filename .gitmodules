@@ -1,9 +1,6 @@
 [submodule "VCT_Engine/dependencies/glfw"]
 	path = VCT_Engine/dependencies/glfw
 	url = https://github.com/glfw/glfw.git
-[submodule "VCT_Engine/dependencies/yaml-cpp"]
-	path = VCT_Engine/dependencies/yaml-cpp
-	url = https://github.com/jbeder/yaml-cpp.git
 [submodule "VCT_Engine/dependencies/glew-cmake"]
 	path = VCT_Engine/dependencies/glew-cmake
 	url = https://github.com/Perlmint/glew-cmake.git
