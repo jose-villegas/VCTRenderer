@@ -72,9 +72,9 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     }
 
     // if these objects don't exist in scene, they are created by default
-
     if(scene->HasCameras())
     {
+		outScene.cameras.clear();
         for(unsigned int i = 0; i < scene->mNumCameras; i++)
         {
             Camera newCamera;
@@ -82,23 +82,16 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
             outScene.cameras.push_back(std::move(newCamera));
         }
     }
-    else
-    {
-        outScene.cameras.push_back(std::move(Camera()));
-    }
 
     if(scene->HasLights())
     {
+		outScene.lights.clear();
         for(unsigned int i = 0; i < scene->mNumLights; i++)
         {
             Light newLight;
             ImportLight(scene->mLights[i], newLight);
             outScene.lights.push_back(std::move(newLight));
         }
-    }
-    else
-    {
-        outScene.lights.push_back(std::move(Light()));
     }
 
     return true;

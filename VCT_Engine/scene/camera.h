@@ -1,6 +1,9 @@
 #pragma once
 class Camera
 {
+	private:
+		static Camera * mainCamera;
+
     public:
         Camera();
         virtual ~Camera();
@@ -15,6 +18,8 @@ class Camera
 
         glm::mat4x4 GetViewMatrix() const;
         glm::mat4x4 GetProjecctionMatrix() const;
-        glm::mat4x4 GetViewProjectionMatrix() const;
+
+		void SetMainCamera();
+		static Camera * Main();
 };
 

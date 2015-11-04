@@ -97,6 +97,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)lib64</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glewd.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;FreeImaged.lib;tbb_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(ProjectDir)lib64\*.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,6 +119,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glewd.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;FreeImaged.lib;tbb_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -138,6 +144,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)lib64</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(ProjectDir)lib64\*.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -160,6 +169,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="types\frustum.cpp" />

@@ -20,7 +20,7 @@ class EngineAssets
 
         Scene &GetScene(const unsigned int index);
         const std::vector<const char *> &GetAvailableScenes() { return sceneFilepaths; }
-        unsigned int GetNumberOfAvailableScenes() { return (unsigned int)sceneFilepaths.size(); }
+        unsigned int SceneCount() { return (unsigned int)sceneFilepaths.size(); }
         void LoadAssets();
 };
 
