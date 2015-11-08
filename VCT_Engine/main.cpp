@@ -6,9 +6,9 @@
     #include "vld.h"
 #endif
 
-int main(int argc, char* argv[])
+int main(int argc, char * argv[])
 {
-    #ifndef NDEBUG // DEBUG
+#ifndef NDEBUG // DEBUG
     // pause in positive case
     bool errorCaptured = false;
 
@@ -18,12 +18,12 @@ int main(int argc, char* argv[])
         // relevant data and start rendering main loop
         EngineBase::Instance()->MainLoop();
     }
-    catch(oglplus::ProgramBuildError& pbe)
+    catch (oglplus::ProgramBuildError &pbe)
     {
         std::cerr << pbe.Log() << std::endl;
         errorCaptured = true;
     }
-    catch(oglplus::Error& err)
+    catch (oglplus::Error &err)
     {
         std::cerr << "Error (in " << err.GLFunc()
                   << "') [" << err.SourceFile()
@@ -32,13 +32,13 @@ int main(int argc, char* argv[])
         errorCaptured = true;
     }
 
-    if(errorCaptured) std::cin.get();
+    if (errorCaptured) { std::cin.get(); }
 
-    #else // RELEASE
+#else // RELEASE
     // instance engine core to load all assets and
     // relevant data and start rendering main loop
     EngineBase::Instance()->MainLoop();
-    #endif
+#endif
     // exit application
     return 0;
 }

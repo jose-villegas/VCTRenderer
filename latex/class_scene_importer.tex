@@ -1,0 +1,154 @@
+\hypertarget{class_scene_importer}{}\section{Scene\+Importer Class Reference}
+\label{class_scene_importer}\index{Scene\+Importer@{Scene\+Importer}}
+
+
+{\ttfamily \#include $<$scene\+\_\+importer.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_scene_importer_a201f250b66f3624b837bb872f2eb272e}{Scene\+Importer} ()
+\item 
+virtual \hyperlink{class_scene_importer_a3bb4c596b51053e34370c5009938d534}{$\sim$\+Scene\+Importer} ()
+\item 
+bool \hyperlink{class_scene_importer_aa4b1315cdf2e58135500d479131305fa}{Import} (const std\+::string \&s\+Filepath, \hyperlink{class_scene}{Scene} \&out\+Scene)
+\item 
+void \hyperlink{class_scene_importer_ae272a120269dda37b7d2e845845a3ddc}{Import\+Material} (ai\+Material $\ast$m\+Material, \hyperlink{class_o_g_l_material}{O\+G\+L\+Material} \&out\+Material)
+\item 
+void \hyperlink{class_scene_importer_a21f1cde30e9ae58326436924b0bee0dc}{Import\+Mesh} (ai\+Mesh $\ast$m\+Mesh, \hyperlink{class_mesh}{Mesh} \&out\+Mesh)
+\item 
+void \hyperlink{class_scene_importer_a01e7d7db526210110b5bbc46505e749b}{Process\+Nodes} (\hyperlink{class_scene}{Scene} \&scene, ai\+Node $\ast$node, \hyperlink{class_node}{Node} \&new\+Node)
+\item 
+void \hyperlink{class_scene_importer_a25591047cda928aac6b639981709e3bf}{Import\+Camera} (ai\+Camera $\ast$cam, \hyperlink{class_camera}{Camera} \&new\+Camera)
+\item 
+void \hyperlink{class_scene_importer_a40f4be6c5694543678fd657b711067c0}{Import\+Light} (ai\+Light $\ast$light, \hyperlink{class_light}{Light} \&new\+Light)
+\item 
+void \hyperlink{class_scene_importer_a285bb8c6e758916d672451e386c477ea}{Import\+Material\+Textures} (\hyperlink{class_scene}{Scene} \&scene, ai\+Material $\ast$m\+Material, \hyperlink{class_o_g_l_material}{O\+G\+L\+Material} \&material)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file scene\+\_\+importer.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_scene_importer_a201f250b66f3624b837bb872f2eb272e}{}\index{Scene\+Importer@{Scene\+Importer}!Scene\+Importer@{Scene\+Importer}}
+\index{Scene\+Importer@{Scene\+Importer}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{Scene\+Importer()}]{\setlength{\rightskip}{0pt plus 5cm}Scene\+Importer\+::\+Scene\+Importer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_scene_importer_a201f250b66f3624b837bb872f2eb272e}
+
+
+Definition at line 8 of file scene\+\_\+importer.\+cpp.
+
+\hypertarget{class_scene_importer_a3bb4c596b51053e34370c5009938d534}{}\index{Scene\+Importer@{Scene\+Importer}!````~Scene\+Importer@{$\sim$\+Scene\+Importer}}
+\index{````~Scene\+Importer@{$\sim$\+Scene\+Importer}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{$\sim$\+Scene\+Importer()}]{\setlength{\rightskip}{0pt plus 5cm}Scene\+Importer\+::$\sim$\+Scene\+Importer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_scene_importer_a3bb4c596b51053e34370c5009938d534}
+
+
+Definition at line 13 of file scene\+\_\+importer.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_scene_importer_aa4b1315cdf2e58135500d479131305fa}{}\index{Scene\+Importer@{Scene\+Importer}!Import@{Import}}
+\index{Import@{Import}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{Import(const std\+::string \&s\+Filepath, Scene \&out\+Scene)}]{\setlength{\rightskip}{0pt plus 5cm}bool Scene\+Importer\+::\+Import (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{s\+Filepath, }
+\item[{{\bf Scene} \&}]{out\+Scene}
+\end{DoxyParamCaption}
+)}\label{class_scene_importer_aa4b1315cdf2e58135500d479131305fa}
+
+
+Definition at line 17 of file scene\+\_\+importer.\+cpp.
+
+\hypertarget{class_scene_importer_a25591047cda928aac6b639981709e3bf}{}\index{Scene\+Importer@{Scene\+Importer}!Import\+Camera@{Import\+Camera}}
+\index{Import\+Camera@{Import\+Camera}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{Import\+Camera(ai\+Camera $\ast$cam, Camera \&new\+Camera)}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\+Importer\+::\+Import\+Camera (
+\begin{DoxyParamCaption}
+\item[{ai\+Camera $\ast$}]{cam, }
+\item[{{\bf Camera} \&}]{new\+Camera}
+\end{DoxyParamCaption}
+)}\label{class_scene_importer_a25591047cda928aac6b639981709e3bf}
+
+
+Definition at line 140 of file scene\+\_\+importer.\+cpp.
+
+\hypertarget{class_scene_importer_a40f4be6c5694543678fd657b711067c0}{}\index{Scene\+Importer@{Scene\+Importer}!Import\+Light@{Import\+Light}}
+\index{Import\+Light@{Import\+Light}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{Import\+Light(ai\+Light $\ast$light, Light \&new\+Light)}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\+Importer\+::\+Import\+Light (
+\begin{DoxyParamCaption}
+\item[{ai\+Light $\ast$}]{light, }
+\item[{{\bf Light} \&}]{new\+Light}
+\end{DoxyParamCaption}
+)}\label{class_scene_importer_a40f4be6c5694543678fd657b711067c0}
+
+
+Definition at line 102 of file scene\+\_\+importer.\+cpp.
+
+\hypertarget{class_scene_importer_ae272a120269dda37b7d2e845845a3ddc}{}\index{Scene\+Importer@{Scene\+Importer}!Import\+Material@{Import\+Material}}
+\index{Import\+Material@{Import\+Material}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{Import\+Material(ai\+Material $\ast$m\+Material, O\+G\+L\+Material \&out\+Material)}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\+Importer\+::\+Import\+Material (
+\begin{DoxyParamCaption}
+\item[{ai\+Material $\ast$}]{m\+Material, }
+\item[{{\bf O\+G\+L\+Material} \&}]{out\+Material}
+\end{DoxyParamCaption}
+)}\label{class_scene_importer_ae272a120269dda37b7d2e845845a3ddc}
+
+
+Definition at line 163 of file scene\+\_\+importer.\+cpp.
+
+\hypertarget{class_scene_importer_a285bb8c6e758916d672451e386c477ea}{}\index{Scene\+Importer@{Scene\+Importer}!Import\+Material\+Textures@{Import\+Material\+Textures}}
+\index{Import\+Material\+Textures@{Import\+Material\+Textures}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{Import\+Material\+Textures(\+Scene \&scene, ai\+Material $\ast$m\+Material, O\+G\+L\+Material \&material)}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\+Importer\+::\+Import\+Material\+Textures (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} \&}]{scene, }
+\item[{ai\+Material $\ast$}]{m\+Material, }
+\item[{{\bf O\+G\+L\+Material} \&}]{material}
+\end{DoxyParamCaption}
+)}\label{class_scene_importer_a285bb8c6e758916d672451e386c477ea}
+
+
+Definition at line 289 of file scene\+\_\+importer.\+cpp.
+
+\hypertarget{class_scene_importer_a21f1cde30e9ae58326436924b0bee0dc}{}\index{Scene\+Importer@{Scene\+Importer}!Import\+Mesh@{Import\+Mesh}}
+\index{Import\+Mesh@{Import\+Mesh}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{Import\+Mesh(ai\+Mesh $\ast$m\+Mesh, Mesh \&out\+Mesh)}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\+Importer\+::\+Import\+Mesh (
+\begin{DoxyParamCaption}
+\item[{ai\+Mesh $\ast$}]{m\+Mesh, }
+\item[{{\bf Mesh} \&}]{out\+Mesh}
+\end{DoxyParamCaption}
+)}\label{class_scene_importer_a21f1cde30e9ae58326436924b0bee0dc}
+
+
+Definition at line 194 of file scene\+\_\+importer.\+cpp.
+
+\hypertarget{class_scene_importer_a01e7d7db526210110b5bbc46505e749b}{}\index{Scene\+Importer@{Scene\+Importer}!Process\+Nodes@{Process\+Nodes}}
+\index{Process\+Nodes@{Process\+Nodes}!Scene\+Importer@{Scene\+Importer}}
+\subsubsection[{Process\+Nodes(\+Scene \&scene, ai\+Node $\ast$node, Node \&new\+Node)}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\+Importer\+::\+Process\+Nodes (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} \&}]{scene, }
+\item[{ai\+Node $\ast$}]{node, }
+\item[{{\bf Node} \&}]{new\+Node}
+\end{DoxyParamCaption}
+)}\label{class_scene_importer_a01e7d7db526210110b5bbc46505e749b}
+
+
+Definition at line 255 of file scene\+\_\+importer.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/util/\hyperlink{scene__importer_8h}{scene\+\_\+importer.\+h}\item 
+V\+C\+T\+\_\+\+Engine/util/\hyperlink{scene__importer_8cpp}{scene\+\_\+importer.\+cpp}\end{DoxyCompactItemize}

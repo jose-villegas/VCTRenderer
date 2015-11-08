@@ -7,8 +7,6 @@
     #include <GLFW/glfw3native.h>
 #endif
 
-#include "3rdparty/imgui/examples/opengl3_example/imgui_impl_glfw_gl3.h"
-
 static oglplus::Context gl;
 std::unique_ptr<Interface::UIData> Interface::uiData = nullptr;
 

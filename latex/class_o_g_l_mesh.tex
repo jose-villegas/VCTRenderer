@@ -1,0 +1,237 @@
+\hypertarget{class_o_g_l_mesh}{}\section{O\+G\+L\+Mesh Class Reference}
+\label{class_o_g_l_mesh}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+
+
+{\ttfamily \#include $<$mesh.\+h$>$}
+
+Inheritance diagram for O\+G\+L\+Mesh\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_o_g_l_mesh}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_o_g_l_mesh_ab16637bce9f72105cbc661949926d4fd}{O\+G\+L\+Mesh} ()
+\item 
+virtual \hyperlink{class_o_g_l_mesh_a81d6ba27b650afaf6dd67df8508068c1}{$\sim$\+O\+G\+L\+Mesh} ()
+\item 
+void \hyperlink{class_o_g_l_mesh_a7d36e3fe07a85a0d50eced4e4ed9105f}{Upload\+To\+G\+P\+U} (bool unload\+From\+R\+A\+M=true)
+\item 
+void \hyperlink{class_o_g_l_mesh_a1a484d2250debeda7049192f35ce8203}{Bind\+Array\+Buffer} ()
+\item 
+void \hyperlink{class_o_g_l_mesh_ac8be151a624619d6710717b34b2a974d}{Bind\+Element\+Array\+Buffer} ()
+\item 
+void \hyperlink{class_o_g_l_mesh_a1142d41844f6c3a094ef6c7a1be95df7}{Bind\+Vertex\+Array\+Object} ()
+\item 
+void \hyperlink{class_o_g_l_mesh_a3811dabaecf72be0c5c106bf9fccc020}{Buffer\+Pointers} (oglplus\+::\+Program \&program)
+\item 
+void \hyperlink{class_o_g_l_mesh_a88a57d48eabc18f11d2ec6938075ec41}{Buffer\+Setup} (oglplus\+::\+Program \&program)
+\item 
+void \hyperlink{class_o_g_l_mesh_a5b4182b63fe4f4cbd11d525526eefbb2}{Draw\+Elements} ()
+\item 
+bool \hyperlink{class_o_g_l_mesh_ac83aaa629d5033acbe69f9a98703d6cf}{On\+G\+P\+U\+Memory} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unique\+\_\+ptr$<$ oglplus\+::\+Buffer $>$ \hyperlink{class_o_g_l_mesh_add6dba0a9c25b3861ddb1dae4ce61dc0}{ogl\+Array\+Buffer}
+\item 
+std\+::unique\+\_\+ptr$<$ oglplus\+::\+Buffer $>$ \hyperlink{class_o_g_l_mesh_aa6ee45949ecaec113ad8062d1b601bec}{ogl\+Element\+Array\+Buffer}
+\item 
+std\+::unique\+\_\+ptr$<$ oglplus\+::\+Vertex\+Array $>$ \hyperlink{class_o_g_l_mesh_acf47aa123c36d1d06c2d71b13787b0e6}{ogl\+Vertex\+Array}
+\item 
+bool \hyperlink{class_o_g_l_mesh_aaa6cd7e62890961f6114d9753b7b3b58}{on\+G\+P\+U\+Memory}
+\item 
+unsigned int \hyperlink{class_o_g_l_mesh_a745e6b366f6323cbf0edd78aa76b868a}{indices\+Count}
+\item 
+unsigned int \hyperlink{class_o_g_l_mesh_a881b075268f51d438d4242d2380981ab}{vertex\+Count}
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static oglplus\+::\+Context \hyperlink{class_o_g_l_mesh_ab63eb6d70cd8760e8aa2cb6833fe066b}{gl}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 26 of file mesh.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_o_g_l_mesh_ab16637bce9f72105cbc661949926d4fd}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{O\+G\+L\+Mesh()}]{\setlength{\rightskip}{0pt plus 5cm}O\+G\+L\+Mesh\+::\+O\+G\+L\+Mesh (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_mesh_ab16637bce9f72105cbc661949926d4fd}
+
+
+Definition at line 22 of file mesh.\+cpp.
+
+\hypertarget{class_o_g_l_mesh_a81d6ba27b650afaf6dd67df8508068c1}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!````~O\+G\+L\+Mesh@{$\sim$\+O\+G\+L\+Mesh}}
+\index{````~O\+G\+L\+Mesh@{$\sim$\+O\+G\+L\+Mesh}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{$\sim$\+O\+G\+L\+Mesh()}]{\setlength{\rightskip}{0pt plus 5cm}O\+G\+L\+Mesh\+::$\sim$\+O\+G\+L\+Mesh (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_o_g_l_mesh_a81d6ba27b650afaf6dd67df8508068c1}
+
+
+Definition at line 26 of file mesh.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_o_g_l_mesh_a1a484d2250debeda7049192f35ce8203}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!Bind\+Array\+Buffer@{Bind\+Array\+Buffer}}
+\index{Bind\+Array\+Buffer@{Bind\+Array\+Buffer}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{Bind\+Array\+Buffer()}]{\setlength{\rightskip}{0pt plus 5cm}void O\+G\+L\+Mesh\+::\+Bind\+Array\+Buffer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_mesh_a1a484d2250debeda7049192f35ce8203}
+
+
+Definition at line 71 of file mesh.\+cpp.
+
+\hypertarget{class_o_g_l_mesh_ac8be151a624619d6710717b34b2a974d}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!Bind\+Element\+Array\+Buffer@{Bind\+Element\+Array\+Buffer}}
+\index{Bind\+Element\+Array\+Buffer@{Bind\+Element\+Array\+Buffer}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{Bind\+Element\+Array\+Buffer()}]{\setlength{\rightskip}{0pt plus 5cm}void O\+G\+L\+Mesh\+::\+Bind\+Element\+Array\+Buffer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_mesh_ac8be151a624619d6710717b34b2a974d}
+
+
+Definition at line 76 of file mesh.\+cpp.
+
+\hypertarget{class_o_g_l_mesh_a1142d41844f6c3a094ef6c7a1be95df7}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!Bind\+Vertex\+Array\+Object@{Bind\+Vertex\+Array\+Object}}
+\index{Bind\+Vertex\+Array\+Object@{Bind\+Vertex\+Array\+Object}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{Bind\+Vertex\+Array\+Object()}]{\setlength{\rightskip}{0pt plus 5cm}void O\+G\+L\+Mesh\+::\+Bind\+Vertex\+Array\+Object (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_mesh_a1142d41844f6c3a094ef6c7a1be95df7}
+
+
+Definition at line 81 of file mesh.\+cpp.
+
+\hypertarget{class_o_g_l_mesh_a3811dabaecf72be0c5c106bf9fccc020}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!Buffer\+Pointers@{Buffer\+Pointers}}
+\index{Buffer\+Pointers@{Buffer\+Pointers}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{Buffer\+Pointers(oglplus\+::\+Program \&program)}]{\setlength{\rightskip}{0pt plus 5cm}void O\+G\+L\+Mesh\+::\+Buffer\+Pointers (
+\begin{DoxyParamCaption}
+\item[{oglplus\+::\+Program \&}]{program}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_mesh_a3811dabaecf72be0c5c106bf9fccc020}
+
+
+Definition at line 92 of file mesh.\+cpp.
+
+\hypertarget{class_o_g_l_mesh_a88a57d48eabc18f11d2ec6938075ec41}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!Buffer\+Setup@{Buffer\+Setup}}
+\index{Buffer\+Setup@{Buffer\+Setup}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{Buffer\+Setup(oglplus\+::\+Program \&program)}]{\setlength{\rightskip}{0pt plus 5cm}void O\+G\+L\+Mesh\+::\+Buffer\+Setup (
+\begin{DoxyParamCaption}
+\item[{oglplus\+::\+Program \&}]{program}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_mesh_a88a57d48eabc18f11d2ec6938075ec41}
+
+
+Definition at line 111 of file mesh.\+cpp.
+
+\hypertarget{class_o_g_l_mesh_a5b4182b63fe4f4cbd11d525526eefbb2}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!Draw\+Elements@{Draw\+Elements}}
+\index{Draw\+Elements@{Draw\+Elements}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{Draw\+Elements()}]{\setlength{\rightskip}{0pt plus 5cm}void O\+G\+L\+Mesh\+::\+Draw\+Elements (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_mesh_a5b4182b63fe4f4cbd11d525526eefbb2}
+
+
+Definition at line 86 of file mesh.\+cpp.
+
+\hypertarget{class_o_g_l_mesh_ac83aaa629d5033acbe69f9a98703d6cf}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!On\+G\+P\+U\+Memory@{On\+G\+P\+U\+Memory}}
+\index{On\+G\+P\+U\+Memory@{On\+G\+P\+U\+Memory}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{On\+G\+P\+U\+Memory() const }]{\setlength{\rightskip}{0pt plus 5cm}bool O\+G\+L\+Mesh\+::\+On\+G\+P\+U\+Memory (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_o_g_l_mesh_ac83aaa629d5033acbe69f9a98703d6cf}
+
+
+Definition at line 52 of file mesh.\+h.
+
+\hypertarget{class_o_g_l_mesh_a7d36e3fe07a85a0d50eced4e4ed9105f}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!Upload\+To\+G\+P\+U@{Upload\+To\+G\+P\+U}}
+\index{Upload\+To\+G\+P\+U@{Upload\+To\+G\+P\+U}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{Upload\+To\+G\+P\+U(bool unload\+From\+R\+A\+M=true)}]{\setlength{\rightskip}{0pt plus 5cm}void O\+G\+L\+Mesh\+::\+Upload\+To\+G\+P\+U (
+\begin{DoxyParamCaption}
+\item[{bool}]{unload\+From\+R\+A\+M = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_mesh_a7d36e3fe07a85a0d50eced4e4ed9105f}
+
+
+Definition at line 30 of file mesh.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_o_g_l_mesh_ab63eb6d70cd8760e8aa2cb6833fe066b}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!gl@{gl}}
+\index{gl@{gl}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{gl}]{\setlength{\rightskip}{0pt plus 5cm}oglplus\+::\+Context O\+G\+L\+Mesh\+::gl\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\label{class_o_g_l_mesh_ab63eb6d70cd8760e8aa2cb6833fe066b}
+
+
+Definition at line 29 of file mesh.\+h.
+
+\hypertarget{class_o_g_l_mesh_a745e6b366f6323cbf0edd78aa76b868a}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!indices\+Count@{indices\+Count}}
+\index{indices\+Count@{indices\+Count}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{indices\+Count}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int O\+G\+L\+Mesh\+::indices\+Count\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_mesh_a745e6b366f6323cbf0edd78aa76b868a}
+
+
+Definition at line 36 of file mesh.\+h.
+
+\hypertarget{class_o_g_l_mesh_add6dba0a9c25b3861ddb1dae4ce61dc0}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!ogl\+Array\+Buffer@{ogl\+Array\+Buffer}}
+\index{ogl\+Array\+Buffer@{ogl\+Array\+Buffer}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{ogl\+Array\+Buffer}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<$oglplus\+::\+Buffer$>$ O\+G\+L\+Mesh\+::ogl\+Array\+Buffer\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_mesh_add6dba0a9c25b3861ddb1dae4ce61dc0}
+
+
+Definition at line 31 of file mesh.\+h.
+
+\hypertarget{class_o_g_l_mesh_aa6ee45949ecaec113ad8062d1b601bec}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!ogl\+Element\+Array\+Buffer@{ogl\+Element\+Array\+Buffer}}
+\index{ogl\+Element\+Array\+Buffer@{ogl\+Element\+Array\+Buffer}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{ogl\+Element\+Array\+Buffer}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<$oglplus\+::\+Buffer$>$ O\+G\+L\+Mesh\+::ogl\+Element\+Array\+Buffer\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_mesh_aa6ee45949ecaec113ad8062d1b601bec}
+
+
+Definition at line 32 of file mesh.\+h.
+
+\hypertarget{class_o_g_l_mesh_acf47aa123c36d1d06c2d71b13787b0e6}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!ogl\+Vertex\+Array@{ogl\+Vertex\+Array}}
+\index{ogl\+Vertex\+Array@{ogl\+Vertex\+Array}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{ogl\+Vertex\+Array}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<$oglplus\+::\+Vertex\+Array$>$ O\+G\+L\+Mesh\+::ogl\+Vertex\+Array\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_mesh_acf47aa123c36d1d06c2d71b13787b0e6}
+
+
+Definition at line 33 of file mesh.\+h.
+
+\hypertarget{class_o_g_l_mesh_aaa6cd7e62890961f6114d9753b7b3b58}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!on\+G\+P\+U\+Memory@{on\+G\+P\+U\+Memory}}
+\index{on\+G\+P\+U\+Memory@{on\+G\+P\+U\+Memory}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{on\+G\+P\+U\+Memory}]{\setlength{\rightskip}{0pt plus 5cm}bool O\+G\+L\+Mesh\+::on\+G\+P\+U\+Memory\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_mesh_aaa6cd7e62890961f6114d9753b7b3b58}
+
+
+Definition at line 35 of file mesh.\+h.
+
+\hypertarget{class_o_g_l_mesh_a881b075268f51d438d4242d2380981ab}{}\index{O\+G\+L\+Mesh@{O\+G\+L\+Mesh}!vertex\+Count@{vertex\+Count}}
+\index{vertex\+Count@{vertex\+Count}!O\+G\+L\+Mesh@{O\+G\+L\+Mesh}}
+\subsubsection[{vertex\+Count}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int O\+G\+L\+Mesh\+::vertex\+Count\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_mesh_a881b075268f51d438d4242d2380981ab}
+
+
+Definition at line 37 of file mesh.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{mesh_8h}{mesh.\+h}\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{mesh_8cpp}{mesh.\+cpp}\end{DoxyCompactItemize}

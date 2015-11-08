@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A1592A0C-0E9F-4207-A5F9-53A41641DA38}</ProjectGuid>
     <RootNamespace>VCT_Engine</RootNamespace>
+    <ProjectName>Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -174,12 +175,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="3rdparty\imgui\examples\opengl3_example\imgui_impl_glfw_gl3.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="3rdparty\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -230,7 +225,6 @@
     <ClCompile Include="util\texture_importer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3rdparty\imgui\examples\opengl3_example\imgui_impl_glfw_gl3.h" />
     <ClInclude Include="3rdparty\imgui\imconfig.h" />
     <ClInclude Include="3rdparty\imgui\imgui.h" />
     <ClInclude Include="3rdparty\imgui\imgui_internal.h" />

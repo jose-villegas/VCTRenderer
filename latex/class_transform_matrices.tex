@@ -1,0 +1,240 @@
+\hypertarget{class_transform_matrices}{}\section{Transform\+Matrices Class Reference}
+\label{class_transform_matrices}\index{Transform\+Matrices@{Transform\+Matrices}}
+
+
+{\ttfamily \#include $<$transform\+\_\+matrices.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521}{Transform\+Matrix\+Id} \{ \\*
+\hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521aee88edce09f8010e45d1e053b33d609b}{Model\+View}, 
+\hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a84870f05e92eaa6f7b91b600ed85019a}{Model\+View\+Projection}, 
+\hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a76b154ed10408933a7638da9ff4e6e5d}{Model}, 
+\hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a444aed1ca459a3f599c8453ef1098545}{View}, 
+\\*
+\hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521af92ac52cd169b388552c7003a69a4c84}{Projection}, 
+\hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521ae5c37d34dc3dd374136583410c7264a4}{Normal}, 
+\hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521ab965bf222ccfc04ae4da8711b738b6c7}{T\+R\+A\+N\+S\+F\+O\+R\+M\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+I\+D\+\_\+\+M\+A\+X}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_transform_matrices_a0fe4bcd8ebb2965671ab265f769dca7b}{Transform\+Matrices} ()
+\item 
+virtual \hyperlink{class_transform_matrices_a83975d6fdc09f240497e262ed208268d}{$\sim$\+Transform\+Matrices} ()
+\item 
+void \hyperlink{class_transform_matrices_ae789d8a6dbedad4e7c5e5d20cd2ba7eb}{Update\+Model\+Matrix} (const glm\+::mat4x4 \&r\+Model)
+\item 
+void \hyperlink{class_transform_matrices_aa0ae6f910f3789ff6c5cf6aec12fff1c}{Update\+View\+Matrix} (const glm\+::mat4x4 \&r\+View)
+\item 
+void \hyperlink{class_transform_matrices_ab648e15eebd1103c820bcc138d0fad7a}{Update\+Projection\+Matrix} (const glm\+::mat4x4 \&r\+Projection)
+\item 
+void \hyperlink{class_transform_matrices_a545cb824ebfc3859dece48f849691f2c}{Recalculate\+Matrices} ()
+\item 
+void \hyperlink{class_transform_matrices_a95cc3a34ba489bcc50edc45b287d616e}{Update\+Frustum\+Planes} (\hyperlink{class_frustum}{Frustum} \&f\+Update)
+\item 
+const glm\+::mat4x4 \& \hyperlink{class_transform_matrices_aa147639c7d5c776a4a728870f75c8258}{Get\+Model\+View} () const 
+\item 
+const glm\+::mat4x4 \& \hyperlink{class_transform_matrices_a7424cdd77cd8bb2048a2d5ddf98f096a}{Get\+Model\+View\+Projection} () const 
+\item 
+const glm\+::mat4x4 \& \hyperlink{class_transform_matrices_a27e562193dec9cd9def6e81684663db1}{Get\+Model} () const 
+\item 
+const glm\+::mat4x4 \& \hyperlink{class_transform_matrices_ad5467bd96bc08a862a140bd2be652790}{Get\+View} () const 
+\item 
+const glm\+::mat4x4 \& \hyperlink{class_transform_matrices_aaa727e925e369d84406847dc6c9bc278}{Get\+Projection} () const 
+\item 
+const glm\+::mat4x4 \& \hyperlink{class_transform_matrices_a9a80838d0d2ac0d51054dedceb3a757b}{Get\+Normal} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 14 of file transform\+\_\+matrices.\+h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521}{}\index{Transform\+Matrices@{Transform\+Matrices}!Transform\+Matrix\+Id@{Transform\+Matrix\+Id}}
+\index{Transform\+Matrix\+Id@{Transform\+Matrix\+Id}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Transform\+Matrix\+Id}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Transform\+Matrices\+::\+Transform\+Matrix\+Id}}\label{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Model\+View@{Model\+View}!Transform\+Matrices@{Transform\+Matrices}}\index{Transform\+Matrices@{Transform\+Matrices}!Model\+View@{Model\+View}}\item[{\em 
+\hypertarget{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521aee88edce09f8010e45d1e053b33d609b}{}Model\+View\label{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521aee88edce09f8010e45d1e053b33d609b}
+}]\index{Model\+View\+Projection@{Model\+View\+Projection}!Transform\+Matrices@{Transform\+Matrices}}\index{Transform\+Matrices@{Transform\+Matrices}!Model\+View\+Projection@{Model\+View\+Projection}}\item[{\em 
+\hypertarget{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a84870f05e92eaa6f7b91b600ed85019a}{}Model\+View\+Projection\label{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a84870f05e92eaa6f7b91b600ed85019a}
+}]\index{Model@{Model}!Transform\+Matrices@{Transform\+Matrices}}\index{Transform\+Matrices@{Transform\+Matrices}!Model@{Model}}\item[{\em 
+\hypertarget{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a76b154ed10408933a7638da9ff4e6e5d}{}Model\label{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a76b154ed10408933a7638da9ff4e6e5d}
+}]\index{View@{View}!Transform\+Matrices@{Transform\+Matrices}}\index{Transform\+Matrices@{Transform\+Matrices}!View@{View}}\item[{\em 
+\hypertarget{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a444aed1ca459a3f599c8453ef1098545}{}View\label{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521a444aed1ca459a3f599c8453ef1098545}
+}]\index{Projection@{Projection}!Transform\+Matrices@{Transform\+Matrices}}\index{Transform\+Matrices@{Transform\+Matrices}!Projection@{Projection}}\item[{\em 
+\hypertarget{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521af92ac52cd169b388552c7003a69a4c84}{}Projection\label{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521af92ac52cd169b388552c7003a69a4c84}
+}]\index{Normal@{Normal}!Transform\+Matrices@{Transform\+Matrices}}\index{Transform\+Matrices@{Transform\+Matrices}!Normal@{Normal}}\item[{\em 
+\hypertarget{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521ae5c37d34dc3dd374136583410c7264a4}{}Normal\label{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521ae5c37d34dc3dd374136583410c7264a4}
+}]\index{T\+R\+A\+N\+S\+F\+O\+R\+M\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+I\+D\+\_\+\+M\+A\+X@{T\+R\+A\+N\+S\+F\+O\+R\+M\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+I\+D\+\_\+\+M\+A\+X}!Transform\+Matrices@{Transform\+Matrices}}\index{Transform\+Matrices@{Transform\+Matrices}!T\+R\+A\+N\+S\+F\+O\+R\+M\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+I\+D\+\_\+\+M\+A\+X@{T\+R\+A\+N\+S\+F\+O\+R\+M\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+I\+D\+\_\+\+M\+A\+X}}\item[{\em 
+\hypertarget{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521ab965bf222ccfc04ae4da8711b738b6c7}{}T\+R\+A\+N\+S\+F\+O\+R\+M\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+I\+D\+\_\+\+M\+A\+X\label{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521ab965bf222ccfc04ae4da8711b738b6c7}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 17 of file transform\+\_\+matrices.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_transform_matrices_a0fe4bcd8ebb2965671ab265f769dca7b}{}\index{Transform\+Matrices@{Transform\+Matrices}!Transform\+Matrices@{Transform\+Matrices}}
+\index{Transform\+Matrices@{Transform\+Matrices}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Transform\+Matrices()}]{\setlength{\rightskip}{0pt plus 5cm}Transform\+Matrices\+::\+Transform\+Matrices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_transform_matrices_a0fe4bcd8ebb2965671ab265f769dca7b}
+
+
+Definition at line 5 of file transform\+\_\+matrices.\+cpp.
+
+\hypertarget{class_transform_matrices_a83975d6fdc09f240497e262ed208268d}{}\index{Transform\+Matrices@{Transform\+Matrices}!````~Transform\+Matrices@{$\sim$\+Transform\+Matrices}}
+\index{````~Transform\+Matrices@{$\sim$\+Transform\+Matrices}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{$\sim$\+Transform\+Matrices()}]{\setlength{\rightskip}{0pt plus 5cm}Transform\+Matrices\+::$\sim$\+Transform\+Matrices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_transform_matrices_a83975d6fdc09f240497e262ed208268d}
+
+
+Definition at line 9 of file transform\+\_\+matrices.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_transform_matrices_a27e562193dec9cd9def6e81684663db1}{}\index{Transform\+Matrices@{Transform\+Matrices}!Get\+Model@{Get\+Model}}
+\index{Get\+Model@{Get\+Model}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Get\+Model() const }]{\setlength{\rightskip}{0pt plus 5cm}const glm\+::mat4x4\& Transform\+Matrices\+::\+Get\+Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_transform_matrices_a27e562193dec9cd9def6e81684663db1}
+
+
+Definition at line 41 of file transform\+\_\+matrices.\+h.
+
+\hypertarget{class_transform_matrices_aa147639c7d5c776a4a728870f75c8258}{}\index{Transform\+Matrices@{Transform\+Matrices}!Get\+Model\+View@{Get\+Model\+View}}
+\index{Get\+Model\+View@{Get\+Model\+View}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Get\+Model\+View() const }]{\setlength{\rightskip}{0pt plus 5cm}const glm\+::mat4x4\& Transform\+Matrices\+::\+Get\+Model\+View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_transform_matrices_aa147639c7d5c776a4a728870f75c8258}
+
+
+Definition at line 39 of file transform\+\_\+matrices.\+h.
+
+\hypertarget{class_transform_matrices_a7424cdd77cd8bb2048a2d5ddf98f096a}{}\index{Transform\+Matrices@{Transform\+Matrices}!Get\+Model\+View\+Projection@{Get\+Model\+View\+Projection}}
+\index{Get\+Model\+View\+Projection@{Get\+Model\+View\+Projection}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Get\+Model\+View\+Projection() const }]{\setlength{\rightskip}{0pt plus 5cm}const glm\+::mat4x4\& Transform\+Matrices\+::\+Get\+Model\+View\+Projection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_transform_matrices_a7424cdd77cd8bb2048a2d5ddf98f096a}
+
+
+Definition at line 40 of file transform\+\_\+matrices.\+h.
+
+\hypertarget{class_transform_matrices_a9a80838d0d2ac0d51054dedceb3a757b}{}\index{Transform\+Matrices@{Transform\+Matrices}!Get\+Normal@{Get\+Normal}}
+\index{Get\+Normal@{Get\+Normal}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Get\+Normal() const }]{\setlength{\rightskip}{0pt plus 5cm}const glm\+::mat4x4\& Transform\+Matrices\+::\+Get\+Normal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_transform_matrices_a9a80838d0d2ac0d51054dedceb3a757b}
+
+
+Definition at line 44 of file transform\+\_\+matrices.\+h.
+
+\hypertarget{class_transform_matrices_aaa727e925e369d84406847dc6c9bc278}{}\index{Transform\+Matrices@{Transform\+Matrices}!Get\+Projection@{Get\+Projection}}
+\index{Get\+Projection@{Get\+Projection}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Get\+Projection() const }]{\setlength{\rightskip}{0pt plus 5cm}const glm\+::mat4x4\& Transform\+Matrices\+::\+Get\+Projection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_transform_matrices_aaa727e925e369d84406847dc6c9bc278}
+
+
+Definition at line 43 of file transform\+\_\+matrices.\+h.
+
+\hypertarget{class_transform_matrices_ad5467bd96bc08a862a140bd2be652790}{}\index{Transform\+Matrices@{Transform\+Matrices}!Get\+View@{Get\+View}}
+\index{Get\+View@{Get\+View}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Get\+View() const }]{\setlength{\rightskip}{0pt plus 5cm}const glm\+::mat4x4\& Transform\+Matrices\+::\+Get\+View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_transform_matrices_ad5467bd96bc08a862a140bd2be652790}
+
+
+Definition at line 42 of file transform\+\_\+matrices.\+h.
+
+\hypertarget{class_transform_matrices_a545cb824ebfc3859dece48f849691f2c}{}\index{Transform\+Matrices@{Transform\+Matrices}!Recalculate\+Matrices@{Recalculate\+Matrices}}
+\index{Recalculate\+Matrices@{Recalculate\+Matrices}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Recalculate\+Matrices()}]{\setlength{\rightskip}{0pt plus 5cm}void Transform\+Matrices\+::\+Recalculate\+Matrices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_transform_matrices_a545cb824ebfc3859dece48f849691f2c}
+
+
+Definition at line 52 of file transform\+\_\+matrices.\+cpp.
+
+\hypertarget{class_transform_matrices_a95cc3a34ba489bcc50edc45b287d616e}{}\index{Transform\+Matrices@{Transform\+Matrices}!Update\+Frustum\+Planes@{Update\+Frustum\+Planes}}
+\index{Update\+Frustum\+Planes@{Update\+Frustum\+Planes}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Update\+Frustum\+Planes(\+Frustum \&f\+Update)}]{\setlength{\rightskip}{0pt plus 5cm}void Transform\+Matrices\+::\+Update\+Frustum\+Planes (
+\begin{DoxyParamCaption}
+\item[{{\bf Frustum} \&}]{f\+Update}
+\end{DoxyParamCaption}
+)}\label{class_transform_matrices_a95cc3a34ba489bcc50edc45b287d616e}
+
+
+Definition at line 71 of file transform\+\_\+matrices.\+cpp.
+
+\hypertarget{class_transform_matrices_ae789d8a6dbedad4e7c5e5d20cd2ba7eb}{}\index{Transform\+Matrices@{Transform\+Matrices}!Update\+Model\+Matrix@{Update\+Model\+Matrix}}
+\index{Update\+Model\+Matrix@{Update\+Model\+Matrix}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Update\+Model\+Matrix(const glm\+::mat4x4 \&r\+Model)}]{\setlength{\rightskip}{0pt plus 5cm}void Transform\+Matrices\+::\+Update\+Model\+Matrix (
+\begin{DoxyParamCaption}
+\item[{const glm\+::mat4x4 \&}]{r\+Model}
+\end{DoxyParamCaption}
+)}\label{class_transform_matrices_ae789d8a6dbedad4e7c5e5d20cd2ba7eb}
+
+
+Definition at line 13 of file transform\+\_\+matrices.\+cpp.
+
+\hypertarget{class_transform_matrices_ab648e15eebd1103c820bcc138d0fad7a}{}\index{Transform\+Matrices@{Transform\+Matrices}!Update\+Projection\+Matrix@{Update\+Projection\+Matrix}}
+\index{Update\+Projection\+Matrix@{Update\+Projection\+Matrix}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Update\+Projection\+Matrix(const glm\+::mat4x4 \&r\+Projection)}]{\setlength{\rightskip}{0pt plus 5cm}void Transform\+Matrices\+::\+Update\+Projection\+Matrix (
+\begin{DoxyParamCaption}
+\item[{const glm\+::mat4x4 \&}]{r\+Projection}
+\end{DoxyParamCaption}
+)}\label{class_transform_matrices_ab648e15eebd1103c820bcc138d0fad7a}
+
+
+Definition at line 39 of file transform\+\_\+matrices.\+cpp.
+
+\hypertarget{class_transform_matrices_aa0ae6f910f3789ff6c5cf6aec12fff1c}{}\index{Transform\+Matrices@{Transform\+Matrices}!Update\+View\+Matrix@{Update\+View\+Matrix}}
+\index{Update\+View\+Matrix@{Update\+View\+Matrix}!Transform\+Matrices@{Transform\+Matrices}}
+\subsubsection[{Update\+View\+Matrix(const glm\+::mat4x4 \&r\+View)}]{\setlength{\rightskip}{0pt plus 5cm}void Transform\+Matrices\+::\+Update\+View\+Matrix (
+\begin{DoxyParamCaption}
+\item[{const glm\+::mat4x4 \&}]{r\+View}
+\end{DoxyParamCaption}
+)}\label{class_transform_matrices_aa0ae6f910f3789ff6c5cf6aec12fff1c}
+
+
+Definition at line 26 of file transform\+\_\+matrices.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/types/\hyperlink{transform__matrices_8h}{transform\+\_\+matrices.\+h}\item 
+V\+C\+T\+\_\+\+Engine/types/\hyperlink{transform__matrices_8cpp}{transform\+\_\+matrices.\+cpp}\end{DoxyCompactItemize}

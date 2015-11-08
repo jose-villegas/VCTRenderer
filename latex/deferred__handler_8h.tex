@@ -1,0 +1,72 @@
+\hypertarget{deferred__handler_8h}{}\section{V\+C\+T\+\_\+\+Engine/core/deferred\+\_\+handler.h File Reference}
+\label{deferred__handler_8h}\index{V\+C\+T\+\_\+\+Engine/core/deferred\+\_\+handler.\+h@{V\+C\+T\+\_\+\+Engine/core/deferred\+\_\+handler.\+h}}
+{\ttfamily \#include \char`\"{}scene\textbackslash{}texture.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types\textbackslash{}transform\+\_\+matrices.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}scene\textbackslash{}material.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}scene\textbackslash{}light.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_deferred_program}{Deferred\+Program}
+\item 
+struct \hyperlink{struct_deferred_program_1_1_light_uniform_1_1_attenuation_uniform}{Deferred\+Program\+::\+Light\+Uniform\+::\+Attenuation\+Uniform}
+\item 
+class \hyperlink{class_deferred_handler}{Deferred\+Handler}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963}{G\+Buffer\+Texture\+Id} \+: unsigned int \{ \\*
+\hyperlink{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a52f5e0bc3859bc5f5e25130b6c7e8881}{G\+Buffer\+Texture\+Id\+::\+Position}, 
+\hyperlink{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a960b44c579bc2f6818d2daaf9e4c16f0}{G\+Buffer\+Texture\+Id\+::\+Normal}, 
+\hyperlink{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963af879d0a27915d351a8e47c2223777710}{G\+Buffer\+Texture\+Id\+::\+Albedo}, 
+\hyperlink{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a39b0044dd8789d333e7794f359406740}{G\+Buffer\+Texture\+Id\+::\+Specular}, 
+\\*
+\hyperlink{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963aab6a10807f81dc6cf6b5a7db474c163e}{G\+Buffer\+Texture\+Id\+::\+G\+B\+U\+F\+F\+E\+R\+\_\+\+T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X}
+ \}
+\item 
+enum \hyperlink{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fe}{Deferred\+Stage} \+: unsigned int \{ \hyperlink{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fead9c6333623e6357515fcbf17be806273}{Deferred\+Stage\+::\+Geometry}, 
+\hyperlink{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fea2e4b97fde8cf63085ec969fcc7e490c0}{Deferred\+Stage\+::\+Lighting}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fe}{}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!Deferred\+Stage@{Deferred\+Stage}}
+\index{Deferred\+Stage@{Deferred\+Stage}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}
+\subsubsection[{Deferred\+Stage}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Deferred\+Stage} \+: unsigned int\hspace{0.3cm}{\ttfamily [strong]}}\label{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fe}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Geometry@{Geometry}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!Geometry@{Geometry}}\item[{\em 
+\hypertarget{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fead9c6333623e6357515fcbf17be806273}{}Geometry\label{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fead9c6333623e6357515fcbf17be806273}
+}]\index{Lighting@{Lighting}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!Lighting@{Lighting}}\item[{\em 
+\hypertarget{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fea2e4b97fde8cf63085ec969fcc7e490c0}{}Lighting\label{deferred__handler_8h_a623ca9c5815b447740795ef10bc3a9fea2e4b97fde8cf63085ec969fcc7e490c0}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 16 of file deferred\+\_\+handler.\+h.
+
+\hypertarget{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963}{}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!G\+Buffer\+Texture\+Id@{G\+Buffer\+Texture\+Id}}
+\index{G\+Buffer\+Texture\+Id@{G\+Buffer\+Texture\+Id}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}
+\subsubsection[{G\+Buffer\+Texture\+Id}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf G\+Buffer\+Texture\+Id} \+: unsigned int\hspace{0.3cm}{\ttfamily [strong]}}\label{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Position@{Position}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!Position@{Position}}\item[{\em 
+\hypertarget{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a52f5e0bc3859bc5f5e25130b6c7e8881}{}Position\label{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a52f5e0bc3859bc5f5e25130b6c7e8881}
+}]\index{Normal@{Normal}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!Normal@{Normal}}\item[{\em 
+\hypertarget{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a960b44c579bc2f6818d2daaf9e4c16f0}{}Normal\label{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a960b44c579bc2f6818d2daaf9e4c16f0}
+}]\index{Albedo@{Albedo}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!Albedo@{Albedo}}\item[{\em 
+\hypertarget{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963af879d0a27915d351a8e47c2223777710}{}Albedo\label{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963af879d0a27915d351a8e47c2223777710}
+}]\index{Specular@{Specular}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!Specular@{Specular}}\item[{\em 
+\hypertarget{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a39b0044dd8789d333e7794f359406740}{}Specular\label{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963a39b0044dd8789d333e7794f359406740}
+}]\index{G\+B\+U\+F\+F\+E\+R\+\_\+\+T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X@{G\+B\+U\+F\+F\+E\+R\+\_\+\+T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X}!deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}}\index{deferred\+\_\+handler.\+h@{deferred\+\_\+handler.\+h}!G\+B\+U\+F\+F\+E\+R\+\_\+\+T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X@{G\+B\+U\+F\+F\+E\+R\+\_\+\+T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X}}\item[{\em 
+\hypertarget{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963aab6a10807f81dc6cf6b5a7db474c163e}{}G\+B\+U\+F\+F\+E\+R\+\_\+\+T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X\label{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963aab6a10807f81dc6cf6b5a7db474c163e}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 7 of file deferred\+\_\+handler.\+h.
+

@@ -1,0 +1,176 @@
+\hypertarget{class_scene}{}\section{Scene Class Reference}
+\label{class_scene}\index{Scene@{Scene}}
+
+
+{\ttfamily \#include $<$scene.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_scene_ad10176d75a9cc0da56626f682d083507}{Scene} ()
+\item 
+virtual \hyperlink{class_scene_a3b8cec2e32546713915f8c6303c951f1}{$\sim$\+Scene} ()
+\item 
+std\+::string \hyperlink{class_scene_ab87ffa881eb34b9545c665c74611c51c}{Get\+Filepath} () const 
+\item 
+std\+::string \hyperlink{class_scene_a2f336bf065c9810a863d3758ac017ed1}{Get\+Directory} () const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{class_o_g_l_mesh}{O\+G\+L\+Mesh} $>$ $>$ \hyperlink{class_scene_aefec91bb2a143b58040a5962209d4b34}{meshes}
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{class_o_g_l_texture2_d}{O\+G\+L\+Texture2\+D} $>$ $>$ \hyperlink{class_scene_a9ac78c1e7dcb0e243c7279afff526661}{textures}
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{class_o_g_l_material}{O\+G\+L\+Material} $>$ $>$ \hyperlink{class_scene_a631fe5acccb40e34b55e22d8b941e010}{materials}
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{class_camera}{Camera} $>$ $>$ \hyperlink{class_scene_a93e268bf22b01395c867544ba94d2581}{cameras}
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{class_light}{Light} $>$ $>$ \hyperlink{class_scene_acc070003e3f35147692a64229ef2c9d3}{lights}
+\item 
+\hyperlink{class_node}{Node} \hyperlink{class_scene_a14b82ab277b794679fa68873a3920fd7}{root\+Node}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_scene_a91db1772797d8efa8ef62bf8930f057e}{filepath}
+\item 
+std\+::string \hyperlink{class_scene_ae729793e28fa5451457cb869ee40bed5}{directory}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_scene_ad85db6eca234241f01732f4c175a4ee6}{Scene\+Importer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 9 of file scene.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_scene_ad10176d75a9cc0da56626f682d083507}{}\index{Scene@{Scene}!Scene@{Scene}}
+\index{Scene@{Scene}!Scene@{Scene}}
+\subsubsection[{Scene()}]{\setlength{\rightskip}{0pt plus 5cm}Scene\+::\+Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_scene_ad10176d75a9cc0da56626f682d083507}
+
+
+Definition at line 5 of file scene.\+cpp.
+
+\hypertarget{class_scene_a3b8cec2e32546713915f8c6303c951f1}{}\index{Scene@{Scene}!````~Scene@{$\sim$\+Scene}}
+\index{````~Scene@{$\sim$\+Scene}!Scene@{Scene}}
+\subsubsection[{$\sim$\+Scene()}]{\setlength{\rightskip}{0pt plus 5cm}Scene\+::$\sim$\+Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_scene_a3b8cec2e32546713915f8c6303c951f1}
+
+
+Definition at line 14 of file scene.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_scene_a2f336bf065c9810a863d3758ac017ed1}{}\index{Scene@{Scene}!Get\+Directory@{Get\+Directory}}
+\index{Get\+Directory@{Get\+Directory}!Scene@{Scene}}
+\subsubsection[{Get\+Directory() const }]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Scene\+::\+Get\+Directory (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_scene_a2f336bf065c9810a863d3758ac017ed1}
+
+
+Definition at line 28 of file scene.\+h.
+
+\hypertarget{class_scene_ab87ffa881eb34b9545c665c74611c51c}{}\index{Scene@{Scene}!Get\+Filepath@{Get\+Filepath}}
+\index{Get\+Filepath@{Get\+Filepath}!Scene@{Scene}}
+\subsubsection[{Get\+Filepath() const }]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Scene\+::\+Get\+Filepath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_scene_ab87ffa881eb34b9545c665c74611c51c}
+
+
+Definition at line 27 of file scene.\+h.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_scene_ad85db6eca234241f01732f4c175a4ee6}{}\index{Scene@{Scene}!Scene\+Importer@{Scene\+Importer}}
+\index{Scene\+Importer@{Scene\+Importer}!Scene@{Scene}}
+\subsubsection[{Scene\+Importer}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Scene\+Importer}\hspace{0.3cm}{\ttfamily [friend]}}\label{class_scene_ad85db6eca234241f01732f4c175a4ee6}
+
+
+Definition at line 31 of file scene.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_scene_a93e268bf22b01395c867544ba94d2581}{}\index{Scene@{Scene}!cameras@{cameras}}
+\index{cameras@{cameras}!Scene@{Scene}}
+\subsubsection[{cameras}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::shared\+\_\+ptr$<${\bf Camera}$>$ $>$ Scene\+::cameras}\label{class_scene_a93e268bf22b01395c867544ba94d2581}
+
+
+Definition at line 19 of file scene.\+h.
+
+\hypertarget{class_scene_ae729793e28fa5451457cb869ee40bed5}{}\index{Scene@{Scene}!directory@{directory}}
+\index{directory@{directory}!Scene@{Scene}}
+\subsubsection[{directory}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Scene\+::directory\hspace{0.3cm}{\ttfamily [protected]}}\label{class_scene_ae729793e28fa5451457cb869ee40bed5}
+
+
+Definition at line 13 of file scene.\+h.
+
+\hypertarget{class_scene_a91db1772797d8efa8ef62bf8930f057e}{}\index{Scene@{Scene}!filepath@{filepath}}
+\index{filepath@{filepath}!Scene@{Scene}}
+\subsubsection[{filepath}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Scene\+::filepath\hspace{0.3cm}{\ttfamily [protected]}}\label{class_scene_a91db1772797d8efa8ef62bf8930f057e}
+
+
+Definition at line 12 of file scene.\+h.
+
+\hypertarget{class_scene_acc070003e3f35147692a64229ef2c9d3}{}\index{Scene@{Scene}!lights@{lights}}
+\index{lights@{lights}!Scene@{Scene}}
+\subsubsection[{lights}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::shared\+\_\+ptr$<${\bf Light}$>$ $>$ Scene\+::lights}\label{class_scene_acc070003e3f35147692a64229ef2c9d3}
+
+
+Definition at line 20 of file scene.\+h.
+
+\hypertarget{class_scene_a631fe5acccb40e34b55e22d8b941e010}{}\index{Scene@{Scene}!materials@{materials}}
+\index{materials@{materials}!Scene@{Scene}}
+\subsubsection[{materials}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::shared\+\_\+ptr$<${\bf O\+G\+L\+Material}$>$ $>$ Scene\+::materials}\label{class_scene_a631fe5acccb40e34b55e22d8b941e010}
+
+
+Definition at line 17 of file scene.\+h.
+
+\hypertarget{class_scene_aefec91bb2a143b58040a5962209d4b34}{}\index{Scene@{Scene}!meshes@{meshes}}
+\index{meshes@{meshes}!Scene@{Scene}}
+\subsubsection[{meshes}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::shared\+\_\+ptr$<${\bf O\+G\+L\+Mesh}$>$ $>$ Scene\+::meshes}\label{class_scene_aefec91bb2a143b58040a5962209d4b34}
+
+
+Definition at line 15 of file scene.\+h.
+
+\hypertarget{class_scene_a14b82ab277b794679fa68873a3920fd7}{}\index{Scene@{Scene}!root\+Node@{root\+Node}}
+\index{root\+Node@{root\+Node}!Scene@{Scene}}
+\subsubsection[{root\+Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Node} Scene\+::root\+Node}\label{class_scene_a14b82ab277b794679fa68873a3920fd7}
+
+
+Definition at line 22 of file scene.\+h.
+
+\hypertarget{class_scene_a9ac78c1e7dcb0e243c7279afff526661}{}\index{Scene@{Scene}!textures@{textures}}
+\index{textures@{textures}!Scene@{Scene}}
+\subsubsection[{textures}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::shared\+\_\+ptr$<${\bf O\+G\+L\+Texture2\+D}$>$ $>$ Scene\+::textures}\label{class_scene_a9ac78c1e7dcb0e243c7279afff526661}
+
+
+Definition at line 16 of file scene.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{scene_8h}{scene.\+h}\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{scene_8cpp}{scene.\+cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,184 @@
+\hypertarget{class_deferred_handler}{}\section{Deferred\+Handler Class Reference}
+\label{class_deferred_handler}\index{Deferred\+Handler@{Deferred\+Handler}}
+
+
+{\ttfamily \#include $<$deferred\+\_\+handler.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_deferred_handler_a067f61702c6bf91b1d8bd951da031a6f}{Deferred\+Handler} (unsigned int window\+With, unsigned int window\+Height)
+\item 
+virtual \hyperlink{class_deferred_handler_aeb2df800949d3bfaf7326d1bb44af0ce}{$\sim$\+Deferred\+Handler} ()
+\item 
+void \hyperlink{class_deferred_handler_ad5af8e9dc5e2a47e6849af52d6e1943f}{Use\+Geometry\+Pass} () const 
+\item 
+void \hyperlink{class_deferred_handler_a316f5981198a22454e3d767f72827d4a}{Use\+Light\+Pass} () const 
+\item 
+void \hyperlink{class_deferred_handler_a9fd622f6cc5addcdd5a93fa31ec73c56}{Bind\+G\+Buffer} (const oglplus\+::\+Framebuffer\+Target \&binding\+Mode)
+\item 
+void \hyperlink{class_deferred_handler_a4ca3be75245b77738870df6ee469f7d9}{Read\+G\+Buffer} (const \hyperlink{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963}{G\+Buffer\+Texture\+Id} \&g\+Buffer\+Tex\+Type)
+\item 
+void \hyperlink{class_deferred_handler_a5212123060b8793cdf2aae2e5bb66ef7}{Activate\+G\+Buffer\+Textures} ()
+\item 
+void \hyperlink{class_deferred_handler_a7da8f85708a2fec2e44cd82d9dddd040}{Set\+Light\+Pass\+Uniforms} (const glm\+::vec3 \&view\+Position, const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{class_light}{Light} $>$$>$ \&lights)
+\item 
+const oglplus\+::\+Texture \& \hyperlink{class_deferred_handler_af3a1176c3d6708a8a564194920a89176}{Get\+G\+Buffer\+Texture} (\hyperlink{deferred__handler_8h_a331a939e08dff83e0b0b62fbbd39c963}{G\+Buffer\+Texture\+Id} t\+I\+D) const 
+\item 
+void \hyperlink{class_deferred_handler_adb21f77f5c42db5112e064e7480afab7}{Render\+F\+S\+Quad} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_deferred_program}{Deferred\+Program} \hyperlink{class_deferred_handler_ae4c429b5ccbb6c063cbf58e2339d386b}{geometry\+Pass}
+\item 
+\hyperlink{class_deferred_program}{Deferred\+Program} \hyperlink{class_deferred_handler_a4138df076eeb76aa0720c7b9ca9e3b6f}{light\+Pass}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 117 of file deferred\+\_\+handler.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_deferred_handler_a067f61702c6bf91b1d8bd951da031a6f}{}\index{Deferred\+Handler@{Deferred\+Handler}!Deferred\+Handler@{Deferred\+Handler}}
+\index{Deferred\+Handler@{Deferred\+Handler}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Deferred\+Handler(unsigned int window\+With, unsigned int window\+Height)}]{\setlength{\rightskip}{0pt plus 5cm}Deferred\+Handler\+::\+Deferred\+Handler (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{window\+With, }
+\item[{unsigned int}]{window\+Height}
+\end{DoxyParamCaption}
+)}\label{class_deferred_handler_a067f61702c6bf91b1d8bd951da031a6f}
+
+
+Definition at line 5 of file deferred\+\_\+handler.\+cpp.
+
+\hypertarget{class_deferred_handler_aeb2df800949d3bfaf7326d1bb44af0ce}{}\index{Deferred\+Handler@{Deferred\+Handler}!````~Deferred\+Handler@{$\sim$\+Deferred\+Handler}}
+\index{````~Deferred\+Handler@{$\sim$\+Deferred\+Handler}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{$\sim$\+Deferred\+Handler()}]{\setlength{\rightskip}{0pt plus 5cm}Deferred\+Handler\+::$\sim$\+Deferred\+Handler (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_deferred_handler_aeb2df800949d3bfaf7326d1bb44af0ce}
+
+
+Definition at line 203 of file deferred\+\_\+handler.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_deferred_handler_a5212123060b8793cdf2aae2e5bb66ef7}{}\index{Deferred\+Handler@{Deferred\+Handler}!Activate\+G\+Buffer\+Textures@{Activate\+G\+Buffer\+Textures}}
+\index{Activate\+G\+Buffer\+Textures@{Activate\+G\+Buffer\+Textures}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Activate\+G\+Buffer\+Textures()}]{\setlength{\rightskip}{0pt plus 5cm}void Deferred\+Handler\+::\+Activate\+G\+Buffer\+Textures (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_deferred_handler_a5212123060b8793cdf2aae2e5bb66ef7}
+
+
+Definition at line 218 of file deferred\+\_\+handler.\+cpp.
+
+\hypertarget{class_deferred_handler_a9fd622f6cc5addcdd5a93fa31ec73c56}{}\index{Deferred\+Handler@{Deferred\+Handler}!Bind\+G\+Buffer@{Bind\+G\+Buffer}}
+\index{Bind\+G\+Buffer@{Bind\+G\+Buffer}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Bind\+G\+Buffer(const oglplus\+::\+Framebuffer\+Target \&binding\+Mode)}]{\setlength{\rightskip}{0pt plus 5cm}void Deferred\+Handler\+::\+Bind\+G\+Buffer (
+\begin{DoxyParamCaption}
+\item[{const oglplus\+::\+Framebuffer\+Target \&}]{binding\+Mode}
+\end{DoxyParamCaption}
+)}\label{class_deferred_handler_a9fd622f6cc5addcdd5a93fa31ec73c56}
+
+
+Definition at line 207 of file deferred\+\_\+handler.\+cpp.
+
+\hypertarget{class_deferred_handler_af3a1176c3d6708a8a564194920a89176}{}\index{Deferred\+Handler@{Deferred\+Handler}!Get\+G\+Buffer\+Texture@{Get\+G\+Buffer\+Texture}}
+\index{Get\+G\+Buffer\+Texture@{Get\+G\+Buffer\+Texture}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Get\+G\+Buffer\+Texture(\+G\+Buffer\+Texture\+Id t\+I\+D) const }]{\setlength{\rightskip}{0pt plus 5cm}const oglplus\+::\+Texture \& Deferred\+Handler\+::\+Get\+G\+Buffer\+Texture (
+\begin{DoxyParamCaption}
+\item[{{\bf G\+Buffer\+Texture\+Id}}]{t\+I\+D}
+\end{DoxyParamCaption}
+) const}\label{class_deferred_handler_af3a1176c3d6708a8a564194920a89176}
+
+
+Definition at line 261 of file deferred\+\_\+handler.\+cpp.
+
+\hypertarget{class_deferred_handler_a4ca3be75245b77738870df6ee469f7d9}{}\index{Deferred\+Handler@{Deferred\+Handler}!Read\+G\+Buffer@{Read\+G\+Buffer}}
+\index{Read\+G\+Buffer@{Read\+G\+Buffer}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Read\+G\+Buffer(const G\+Buffer\+Texture\+Id \&g\+Buffer\+Tex\+Type)}]{\setlength{\rightskip}{0pt plus 5cm}void Deferred\+Handler\+::\+Read\+G\+Buffer (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\+Buffer\+Texture\+Id} \&}]{g\+Buffer\+Tex\+Type}
+\end{DoxyParamCaption}
+)}\label{class_deferred_handler_a4ca3be75245b77738870df6ee469f7d9}
+
+
+Definition at line 213 of file deferred\+\_\+handler.\+cpp.
+
+\hypertarget{class_deferred_handler_adb21f77f5c42db5112e064e7480afab7}{}\index{Deferred\+Handler@{Deferred\+Handler}!Render\+F\+S\+Quad@{Render\+F\+S\+Quad}}
+\index{Render\+F\+S\+Quad@{Render\+F\+S\+Quad}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Render\+F\+S\+Quad()}]{\setlength{\rightskip}{0pt plus 5cm}void Deferred\+Handler\+::\+Render\+F\+S\+Quad (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_deferred_handler_adb21f77f5c42db5112e064e7480afab7}
+
+
+Definition at line 49 of file deferred\+\_\+handler.\+cpp.
+
+\hypertarget{class_deferred_handler_a7da8f85708a2fec2e44cd82d9dddd040}{}\index{Deferred\+Handler@{Deferred\+Handler}!Set\+Light\+Pass\+Uniforms@{Set\+Light\+Pass\+Uniforms}}
+\index{Set\+Light\+Pass\+Uniforms@{Set\+Light\+Pass\+Uniforms}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Set\+Light\+Pass\+Uniforms(const glm\+::vec3 \&view\+Position, const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ Light $>$$>$ \&lights)}]{\setlength{\rightskip}{0pt plus 5cm}void Deferred\+Handler\+::\+Set\+Light\+Pass\+Uniforms (
+\begin{DoxyParamCaption}
+\item[{const glm\+::vec3 \&}]{view\+Position, }
+\item[{const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ {\bf Light} $>$$>$ \&}]{lights}
+\end{DoxyParamCaption}
+)}\label{class_deferred_handler_a7da8f85708a2fec2e44cd82d9dddd040}
+
+
+Definition at line 238 of file deferred\+\_\+handler.\+cpp.
+
+\hypertarget{class_deferred_handler_ad5af8e9dc5e2a47e6849af52d6e1943f}{}\index{Deferred\+Handler@{Deferred\+Handler}!Use\+Geometry\+Pass@{Use\+Geometry\+Pass}}
+\index{Use\+Geometry\+Pass@{Use\+Geometry\+Pass}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Use\+Geometry\+Pass() const }]{\setlength{\rightskip}{0pt plus 5cm}void Deferred\+Handler\+::\+Use\+Geometry\+Pass (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_deferred_handler_ad5af8e9dc5e2a47e6849af52d6e1943f}
+
+
+Definition at line 145 of file deferred\+\_\+handler.\+h.
+
+\hypertarget{class_deferred_handler_a316f5981198a22454e3d767f72827d4a}{}\index{Deferred\+Handler@{Deferred\+Handler}!Use\+Light\+Pass@{Use\+Light\+Pass}}
+\index{Use\+Light\+Pass@{Use\+Light\+Pass}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{Use\+Light\+Pass() const }]{\setlength{\rightskip}{0pt plus 5cm}void Deferred\+Handler\+::\+Use\+Light\+Pass (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_deferred_handler_a316f5981198a22454e3d767f72827d4a}
+
+
+Definition at line 146 of file deferred\+\_\+handler.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_deferred_handler_ae4c429b5ccbb6c063cbf58e2339d386b}{}\index{Deferred\+Handler@{Deferred\+Handler}!geometry\+Pass@{geometry\+Pass}}
+\index{geometry\+Pass@{geometry\+Pass}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{geometry\+Pass}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Deferred\+Program} Deferred\+Handler\+::geometry\+Pass}\label{class_deferred_handler_ae4c429b5ccbb6c063cbf58e2339d386b}
+
+
+Definition at line 122 of file deferred\+\_\+handler.\+h.
+
+\hypertarget{class_deferred_handler_a4138df076eeb76aa0720c7b9ca9e3b6f}{}\index{Deferred\+Handler@{Deferred\+Handler}!light\+Pass@{light\+Pass}}
+\index{light\+Pass@{light\+Pass}!Deferred\+Handler@{Deferred\+Handler}}
+\subsubsection[{light\+Pass}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Deferred\+Program} Deferred\+Handler\+::light\+Pass}\label{class_deferred_handler_a4138df076eeb76aa0720c7b9ca9e3b6f}
+
+
+Definition at line 123 of file deferred\+\_\+handler.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/core/\hyperlink{deferred__handler_8h}{deferred\+\_\+handler.\+h}\item 
+V\+C\+T\+\_\+\+Engine/core/\hyperlink{deferred__handler_8cpp}{deferred\+\_\+handler.\+cpp}\end{DoxyCompactItemize}

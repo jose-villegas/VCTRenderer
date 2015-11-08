@@ -1,0 +1,120 @@
+\hypertarget{class_frustum}{}\section{Frustum Class Reference}
+\label{class_frustum}\index{Frustum@{Frustum}}
+
+
+{\ttfamily \#include $<$frustum.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_frustum_ab13c65bf33cca74e109102b20fe89618}{Plane} \{ \\*
+\hyperlink{class_frustum_ab13c65bf33cca74e109102b20fe89618a2961bf301b55c811a8435c4000c152a5}{Right} = 0, 
+\hyperlink{class_frustum_ab13c65bf33cca74e109102b20fe89618ad607091e013acc67ae312b4c61963226}{Left}, 
+\hyperlink{class_frustum_ab13c65bf33cca74e109102b20fe89618a1025204d654a9505265ec18e87503f46}{Bottom}, 
+\hyperlink{class_frustum_ab13c65bf33cca74e109102b20fe89618a623424434c3e752ad4e206c9da93d1e3}{Top}, 
+\\*
+\hyperlink{class_frustum_ab13c65bf33cca74e109102b20fe89618afd3ac9bb34d2a501bccc633ab63ddd3b}{Far}, 
+\hyperlink{class_frustum_ab13c65bf33cca74e109102b20fe89618a9b3693612ae3f8ddf27458309b83be64}{Near}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_frustum_a172ae3492592e3ac891642299d628494}{Frustum} ()
+\item 
+virtual \hyperlink{class_frustum_ab02405770e9189e2e8edf51a3955bde2}{$\sim$\+Frustum} ()
+\item 
+void \hyperlink{class_frustum_a53a30457a28c43b1cfeee487646ca8b2}{Calculate\+Planes} (const glm\+::mat4x4 \&mv\+Matrix)
+\item 
+bool \hyperlink{class_frustum_acbbcf180fa80aa2b4fca53be69ab3636}{Box\+In\+Frustum} (const \hyperlink{class_bounding_volume}{Bounding\+Volume} \&b\+Volume)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 4 of file frustum.\+h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_frustum_ab13c65bf33cca74e109102b20fe89618}{}\index{Frustum@{Frustum}!Plane@{Plane}}
+\index{Plane@{Plane}!Frustum@{Frustum}}
+\subsubsection[{Plane}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Frustum\+::\+Plane}}\label{class_frustum_ab13c65bf33cca74e109102b20fe89618}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Right@{Right}!Frustum@{Frustum}}\index{Frustum@{Frustum}!Right@{Right}}\item[{\em 
+\hypertarget{class_frustum_ab13c65bf33cca74e109102b20fe89618a2961bf301b55c811a8435c4000c152a5}{}Right\label{class_frustum_ab13c65bf33cca74e109102b20fe89618a2961bf301b55c811a8435c4000c152a5}
+}]\index{Left@{Left}!Frustum@{Frustum}}\index{Frustum@{Frustum}!Left@{Left}}\item[{\em 
+\hypertarget{class_frustum_ab13c65bf33cca74e109102b20fe89618ad607091e013acc67ae312b4c61963226}{}Left\label{class_frustum_ab13c65bf33cca74e109102b20fe89618ad607091e013acc67ae312b4c61963226}
+}]\index{Bottom@{Bottom}!Frustum@{Frustum}}\index{Frustum@{Frustum}!Bottom@{Bottom}}\item[{\em 
+\hypertarget{class_frustum_ab13c65bf33cca74e109102b20fe89618a1025204d654a9505265ec18e87503f46}{}Bottom\label{class_frustum_ab13c65bf33cca74e109102b20fe89618a1025204d654a9505265ec18e87503f46}
+}]\index{Top@{Top}!Frustum@{Frustum}}\index{Frustum@{Frustum}!Top@{Top}}\item[{\em 
+\hypertarget{class_frustum_ab13c65bf33cca74e109102b20fe89618a623424434c3e752ad4e206c9da93d1e3}{}Top\label{class_frustum_ab13c65bf33cca74e109102b20fe89618a623424434c3e752ad4e206c9da93d1e3}
+}]\index{Far@{Far}!Frustum@{Frustum}}\index{Frustum@{Frustum}!Far@{Far}}\item[{\em 
+\hypertarget{class_frustum_ab13c65bf33cca74e109102b20fe89618afd3ac9bb34d2a501bccc633ab63ddd3b}{}Far\label{class_frustum_ab13c65bf33cca74e109102b20fe89618afd3ac9bb34d2a501bccc633ab63ddd3b}
+}]\index{Near@{Near}!Frustum@{Frustum}}\index{Frustum@{Frustum}!Near@{Near}}\item[{\em 
+\hypertarget{class_frustum_ab13c65bf33cca74e109102b20fe89618a9b3693612ae3f8ddf27458309b83be64}{}Near\label{class_frustum_ab13c65bf33cca74e109102b20fe89618a9b3693612ae3f8ddf27458309b83be64}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 8 of file frustum.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_frustum_a172ae3492592e3ac891642299d628494}{}\index{Frustum@{Frustum}!Frustum@{Frustum}}
+\index{Frustum@{Frustum}!Frustum@{Frustum}}
+\subsubsection[{Frustum()}]{\setlength{\rightskip}{0pt plus 5cm}Frustum\+::\+Frustum (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_frustum_a172ae3492592e3ac891642299d628494}
+
+
+Definition at line 5 of file frustum.\+cpp.
+
+\hypertarget{class_frustum_ab02405770e9189e2e8edf51a3955bde2}{}\index{Frustum@{Frustum}!````~Frustum@{$\sim$\+Frustum}}
+\index{````~Frustum@{$\sim$\+Frustum}!Frustum@{Frustum}}
+\subsubsection[{$\sim$\+Frustum()}]{\setlength{\rightskip}{0pt plus 5cm}Frustum\+::$\sim$\+Frustum (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_frustum_ab02405770e9189e2e8edf51a3955bde2}
+
+
+Definition at line 10 of file frustum.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_frustum_acbbcf180fa80aa2b4fca53be69ab3636}{}\index{Frustum@{Frustum}!Box\+In\+Frustum@{Box\+In\+Frustum}}
+\index{Box\+In\+Frustum@{Box\+In\+Frustum}!Frustum@{Frustum}}
+\subsubsection[{Box\+In\+Frustum(const Bounding\+Volume \&b\+Volume)}]{\setlength{\rightskip}{0pt plus 5cm}bool Frustum\+::\+Box\+In\+Frustum (
+\begin{DoxyParamCaption}
+\item[{const {\bf Bounding\+Volume} \&}]{b\+Volume}
+\end{DoxyParamCaption}
+)}\label{class_frustum_acbbcf180fa80aa2b4fca53be69ab3636}
+
+
+Definition at line 53 of file frustum.\+cpp.
+
+\hypertarget{class_frustum_a53a30457a28c43b1cfeee487646ca8b2}{}\index{Frustum@{Frustum}!Calculate\+Planes@{Calculate\+Planes}}
+\index{Calculate\+Planes@{Calculate\+Planes}!Frustum@{Frustum}}
+\subsubsection[{Calculate\+Planes(const glm\+::mat4x4 \&mv\+Matrix)}]{\setlength{\rightskip}{0pt plus 5cm}void Frustum\+::\+Calculate\+Planes (
+\begin{DoxyParamCaption}
+\item[{const glm\+::mat4x4 \&}]{mv\+Matrix}
+\end{DoxyParamCaption}
+)}\label{class_frustum_a53a30457a28c43b1cfeee487646ca8b2}
+
+
+Definition at line 14 of file frustum.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/types/\hyperlink{frustum_8h}{frustum.\+h}\item 
+V\+C\+T\+\_\+\+Engine/types/\hyperlink{frustum_8cpp}{frustum.\+cpp}\end{DoxyCompactItemize}

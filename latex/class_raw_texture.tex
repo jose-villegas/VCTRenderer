@@ -1,0 +1,248 @@
+\hypertarget{class_raw_texture}{}\section{Raw\+Texture Class Reference}
+\label{class_raw_texture}\index{Raw\+Texture@{Raw\+Texture}}
+
+
+{\ttfamily \#include $<$texture.\+h$>$}
+
+Inheritance diagram for Raw\+Texture\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_raw_texture}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6d}{Texture\+Type} \{ \\*
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da78fec4598173ba0ac7e88172f904bf14}{None}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078}{Diffuse}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0}{Specular}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d}{Ambient}, 
+\\*
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c}{Emissive}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da36aa55c6d051efa1528323021dc6bfdb}{Height}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da31db990e66434b96fc42213080e8aee5}{Normals}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f}{Shininess}, 
+\\*
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da578768bb075d4923ac61b46940c5fa83}{Opacity}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303}{Displacement}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da5d61225d770ccb26dd0467db41c49c40}{Lightmap}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6daeb9ce3fdf067487fa1c3c543eadcb995}{Reflection}, 
+\\*
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da80a818ecbfab54372aaa78f8eefff24e}{Unknow}, 
+\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6daf629e42f84129e5f38c0b66b4887f09b}{T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_raw_texture_abc0bd100ec01cb31fd21dffb4a9dcab3}{Free\+Raw\+Data} ()
+\item 
+std\+::string \hyperlink{class_raw_texture_a481b8bb91a2218f802ad45ac9e9d9f77}{Get\+Filepath} () const 
+\item 
+\hyperlink{class_raw_texture_aaf66d9b0d654b8a2ddb02341aa660c52}{Raw\+Texture} ()
+\item 
+\hyperlink{class_raw_texture_a7d8603a772731a706575d2a4e42aca89}{$\sim$\+Raw\+Texture} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::set$<$ \hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6d}{Texture\+Type} $>$ \hyperlink{class_raw_texture_a41f22696466ec5f4996f0f4dccc7e5e0}{texture\+Types}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_raw_texture_a0f5f0ecaf7fd35c4fba96462d760aa0b}{filepath}
+\item 
+unsigned int \hyperlink{class_raw_texture_ac5e37bde9f359cb9676891d8636e75d0}{height}
+\item 
+unsigned int \hyperlink{class_raw_texture_a8db9a3ed2c3851077b13b881db99232c}{width}
+\item 
+unsigned int \hyperlink{class_raw_texture_abfd4db2756cc368282a55b1a6f8fc566}{depth}
+\item 
+unsigned int \hyperlink{class_raw_texture_a2bdb867781ad732469c7d03d9ce46f55}{line\+Width}
+\item 
+unsigned int \hyperlink{class_raw_texture_a30328bee28779a85b47f25886f1a3ff2}{bits\+Per\+Pixel}
+\item 
+std\+::unique\+\_\+ptr$<$ unsigned char $>$ \hyperlink{class_raw_texture_abe931dadd2a4b5bdbe82ee31f87ae60c}{raw\+Data}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_raw_texture_a72d3411e09812d0e365245420a64c3ec}{Texture\+Importer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 3 of file texture.\+h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6d}{}\index{Raw\+Texture@{Raw\+Texture}!Texture\+Type@{Texture\+Type}}
+\index{Texture\+Type@{Texture\+Type}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{Texture\+Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Raw\+Texture\+::\+Texture\+Type}}\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6d}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{None@{None}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!None@{None}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da78fec4598173ba0ac7e88172f904bf14}{}None\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da78fec4598173ba0ac7e88172f904bf14}
+}]\index{Diffuse@{Diffuse}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Diffuse@{Diffuse}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078}{}Diffuse\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078}
+}]\index{Specular@{Specular}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Specular@{Specular}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0}{}Specular\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0}
+}]\index{Ambient@{Ambient}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Ambient@{Ambient}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d}{}Ambient\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d}
+}]\index{Emissive@{Emissive}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Emissive@{Emissive}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c}{}Emissive\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c}
+}]\index{Height@{Height}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Height@{Height}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da36aa55c6d051efa1528323021dc6bfdb}{}Height\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da36aa55c6d051efa1528323021dc6bfdb}
+}]\index{Normals@{Normals}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Normals@{Normals}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da31db990e66434b96fc42213080e8aee5}{}Normals\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da31db990e66434b96fc42213080e8aee5}
+}]\index{Shininess@{Shininess}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Shininess@{Shininess}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f}{}Shininess\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f}
+}]\index{Opacity@{Opacity}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Opacity@{Opacity}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da578768bb075d4923ac61b46940c5fa83}{}Opacity\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da578768bb075d4923ac61b46940c5fa83}
+}]\index{Displacement@{Displacement}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Displacement@{Displacement}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303}{}Displacement\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303}
+}]\index{Lightmap@{Lightmap}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Lightmap@{Lightmap}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da5d61225d770ccb26dd0467db41c49c40}{}Lightmap\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da5d61225d770ccb26dd0467db41c49c40}
+}]\index{Reflection@{Reflection}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Reflection@{Reflection}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6daeb9ce3fdf067487fa1c3c543eadcb995}{}Reflection\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6daeb9ce3fdf067487fa1c3c543eadcb995}
+}]\index{Unknow@{Unknow}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!Unknow@{Unknow}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da80a818ecbfab54372aaa78f8eefff24e}{}Unknow\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6da80a818ecbfab54372aaa78f8eefff24e}
+}]\index{T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X@{T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X}!Raw\+Texture@{Raw\+Texture}}\index{Raw\+Texture@{Raw\+Texture}!T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X@{T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X}}\item[{\em 
+\hypertarget{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6daf629e42f84129e5f38c0b66b4887f09b}{}T\+E\+X\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+M\+A\+X\label{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6daf629e42f84129e5f38c0b66b4887f09b}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 6 of file texture.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_raw_texture_aaf66d9b0d654b8a2ddb02341aa660c52}{}\index{Raw\+Texture@{Raw\+Texture}!Raw\+Texture@{Raw\+Texture}}
+\index{Raw\+Texture@{Raw\+Texture}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{Raw\+Texture()}]{\setlength{\rightskip}{0pt plus 5cm}Raw\+Texture\+::\+Raw\+Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_raw_texture_aaf66d9b0d654b8a2ddb02341aa660c52}
+
+
+Definition at line 12 of file texture.\+cpp.
+
+\hypertarget{class_raw_texture_a7d8603a772731a706575d2a4e42aca89}{}\index{Raw\+Texture@{Raw\+Texture}!````~Raw\+Texture@{$\sim$\+Raw\+Texture}}
+\index{````~Raw\+Texture@{$\sim$\+Raw\+Texture}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{$\sim$\+Raw\+Texture()}]{\setlength{\rightskip}{0pt plus 5cm}Raw\+Texture\+::$\sim$\+Raw\+Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_raw_texture_a7d8603a772731a706575d2a4e42aca89}
+
+
+Definition at line 17 of file texture.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_raw_texture_abc0bd100ec01cb31fd21dffb4a9dcab3}{}\index{Raw\+Texture@{Raw\+Texture}!Free\+Raw\+Data@{Free\+Raw\+Data}}
+\index{Free\+Raw\+Data@{Free\+Raw\+Data}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{Free\+Raw\+Data()}]{\setlength{\rightskip}{0pt plus 5cm}void Raw\+Texture\+::\+Free\+Raw\+Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_raw_texture_abc0bd100ec01cb31fd21dffb4a9dcab3}
+
+
+Definition at line 4 of file texture.\+cpp.
+
+\hypertarget{class_raw_texture_a481b8bb91a2218f802ad45ac9e9d9f77}{}\index{Raw\+Texture@{Raw\+Texture}!Get\+Filepath@{Get\+Filepath}}
+\index{Get\+Filepath@{Get\+Filepath}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{Get\+Filepath() const }]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Raw\+Texture\+::\+Get\+Filepath (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_raw_texture_a481b8bb91a2218f802ad45ac9e9d9f77}
+
+
+Definition at line 28 of file texture.\+h.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_raw_texture_a72d3411e09812d0e365245420a64c3ec}{}\index{Raw\+Texture@{Raw\+Texture}!Texture\+Importer@{Texture\+Importer}}
+\index{Texture\+Importer@{Texture\+Importer}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{Texture\+Importer}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Texture\+Importer}\hspace{0.3cm}{\ttfamily [friend]}}\label{class_raw_texture_a72d3411e09812d0e365245420a64c3ec}
+
+
+Definition at line 49 of file texture.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_raw_texture_a30328bee28779a85b47f25886f1a3ff2}{}\index{Raw\+Texture@{Raw\+Texture}!bits\+Per\+Pixel@{bits\+Per\+Pixel}}
+\index{bits\+Per\+Pixel@{bits\+Per\+Pixel}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{bits\+Per\+Pixel}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Raw\+Texture\+::bits\+Per\+Pixel\hspace{0.3cm}{\ttfamily [protected]}}\label{class_raw_texture_a30328bee28779a85b47f25886f1a3ff2}
+
+
+Definition at line 37 of file texture.\+h.
+
+\hypertarget{class_raw_texture_abfd4db2756cc368282a55b1a6f8fc566}{}\index{Raw\+Texture@{Raw\+Texture}!depth@{depth}}
+\index{depth@{depth}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{depth}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Raw\+Texture\+::depth\hspace{0.3cm}{\ttfamily [protected]}}\label{class_raw_texture_abfd4db2756cc368282a55b1a6f8fc566}
+
+
+Definition at line 34 of file texture.\+h.
+
+\hypertarget{class_raw_texture_a0f5f0ecaf7fd35c4fba96462d760aa0b}{}\index{Raw\+Texture@{Raw\+Texture}!filepath@{filepath}}
+\index{filepath@{filepath}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{filepath}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Raw\+Texture\+::filepath\hspace{0.3cm}{\ttfamily [protected]}}\label{class_raw_texture_a0f5f0ecaf7fd35c4fba96462d760aa0b}
+
+
+Definition at line 30 of file texture.\+h.
+
+\hypertarget{class_raw_texture_ac5e37bde9f359cb9676891d8636e75d0}{}\index{Raw\+Texture@{Raw\+Texture}!height@{height}}
+\index{height@{height}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{height}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Raw\+Texture\+::height\hspace{0.3cm}{\ttfamily [protected]}}\label{class_raw_texture_ac5e37bde9f359cb9676891d8636e75d0}
+
+
+Definition at line 32 of file texture.\+h.
+
+\hypertarget{class_raw_texture_a2bdb867781ad732469c7d03d9ce46f55}{}\index{Raw\+Texture@{Raw\+Texture}!line\+Width@{line\+Width}}
+\index{line\+Width@{line\+Width}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{line\+Width}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Raw\+Texture\+::line\+Width\hspace{0.3cm}{\ttfamily [protected]}}\label{class_raw_texture_a2bdb867781ad732469c7d03d9ce46f55}
+
+
+Definition at line 36 of file texture.\+h.
+
+\hypertarget{class_raw_texture_abe931dadd2a4b5bdbe82ee31f87ae60c}{}\index{Raw\+Texture@{Raw\+Texture}!raw\+Data@{raw\+Data}}
+\index{raw\+Data@{raw\+Data}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{raw\+Data}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<$unsigned char$>$ Raw\+Texture\+::raw\+Data\hspace{0.3cm}{\ttfamily [protected]}}\label{class_raw_texture_abe931dadd2a4b5bdbe82ee31f87ae60c}
+
+
+Definition at line 39 of file texture.\+h.
+
+\hypertarget{class_raw_texture_a41f22696466ec5f4996f0f4dccc7e5e0}{}\index{Raw\+Texture@{Raw\+Texture}!texture\+Types@{texture\+Types}}
+\index{texture\+Types@{texture\+Types}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{texture\+Types}]{\setlength{\rightskip}{0pt plus 5cm}std\+::set$<${\bf Texture\+Type}$>$ Raw\+Texture\+::texture\+Types}\label{class_raw_texture_a41f22696466ec5f4996f0f4dccc7e5e0}
+
+
+Definition at line 24 of file texture.\+h.
+
+\hypertarget{class_raw_texture_a8db9a3ed2c3851077b13b881db99232c}{}\index{Raw\+Texture@{Raw\+Texture}!width@{width}}
+\index{width@{width}!Raw\+Texture@{Raw\+Texture}}
+\subsubsection[{width}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Raw\+Texture\+::width\hspace{0.3cm}{\ttfamily [protected]}}\label{class_raw_texture_a8db9a3ed2c3851077b13b881db99232c}
+
+
+Definition at line 33 of file texture.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{texture_8h}{texture.\+h}\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{texture_8cpp}{texture.\+cpp}\end{DoxyCompactItemize}

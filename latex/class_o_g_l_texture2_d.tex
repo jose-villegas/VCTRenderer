@@ -1,0 +1,354 @@
+\hypertarget{class_o_g_l_texture2_d}{}\section{O\+G\+L\+Texture2\+D Class Reference}
+\label{class_o_g_l_texture2_d}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+
+
+{\ttfamily \#include $<$texture.\+h$>$}
+
+Inheritance diagram for O\+G\+L\+Texture2\+D\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_o_g_l_texture2_d}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3}{Min\+Filter} \+: unsigned int \{ \\*
+\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a60494f02d440f316319dd0fad40ad007}{Min\+Filter\+::\+Nearest} = (unsigned int)oglplus\+:\+:Texture\+Min\+Filter\+:\+:Nearest, 
+\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a32a843da6ea40ab3b17a3421ccdf671b}{Min\+Filter\+::\+Linear} = (unsigned int)oglplus\+:\+:Texture\+Min\+Filter\+:\+:Linear, 
+\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a35d97e4a37fa3a0d76c692f3e318599b}{Min\+Filter\+::\+Nearest\+Mipmap\+Nearest} = (unsigned int)oglplus\+:\+:Texture\+Min\+Filter\+:\+:Nearest\+Mipmap\+Nearest, 
+\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3ac164897273ad7f6d61626f5610d86425}{Min\+Filter\+::\+Linear\+Mipmap\+Nearest} = (unsigned int)oglplus\+:\+:Texture\+Min\+Filter\+:\+:Linear\+Mipmap\+Nearest, 
+\\*
+\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a9a79df5c07e4d2a2875689f608b50529}{Min\+Filter\+::\+Nearest\+Mipmap\+Linear} = (unsigned int)oglplus\+:\+:Texture\+Min\+Filter\+:\+:Nearest\+Mipmap\+Linear, 
+\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a1173bd3987b1e185d86b9c3fe1b8bd72}{Min\+Filter\+::\+Linear\+Mipmap\+Linear} = (unsigned int)oglplus\+:\+:Texture\+Min\+Filter\+:\+:Linear\+Mipmap\+Linear
+ \}
+\item 
+enum \hyperlink{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25}{Mag\+Filter} \+: unsigned int \{ \hyperlink{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25a60494f02d440f316319dd0fad40ad007}{Mag\+Filter\+::\+Nearest} = (unsigned int)oglplus\+:\+:Texture\+Mag\+Filter\+:\+:Nearest, 
+\hyperlink{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25a32a843da6ea40ab3b17a3421ccdf671b}{Mag\+Filter\+::\+Linear} = (unsigned int)oglplus\+:\+:Texture\+Mag\+Filter\+:\+:Linear
+ \}
+\item 
+enum \hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cc}{Wrap\+Mode} \+: unsigned int \{ \hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca7020426cfb0a204051be4b3053d2acc8}{Wrap\+Mode\+::\+Repeat} = (unsigned int)oglplus\+:\+:Texture\+Wrap\+:\+:Repeat, 
+\hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca12ce4a5977988214a6b098b8cb0bf695}{Wrap\+Mode\+::\+Mirrored\+Repeat} = (unsigned int)oglplus\+:\+:Texture\+Wrap\+:\+:Mirrored\+Repeat, 
+\hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca74556551231333c36debc3d373261134}{Wrap\+Mode\+::\+Clamp\+To\+Edge} = (unsigned int)oglplus\+:\+:Texture\+Wrap\+:\+:Clamp\+To\+Edge, 
+\hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10ccafb07f88f6f11cc5ab9c951290716f147}{Wrap\+Mode\+::\+Clamp\+To\+Border} = (unsigned int)oglplus\+:\+:Texture\+Wrap\+:\+:Clamp\+To\+Border
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_o_g_l_texture2_d_a5f3587a49e018d390c9474e89d9ae15e}{O\+G\+L\+Texture2\+D} ()
+\item 
+virtual \hyperlink{class_o_g_l_texture2_d_a2e6d4cd96428f3f85485f9d1fd311c80}{$\sim$\+O\+G\+L\+Texture2\+D} ()
+\item 
+G\+Luint \hyperlink{class_o_g_l_texture2_d_aceb3c2fe81ee4137fbf412def59c449e}{Upload\+To\+G\+P\+U} (\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3}{Min\+Filter} \hyperlink{class_o_g_l_texture2_d_a064aa8eb5f6a5bc10300c0a68fd95c10}{min\+Filter}=\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a1173bd3987b1e185d86b9c3fe1b8bd72}{Min\+Filter\+::\+Linear\+Mipmap\+Linear}, \hyperlink{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25}{Mag\+Filter} \hyperlink{class_o_g_l_texture2_d_abcc4f2fdc77667a1ff83d0f23b94fbdd}{mag\+Filter}=\hyperlink{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25a32a843da6ea40ab3b17a3421ccdf671b}{Mag\+Filter\+::\+Linear}, \hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cc}{Wrap\+Mode} \hyperlink{class_o_g_l_texture2_d_a9ce6cda4bc4c3149447c20017c35efd8}{wrap\+S}=\hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca7020426cfb0a204051be4b3053d2acc8}{Wrap\+Mode\+::\+Repeat}, \hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cc}{Wrap\+Mode} \hyperlink{class_o_g_l_texture2_d_a66d477be8c69a34eb6dc5660926bf28f}{wrap\+T}=\hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca7020426cfb0a204051be4b3053d2acc8}{Wrap\+Mode\+::\+Repeat}, bool unload\+From\+R\+A\+M=true, bool generate\+Mipmaps=true, glm\+::vec4 \hyperlink{class_o_g_l_texture2_d_ab49fd4b19ab6b299d99c128b90861e9d}{border\+Color}=glm\+::vec4(0.f))
+\item 
+bool \hyperlink{class_o_g_l_texture2_d_aaae8e4366b6a604aefe29a084c829b40}{On\+G\+P\+U\+Memory} () const 
+\item 
+void \hyperlink{class_o_g_l_texture2_d_a847cee596365faa58b86887a24384402}{Bind} ()
+\item 
+int \hyperlink{class_o_g_l_texture2_d_a565bb9c1091b837eb319f90dd47bae8d}{Name} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unique\+\_\+ptr$<$ \hyperlink{class_o_g_l_texture2_d}{O\+G\+L\+Texture2\+D} $>$ \& \hyperlink{class_o_g_l_texture2_d_aeb3f3e851142bc49196052fb1d5d08dc}{Get\+Default\+Texture} ()
+\item 
+static std\+::unique\+\_\+ptr$<$ \hyperlink{class_o_g_l_texture2_d}{O\+G\+L\+Texture2\+D} $>$ \& \hyperlink{class_o_g_l_texture2_d_a04fd79abfd27a237fb33fc4a16c4fb80}{Get\+Default\+Normal\+Texture} ()
+\item 
+static std\+::unique\+\_\+ptr$<$ \hyperlink{class_o_g_l_texture2_d}{O\+G\+L\+Texture2\+D} $>$ \& \hyperlink{class_o_g_l_texture2_d_a928c3129e954a9e11f6436286a95c1a0}{Get\+Error\+Texture} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_o_g_l_texture2_d}{O\+G\+L\+Texture2\+D} $\ast$ \hyperlink{class_o_g_l_texture2_d_ac6df286dd7a9c8a51393106fc49f2138}{Create\+Color\+Texture} (std\+::string tex\+Name, glm\+::u8vec3 tex\+Color)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unique\+\_\+ptr$<$ oglplus\+::\+Texture $>$ \hyperlink{class_o_g_l_texture2_d_a81c34266417bac598a6dcf78655e3657}{ogl\+Texture}
+\item 
+bool \hyperlink{class_o_g_l_texture2_d_ad0f35d77499d646cee162e9a3213c243}{mipmap\+Generated}
+\item 
+glm\+::vec4 \hyperlink{class_o_g_l_texture2_d_ab49fd4b19ab6b299d99c128b90861e9d}{border\+Color}
+\item 
+\hyperlink{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25}{Mag\+Filter} \hyperlink{class_o_g_l_texture2_d_abcc4f2fdc77667a1ff83d0f23b94fbdd}{mag\+Filter}
+\item 
+\hyperlink{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3}{Min\+Filter} \hyperlink{class_o_g_l_texture2_d_a064aa8eb5f6a5bc10300c0a68fd95c10}{min\+Filter}
+\item 
+\hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cc}{Wrap\+Mode} \hyperlink{class_o_g_l_texture2_d_a9ce6cda4bc4c3149447c20017c35efd8}{wrap\+S}
+\item 
+\hyperlink{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cc}{Wrap\+Mode} \hyperlink{class_o_g_l_texture2_d_a66d477be8c69a34eb6dc5660926bf28f}{wrap\+T}
+\item 
+bool \hyperlink{class_o_g_l_texture2_d_a986498afd6ef99ef2bfc05b62a4c5b8b}{on\+G\+P\+U\+Memory}
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static oglplus\+::\+Context \hyperlink{class_o_g_l_texture2_d_a53d4b615b88288938afb52730022d6a8}{gl}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 53 of file texture.\+h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Mag\+Filter@{Mag\+Filter}}
+\index{Mag\+Filter@{Mag\+Filter}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Mag\+Filter}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf O\+G\+L\+Texture2\+D\+::\+Mag\+Filter} \+: unsigned int\hspace{0.3cm}{\ttfamily [strong]}}\label{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Nearest@{Nearest}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Nearest@{Nearest}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25a60494f02d440f316319dd0fad40ad007}{}Nearest\label{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25a60494f02d440f316319dd0fad40ad007}
+}]\index{Linear@{Linear}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Linear@{Linear}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25a32a843da6ea40ab3b17a3421ccdf671b}{}Linear\label{class_o_g_l_texture2_d_ad72001307eaec4898b25c749c1857f25a32a843da6ea40ab3b17a3421ccdf671b}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 66 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Min\+Filter@{Min\+Filter}}
+\index{Min\+Filter@{Min\+Filter}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Min\+Filter}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf O\+G\+L\+Texture2\+D\+::\+Min\+Filter} \+: unsigned int\hspace{0.3cm}{\ttfamily [strong]}}\label{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Nearest@{Nearest}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Nearest@{Nearest}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a60494f02d440f316319dd0fad40ad007}{}Nearest\label{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a60494f02d440f316319dd0fad40ad007}
+}]\index{Linear@{Linear}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Linear@{Linear}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a32a843da6ea40ab3b17a3421ccdf671b}{}Linear\label{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a32a843da6ea40ab3b17a3421ccdf671b}
+}]\index{Nearest\+Mipmap\+Nearest@{Nearest\+Mipmap\+Nearest}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Nearest\+Mipmap\+Nearest@{Nearest\+Mipmap\+Nearest}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a35d97e4a37fa3a0d76c692f3e318599b}{}Nearest\+Mipmap\+Nearest\label{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a35d97e4a37fa3a0d76c692f3e318599b}
+}]\index{Linear\+Mipmap\+Nearest@{Linear\+Mipmap\+Nearest}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Linear\+Mipmap\+Nearest@{Linear\+Mipmap\+Nearest}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3ac164897273ad7f6d61626f5610d86425}{}Linear\+Mipmap\+Nearest\label{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3ac164897273ad7f6d61626f5610d86425}
+}]\index{Nearest\+Mipmap\+Linear@{Nearest\+Mipmap\+Linear}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Nearest\+Mipmap\+Linear@{Nearest\+Mipmap\+Linear}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a9a79df5c07e4d2a2875689f608b50529}{}Nearest\+Mipmap\+Linear\label{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a9a79df5c07e4d2a2875689f608b50529}
+}]\index{Linear\+Mipmap\+Linear@{Linear\+Mipmap\+Linear}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Linear\+Mipmap\+Linear@{Linear\+Mipmap\+Linear}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a1173bd3987b1e185d86b9c3fe1b8bd72}{}Linear\+Mipmap\+Linear\label{class_o_g_l_texture2_d_a853053ed9bf1c5e1024f947303cb0ec3a1173bd3987b1e185d86b9c3fe1b8bd72}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 56 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cc}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Wrap\+Mode@{Wrap\+Mode}}
+\index{Wrap\+Mode@{Wrap\+Mode}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Wrap\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf O\+G\+L\+Texture2\+D\+::\+Wrap\+Mode} \+: unsigned int\hspace{0.3cm}{\ttfamily [strong]}}\label{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cc}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Repeat@{Repeat}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Repeat@{Repeat}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca7020426cfb0a204051be4b3053d2acc8}{}Repeat\label{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca7020426cfb0a204051be4b3053d2acc8}
+}]\index{Mirrored\+Repeat@{Mirrored\+Repeat}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Mirrored\+Repeat@{Mirrored\+Repeat}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca12ce4a5977988214a6b098b8cb0bf695}{}Mirrored\+Repeat\label{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca12ce4a5977988214a6b098b8cb0bf695}
+}]\index{Clamp\+To\+Edge@{Clamp\+To\+Edge}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Clamp\+To\+Edge@{Clamp\+To\+Edge}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca74556551231333c36debc3d373261134}{}Clamp\+To\+Edge\label{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10cca74556551231333c36debc3d373261134}
+}]\index{Clamp\+To\+Border@{Clamp\+To\+Border}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Clamp\+To\+Border@{Clamp\+To\+Border}}\item[{\em 
+\hypertarget{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10ccafb07f88f6f11cc5ab9c951290716f147}{}Clamp\+To\+Border\label{class_o_g_l_texture2_d_ac6dae14737ed8643d30026dceebd10ccafb07f88f6f11cc5ab9c951290716f147}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 72 of file texture.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_o_g_l_texture2_d_a5f3587a49e018d390c9474e89d9ae15e}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{O\+G\+L\+Texture2\+D()}]{\setlength{\rightskip}{0pt plus 5cm}O\+G\+L\+Texture2\+D\+::\+O\+G\+L\+Texture2\+D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_texture2_d_a5f3587a49e018d390c9474e89d9ae15e}
+
+
+Definition at line 165 of file texture.\+cpp.
+
+\hypertarget{class_o_g_l_texture2_d_a2e6d4cd96428f3f85485f9d1fd311c80}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!````~O\+G\+L\+Texture2\+D@{$\sim$\+O\+G\+L\+Texture2\+D}}
+\index{````~O\+G\+L\+Texture2\+D@{$\sim$\+O\+G\+L\+Texture2\+D}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{$\sim$\+O\+G\+L\+Texture2\+D()}]{\setlength{\rightskip}{0pt plus 5cm}O\+G\+L\+Texture2\+D\+::$\sim$\+O\+G\+L\+Texture2\+D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_o_g_l_texture2_d_a2e6d4cd96428f3f85485f9d1fd311c80}
+
+
+Definition at line 169 of file texture.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_o_g_l_texture2_d_a847cee596365faa58b86887a24384402}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Bind@{Bind}}
+\index{Bind@{Bind}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Bind()}]{\setlength{\rightskip}{0pt plus 5cm}void O\+G\+L\+Texture2\+D\+::\+Bind (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_texture2_d_a847cee596365faa58b86887a24384402}
+
+
+Definition at line 86 of file texture.\+cpp.
+
+\hypertarget{class_o_g_l_texture2_d_ac6df286dd7a9c8a51393106fc49f2138}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Create\+Color\+Texture@{Create\+Color\+Texture}}
+\index{Create\+Color\+Texture@{Create\+Color\+Texture}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Create\+Color\+Texture(std\+::string tex\+Name, glm\+::u8vec3 tex\+Color)}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+G\+L\+Texture2\+D} $\ast$ O\+G\+L\+Texture2\+D\+::\+Create\+Color\+Texture (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{tex\+Name, }
+\item[{glm\+::u8vec3}]{tex\+Color}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\label{class_o_g_l_texture2_d_ac6df286dd7a9c8a51393106fc49f2138}
+
+
+Definition at line 91 of file texture.\+cpp.
+
+\hypertarget{class_o_g_l_texture2_d_a04fd79abfd27a237fb33fc4a16c4fb80}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Get\+Default\+Normal\+Texture@{Get\+Default\+Normal\+Texture}}
+\index{Get\+Default\+Normal\+Texture@{Get\+Default\+Normal\+Texture}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Get\+Default\+Normal\+Texture()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<$ {\bf O\+G\+L\+Texture2\+D} $>$ \& O\+G\+L\+Texture2\+D\+::\+Get\+Default\+Normal\+Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{class_o_g_l_texture2_d_a04fd79abfd27a237fb33fc4a16c4fb80}
+
+
+Definition at line 131 of file texture.\+cpp.
+
+\hypertarget{class_o_g_l_texture2_d_aeb3f3e851142bc49196052fb1d5d08dc}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Get\+Default\+Texture@{Get\+Default\+Texture}}
+\index{Get\+Default\+Texture@{Get\+Default\+Texture}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Get\+Default\+Texture()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<$ {\bf O\+G\+L\+Texture2\+D} $>$ \& O\+G\+L\+Texture2\+D\+::\+Get\+Default\+Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{class_o_g_l_texture2_d_aeb3f3e851142bc49196052fb1d5d08dc}
+
+
+Definition at line 114 of file texture.\+cpp.
+
+\hypertarget{class_o_g_l_texture2_d_a928c3129e954a9e11f6436286a95c1a0}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Get\+Error\+Texture@{Get\+Error\+Texture}}
+\index{Get\+Error\+Texture@{Get\+Error\+Texture}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Get\+Error\+Texture()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<$ {\bf O\+G\+L\+Texture2\+D} $>$ \& O\+G\+L\+Texture2\+D\+::\+Get\+Error\+Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{class_o_g_l_texture2_d_a928c3129e954a9e11f6436286a95c1a0}
+
+
+Definition at line 148 of file texture.\+cpp.
+
+\hypertarget{class_o_g_l_texture2_d_a565bb9c1091b837eb319f90dd47bae8d}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Name@{Name}}
+\index{Name@{Name}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Name()}]{\setlength{\rightskip}{0pt plus 5cm}int O\+G\+L\+Texture2\+D\+::\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_o_g_l_texture2_d_a565bb9c1091b837eb319f90dd47bae8d}
+
+
+Definition at line 106 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_aaae8e4366b6a604aefe29a084c829b40}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!On\+G\+P\+U\+Memory@{On\+G\+P\+U\+Memory}}
+\index{On\+G\+P\+U\+Memory@{On\+G\+P\+U\+Memory}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{On\+G\+P\+U\+Memory() const }]{\setlength{\rightskip}{0pt plus 5cm}bool O\+G\+L\+Texture2\+D\+::\+On\+G\+P\+U\+Memory (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{class_o_g_l_texture2_d_aaae8e4366b6a604aefe29a084c829b40}
+
+
+Definition at line 104 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_aceb3c2fe81ee4137fbf412def59c449e}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!Upload\+To\+G\+P\+U@{Upload\+To\+G\+P\+U}}
+\index{Upload\+To\+G\+P\+U@{Upload\+To\+G\+P\+U}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{Upload\+To\+G\+P\+U(\+Min\+Filter min\+Filter=\+Min\+Filter\+::\+Linear\+Mipmap\+Linear, Mag\+Filter mag\+Filter=\+Mag\+Filter\+::\+Linear, Wrap\+Mode wrap\+S=\+Wrap\+Mode\+::\+Repeat, Wrap\+Mode wrap\+T=\+Wrap\+Mode\+::\+Repeat, bool unload\+From\+R\+A\+M=true, bool generate\+Mipmaps=true, glm\+::vec4 border\+Color=glm\+::vec4(0.\+f))}]{\setlength{\rightskip}{0pt plus 5cm}G\+Luint O\+G\+L\+Texture2\+D\+::\+Upload\+To\+G\+P\+U (
+\begin{DoxyParamCaption}
+\item[{{\bf Min\+Filter}}]{min\+Filter = {\ttfamily {\bf Min\+Filter\+::\+Linear\+Mipmap\+Linear}}, }
+\item[{{\bf Mag\+Filter}}]{mag\+Filter = {\ttfamily {\bf Mag\+Filter\+::\+Linear}}, }
+\item[{{\bf Wrap\+Mode}}]{wrap\+S = {\ttfamily {\bf Wrap\+Mode\+::\+Repeat}}, }
+\item[{{\bf Wrap\+Mode}}]{wrap\+T = {\ttfamily {\bf Wrap\+Mode\+::\+Repeat}}, }
+\item[{bool}]{unload\+From\+R\+A\+M = {\ttfamily true}, }
+\item[{bool}]{generate\+Mipmaps = {\ttfamily true}, }
+\item[{glm\+::vec4}]{border\+Color = {\ttfamily glm\+:\+:vec4(0.f)}}
+\end{DoxyParamCaption}
+)}\label{class_o_g_l_texture2_d_aceb3c2fe81ee4137fbf412def59c449e}
+
+
+Definition at line 22 of file texture.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_o_g_l_texture2_d_ab49fd4b19ab6b299d99c128b90861e9d}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!border\+Color@{border\+Color}}
+\index{border\+Color@{border\+Color}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{border\+Color}]{\setlength{\rightskip}{0pt plus 5cm}glm\+::vec4 O\+G\+L\+Texture2\+D\+::border\+Color\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_texture2_d_ab49fd4b19ab6b299d99c128b90861e9d}
+
+
+Definition at line 84 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_a53d4b615b88288938afb52730022d6a8}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!gl@{gl}}
+\index{gl@{gl}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{gl}]{\setlength{\rightskip}{0pt plus 5cm}oglplus\+::\+Context O\+G\+L\+Texture2\+D\+::gl\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\label{class_o_g_l_texture2_d_a53d4b615b88288938afb52730022d6a8}
+
+
+Definition at line 80 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_abcc4f2fdc77667a1ff83d0f23b94fbdd}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!mag\+Filter@{mag\+Filter}}
+\index{mag\+Filter@{mag\+Filter}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{mag\+Filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mag\+Filter} O\+G\+L\+Texture2\+D\+::mag\+Filter\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_texture2_d_abcc4f2fdc77667a1ff83d0f23b94fbdd}
+
+
+Definition at line 85 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_a064aa8eb5f6a5bc10300c0a68fd95c10}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!min\+Filter@{min\+Filter}}
+\index{min\+Filter@{min\+Filter}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{min\+Filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Min\+Filter} O\+G\+L\+Texture2\+D\+::min\+Filter\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_texture2_d_a064aa8eb5f6a5bc10300c0a68fd95c10}
+
+
+Definition at line 86 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_ad0f35d77499d646cee162e9a3213c243}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!mipmap\+Generated@{mipmap\+Generated}}
+\index{mipmap\+Generated@{mipmap\+Generated}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{mipmap\+Generated}]{\setlength{\rightskip}{0pt plus 5cm}bool O\+G\+L\+Texture2\+D\+::mipmap\+Generated\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_texture2_d_ad0f35d77499d646cee162e9a3213c243}
+
+
+Definition at line 83 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_a81c34266417bac598a6dcf78655e3657}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!ogl\+Texture@{ogl\+Texture}}
+\index{ogl\+Texture@{ogl\+Texture}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{ogl\+Texture}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unique\+\_\+ptr$<$oglplus\+::\+Texture$>$ O\+G\+L\+Texture2\+D\+::ogl\+Texture\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_texture2_d_a81c34266417bac598a6dcf78655e3657}
+
+
+Definition at line 81 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_a986498afd6ef99ef2bfc05b62a4c5b8b}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!on\+G\+P\+U\+Memory@{on\+G\+P\+U\+Memory}}
+\index{on\+G\+P\+U\+Memory@{on\+G\+P\+U\+Memory}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{on\+G\+P\+U\+Memory}]{\setlength{\rightskip}{0pt plus 5cm}bool O\+G\+L\+Texture2\+D\+::on\+G\+P\+U\+Memory\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_texture2_d_a986498afd6ef99ef2bfc05b62a4c5b8b}
+
+
+Definition at line 90 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_a9ce6cda4bc4c3149447c20017c35efd8}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!wrap\+S@{wrap\+S}}
+\index{wrap\+S@{wrap\+S}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{wrap\+S}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Wrap\+Mode} O\+G\+L\+Texture2\+D\+::wrap\+S\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_texture2_d_a9ce6cda4bc4c3149447c20017c35efd8}
+
+
+Definition at line 87 of file texture.\+h.
+
+\hypertarget{class_o_g_l_texture2_d_a66d477be8c69a34eb6dc5660926bf28f}{}\index{O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}!wrap\+T@{wrap\+T}}
+\index{wrap\+T@{wrap\+T}!O\+G\+L\+Texture2\+D@{O\+G\+L\+Texture2\+D}}
+\subsubsection[{wrap\+T}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Wrap\+Mode} O\+G\+L\+Texture2\+D\+::wrap\+T\hspace{0.3cm}{\ttfamily [protected]}}\label{class_o_g_l_texture2_d_a66d477be8c69a34eb6dc5660926bf28f}
+
+
+Definition at line 88 of file texture.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{texture_8h}{texture.\+h}\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{texture_8cpp}{texture.\+cpp}\end{DoxyCompactItemize}

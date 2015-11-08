@@ -1,0 +1,247 @@
+\hypertarget{class_renderer}{}\section{Renderer Class Reference}
+\label{class_renderer}\index{Renderer@{Renderer}}
+
+
+{\ttfamily \#include $<$renderer.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_renderer_abb257d89f41b81edc620c813b08738be}{Renderer} (const \hyperlink{class_render_window}{Render\+Window} \&r\+Window)
+\item 
+virtual \hyperlink{class_renderer_afeee408862d5bd6255a6882d47e6d5cd}{$\sim$\+Renderer} ()
+\item 
+void \hyperlink{class_renderer_a24e60dfccf32b9cfa5de30f977fb59d1}{Initialize} ()
+\item 
+void \hyperlink{class_renderer_abd933ca07472ed0e1c7f2395d75d2c33}{Render} (\hyperlink{class_scene}{Scene} \&active\+Scene, \hyperlink{class_camera}{Camera} \&active\+Camera)
+\item 
+\hyperlink{class_deferred_handler}{Deferred\+Handler} \& \hyperlink{class_renderer_aad4b44d34908982c66c19f0dd0afed6a}{Get\+Deferred\+Handler} ()
+\item 
+void \hyperlink{class_renderer_a5ff02ab1f661f3228c6189793fe748da}{Set\+Matrices\+Uniforms} () const 
+\item 
+void \hyperlink{class_renderer_a532ff8ca3b880e9bde117315486dd638}{Set\+Material\+Uniforms} (const \hyperlink{class_o_g_l_material}{O\+G\+L\+Material} \&mat) const 
+\item 
+void \hyperlink{class_renderer_af8290d1ac28f9dfd0246d1b63a56f34e}{Set\+Texture\+Uniforms} () const 
+\item 
+void \hyperlink{class_renderer_a213977213652a69a57982a8541be920b}{Set\+Texture\+Uniform} (\hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6d}{Raw\+Texture\+::\+Texture\+Type} tex\+Type) const 
+\item 
+const std\+::vector$<$ \hyperlink{class_raw_texture_ac0eafe7206f7f38aeb4e8e5631480f6d}{Raw\+Texture\+::\+Texture\+Type} $>$ \& \hyperlink{class_renderer_a8510ecb3f806ee3ba69b5dec92f3d701}{Active\+Samplers} () const 
+\item 
+const std\+::vector$<$ \hyperlink{class_transform_matrices_ac0c0f9ab5279bfd44b4c1fd97f041521}{Transform\+Matrices\+::\+Transform\+Matrix\+Id} $>$ \& \hyperlink{class_renderer_ae6403cc8f28fcf5b6a69f58db6dd811d}{Active\+Transform\+Matrices} () const 
+\item 
+const std\+::vector$<$ \hyperlink{class_o_g_l_material_a1fc530fc808e270be78c8b296abed0ce}{O\+G\+L\+Material\+::\+Material\+Float3\+Property\+Id} $>$ \& \hyperlink{class_renderer_a500def6bb40cc675378c4ec45efe9134}{Active\+Material\+Float3\+Properties} () const 
+\item 
+const std\+::vector$<$ \hyperlink{class_o_g_l_material_a27506550fa395365703eb941e525e64c}{O\+G\+L\+Material\+::\+Material\+Float1\+Property\+Id} $>$ \& \hyperlink{class_renderer_ac95684182e0a42b85e2634e62999480c}{Active\+Material\+Float1\+Properties} () const 
+\item 
+const std\+::vector$<$ \hyperlink{class_o_g_l_material_a79448ba294d1923d56ebca495b0c272e}{O\+G\+L\+Material\+::\+Material\+U\+Int1\+Property\+Id} $>$ \& \hyperlink{class_renderer_ae14a7f1ca18400cffb13b65eba0c81e7}{Active\+Material\+U\+Int1\+Properties} () const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_transform_matrices}{Transform\+Matrices} \hyperlink{class_renderer_ad4ce90a115478964bef92667f131870f}{transform\+Matrices}
+\item 
+\hyperlink{class_frustum}{Frustum} \hyperlink{class_renderer_a5f730b80cb0e6894bc7205b7eef91999}{view\+Frustum}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{class_renderer_aa4db44c64586903d1f5a14d3dfbdd47b}{Frustum\+Culling} = true
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 8 of file renderer.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_renderer_abb257d89f41b81edc620c813b08738be}{}\index{Renderer@{Renderer}!Renderer@{Renderer}}
+\index{Renderer@{Renderer}!Renderer@{Renderer}}
+\subsubsection[{Renderer(const Render\+Window \&r\+Window)}]{\setlength{\rightskip}{0pt plus 5cm}Renderer\+::\+Renderer (
+\begin{DoxyParamCaption}
+\item[{const {\bf Render\+Window} \&}]{r\+Window}
+\end{DoxyParamCaption}
+)}\label{class_renderer_abb257d89f41b81edc620c813b08738be}
+
+
+Definition at line 6 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_afeee408862d5bd6255a6882d47e6d5cd}{}\index{Renderer@{Renderer}!````~Renderer@{$\sim$\+Renderer}}
+\index{````~Renderer@{$\sim$\+Renderer}!Renderer@{Renderer}}
+\subsubsection[{$\sim$\+Renderer()}]{\setlength{\rightskip}{0pt plus 5cm}Renderer\+::$\sim$\+Renderer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_renderer_afeee408862d5bd6255a6882d47e6d5cd}
+
+
+Definition at line 12 of file renderer.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_renderer_ac95684182e0a42b85e2634e62999480c}{}\index{Renderer@{Renderer}!Active\+Material\+Float1\+Properties@{Active\+Material\+Float1\+Properties}}
+\index{Active\+Material\+Float1\+Properties@{Active\+Material\+Float1\+Properties}!Renderer@{Renderer}}
+\subsubsection[{Active\+Material\+Float1\+Properties() const }]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<$ {\bf O\+G\+L\+Material\+::\+Material\+Float1\+Property\+Id} $>$ \& Renderer\+::\+Active\+Material\+Float1\+Properties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_ac95684182e0a42b85e2634e62999480c}
+
+
+Definition at line 203 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_a500def6bb40cc675378c4ec45efe9134}{}\index{Renderer@{Renderer}!Active\+Material\+Float3\+Properties@{Active\+Material\+Float3\+Properties}}
+\index{Active\+Material\+Float3\+Properties@{Active\+Material\+Float3\+Properties}!Renderer@{Renderer}}
+\subsubsection[{Active\+Material\+Float3\+Properties() const }]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<$ {\bf O\+G\+L\+Material\+::\+Material\+Float3\+Property\+Id} $>$ \& Renderer\+::\+Active\+Material\+Float3\+Properties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_a500def6bb40cc675378c4ec45efe9134}
+
+
+Definition at line 197 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_ae14a7f1ca18400cffb13b65eba0c81e7}{}\index{Renderer@{Renderer}!Active\+Material\+U\+Int1\+Properties@{Active\+Material\+U\+Int1\+Properties}}
+\index{Active\+Material\+U\+Int1\+Properties@{Active\+Material\+U\+Int1\+Properties}!Renderer@{Renderer}}
+\subsubsection[{Active\+Material\+U\+Int1\+Properties() const }]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<$ {\bf O\+G\+L\+Material\+::\+Material\+U\+Int1\+Property\+Id} $>$ \& Renderer\+::\+Active\+Material\+U\+Int1\+Properties (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_ae14a7f1ca18400cffb13b65eba0c81e7}
+
+
+Definition at line 209 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_a8510ecb3f806ee3ba69b5dec92f3d701}{}\index{Renderer@{Renderer}!Active\+Samplers@{Active\+Samplers}}
+\index{Active\+Samplers@{Active\+Samplers}!Renderer@{Renderer}}
+\subsubsection[{Active\+Samplers() const }]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<$ {\bf Raw\+Texture\+::\+Texture\+Type} $>$ \& Renderer\+::\+Active\+Samplers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_a8510ecb3f806ee3ba69b5dec92f3d701}
+
+
+Definition at line 185 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_ae6403cc8f28fcf5b6a69f58db6dd811d}{}\index{Renderer@{Renderer}!Active\+Transform\+Matrices@{Active\+Transform\+Matrices}}
+\index{Active\+Transform\+Matrices@{Active\+Transform\+Matrices}!Renderer@{Renderer}}
+\subsubsection[{Active\+Transform\+Matrices() const }]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<$ {\bf Transform\+Matrices\+::\+Transform\+Matrix\+Id} $>$ \& Renderer\+::\+Active\+Transform\+Matrices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_ae6403cc8f28fcf5b6a69f58db6dd811d}
+
+
+Definition at line 191 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_aad4b44d34908982c66c19f0dd0afed6a}{}\index{Renderer@{Renderer}!Get\+Deferred\+Handler@{Get\+Deferred\+Handler}}
+\index{Get\+Deferred\+Handler@{Get\+Deferred\+Handler}!Renderer@{Renderer}}
+\subsubsection[{Get\+Deferred\+Handler()}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Deferred\+Handler}\& Renderer\+::\+Get\+Deferred\+Handler (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{class_renderer_aad4b44d34908982c66c19f0dd0afed6a}
+
+
+Definition at line 26 of file renderer.\+h.
+
+\hypertarget{class_renderer_a24e60dfccf32b9cfa5de30f977fb59d1}{}\index{Renderer@{Renderer}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!Renderer@{Renderer}}
+\subsubsection[{Initialize()}]{\setlength{\rightskip}{0pt plus 5cm}void Renderer\+::\+Initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_renderer_a24e60dfccf32b9cfa5de30f977fb59d1}
+
+
+Definition at line 16 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_abd933ca07472ed0e1c7f2395d75d2c33}{}\index{Renderer@{Renderer}!Render@{Render}}
+\index{Render@{Render}!Renderer@{Renderer}}
+\subsubsection[{Render(\+Scene \&active\+Scene, Camera \&active\+Camera)}]{\setlength{\rightskip}{0pt plus 5cm}void Renderer\+::\+Render (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} \&}]{active\+Scene, }
+\item[{{\bf Camera} \&}]{active\+Camera}
+\end{DoxyParamCaption}
+)}\label{class_renderer_abd933ca07472ed0e1c7f2395d75d2c33}
+
+
+Definition at line 20 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_a532ff8ca3b880e9bde117315486dd638}{}\index{Renderer@{Renderer}!Set\+Material\+Uniforms@{Set\+Material\+Uniforms}}
+\index{Set\+Material\+Uniforms@{Set\+Material\+Uniforms}!Renderer@{Renderer}}
+\subsubsection[{Set\+Material\+Uniforms(const O\+G\+L\+Material \&mat) const }]{\setlength{\rightskip}{0pt plus 5cm}void Renderer\+::\+Set\+Material\+Uniforms (
+\begin{DoxyParamCaption}
+\item[{const {\bf O\+G\+L\+Material} \&}]{mat}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_a532ff8ca3b880e9bde117315486dd638}
+
+
+Definition at line 102 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_a5ff02ab1f661f3228c6189793fe748da}{}\index{Renderer@{Renderer}!Set\+Matrices\+Uniforms@{Set\+Matrices\+Uniforms}}
+\index{Set\+Matrices\+Uniforms@{Set\+Matrices\+Uniforms}!Renderer@{Renderer}}
+\subsubsection[{Set\+Matrices\+Uniforms() const }]{\setlength{\rightskip}{0pt plus 5cm}void Renderer\+::\+Set\+Matrices\+Uniforms (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_a5ff02ab1f661f3228c6189793fe748da}
+
+
+Definition at line 64 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_a213977213652a69a57982a8541be920b}{}\index{Renderer@{Renderer}!Set\+Texture\+Uniform@{Set\+Texture\+Uniform}}
+\index{Set\+Texture\+Uniform@{Set\+Texture\+Uniform}!Renderer@{Renderer}}
+\subsubsection[{Set\+Texture\+Uniform(\+Raw\+Texture\+::\+Texture\+Type tex\+Type) const }]{\setlength{\rightskip}{0pt plus 5cm}void Renderer\+::\+Set\+Texture\+Uniform (
+\begin{DoxyParamCaption}
+\item[{{\bf Raw\+Texture\+::\+Texture\+Type}}]{tex\+Type}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_a213977213652a69a57982a8541be920b}
+
+
+Definition at line 179 of file renderer.\+cpp.
+
+\hypertarget{class_renderer_af8290d1ac28f9dfd0246d1b63a56f34e}{}\index{Renderer@{Renderer}!Set\+Texture\+Uniforms@{Set\+Texture\+Uniforms}}
+\index{Set\+Texture\+Uniforms@{Set\+Texture\+Uniforms}!Renderer@{Renderer}}
+\subsubsection[{Set\+Texture\+Uniforms() const }]{\setlength{\rightskip}{0pt plus 5cm}void Renderer\+::\+Set\+Texture\+Uniforms (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_renderer_af8290d1ac28f9dfd0246d1b63a56f34e}
+
+
+Definition at line 170 of file renderer.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_renderer_aa4db44c64586903d1f5a14d3dfbdd47b}{}\index{Renderer@{Renderer}!Frustum\+Culling@{Frustum\+Culling}}
+\index{Frustum\+Culling@{Frustum\+Culling}!Renderer@{Renderer}}
+\subsubsection[{Frustum\+Culling}]{\setlength{\rightskip}{0pt plus 5cm}bool Renderer\+::\+Frustum\+Culling = true\hspace{0.3cm}{\ttfamily [static]}}\label{class_renderer_aa4db44c64586903d1f5a14d3dfbdd47b}
+
+
+Definition at line 15 of file renderer.\+h.
+
+\hypertarget{class_renderer_ad4ce90a115478964bef92667f131870f}{}\index{Renderer@{Renderer}!transform\+Matrices@{transform\+Matrices}}
+\index{transform\+Matrices@{transform\+Matrices}!Renderer@{Renderer}}
+\subsubsection[{transform\+Matrices}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Transform\+Matrices} Renderer\+::transform\+Matrices}\label{class_renderer_ad4ce90a115478964bef92667f131870f}
+
+
+Definition at line 17 of file renderer.\+h.
+
+\hypertarget{class_renderer_a5f730b80cb0e6894bc7205b7eef91999}{}\index{Renderer@{Renderer}!view\+Frustum@{view\+Frustum}}
+\index{view\+Frustum@{view\+Frustum}!Renderer@{Renderer}}
+\subsubsection[{view\+Frustum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Frustum} Renderer\+::view\+Frustum}\label{class_renderer_a5f730b80cb0e6894bc7205b7eef91999}
+
+
+Definition at line 18 of file renderer.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/core/\hyperlink{renderer_8h}{renderer.\+h}\item 
+V\+C\+T\+\_\+\+Engine/core/\hyperlink{renderer_8cpp}{renderer.\+cpp}\end{DoxyCompactItemize}

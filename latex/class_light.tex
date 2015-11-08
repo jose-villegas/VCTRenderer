@@ -1,0 +1,170 @@
+\hypertarget{class_light}{}\section{Light Class Reference}
+\label{class_light}\index{Light@{Light}}
+
+
+{\ttfamily \#include $<$light.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_light_a661d9480e01af8b1612860b9630ef5f8}{Light\+Type} \{ \hyperlink{class_light_a661d9480e01af8b1612860b9630ef5f8a65021ca49102cf10ed4bd541e828ab6f}{Disabled}, 
+\hyperlink{class_light_a661d9480e01af8b1612860b9630ef5f8ae1a0035e4acfd2e430ed27b591db4433}{Directional}, 
+\hyperlink{class_light_a661d9480e01af8b1612860b9630ef5f8a95beda1310e6c8e76384dc8e60986ec2}{Point}, 
+\hyperlink{class_light_a661d9480e01af8b1612860b9630ef5f8a909d110309169cdae833f32e84b297bf}{Spot}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_light_aeb5df09a25a32f19fdffa761268ba24f}{Light} ()
+\item 
+\hyperlink{class_light_ad0e59fad13bb6cfadc25b2c477e9ddc7}{$\sim$\+Light} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{class_light_aaa42e1c80406d2703241bdda88819c7c}{angle\+Inner\+Cone}
+\item 
+float \hyperlink{class_light_a5bdec5d32c256ded1b7977b48c351ff3}{angle\+Outer\+Cone}
+\item 
+glm\+::vec3 \hyperlink{class_light_afaa34bb2efc167adcb2055359fd08a49}{ambient}
+\item 
+glm\+::vec3 \hyperlink{class_light_ad47b5347556fd8cd9ebdc60fdfed196b}{diffuse}
+\item 
+glm\+::vec3 \hyperlink{class_light_aefcfb83a0540ddb885c2622061b28d7e}{specular}
+\item 
+glm\+::vec3 \hyperlink{class_light_a494230a45b5cfa2f9fb54dbd4de3812b}{direction}
+\item 
+glm\+::vec3 \hyperlink{class_light_a89bffe071ec6431a21c5b54021fe08d6}{position}
+\item 
+\hyperlink{struct_attenuation}{Attenuation} \hyperlink{class_light_a6684545092d9a9b80422a6612e5cac26}{attenuation}
+\item 
+\hyperlink{class_light_a661d9480e01af8b1612860b9630ef5f8}{Light\+Type} \hyperlink{class_light_ab0c279c927973443f7b52fc924b489aa}{light\+Type}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 12 of file light.\+h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_light_a661d9480e01af8b1612860b9630ef5f8}{}\index{Light@{Light}!Light\+Type@{Light\+Type}}
+\index{Light\+Type@{Light\+Type}!Light@{Light}}
+\subsubsection[{Light\+Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Light\+::\+Light\+Type}}\label{class_light_a661d9480e01af8b1612860b9630ef5f8}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Disabled@{Disabled}!Light@{Light}}\index{Light@{Light}!Disabled@{Disabled}}\item[{\em 
+\hypertarget{class_light_a661d9480e01af8b1612860b9630ef5f8a65021ca49102cf10ed4bd541e828ab6f}{}Disabled\label{class_light_a661d9480e01af8b1612860b9630ef5f8a65021ca49102cf10ed4bd541e828ab6f}
+}]\index{Directional@{Directional}!Light@{Light}}\index{Light@{Light}!Directional@{Directional}}\item[{\em 
+\hypertarget{class_light_a661d9480e01af8b1612860b9630ef5f8ae1a0035e4acfd2e430ed27b591db4433}{}Directional\label{class_light_a661d9480e01af8b1612860b9630ef5f8ae1a0035e4acfd2e430ed27b591db4433}
+}]\index{Point@{Point}!Light@{Light}}\index{Light@{Light}!Point@{Point}}\item[{\em 
+\hypertarget{class_light_a661d9480e01af8b1612860b9630ef5f8a95beda1310e6c8e76384dc8e60986ec2}{}Point\label{class_light_a661d9480e01af8b1612860b9630ef5f8a95beda1310e6c8e76384dc8e60986ec2}
+}]\index{Spot@{Spot}!Light@{Light}}\index{Light@{Light}!Spot@{Spot}}\item[{\em 
+\hypertarget{class_light_a661d9480e01af8b1612860b9630ef5f8a909d110309169cdae833f32e84b297bf}{}Spot\label{class_light_a661d9480e01af8b1612860b9630ef5f8a909d110309169cdae833f32e84b297bf}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 15 of file light.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_light_aeb5df09a25a32f19fdffa761268ba24f}{}\index{Light@{Light}!Light@{Light}}
+\index{Light@{Light}!Light@{Light}}
+\subsubsection[{Light()}]{\setlength{\rightskip}{0pt plus 5cm}Light\+::\+Light (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_light_aeb5df09a25a32f19fdffa761268ba24f}
+
+
+Definition at line 5 of file light.\+cpp.
+
+\hypertarget{class_light_ad0e59fad13bb6cfadc25b2c477e9ddc7}{}\index{Light@{Light}!````~Light@{$\sim$\+Light}}
+\index{````~Light@{$\sim$\+Light}!Light@{Light}}
+\subsubsection[{$\sim$\+Light()}]{\setlength{\rightskip}{0pt plus 5cm}Light\+::$\sim$\+Light (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_light_ad0e59fad13bb6cfadc25b2c477e9ddc7}
+
+
+Definition at line 13 of file light.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_light_afaa34bb2efc167adcb2055359fd08a49}{}\index{Light@{Light}!ambient@{ambient}}
+\index{ambient@{ambient}!Light@{Light}}
+\subsubsection[{ambient}]{\setlength{\rightskip}{0pt plus 5cm}glm\+::vec3 Light\+::ambient}\label{class_light_afaa34bb2efc167adcb2055359fd08a49}
+
+
+Definition at line 26 of file light.\+h.
+
+\hypertarget{class_light_aaa42e1c80406d2703241bdda88819c7c}{}\index{Light@{Light}!angle\+Inner\+Cone@{angle\+Inner\+Cone}}
+\index{angle\+Inner\+Cone@{angle\+Inner\+Cone}!Light@{Light}}
+\subsubsection[{angle\+Inner\+Cone}]{\setlength{\rightskip}{0pt plus 5cm}float Light\+::angle\+Inner\+Cone}\label{class_light_aaa42e1c80406d2703241bdda88819c7c}
+
+
+Definition at line 23 of file light.\+h.
+
+\hypertarget{class_light_a5bdec5d32c256ded1b7977b48c351ff3}{}\index{Light@{Light}!angle\+Outer\+Cone@{angle\+Outer\+Cone}}
+\index{angle\+Outer\+Cone@{angle\+Outer\+Cone}!Light@{Light}}
+\subsubsection[{angle\+Outer\+Cone}]{\setlength{\rightskip}{0pt plus 5cm}float Light\+::angle\+Outer\+Cone}\label{class_light_a5bdec5d32c256ded1b7977b48c351ff3}
+
+
+Definition at line 24 of file light.\+h.
+
+\hypertarget{class_light_a6684545092d9a9b80422a6612e5cac26}{}\index{Light@{Light}!attenuation@{attenuation}}
+\index{attenuation@{attenuation}!Light@{Light}}
+\subsubsection[{attenuation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Attenuation} Light\+::attenuation}\label{class_light_a6684545092d9a9b80422a6612e5cac26}
+
+
+Definition at line 33 of file light.\+h.
+
+\hypertarget{class_light_ad47b5347556fd8cd9ebdc60fdfed196b}{}\index{Light@{Light}!diffuse@{diffuse}}
+\index{diffuse@{diffuse}!Light@{Light}}
+\subsubsection[{diffuse}]{\setlength{\rightskip}{0pt plus 5cm}glm\+::vec3 Light\+::diffuse}\label{class_light_ad47b5347556fd8cd9ebdc60fdfed196b}
+
+
+Definition at line 27 of file light.\+h.
+
+\hypertarget{class_light_a494230a45b5cfa2f9fb54dbd4de3812b}{}\index{Light@{Light}!direction@{direction}}
+\index{direction@{direction}!Light@{Light}}
+\subsubsection[{direction}]{\setlength{\rightskip}{0pt plus 5cm}glm\+::vec3 Light\+::direction}\label{class_light_a494230a45b5cfa2f9fb54dbd4de3812b}
+
+
+Definition at line 30 of file light.\+h.
+
+\hypertarget{class_light_ab0c279c927973443f7b52fc924b489aa}{}\index{Light@{Light}!light\+Type@{light\+Type}}
+\index{light\+Type@{light\+Type}!Light@{Light}}
+\subsubsection[{light\+Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Light\+Type} Light\+::light\+Type}\label{class_light_ab0c279c927973443f7b52fc924b489aa}
+
+
+Definition at line 35 of file light.\+h.
+
+\hypertarget{class_light_a89bffe071ec6431a21c5b54021fe08d6}{}\index{Light@{Light}!position@{position}}
+\index{position@{position}!Light@{Light}}
+\subsubsection[{position}]{\setlength{\rightskip}{0pt plus 5cm}glm\+::vec3 Light\+::position}\label{class_light_a89bffe071ec6431a21c5b54021fe08d6}
+
+
+Definition at line 31 of file light.\+h.
+
+\hypertarget{class_light_aefcfb83a0540ddb885c2622061b28d7e}{}\index{Light@{Light}!specular@{specular}}
+\index{specular@{specular}!Light@{Light}}
+\subsubsection[{specular}]{\setlength{\rightskip}{0pt plus 5cm}glm\+::vec3 Light\+::specular}\label{class_light_aefcfb83a0540ddb885c2622061b28d7e}
+
+
+Definition at line 28 of file light.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{light_8h}{light.\+h}\item 
+V\+C\+T\+\_\+\+Engine/scene/\hyperlink{light_8cpp}{light.\+cpp}\end{DoxyCompactItemize}
