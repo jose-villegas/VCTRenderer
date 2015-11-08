@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "external_initializer.h"
-#include "..\interface\imgui\imgui.h"
 #include "FreeImage.h"
 #include "assimp\Importer.hpp"
 #include "assimp\version.h"
@@ -14,7 +13,7 @@ void ExternalInitializer::InitializeContextDependant()
     // Initialzie GLEW
     GLenum err = glewInit();
 
-    if(err != GLEW_OK)
+    if (err != GLEW_OK)
     {
         //Problem: glewInit failed, something is seriously wrong.
         std::cout << "glewInit failed, aborting: " << glewGetErrorString(

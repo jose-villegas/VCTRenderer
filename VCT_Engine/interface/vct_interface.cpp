@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "vct_interface.h"
-#include "imgui\imgui.h"
-#include "..\util\scene_importer.h"
 #include "core\engine_base.h"
 #include "core\deferred_handler.h"
 
@@ -9,7 +7,7 @@
 void UI::Draw()
 {
     // information resources for gui building
-    ImGuiIO&  io = ImGui::GetIO();
+    ImGuiIO  &io = ImGui::GetIO();
     static EngineAssets * engineAssets = &EngineBase::Instance()->GetAssets();
     static ExecutionInfo * executionInfo = &EngineBase::Instance()->GetExecInfo();
     static DeferredHandler * deferredHandler =
@@ -24,7 +22,7 @@ void UI::Draw()
         // active scene selector
         ImGui::PushItemWidth(450);
         ImGui::Combo("Active", &executionInfo->activeScene,
-                     (const char**)engineAssets->GetAvailableScenes().data(),
+                     (const char **)engineAssets->GetAvailableScenes().data(),
                      (int)engineAssets->GetAvailableScenes().size());
         ImGui::PopItemWidth();
         sceneSelectorPos = ImGui::GetWindowPos();
@@ -34,7 +32,7 @@ void UI::Draw()
     static bool openDebugWindow = false;
     openDebugWindow ^= io.KeyCtrl && ImGui::IsKeyReleased(74);
 
-    if(openDebugWindow)// debug window
+    if (openDebugWindow) // debug window
     {
         ImGui::SetNextWindowPos(
             ImVec2(sceneSelectorPos.x, sceneSelectorPos.y + sceneSelectorSize.y)
@@ -43,7 +41,7 @@ void UI::Draw()
                      ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
                      ImGuiWindowFlags_NoMove);
 
-        if(ImGui::CollapsingHeader("Framerate Metrics"))
+        if (ImGui::CollapsingHeader("Framerate Metrics"))
         {
             // frame rate samples for plotline
             static float minfSample = std::numeric_limits<float>::infinity();
@@ -59,7 +57,7 @@ void UI::Draw()
                         minfSample, maxfSample);
             ImGui::SameLine();
 
-            if(ImGui::Button("Reset"))
+            if (ImGui::Button("Reset"))
             {
                 minfSample = std::numeric_limits<float>::infinity();
                 maxfSample = std::numeric_limits<float>::lowest();
@@ -67,7 +65,7 @@ void UI::Draw()
 
             // num of framerate samples
 
-            if(ImGui::InputInt("# Frame Samples", &numSamples))
+            if (ImGui::InputInt("# Frame Samples", &numSamples))
             {
                 numSamples < 6 ? numSamples = 6 : 0;
                 numSamples > 8000 ? numSamples = 8000 : 0;
@@ -80,14 +78,14 @@ void UI::Draw()
             maxfSample < frameSamples.back() ? maxfSample = frameSamples.back() : 0;
 
             // too many samples pop front
-            if(frameSamples.size() > numSamples) frameSamples.erase(frameSamples.begin());
+            if (frameSamples.size() > numSamples) { frameSamples.erase(frameSamples.begin()); }
 
             // draw plotline with frame samples
             ImGui::PlotLines("##Lines", frameSamples.data(), frameSamples.size(), 0.0f,
                              "", minfSample, maxfSample, ImVec2(584, 80));
         }
 
-        if(ImGui::CollapsingHeader("Geometry Buffer Textures"))
+        if (ImGui::CollapsingHeader("Geometry Buffer Textures"))
         {
             // position texture
             {
@@ -100,7 +98,7 @@ void UI::Draw()
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
 
-                if(ImGui::IsItemHovered())
+                if (ImGui::IsItemHovered())
                 {
                     ImGui::BeginTooltip();
                     ImGui::Image(
@@ -129,7 +127,7 @@ void UI::Draw()
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
 
-                if(ImGui::IsItemHovered())
+                if (ImGui::IsItemHovered())
                 {
                     ImGui::BeginTooltip();
                     ImGui::Image(
@@ -158,7 +156,7 @@ void UI::Draw()
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
 
-                if(ImGui::IsItemHovered())
+                if (ImGui::IsItemHovered())
                 {
                     ImGui::BeginTooltip();
                     ImGui::Image(
@@ -187,7 +185,7 @@ void UI::Draw()
                     ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)
                 );
 
-                if(ImGui::IsItemHovered())
+                if (ImGui::IsItemHovered())
                 {
                     ImGui::BeginTooltip();
                     ImGui::Image(
@@ -213,7 +211,7 @@ void UI::Draw()
     static bool openFPSWindow = false;
     openFPSWindow ^= io.KeyCtrl && ImGui::IsKeyReleased(70);
 
-    if(openFPSWindow)
+    if (openFPSWindow)
     {
         ImGui::SetNextWindowSize(ImVec2(80, 50));
         ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 80 - 3,

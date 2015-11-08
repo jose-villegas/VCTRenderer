@@ -20,7 +20,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     const aiScene * scene = importer.ReadFile(sFilepath,
                             aiProcessPreset_TargetRealtime_Fast);
 
-    if(!scene)
+    if (!scene)
     {
         std::cout << "(Assimp) Error Loading File: " << importer.GetErrorString() <<
                   std::endl;
@@ -31,10 +31,10 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
     outScene.filepath = sFilepath;
     outScene.directory = GetDirectoryPath(sFilepath);
 
-    if(scene->HasMaterials())
+    if (scene->HasMaterials())
     {
         // process material properties
-        for(unsigned int i = 0; i < scene->mNumMaterials; i++)
+        for (unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             std::shared_ptr<OGLMaterial> newMaterial(new OGLMaterial());
             ImportMaterial(scene->mMaterials[i], *newMaterial);
@@ -42,15 +42,15 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         }
 
         // import per material and scene, textures
-        for(unsigned int i = 0; i < scene->mNumMaterials; i++)
+        for (unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             ImportMaterialTextures(outScene, scene->mMaterials[i], *outScene.materials[i]);
         }
     }
 
-    if(scene->HasMeshes())
+    if (scene->HasMeshes())
     {
-        for(unsigned int i = 0; i < scene->mNumMeshes; i++)
+        for (unsigned int i = 0; i < scene->mNumMeshes; i++)
         {
             std::shared_ptr<OGLMesh> newMesh(new OGLMesh());
             ImportMesh(scene->mMeshes[i], *newMesh);
@@ -66,31 +66,33 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         }
     }
 
-    if(scene->mRootNode != nullptr)
+    if (scene->mRootNode != nullptr)
     {
         ProcessNodes(outScene, scene->mRootNode, outScene.rootNode);
     }
 
     // if these objects don't exist in scene, they are created by default
-    if(scene->HasCameras())
+    if (scene->HasCameras())
     {
-		outScene.cameras.clear();
-        for(unsigned int i = 0; i < scene->mNumCameras; i++)
+        outScene.cameras.clear();
+
+        for (unsigned int i = 0; i < scene->mNumCameras; i++)
         {
-            Camera newCamera;
-            ImportCamera(scene->mCameras[i], newCamera);
-            outScene.cameras.push_back(std::move(newCamera));
+            std::shared_ptr<Camera> newCamera = std::make_shared<Camera>();
+            ImportCamera(scene->mCameras[i], *newCamera);
+            outScene.cameras.push_back(newCamera);
         }
     }
 
-    if(scene->HasLights())
+    if (scene->HasLights())
     {
-		outScene.lights.clear();
-        for(unsigned int i = 0; i < scene->mNumLights; i++)
+        outScene.lights.clear();
+
+        for (unsigned int i = 0; i < scene->mNumLights; i++)
         {
-            Light newLight;
-            ImportLight(scene->mLights[i], newLight);
-            outScene.lights.push_back(std::move(newLight));
+            std::shared_ptr<Light> newLight = std::make_shared<Light>();
+            ImportLight(scene->mLights[i], *newLight);
+            outScene.lights.push_back(newLight);
         }
     }
 
@@ -158,14 +160,14 @@ void SceneImporter::ImportCamera(aiCamera * cam, Camera &newCamera)
                    );
 }
 
-void SceneImporter::ImportMaterial(aiMaterial *mMaterial,
+void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
                                    OGLMaterial &outMaterial)
 {
     // assimp scene material name extract
     aiString materialName;
     mMaterial->Get(AI_MATKEY_NAME, materialName);
 
-    if(materialName.length > 0)
+    if (materialName.length > 0)
     {
         outMaterial.name = materialName.C_Str();
     }
@@ -189,13 +191,13 @@ void SceneImporter::ImportMaterial(aiMaterial *mMaterial,
     outMaterial.transparent = glm::vec3(transparent.r, transparent.g,
                                         transparent.b);
 }
-void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
+void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &outMesh)
 {
     outMesh.name = mMesh->mName.length > 0 ? mMesh->mName.C_Str() : outMesh.name;
 
-    if(mMesh->mNumVertices > 0)
+    if (mMesh->mNumVertices > 0)
     {
-        for(unsigned int i = 0; i < mMesh->mNumVertices; i++)
+        for (unsigned int i = 0; i < mMesh->mNumVertices; i++)
         {
             Vertex vertex;
             // store mesh data
@@ -210,7 +212,7 @@ void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
                                 mMesh->mNormals[i].z
                             );
 
-            if(mMesh->HasTextureCoords(0))
+            if (mMesh->HasTextureCoords(0))
             {
                 vertex.uv = glm::vec3(
                                 mMesh->mTextureCoords[0][i].x,
@@ -219,7 +221,7 @@ void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
                             );
             }
 
-            if(mMesh->HasTangentsAndBitangents())
+            if (mMesh->HasTangentsAndBitangents())
             {
                 vertex.tangent = glm::vec3(
                                      mMesh->mTangents[i].x,
@@ -242,7 +244,7 @@ void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
         }
     }
 
-    for(unsigned int i = 0; i < mMesh->mNumFaces; i++)
+    for (unsigned int i = 0; i < mMesh->mNumFaces; i++)
     {
         outMesh.indices.push_back(mMesh->mFaces[i].mIndices[0]);
         outMesh.indices.push_back(mMesh->mFaces[i].mIndices[1]);
@@ -250,7 +252,7 @@ void SceneImporter::ImportMesh(aiMesh *mMesh, Mesh &outMesh)
     }
 }
 
-void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
+void SceneImporter::ProcessNodes(Scene &scene, aiNode * node, Node &newNode)
 {
     newNode.name = node->mName.length > 0 ? node->mName.C_Str() : newNode.name;
     // transformation matrix decomposition using assimp implementation
@@ -261,7 +263,7 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
     newNode.Rotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
 
     // meshes associated with this node
-    for(unsigned int i = 0; i < node->mNumMeshes; i++)
+    for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         newNode.meshes.push_back(scene.meshes[node->mMeshes[i]]);
         // node boundaries based on mesh boundaries
@@ -272,7 +274,7 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode* node, Node &newNode)
     }
 
     // push childrens in hierachy
-    for(unsigned int i = 0; i < node->mNumChildren; i++)
+    for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
         newNode.nodes.push_back(std::move(Node()));
         ProcessNodes(scene, node->mChildren[i], newNode.nodes.back());
@@ -289,21 +291,21 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
 {
     bool materialHasTexture = false;
 
-    for(aiTextureType texType = aiTextureType::aiTextureType_NONE;
-        texType < aiTextureType::aiTextureType_UNKNOWN;
-        texType = aiTextureType(texType + 1))
+    for (aiTextureType texType = aiTextureType::aiTextureType_NONE;
+         texType < aiTextureType::aiTextureType_UNKNOWN;
+         texType = aiTextureType(texType + 1))
     {
         int textureTypeCount = mMaterial->GetTextureCount((aiTextureType)texType);
 
         // only loading one
-        if(textureTypeCount <= 0) { continue; }
+        if (textureTypeCount <= 0) { continue; }
 
         aiString texPath;
         // material has at least one texture
         materialHasTexture = true;
 
-        if(mMaterial->GetTexture((aiTextureType)texType, 0,
-                                 &texPath) == AI_SUCCESS)
+        if (mMaterial->GetTexture((aiTextureType)texType, 0,
+                                  &texPath) == AI_SUCCESS)
         {
             std::string filepath = scene.directory + "\\" + std::string(texPath.data);
             // find if texture was already loaded previously
@@ -311,21 +313,23 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
             int savedTextureIndex = 0;
 
             // for wavefront obj we assump bump = normal map
-            if(GetExtension(scene.filepath) == "obj" &&
-               texType == aiTextureType::aiTextureType_HEIGHT)
+            if (GetExtension(scene.filepath) == "obj" &&
+                texType == aiTextureType::aiTextureType_HEIGHT)
             { texType = aiTextureType::aiTextureType_NORMALS; }
 
-            for(unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; ++i)
+            for (unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; ++i)
             {
-                alreadyLoaded |= scene.textures[i]->GetFilepath() == filepath ? true : false;
+                alreadyLoaded |= scene.textures[i]->GetFilepath() == filepath
+                                 ? true
+                                 : false;
                 savedTextureIndex = i;
             }
 
-            if(!alreadyLoaded)
+            if (!alreadyLoaded)
             {
                 std::shared_ptr<OGLTexture2D> newTexture(new OGLTexture2D());
 
-                if(textureImporter.ImportTexture2D(filepath, *newTexture))
+                if (textureImporter.ImportTexture2D(filepath, *newTexture))
                 {
                     scene.textures.push_back(newTexture);
                     material.AddTexture(newTexture, (RawTexture::TextureType)texType);

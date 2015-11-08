@@ -46,7 +46,7 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     transformMatrices.UpdateViewMatrix(activeCamera.GetViewMatrix());
 
     // update frustum planes with new viewProjection matrix
-    if(FrustumCulling) transformMatrices.UpdateFrustumPlanes(viewFrustum);
+    if (FrustumCulling) { transformMatrices.UpdateFrustumPlanes(viewFrustum); }
 
     // draw whole scene hierarchy tree from root node
     activeScene.rootNode.DrawRecursive();
@@ -56,14 +56,15 @@ void Renderer::Render(Scene &activeScene, Camera &activeCamera)
     // bind g buffer for reading
     deferredHandler.UseLightPass();
     deferredHandler.ActivateGBufferTextures();
-    deferredHandler.SetLightPassUniforms(activeCamera.position, activeScene.lights);
+    deferredHandler.SetLightPassUniforms(activeCamera.position,
+                                         activeScene.lights);
     deferredHandler.RenderFSQuad();
 }
 
 void Renderer::SetMatricesUniforms() const
 {
-    for(auto it = ActiveTransformMatrices().begin();
-        it != ActiveTransformMatrices().end(); ++it)
+    for (auto it = ActiveTransformMatrices().begin();
+         it != ActiveTransformMatrices().end(); ++it)
     {
         (*it) == TransformMatrices::ModelView ?
         deferredHandler.geometryPass.SetUniform(
@@ -100,8 +101,8 @@ void Renderer::SetMatricesUniforms() const
 
 void Renderer::SetMaterialUniforms(const OGLMaterial &mat) const
 {
-    for(auto it = ActiveMaterialFloat3Properties().begin();
-        it != ActiveMaterialFloat3Properties().end(); ++it)
+    for (auto it = ActiveMaterialFloat3Properties().begin();
+         it != ActiveMaterialFloat3Properties().end(); ++it)
     {
         (*it) == OGLMaterial::Ambient ?
         deferredHandler.geometryPass.SetUniform(
@@ -132,8 +133,8 @@ void Renderer::SetMaterialUniforms(const OGLMaterial &mat) const
         (OGLMaterial::Transparent, mat.transparent) : 0;
     }
 
-    for(auto it = ActiveMaterialFloat1Properties().begin();
-        it != ActiveMaterialFloat1Properties().end(); ++it)
+    for (auto it = ActiveMaterialFloat1Properties().begin();
+         it != ActiveMaterialFloat1Properties().end(); ++it)
     {
         (*it) == OGLMaterial::Opacity ?
         deferredHandler.geometryPass.SetUniform(
@@ -155,8 +156,8 @@ void Renderer::SetMaterialUniforms(const OGLMaterial &mat) const
         (OGLMaterial::RefractionIndex, mat.refractionIndex) : 0;
     }
 
-    for(auto it = ActiveMaterialUInt1Properties().begin();
-        it != ActiveMaterialUInt1Properties().end(); ++it)
+    for (auto it = ActiveMaterialUInt1Properties().begin();
+         it != ActiveMaterialUInt1Properties().end(); ++it)
     {
         (*it) == OGLMaterial::NormalMapping ?
         deferredHandler.geometryPass.SetUniform(
@@ -168,8 +169,8 @@ void Renderer::SetMaterialUniforms(const OGLMaterial &mat) const
 
 void Renderer::SetTextureUniforms() const
 {
-    for(auto it = ActiveSamplers().begin();
-        it != ActiveSamplers().end(); ++it)
+    for (auto it = ActiveSamplers().begin();
+         it != ActiveSamplers().end(); ++it)
     {
         deferredHandler.geometryPass.SetUniform(*it, (int)(*it));
     }
@@ -181,31 +182,31 @@ void Renderer::SetTextureUniform(RawTexture::TextureType texType) const
 }
 
 const std::vector<RawTexture::TextureType>
-& Renderer::ActiveSamplers() const
+&Renderer::ActiveSamplers() const
 {
     return deferredHandler.geometryPass.ActiveSamplers();
 }
 
 const std::vector<TransformMatrices::TransformMatrixId>
-& Renderer::ActiveTransformMatrices() const
+&Renderer::ActiveTransformMatrices() const
 {
     return deferredHandler.geometryPass.ActiveTransformMatrices();
 }
 
 const std::vector<OGLMaterial::MaterialFloat3PropertyId>
-& Renderer::ActiveMaterialFloat3Properties() const
+&Renderer::ActiveMaterialFloat3Properties() const
 {
     return deferredHandler.geometryPass.ActiveMaterialFloat3Properties();
 }
 
 const std::vector<OGLMaterial::MaterialFloat1PropertyId>
-& Renderer::ActiveMaterialFloat1Properties() const
+&Renderer::ActiveMaterialFloat1Properties() const
 {
     return deferredHandler.geometryPass.ActiveMaterialFloat1Properties();
 }
 
 const std::vector<OGLMaterial::MaterialUInt1PropertyId>
-& Renderer::ActiveMaterialUInt1Properties() const
+&Renderer::ActiveMaterialUInt1Properties() const
 {
     return deferredHandler.geometryPass.ActiveMaterialUInt1Properties();
 }

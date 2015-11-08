@@ -8,9 +8,8 @@ Camera::Camera() : clipPlaneFar(100.0f), clipPlaneNear(1.0f),
     this->position = glm::vec3(0.0f, 0.0f, 0.0f);
     this->lookAt = glm::vec3(0.0f, 0.0f, 1.0f);
     this->up = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	// the first created camera is assigned as mainCamera
-	if (!mainCamera) mainCamera = this;
+    // new cameras always as default
+    SetMainCamera();
 }
 
 
@@ -39,10 +38,11 @@ glm::mat4x4 Camera::GetProjecctionMatrix() const
 
 void Camera::SetMainCamera()
 {
-	mainCamera = this;
+    mainCamera = this;
 }
 
 Camera * Camera::Main()
 {
-	return mainCamera;
+    // return mainCamera;
+    return mainCamera;
 }

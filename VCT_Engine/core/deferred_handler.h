@@ -33,7 +33,7 @@ class DeferredProgram
             RawTexture::TEXTURE_TYPE_MAX> samplers;
 
         std::array<std::unique_ptr<oglplus::Uniform<glm::mat4x4>>,
-            TransformMatrices::TRANSFORM_MATRIX_ID_MAX >matrices;
+            TransformMatrices::TRANSFORM_MATRIX_ID_MAX>matrices;
 
         std::array<std::unique_ptr<oglplus::Uniform<glm::vec3>>,
             OGLMaterial::MATERIAL_FLOAT3_PROPERTY_ID_MAX> materialFloat3;
@@ -150,7 +150,8 @@ class DeferredHandler
         // binds and sets as active all gbuffer textures ids
         void ActivateGBufferTextures();
         void SetLightPassUniforms(const glm::vec3 &viewPosition,
-                                  const std::vector<Light> &lights);
+                                  const std::vector<std::shared_ptr<Light>>
+                                  &lights);
         // returns texture handlers to gbuffer color buffers
         const oglplus::Texture &GetGBufferTexture(GBufferTextureId tID) const;
 

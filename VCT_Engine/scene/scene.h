@@ -16,8 +16,8 @@ class Scene
         std::vector<std::shared_ptr<OGLTexture2D>> textures;
         std::vector<std::shared_ptr<OGLMaterial>> materials;
 
-        std::vector<Camera> cameras;
-        std::vector<Light> lights;
+        std::vector<std::shared_ptr<Camera>> cameras;
+        std::vector<std::shared_ptr<Light>> lights;
 
         Node rootNode;
 

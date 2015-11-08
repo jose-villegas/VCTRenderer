@@ -58,3 +58,5 @@
 #include <glm/vec3.hpp>
 // intel thread building blocks library for multi-threading
 #include <tbb/tbb.h>
+// immediate mode interface library
+#include <3rdparty/imgui/imgui.h>

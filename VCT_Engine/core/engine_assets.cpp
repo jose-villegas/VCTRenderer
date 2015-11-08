@@ -26,38 +26,39 @@ EngineAssets::~EngineAssets()
 
 void EngineAssets::LoadDefaultScenes()
 {
-    if(demoScenesLoaded) return;
+    if (demoScenesLoaded) { return; }
 
     // reserve space for available scenes for use
+    demoScenes.clear();
     demoScenes.resize(sceneFilepaths.size());
     // import scenes raw data, in parallel
     tbb::parallel_for(size_t(0), sceneFilepaths.size(), [ = ](size_t i)
     {
         std::string cutFilePath = std::string(sceneFilepaths[i]);
 
-        if(cutFilePath.size() > 30)
+        if (cutFilePath.size() > 30)
         {
             cutFilePath = cutFilePath.substr(cutFilePath.size() - 30, 30);
         }
 
         std::cout << "(EngineAssets) Processing File: (.." + cutFilePath + ")\n";
         // create and import scene from file path
-        demoScenes[i] = std::unique_ptr<Scene>(new Scene());
+        demoScenes[i] = std::make_unique<Scene>();
         sceneImporter.Import(sceneFilepaths[i], *demoScenes[i]);
         // scene finally loaded
         std::cout << "(EngineAssets) Loaded Scene: (.." + cutFilePath + ")\n";
     });
 
-    for(auto it = demoScenes.begin(); it != demoScenes.end(); ++it)
+    for (auto it = demoScenes.begin(); it != demoScenes.end(); ++it)
     {
         // upload to GPU meshes buffers
-        for(auto mesh = (*it)->meshes.begin(); mesh != (*it)->meshes.end(); ++mesh)
+        for (auto mesh = (*it)->meshes.begin(); mesh != (*it)->meshes.end(); ++mesh)
         {
             (*mesh)->UploadToGPU();
         }
 
         // upload to GPU textures 2d
-        for(auto tex = (*it)->textures.begin(); tex != (*it)->textures.end(); ++tex)
+        for (auto tex = (*it)->textures.begin(); tex != (*it)->textures.end(); ++tex)
         {
             (*tex)->UploadToGPU();
         }
