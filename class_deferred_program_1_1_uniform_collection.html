@@ -96,27 +96,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Holds collections of program uniforms of the same type these collections have to be identifier by countable identifier  
+ <a href="class_deferred_program_1_1_uniform_collection.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8f700da69327adc59487fcdfdf65a5a8"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; T2 &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program_1_1_uniform_collection.html#a8f700da69327adc59487fcdfdf65a5a8">Actives</a> () const </td></tr>
+<tr class="memdesc:a8f700da69327adc59487fcdfdf65a5a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Active uniforms identifiers  <a href="#a8f700da69327adc59487fcdfdf65a5a8">More...</a><br /></td></tr>
 <tr class="separator:a8f700da69327adc59487fcdfdf65a5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfe9183c28d54f61f8dced954340dca3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program_1_1_uniform_collection.html#adfe9183c28d54f61f8dced954340dca3">Resize</a> (const size_t idCount)</td></tr>
+<tr class="memdesc:adfe9183c28d54f61f8dced954340dca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the specified identifier vector  <a href="#adfe9183c28d54f61f8dced954340dca3">More...</a><br /></td></tr>
 <tr class="separator:adfe9183c28d54f61f8dced954340dca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a163371637172f135c0aa49eebcb95d57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program_1_1_uniform_collection.html#a163371637172f135c0aa49eebcb95d57">Save</a> (T2 id, T1 uniform)</td></tr>
+<tr class="memdesc:a163371637172f135c0aa49eebcb95d57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves the specified identifier and related program uniform  <a href="#a163371637172f135c0aa49eebcb95d57">More...</a><br /></td></tr>
 <tr class="separator:a163371637172f135c0aa49eebcb95d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8358ce2b048ac3ec9715ba4951caf6bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program_1_1_uniform_collection.html#a8358ce2b048ac3ec9715ba4951caf6bf">Has</a> (const T2 &amp;id) const </td></tr>
+<tr class="memdesc:a8358ce2b048ac3ec9715ba4951caf6bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the class holds an uniform associated with the specified identifier.  <a href="#a8358ce2b048ac3ec9715ba4951caf6bf">More...</a><br /></td></tr>
 <tr class="separator:a8358ce2b048ac3ec9715ba4951caf6bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcf98df6d558a59694dea4a453d16764"><td class="memItemLeft" align="right" valign="top">T1 &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program_1_1_uniform_collection.html#adcf98df6d558a59694dea4a453d16764">operator[]</a> (const T2 &amp;id)</td></tr>
+<tr class="memdesc:adcf98df6d558a59694dea4a453d16764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indexes for the class, returns the id associated uniform  <a href="#adcf98df6d558a59694dea4a453d16764">More...</a><br /></td></tr>
 <tr class="separator:adcf98df6d558a59694dea4a453d16764"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T1, typename T2&gt;<br />
 class DeferredProgram::UniformCollection&lt; T1, T2 &gt;</h3>
 
+<p>Holds collections of program uniforms of the same type these collections have to be identifier by countable identifier </p>
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00038">38</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00043">43</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a8f700da69327adc59487fcdfdf65a5a8"></a>
 <div class="memitem">
@@ -133,7 +142,10 @@ template&lt;typename T1 , typename T2 &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00093">93</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Active uniforms identifiers </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector containing all active identifiers</dd></dl>
+
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00115">115</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -153,7 +165,16 @@ template&lt;typename T1 , typename T2 &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00087">87</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Determines whether the class holds an uniform associated with the specified identifier. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The identifier.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>boolean</dd></dl>
+
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00105">105</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -173,7 +194,16 @@ template&lt;typename T1 , typename T2 &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00100">100</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Indexes for the class, returns the id associated uniform </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The identifier.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The uniform</dd></dl>
+
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00127">127</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -193,7 +223,15 @@ template&lt;typename T1 , typename T2 &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00070">70</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Resizes the specified identifier vector </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idCount</td><td>The identifier count.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00078">78</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -223,7 +261,16 @@ template&lt;typename T1 , typename T2 &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00077">77</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Saves the specified identifier and related program uniform </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The identifier.</td></tr>
+    <tr><td class="paramname">uniform</td><td>The program uniform.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00090">90</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>

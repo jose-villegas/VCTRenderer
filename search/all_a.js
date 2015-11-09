@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['magfilter',['magFilter',['../class_o_g_l_texture2_d.html#abcc4f2fdc77667a1ff83d0f23b94fbdd',1,'OGLTexture2D::magFilter()'],['../class_o_g_l_texture2_d.html#ad72001307eaec4898b25c749c1857f25',1,'OGLTexture2D::MagFilter()']]],
+  ['magfilter',['MagFilter',['../class_o_g_l_texture2_d.html#ad72001307eaec4898b25c749c1857f25',1,'OGLTexture2D::MagFilter()'],['../class_o_g_l_texture2_d.html#abcc4f2fdc77667a1ff83d0f23b94fbdd',1,'OGLTexture2D::magFilter()']]],
   ['main',['Main',['../class_camera.html#a04e4d14a5dcacef2e6022bed78e1a832',1,'Camera::Main()'],['../main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main():&#160;main.cpp']]],
   ['main_2ecpp',['main.cpp',['../main_8cpp.html',1,'']]],
   ['mainloop',['MainLoop',['../class_engine_base.html#acfac8e6ca7e296f89a7378d56021fb26',1,'EngineBase']]],
@@ -30,5 +30,5 @@ var searchData=
   ['miscellaneous_2eh',['miscellaneous.h',['../miscellaneous_8h.html',1,'']]],
   ['model',['model',['../struct_matrices.html#af7523266e69ac370269472837fd6cacf',1,'Matrices::model()'],['../class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a76b154ed10408933a7638da9ff4e6e5d',1,'TransformMatrices::Model()']]],
   ['modelview',['modelView',['../struct_matrices.html#a55eeaf59b817be66d2149f5e131f8de3',1,'Matrices::modelView()'],['../class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307aee88edce09f8010e45d1e053b33d609b',1,'TransformMatrices::ModelView()']]],
-  ['modelviewprojection',['ModelViewProjection',['../class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a84870f05e92eaa6f7b91b600ed85019a',1,'TransformMatrices::ModelViewProjection()'],['../struct_matrices.html#a42af8cc09c21dbba6c3284291d2dba61',1,'Matrices::modelViewProjection()']]]
+  ['modelviewprojection',['modelViewProjection',['../struct_matrices.html#a42af8cc09c21dbba6c3284291d2dba61',1,'Matrices::modelViewProjection()'],['../class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a84870f05e92eaa6f7b91b600ed85019a',1,'TransformMatrices::ModelViewProjection()']]]
 ];
