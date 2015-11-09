@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VCT_Engine", "VCT_Engine\VCT_Engine.vcxproj", "{A1592A0C-0E9F-4207-A5F9-53A41641DA38}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "engine\engine.vcxproj", "{A1592A0C-0E9F-4207-A5F9-53A41641DA38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

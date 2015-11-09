@@ -15,6 +15,7 @@ x64/
 build/
 bld/
 ext_build/
+.install/
 [Bb]in/
 [Oo]bj/
 
