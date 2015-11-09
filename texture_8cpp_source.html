@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>VCT Engine: F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/scene/texture.cpp Source File</title>
+<title>VCT Engine: F:/Documents/Visual Studio 2015/Projects/VCTRenderer/engine/scene/texture.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -81,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_584952a6960c2a5248d7844702e57634.html">VCT_Engine</a></li><li class="navelem"><a class="el" href="dir_d900e540955ed66fd26ba8dfdfe57f0f.html">scene</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_996f45160da62e1a3d7f6046fad68f51.html">engine</a></li><li class="navelem"><a class="el" href="dir_c4b2e6fa44e5132327cff5b3242dfb0d.html">scene</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -94,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="class_raw_texture.html#abc0bd100ec01cb31fd21dffb4a9dcab3">    4</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_raw_texture.html#abc0bd100ec01cb31fd21dffb4a9dcab3">RawTexture::FreeRawData</a>()</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keywordflow">if</span>(!this-&gt;<a class="code" href="class_raw_texture.html#abe931dadd2a4b5bdbe82ee31f87ae60c">rawData</a>) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keywordflow">if</span> (!this-&gt;<a class="code" href="class_raw_texture.html#abe931dadd2a4b5bdbe82ee31f87ae60c">rawData</a>) { <span class="keywordflow">return</span>; }</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> * pRawData = this-&gt;<a class="code" href="class_raw_texture.html#abe931dadd2a4b5bdbe82ee31f87ae60c">rawData</a>.release();</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">delete</span> []pRawData;</div>
@@ -118,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                 glm::vec4 borderColor <span class="comment">/*= glm::vec4(0.f)*/</span>)</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// already loaded a texture</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span>(this-&gt;<a class="code" href="class_o_g_l_texture2_d.html#a81c34266417bac598a6dcf78655e3657">oglTexture</a>) <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_o_g_l_texture2_d.html#a81c34266417bac598a6dcf78655e3657">oglTexture</a>) { <span class="keywordflow">return</span> 0; }</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    PixelDataFormat pdf = PixelDataFormat::BGRA;</div>
@@ -137,13 +138,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    .Image2D(0, pdif, this-&gt;<a class="code" href="class_raw_texture.html#a8db9a3ed2c3851077b13b881db99232c">width</a>, this-&gt;<a class="code" href="class_raw_texture.html#ac5e37bde9f359cb9676891d8636e75d0">height</a>, 0, pdf,</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;             PixelDataType::UnsignedByte, this-&gt;<a class="code" href="class_raw_texture.html#abe931dadd2a4b5bdbe82ee31f87ae60c">rawData</a>.get());</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span>(unloadFromRAM)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span> (unloadFromRAM)</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    {</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        this-&gt;<a class="code" href="class_raw_texture.html#abc0bd100ec01cb31fd21dffb4a9dcab3">FreeRawData</a>();</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// gen mipmaps</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span>(generateMipmaps)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (generateMipmaps)</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="class_o_g_l_texture2_d.html#a53d4b615b88288938afb52730022d6a8">gl</a>.Bound(Texture::Target::_2D, *this-&gt;<a class="code" href="class_o_g_l_texture2_d.html#a81c34266417bac598a6dcf78655e3657">oglTexture</a>).GenerateMipmap();</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        this-&gt;<a class="code" href="class_o_g_l_texture2_d.html#ad0f35d77499d646cee162e9a3213c243">mipmapGenerated</a> = <span class="keyword">true</span>;</div>
@@ -161,7 +162,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    this-&gt;wrapS = <a class="code" href="class_o_g_l_texture2_d.html#a9ce6cda4bc4c3149447c20017c35efd8">wrapS</a>;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    this-&gt;wrapT = <a class="code" href="class_o_g_l_texture2_d.html#a66d477be8c69a34eb6dc5660926bf28f">wrapT</a>;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span>(wrapS == <a class="code" href="class_o_g_l_texture2_d.html#ac6dae14737ed8643d30026dceebd10ccafb07f88f6f11cc5ab9c951290716f147">WrapMode::ClampToBorder</a> || wrapT == <a class="code" href="class_o_g_l_texture2_d.html#ac6dae14737ed8643d30026dceebd10ccafb07f88f6f11cc5ab9c951290716f147">WrapMode::ClampToBorder</a>)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span> (wrapS == <a class="code" href="class_o_g_l_texture2_d.html#ac6dae14737ed8643d30026dceebd10ccafb07f88f6f11cc5ab9c951290716f147">WrapMode::ClampToBorder</a> || wrapT == <a class="code" href="class_o_g_l_texture2_d.html#ac6dae14737ed8643d30026dceebd10ccafb07f88f6f11cc5ab9c951290716f147">WrapMode::ClampToBorder</a>)</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        oglplus::Vector&lt;float, 4&gt; color(borderColor.x, borderColor.y, borderColor.z,</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                        borderColor.w);</div>
@@ -182,7 +183,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="class_o_g_l_texture2_d.html#ac6df286dd7a9c8a51393106fc49f2138">   91</a></span>&#160;<a class="code" href="class_o_g_l_texture2_d.html">OGLTexture2D</a> * <a class="code" href="class_o_g_l_texture2_d.html#ac6df286dd7a9c8a51393106fc49f2138">OGLTexture2D::CreateColorTexture</a>(std::string texName,</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        glm::u8vec3 texColor)</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="class_o_g_l_texture2_d.html">OGLTexture2D</a> *defaultTexture = <span class="keyword">new</span> <a class="code" href="class_o_g_l_texture2_d.html#a5f3587a49e018d390c9474e89d9ae15e">OGLTexture2D</a>();</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="class_o_g_l_texture2_d.html">OGLTexture2D</a> * defaultTexture = <span class="keyword">new</span> <a class="code" href="class_o_g_l_texture2_d.html#a5f3587a49e018d390c9474e89d9ae15e">OGLTexture2D</a>();</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    defaultTexture-&gt;<a class="code" href="class_raw_texture.html#a0f5f0ecaf7fd35c4fba96462d760aa0b">filepath</a> = texName;</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    defaultTexture-&gt;<a class="code" href="class_raw_texture.html#a8db9a3ed2c3851077b13b881db99232c">width</a> = 1;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    defaultTexture-&gt;<a class="code" href="class_raw_texture.html#ac5e37bde9f359cb9676891d8636e75d0">height</a> = 1;</div>
@@ -192,7 +193,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    defaultTexture-&gt;<a class="code" href="class_raw_texture.html#abe931dadd2a4b5bdbe82ee31f87ae60c">rawData</a>.reset(<span class="keyword">new</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>[3] {texColor.b, texColor.g, texColor.r});</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">// texture types conveyed by default</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daf629e42f84129e5f38c0b66b4887f09b">RawTexture::TEXTURE_TYPE_MAX</a>; ++i)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daf375709096cd809be4f7c0b7029f888f">RawTexture::TYPE_MAX</a>; ++i)</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    {</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        defaultTexture-&gt;<a class="code" href="class_raw_texture.html#a41f22696466ec5f4996f0f4dccc7e5e0">textureTypes</a>.insert(</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6d">RawTexture::TextureType</a>(<a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da78fec4598173ba0ac7e88172f904bf14">RawTexture::None</a> + i)</div>
@@ -202,11 +203,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span> defaultTexture;</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="class_o_g_l_texture2_d.html#aeb3f3e851142bc49196052fb1d5d08dc">  114</a></span>&#160;std::unique_ptr&lt;OGLTexture2D&gt; &amp; <a class="code" href="class_o_g_l_texture2_d.html#aeb3f3e851142bc49196052fb1d5d08dc">OGLTexture2D::GetDefaultTexture</a>()</div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="class_o_g_l_texture2_d.html#aeb3f3e851142bc49196052fb1d5d08dc">  114</a></span>&#160;std::unique_ptr&lt;OGLTexture2D&gt; &amp;<a class="code" href="class_o_g_l_texture2_d.html#aeb3f3e851142bc49196052fb1d5d08dc">OGLTexture2D::GetDefaultTexture</a>()</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;{</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">static</span> std::unique_ptr&lt;OGLTexture2D&gt; instance = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">if</span>(!instance)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">if</span> (!instance)</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    {</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment">// default texture is white</span></div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        std::string texName = <span class="stringliteral">&quot;!defaultTexture&quot;</span>;</div>
@@ -219,11 +220,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">return</span> instance;</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="class_o_g_l_texture2_d.html#a04fd79abfd27a237fb33fc4a16c4fb80">  131</a></span>&#160;std::unique_ptr&lt;OGLTexture2D&gt; &amp; <a class="code" href="class_o_g_l_texture2_d.html#a04fd79abfd27a237fb33fc4a16c4fb80">OGLTexture2D::GetDefaultNormalTexture</a>()</div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="class_o_g_l_texture2_d.html#a04fd79abfd27a237fb33fc4a16c4fb80">  131</a></span>&#160;std::unique_ptr&lt;OGLTexture2D&gt; &amp;<a class="code" href="class_o_g_l_texture2_d.html#a04fd79abfd27a237fb33fc4a16c4fb80">OGLTexture2D::GetDefaultNormalTexture</a>()</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;{</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keyword">static</span> std::unique_ptr&lt;OGLTexture2D&gt; instance = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">if</span>(!instance)</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">if</span> (!instance)</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    {</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="comment">// default texture is white</span></div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        std::string texName = <span class="stringliteral">&quot;!defaultNormalTexture&quot;</span>;</div>
@@ -236,11 +237,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">return</span> instance;</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;}</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="class_o_g_l_texture2_d.html#a928c3129e954a9e11f6436286a95c1a0">  148</a></span>&#160;std::unique_ptr&lt;OGLTexture2D&gt; &amp; <a class="code" href="class_o_g_l_texture2_d.html#a928c3129e954a9e11f6436286a95c1a0">OGLTexture2D::GetErrorTexture</a>()</div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="class_o_g_l_texture2_d.html#a928c3129e954a9e11f6436286a95c1a0">  148</a></span>&#160;std::unique_ptr&lt;OGLTexture2D&gt; &amp;<a class="code" href="class_o_g_l_texture2_d.html#a928c3129e954a9e11f6436286a95c1a0">OGLTexture2D::GetErrorTexture</a>()</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;{</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">static</span> std::unique_ptr&lt;OGLTexture2D&gt; instance = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">if</span>(!instance)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">if</span> (!instance)</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    {</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="comment">// default texture is white</span></div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        std::string texName = <span class="stringliteral">&quot;!errorTexture&quot;</span>;</div>
@@ -265,6 +266,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="class_o_g_l_texture2_d_html_a986498afd6ef99ef2bfc05b62a4c5b8b"><div class="ttname"><a href="class_o_g_l_texture2_d.html#a986498afd6ef99ef2bfc05b62a4c5b8b">OGLTexture2D::onGPUMemory</a></div><div class="ttdeci">bool onGPUMemory</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00090">texture.h:90</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_a53d4b615b88288938afb52730022d6a8"><div class="ttname"><a href="class_o_g_l_texture2_d.html#a53d4b615b88288938afb52730022d6a8">OGLTexture2D::gl</a></div><div class="ttdeci">static oglplus::Context gl</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00080">texture.h:80</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_a5f3587a49e018d390c9474e89d9ae15e"><div class="ttname"><a href="class_o_g_l_texture2_d.html#a5f3587a49e018d390c9474e89d9ae15e">OGLTexture2D::OGLTexture2D</a></div><div class="ttdeci">OGLTexture2D()</div><div class="ttdef"><b>Definition:</b> <a href="texture_8cpp_source.html#l00165">texture.cpp:165</a></div></div>
+<div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6daf375709096cd809be4f7c0b7029f888f"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daf375709096cd809be4f7c0b7029f888f">RawTexture::TYPE_MAX</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00021">texture.h:21</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_a9ce6cda4bc4c3149447c20017c35efd8"><div class="ttname"><a href="class_o_g_l_texture2_d.html#a9ce6cda4bc4c3149447c20017c35efd8">OGLTexture2D::wrapS</a></div><div class="ttdeci">WrapMode wrapS</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00087">texture.h:87</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_abcc4f2fdc77667a1ff83d0f23b94fbdd"><div class="ttname"><a href="class_o_g_l_texture2_d.html#abcc4f2fdc77667a1ff83d0f23b94fbdd">OGLTexture2D::magFilter</a></div><div class="ttdeci">MagFilter magFilter</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00085">texture.h:85</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_a853053ed9bf1c5e1024f947303cb0ec3"><div class="ttname"><a href="class_o_g_l_texture2_d.html#a853053ed9bf1c5e1024f947303cb0ec3">OGLTexture2D::MinFilter</a></div><div class="ttdeci">MinFilter</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00056">texture.h:56</a></div></div>
@@ -288,7 +290,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="class_raw_texture_html_ac5e37bde9f359cb9676891d8636e75d0"><div class="ttname"><a href="class_raw_texture.html#ac5e37bde9f359cb9676891d8636e75d0">RawTexture::height</a></div><div class="ttdeci">unsigned int height</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00032">texture.h:32</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_a928c3129e954a9e11f6436286a95c1a0"><div class="ttname"><a href="class_o_g_l_texture2_d.html#a928c3129e954a9e11f6436286a95c1a0">OGLTexture2D::GetErrorTexture</a></div><div class="ttdeci">static std::unique_ptr&lt; OGLTexture2D &gt; &amp; GetErrorTexture()</div><div class="ttdef"><b>Definition:</b> <a href="texture_8cpp_source.html#l00148">texture.cpp:148</a></div></div>
 <div class="ttc" id="class_raw_texture_html_abe931dadd2a4b5bdbe82ee31f87ae60c"><div class="ttname"><a href="class_raw_texture.html#abe931dadd2a4b5bdbe82ee31f87ae60c">RawTexture::rawData</a></div><div class="ttdeci">std::unique_ptr&lt; unsigned char &gt; rawData</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00039">texture.h:39</a></div></div>
-<div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6daf629e42f84129e5f38c0b66b4887f09b"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daf629e42f84129e5f38c0b66b4887f09b">RawTexture::TEXTURE_TYPE_MAX</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00021">texture.h:21</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_aeb3f3e851142bc49196052fb1d5d08dc"><div class="ttname"><a href="class_o_g_l_texture2_d.html#aeb3f3e851142bc49196052fb1d5d08dc">OGLTexture2D::GetDefaultTexture</a></div><div class="ttdeci">static std::unique_ptr&lt; OGLTexture2D &gt; &amp; GetDefaultTexture()</div><div class="ttdef"><b>Definition:</b> <a href="texture_8cpp_source.html#l00114">texture.cpp:114</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_ac6dae14737ed8643d30026dceebd10cc"><div class="ttname"><a href="class_o_g_l_texture2_d.html#ac6dae14737ed8643d30026dceebd10cc">OGLTexture2D::WrapMode</a></div><div class="ttdeci">WrapMode</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00072">texture.h:72</a></div></div>
 <div class="ttc" id="class_o_g_l_texture2_d_html_ab49fd4b19ab6b299d99c128b90861e9d"><div class="ttname"><a href="class_o_g_l_texture2_d.html#ab49fd4b19ab6b299d99c128b90861e9d">OGLTexture2D::borderColor</a></div><div class="ttdeci">glm::vec4 borderColor</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00084">texture.h:84</a></div></div>

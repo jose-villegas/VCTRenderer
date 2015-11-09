@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['textureimporter',['TextureImporter',['../class_texture_importer.html',1,'']]],
-  ['transformmatrices',['TransformMatrices',['../class_transform_matrices.html',1,'']]]
+  ['scene',['Scene',['../class_scene.html',1,'']]],
+  ['sceneimporter',['SceneImporter',['../class_scene_importer.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gbuffertextureid',['GBufferTextureId',['../deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963',1,'deferred_handler.h']]]
+  ['gbuffertextureid',['GBufferTextureId',['../class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfee',1,'DeferredProgram']]]
 ];

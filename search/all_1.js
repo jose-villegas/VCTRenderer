@@ -4,6 +4,7 @@ var searchData=
   ['bindarraybuffer',['BindArrayBuffer',['../class_o_g_l_mesh.html#a1a484d2250debeda7049192f35ce8203',1,'OGLMesh']]],
   ['bindelementarraybuffer',['BindElementArrayBuffer',['../class_o_g_l_mesh.html#ac8be151a624619d6710717b34b2a974d',1,'OGLMesh']]],
   ['bindgbuffer',['BindGBuffer',['../class_deferred_handler.html#a9fd622f6cc5addcdd5a93fa31ec73c56',1,'DeferredHandler']]],
+  ['bindtexture',['BindTexture',['../class_o_g_l_material.html#a0734d6285db1b9de1340a1e127766242',1,'OGLMaterial']]],
   ['bindvertexarrayobject',['BindVertexArrayObject',['../class_o_g_l_mesh.html#a1142d41844f6c3a094ef6c7a1be95df7',1,'OGLMesh']]],
   ['bitangent',['bitangent',['../struct_vertex.html#a8c7489e0319ee0b6a214b0753907a80f',1,'Vertex']]],
   ['bitsperpixel',['bitsPerPixel',['../class_raw_texture.html#a30328bee28779a85b47f25886f1a3ff2',1,'RawTexture']]],

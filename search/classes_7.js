@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['light',['Light',['../class_light.html',1,'']]]
+  ['interface',['Interface',['../class_interface.html',1,'']]]
 ];

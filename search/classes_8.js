@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['material',['Material',['../class_material.html',1,'']]],
-  ['matrices',['Matrices',['../struct_matrices.html',1,'']]],
-  ['mesh',['Mesh',['../class_mesh.html',1,'']]]
+  ['light',['Light',['../class_light.html',1,'']]],
+  ['lightingprogram',['LightingProgram',['../class_lighting_program.html',1,'']]],
+  ['lightuniform',['LightUniform',['../struct_lighting_program_1_1_light_uniform.html',1,'LightingProgram']]]
 ];

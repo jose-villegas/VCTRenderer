@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>VCT Engine: F:/Documents/Visual Studio 2015/Projects/VCT_Engine/VCT_Engine/core/deferred_handler.cpp Source File</title>
+<title>VCT Engine: F:/Documents/Visual Studio 2015/Projects/VCTRenderer/engine/core/deferred_handler.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -81,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_584952a6960c2a5248d7844702e57634.html">VCT_Engine</a></li><li class="navelem"><a class="el" href="dir_412fb8b260c31e49ac3a4da217f494ef.html">core</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_996f45160da62e1a3d7f6046fad68f51.html">engine</a></li><li class="navelem"><a class="el" href="dir_a0e47c104ecd6c0b6dccb5f33d071508.html">core</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -146,495 +147,575 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    );</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordtype">void</span> DeferredHandler::LoadShaders()</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_lighting_program.html#a7b95767e1f34cd1ca8e0380dfbee111f">   58</a></span>&#160;<a class="code" href="class_lighting_program.html#a7b95767e1f34cd1ca8e0380dfbee111f">LightingProgram::LightingProgram</a>()</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">// light pass shader source code and compile</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    std::ifstream vsLightPassFile(<span class="stringliteral">&quot;resources\\shaders\\light_pass.vert&quot;</span>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::string vsLightPassSource(</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        (std::istreambuf_iterator&lt;char&gt;(vsLightPassFile)),</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        std::istreambuf_iterator&lt;char&gt;()</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    );</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.sVertex.Source(vsLightPassSource.c_str());</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.sVertex.Compile();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">// fragment shader</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    std::ifstream fsLightPassFile(<span class="stringliteral">&quot;resources\\shaders\\light_pass.frag&quot;</span>);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    std::string fsLightPassSource(</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        (std::istreambuf_iterator&lt;char&gt;(fsLightPassFile)),</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        std::istreambuf_iterator&lt;char&gt;()</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    );</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.sFragment.Source(fsLightPassSource.c_str());</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.sFragment.Compile();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">// create a new shader program and attach the shaders</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.program.AttachShader(<a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.sVertex);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.program.AttachShader(<a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.sFragment);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">// link attached shaders</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.program.Link().Use();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">// extract relevant uniforms</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.<a class="code" href="class_deferred_program.html#a9166e298729d94cf487fed9887c65242">ExtractActiveUniforms</a>(<a class="code" href="deferred__handler_8h.html#a623ca9c5815b447740795ef10bc3a9fea2e4b97fde8cf63085ec969fcc7e490c0">DeferredStage::Lighting</a>);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">// close source files</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    vsLightPassFile.close(); fsLightPassFile.close();</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">// geometry pass shader source code and compile</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    std::ifstream vsGeomPassFile(<span class="stringliteral">&quot;resources\\shaders\\geometry_pass.vert&quot;</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    std::string vsGeomPassSource(</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        (std::istreambuf_iterator&lt;char&gt;(vsGeomPassFile)),</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        std::istreambuf_iterator&lt;char&gt;()</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    );</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.sVertex.Source(vsGeomPassSource.c_str());</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.sVertex.Compile();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">// fragment shader</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    std::ifstream fsGeomPassFile(<span class="stringliteral">&quot;resources\\shaders\\geometry_pass.frag&quot;</span>);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    std::string fsGeomPassSource(</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        (std::istreambuf_iterator&lt;char&gt;(fsGeomPassFile)),</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        std::istreambuf_iterator&lt;char&gt;()</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    );</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.sFragment.Source(fsGeomPassSource.c_str());</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.sFragment.Compile();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">// create a new shader program and attach the shaders</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.program.AttachShader(<a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.sVertex);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.program.AttachShader(<a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.sFragment);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="comment">// link attached shaders</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.program.Link().Use();</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="comment">// extract relevant uniforms</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <a class="code" href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">geometryPass</a>.<a class="code" href="class_deferred_program.html#a9166e298729d94cf487fed9887c65242">ExtractActiveUniforms</a>(<a class="code" href="deferred__handler_8h.html#a623ca9c5815b447740795ef10bc3a9fead9c6333623e6357515fcbf17be806273">DeferredStage::Geometry</a>);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">// close source files</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    vsGeomPassFile.close(); fsGeomPassFile.close();</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keywordtype">void</span> DeferredHandler::InitializeGBuffer(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> windowWith,</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                                        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> windowHeight)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;{</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    openedColorBuffers.clear();</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    geomBuffer.Bind(FramebufferTarget::Draw);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">// position color buffer</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    gl.Bound(Texture::Target::_2D,</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;             bTextures[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)<a class="code" href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963a52f5e0bc3859bc5f5e25130b6c7e8881">GBufferTextureId::Position</a>])</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    .Image2D(</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        0, PixelDataFormat::RGB, PixelDataType::Float, <span class="keyword">nullptr</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    ) <span class="comment">// high precision texture</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    .MinFilter(TextureMinFilter::Nearest)</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    .MagFilter(TextureMagFilter::Nearest);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    geomBuffer.AttachTexture(</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        FramebufferTarget::Draw,</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        FramebufferColorAttachment::_0,</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        bTextures[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Position], 0</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    );</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    openedColorBuffers.push_back(FramebufferColorAttachment::_0);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="comment">// normal color buffer</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    gl.Bound(Texture::Target::_2D,</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;             bTextures[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)<a class="code" href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963a960b44c579bc2f6818d2daaf9e4c16f0">GBufferTextureId::Normal</a>])</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    .Image2D(</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        0, PixelDataFormat::RGB, PixelDataType::Float, <span class="keyword">nullptr</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    ) <span class="comment">// high precision texture</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    .MinFilter(TextureMinFilter::Nearest)</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    .MagFilter(TextureMagFilter::Nearest);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    geomBuffer.AttachTexture(</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        FramebufferTarget::Draw,</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        FramebufferColorAttachment::_1,</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        bTextures[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Normal],</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        0</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    );</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    openedColorBuffers.push_back(FramebufferColorAttachment::_1);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="comment">// albedo color buffer</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    gl.Bound(Texture::Target::_2D,</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;             bTextures[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)<a class="code" href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963af879d0a27915d351a8e47c2223777710">GBufferTextureId::Albedo</a>])</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    .Image2D(</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        0, PixelDataInternalFormat::RGB8, windowWith, windowHeight,</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        0, PixelDataFormat::RGB, PixelDataType::Float, <span class="keyword">nullptr</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    ) <span class="comment">// 8 bit per component texture</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    .MinFilter(TextureMinFilter::Nearest)</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    .MagFilter(TextureMagFilter::Nearest);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    geomBuffer.AttachTexture(</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        FramebufferTarget::Draw,</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        FramebufferColorAttachment::_2,</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        bTextures[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Albedo],</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        0</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    );</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    openedColorBuffers.push_back(FramebufferColorAttachment::_2);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">// specular intensity and shininess buffer</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    gl.Bound(Texture::Target::_2D,</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;             bTextures[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)<a class="code" href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963a39b0044dd8789d333e7794f359406740">GBufferTextureId::Specular</a>])</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    .Image2D(</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        0, PixelDataInternalFormat::R8, windowWith, windowHeight,</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        0, PixelDataFormat::Red, PixelDataType::Float, <span class="keyword">nullptr</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    ) <span class="comment">// 8 bit per component texture</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    .MinFilter(TextureMinFilter::Nearest)</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    .MagFilter(TextureMagFilter::Nearest);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    geomBuffer.AttachTexture(</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        FramebufferTarget::Draw,</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        FramebufferColorAttachment::_3,</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        bTextures[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Specular], 0</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    );</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    openedColorBuffers.push_back(FramebufferColorAttachment::_3);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="comment">// depth buffer</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    gl.Bound(Texture::Target::_2D, bDepthTexture)</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    .Image2D(</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        0, PixelDataInternalFormat::DepthComponent32F, windowWith, windowHeight,</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        0, PixelDataFormat::DepthComponent, PixelDataType::Float, <span class="keyword">nullptr</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    ); <span class="comment">// high precision float texture</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    geomBuffer.AttachTexture(</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        FramebufferTarget::Draw,</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        FramebufferAttachment::Depth, bDepthTexture, 0</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    );</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    gl.DrawBuffers(openedColorBuffers.size(), openedColorBuffers.data());</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">if</span> (!Framebuffer::IsComplete(Framebuffer::Target::Draw))</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    {</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        FramebufferStatus status = Framebuffer::Status(Framebuffer::Target::Draw);</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;(DeferredHandler) Framebuffer Error:&quot;</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                  &lt;&lt; (<span class="keywordtype">unsigned</span> int)status;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div>
-<div class="line"><a name="l00203"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#aeb2df800949d3bfaf7326d1bb44af0ce">  203</a></span>&#160;<a class="code" href="class_deferred_handler.html#aeb2df800949d3bfaf7326d1bb44af0ce">DeferredHandler::~DeferredHandler</a>()</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;{</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;}</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
-<div class="line"><a name="l00207"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a9fd622f6cc5addcdd5a93fa31ec73c56">  207</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_handler.html#a9fd622f6cc5addcdd5a93fa31ec73c56">DeferredHandler::BindGBuffer</a>(<span class="keyword">const</span> oglplus::FramebufferTarget</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                                  &amp;bindingMode)</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;{</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    gl.Bind(bindingMode, geomBuffer);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;}</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a4ca3be75245b77738870df6ee469f7d9">  213</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_handler.html#a4ca3be75245b77738870df6ee469f7d9">DeferredHandler::ReadGBuffer</a>(<span class="keyword">const</span> <a class="code" href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963">GBufferTextureId</a> &amp;gBufferTexType)</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;{</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    gl.ReadBuffer(openedColorBuffers[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)gBufferTexType]);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;}</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;</div>
-<div class="line"><a name="l00218"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a5212123060b8793cdf2aae2e5bb66ef7">  218</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_handler.html#a5212123060b8793cdf2aae2e5bb66ef7">DeferredHandler::ActivateGBufferTextures</a>()</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;{</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="comment">// bind and active position gbuffer texture</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    oglplus::Texture::Active((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Position);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    bTextures[(<span class="keywordtype">unsigned</span> int)GBufferTextureId::Position]</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    .Bind(oglplus::TextureTarget::_2D);</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="comment">// bind and active normal gbuffer texture</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    oglplus::Texture::Active((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Normal);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    bTextures[(<span class="keywordtype">unsigned</span> int)GBufferTextureId::Normal]</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    .Bind(oglplus::TextureTarget::_2D);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="comment">// bind and active albedo gbuffer texture</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    oglplus::Texture::Active((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Albedo);</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    bTextures[(<span class="keywordtype">unsigned</span> int)GBufferTextureId::Albedo]</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    .Bind(oglplus::TextureTarget::_2D);</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="comment">// bind and active specular gbuffer texture</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    oglplus::Texture::Active((<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Specular);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    bTextures[(<span class="keywordtype">unsigned</span> int)GBufferTextureId::Specular]</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    .Bind(oglplus::TextureTarget::_2D);</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;}</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
-<div class="line"><a name="l00238"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a7da8f85708a2fec2e44cd82d9dddd040">  238</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_handler.html#a7da8f85708a2fec2e44cd82d9dddd040">DeferredHandler::SetLightPassUniforms</a>(<span class="keyword">const</span> glm::vec3 &amp;viewPosition,</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keyword">const</span> std::vector&lt;std::shared_ptr&lt;Light&gt;&gt; &amp;lights)</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;{</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.viewPosUniform.Set(viewPosition);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.<a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">SetUniform</a>(</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        GBufferTextureId::Position,</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Position</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    );</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.<a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">SetUniform</a>(</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        GBufferTextureId::Normal,</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Normal</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    );</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.<a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">SetUniform</a>(</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        GBufferTextureId::Albedo,</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Albedo</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    );</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <a class="code" href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">lightPass</a>.<a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">SetUniform</a>(</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        GBufferTextureId::Specular,</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)GBufferTextureId::Specular</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    samplers.Resize(static_cast&lt;size_t&gt;(GBufferTextureId::TEXTURE_TYPE_MAX));</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="class_lighting_program.html#aad5bd7d8ba847778d99e5b7858d88cf1">   63</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_lighting_program.html#aad5bd7d8ba847778d99e5b7858d88cf1">LightingProgram::ExtractUniform</a>(oglplus::SLDataType uType,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                                     std::string uName)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">// extract light uniform data</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::FloatVec3)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        Uniform&lt;glm::vec3&gt; * vec3ToSet =</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            uName == <span class="stringliteral">&quot;viewPosition&quot;</span> ? &amp;viewPosUniform :</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.ambient&quot;</span> ? &amp;directionalLight.ambient :</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.diffuse&quot;</span> ? &amp;directionalLight.diffuse :</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.specular&quot;</span> ? &amp;directionalLight.specular :</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.position&quot;</span> ? &amp;directionalLight.position :</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.direction&quot;</span> ? &amp;directionalLight.direction : <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">if</span> (vec3ToSet != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            *vec3ToSet = Uniform&lt;glm::vec3&gt;(program, uName);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::Float)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        Uniform&lt;float&gt; * vec3ToSet =</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.angleInnerCone&quot;</span> ? &amp;directionalLight.angleInnerCone :</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.angleOuterCone&quot;</span> ? &amp;directionalLight.angleOuterCone :</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.attenuation.constant&quot;</span> ?</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            &amp;directionalLight.attenuation.constant :</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.attenuation.linear&quot;</span> ?</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            &amp;directionalLight.attenuation.linear :</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.attenuation.quadratic&quot;</span> ?</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            &amp;directionalLight.attenuation.quadratic : <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">if</span> (vec3ToSet != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            *vec3ToSet = Uniform&lt;float&gt;(program, uName);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::UnsignedInt)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        Uniform&lt;unsigned int&gt; * vec3ToSet =</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.lightType&quot;</span> ? &amp;directionalLight.lightType : <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">if</span> (vec3ToSet != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            *vec3ToSet = Uniform&lt;unsigned int&gt;(program, uName);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::Sampler2D)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordtype">int</span> addGSamplerType = -1;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="comment">// gbuffer samplers to read</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        addGSamplerType =</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            uName == <span class="stringliteral">&quot;gPosition&quot;</span> ? (int)GBufferTextureId::Position :</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            uName == <span class="stringliteral">&quot;gNormal&quot;</span> ? (<span class="keywordtype">int</span>)GBufferTextureId::Normal :</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            uName == <span class="stringliteral">&quot;gAlbedo&quot;</span> ? (int)GBufferTextureId::Albedo :</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            uName == <span class="stringliteral">&quot;gSpecular&quot;</span> ? (<span class="keywordtype">int</span>)GBufferTextureId::Specular : -1;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="comment">// g buffer active samplers</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">if</span> (addGSamplerType != -1)</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            samplers</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            .Save((GBufferTextureId)addGSamplerType,</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                  UniformSampler(program, uName));</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="keywordtype">void</span> DeferredHandler::LoadShaders()</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;{</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="comment">// light pass shader source code and compile</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    std::ifstream vsLightPassFile(<span class="stringliteral">&quot;resources\\shaders\\light_pass.vert&quot;</span>);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    std::string vsLightPassSource(</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        (std::istreambuf_iterator&lt;char&gt;(vsLightPassFile)),</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        std::istreambuf_iterator&lt;char&gt;()</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    );</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#a6ba961fbd2f1165fec6c10353eae4287">vertexShader</a>.Source(vsLightPassSource.c_str());</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#a6ba961fbd2f1165fec6c10353eae4287">vertexShader</a>.Compile();</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="comment">// fragment shader</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    std::ifstream fsLightPassFile(<span class="stringliteral">&quot;resources\\shaders\\light_pass.frag&quot;</span>);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    std::string fsLightPassSource(</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        (std::istreambuf_iterator&lt;char&gt;(fsLightPassFile)),</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        std::istreambuf_iterator&lt;char&gt;()</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    );</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#a85effd93cc4df74869e04db8a1a71234">fragmentShader</a>.Source(fsLightPassSource.c_str());</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#a85effd93cc4df74869e04db8a1a71234">fragmentShader</a>.Compile();</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">// create a new shader program and attach the shaders</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af">program</a>.AttachShader(<a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#a6ba961fbd2f1165fec6c10353eae4287">vertexShader</a>);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af">program</a>.AttachShader(<a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#a85effd93cc4df74869e04db8a1a71234">fragmentShader</a>);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">// link attached shaders</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af">program</a>.Link().Use();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">// extract relevant uniforms</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f">ExtractActiveUniforms</a>();</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="comment">// close source files</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    vsLightPassFile.close();</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    fsLightPassFile.close();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="comment">// geometry pass shader source code and compile</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    std::ifstream vsGeomPassFile(<span class="stringliteral">&quot;resources\\shaders\\geometry_pass.vert&quot;</span>);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    std::string vsGeomPassSource(</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        (std::istreambuf_iterator&lt;char&gt;(vsGeomPassFile)),</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        std::istreambuf_iterator&lt;char&gt;()</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    );</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#a6ba961fbd2f1165fec6c10353eae4287">vertexShader</a>.Source(vsGeomPassSource.c_str());</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#a6ba961fbd2f1165fec6c10353eae4287">vertexShader</a>.Compile();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="comment">// fragment shader</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    std::ifstream fsGeomPassFile(<span class="stringliteral">&quot;resources\\shaders\\geometry_pass.frag&quot;</span>);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    std::string fsGeomPassSource(</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        (std::istreambuf_iterator&lt;char&gt;(fsGeomPassFile)),</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        std::istreambuf_iterator&lt;char&gt;()</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    );</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#a85effd93cc4df74869e04db8a1a71234">fragmentShader</a>.Source(fsGeomPassSource.c_str());</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#a85effd93cc4df74869e04db8a1a71234">fragmentShader</a>.Compile();</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="comment">// create a new shader program and attach the shaders</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af">program</a>.AttachShader(<a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#a6ba961fbd2f1165fec6c10353eae4287">vertexShader</a>);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af">program</a>.AttachShader(<a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#a85effd93cc4df74869e04db8a1a71234">fragmentShader</a>);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="comment">// link attached shaders</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af">program</a>.Link().Use();</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="comment">// extract relevant uniforms</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <a class="code" href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">geometryPass</a>.<a class="code" href="class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f">ExtractActiveUniforms</a>();</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="comment">// close source files</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    vsGeomPassFile.close();</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    fsGeomPassFile.close();</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;}</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="keywordtype">void</span> DeferredHandler::InitializeGBuffer(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> windowWith,</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                                        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> windowHeight)</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;{</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    openedColorBuffers.clear();</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    geomBuffer.Bind(FramebufferTarget::Draw);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment">// position color buffer</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    gl.Bound(Texture::Target::_2D,</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;             bTextures[<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0">DeferredProgram::Position</a>])</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    .Image2D(</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        0, PixelDataFormat::RGB, PixelDataType::Float, <span class="keyword">nullptr</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    ) <span class="comment">// high precision texture</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    .MinFilter(TextureMinFilter::Nearest)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    .MagFilter(TextureMagFilter::Nearest);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    geomBuffer.AttachTexture(</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        FramebufferTarget::Draw,</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        FramebufferColorAttachment::_0,</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        bTextures[DeferredProgram::Position], 0</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    );</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    openedColorBuffers.push_back(FramebufferColorAttachment::_0);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="comment">// normal color buffer</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    gl.Bound(Texture::Target::_2D,</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;             bTextures[<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0">DeferredProgram::Normal</a>])</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    .Image2D(</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        0, PixelDataFormat::RGB, PixelDataType::Float, <span class="keyword">nullptr</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    ) <span class="comment">// high precision texture</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    .MinFilter(TextureMinFilter::Nearest)</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    .MagFilter(TextureMagFilter::Nearest);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    geomBuffer.AttachTexture(</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        FramebufferTarget::Draw,</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        FramebufferColorAttachment::_1,</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        bTextures[DeferredProgram::Normal],</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        0</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    );</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    openedColorBuffers.push_back(FramebufferColorAttachment::_1);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="comment">// albedo color buffer</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    gl.Bound(Texture::Target::_2D,</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;             bTextures[<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">DeferredProgram::Albedo</a>])</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    .Image2D(</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        0, PixelDataInternalFormat::RGB8, windowWith, windowHeight,</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        0, PixelDataFormat::RGB, PixelDataType::Float, <span class="keyword">nullptr</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    ) <span class="comment">// 8 bit per component texture</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    .MinFilter(TextureMinFilter::Nearest)</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    .MagFilter(TextureMagFilter::Nearest);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    geomBuffer.AttachTexture(</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        FramebufferTarget::Draw,</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        FramebufferColorAttachment::_2,</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        bTextures[DeferredProgram::Albedo],</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        0</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    );</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    openedColorBuffers.push_back(FramebufferColorAttachment::_2);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="comment">// specular intensity and shininess buffer</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    gl.Bound(Texture::Target::_2D,</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;             bTextures[<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">DeferredProgram::Specular</a>])</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    .Image2D(</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        0, PixelDataInternalFormat::R8, windowWith, windowHeight,</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        0, PixelDataFormat::Red, PixelDataType::Float, <span class="keyword">nullptr</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    ) <span class="comment">// 8 bit per component texture</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    .MinFilter(TextureMinFilter::Nearest)</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    .MagFilter(TextureMagFilter::Nearest);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    geomBuffer.AttachTexture(</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        FramebufferTarget::Draw,</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        FramebufferColorAttachment::_3,</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        bTextures[DeferredProgram::Specular], 0</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    );</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;}</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
-<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#af3a1176c3d6708a8a564194920a89176">  261</a></span>&#160;<span class="keyword">const</span> oglplus::Texture &amp;<a class="code" href="class_deferred_handler.html#af3a1176c3d6708a8a564194920a89176">DeferredHandler::GetGBufferTexture</a>(</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <a class="code" href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963">GBufferTextureId</a> tID)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordflow">return</span> bTextures[(<span class="keywordtype">unsigned</span> int)tID];</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;}</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
-<div class="line"><a name="l00267"></a><span class="lineno"><a class="line" href="class_deferred_program.html#a9166e298729d94cf487fed9887c65242">  267</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_program.html#a9166e298729d94cf487fed9887c65242">DeferredProgram::ExtractActiveUniforms</a>(<a class="code" href="deferred__handler_8h.html#a623ca9c5815b447740795ef10bc3a9fe">DeferredStage</a> dStage)</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;{</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    Program::ActiveUniformRange uRange = program.ActiveUniforms();</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    openedColorBuffers.push_back(FramebufferColorAttachment::_3);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="comment">// depth buffer</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    gl.Bound(Texture::Target::_2D, bDepthTexture)</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    .Image2D(</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        0, PixelDataInternalFormat::DepthComponent32F, windowWith, windowHeight,</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        0, PixelDataFormat::DepthComponent, PixelDataType::Float, <span class="keyword">nullptr</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    ); <span class="comment">// high precision float texture</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    geomBuffer.AttachTexture(</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        FramebufferTarget::Draw,</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        FramebufferAttachment::Depth, bDepthTexture, 0</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    );</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    gl.DrawBuffers(openedColorBuffers.size(), openedColorBuffers.data());</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; uRange.Size(); i++)</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keywordflow">if</span> (!Framebuffer::IsComplete(Framebuffer::Target::Draw))</div>
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    {</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        std::string uName = uRange.At(i).Name();</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        SLDataType uType = uRange.At(i).Type();</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        dStage == <a class="code" href="deferred__handler_8h.html#a623ca9c5815b447740795ef10bc3a9fea2e4b97fde8cf63085ec969fcc7e490c0">DeferredStage::Lighting</a></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        ? ExtractLightPassUniform(uType, uName)</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        : ExtractGeometryPassUniform(uType, uName);</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    }</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        FramebufferStatus status = Framebuffer::Status(Framebuffer::Target::Draw);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;(DeferredHandler) Framebuffer Error:&quot;</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                  &lt;&lt; (<span class="keywordtype">unsigned</span> int)status;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    }</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;}</div>
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keywordtype">void</span> DeferredProgram::ExtractLightPassUniform(oglplus::SLDataType uType,</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        std::string uName)</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;{</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="comment">// extract light uniform data</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::FloatVec3)</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    {</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        Uniform&lt;glm::vec3&gt; * vec3ToSet =</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            uName == <span class="stringliteral">&quot;viewPosition&quot;</span> ? &amp;viewPosUniform : <span class="comment">// camera position, for specular</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.ambient&quot;</span> ? &amp;directionalLight.ambient :</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.diffuse&quot;</span> ? &amp;directionalLight.diffuse :</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.specular&quot;</span> ? &amp;directionalLight.specular :</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.position&quot;</span> ? &amp;directionalLight.position :</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.direction&quot;</span> ? &amp;directionalLight.direction : <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="keywordflow">if</span> (vec3ToSet != <span class="keyword">nullptr</span>) { *vec3ToSet = Uniform&lt;glm::vec3&gt;(program, uName); }</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    }</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::Float)</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    {</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        Uniform&lt;float&gt; * vec3ToSet =</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.angleInnerCone&quot;</span> ? &amp;directionalLight.angleInnerCone :</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.angleOuterCone&quot;</span> ? &amp;directionalLight.angleOuterCone :</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.attenuation.constant&quot;</span> ?</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            &amp;directionalLight.attenuation.constant :</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.attenuation.linear&quot;</span> ?</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            &amp;directionalLight.attenuation.linear :</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.attenuation.quadratic&quot;</span> ?</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            &amp;directionalLight.attenuation.quadratic : <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        <span class="keywordflow">if</span> (vec3ToSet != <span class="keyword">nullptr</span>) { *vec3ToSet = Uniform&lt;float&gt;(program, uName); }</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    }</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::UnsignedInt)</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    {</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        Uniform&lt;unsigned int&gt; * vec3ToSet =</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            uName == <span class="stringliteral">&quot;directionalLight.lightType&quot;</span> ? &amp;directionalLight.lightType : <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">if</span> (vec3ToSet != <span class="keyword">nullptr</span>) { *vec3ToSet = Uniform&lt;unsigned int&gt;(program, uName); }</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    }</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::Sampler2D)</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    {</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="keywordtype">int</span> addGSamplerType = -1;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="comment">// gbuffer samplers to read</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        addGSamplerType =</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            uName == <span class="stringliteral">&quot;gPosition&quot;</span> ? (int)GBufferTextureId::Position :</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            uName == <span class="stringliteral">&quot;gNormal&quot;</span> ? (<span class="keywordtype">int</span>)GBufferTextureId::Normal :</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            uName == <span class="stringliteral">&quot;gAlbedo&quot;</span> ? (int)GBufferTextureId::Albedo :</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            uName == <span class="stringliteral">&quot;gSpecular&quot;</span> ? (<span class="keywordtype">int</span>)GBufferTextureId::Specular : -1;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <span class="comment">// g buffer active samplers</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="keywordflow">if</span> (addGSamplerType != -1)</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        {</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;            gSamplers[addGSamplerType].reset(<span class="keyword">new</span> UniformSampler(program, uName));</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            aGSamplers.push_back((<a class="code" href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963">GBufferTextureId</a>)addGSamplerType);</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        }</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    }</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;}</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="keywordtype">void</span> DeferredProgram::ExtractGeometryPassUniform(oglplus::SLDataType uType,</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        std::string uName)</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;{</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::Sampler2D)</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    {</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        <span class="keywordtype">int</span> addSamplerType = -1;</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="comment">// texture samplers</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        addSamplerType =</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;            uName == <span class="stringliteral">&quot;noneMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da78fec4598173ba0ac7e88172f904bf14">RawTexture::None</a> :</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;            uName == <span class="stringliteral">&quot;diffuseMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078">RawTexture::Diffuse</a> :</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;            uName == <span class="stringliteral">&quot;specularMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0">RawTexture::Specular</a> :</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;            uName == <span class="stringliteral">&quot;ambientMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d">RawTexture::Ambient</a> :</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;            uName == <span class="stringliteral">&quot;emissiveMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c">RawTexture::Emissive</a> :</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;            uName == <span class="stringliteral">&quot;heightMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da36aa55c6d051efa1528323021dc6bfdb">RawTexture::Height</a> :</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;            uName == <span class="stringliteral">&quot;normalsMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da31db990e66434b96fc42213080e8aee5">RawTexture::Normals</a> :</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;            uName == <span class="stringliteral">&quot;shininessMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f">RawTexture::Shininess</a> :</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;            uName == <span class="stringliteral">&quot;opacityMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da578768bb075d4923ac61b46940c5fa83">RawTexture::Opacity</a> :</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;            uName == <span class="stringliteral">&quot;displacementMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303">RawTexture::Displacement</a> :</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            uName == <span class="stringliteral">&quot;lightMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da5d61225d770ccb26dd0467db41c49c40">RawTexture::Lightmap</a> :</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            uName == <span class="stringliteral">&quot;reflectionMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daeb9ce3fdf067487fa1c3c543eadcb995">RawTexture::Reflection</a> :</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            uName == <span class="stringliteral">&quot;unknowMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da80a818ecbfab54372aaa78f8eefff24e">RawTexture::Unknow</a> : -1;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="comment">// geometry pass active samplers</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <span class="keywordflow">if</span> (addSamplerType != -1)</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        {</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            samplers[addSamplerType].reset(<span class="keyword">new</span> UniformSampler(program, uName));</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            aSamplers.push_back((<a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6d">RawTexture::TextureType</a>)addSamplerType);</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        }</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    }</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (uType == SLDataType::FloatMat4)</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    {</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="keywordtype">int</span> addMat4Type = -1;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        addMat4Type =</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            uName == <span class="stringliteral">&quot;matrices.modelView&quot;</span> ? <a class="code" href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521aee88edce09f8010e45d1e053b33d609b">TransformMatrices::ModelView</a> :</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;            uName == <span class="stringliteral">&quot;matrices.modelViewProjection&quot;</span> ?</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;            <a class="code" href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521a84870f05e92eaa6f7b91b600ed85019a">TransformMatrices::ModelViewProjection</a> :</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            uName == <span class="stringliteral">&quot;matrices.model&quot;</span> ? <a class="code" href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521a76b154ed10408933a7638da9ff4e6e5d">TransformMatrices::Model</a> :</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            uName == <span class="stringliteral">&quot;matrices.view&quot;</span> ? <a class="code" href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521a444aed1ca459a3f599c8453ef1098545">TransformMatrices::View</a> :</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            uName == <span class="stringliteral">&quot;matrices.projection&quot;</span> ? <a class="code" href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521af92ac52cd169b388552c7003a69a4c84">TransformMatrices::Projection</a> :</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            uName == <span class="stringliteral">&quot;matrices.normal&quot;</span> ? <a class="code" href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521ae5c37d34dc3dd374136583410c7264a4">TransformMatrices::Normal</a> : -1;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordflow">if</span> (addMat4Type != -1)</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        {</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            matrices[addMat4Type].reset(<span class="keyword">new</span> Uniform&lt;glm::mat4x4&gt;(program, uName));</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            aMatrices.push_back((<a class="code" href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521">TransformMatrices::TransformMatrixId</a>)addMat4Type);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        }</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    }</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (uType == SLDataType::FloatVec3)</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    {</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="keywordtype">int</span> addF3MatType = -1;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        addF3MatType =</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;            uName == <span class="stringliteral">&quot;material.ambient&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea5441c93ee26296cf73099ab3ece3bae8">OGLMaterial::Ambient</a> :</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;            uName == <span class="stringliteral">&quot;material.diffuse&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0ceabcd3b10f0373f4b2c8d4c5cfa099a04d">OGLMaterial::Diffuse</a> :</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;            uName == <span class="stringliteral">&quot;material.specular&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea59f42bc1358ab6a7640040c4d2ea2513">OGLMaterial::Specular</a> :</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            uName == <span class="stringliteral">&quot;material.emissive&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea6f7a7d603da029b7fe179988a8d19a20">OGLMaterial::Emissive</a> :</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            uName == <span class="stringliteral">&quot;material.transparent&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea909fa47c1a6d8791f545c2121ecc671a">OGLMaterial::Transparent</a> : -1;</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;        <span class="keywordflow">if</span> (addF3MatType != -1)</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        {</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            materialFloat3[addF3MatType].reset(<span class="keyword">new</span> Uniform&lt;glm::vec3&gt;(program, uName));</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            aFloat3Material.push_back((<a class="code" href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0ce">OGLMaterial::MaterialFloat3PropertyId</a>)addF3MatType);</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        }</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    }</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (uType == SLDataType::Float)</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    {</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        <span class="keywordtype">int</span> addF1MatType = -1;</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        addF1MatType =</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;            uName == <span class="stringliteral">&quot;material.opacity&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64ca149b3ad56ea941570eaa8d0e410f40a3">OGLMaterial::Opacity</a> :</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            uName == <span class="stringliteral">&quot;material.shininess&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64ca050b45ca29d9c2a74e8ffbb1578695d7">OGLMaterial::Shininess</a> :</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            uName == <span class="stringliteral">&quot;material.shininessStrenght&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64cae4da774c172596772d727db4b5e2cbc0">OGLMaterial::ShininessStrenght</a> :</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            uName == <span class="stringliteral">&quot;material.refractionIndex&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64ca04b1f363f2e457e090414c96c7047536">OGLMaterial::RefractionIndex</a> : -1;</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;        <span class="keywordflow">if</span> (addF1MatType != -1)</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        {</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            materialFloat1[addF1MatType].reset(<span class="keyword">new</span> Uniform&lt;float&gt;(program, uName));</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            aFloat1Material.push_back((<a class="code" href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64c">OGLMaterial::MaterialFloat1PropertyId</a>)addF1MatType);</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        }</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    }</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (uType == SLDataType::UnsignedInt)</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    {</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        <span class="keywordtype">int</span> addUint1MatType = -1;</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        addUint1MatType =</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            uName == <span class="stringliteral">&quot;material.useNormalsMap&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a79448ba294d1923d56ebca495b0c272ea410bf1c2f3618546e7327e5dfb8fcf49">OGLMaterial::NormalMapping</a> : -1;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="keywordflow">if</span> (addUint1MatType != -1)</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;        {</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            materialUInt1[addUint1MatType].reset(<span class="keyword">new</span> Uniform&lt;unsigned int&gt;(program, uName));</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            aUInt1Material.push_back((<a class="code" href="class_o_g_l_material.html#a79448ba294d1923d56ebca495b0c272e">OGLMaterial::MaterialUInt1PropertyId</a>)addUint1MatType);</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        }</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    }</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;}</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;</div>
-<div class="line"><a name="l00438"></a><span class="lineno"><a class="line" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">  438</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">DeferredProgram::SetUniform</a>(<a class="code" href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521">TransformMatrices::TransformMatrixId</a> mId,</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                                 <span class="keyword">const</span> glm::mat4x4 &amp;val)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;    <span class="keywordflow">if</span> (matrices[mId])</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    {</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        matrices[mId]-&gt;Set(val);</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    }</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;}</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;</div>
-<div class="line"><a name="l00447"></a><span class="lineno"><a class="line" href="class_deferred_program.html#aa30be0e9c89f23244b97759d0d039c87">  447</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">DeferredProgram::SetUniform</a>(<a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6d">RawTexture::TextureType</a> tId,</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                                 <span class="keyword">const</span> <span class="keywordtype">int</span> val)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="keywordflow">if</span> (samplers[tId])</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    {</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        samplers[tId]-&gt;Set(val);</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    }</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;}</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;</div>
-<div class="line"><a name="l00456"></a><span class="lineno"><a class="line" href="class_deferred_program.html#aab46bce44b671b3640dd0f3f19ee78cc">  456</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">DeferredProgram::SetUniform</a>(<a class="code" href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0ce">OGLMaterial::MaterialFloat3PropertyId</a> mF3Id,</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                                 <span class="keyword">const</span> glm::vec3 &amp;val)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    <span class="keywordflow">if</span> (materialFloat3[mF3Id])</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    {</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        materialFloat3[mF3Id]-&gt;Set(val);</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;    }</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;}</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;</div>
-<div class="line"><a name="l00465"></a><span class="lineno"><a class="line" href="class_deferred_program.html#a3a08be2519a0e471e21e79339dac8c47">  465</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">DeferredProgram::SetUniform</a>(<a class="code" href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64c">OGLMaterial::MaterialFloat1PropertyId</a> mF1Id,</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                                 <span class="keyword">const</span> <span class="keywordtype">float</span> val)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    <span class="keywordflow">if</span> (materialFloat1[mF1Id])</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    {</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;        materialFloat1[mF1Id]-&gt;Set(val);</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;    }</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;}</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;</div>
-<div class="line"><a name="l00474"></a><span class="lineno"><a class="line" href="class_deferred_program.html#a4101b0bdffc910f5efed3a3eace12c27">  474</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">DeferredProgram::SetUniform</a>(<a class="code" href="class_o_g_l_material.html#a79448ba294d1923d56ebca495b0c272e">OGLMaterial::MaterialUInt1PropertyId</a> mF1Id,</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;                                 <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> val)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;    <span class="keywordflow">if</span> (materialUInt1[mF1Id])</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;    {</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;        materialUInt1[mF1Id]-&gt;Set(val);</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    }</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;}</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;</div>
-<div class="line"><a name="l00483"></a><span class="lineno"><a class="line" href="class_deferred_program.html#a747f47068673a863acecb1a276a4090d">  483</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">DeferredProgram::SetUniform</a>(<a class="code" href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963">GBufferTextureId</a> tId, <span class="keyword">const</span> <span class="keywordtype">int</span> val)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;    <span class="keywordflow">if</span> (gSamplers[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)tId])</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    {</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        gSamplers[(<span class="keywordtype">unsigned</span> int)tId]-&gt;Set(val);</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    }</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;}</div>
-<div class="ttc" id="class_o_g_l_material_html_a1fc530fc808e270be78c8b296abed0cea6f7a7d603da029b7fe179988a8d19a20"><div class="ttname"><a href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea6f7a7d603da029b7fe179988a8d19a20">OGLMaterial::Emissive</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00032">material.h:32</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a27506550fa395365703eb941e525e64ca149b3ad56ea941570eaa8d0e410f40a3"><div class="ttname"><a href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64ca149b3ad56ea941570eaa8d0e410f40a3">OGLMaterial::Opacity</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00038">material.h:38</a></div></div>
-<div class="ttc" id="deferred__handler_8h_html_a623ca9c5815b447740795ef10bc3a9fea2e4b97fde8cf63085ec969fcc7e490c0"><div class="ttname"><a href="deferred__handler_8h.html#a623ca9c5815b447740795ef10bc3a9fea2e4b97fde8cf63085ec969fcc7e490c0">DeferredStage::Lighting</a></div></div>
+<div class="line"><a name="l00282"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#aeb2df800949d3bfaf7326d1bb44af0ce">  282</a></span>&#160;<a class="code" href="class_deferred_handler.html#aeb2df800949d3bfaf7326d1bb44af0ce">DeferredHandler::~DeferredHandler</a>() {}</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
+<div class="line"><a name="l00284"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a9fd622f6cc5addcdd5a93fa31ec73c56">  284</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_handler.html#a9fd622f6cc5addcdd5a93fa31ec73c56">DeferredHandler::BindGBuffer</a>(<span class="keyword">const</span> oglplus::FramebufferTarget</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                                  &amp; bindingMode)</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;{</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    gl.Bind(bindingMode, geomBuffer);</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;}</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div>
+<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a1b61255f83012c4b20de4dbf0ab953e5">  290</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_handler.html#a1b61255f83012c4b20de4dbf0ab953e5">DeferredHandler::ReadGBuffer</a>(<span class="keyword">const</span> <a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfee">DeferredProgram::GBufferTextureId</a></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                                  &amp;gBufferTexType)</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;{</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    gl.ReadBuffer(openedColorBuffers[(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)gBufferTexType]);</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;}</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;</div>
+<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a5212123060b8793cdf2aae2e5bb66ef7">  296</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_handler.html#a5212123060b8793cdf2aae2e5bb66ef7">DeferredHandler::ActivateGBufferTextures</a>()</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;{</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="comment">// bind and active position gbuffer texture</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    oglplus::Texture::Active(DeferredProgram::Position);</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    bTextures[<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0">DeferredProgram::Position</a>]</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    .Bind(oglplus::TextureTarget::_2D);</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <span class="comment">// bind and active normal gbuffer texture</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    oglplus::Texture::Active(DeferredProgram::Normal);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    bTextures[<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0">DeferredProgram::Normal</a>]</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    .Bind(oglplus::TextureTarget::_2D);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="comment">// bind and active albedo gbuffer texture</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    oglplus::Texture::Active(DeferredProgram::Albedo);</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    bTextures[<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">DeferredProgram::Albedo</a>]</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    .Bind(oglplus::TextureTarget::_2D);</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="comment">// bind and active specular gbuffer texture</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    oglplus::Texture::Active(DeferredProgram::Specular);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    bTextures[<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">DeferredProgram::Specular</a>]</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    .Bind(oglplus::TextureTarget::_2D);</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;}</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
+<div class="line"><a name="l00316"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a7da8f85708a2fec2e44cd82d9dddd040">  316</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_handler.html#a7da8f85708a2fec2e44cd82d9dddd040">DeferredHandler::SetLightPassUniforms</a>(<span class="keyword">const</span> glm::vec3 &amp;viewPosition,</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keyword">const</span> std::vector&lt;std::shared_ptr&lt;Light&gt;&gt; &amp;lights)</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;{</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">SetUniform</a>(viewPosition);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">SetUniform</a>(</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        DeferredProgram::Position,</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        DeferredProgram::Position</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    );</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">SetUniform</a>(</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        DeferredProgram::Normal,</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        DeferredProgram::Normal</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    );</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">SetUniform</a>(</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        DeferredProgram::Albedo,</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        DeferredProgram::Albedo</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    );</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <a class="code" href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">lightPass</a>.<a class="code" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">SetUniform</a>(</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        DeferredProgram::Specular,</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        DeferredProgram::Specular</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    );</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;}</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;</div>
+<div class="line"><a name="l00339"></a><span class="lineno"><a class="line" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">  339</a></span>&#160;<span class="keyword">const</span> oglplus::Texture &amp;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">DeferredHandler::GetGBufferTexture</a>(</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfee">DeferredProgram::GBufferTextureId</a> tID)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    <span class="keywordflow">return</span> bTextures[tID];</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;}</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;</div>
+<div class="line"><a name="l00349"></a><span class="lineno"><a class="line" href="class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f">  349</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f">DeferredProgram::ExtractActiveUniforms</a>()</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;{</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    <span class="keyword">auto</span> uRange = program.ActiveUniforms();</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; uRange.Size(); i++)</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    {</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        <span class="keyword">auto</span> uName = uRange.At(i).Name();</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        <span class="keyword">auto</span> uType = uRange.At(i).Type();</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        <span class="comment">// call virtual implemented virtual method</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        ExtractUniform(uType, uName);</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    }</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;}</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;</div>
+<div class="line"><a name="l00362"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a0917b4cfc38f4c4909fb21aab616b452">  362</a></span>&#160;<a class="code" href="class_geometry_program.html#a0917b4cfc38f4c4909fb21aab616b452">GeometryProgram::GeometryProgram</a>()</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;{</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    samplers.Resize(<a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daf375709096cd809be4f7c0b7029f888f">RawTexture::TYPE_MAX</a>);</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    transformMatrices.Resize(<a class="code" href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a54cee6ea1fb5938e858bc4f97302bd55">TransformMatrices::MATRIX_ID_MAX</a>);</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    materialFloat3.Resize(<a class="code" href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74accf7d9b9e8b7b31a6ef8b77f8c823df4">OGLMaterial::FLOAT3_PROPERTY_ID_MAX</a>);</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    materialFloat1.Resize(<a class="code" href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11aa079a09c924ce5bbdf51f0c752233ddd">OGLMaterial::FLOAT1_PROPERTY_ID_MAX</a>);</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    materialUInt1.Resize(<a class="code" href="class_o_g_l_material.html#a81fa850de56de8694701524e81107b28aed50924dc557a7ab8b317241a9c6047f">OGLMaterial::UINT1_PROPERTY_ID_MAX</a>);</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;}</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;</div>
+<div class="line"><a name="l00371"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a498b62158fe4e9784d261fa4ff9d6520">  371</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_geometry_program.html#a498b62158fe4e9784d261fa4ff9d6520">GeometryProgram::ExtractUniform</a>(oglplus::SLDataType uType,</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                                     std::string uName)</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;{</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keyword">using namespace </span>oglplus;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keywordflow">if</span> (uType == SLDataType::Sampler2D)</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    {</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="keywordtype">int</span> addSamplerType = -1;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        <span class="comment">// texture samplers</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        addSamplerType =</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;            uName == <span class="stringliteral">&quot;noneMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da78fec4598173ba0ac7e88172f904bf14">RawTexture::None</a> :</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            uName == <span class="stringliteral">&quot;diffuseMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078">RawTexture::Diffuse</a> :</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            uName == <span class="stringliteral">&quot;specularMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0">RawTexture::Specular</a> :</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            uName == <span class="stringliteral">&quot;ambientMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d">RawTexture::Ambient</a> :</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            uName == <span class="stringliteral">&quot;emissiveMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c">RawTexture::Emissive</a> :</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            uName == <span class="stringliteral">&quot;heightMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da36aa55c6d051efa1528323021dc6bfdb">RawTexture::Height</a> :</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            uName == <span class="stringliteral">&quot;normalsMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da31db990e66434b96fc42213080e8aee5">RawTexture::Normals</a> :</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            uName == <span class="stringliteral">&quot;shininessMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f">RawTexture::Shininess</a> :</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            uName == <span class="stringliteral">&quot;opacityMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da578768bb075d4923ac61b46940c5fa83">RawTexture::Opacity</a> :</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            uName == <span class="stringliteral">&quot;displacementMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303">RawTexture::Displacement</a> :</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            uName == <span class="stringliteral">&quot;lightMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da5d61225d770ccb26dd0467db41c49c40">RawTexture::Lightmap</a> :</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            uName == <span class="stringliteral">&quot;reflectionMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daeb9ce3fdf067487fa1c3c543eadcb995">RawTexture::Reflection</a> :</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            uName == <span class="stringliteral">&quot;unknowMap&quot;</span> ? <a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da80a818ecbfab54372aaa78f8eefff24e">RawTexture::Unknow</a> : -1;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="comment">// geometry pass active samplers</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="keywordflow">if</span> (addSamplerType != -1)</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        {</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;            samplers</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;            .Save(static_cast&lt;RawTexture::TextureType&gt;(addSamplerType),</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                  UniformSampler(program, uName));</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        }</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    }</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (uType == SLDataType::FloatMat4)</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;    {</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        <span class="keywordtype">int</span> addMat4Type = -1;</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        addMat4Type =</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;            uName == <span class="stringliteral">&quot;matrices.modelView&quot;</span> ? <a class="code" href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307aee88edce09f8010e45d1e053b33d609b">TransformMatrices::ModelView</a> :</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            uName == <span class="stringliteral">&quot;matrices.modelViewProjection&quot;</span> ?</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            <a class="code" href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a84870f05e92eaa6f7b91b600ed85019a">TransformMatrices::ModelViewProjection</a> :</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;            uName == <span class="stringliteral">&quot;matrices.model&quot;</span> ? <a class="code" href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a76b154ed10408933a7638da9ff4e6e5d">TransformMatrices::Model</a> :</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;            uName == <span class="stringliteral">&quot;matrices.view&quot;</span> ? <a class="code" href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a444aed1ca459a3f599c8453ef1098545">TransformMatrices::View</a> :</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;            uName == <span class="stringliteral">&quot;matrices.projection&quot;</span> ? <a class="code" href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307af92ac52cd169b388552c7003a69a4c84">TransformMatrices::Projection</a> :</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;            uName == <span class="stringliteral">&quot;matrices.normal&quot;</span> ? <a class="code" href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307ae5c37d34dc3dd374136583410c7264a4">TransformMatrices::Normal</a> : -1;</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        <span class="keywordflow">if</span> (addMat4Type != -1)</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;        {</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            transformMatrices</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            .Save(static_cast&lt;TransformMatrices::MatrixId&gt;(addMat4Type),</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                  Uniform&lt;glm::mat4x4&gt;(program, uName));</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        }</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    }</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (uType == SLDataType::FloatVec3)</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    {</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        <span class="keywordtype">int</span> addF3MatType = -1;</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        addF3MatType =</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            uName == <span class="stringliteral">&quot;material.ambient&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a5441c93ee26296cf73099ab3ece3bae8">OGLMaterial::Ambient</a> :</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            uName == <span class="stringliteral">&quot;material.diffuse&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74abcd3b10f0373f4b2c8d4c5cfa099a04d">OGLMaterial::Diffuse</a> :</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            uName == <span class="stringliteral">&quot;material.specular&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a59f42bc1358ab6a7640040c4d2ea2513">OGLMaterial::Specular</a> :</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            uName == <span class="stringliteral">&quot;material.emissive&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a6f7a7d603da029b7fe179988a8d19a20">OGLMaterial::Emissive</a> :</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            uName == <span class="stringliteral">&quot;material.transparent&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a909fa47c1a6d8791f545c2121ecc671a">OGLMaterial::Transparent</a> : -1;</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        <span class="keywordflow">if</span> (addF3MatType != -1)</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;        {</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            materialFloat3.</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            Save(static_cast&lt;OGLMaterial::Float3PropertyId&gt;(addF3MatType),</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;                 Uniform&lt;glm::vec3&gt;(program, uName));</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        }</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;    }</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (uType == SLDataType::Float)</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;    {</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        <span class="keywordtype">int</span> addF1MatType = -1;</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        addF1MatType =</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            uName == <span class="stringliteral">&quot;material.opacity&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11a149b3ad56ea941570eaa8d0e410f40a3">OGLMaterial::Opacity</a> :</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            uName == <span class="stringliteral">&quot;material.shininess&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11a050b45ca29d9c2a74e8ffbb1578695d7">OGLMaterial::Shininess</a> :</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            uName == <span class="stringliteral">&quot;material.shininessStrenght&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11ae4da774c172596772d727db4b5e2cbc0">OGLMaterial::ShininessStrenght</a> :</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            uName == <span class="stringliteral">&quot;material.refractionIndex&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11a04b1f363f2e457e090414c96c7047536">OGLMaterial::RefractionIndex</a> : -1;</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        <span class="keywordflow">if</span> (addF1MatType != -1)</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        {</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            materialFloat1.</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            Save(static_cast&lt;OGLMaterial::Float1PropertyId&gt;(addF1MatType),</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;                 Uniform&lt;float&gt;(program, uName));</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        }</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;    }</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (uType == SLDataType::UnsignedInt)</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    {</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        <span class="keywordtype">int</span> addUint1MatType = -1;</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        addUint1MatType =</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;            uName == <span class="stringliteral">&quot;material.useNormalsMap&quot;</span> ? <a class="code" href="class_o_g_l_material.html#a81fa850de56de8694701524e81107b28a410bf1c2f3618546e7327e5dfb8fcf49">OGLMaterial::NormalMapping</a> : -1;</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        <span class="keywordflow">if</span> (addUint1MatType != -1)</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        {</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;            materialUInt1.</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;            Save(static_cast&lt;OGLMaterial::UInt1PropertyId&gt;(addUint1MatType),</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;                 Uniform&lt;unsigned int&gt;(program, uName));</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;        }</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    }</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;}</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;</div>
+<div class="line"><a name="l00470"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a3d160e9f56528e85836a6add0d96e17c">  470</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_geometry_program.html#a3d160e9f56528e85836a6add0d96e17c">GeometryProgram::SetUniform</a>(<a class="code" href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307">TransformMatrices::MatrixId</a> mId,</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                                 <span class="keyword">const</span> glm::mat4x4 &amp;val)</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;{</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;    <span class="keywordflow">if</span> (transformMatrices.Has(mId))</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;    {</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        transformMatrices[mId].Set(val);</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;    }</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;}</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;</div>
+<div class="line"><a name="l00479"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a374c9a0719fae74747d462a9fb5e6607">  479</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_geometry_program.html#a3d160e9f56528e85836a6add0d96e17c">GeometryProgram::SetUniform</a>(<a class="code" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6d">RawTexture::TextureType</a> tId, <span class="keyword">const</span> <span class="keywordtype">int</span> val)</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;{</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;    <span class="keywordflow">if</span> (samplers.Has(tId))</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;    {</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;        samplers[tId].Set(val);</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;    }</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;}</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;</div>
+<div class="line"><a name="l00487"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a5ab4458b0f838b419f531cd3df76bf29">  487</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_geometry_program.html#a3d160e9f56528e85836a6add0d96e17c">GeometryProgram::SetUniform</a>(<a class="code" href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74">OGLMaterial::Float3PropertyId</a> mF3Id,</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                                 <span class="keyword">const</span> glm::vec3 &amp;val)</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;{</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    <span class="keywordflow">if</span> (materialFloat3.Has(mF3Id))</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;    {</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        materialFloat3[mF3Id].Set(val);</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;    }</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;}</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;</div>
+<div class="line"><a name="l00496"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a3b2b89e038b2cd1211236a5bf7931f68">  496</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_geometry_program.html#a3d160e9f56528e85836a6add0d96e17c">GeometryProgram::SetUniform</a>(<a class="code" href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11">OGLMaterial::Float1PropertyId</a> mF1Id,</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                                 <span class="keyword">const</span> <span class="keywordtype">float</span> val)</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;{</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="keywordflow">if</span> (materialFloat1.Has(mF1Id))</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    {</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;        materialFloat1[mF1Id].Set(val);</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    }</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;}</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;</div>
+<div class="line"><a name="l00505"></a><span class="lineno"><a class="line" href="class_geometry_program.html#ac5e9a6d580e1f5d5c5283e26146b842a">  505</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_geometry_program.html#a3d160e9f56528e85836a6add0d96e17c">GeometryProgram::SetUniform</a>(<a class="code" href="class_o_g_l_material.html#a81fa850de56de8694701524e81107b28">OGLMaterial::UInt1PropertyId</a> mF1Id,</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;                                 <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> val)</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;{</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    <span class="keywordflow">if</span> (materialUInt1.Has(mF1Id))</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;    {</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;        materialUInt1[mF1Id].Set(val);</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;    }</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;}</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;</div>
+<div class="line"><a name="l00514"></a><span class="lineno"><a class="line" href="class_geometry_program.html#ab6b24ce5b41e9867bc1a1cc59dbab0b9">  514</a></span>&#160;<span class="keyword">const</span> std::vector&lt;RawTexture::TextureType&gt; &amp;<a class="code" href="class_geometry_program.html#ab6b24ce5b41e9867bc1a1cc59dbab0b9">GeometryProgram::ActiveSamplers</a>()<span class="keyword"></span></div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;<span class="keyword">const</span></div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    <span class="keywordflow">return</span> samplers.Actives();</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;}</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;<span class="keyword">const</span> std::vector&lt;TransformMatrices::MatrixId&gt;</div>
+<div class="line"><a name="l00521"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a2ddbd8155a21c69029e68e912d274d32">  521</a></span>&#160;&amp;<a class="code" href="class_geometry_program.html#a2ddbd8155a21c69029e68e912d274d32">GeometryProgram::ActiveTransformMatrices</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;    <span class="keywordflow">return</span> transformMatrices.Actives();</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;}</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;<span class="keyword">const</span> std::vector&lt;OGLMaterial::Float3PropertyId&gt;</div>
+<div class="line"><a name="l00527"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a2a00832052e0e01db10650c264896159">  527</a></span>&#160;&amp;<a class="code" href="class_geometry_program.html#a2a00832052e0e01db10650c264896159">GeometryProgram::ActiveMaterialFloat3Properties</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;    <span class="keywordflow">return</span> materialFloat3.Actives();</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;}</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;<span class="keyword">const</span> std::vector&lt;OGLMaterial::Float1PropertyId&gt;</div>
+<div class="line"><a name="l00533"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a5828f5fb2d39c3ab5adac0ca1e4db279">  533</a></span>&#160;&amp;<a class="code" href="class_geometry_program.html#a5828f5fb2d39c3ab5adac0ca1e4db279">GeometryProgram::ActiveMaterialFloat1Properties</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    <span class="keywordflow">return</span> materialFloat1.Actives();</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;}</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;<span class="keyword">const</span> std::vector&lt;OGLMaterial::UInt1PropertyId&gt;</div>
+<div class="line"><a name="l00539"></a><span class="lineno"><a class="line" href="class_geometry_program.html#a773407eb3c7754dc04e178170d0df5be">  539</a></span>&#160;&amp;<a class="code" href="class_geometry_program.html#a773407eb3c7754dc04e178170d0df5be">GeometryProgram::ActiveMaterialUInt1Properties</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    <span class="keywordflow">return</span> materialUInt1.Actives();</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;}</div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;</div>
+<div class="line"><a name="l00544"></a><span class="lineno"><a class="line" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">  544</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">LightingProgram::SetUniform</a>(GBufferTextureId tId, <span class="keyword">const</span> <span class="keywordtype">int</span> val)</div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;{</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;    <span class="keywordflow">if</span> (samplers.Has(tId))</div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;    {</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;        samplers[tId].Set(val);</div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;    }</div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;}</div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;</div>
+<div class="line"><a name="l00552"></a><span class="lineno"><a class="line" href="class_lighting_program.html#aec049c94f72443c25fa0d2fc30e87cd0">  552</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">LightingProgram::SetUniform</a>(<span class="keyword">const</span> glm::vec3 &amp;val, <span class="keywordtype">bool</span> viewPosition)</div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;{</div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;    <span class="keywordflow">if</span> (viewPosition == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;    {</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;        viewPosUniform.Set(val);</div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;    }</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;}</div>
+<div class="ttc" id="class_o_g_l_material_html_a627416d8a0e4b3cdaf2192ed21881b11a04b1f363f2e457e090414c96c7047536"><div class="ttname"><a href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11a04b1f363f2e457e090414c96c7047536">OGLMaterial::RefractionIndex</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00041">material.h:41</a></div></div>
+<div class="ttc" id="class_lighting_program_html_aad5bd7d8ba847778d99e5b7858d88cf1"><div class="ttname"><a href="class_lighting_program.html#aad5bd7d8ba847778d99e5b7858d88cf1">LightingProgram::ExtractUniform</a></div><div class="ttdeci">void ExtractUniform(oglplus::SLDataType uType, std::string uName) override</div><div class="ttdoc">Meant to be implemented in inheriting classes to extract uniform info such as binding location type...</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00063">deferred_handler.cpp:63</a></div></div>
+<div class="ttc" id="class_geometry_program_html_a773407eb3c7754dc04e178170d0df5be"><div class="ttname"><a href="class_geometry_program.html#a773407eb3c7754dc04e178170d0df5be">GeometryProgram::ActiveMaterialUInt1Properties</a></div><div class="ttdeci">const std::vector&lt; OGLMaterial::UInt1PropertyId &gt; &amp; ActiveMaterialUInt1Properties() const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00539">deferred_handler.cpp:539</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a627416d8a0e4b3cdaf2192ed21881b11"><div class="ttname"><a href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11">OGLMaterial::Float1PropertyId</a></div><div class="ttdeci">Float1PropertyId</div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00036">material.h:36</a></div></div>
 <div class="ttc" id="class_deferred_handler_html_a067f61702c6bf91b1d8bd951da031a6f"><div class="ttname"><a href="class_deferred_handler.html#a067f61702c6bf91b1d8bd951da031a6f">DeferredHandler::DeferredHandler</a></div><div class="ttdeci">DeferredHandler(unsigned int windowWith, unsigned int windowHeight)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00005">deferred_handler.cpp:5</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a27506550fa395365703eb941e525e64ca050b45ca29d9c2a74e8ffbb1578695d7"><div class="ttname"><a href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64ca050b45ca29d9c2a74e8ffbb1578695d7">OGLMaterial::Shininess</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00039">material.h:39</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a1fc530fc808e270be78c8b296abed0ceabcd3b10f0373f4b2c8d4c5cfa099a04d"><div class="ttname"><a href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0ceabcd3b10f0373f4b2c8d4c5cfa099a04d">OGLMaterial::Diffuse</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00030">material.h:30</a></div></div>
+<div class="ttc" id="class_deferred_handler_html_a442bacdcb31cea6dad105103ec9bf40f"><div class="ttname"><a href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">DeferredHandler::GetGBufferTexture</a></div><div class="ttdeci">const oglplus::Texture &amp; GetGBufferTexture(DeferredProgram::GBufferTextureId tID) const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00339">deferred_handler.cpp:339</a></div></div>
+<div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6daf375709096cd809be4f7c0b7029f888f"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daf375709096cd809be4f7c0b7029f888f">RawTexture::TYPE_MAX</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00021">texture.h:21</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6daeb9ce3fdf067487fa1c3c543eadcb995"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6daeb9ce3fdf067487fa1c3c543eadcb995">RawTexture::Reflection</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00019">texture.h:19</a></div></div>
-<div class="ttc" id="class_deferred_program_html_abfefbd4c5a3d52aabb17505251712d38"><div class="ttname"><a href="class_deferred_program.html#abfefbd4c5a3d52aabb17505251712d38">DeferredProgram::SetUniform</a></div><div class="ttdeci">void SetUniform(TransformMatrices::TransformMatrixId mId, const glm::mat4x4 &amp;val) const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00438">deferred_handler.cpp:438</a></div></div>
-<div class="ttc" id="class_transform_matrices_html_ac0c0f9ab5279bfd44b4c1fd97f041521a76b154ed10408933a7638da9ff4e6e5d"><div class="ttname"><a href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521a76b154ed10408933a7638da9ff4e6e5d">TransformMatrices::Model</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00021">transform_matrices.h:21</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_af3a1176c3d6708a8a564194920a89176"><div class="ttname"><a href="class_deferred_handler.html#af3a1176c3d6708a8a564194920a89176">DeferredHandler::GetGBufferTexture</a></div><div class="ttdeci">const oglplus::Texture &amp; GetGBufferTexture(GBufferTextureId tID) const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00261">deferred_handler.cpp:261</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da80a818ecbfab54372aaa78f8eefff24e"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da80a818ecbfab54372aaa78f8eefff24e">RawTexture::Unknow</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00020">texture.h:20</a></div></div>
-<div class="ttc" id="deferred__handler_8h_html_a623ca9c5815b447740795ef10bc3a9fead9c6333623e6357515fcbf17be806273"><div class="ttname"><a href="deferred__handler_8h.html#a623ca9c5815b447740795ef10bc3a9fead9c6333623e6357515fcbf17be806273">DeferredStage::Geometry</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_a5212123060b8793cdf2aae2e5bb66ef7"><div class="ttname"><a href="class_deferred_handler.html#a5212123060b8793cdf2aae2e5bb66ef7">DeferredHandler::ActivateGBufferTextures</a></div><div class="ttdeci">void ActivateGBufferTextures()</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00218">deferred_handler.cpp:218</a></div></div>
-<div class="ttc" id="deferred__handler_8h_html_a331a939e08dff83e0b0b62fbbd39c963a52f5e0bc3859bc5f5e25130b6c7e8881"><div class="ttname"><a href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963a52f5e0bc3859bc5f5e25130b6c7e8881">GBufferTextureId::Position</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a81fa850de56de8694701524e81107b28a410bf1c2f3618546e7327e5dfb8fcf49"><div class="ttname"><a href="class_o_g_l_material.html#a81fa850de56de8694701524e81107b28a410bf1c2f3618546e7327e5dfb8fcf49">OGLMaterial::NormalMapping</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00046">material.h:46</a></div></div>
+<div class="ttc" id="class_transform_matrices_html_abeb7a92c1f5388e5b7bf9d00ec398307"><div class="ttname"><a href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307">TransformMatrices::MatrixId</a></div><div class="ttdeci">MatrixId</div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00017">transform_matrices.h:17</a></div></div>
+<div class="ttc" id="class_deferred_handler_html_a5212123060b8793cdf2aae2e5bb66ef7"><div class="ttname"><a href="class_deferred_handler.html#a5212123060b8793cdf2aae2e5bb66ef7">DeferredHandler::ActivateGBufferTextures</a></div><div class="ttdeci">void ActivateGBufferTextures()</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00296">deferred_handler.cpp:296</a></div></div>
+<div class="ttc" id="class_transform_matrices_html_abeb7a92c1f5388e5b7bf9d00ec398307a54cee6ea1fb5938e858bc4f97302bd55"><div class="ttname"><a href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a54cee6ea1fb5938e858bc4f97302bd55">TransformMatrices::MATRIX_ID_MAX</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00025">transform_matrices.h:25</a></div></div>
+<div class="ttc" id="class_deferred_handler_html_a51d9fccca99ee9f0e261b3bd9042b471"><div class="ttname"><a href="class_deferred_handler.html#a51d9fccca99ee9f0e261b3bd9042b471">DeferredHandler::lightPass</a></div><div class="ttdeci">LightingProgram lightPass</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00211">deferred_handler.h:211</a></div></div>
+<div class="ttc" id="class_transform_matrices_html_abeb7a92c1f5388e5b7bf9d00ec398307a76b154ed10408933a7638da9ff4e6e5d"><div class="ttname"><a href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a76b154ed10408933a7638da9ff4e6e5d">TransformMatrices::Model</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00021">transform_matrices.h:21</a></div></div>
 <div class="ttc" id="class_deferred_handler_html_adb21f77f5c42db5112e064e7480afab7"><div class="ttname"><a href="class_deferred_handler.html#adb21f77f5c42db5112e064e7480afab7">DeferredHandler::RenderFSQuad</a></div><div class="ttdeci">void RenderFSQuad()</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00049">deferred_handler.cpp:49</a></div></div>
-<div class="ttc" id="class_transform_matrices_html_ac0c0f9ab5279bfd44b4c1fd97f041521a444aed1ca459a3f599c8453ef1098545"><div class="ttname"><a href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521a444aed1ca459a3f599c8453ef1098545">TransformMatrices::View</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00022">transform_matrices.h:22</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a1fc530fc808e270be78c8b296abed0cea5441c93ee26296cf73099ab3ece3bae8"><div class="ttname"><a href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea5441c93ee26296cf73099ab3ece3bae8">OGLMaterial::Ambient</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00029">material.h:29</a></div></div>
+<div class="ttc" id="class_geometry_program_html_a2ddbd8155a21c69029e68e912d274d32"><div class="ttname"><a href="class_geometry_program.html#a2ddbd8155a21c69029e68e912d274d32">GeometryProgram::ActiveTransformMatrices</a></div><div class="ttdeci">const std::vector&lt; TransformMatrices::MatrixId &gt; &amp; ActiveTransformMatrices() const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00521">deferred_handler.cpp:521</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c">RawTexture::Emissive</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00012">texture.h:12</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a1fc530fc808e270be78c8b296abed0cea59f42bc1358ab6a7640040c4d2ea2513"><div class="ttname"><a href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea59f42bc1358ab6a7640040c4d2ea2513">OGLMaterial::Specular</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00031">material.h:31</a></div></div>
-<div class="ttc" id="class_transform_matrices_html_ac0c0f9ab5279bfd44b4c1fd97f041521ae5c37d34dc3dd374136583410c7264a4"><div class="ttname"><a href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521ae5c37d34dc3dd374136583410c7264a4">TransformMatrices::Normal</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00024">transform_matrices.h:24</a></div></div>
-<div class="ttc" id="deferred__handler_8h_html_a623ca9c5815b447740795ef10bc3a9fe"><div class="ttname"><a href="deferred__handler_8h.html#a623ca9c5815b447740795ef10bc3a9fe">DeferredStage</a></div><div class="ttdeci">DeferredStage</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00016">deferred_handler.h:16</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a19c35bdfbaff354d518e4eda1400ee74accf7d9b9e8b7b31a6ef8b77f8c823df4"><div class="ttname"><a href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74accf7d9b9e8b7b31a6ef8b77f8c823df4">OGLMaterial::FLOAT3_PROPERTY_ID_MAX</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00034">material.h:34</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a627416d8a0e4b3cdaf2192ed21881b11a149b3ad56ea941570eaa8d0e410f40a3"><div class="ttname"><a href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11a149b3ad56ea941570eaa8d0e410f40a3">OGLMaterial::Opacity</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00038">material.h:38</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6d"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6d">RawTexture::TextureType</a></div><div class="ttdeci">TextureType</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00006">texture.h:6</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_aeb2df800949d3bfaf7326d1bb44af0ce"><div class="ttname"><a href="class_deferred_handler.html#aeb2df800949d3bfaf7326d1bb44af0ce">DeferredHandler::~DeferredHandler</a></div><div class="ttdeci">virtual ~DeferredHandler()</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00203">deferred_handler.cpp:203</a></div></div>
-<div class="ttc" id="class_deferred_program_html_a9166e298729d94cf487fed9887c65242"><div class="ttname"><a href="class_deferred_program.html#a9166e298729d94cf487fed9887c65242">DeferredProgram::ExtractActiveUniforms</a></div><div class="ttdeci">void ExtractActiveUniforms(DeferredStage dStage)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00267">deferred_handler.cpp:267</a></div></div>
+<div class="ttc" id="class_deferred_handler_html_aeb2df800949d3bfaf7326d1bb44af0ce"><div class="ttname"><a href="class_deferred_handler.html#aeb2df800949d3bfaf7326d1bb44af0ce">DeferredHandler::~DeferredHandler</a></div><div class="ttdeci">virtual ~DeferredHandler()</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00282">deferred_handler.cpp:282</a></div></div>
 <div class="ttc" id="light_8h_html"><div class="ttname"><a href="light_8h.html">light.h</a></div></div>
-<div class="ttc" id="class_transform_matrices_html_ac0c0f9ab5279bfd44b4c1fd97f041521"><div class="ttname"><a href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521">TransformMatrices::TransformMatrixId</a></div><div class="ttdeci">TransformMatrixId</div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00017">transform_matrices.h:17</a></div></div>
+<div class="ttc" id="class_geometry_program_html_a5828f5fb2d39c3ab5adac0ca1e4db279"><div class="ttname"><a href="class_geometry_program.html#a5828f5fb2d39c3ab5adac0ca1e4db279">GeometryProgram::ActiveMaterialFloat1Properties</a></div><div class="ttdeci">const std::vector&lt; OGLMaterial::Float1PropertyId &gt; &amp; ActiveMaterialFloat1Properties() const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00533">deferred_handler.cpp:533</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a19c35bdfbaff354d518e4eda1400ee74a59f42bc1358ab6a7640040c4d2ea2513"><div class="ttname"><a href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a59f42bc1358ab6a7640040c4d2ea2513">OGLMaterial::Specular</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00031">material.h:31</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a81fa850de56de8694701524e81107b28"><div class="ttname"><a href="class_o_g_l_material.html#a81fa850de56de8694701524e81107b28">OGLMaterial::UInt1PropertyId</a></div><div class="ttdeci">UInt1PropertyId</div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00044">material.h:44</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0">DeferredProgram::Normal</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00060">deferred_handler.h:60</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a19c35bdfbaff354d518e4eda1400ee74a909fa47c1a6d8791f545c2121ecc671a"><div class="ttname"><a href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a909fa47c1a6d8791f545c2121ecc671a">OGLMaterial::Transparent</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00033">material.h:33</a></div></div>
 <div class="ttc" id="deferred__handler_8h_html"><div class="ttname"><a href="deferred__handler_8h.html">deferred_handler.h</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_a9fd622f6cc5addcdd5a93fa31ec73c56"><div class="ttname"><a href="class_deferred_handler.html#a9fd622f6cc5addcdd5a93fa31ec73c56">DeferredHandler::BindGBuffer</a></div><div class="ttdeci">void BindGBuffer(const oglplus::FramebufferTarget &amp;bindingMode)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00207">deferred_handler.cpp:207</a></div></div>
+<div class="ttc" id="class_deferred_handler_html_a9fd622f6cc5addcdd5a93fa31ec73c56"><div class="ttname"><a href="class_deferred_handler.html#a9fd622f6cc5addcdd5a93fa31ec73c56">DeferredHandler::BindGBuffer</a></div><div class="ttdeci">void BindGBuffer(const oglplus::FramebufferTarget &amp;bindingMode)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00284">deferred_handler.cpp:284</a></div></div>
+<div class="ttc" id="class_deferred_program_html_acfef2b1ebfa92bdb4d394d31cecd76af"><div class="ttname"><a href="class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af">DeferredProgram::program</a></div><div class="ttdeci">oglplus::Program program</div><div class="ttdoc">The program shader </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00026">deferred_handler.h:26</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a19c35bdfbaff354d518e4eda1400ee74a5441c93ee26296cf73099ab3ece3bae8"><div class="ttname"><a href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a5441c93ee26296cf73099ab3ece3bae8">OGLMaterial::Ambient</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00029">material.h:29</a></div></div>
 <div class="ttc" id="stdafx_8h_html"><div class="ttname"><a href="stdafx_8h.html">stdafx.h</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a19c35bdfbaff354d518e4eda1400ee74"><div class="ttname"><a href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74">OGLMaterial::Float3PropertyId</a></div><div class="ttdeci">Float3PropertyId</div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00027">material.h:27</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078">RawTexture::Diffuse</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00009">texture.h:9</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_a4138df076eeb76aa0720c7b9ca9e3b6f"><div class="ttname"><a href="class_deferred_handler.html#a4138df076eeb76aa0720c7b9ca9e3b6f">DeferredHandler::lightPass</a></div><div class="ttdeci">DeferredProgram lightPass</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00123">deferred_handler.h:123</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a1654d746e4734c0b0bf89f881723c36f"><div class="ttname"><a href="class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f">DeferredProgram::ExtractActiveUniforms</a></div><div class="ttdeci">void ExtractActiveUniforms()</div><div class="ttdoc">Calls ExtractUniform virtual method per every active uniform in the shader program ...</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00349">deferred_handler.cpp:349</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da578768bb075d4923ac61b46940c5fa83"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da578768bb075d4923ac61b46940c5fa83">RawTexture::Opacity</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00016">texture.h:16</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a79448ba294d1923d56ebca495b0c272ea410bf1c2f3618546e7327e5dfb8fcf49"><div class="ttname"><a href="class_o_g_l_material.html#a79448ba294d1923d56ebca495b0c272ea410bf1c2f3618546e7327e5dfb8fcf49">OGLMaterial::NormalMapping</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00046">material.h:46</a></div></div>
-<div class="ttc" id="deferred__handler_8h_html_a331a939e08dff83e0b0b62fbbd39c963"><div class="ttname"><a href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963">GBufferTextureId</a></div><div class="ttdeci">GBufferTextureId</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00007">deferred_handler.h:7</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_ae4c429b5ccbb6c063cbf58e2339d386b"><div class="ttname"><a href="class_deferred_handler.html#ae4c429b5ccbb6c063cbf58e2339d386b">DeferredHandler::geometryPass</a></div><div class="ttdeci">DeferredProgram geometryPass</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00122">deferred_handler.h:122</a></div></div>
+<div class="ttc" id="class_transform_matrices_html_abeb7a92c1f5388e5b7bf9d00ec398307ae5c37d34dc3dd374136583410c7264a4"><div class="ttname"><a href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307ae5c37d34dc3dd374136583410c7264a4">TransformMatrices::Normal</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00024">transform_matrices.h:24</a></div></div>
+<div class="ttc" id="class_deferred_handler_html_a1b61255f83012c4b20de4dbf0ab953e5"><div class="ttname"><a href="class_deferred_handler.html#a1b61255f83012c4b20de4dbf0ab953e5">DeferredHandler::ReadGBuffer</a></div><div class="ttdeci">void ReadGBuffer(const DeferredProgram::GBufferTextureId &amp;gBufferTexType)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00290">deferred_handler.cpp:290</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">DeferredProgram::Albedo</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00061">deferred_handler.h:61</a></div></div>
+<div class="ttc" id="class_geometry_program_html_a3d160e9f56528e85836a6add0d96e17c"><div class="ttname"><a href="class_geometry_program.html#a3d160e9f56528e85836a6add0d96e17c">GeometryProgram::SetUniform</a></div><div class="ttdeci">void SetUniform(TransformMatrices::MatrixId mId, const glm::mat4x4 &amp;val)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00470">deferred_handler.cpp:470</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a81fa850de56de8694701524e81107b28aed50924dc557a7ab8b317241a9c6047f"><div class="ttname"><a href="class_o_g_l_material.html#a81fa850de56de8694701524e81107b28aed50924dc557a7ab8b317241a9c6047f">OGLMaterial::UINT1_PROPERTY_ID_MAX</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00047">material.h:47</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da31db990e66434b96fc42213080e8aee5"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da31db990e66434b96fc42213080e8aee5">RawTexture::Normals</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00014">texture.h:14</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da78fec4598173ba0ac7e88172f904bf14"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da78fec4598173ba0ac7e88172f904bf14">RawTexture::None</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00008">texture.h:8</a></div></div>
-<div class="ttc" id="deferred__handler_8h_html_a331a939e08dff83e0b0b62fbbd39c963af879d0a27915d351a8e47c2223777710"><div class="ttname"><a href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963af879d0a27915d351a8e47c2223777710">GBufferTextureId::Albedo</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da5d61225d770ccb26dd0467db41c49c40"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da5d61225d770ccb26dd0467db41c49c40">RawTexture::Lightmap</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00018">texture.h:18</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a1fc530fc808e270be78c8b296abed0ce"><div class="ttname"><a href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0ce">OGLMaterial::MaterialFloat3PropertyId</a></div><div class="ttdeci">MaterialFloat3PropertyId</div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00027">material.h:27</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_a4ca3be75245b77738870df6ee469f7d9"><div class="ttname"><a href="class_deferred_handler.html#a4ca3be75245b77738870df6ee469f7d9">DeferredHandler::ReadGBuffer</a></div><div class="ttdeci">void ReadGBuffer(const GBufferTextureId &amp;gBufferTexType)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00213">deferred_handler.cpp:213</a></div></div>
+<div class="ttc" id="class_transform_matrices_html_abeb7a92c1f5388e5b7bf9d00ec398307aee88edce09f8010e45d1e053b33d609b"><div class="ttname"><a href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307aee88edce09f8010e45d1e053b33d609b">TransformMatrices::ModelView</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00019">transform_matrices.h:19</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a627416d8a0e4b3cdaf2192ed21881b11a050b45ca29d9c2a74e8ffbb1578695d7"><div class="ttname"><a href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11a050b45ca29d9c2a74e8ffbb1578695d7">OGLMaterial::Shininess</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00039">material.h:39</a></div></div>
+<div class="ttc" id="class_transform_matrices_html_abeb7a92c1f5388e5b7bf9d00ec398307a444aed1ca459a3f599c8453ef1098545"><div class="ttname"><a href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a444aed1ca459a3f599c8453ef1098545">TransformMatrices::View</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00022">transform_matrices.h:22</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a85effd93cc4df74869e04db8a1a71234"><div class="ttname"><a href="class_deferred_program.html#a85effd93cc4df74869e04db8a1a71234">DeferredProgram::fragmentShader</a></div><div class="ttdeci">oglplus::FragmentShader fragmentShader</div><div class="ttdoc">The fragment shader </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00018">deferred_handler.h:18</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a19c35bdfbaff354d518e4eda1400ee74abcd3b10f0373f4b2c8d4c5cfa099a04d"><div class="ttname"><a href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74abcd3b10f0373f4b2c8d4c5cfa099a04d">OGLMaterial::Diffuse</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00030">material.h:30</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0">RawTexture::Specular</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00010">texture.h:10</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a27506550fa395365703eb941e525e64c"><div class="ttname"><a href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64c">OGLMaterial::MaterialFloat1PropertyId</a></div><div class="ttdeci">MaterialFloat1PropertyId</div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00036">material.h:36</a></div></div>
+<div class="ttc" id="class_transform_matrices_html_abeb7a92c1f5388e5b7bf9d00ec398307a84870f05e92eaa6f7b91b600ed85019a"><div class="ttname"><a href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307a84870f05e92eaa6f7b91b600ed85019a">TransformMatrices::ModelViewProjection</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00020">transform_matrices.h:20</a></div></div>
+<div class="ttc" id="class_geometry_program_html_ab6b24ce5b41e9867bc1a1cc59dbab0b9"><div class="ttname"><a href="class_geometry_program.html#ab6b24ce5b41e9867bc1a1cc59dbab0b9">GeometryProgram::ActiveSamplers</a></div><div class="ttdeci">const std::vector&lt; RawTexture::TextureType &gt; &amp; ActiveSamplers() const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00514">deferred_handler.cpp:514</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d">RawTexture::Ambient</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00011">texture.h:11</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a1fc530fc808e270be78c8b296abed0cea909fa47c1a6d8791f545c2121ecc671a"><div class="ttname"><a href="class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea909fa47c1a6d8791f545c2121ecc671a">OGLMaterial::Transparent</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00033">material.h:33</a></div></div>
-<div class="ttc" id="class_transform_matrices_html_ac0c0f9ab5279bfd44b4c1fd97f041521aee88edce09f8010e45d1e053b33d609b"><div class="ttname"><a href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521aee88edce09f8010e45d1e053b33d609b">TransformMatrices::ModelView</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00019">transform_matrices.h:19</a></div></div>
-<div class="ttc" id="class_transform_matrices_html_ac0c0f9ab5279bfd44b4c1fd97f041521a84870f05e92eaa6f7b91b600ed85019a"><div class="ttname"><a href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521a84870f05e92eaa6f7b91b600ed85019a">TransformMatrices::ModelViewProjection</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00020">transform_matrices.h:20</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_a7da8f85708a2fec2e44cd82d9dddd040"><div class="ttname"><a href="class_deferred_handler.html#a7da8f85708a2fec2e44cd82d9dddd040">DeferredHandler::SetLightPassUniforms</a></div><div class="ttdeci">void SetLightPassUniforms(const glm::vec3 &amp;viewPosition, const std::vector&lt; std::shared_ptr&lt; Light &gt;&gt; &amp;lights)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00238">deferred_handler.cpp:238</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a6ba961fbd2f1165fec6c10353eae4287"><div class="ttname"><a href="class_deferred_program.html#a6ba961fbd2f1165fec6c10353eae4287">DeferredProgram::vertexShader</a></div><div class="ttdeci">oglplus::VertexShader vertexShader</div><div class="ttdoc">The vertex shader </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00022">deferred_handler.h:22</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a627416d8a0e4b3cdaf2192ed21881b11ae4da774c172596772d727db4b5e2cbc0"><div class="ttname"><a href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11ae4da774c172596772d727db4b5e2cbc0">OGLMaterial::ShininessStrenght</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00040">material.h:40</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">DeferredProgram::Specular</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00062">deferred_handler.h:62</a></div></div>
+<div class="ttc" id="class_lighting_program_html_a7b95767e1f34cd1ca8e0380dfbee111f"><div class="ttname"><a href="class_lighting_program.html#a7b95767e1f34cd1ca8e0380dfbee111f">LightingProgram::LightingProgram</a></div><div class="ttdeci">LightingProgram()</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00058">deferred_handler.cpp:58</a></div></div>
+<div class="ttc" id="class_lighting_program_html_ae26cbab61465ff1797a33679962b2e9d"><div class="ttname"><a href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">LightingProgram::SetUniform</a></div><div class="ttdeci">void SetUniform(GBufferTextureId tId, const int val)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00544">deferred_handler.cpp:544</a></div></div>
+<div class="ttc" id="class_transform_matrices_html_abeb7a92c1f5388e5b7bf9d00ec398307af92ac52cd169b388552c7003a69a4c84"><div class="ttname"><a href="class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307af92ac52cd169b388552c7003a69a4c84">TransformMatrices::Projection</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00023">transform_matrices.h:23</a></div></div>
+<div class="ttc" id="class_deferred_handler_html_a7da8f85708a2fec2e44cd82d9dddd040"><div class="ttname"><a href="class_deferred_handler.html#a7da8f85708a2fec2e44cd82d9dddd040">DeferredHandler::SetLightPassUniforms</a></div><div class="ttdeci">void SetLightPassUniforms(const glm::vec3 &amp;viewPosition, const std::vector&lt; std::shared_ptr&lt; Light &gt;&gt; &amp;lights)</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00316">deferred_handler.cpp:316</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da36aa55c6d051efa1528323021dc6bfdb"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da36aa55c6d051efa1528323021dc6bfdb">RawTexture::Height</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00013">texture.h:13</a></div></div>
-<div class="ttc" id="class_transform_matrices_html_ac0c0f9ab5279bfd44b4c1fd97f041521af92ac52cd169b388552c7003a69a4c84"><div class="ttname"><a href="class_transform_matrices.html#ac0c0f9ab5279bfd44b4c1fd97f041521af92ac52cd169b388552c7003a69a4c84">TransformMatrices::Projection</a></div><div class="ttdef"><b>Definition:</b> <a href="transform__matrices_8h_source.html#l00023">transform_matrices.h:23</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfee"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfee">DeferredProgram::GBufferTextureId</a></div><div class="ttdeci">GBufferTextureId</div><div class="ttdoc">Identifies the geometry buffer texture target </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00057">deferred_handler.h:57</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f">RawTexture::Shininess</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00015">texture.h:15</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a27506550fa395365703eb941e525e64cae4da774c172596772d727db4b5e2cbc0"><div class="ttname"><a href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64cae4da774c172596772d727db4b5e2cbc0">OGLMaterial::ShininessStrenght</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00040">material.h:40</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a27506550fa395365703eb941e525e64ca04b1f363f2e457e090414c96c7047536"><div class="ttname"><a href="class_o_g_l_material.html#a27506550fa395365703eb941e525e64ca04b1f363f2e457e090414c96c7047536">OGLMaterial::RefractionIndex</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00041">material.h:41</a></div></div>
-<div class="ttc" id="deferred__handler_8h_html_a331a939e08dff83e0b0b62fbbd39c963a960b44c579bc2f6818d2daaf9e4c16f0"><div class="ttname"><a href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963a960b44c579bc2f6818d2daaf9e4c16f0">GBufferTextureId::Normal</a></div></div>
-<div class="ttc" id="class_o_g_l_material_html_a79448ba294d1923d56ebca495b0c272e"><div class="ttname"><a href="class_o_g_l_material.html#a79448ba294d1923d56ebca495b0c272e">OGLMaterial::MaterialUInt1PropertyId</a></div><div class="ttdeci">MaterialUInt1PropertyId</div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00044">material.h:44</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a627416d8a0e4b3cdaf2192ed21881b11aa079a09c924ce5bbdf51f0c752233ddd"><div class="ttname"><a href="class_o_g_l_material.html#a627416d8a0e4b3cdaf2192ed21881b11aa079a09c924ce5bbdf51f0c752233ddd">OGLMaterial::FLOAT1_PROPERTY_ID_MAX</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00042">material.h:42</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0">DeferredProgram::Position</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00059">deferred_handler.h:59</a></div></div>
+<div class="ttc" id="class_deferred_handler_html_a32de484906d94454cba21f0a25cfec48"><div class="ttname"><a href="class_deferred_handler.html#a32de484906d94454cba21f0a25cfec48">DeferredHandler::geometryPass</a></div><div class="ttdeci">GeometryProgram geometryPass</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00210">deferred_handler.h:210</a></div></div>
+<div class="ttc" id="class_geometry_program_html_a2a00832052e0e01db10650c264896159"><div class="ttname"><a href="class_geometry_program.html#a2a00832052e0e01db10650c264896159">GeometryProgram::ActiveMaterialFloat3Properties</a></div><div class="ttdeci">const std::vector&lt; OGLMaterial::Float3PropertyId &gt; &amp; ActiveMaterialFloat3Properties() const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00527">deferred_handler.cpp:527</a></div></div>
+<div class="ttc" id="class_o_g_l_material_html_a19c35bdfbaff354d518e4eda1400ee74a6f7a7d603da029b7fe179988a8d19a20"><div class="ttname"><a href="class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a6f7a7d603da029b7fe179988a8d19a20">OGLMaterial::Emissive</a></div><div class="ttdef"><b>Definition:</b> <a href="material_8h_source.html#l00032">material.h:32</a></div></div>
+<div class="ttc" id="class_geometry_program_html_a498b62158fe4e9784d261fa4ff9d6520"><div class="ttname"><a href="class_geometry_program.html#a498b62158fe4e9784d261fa4ff9d6520">GeometryProgram::ExtractUniform</a></div><div class="ttdeci">void ExtractUniform(oglplus::SLDataType uType, std::string uName) override</div><div class="ttdoc">Meant to be implemented in inheriting classes to extract uniform info such as binding location type...</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00371">deferred_handler.cpp:371</a></div></div>
+<div class="ttc" id="class_geometry_program_html_a0917b4cfc38f4c4909fb21aab616b452"><div class="ttname"><a href="class_geometry_program.html#a0917b4cfc38f4c4909fb21aab616b452">GeometryProgram::GeometryProgram</a></div><div class="ttdeci">GeometryProgram()</div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00362">deferred_handler.cpp:362</a></div></div>
 <div class="ttc" id="class_raw_texture_html_ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303"><div class="ttname"><a href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303">RawTexture::Displacement</a></div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00017">texture.h:17</a></div></div>
-<div class="ttc" id="deferred__handler_8h_html_a331a939e08dff83e0b0b62fbbd39c963a39b0044dd8789d333e7794f359406740"><div class="ttname"><a href="deferred__handler_8h.html#a331a939e08dff83e0b0b62fbbd39c963a39b0044dd8789d333e7794f359406740">GBufferTextureId::Specular</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

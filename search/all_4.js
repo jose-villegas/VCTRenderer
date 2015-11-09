@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['emissive',['emissive',['../class_material.html#ab35396b9c5340ce4a785884c54fbe2ac',1,'Material::emissive()'],['../class_o_g_l_material.html#a1fc530fc808e270be78c8b296abed0cea6f7a7d603da029b7fe179988a8d19a20',1,'OGLMaterial::Emissive()'],['../class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c',1,'RawTexture::Emissive()']]],
+  ['emissive',['emissive',['../class_material.html#ab35396b9c5340ce4a785884c54fbe2ac',1,'Material::emissive()'],['../class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74a6f7a7d603da029b7fe179988a8d19a20',1,'OGLMaterial::Emissive()'],['../class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da129d22adf6decce68912629eb9d86f4c',1,'RawTexture::Emissive()']]],
   ['engine_5fassets_2ecpp',['engine_assets.cpp',['../engine__assets_8cpp.html',1,'']]],
   ['engine_5fassets_2eh',['engine_assets.h',['../engine__assets_8h.html',1,'']]],
   ['engine_5fbase_2ecpp',['engine_base.cpp',['../engine__base_8cpp.html',1,'']]],
@@ -11,5 +11,6 @@ var searchData=
   ['external_5finitializer_2ecpp',['external_initializer.cpp',['../external__initializer_8cpp.html',1,'']]],
   ['external_5finitializer_2eh',['external_initializer.h',['../external__initializer_8h.html',1,'']]],
   ['externalinitializer',['ExternalInitializer',['../class_external_initializer.html',1,'ExternalInitializer'],['../class_external_initializer.html#adcb0a3c3d9f96cc6fc3768bf7ca07613',1,'ExternalInitializer::ExternalInitializer()']]],
-  ['extractactiveuniforms',['ExtractActiveUniforms',['../class_deferred_program.html#a9166e298729d94cf487fed9887c65242',1,'DeferredProgram']]]
+  ['extractactiveuniforms',['ExtractActiveUniforms',['../class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f',1,'DeferredProgram']]],
+  ['extractuniform',['ExtractUniform',['../class_deferred_program.html#a15a355a61bba67773bc0251e855ce049',1,'DeferredProgram::ExtractUniform()'],['../class_geometry_program.html#a498b62158fe4e9784d261fa4ff9d6520',1,'GeometryProgram::ExtractUniform()'],['../class_lighting_program.html#aad5bd7d8ba847778d99e5b7858d88cf1',1,'LightingProgram::ExtractUniform()']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['windowsettings',['WindowSettings',['../struct_window_settings.html',1,'']]]
+  ['vertex',['Vertex',['../struct_vertex.html',1,'']]]
 ];

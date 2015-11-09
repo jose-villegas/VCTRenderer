@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ui',['UI',['../class_u_i.html',1,'']]]
+  ['textureimporter',['TextureImporter',['../class_texture_importer.html',1,'']]],
+  ['transformmatrices',['TransformMatrices',['../class_transform_matrices.html',1,'']]]
 ];
