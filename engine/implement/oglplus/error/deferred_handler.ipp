@@ -26,15 +26,17 @@ execute(bool destroying)
 }
 
 OGLPLUS_LIB_FUNC
-std::unique_ptr<DeferredHandler::_handler_intf>
+DeferredHandler::_unique_handler_ptr
 DeferredHandler::
 _release_handler(void)
+OGLPLUS_NOEXCEPT(true)
 {
-	std::unique_ptr<_handler_intf> tmp;
+	_unique_handler_ptr tmp(nullptr, &_fake_delete);
 
 	if(_handler)
 	{
-		tmp.reset(new _abort_handler());
+		static _abort_handler ah;
+		tmp.reset(&ah);
 	}
 	std::swap(tmp, _handler);
 	return tmp;

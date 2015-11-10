@@ -23,16 +23,18 @@ class DeferredHandler
 private:
 	struct _handler_intf
 	{
-		virtual ~_handler_intf(void)
+		virtual
+		~_handler_intf(void)
 		OGLPLUS_NOTHROW
 		{ }
 
-		virtual void execute(bool) = 0;
+		virtual
+		void execute(bool destroying) = 0;
 	};
 
 	struct _abort_handler : _handler_intf
 	{
-		void execute(bool destroying)
+		void execute(bool)
 		OGLPLUS_OVERRIDE;
 	};
 
@@ -52,29 +54,41 @@ private:
 		}
 	};
 
-	std::unique_ptr<_handler_intf> _handler;
+	typedef void(*_intf_deleter)(_handler_intf*);
+
+	static
+	void _impl_delete(_handler_intf* x) { delete x; }
+
+	static
+	void _fake_delete(_handler_intf*) { }
+
+	typedef std::unique_ptr<_handler_intf, _intf_deleter>
+		_unique_handler_ptr;
+
+	_unique_handler_ptr _handler;
 
 	template <typename Func>
 	static
-	std::unique_ptr<_handler_intf> _wrap_func(Func func)
+	_unique_handler_ptr _wrap_func(Func func)
 	{
-		return std::unique_ptr<_handler_intf>(
+		return _unique_handler_ptr(
 			new _handler_impl<Func>(
 				std::move(func)
-			)
+			), &_impl_delete
 		);
 	}
 
-	std::unique_ptr<_handler_intf> _release_handler(void);
+	_unique_handler_ptr _release_handler(void)
+	OGLPLUS_NOEXCEPT(true);
 public:
-#if !OGLPLUS_NO_DEFAULTED_FUNCTIONS
-	DeferredHandler(void) = default;
-	DeferredHandler(DeferredHandler&&) = default;
-#else
 	DeferredHandler(void)
 	OGLPLUS_NOEXCEPT(true)
+	 : _handler(nullptr, &_fake_delete)
 	{ }
 
+#if !OGLPLUS_NO_DEFAULTED_FUNCTIONS
+	DeferredHandler(DeferredHandler&&) = default;
+#else
 	DeferredHandler(DeferredHandler&& temp)
 	OGLPLUS_NOEXCEPT(true)
 	 : _handler(std::move(temp._handler))
@@ -107,6 +121,7 @@ public:
 	}
 
 	bool cancel(void)
+	OGLPLUS_NOEXCEPT(true)
 	{
 		return bool(_release_handler());
 	}

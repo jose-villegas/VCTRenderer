@@ -18,7 +18,7 @@
 #include <oglplus/client/hints.hpp>
 
 #include <oglplus/client/depth_test.hpp>
-#include <oglplus/client/logical_ops.hpp>
+#include <oglplus/client/logic_ops.hpp>
 #include <oglplus/client/viewport.hpp>
 #include <oglplus/client/clip_control.hpp>
 #include <oglplus/client/stencil_test.hpp>
@@ -40,7 +40,7 @@
 namespace oglplus {
 
 class ClientContext
- : public client::CurrentCapabilities
+ : public client::CapabilityState
  , public client::ViewportState
  , public client::ClipControlState
  , public client::BufferMaskingState
@@ -51,16 +51,16 @@ class ClientContext
  , public client::DrawingState
  , public client::DrawingOps
  , public client::ComputingOps
- , public client::DepthTest
- , public client::StencilTest
- , public client::ScissorTest
- , public client::LogicalOps
+ , public client::DepthTestState
+ , public client::StencilTestState
+ , public client::ScissorTestState
+ , public client::LogicOpState
  , public client::PixelState
  , public client::PixelOps
  , public client::BlendingOps
  , public client::BlendingState
  , public client::Synchronization
- , public client::CurrentHints
+ , public client::HintState
  , public client::LimitQueries
  , public client::NumericQueries
  , public client::StringQueries

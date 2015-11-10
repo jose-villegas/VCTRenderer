@@ -30,7 +30,7 @@ struct AdjustProgVar
 	typedef T BaseType;
 	typedef T ValueType;
 
-	inline static BaseType Adjust(ValueType value)
+	inline static BaseType Adjust(const ValueType &value)
 	{
 		return value;
 	}

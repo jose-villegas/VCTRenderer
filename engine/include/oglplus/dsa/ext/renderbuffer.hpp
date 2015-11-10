@@ -137,7 +137,7 @@ public:
 	 */
 	SizeType Width(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_WIDTH),
 			std::nothrow
 		);
@@ -153,7 +153,7 @@ public:
 	 */
 	SizeType Height(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_HEIGHT),
 			std::nothrow
 		);
@@ -171,7 +171,7 @@ public:
 	 */
 	SizeType RedSize(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_RED_SIZE),
 			std::nothrow
 		);
@@ -191,7 +191,7 @@ public:
 	 */
 	SizeType GreenSize(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_GREEN_SIZE),
 			std::nothrow
 		);
@@ -211,7 +211,7 @@ public:
 	 */
 	SizeType BlueSize(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_BLUE_SIZE),
 			std::nothrow
 		);
@@ -231,7 +231,7 @@ public:
 	 */
 	SizeType AlphaSize(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_ALPHA_SIZE),
 			std::nothrow
 		);
@@ -251,7 +251,7 @@ public:
 	 */
 	SizeType DepthSize(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_DEPTH_SIZE),
 			std::nothrow
 		);
@@ -271,7 +271,7 @@ public:
 	 */
 	SizeType StencilSize(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_STENCIL_SIZE),
 			std::nothrow
 		);
@@ -285,7 +285,7 @@ public:
 	 */
 	SizeType Samples(void) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(GL_RENDERBUFFER_SAMPLES),
 			std::nothrow
 		);

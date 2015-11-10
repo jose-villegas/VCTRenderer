@@ -298,7 +298,7 @@ public:
 	 */
 	static SizeType Width(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target, GL_RENDERBUFFER_WIDTH),
 			std::nothrow
 		);
@@ -314,7 +314,7 @@ public:
 	 */
 	static SizeType Height(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target, GL_RENDERBUFFER_HEIGHT),
 			std::nothrow
 		);
@@ -332,7 +332,7 @@ public:
 	 */
 	static SizeType RedSize(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target, GL_RENDERBUFFER_RED_SIZE),
 			std::nothrow
 		);
@@ -352,7 +352,7 @@ public:
 	 */
 	static SizeType GreenSize(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target, GL_RENDERBUFFER_GREEN_SIZE),
 			std::nothrow
 		);
@@ -372,7 +372,7 @@ public:
 	 */
 	static SizeType BlueSize(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target, GL_RENDERBUFFER_BLUE_SIZE),
 			std::nothrow
 		);
@@ -392,7 +392,7 @@ public:
 	 */
 	static SizeType AlphaSize(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target, GL_RENDERBUFFER_ALPHA_SIZE),
 			std::nothrow
 		);
@@ -412,7 +412,7 @@ public:
 	 */
 	static SizeType DepthSize(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target, GL_RENDERBUFFER_DEPTH_SIZE),
 			std::nothrow
 		);
@@ -432,7 +432,7 @@ public:
 	 */
 	static SizeType StencilSize(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target,GL_RENDERBUFFER_STENCIL_SIZE),
 			std::nothrow
 		);
@@ -446,7 +446,7 @@ public:
 	 */
 	static SizeType Samples(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target,GL_RENDERBUFFER_SAMPLES),
 			std::nothrow
 		);

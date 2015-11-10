@@ -89,7 +89,7 @@ void DeferredProgram::UniformCollection<T1, T2>::Resize(const size_t idCount)
 template<typename T1, typename T2>
 void DeferredProgram::UniformCollection<T1, T2>::Save(T2 id, T1 uniform)
 {
-    if (id < 0 && id >= links.size()) { return; }
+    if (id < 0 && static_cast<size_t>(id) >= links.size()) { return; }
 
     actives.push_back(std::move(id));
     links[id] = new std::pair<T2, T1>(actives.back(), std::move(uniform));;

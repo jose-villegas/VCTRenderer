@@ -17,8 +17,24 @@
 
 namespace oglplus {
 
-typedef SizeImpl<GLsizei> SizeType;
-typedef SizeImpl<GLsizeiptr> BigSizeType;
+typedef SizeImpl<GLsizei>::Type SizeType;
+typedef SizeImpl<GLsizeiptr>::Type BigSizeType;
+
+#if OGLPLUS_LOW_PROFILE
+static inline
+SizeType MakeSizeType(GLsizei v, std::nothrow_t)
+OGLPLUS_NOEXCEPT(true)
+{
+	return v;
+}
+#else
+static inline
+SizeType MakeSizeType(GLsizei v, std::nothrow_t nt)
+OGLPLUS_NOEXCEPT(true)
+{
+	return SizeType(v, nt);
+}
+#endif // OGLPLUS_LOW_PROFILE
 
 } // namespace oglplus
 

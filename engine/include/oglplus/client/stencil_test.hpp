@@ -72,7 +72,7 @@ public:
 
 } // namespace aux
 
-class StencilTest
+class StencilTestState
 {
 public:
 	oglplus::enums::EnumToClass<

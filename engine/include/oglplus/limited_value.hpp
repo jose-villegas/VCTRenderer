@@ -124,11 +124,8 @@ public:
 #endif
 
 	template <typename Type>
-#if !OGLPLUS_NO_EXPLICIT_CONVERSION_OPERATORS
-	explicit operator Type(void) const
-#else
+	OGLPLUS_EXPLICIT
 	operator Type(void) const
-#endif
 	{
 		return Type(_value);
 	}

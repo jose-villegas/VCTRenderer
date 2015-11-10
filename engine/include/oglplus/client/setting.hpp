@@ -90,7 +90,7 @@ private:
 	friend class SettingHolder<T, P>;
 protected:
 	inline
-	T _get(void) const
+	const T& _get(void) const
 	OGLPLUS_NOEXCEPT(true)
 	{
 		return _curr;
@@ -136,6 +136,20 @@ protected:
 public:
 	typedef SettingHolder<T, P> Holder;
 
+	SettingStack& Indexed(GLuint index)
+	{
+		assert(index == 0);
+		(void)index;
+		return *this;
+	}
+
+	inline
+	SettingStack&
+	operator [] (GLuint index)
+	{
+		return Indexed(index);
+	}
+
 	inline
 	Holder Push(T value)
 	{
@@ -154,7 +168,7 @@ public:
 	Get(void) const
 	OGLPLUS_NOEXCEPT(true)
 	{
-		return _curr;
+		return _get();
 	}
 
 	inline

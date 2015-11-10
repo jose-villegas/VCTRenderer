@@ -13,6 +13,7 @@
 #ifndef OGLPLUS_CAPABILITY_1107121519_HPP
 #define OGLPLUS_CAPABILITY_1107121519_HPP
 
+#include <oglplus/error/basic.hpp>
 #include <oglplus/enums/capability.hpp>
 #include <oglplus/enums/functionality.hpp>
 

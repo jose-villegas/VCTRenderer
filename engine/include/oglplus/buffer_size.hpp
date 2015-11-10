@@ -21,47 +21,70 @@ namespace oglplus {
 
 /// This class represents the size of a GPU buffer in bytes
 class BufferSize
- : public BigSizeType
 {
+private:
+	BigSizeType _v;
 public:
 	/// Construction of zero size
 	BufferSize(void)
-	 : BigSizeType(0)
+	OGLPLUS_NOEXCEPT(true)
+	 : _v(0)
 	{ }
 
 	/// Construction of the specified size in bytes
 	BufferSize(GLsizeiptr size)
-	 : BigSizeType(size)
+	 : _v(size)
 	{ }
 
+#if !OGLPLUS_LOW_PROFILE
 	BufferSize(BigSizeType size)
-	 : BigSizeType(size)
+	 : _v(size)
 	{ }
+#endif
+
+	inline
+	operator BigSizeType (void) const
+	OGLPLUS_NOEXCEPT(true)
+	{
+		return _v;
+	}
+
+	template <typename T>
+	OGLPLUS_EXPLICIT
+	operator T (void) const
+	{
+		return T(_v);
+	}
 
 	template <typename T>
 	BufferSize(std::size_t count, const T*)
-	 : BigSizeType(GLsizeiptr(sizeof(T)*count))
+	OGLPLUS_NOEXCEPT(true)
+	 : _v(GLsizeiptr(sizeof(T)*count))
 	{ }
 
 	template <typename T, std::size_t N>
 	BufferSize(const T (&)[N])
-	 : BigSizeType(GLsizeiptr(sizeof(T)*N))
+	OGLPLUS_NOEXCEPT(true)
+	 : _v(GLsizeiptr(sizeof(T)*N))
 	{ }
 
 	template <typename T, std::size_t N>
 	BufferSize(const std::array<T, N>& a)
-	 : BigSizeType(GLsizeiptr(sizeof(T)*a.size()))
+	OGLPLUS_NOEXCEPT(true)
+	 : _v(GLsizeiptr(sizeof(T)*a.size()))
 	{ }
 
 	template <typename T>
 	BufferSize(const std::vector<T>& v)
-	 : BigSizeType(GLsizeiptr(sizeof(T)*v.size()))
+	OGLPLUS_NOEXCEPT(true)
+	 : _v(GLsizeiptr(sizeof(T)*v.size()))
 	{ }
 
 	/// Gets the size in bytes
 	GLsizeiptr Get(void) const
+	OGLPLUS_NOEXCEPT(true)
 	{
-		return GLsizeiptr(*this);
+		return GLsizeiptr(_v);
 	}
 
 	/// Makes the size of count instances of T

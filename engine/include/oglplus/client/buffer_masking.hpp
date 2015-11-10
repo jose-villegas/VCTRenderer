@@ -89,7 +89,7 @@ private:
 		context::BufferClearingState::ColorWriteMask();
 	}
 public:
-	ClearColor(void)
+	ColorMask(void)
 	 : SettingStack<context::RGBAValue, Nothing>(
 		&_do_get,
 		&_do_set

@@ -29,7 +29,7 @@ BitmapGlyphPageStorage::BitmapGlyphPageStorage(
  , _frames(frames)
  , _glyphs_per_page(BitmapGlyphGlyphsPerPage(parent))
  , _vects_per_glyph(3)
- , _metrics(frames.st())
+ , _metrics(std::size_t(frames))
 {
 	//
 	// setup the bitmap texture

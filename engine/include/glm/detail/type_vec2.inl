@@ -59,8 +59,8 @@ namespace glm
 	{}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P>::tvec2(T const & s)
-		: x(s), y(s)
+	GLM_FUNC_QUALIFIER tvec2<T, P>::tvec2(T const & scalar)
+		: x(scalar), y(scalar)
 	{}
 
 	template <typename T, precision P>
@@ -174,10 +174,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator+=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator+=(U scalar)
 	{
-		this->x += static_cast<T>(s);
-		this->y += static_cast<T>(s);
+		this->x += static_cast<T>(scalar);
+		this->y += static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -201,10 +201,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator-=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator-=(U scalar)
 	{
-		this->x -= static_cast<T>(s);
-		this->y -= static_cast<T>(s);
+		this->x -= static_cast<T>(scalar);
+		this->y -= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -228,10 +228,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator*=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator*=(U scalar)
 	{
-		this->x *= static_cast<T>(s);
-		this->y *= static_cast<T>(s);
+		this->x *= static_cast<T>(scalar);
+		this->y *= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -255,10 +255,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator/=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator/=(U scalar)
 	{
-		this->x /= static_cast<T>(s);
-		this->y /= static_cast<T>(s);
+		this->x /= static_cast<T>(scalar);
+		this->y /= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -318,10 +318,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator%=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator%=(U scalar)
 	{
-		this->x %= static_cast<T>(s);
-		this->y %= static_cast<T>(s);
+		this->x %= static_cast<T>(scalar);
+		this->y %= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -345,10 +345,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator&=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator&=(U scalar)
 	{
-		this->x &= static_cast<T>(s);
-		this->y &= static_cast<T>(s);
+		this->x &= static_cast<T>(scalar);
+		this->y &= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -372,10 +372,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator|=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator|=(U scalar)
 	{
-		this->x |= static_cast<T>(s);
-		this->y |= static_cast<T>(s);
+		this->x |= static_cast<T>(scalar);
+		this->y |= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -399,10 +399,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator^=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator^=(U scalar)
 	{
-		this->x ^= static_cast<T>(s);
-		this->y ^= static_cast<T>(s);
+		this->x ^= static_cast<T>(scalar);
+		this->y ^= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -426,10 +426,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator<<=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator<<=(U scalar)
 	{
-		this->x <<= static_cast<T>(s);
-		this->y <<= static_cast<T>(s);
+		this->x <<= static_cast<T>(scalar);
+		this->y <<= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -453,10 +453,10 @@ namespace glm
 
 	template <typename T, precision P>
 	template <typename U>
-	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator>>=(U s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> & tvec2<T, P>::operator>>=(U scalar)
 	{
-		this->x >>= static_cast<T>(s);
-		this->y >>= static_cast<T>(s);
+		this->x >>= static_cast<T>(scalar);
+		this->y >>= static_cast<T>(scalar);
 		return *this;
 	}
 
@@ -491,11 +491,11 @@ namespace glm
 	// -- Binary arithmetic operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x + s,
-			v.y + s);
+			v.x + scalar,
+			v.y + scalar);
 	}
 
 	template <typename T, precision P>
@@ -507,11 +507,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s + v.x,
-			s + v.y);
+			scalar + v.x,
+			scalar + v.y);
 	}
 
 	template <typename T, precision P>
@@ -531,11 +531,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x - s,
-			v.y - s);
+			v.x - scalar,
+			v.y - scalar);
 	}
 
 	template <typename T, precision P>
@@ -547,11 +547,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s - v.x,
-			s - v.y);
+			scalar - v.x,
+			scalar - v.y);
 	}
 
 	template <typename T, precision P>
@@ -587,11 +587,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator*(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s * v.x,
-			s * v.y);
+			scalar * v.x,
+			scalar * v.y);
 	}
 
 	template <typename T, precision P>
@@ -611,11 +611,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x / s,
-			v.y / s);
+			v.x / scalar,
+			v.y / scalar);
 	}
 
 	template <typename T, precision P>
@@ -627,11 +627,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator/(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s / v.x,
-			s / v.y);
+			scalar / v.x,
+			scalar / v.y);
 	}
 
 	template <typename T, precision P>
@@ -653,11 +653,11 @@ namespace glm
 	// -- Binary bit operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x % s,
-			v.y % s);
+			v.x % scalar,
+			v.y % scalar);
 	}
 
 	template <typename T, precision P>
@@ -669,11 +669,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator%(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s % v.x,
-			s % v.y);
+			scalar % v.x,
+			scalar % v.y);
 	}
 
 	template <typename T, precision P>
@@ -693,11 +693,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x & s,
-			v.y & s);
+			v.x & scalar,
+			v.y & scalar);
 	}
 
 	template <typename T, precision P>
@@ -709,11 +709,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator&(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s & v.x,
-			s & v.y);
+			scalar & v.x,
+			scalar & v.y);
 	}
 
 	template <typename T, precision P>
@@ -733,11 +733,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x | s,
-			v.y | s);
+			v.x | scalar,
+			v.y | scalar);
 	}
 
 	template <typename T, precision P>
@@ -749,11 +749,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator|(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s | v.x,
-			s | v.y);
+			scalar | v.x,
+			scalar | v.y);
 	}
 
 	template <typename T, precision P>
@@ -773,11 +773,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x ^ s,
-			v.y ^ s);
+			v.x ^ scalar,
+			v.y ^ scalar);
 	}
 
 	template <typename T, precision P>
@@ -789,11 +789,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator^(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s ^ v.x,
-			s ^ v.y);
+			scalar ^ v.x,
+			scalar ^ v.y);
 	}
 
 	template <typename T, precision P>
@@ -813,11 +813,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x << s,
-			v.y << s);
+			v.x << scalar,
+			v.y << scalar);
 	}
 
 	template <typename T, precision P>
@@ -829,11 +829,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator<<(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s << v.x,
-			s << v.y);
+			scalar << v.x,
+			scalar << v.y);
 	}
 
 	template <typename T, precision P>
@@ -853,11 +853,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(tvec2<T, P> const & v, T const & s)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(tvec2<T, P> const & v, T const & scalar)
 	{
 		return tvec2<T, P>(
-			v.x >> s,
-			v.y >> s);
+			v.x >> scalar,
+			v.y >> scalar);
 	}
 
 	template <typename T, precision P>
@@ -869,11 +869,11 @@ namespace glm
 	}
 
 	template <typename T, precision P>
-	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(T const & s, tvec2<T, P> const & v)
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator>>(T const & scalar, tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(
-			s >> v.x,
-			s >> v.y);
+			scalar >> v.x,
+			scalar >> v.y);
 	}
 
 	template <typename T, precision P>

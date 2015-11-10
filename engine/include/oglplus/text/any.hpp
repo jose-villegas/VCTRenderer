@@ -272,7 +272,7 @@ public:
 	SizeType Capacity(void) const
 	{
 		assert(_pimpl);
-		return SizeType(_pimpl->Capacity(), std::nothrow);
+		return MakeSizeType(_pimpl->Capacity(), std::nothrow);
 	}
 
 	GLfloat Width(void) const

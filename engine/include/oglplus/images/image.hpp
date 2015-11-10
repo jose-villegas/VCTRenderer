@@ -265,28 +265,28 @@ public:
 	SizeType Width(void) const
 	OGLPLUS_NOEXCEPT(true)
 	{
-		return SizeType(_width, std::nothrow);
+		return MakeSizeType(_width, std::nothrow);
 	}
 
 	/// Returns the height of the image
 	SizeType Height(void) const
 	OGLPLUS_NOEXCEPT(true)
 	{
-		return SizeType(_height, std::nothrow);
+		return MakeSizeType(_height, std::nothrow);
 	}
 
 	/// Returns the depth of the image
 	SizeType Depth(void) const
 	OGLPLUS_NOEXCEPT(true)
 	{
-		return SizeType(_depth, std::nothrow);
+		return MakeSizeType(_depth, std::nothrow);
 	}
 
 	/// Returns the number of channels
 	SizeType Channels(void) const
 	OGLPLUS_NOEXCEPT(true)
 	{
-		return SizeType(_channels, std::nothrow);
+		return MakeSizeType(_channels, std::nothrow);
 	}
 
 	/// Returns the pixel data type

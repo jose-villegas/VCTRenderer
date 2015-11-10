@@ -121,7 +121,7 @@ public:
 	typedef typename AdjustProgVar<T>::ValueType ParamType;
 
 	/// Set the variable value
-	void Set(ParamType value)
+	void Set(const ParamType &value)
 	{
 		BaseGetSetOps::RequireActive();
 		BaseGetSetOps::SetValue(AdjustProgVar<T>::Adjust(value));
@@ -164,7 +164,7 @@ public:
 	}
 
 	/// Sets the variable value if it is active
-	void TrySet(ParamType value)
+	void TrySet(const ParamType &value)
 	{
 		if(this->IsActive())
 		{
@@ -173,7 +173,7 @@ public:
 	}
 
 	/// Sets the variable value
-	ProgVar& operator = (ParamType value)
+	ProgVar& operator = (const ParamType &value)
 	{
 		this->Set(value);
 		return *this;

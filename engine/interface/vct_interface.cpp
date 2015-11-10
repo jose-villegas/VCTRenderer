@@ -78,11 +78,11 @@ void UI::Draw()
             maxfSample < frameSamples.back() ? maxfSample = frameSamples.back() : 0;
 
             // too many samples pop front
-            if (frameSamples.size() > numSamples) { frameSamples.erase(frameSamples.begin()); }
+            if (frameSamples.size() > static_cast<size_t>(numSamples)) { frameSamples.erase(frameSamples.begin()); }
 
             // draw plotline with frame samples
-            ImGui::PlotLines("##Lines", frameSamples.data(), frameSamples.size(), 0.0f,
-                             "", minfSample, maxfSample, ImVec2(584, 80));
+            ImGui::PlotLines("##Lines", frameSamples.data(), frameSamples.size(), 0,
+                             "", minfSample, maxfSample, ImVec2(584.0f, 80.0f));
         }
 
         if (ImGui::CollapsingHeader("Geometry Buffer Textures"))

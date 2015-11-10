@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <cassert>
+#include <iostream>
 #include <png.h>
 
 namespace oglplus {
@@ -131,9 +132,10 @@ void PNGReadStruct::_png_handle_error(
 OGLPLUS_LIB_FUNC
 void PNGReadStruct::_png_handle_warning(
 	::png_structp /*sp*/,
-	const char* /*msg*/
+	const char* msg
 )
 {
+	::std::cerr << "libpng warning: " << msg << ::std::endl;
 }
 
 OGLPLUS_LIB_FUNC
@@ -144,7 +146,9 @@ PNGReadStruct::PNGReadStruct(PNGLoader& /*loader*/)
 	&_png_handle_error,
 	&_png_handle_warning
 ))
-{ }
+{
+	assert(_read);
+}
 
 OGLPLUS_LIB_FUNC
 PNGReadStruct::~PNGReadStruct(void)
@@ -160,7 +164,9 @@ OGLPLUS_LIB_FUNC
 PNGReadInfoStruct::PNGReadInfoStruct(PNGLoader& loader)
  : PNGReadStruct(loader)
  , _info(::png_create_info_struct(_read))
-{ }
+{
+	assert(_info);
+}
 
 OGLPLUS_LIB_FUNC
 PNGReadInfoStruct::~PNGReadInfoStruct(void)
@@ -200,6 +206,7 @@ PNGReadInfoEndStruct::PNGReadInfoEndStruct(PNGLoader& loader)
  : PNGReadInfoStruct(loader)
  , _end(::png_create_info_struct(_read))
 {
+	assert(_end);
 	::png_set_read_fn(
 		_read,
 		reinterpret_cast<::png_voidp>(&loader),

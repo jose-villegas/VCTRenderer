@@ -76,12 +76,12 @@ public:
 
 	SizeType Capacity(void) const
 	{
-		return SizeType(_capacity, std::nothrow);
+		return MakeSizeType(_capacity, std::nothrow);
 	}
 
 	SizeType Free(void) const
 	{
-		return SizeType(_free, std::nothrow);
+		return MakeSizeType(_free, std::nothrow);
 	}
 
 	bool Empty(void) const

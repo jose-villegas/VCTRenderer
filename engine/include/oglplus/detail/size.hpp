@@ -14,6 +14,7 @@
 #define OGLPLUS_DETAIL_SIZE_1501311633_HPP
 
 #include <oglplus/config/compiler.hpp>
+#include <oglplus/config/basic.hpp>
 #include <type_traits>
 #include <stdexcept>
 #include <cstddef>
@@ -22,6 +23,15 @@
 
 namespace oglplus {
 
+#if OGLPLUS_LOW_PROFILE
+
+template <typename T>
+struct SizeImpl
+{
+	typedef T Type;
+};
+
+#else
 template <typename T>
 struct SizeImpl
 {
@@ -105,6 +115,8 @@ private:
 		return _conv1(v);
 	}
 public:
+	typedef SizeImpl Type;
+
 	SizeImpl(void)
 	OGLPLUS_NOEXCEPT(true)
 	 : _v(T(0))
@@ -347,6 +359,7 @@ public:
 		return _check<T>(v) % _check<T>(s._v);
 	}
 };
+#endif // OGLPLUS_LOW_PROFILE
 
 } // namespace oglplus
 

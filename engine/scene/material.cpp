@@ -21,7 +21,7 @@ void OGLMaterial::AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
 bool OGLMaterial::BindTexture(RawTexture::TextureType texType) const
 {
     if (texType > 0  &&
-        texType < textures.size() &&
+        static_cast<size_t>(texType) < textures.size() &&
         textures[texType] != nullptr)
     {
         textures[texType]->Bind();

@@ -787,6 +787,12 @@ public:
 #endif
 
 #if OGLPLUS_DOCUMENTATION_ONLY || GL_VERSION_4_4 || GL_ARB_buffer_storage
+	/// Sets-up the buffer storage
+	/**
+	 *  @throws Error
+	 *
+	 *  @glvoereq{4,4,ARB,buffer_storage}
+	 */
 	static void Storage(
 		Target target,
 		const BufferData& data,
@@ -910,7 +916,7 @@ public:
 			&value
 		);
 		OGLPLUS_VERIFY_SIMPLE(GetIntegerv);
-		return SizeType(value, std::nothrow);
+		return MakeSizeType(value, std::nothrow);
 	}
 #endif
 
@@ -924,7 +930,7 @@ public:
 	 */
 	static SizeType Size(Target target)
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(target, GL_BUFFER_SIZE),
 			std::nothrow
 		);

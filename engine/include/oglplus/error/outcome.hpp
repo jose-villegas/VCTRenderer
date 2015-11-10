@@ -24,11 +24,58 @@ class PositiveOutcome;
 template <typename T>
 class NegativeOutcome;
 
-template <typename T>
-class Outcome
+class BaseOutcome
 {
 protected:
 	DeferredHandler _error;
+
+#if !OGLPLUS_NO_DEFAULTED_FUNCTIONS
+	BaseOutcome(void) = default;
+#else
+	BaseOutcome(void)
+	OGLPLUS_NOEXCEPT(true)
+	{ }
+#endif
+
+#if !OGLPLUS_NO_DEFAULTED_FUNCTIONS
+	BaseOutcome(BaseOutcome&&) = default;
+#else
+	BaseOutcome(BaseOutcome&& temp)
+	OGLPLUS_NOEXCEPT(true)
+	 : _error(std::move(temp._error))
+	{ }
+#endif
+
+	BaseOutcome(DeferredHandler&& handler)
+	 : _error(std::move(handler))
+	{ }
+public:
+	/// Return true if there was no error, false otherwise
+	bool Done(void) const
+	OGLPLUS_NOEXCEPT(true)
+	{
+		return !_error;
+	}
+
+	// Dismisses the error handler and returns true if there was no error
+	bool DoneWithoutError(void)
+	OGLPLUS_NOEXCEPT(true)
+	{
+		return !_error.cancel();
+	}
+
+	DeferredHandler ReleaseHandler(void)
+	OGLPLUS_NOEXCEPT(true)
+	{
+		return std::move(_error);
+	}
+};
+
+template <typename T>
+class Outcome
+ : public BaseOutcome
+{
+protected:
 	T _value;
 public:
 #if !OGLPLUS_NO_DEFAULTED_FUNCTIONS
@@ -36,7 +83,7 @@ public:
 #else
 	Outcome(Outcome&& temp)
 	OGLPLUS_NOEXCEPT(true)
-	 : _error(std::move(temp._error))
+	 : BaseOutcome(static_cast<BaseOutcome&&>(temp))
 	 , _value(std::move(temp._value))
 	{ }
 #endif
@@ -47,7 +94,7 @@ public:
 	{ }
 
 	Outcome(DeferredHandler&& handler)
-	 : _error(std::move(handler))
+	 : BaseOutcome(std::move(handler))
 	{ }
 
 	/// Returns stored value or cancels the error and returns the parameter
@@ -55,18 +102,25 @@ public:
 	{
 		return _error.cancel()?value:_value;
 	}
+};
 
-	/// Return true if there was no error, false otherwise
-	bool Done(void) const
-	{
-		return !_error;
-	}
+template <>
+class Outcome<void>
+ : public BaseOutcome
+{
+public:
+#if !OGLPLUS_NO_DEFAULTED_FUNCTIONS
+	Outcome(Outcome&&) = default;
+#else
+	Outcome(Outcome&& temp)
+	OGLPLUS_NOEXCEPT(true)
+	 : BaseOutcome(static_cast<BaseOutcome&&>(temp))
+	{ }
+#endif
 
-	// Dismisses the error handler and returns true if there was no error
-	bool DoneWithoutError(void)
-	{
-		return !_error.cancel();
-	}
+	Outcome(DeferredHandler&& handler)
+	 : BaseOutcome(std::move(handler))
+	{ }
 };
 
 /// Stores a reference to T or a deferred error handler
@@ -76,9 +130,9 @@ public:
  */
 template <typename T>
 class Outcome<T&>
+ : public BaseOutcome
 {
 protected:
-	DeferredHandler _error;
 	T* _ptr;
 public:
 #if !OGLPLUS_NO_DEFAULTED_FUNCTIONS
@@ -86,7 +140,7 @@ public:
 #else
 	Outcome(Outcome&& temp)
 	OGLPLUS_NOEXCEPT(true)
-	 : _error(std::move(temp._error))
+	 : BaseOutcome(static_cast<BaseOutcome&&>(temp))
 	 , _ptr(std::move(temp._ptr))
 	{ }
 #endif
@@ -97,21 +151,15 @@ public:
 	{ }
 
 	Outcome(DeferredHandler handler)
-	 : _error(std::move(handler))
+	 : BaseOutcome(std::move(handler))
 	 , _ptr(nullptr)
 	{ }
 
 	Outcome(DeferredHandler handler, T& ref)
 	OGLPLUS_NOEXCEPT(true)
-	 : _error(std::move(handler))
+	 : BaseOutcome(std::move(handler))
 	 , _ptr(&ref)
 	{ }
-
-	DeferredHandler ReleaseHandler(void)
-	OGLPLUS_NOEXCEPT(true)
-	{
-		return std::move(_error);
-	}
 
 	/// Trigger the error handler if any or return the stored reference
 	T& Then(void)
@@ -119,19 +167,6 @@ public:
 		_error.trigger();
 		assert(_ptr != nullptr);
 		return *_ptr;
-	}
-
-	/// Return true if there was no error, false otherwise
-	bool Done(void) const
-	OGLPLUS_NOEXCEPT(true)
-	{
-		return !_error;
-	}
-
-	// Dismisses the error handler and returns true if there was no error
-	bool DoneWithoutError(void)
-	{
-		return !_error.cancel();
 	}
 };
 

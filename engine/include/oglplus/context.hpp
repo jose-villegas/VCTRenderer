@@ -26,7 +26,7 @@
 #include <oglplus/context/depth_test.hpp>
 #include <oglplus/context/stencil_test.hpp>
 #include <oglplus/context/blending.hpp>
-#include <oglplus/context/logical_ops.hpp>
+#include <oglplus/context/logic_ops.hpp>
 #include <oglplus/context/scissor_test.hpp>
 #include <oglplus/context/pixel_ops.hpp>
 #include <oglplus/context/synchronization.hpp>
@@ -77,7 +77,7 @@ class Context
  , public context::DepthTest
  , public context::StencilTest
  , public context::ScissorTest
- , public context::LogicalOps
+ , public context::LogicOpState
  , public context::PixelState
  , public context::PixelOps
  , public context::BlendingOps

@@ -59,7 +59,7 @@ struct CurrentObject
 		ObjectName<ObjTag> Get(void) const
 		OGLPLUS_NOEXCEPT(true)
 		{
-			return ObjectName<ObjTag>(this->_top());
+			return ObjectName<ObjTag>(this->_get());
 		}
 
 		operator ObjectName<ObjTag> (void) const
@@ -122,7 +122,7 @@ public:
 	ObjectName<ObjTag> Get(void) const
 	OGLPLUS_NOEXCEPT(true)
 	{
-		return ObjectName<ObjTag>(this->_top());
+		return ObjectName<ObjTag>(this->_get());
 	}
 
 	operator ObjectName<ObjTag> (void) const
@@ -143,6 +143,154 @@ public:
 		this->_set(GetName(obj));
 	}
 };
+
+struct BufferNameAndRange
+{
+	GLuint _buffer;
+	GLintptr _offset;
+	GLsizei _size;
+
+	BufferName Buffer(void) const
+	{
+		return BufferName(_buffer);
+	}
+
+	bool BoundRange(void) const
+	{
+		return _size != 0;
+	}
+
+	BufferSize Offset(void) const
+	{
+		return BufferSize(_offset);
+	}
+
+	BufferSize Size(void) const
+	{
+		return BufferSize(_size);
+	}
+};
+
+template <BufferIndexedTarget BufTgt>
+class CurrentIndexBuffers
+ : public SettingStack<BufferNameAndRange, GLuint>
+{
+private:
+	static
+	BufferNameAndRange _do_get(GLuint index)
+	{
+		BufferNameAndRange result;
+		result._buffer =
+			GetGLName(ObjBindingOps<tag::Buffer>::Binding(BufTgt, index));
+		result._offset = 0;
+		result._size = 0;
+		return result;
+	}
+
+	static
+	void _do_bind(BufferNameAndRange bnr, GLuint index)
+	{
+		if(bnr._size == 0)
+		{
+			ObjBindingOps<tag::Buffer>::BindBase(
+				BufTgt, index,
+				bnr.Buffer()
+			);
+		}
+		else
+		{
+			ObjBindingOps<tag::Buffer>::BindRange(
+				BufTgt, index,
+				bnr.Buffer(),
+				bnr.Offset(),
+				bnr.Size()
+			);
+		}
+	}
+public:
+	CurrentIndexBuffers(GLuint index)
+	 : SettingStack<BufferNameAndRange, GLuint>(&_do_get, &_do_bind, index)
+	{ }
+
+	BufferNameAndRange Get(void) const
+	OGLPLUS_NOEXCEPT(true)
+	{
+		return this->_get();
+	}
+
+	operator BufferNameAndRange (void) const
+	OGLPLUS_NOEXCEPT(true)
+	{
+		return Get();
+	}
+
+	typedef SettingHolder<GLuint, GLuint> Holder;
+
+	Holder Push(BufferName obj)
+	{
+		BufferNameAndRange bnr = {GetName(obj), 0, 0};
+		return this->_push(bnr);
+	}
+
+	Holder Push(BufferName obj, BufferSize offset, BufferSize size)
+	{
+		BufferNameAndRange bnr = {
+			GetName(obj),
+			GLintptr(offset),
+			GLsizei(size)
+		};
+		return this->_push(bnr);
+	}
+
+	void BindBase(BufferName obj)
+	{
+		BufferNameAndRange bnr = {GetName(obj), 0, 0};
+		this->_set(bnr);
+	}
+
+	void BindRange(BufferName obj, BufferSize offset, BufferSize size)
+	{
+		BufferNameAndRange bnr = {
+			GetName(obj),
+			GLintptr(offset),
+			GLsizei(size)
+		};
+		this->_set(bnr);
+	}
+};
+
+template <BufferIndexedTarget BufTgt>
+class CurrentIndexedTargetBuffers
+{
+private:
+	std::vector<CurrentIndexBuffers<BufTgt>> _indices;
+
+	typedef typename enums::EnumAssocType<
+		BufferIndexedTarget,
+		BufTgt
+	>::Type _index_t;
+public:
+	CurrentIndexBuffers<BufTgt>& Index(_index_t index)
+	{
+		std::size_t idx = static_cast<std::size_t>(index);
+		for(std::size_t i=_indices.size(); i<=idx; ++i)
+		{
+			_indices.emplace_back(GLuint(i));
+		}
+		return _indices[idx];
+	}
+
+	CurrentIndexBuffers<BufTgt>& operator [] (_index_t index)
+	{
+		return Index(index);
+	}
+};
+
+typedef oglplus::enums::EnumToClass<
+	Nothing,
+	BufferIndexedTarget,
+	CurrentIndexedTargetBuffers
+> CurrentBuffersWithIndexedTarget;
 
 // CurrentUnitTexture
 template <TextureTarget ObjTgt>
@@ -190,7 +338,7 @@ public:
 	ObjectName<ObjTag> Get(void) const
 	OGLPLUS_NOEXCEPT(true)
 	{
-		return ObjectName<ObjTag>(this->_top());
+		return ObjectName<ObjTag>(this->_get());
 	}
 
 	operator ObjectName<ObjTag> (void) const
@@ -226,16 +374,17 @@ private:
 public:
 	CurrentTextures(void) { }
 
-	CurrentUnitTextures& Unit(std::size_t index)
+	CurrentUnitTextures& Unit(TextureUnitSelector index)
 	{
-		for(std::size_t i=_units.size(); i<=index; ++i)
+		std::size_t idx = static_cast<std::size_t>(index);
+		for(std::size_t i=_units.size(); i<=idx; ++i)
 		{
 			_units.emplace_back(GLuint(i));
 		}
-		return _units[index];
+		return _units[idx];
 	}
 
-	CurrentUnitTextures& operator [] (std::size_t index)
+	CurrentUnitTextures& operator [] (TextureUnitSelector index)
 	{
 		return Unit(index);
 	}
@@ -300,16 +449,17 @@ private:
 public:
 	CurrentSamplers(void) { }
 
-	CurrentUnitSampler& Unit(std::size_t index)
+	CurrentUnitSampler& Unit(TextureUnitSelector index)
 	{
-		for(std::size_t i=_units.size(); i<=index; ++i)
+		std::size_t idx = static_cast<std::size_t>(index);
+		for(std::size_t i=_units.size(); i<=idx; ++i)
 		{
 			_units.emplace_back(GLuint(i));
 		}
-		return _units[index];
+		return _units[idx];
 	}
 
-	CurrentUnitSampler& operator [] (std::size_t index)
+	CurrentUnitSampler& operator [] (TextureUnitSelector index)
 	{
 		return Unit(index);
 	}
@@ -320,10 +470,12 @@ public:
 class CurrentObjects
 {
 public:
-	aux::CurrentObjectsWithTarget<tag::Buffer> Buffer;
+	aux::CurrentObjectsWithTarget<tag::TransformFeedback> TransformFeedback;
 	aux::CurrentObjectsWithTarget<tag::Framebuffer> Framebuffer;
 	aux::CurrentObjectsWithTarget<tag::Renderbuffer> Renderbuffer;
-	aux::CurrentObjectsWithTarget<tag::TransformFeedback> TransformFeedback;
+
+	aux::CurrentObjectsWithTarget<tag::Buffer> Buffer;
+	aux::CurrentBuffersWithIndexedTarget BufferIndexed;
 
 	aux::CurrentObjectWithoutTarget<tag::Program> Program;
 	aux::CurrentObjectWithoutTarget<tag::ProgramPipeline> ProgramPipeline;

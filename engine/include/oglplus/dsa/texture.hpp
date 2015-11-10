@@ -93,7 +93,7 @@ public:
 	 */
 	SizeType Width(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_WIDTH),
 			std::nothrow
 		);
@@ -110,7 +110,7 @@ public:
 	 */
 	SizeType Height(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_HEIGHT),
 			std::nothrow
 		);
@@ -127,7 +127,7 @@ public:
 	 */
 	SizeType Depth(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_DEPTH),
 			std::nothrow
 		);
@@ -242,7 +242,7 @@ public:
 	 */
 	SizeType RedSize(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_RED_SIZE),
 			std::nothrow
 		);
@@ -262,7 +262,7 @@ public:
 	 */
 	SizeType GreenSize(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_GREEN_SIZE),
 			std::nothrow
 		);
@@ -282,7 +282,7 @@ public:
 	 */
 	SizeType BlueSize(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_BLUE_SIZE),
 			std::nothrow
 		);
@@ -302,7 +302,7 @@ public:
 	 */
 	SizeType AlphaSize(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_ALPHA_SIZE),
 			std::nothrow
 		);
@@ -322,7 +322,7 @@ public:
 	 */
 	SizeType DepthSize(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_DEPTH_SIZE),
 			std::nothrow
 		);
@@ -342,7 +342,7 @@ public:
 	 */
 	SizeType StencilSize(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_STENCIL_SIZE),
 			std::nothrow
 		);
@@ -363,7 +363,7 @@ public:
 	 */
 	SizeType SharedSize(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_SHARED_SIZE),
 			std::nothrow
 		);
@@ -377,7 +377,7 @@ public:
 	 */
 	SizeType CompressedImageSize(GLint level = 0) const
 	{
-		return SizeType(
+		return MakeSizeType(
 			GetIntParam(level, GL_TEXTURE_COMPRESSED_IMAGE_SIZE),
 			std::nothrow
 		);

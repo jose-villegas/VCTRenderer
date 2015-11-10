@@ -75,7 +75,7 @@ public:
 
 	SizeType Capacity(void) const
 	{
-		return SizeType(_capacity, std::nothrow);
+		return MakeSizeType(_capacity, std::nothrow);
 	}
 
 	GLfloat Width(void) const

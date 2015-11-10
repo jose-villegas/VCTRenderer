@@ -14,6 +14,7 @@
 #define OGLPLUS_BUFFER_TARGET_1201201052_HPP
 
 #include <oglplus/fwd.hpp>
+#include <oglplus/buffer_binding.hpp>
 #include <oglplus/enums/buffer_target.hpp>
 #include <oglplus/enums/buffer_indexed_target.hpp>
 
@@ -21,6 +22,10 @@ namespace oglplus {
 
 #if !OGLPLUS_NO_ENUM_VALUE_CLASSES
 #include <oglplus/enums/buffer_target_class.ipp>
+#endif
+
+#if !OGLPLUS_NO_ENUM_VALUE_CLASSES
+#include <oglplus/enums/buffer_indexed_target_class.ipp>
 #endif
 
 template <>

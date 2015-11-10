@@ -44,7 +44,7 @@ public:
 
 } // namespace aux
 
-class CurrentHints
+class HintState
 {
 public:
 	oglplus::enums::EnumToClass<

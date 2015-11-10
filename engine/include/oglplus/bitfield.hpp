@@ -125,6 +125,12 @@ public:
 		return (this->_bits & BF(b)) == BF(b);
 	}
 
+	/// Synonym for test
+	bool Has(Bit b) const
+	{
+		return Test(b);
+	}
+
 	OGLPLUS_EXPLICIT operator BF (void) const
 	{
 		return _bits;

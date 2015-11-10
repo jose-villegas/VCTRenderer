@@ -1941,6 +1941,21 @@ public:
 		return *this;
 	}
 
+
+	/** Wrapper for Texture::Wrap()
+	 *  @see Texture::Wrap()
+	 */
+	const BoundObjOps& Wrap(
+		TextureWrap mode
+	) const
+	{
+		ExplicitOps::Wrap(
+			this->target,
+			mode
+		);
+		return *this;
+	}
+
 #if OGLPLUS_DOCUMENTATION_ONLY || GL_VERSION_4_3
 
 	/** Wrapper for Texture::DepthStencilMode()

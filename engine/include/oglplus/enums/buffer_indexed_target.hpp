@@ -21,6 +21,8 @@ OGLPLUS_ENUM_CLASS_BEGIN(BufferIndexedTarget, GLenum)
 #include <oglplus/enums/buffer_indexed_target.ipp>
 OGLPLUS_ENUM_CLASS_END(BufferIndexedTarget)
 
+#include <oglplus/enums/buffer_indexed_target_type.ipp>
+
 #if !OGLPLUS_NO_ENUM_VALUE_NAMES
 #include <oglplus/enums/buffer_indexed_target_names.ipp>
 #endif
