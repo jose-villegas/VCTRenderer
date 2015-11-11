@@ -11,7 +11,6 @@ var searchData=
   ['updateprojectionmatrix',['UpdateProjectionMatrix',['../class_transform_matrices.html#ab648e15eebd1103c820bcc138d0fad7a',1,'TransformMatrices']]],
   ['updateviewmatrix',['UpdateViewMatrix',['../class_transform_matrices.html#aa0ae6f910f3789ff6c5cf6aec12fff1c',1,'TransformMatrices']]],
   ['uploadtogpu',['UploadToGPU',['../class_o_g_l_mesh.html#a7d36e3fe07a85a0d50eced4e4ed9105f',1,'OGLMesh::UploadToGPU()'],['../class_o_g_l_texture2_d.html#aceb3c2fe81ee4137fbf412def59c449e',1,'OGLTexture2D::UploadToGPU()']]],
-  ['usegeometrypass',['UseGeometryPass',['../class_deferred_handler.html#ad5af8e9dc5e2a47e6849af52d6e1943f',1,'DeferredHandler']]],
-  ['uselightpass',['UseLightPass',['../class_deferred_handler.html#a316f5981198a22454e3d767f72827d4a',1,'DeferredHandler']]],
+  ['use',['Use',['../class_deferred_program.html#a7256ecbf23d9298a000c9ea3456343bd',1,'DeferredProgram']]],
   ['uv',['uv',['../struct_vertex.html#a825ca69622b52af1624641fbe6ecc718',1,'Vertex']]]
 ];

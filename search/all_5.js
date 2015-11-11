@@ -16,5 +16,5 @@ var searchData=
   ['frustum',['Frustum',['../class_frustum.html',1,'Frustum'],['../class_frustum.html#a172ae3492592e3ac891642299d628494',1,'Frustum::Frustum()']]],
   ['frustum_2ecpp',['frustum.cpp',['../frustum_8cpp.html',1,'']]],
   ['frustum_2eh',['frustum.h',['../frustum_8h.html',1,'']]],
-  ['frustumculling',['FrustumCulling',['../class_renderer.html#aa4db44c64586903d1f5a14d3dfbdd47b',1,'Renderer']]]
+  ['frustumculling',['FrustumCulling',['../class_deferred_renderer.html#a7a3cce92df4b9409c625e2d7f234f3ac',1,'DeferredRenderer']]]
 ];

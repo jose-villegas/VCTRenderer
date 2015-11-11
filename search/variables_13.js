@@ -4,6 +4,6 @@ var searchData=
   ['vertexshader',['vertexShader',['../class_deferred_program.html#a6ba961fbd2f1165fec6c10353eae4287',1,'DeferredProgram']]],
   ['vertices',['vertices',['../class_mesh.html#a6465a888c97232a39e12aad008c969c3',1,'Mesh']]],
   ['view',['view',['../struct_matrices.html#af1345e145e678b3430cb794fb25b86ce',1,'Matrices']]],
-  ['viewfrustum',['viewFrustum',['../class_renderer.html#a5f730b80cb0e6894bc7205b7eef91999',1,'Renderer']]],
+  ['viewfrustum',['viewFrustum',['../class_deferred_renderer.html#a7d43ad12b848831e84e717b023ad4424',1,'DeferredRenderer']]],
   ['viewposuniform',['viewPosUniform',['../class_lighting_program.html#a5e6e32bb058924fbaba1de352646cc85',1,'LightingProgram']]]
 ];

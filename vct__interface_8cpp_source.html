@@ -96,254 +96,196 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="deferred__handler_8h.html">core\deferred_handler.h</a>&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_u_i.html#adb4cbcd5c39529f361c6543471e939a7">    7</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_u_i.html#adb4cbcd5c39529f361c6543471e939a7">UI::Draw</a>()</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="comment">// information resources for gui building</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ImGuiIO  &amp;io = ImGui::GetIO();</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">static</span> <a class="code" href="class_engine_assets.html">EngineAssets</a> * engineAssets = &amp;<a class="code" href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase::Instance</a>()-&gt;GetAssets();</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">static</span> <a class="code" href="class_execution_info.html">ExecutionInfo</a> * executionInfo = &amp;<a class="code" href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase::Instance</a>()-&gt;GetExecInfo();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">static</span> <a class="code" href="class_deferred_handler.html">DeferredHandler</a> * deferredHandler =</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        &amp;<a class="code" href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase::Instance</a>()-&gt;GetRenderer().GetDeferredHandler();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">static</span> ImVec2 sceneSelectorPos, sceneSelectorSize;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">// scene selector</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        ImGui::SetNextWindowPos(ImVec2(3, 3));</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        ImGui::Begin(<span class="stringliteral">&quot;Scene&quot;</span>, <span class="keyword">nullptr</span>,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                     ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                     ImGuiWindowFlags_NoMove);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="comment">// active scene selector</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        ImGui::PushItemWidth(450);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        ImGui::Combo(<span class="stringliteral">&quot;Active&quot;</span>, &amp;executionInfo-&gt;<a class="code" href="class_execution_info.html#a61faea20bcc0795ad19a3a07ed4d9705">activeScene</a>,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                     (<span class="keyword">const</span> <span class="keywordtype">char</span> **)engineAssets-&gt;<a class="code" href="class_engine_assets.html#a28e0d6bba960a24be7174205e284d78e">GetAvailableScenes</a>().data(),</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                     (int)engineAssets-&gt;<a class="code" href="class_engine_assets.html#a28e0d6bba960a24be7174205e284d78e">GetAvailableScenes</a>().size());</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        ImGui::PopItemWidth();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        sceneSelectorPos = ImGui::GetWindowPos();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        sceneSelectorSize = ImGui::GetWindowSize();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        ImGui::End();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> openDebugWindow = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    openDebugWindow ^= io.KeyCtrl &amp;&amp; ImGui::IsKeyReleased(74);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (openDebugWindow) <span class="comment">// debug window</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        ImGui::SetNextWindowPos(</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            ImVec2(sceneSelectorPos.x, sceneSelectorPos.y + sceneSelectorSize.y)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        );</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        ImGui::Begin(<span class="stringliteral">&quot;Debug Info&quot;</span>, &amp;openDebugWindow,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                     ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                     ImGuiWindowFlags_NoMove);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> (ImGui::CollapsingHeader(<span class="stringliteral">&quot;Framerate Metrics&quot;</span>))</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="comment">// frame rate samples for plotline</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keyword">static</span> <span class="keywordtype">float</span> minfSample = std::numeric_limits&lt;float&gt;::infinity();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">static</span> <span class="keywordtype">float</span> maxfSample = std::numeric_limits&lt;float&gt;::lowest();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keyword">static</span> std::vector&lt;float&gt; frameSamples(100);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keyword">static</span> <span class="keywordtype">int</span> numSamples = 100;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="comment">// start window</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            ImGui::Text(<span class="stringliteral">&quot;Framerate: (%.1f)&quot;</span>, io.Framerate);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordtype">float</span> accum = std::accumulate(frameSamples.begin(), frameSamples.end(), 0.0f);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="comment">// average framerate</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            ImGui::SameLine();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            ImGui::Text(<span class="stringliteral">&quot;Avg/Min/Max: (%.1f, %.1f, %.1f)&quot;</span>, accum / frameSamples.size(),</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        minfSample, maxfSample);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            ImGui::SameLine();</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">    7</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">UI::DrawGBufferTexture</a>(<span class="keyword">const</span> oglplus::Texture &amp;texture,</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                            <span class="keyword">const</span> std::string &amp;name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    ImGui::BeginGroup();</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    ImGui::Image(reinterpret_cast&lt;void *&gt;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                 (static_cast&lt;intptr_t&gt;(GetName(texture))),</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                 ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0));</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">if</span> (ImGui::IsItemHovered())</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        ImGui::BeginTooltip();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        ImGui::Image(reinterpret_cast&lt;void *&gt;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                     (static_cast&lt;intptr_t&gt;(GetName(texture))),</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                     ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                     ImVec2(1, 1), ImVec2(0, 0));</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        ImGui::EndTooltip();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ImGui::Text(name.c_str());</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    ImGui::EndGroup();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_u_i.html#aa90f11a78ac64dd45035790a1962f045">   29</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_u_i.html#aa90f11a78ac64dd45035790a1962f045">UI::DrawFramerateMetrics</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">// frame rate samples for plotline</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">static</span> <span class="keyword">auto</span> minfSample = std::numeric_limits&lt;float&gt;::infinity();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">static</span> <span class="keyword">auto</span> maxfSample = std::numeric_limits&lt;float&gt;::lowest();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">static</span> <span class="keyword">auto</span> numSamples = 100;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">static</span> std::vector&lt;float&gt; frameSamples(numSamples);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">auto</span> accum = accumulate(frameSamples.begin(), frameSamples.end(), 0.0f);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">// start window</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    ImGui::Text(<span class="stringliteral">&quot;Framerate: (%.1f)&quot;</span>, io.Framerate);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">// average framerate</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ImGui::SameLine();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ImGui::Text(<span class="stringliteral">&quot;Avg/Min/Max: (%.1f, %.1f, %.1f)&quot;</span>, accum / frameSamples.size(),</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                minfSample, maxfSample);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ImGui::SameLine();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span> (ImGui::Button(<span class="stringliteral">&quot;Reset&quot;</span>))</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        minfSample = std::numeric_limits&lt;float&gt;::infinity();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        maxfSample = std::numeric_limits&lt;float&gt;::lowest();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// num of framerate samples</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (ImGui::InputInt(<span class="stringliteral">&quot;# Frame Samples&quot;</span>, &amp;numSamples))</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        numSamples &lt; 6 ? numSamples = 6 : 0;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        numSamples &gt; 8000 ? numSamples = 8000 : 0;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        frameSamples.resize(numSamples);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">if</span> (ImGui::Button(<span class="stringliteral">&quot;Reset&quot;</span>))</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                minfSample = std::numeric_limits&lt;float&gt;::infinity();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                maxfSample = std::numeric_limits&lt;float&gt;::lowest();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">// num of framerate samples</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">if</span> (ImGui::InputInt(<span class="stringliteral">&quot;# Frame Samples&quot;</span>, &amp;numSamples))</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                numSamples &lt; 6 ? numSamples = 6 : 0;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                numSamples &gt; 8000 ? numSamples = 8000 : 0;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                frameSamples.resize(numSamples);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="comment">// add new sample</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            frameSamples.push_back(io.Framerate);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            minfSample &gt; frameSamples.back() ? minfSample = frameSamples.back() : 0;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            maxfSample &lt; frameSamples.back() ? maxfSample = frameSamples.back() : 0;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="comment">// too many samples pop front</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">if</span> (frameSamples.size() &gt; numSamples) { frameSamples.erase(frameSamples.begin()); }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="comment">// draw plotline with frame samples</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            ImGui::PlotLines(<span class="stringliteral">&quot;##Lines&quot;</span>, frameSamples.data(), frameSamples.size(), 0.0f,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                             <span class="stringliteral">&quot;&quot;</span>, minfSample, maxfSample, ImVec2(584, 80));</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">if</span> (ImGui::CollapsingHeader(<span class="stringliteral">&quot;Geometry Buffer Textures&quot;</span>))</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="comment">// position texture</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                ImGui::BeginGroup();</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                ImGui::Image(</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    (<span class="keywordtype">void</span> *)(intptr_t)GetName(</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        deferredHandler-&gt;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">GetGBufferTexture</a></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                        (<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0">DeferredProgram::Position</a>)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    ),</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                );</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keywordflow">if</span> (ImGui::IsItemHovered())</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    ImGui::BeginTooltip();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    ImGui::Image(</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                        (<span class="keywordtype">void</span> *)(intptr_t)GetName(</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                            deferredHandler-&gt;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">GetGBufferTexture</a></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                            (<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0">DeferredProgram::Position</a>)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                        ),</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                        ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                        ImVec2(1, 1), ImVec2(0, 0)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    );</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                    ImGui::EndTooltip();</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                ImGui::Text(<span class="stringliteral">&quot;Position&quot;</span>);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                ImGui::EndGroup();</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            ImGui::SameLine();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="comment">// normal texture</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            {</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                ImGui::BeginGroup();</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                ImGui::Image(</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                    (<span class="keywordtype">void</span> *)(intptr_t)GetName(</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                        deferredHandler-&gt;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">GetGBufferTexture</a></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                        (<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0">DeferredProgram::Normal</a>)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                    ),</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                    ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                );</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">if</span> (ImGui::IsItemHovered())</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                    ImGui::BeginTooltip();</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                    ImGui::Image(</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                        (<span class="keywordtype">void</span> *)(intptr_t)GetName(</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                            deferredHandler-&gt;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">GetGBufferTexture</a></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                            (<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0">DeferredProgram::Normal</a>)</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                        ),</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                        ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                        ImVec2(1, 1), ImVec2(0, 0)</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    );</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                    ImGui::EndTooltip();</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                }</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                ImGui::Text(<span class="stringliteral">&quot;Normal&quot;</span>);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                ImGui::EndGroup();</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            }</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            ImGui::SameLine();</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="comment">// albedo texture</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                ImGui::BeginGroup();</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                ImGui::Image(</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                    (<span class="keywordtype">void</span> *)(intptr_t)GetName(</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                        deferredHandler-&gt;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">GetGBufferTexture</a></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                        (<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">DeferredProgram::Albedo</a>)</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                    ),</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                    ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                );</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                <span class="keywordflow">if</span> (ImGui::IsItemHovered())</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                    ImGui::BeginTooltip();</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                    ImGui::Image(</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                        (<span class="keywordtype">void</span> *)(intptr_t)GetName(</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                            deferredHandler-&gt;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">GetGBufferTexture</a></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                            (<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">DeferredProgram::Albedo</a>)</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                        ),</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                        ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                        ImVec2(1, 1), ImVec2(0, 0)</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                    );</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                    ImGui::EndTooltip();</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                ImGui::Text(<span class="stringliteral">&quot;Albedo&quot;</span>);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                ImGui::EndGroup();</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            ImGui::SameLine();</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="comment">// specular texture</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                ImGui::BeginGroup();</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                ImGui::Image(</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                    (<span class="keywordtype">void</span> *)(intptr_t)GetName(</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                        deferredHandler-&gt;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">GetGBufferTexture</a></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                        (<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">DeferredProgram::Specular</a>)</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                    ),</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                    ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0)</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                );</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="keywordflow">if</span> (ImGui::IsItemHovered())</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                    ImGui::BeginTooltip();</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                    ImGui::Image(</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                        (<span class="keywordtype">void</span> *)(intptr_t)GetName(</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                            deferredHandler-&gt;<a class="code" href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">GetGBufferTexture</a></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                            (<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">DeferredProgram::Specular</a>)</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                        ),</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                        ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                        ImVec2(1, 1), ImVec2(0, 0)</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    );</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    ImGui::EndTooltip();</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                ImGui::Text(<span class="stringliteral">&quot;Specular&quot;</span>);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                ImGui::EndGroup();</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            }</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        }</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        ImGui::End();</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    }</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="comment">// show only fps</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> openFPSWindow = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    openFPSWindow ^= io.KeyCtrl &amp;&amp; ImGui::IsKeyReleased(70);</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span> (openFPSWindow)</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    {</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        ImGui::SetNextWindowSize(ImVec2(80, 50));</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 80 - 3,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                                       io.DisplaySize.y - 50 - 3));</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        ImGui::Begin(<span class="stringliteral">&quot;Performance Window&quot;</span>, <span class="keyword">nullptr</span>,</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                     ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                     ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        ImGui::Text(<span class="stringliteral">&quot;Framerate&quot;</span>);</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        ImGui::Separator();</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        ImGui::Text(<span class="stringliteral">&quot;%.3f&quot;</span>, io.Framerate);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        ImGui::End();</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    }</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;}</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
-<div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">  229</a></span>&#160;<a class="code" href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">UI::UI</a>()</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;{</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;}</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;</div>
-<div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">  234</a></span>&#160;<a class="code" href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">UI::~UI</a>()</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;{</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;}</div>
-<div class="ttc" id="class_deferred_handler_html"><div class="ttname"><a href="class_deferred_handler.html">DeferredHandler</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00232">deferred_handler.h:232</a></div></div>
-<div class="ttc" id="class_deferred_handler_html_a442bacdcb31cea6dad105103ec9bf40f"><div class="ttname"><a href="class_deferred_handler.html#a442bacdcb31cea6dad105103ec9bf40f">DeferredHandler::GetGBufferTexture</a></div><div class="ttdeci">const oglplus::Texture &amp; GetGBufferTexture(DeferredProgram::GBufferTextureId tID) const </div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8cpp_source.html#l00339">deferred_handler.cpp:339</a></div></div>
-<div class="ttc" id="class_u_i_html_a675985a56b5e87ebdc8e5884b9f2ee09"><div class="ttname"><a href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">UI::UI</a></div><div class="ttdeci">UI()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00229">vct_interface.cpp:229</a></div></div>
-<div class="ttc" id="class_engine_assets_html"><div class="ttname"><a href="class_engine_assets.html">EngineAssets</a></div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8h_source.html#l00004">engine_assets.h:4</a></div></div>
-<div class="ttc" id="class_execution_info_html_a61faea20bcc0795ad19a3a07ed4d9705"><div class="ttname"><a href="class_execution_info.html#a61faea20bcc0795ad19a3a07ed4d9705">ExecutionInfo::activeScene</a></div><div class="ttdeci">int activeScene</div><div class="ttdef"><b>Definition:</b> <a href="engine__base_8h_source.html#l00012">engine_base.h:12</a></div></div>
-<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0">DeferredProgram::Normal</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00064">deferred_handler.h:64</a></div></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// add new sample</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    frameSamples.push_back(io.Framerate);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    minfSample &gt; frameSamples.back() ? minfSample = frameSamples.back() : 0;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    maxfSample &lt; frameSamples.back() ? maxfSample = frameSamples.back() : 0;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">// too many samples pop front</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">if</span> (frameSamples.size() &gt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(numSamples))</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        frameSamples.erase(frameSamples.begin());</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">// draw plotline with frame samples</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    ImGui::PlotLines(<span class="stringliteral">&quot;##Lines&quot;</span>, frameSamples.data(), frameSamples.size(), 0,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                     <span class="stringliteral">&quot;&quot;</span>, minfSample, maxfSample, ImVec2(584.0f, 80.0f));</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="class_u_i.html#a0c8f97aeaacf2c2883764ced43a8d3e0">   76</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a0c8f97aeaacf2c2883764ced43a8d3e0">UI::DrawSceneSelector</a>()</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">static</span> <span class="keyword">auto</span> engineAssets = &amp;<a class="code" href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase::Instance</a>()-&gt;GetAssets();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">static</span> <span class="keyword">auto</span> executionInfo = &amp;<a class="code" href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase::Instance</a>()-&gt;GetExecInfo();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ImGui::SetNextWindowPos(ImVec2(3, 3));</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ImGui::Begin(<span class="stringliteral">&quot;Scene&quot;</span>, <span class="keyword">nullptr</span>, ImGuiWindowFlags_AlwaysAutoResize |</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                 ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// active scene selector</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    ImGui::PushItemWidth(450);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    ImGui::Combo(<span class="stringliteral">&quot;Active&quot;</span>, &amp;executionInfo-&gt;activeScene,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                 const_cast&lt;const char **&gt;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                 (engineAssets-&gt;GetAvailableScenes().data()),</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                 static_cast&lt;int&gt;(engineAssets-&gt;GetAvailableScenes().size()));</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    ImGui::PopItemWidth();</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    uiPos = ImGui::GetWindowPos();</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    uiSize = ImGui::GetWindowSize();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    ImGui::End();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="class_u_i.html#ab8567b8442587ef6af6224beb214034e">   95</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ab8567b8442587ef6af6224beb214034e">UI::DrawGBufferTextures</a>()</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">auto</span> &amp;deferredHandler =</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <a class="code" href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase::Instance</a>()-&gt;GetRenderer().GetDeferredHandler();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;bufferTextures = deferredHandler.BufferTextures();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">// position texture</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <a class="code" href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">DrawGBufferTexture</a>(bufferTextures[(<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0">DeferredProgram::Position</a>)],</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                       <span class="stringliteral">&quot;Position&quot;</span>);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    ImGui::SameLine();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="comment">// normal texture</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">DrawGBufferTexture</a>(bufferTextures[(<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0">DeferredProgram::Normal</a>)],</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                       <span class="stringliteral">&quot;Normal&quot;</span>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    ImGui::SameLine();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment">// albedo texture</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <a class="code" href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">DrawGBufferTexture</a>(bufferTextures[(<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">DeferredProgram::Albedo</a>)],</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                       <span class="stringliteral">&quot;Albedo&quot;</span>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    ImGui::SameLine();</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// specular texture</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <a class="code" href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">DrawGBufferTexture</a>(bufferTextures[(<a class="code" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">DeferredProgram::Specular</a>)],</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                       <span class="stringliteral">&quot;Specular&quot;</span>);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab">  117</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab">UI::DrawDebugWindow</a>()</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;{</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">static</span> <span class="keyword">auto</span> &amp;io = ImGui::GetIO();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> openDebugWindow;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    openDebugWindow ^= io.KeyCtrl &amp;&amp; ImGui::IsKeyReleased(74);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">if</span> (openDebugWindow) <span class="comment">// debug window</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        ImGui::SetNextWindowPos(</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            ImVec2(uiPos.x, uiPos.y + uiSize.y)</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        );</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        ImGui::Begin(<span class="stringliteral">&quot;Debug Info&quot;</span>, &amp;openDebugWindow,</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                     ImGuiWindowFlags_AlwaysAutoResize |</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                     ImGuiWindowFlags_NoSavedSettings |</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                     ImGuiWindowFlags_NoMove);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">if</span> (ImGui::CollapsingHeader(<span class="stringliteral">&quot;Framerate Metrics&quot;</span>))</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <a class="code" href="class_u_i.html#aa90f11a78ac64dd45035790a1962f045">DrawFramerateMetrics</a>();</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">if</span> (ImGui::CollapsingHeader(<span class="stringliteral">&quot;Geometry Buffer Textures&quot;</span>))</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <a class="code" href="class_u_i.html#ab8567b8442587ef6af6224beb214034e">DrawGBufferTextures</a>();</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        ImGui::End();</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="class_u_i.html#a0c463177a6414ec16faa8029455814ce">  147</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a0c463177a6414ec16faa8029455814ce">UI::DrawFPSNotif</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">static</span> <span class="keyword">auto</span> &amp;io = ImGui::GetIO();</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">static</span> <span class="keyword">auto</span> openFPSWindow = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    openFPSWindow ^= io.KeyCtrl &amp;&amp; ImGui::IsKeyReleased(70);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">if</span> (openFPSWindow)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        ImGui::SetNextWindowSize(ImVec2(80, 50));</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 80 - 3,</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                                       io.DisplaySize.y - 50 - 3));</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        ImGui::Begin(<span class="stringliteral">&quot;Performance Window&quot;</span>, <span class="keyword">nullptr</span>,</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                     ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                     ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        ImGui::Text(<span class="stringliteral">&quot;Framerate&quot;</span>);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        ImGui::Separator();</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        ImGui::Text(<span class="stringliteral">&quot;%.3f&quot;</span>, io.Framerate);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        ImGui::End();</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;}</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85">  168</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85">UI::Draw</a>()</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;{</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="comment">// scene selector</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <a class="code" href="class_u_i.html#a0c8f97aeaacf2c2883764ced43a8d3e0">DrawSceneSelector</a>();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <a class="code" href="class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab">DrawDebugWindow</a>();</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">// show only fps</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <a class="code" href="class_u_i.html#a0c463177a6414ec16faa8029455814ce">DrawFPSNotif</a>();</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;}</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">  177</a></span>&#160;<a class="code" href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">UI::UI</a>() : io(ImGui::GetIO()) {}</div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">  178</a></span>&#160;<a class="code" href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">UI::~UI</a>() {}</div>
+<div class="ttc" id="class_u_i_html_a675985a56b5e87ebdc8e5884b9f2ee09"><div class="ttname"><a href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">UI::UI</a></div><div class="ttdeci">UI()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00177">vct_interface.cpp:177</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea245d7faf3f19faf105485c22f8f4c7f0">DeferredProgram::Normal</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00063">deferred_handler.h:63</a></div></div>
 <div class="ttc" id="deferred__handler_8h_html"><div class="ttname"><a href="deferred__handler_8h.html">deferred_handler.h</a></div></div>
 <div class="ttc" id="stdafx_8h_html"><div class="ttname"><a href="stdafx_8h.html">stdafx.h</a></div></div>
-<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">DeferredProgram::Albedo</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00065">deferred_handler.h:65</a></div></div>
-<div class="ttc" id="class_engine_base_html_a9f5ab8d134491f17010a3c9d45f1db3c"><div class="ttname"><a href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase::Instance</a></div><div class="ttdeci">static std::shared_ptr&lt; EngineBase &gt; &amp; Instance()</div><div class="ttdef"><b>Definition:</b> <a href="engine__base_8cpp_source.html#l00016">engine_base.cpp:16</a></div></div>
+<div class="ttc" id="class_u_i_html_a53f9edbb566c125b59cbf7f02b8e74ab"><div class="ttname"><a href="class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab">UI::DrawDebugWindow</a></div><div class="ttdeci">void DrawDebugWindow()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00117">vct_interface.cpp:117</a></div></div>
+<div class="ttc" id="class_u_i_html_a0c463177a6414ec16faa8029455814ce"><div class="ttname"><a href="class_u_i.html#a0c463177a6414ec16faa8029455814ce">UI::DrawFPSNotif</a></div><div class="ttdeci">void DrawFPSNotif() const </div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00147">vct_interface.cpp:147</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">DeferredProgram::Albedo</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00064">deferred_handler.h:64</a></div></div>
+<div class="ttc" id="class_u_i_html_ab1403cfb83132a7815e11fd3ece8fc85"><div class="ttname"><a href="class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85">UI::Draw</a></div><div class="ttdeci">void Draw() override</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00168">vct_interface.cpp:168</a></div></div>
+<div class="ttc" id="class_u_i_html_ad0259f592dc53508b5a6de86a43ee85c"><div class="ttname"><a href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">UI::DrawGBufferTexture</a></div><div class="ttdeci">void DrawGBufferTexture(const oglplus::Texture &amp;texture, const std::string &amp;name) const </div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00007">vct_interface.cpp:7</a></div></div>
+<div class="ttc" id="class_engine_base_html_a9f5ab8d134491f17010a3c9d45f1db3c"><div class="ttname"><a href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase::Instance</a></div><div class="ttdeci">static std::shared_ptr&lt; EngineBase &gt; &amp; Instance()</div><div class="ttdef"><b>Definition:</b> <a href="engine__base_8cpp_source.html#l00015">engine_base.cpp:15</a></div></div>
 <div class="ttc" id="engine__base_8h_html"><div class="ttname"><a href="engine__base_8h.html">engine_base.h</a></div></div>
-<div class="ttc" id="class_engine_assets_html_a28e0d6bba960a24be7174205e284d78e"><div class="ttname"><a href="class_engine_assets.html#a28e0d6bba960a24be7174205e284d78e">EngineAssets::GetAvailableScenes</a></div><div class="ttdeci">const std::vector&lt; const char * &gt; &amp; GetAvailableScenes()</div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8h_source.html#l00022">engine_assets.h:22</a></div></div>
-<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">DeferredProgram::Specular</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00066">deferred_handler.h:66</a></div></div>
+<div class="ttc" id="class_u_i_html_a0c8f97aeaacf2c2883764ced43a8d3e0"><div class="ttname"><a href="class_u_i.html#a0c8f97aeaacf2c2883764ced43a8d3e0">UI::DrawSceneSelector</a></div><div class="ttdeci">void DrawSceneSelector()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00076">vct_interface.cpp:76</a></div></div>
+<div class="ttc" id="class_u_i_html_ab8567b8442587ef6af6224beb214034e"><div class="ttname"><a href="class_u_i.html#ab8567b8442587ef6af6224beb214034e">UI::DrawGBufferTextures</a></div><div class="ttdeci">void DrawGBufferTextures()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00095">vct_interface.cpp:95</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">DeferredProgram::Specular</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00065">deferred_handler.h:65</a></div></div>
 <div class="ttc" id="vct__interface_8h_html"><div class="ttname"><a href="vct__interface_8h.html">vct_interface.h</a></div></div>
-<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0">DeferredProgram::Position</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00063">deferred_handler.h:63</a></div></div>
-<div class="ttc" id="class_u_i_html_adb4cbcd5c39529f361c6543471e939a7"><div class="ttname"><a href="class_u_i.html#adb4cbcd5c39529f361c6543471e939a7">UI::Draw</a></div><div class="ttdeci">void Draw()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00007">vct_interface.cpp:7</a></div></div>
-<div class="ttc" id="class_execution_info_html"><div class="ttname"><a href="class_execution_info.html">ExecutionInfo</a></div><div class="ttdef"><b>Definition:</b> <a href="engine__base_8h_source.html#l00009">engine_base.h:9</a></div></div>
-<div class="ttc" id="class_u_i_html_a1b23d0c64c7cbb3d143d90ec532a7ccd"><div class="ttname"><a href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">UI::~UI</a></div><div class="ttdeci">virtual ~UI()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00234">vct_interface.cpp:234</a></div></div>
+<div class="ttc" id="class_u_i_html_aa90f11a78ac64dd45035790a1962f045"><div class="ttname"><a href="class_u_i.html#aa90f11a78ac64dd45035790a1962f045">UI::DrawFramerateMetrics</a></div><div class="ttdeci">void DrawFramerateMetrics() const </div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00029">vct_interface.cpp:29</a></div></div>
+<div class="ttc" id="class_deferred_program_html_a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0"><div class="ttname"><a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea0d2c4c704e96345fcbbc3cd2b3f90cc0">DeferredProgram::Position</a></div><div class="ttdef"><b>Definition:</b> <a href="deferred__handler_8h_source.html#l00062">deferred_handler.h:62</a></div></div>
+<div class="ttc" id="class_u_i_html_a1b23d0c64c7cbb3d143d90ec532a7ccd"><div class="ttname"><a href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">UI::~UI</a></div><div class="ttdeci">virtual ~UI()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00178">vct_interface.cpp:178</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

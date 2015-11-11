@@ -8,5 +8,5 @@ var searchData=
   ['printlibinfo',['PrintLibInfo',['../class_external_initializer.html#a31b2f9c75f6128f56f0ae5cc0cc2945c',1,'ExternalInitializer']]],
   ['processnodes',['ProcessNodes',['../class_scene_importer.html#a01e7d7db526210110b5bbc46505e749b',1,'SceneImporter']]],
   ['program',['program',['../class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af',1,'DeferredProgram']]],
-  ['projection',['projection',['../struct_matrices.html#a39c06d4402c7e41b394a74790934fc53',1,'Matrices::projection()'],['../class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307af92ac52cd169b388552c7003a69a4c84',1,'TransformMatrices::Projection()']]]
+  ['projection',['Projection',['../class_transform_matrices.html#abeb7a92c1f5388e5b7bf9d00ec398307af92ac52cd169b388552c7003a69a4c84',1,'TransformMatrices::Projection()'],['../struct_matrices.html#a39c06d4402c7e41b394a74790934fc53',1,'Matrices::projection()']]]
 ];

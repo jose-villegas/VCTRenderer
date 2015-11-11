@@ -126,7 +126,8 @@ Public Types</h2></td></tr>
 <a class="el" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea9b8048e4dd7457e37135dcf94a4635ca">Albedo</a>, 
 <a class="el" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d">Specular</a>, 
 <br />
-&#160;&#160;<a class="el" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeadcf4ee04c2e0d9a9da2d45d2bb812f49">TEXTURE_TYPE_MAX</a>
+&#160;&#160;<a class="el" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea8678c2baf00e137974d6c1984ad9e8c7">Depth</a>, 
+<a class="el" href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeeadcf4ee04c2e0d9a9da2d45d2bb812f49">TEXTURE_TYPE_MAX</a>
 <br />
  }<tr class="memdesc:a135723a8dc28283c5a1ec28754cdbfee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the geometry buffer texture target  <a href="class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfee">More...</a><br /></td></tr>
 <tr class="separator:a135723a8dc28283c5a1ec28754cdbfee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,9 +137,8 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abb9bad1e48e3c46db040451dbced67a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program.html#abb9bad1e48e3c46db040451dbced67a6">DeferredProgram</a> ()</td></tr>
 <tr class="separator:abb9bad1e48e3c46db040451dbced67a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1654d746e4734c0b0bf89f881723c36f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f">ExtractActiveUniforms</a> ()</td></tr>
-<tr class="memdesc:a1654d746e4734c0b0bf89f881723c36f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls ExtractUniform virtual method per every active uniform in the shader program  <a href="#a1654d746e4734c0b0bf89f881723c36f">More...</a><br /></td></tr>
-<tr class="separator:a1654d746e4734c0b0bf89f881723c36f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7256ecbf23d9298a000c9ea3456343bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program.html#a7256ecbf23d9298a000c9ea3456343bd">Use</a> () const </td></tr>
+<tr class="separator:a7256ecbf23d9298a000c9ea3456343bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -147,6 +147,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a15a355a61bba67773bc0251e855ce049"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program.html#a15a355a61bba67773bc0251e855ce049">ExtractUniform</a> (oglplus::SLDataType uType, std::string uName)=0</td></tr>
 <tr class="memdesc:a15a355a61bba67773bc0251e855ce049"><td class="mdescLeft">&#160;</td><td class="mdescRight">Meant to be implemented in inheriting classes to extract uniform info such as binding location type, etc  <a href="#a15a355a61bba67773bc0251e855ce049">More...</a><br /></td></tr>
 <tr class="separator:a15a355a61bba67773bc0251e855ce049"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1654d746e4734c0b0bf89f881723c36f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f">ExtractActiveUniforms</a> ()</td></tr>
+<tr class="memdesc:a1654d746e4734c0b0bf89f881723c36f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls ExtractUniform virtual method per every active uniform in the shader program  <a href="#a1654d746e4734c0b0bf89f881723c36f">More...</a><br /></td></tr>
+<tr class="separator:a1654d746e4734c0b0bf89f881723c36f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -168,7 +171,7 @@ Friends</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for each program shader used in deferred rendering </p>
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00010">10</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00009">9</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a135723a8dc28283c5a1ec28754cdbfee"></a>
 <div class="memitem">
@@ -190,11 +193,13 @@ Friends</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a135723a8dc28283c5a1ec28754cdbfeeaaa1299995181d62a34452007b8823d5d"></a>Specular&#160;</td><td class="fielddoc">
 </td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a135723a8dc28283c5a1ec28754cdbfeea8678c2baf00e137974d6c1984ad9e8c7"></a>Depth&#160;</td><td class="fielddoc">
+</td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a135723a8dc28283c5a1ec28754cdbfeeadcf4ee04c2e0d9a9da2d45d2bb812f49"></a>TEXTURE_TYPE_MAX&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00061">61</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00060">60</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -220,7 +225,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00013">13</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00012">12</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -253,6 +258,9 @@ Friends</h2></td></tr>
 <a class="anchor" id="a1654d746e4734c0b0bf89f881723c36f"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void DeferredProgram::ExtractActiveUniforms </td>
@@ -261,11 +269,16 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Calls ExtractUniform virtual method per every active uniform in the shader program </p>
 
-<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00349">349</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00352">352</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
 
 </div>
 </div>
@@ -314,6 +327,31 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a7256ecbf23d9298a000c9ea3456343bd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DeferredProgram::Use </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00070">70</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="abb5b497d17b5687404e06c7d1390b4f8"></a>
 <div class="memitem">
@@ -333,7 +371,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00014">14</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00013">13</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -358,7 +396,7 @@ Friends</h2></td></tr>
 
 <p>The fragment shader </p>
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00018">18</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00017">17</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -382,7 +420,7 @@ Friends</h2></td></tr>
 
 <p>The program shader </p>
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00026">26</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00025">25</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
@@ -406,7 +444,7 @@ Friends</h2></td></tr>
 
 <p>The vertex shader </p>
 
-<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00022">22</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8h_source.html#l00021">21</a> of file <a class="el" href="deferred__handler_8h_source.html">deferred_handler.h</a>.</p>
 
 </div>
 </div>
