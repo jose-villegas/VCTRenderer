@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "deferred_handler.h"
-#include "scene\light.h"
 
 DeferredHandler::DeferredHandler(unsigned int windowWith,
                                  unsigned int windowHeight)
@@ -9,7 +8,6 @@ DeferredHandler::DeferredHandler(unsigned int windowWith,
     SetupGBuffer(windowWith, windowHeight);
     CreateFullscreenQuad();
 }
-
 
 void DeferredHandler::CreateFullscreenQuad()
 {
@@ -30,9 +28,11 @@ void DeferredHandler::CreateFullscreenQuad()
     Buffer::Data(Buffer::Target::Array, fsQuadVertexBufferData);
     // set up attrib points
     VertexArrayAttrib(VertexAttribSlot(0)).Enable() // position
-    .Pointer(3, DataType::Float, false, 5 * sizeof(float), (const GLvoid *)0);
+    .Pointer(3, DataType::Float, false, 5 * sizeof(float),
+             reinterpret_cast<const GLvoid *>(0));
     VertexArrayAttrib(VertexAttribSlot(1)).Enable() // uvs
-    .Pointer(2, DataType::Float, false, 5 * sizeof(float), (const GLvoid *)12);
+    .Pointer(2, DataType::Float, false, 5 * sizeof(float),
+             reinterpret_cast<const GLvoid *>(12));
     // data for element buffer array
     static const std::array<unsigned int, 6> indexData =
     {
@@ -60,7 +60,7 @@ void DeferredHandler::RenderFullscreenQuad()
 
 LightingProgram::LightingProgram()
 {
-    samplers.Resize(static_cast<size_t>(GBufferTextureId::TEXTURE_TYPE_MAX));
+    samplers.Resize(static_cast<size_t>(TEXTURE_TYPE_MAX));
 }
 
 void LightingProgram::ExtractUniform(oglplus::SLDataType uType,
@@ -69,72 +69,85 @@ void LightingProgram::ExtractUniform(oglplus::SLDataType uType,
     using namespace oglplus;
 
     // extract light uniform data
-
     if (uType == SLDataType::FloatVec3)
     {
-        Uniform<glm::vec3> * vec3ToSet =
-            uName == "viewPosition" ? &viewPosUniform :
-            uName == "directionalLight.ambient" ? &directionalLight.ambient :
-            uName == "directionalLight.diffuse" ? &directionalLight.diffuse :
-            uName == "directionalLight.specular" ? &directionalLight.specular :
-            uName == "directionalLight.position" ? &directionalLight.position :
-            uName == "directionalLight.direction" ? &directionalLight.direction : nullptr;
+        auto float3ToSet =
+            uName == "viewPosition"
+            ? &viewPosUniform
+            : uName == "directionalLight.ambient"
+            ? &directionalLight.ambient
+            : uName == "directionalLight.diffuse"
+            ? &directionalLight.diffuse
+            : uName == "directionalLight.specular"
+            ? &directionalLight.specular
+            : uName == "directionalLight.position"
+            ? &directionalLight.position
+            : uName == "directionalLight.direction"
+            ? &directionalLight.direction : nullptr;
 
-        if (vec3ToSet != nullptr)
+        if (float3ToSet != nullptr)
         {
-            *vec3ToSet = Uniform<glm::vec3>(program, uName);
+            *float3ToSet = Uniform<glm::vec3>(program, uName);
         }
     }
 
     if (uType == SLDataType::Float)
     {
-        Uniform<float> * vec3ToSet =
-            uName == "directionalLight.angleInnerCone" ? &directionalLight.angleInnerCone :
-            uName == "directionalLight.angleOuterCone" ? &directionalLight.angleOuterCone :
-            uName == "directionalLight.attenuation.constant" ?
-            &directionalLight.attenuation.constant :
-            uName == "directionalLight.attenuation.linear" ?
-            &directionalLight.attenuation.linear :
-            uName == "directionalLight.attenuation.quadratic" ?
-            &directionalLight.attenuation.quadratic : nullptr;
+        auto floatToSet =
+            uName == "directionalLight.angleInnerCone"
+            ? &directionalLight.angleInnerCone
+            : uName == "directionalLight.angleOuterCone"
+            ? &directionalLight.angleOuterCone
+            : uName == "directionalLight.attenuation.constant"
+            ? &directionalLight.attenuation.constant
+            : uName == "directionalLight.attenuation.linear"
+            ? &directionalLight.attenuation.linear
+            : uName == "directionalLight.attenuation.quadratic"
+            ? &directionalLight.attenuation.quadratic : nullptr;
 
-        if (vec3ToSet != nullptr)
+        if (floatToSet != nullptr)
         {
-            *vec3ToSet = Uniform<float>(program, uName);
+            *floatToSet = Uniform<float>(program, uName);
         }
     }
 
     if (uType == SLDataType::UnsignedInt)
     {
-        Uniform<unsigned int> * vec3ToSet =
-            uName == "directionalLight.lightType" ? &directionalLight.lightType : nullptr;
+        auto uintToSet =
+            uName == "directionalLight.lightType"
+            ? &directionalLight.lightType : nullptr;
 
-        if (vec3ToSet != nullptr)
+        if (uintToSet != nullptr)
         {
-            *vec3ToSet = Uniform<unsigned int>(program, uName);
+            *uintToSet = Uniform<unsigned int>(program, uName);
         }
     }
 
     if (uType == SLDataType::Sampler2D)
     {
-        int addGSamplerType = -1;
         // gbuffer samplers to read
-        addGSamplerType =
-            uName == "gPosition" ? Position :
-            uName == "gNormal" ? Normal :
-            uName == "gAlbedo" ? Albedo :
-            uName == "gSpecular" ? Specular : -1;
+        auto addGSamplerType =
+            uName == "gPosition"
+            ? Position
+            : uName == "gNormal"
+            ? Normal
+            : uName == "gAlbedo"
+            ? Albedo
+            : uName == "gSpecular"
+            ? Specular : -1;
 
         // g buffer active samplers
         if (addGSamplerType != -1)
         {
-            samplers
-            .Save((GBufferTextureId)addGSamplerType,
-                  UniformSampler(program, uName));
+            samplers.Save(static_cast<GBufferTextureId>(addGSamplerType),
+                          UniformSampler(program, uName));
         }
     }
 }
 
+/// <summary>
+/// Loads the deferred rendering required shaders
+/// </summary>
 void DeferredHandler::LoadShaders()
 {
     using namespace oglplus;
@@ -192,7 +205,13 @@ void DeferredHandler::LoadShaders()
     fsGeomPassFile.close();
 }
 
-void DeferredHandler::SetupGBuffer(unsigned int windowWith,
+/// <summary>
+/// Setups the geometry buffer accordingly
+/// with the rendering resolution
+/// </summary>
+/// <param name="windowWith">The window width.</param>
+/// <param name="windowHeight">Height of the window.</param>
+void DeferredHandler::SetupGBuffer(unsigned int windowWidth,
                                    unsigned int windowHeight)
 {
     using namespace oglplus;
@@ -202,7 +221,7 @@ void DeferredHandler::SetupGBuffer(unsigned int windowWith,
     gl.Bound(Texture::Target::_2D,
              bufferTextures[DeferredProgram::Position])
     .Image2D(
-        0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,
+        0, PixelDataInternalFormat::RGB16F, windowWidth, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
     ) // high precision texture
     .MinFilter(TextureMinFilter::Nearest)
@@ -217,7 +236,7 @@ void DeferredHandler::SetupGBuffer(unsigned int windowWith,
     gl.Bound(Texture::Target::_2D,
              bufferTextures[DeferredProgram::Normal])
     .Image2D(
-        0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,
+        0, PixelDataInternalFormat::RGB16F, windowWidth, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
     ) // high precision texture
     .MinFilter(TextureMinFilter::Nearest)
@@ -232,7 +251,7 @@ void DeferredHandler::SetupGBuffer(unsigned int windowWith,
     gl.Bound(Texture::Target::_2D,
              bufferTextures[DeferredProgram::Albedo])
     .Image2D(
-        0, PixelDataInternalFormat::RGB8, windowWith, windowHeight,
+        0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
     ) // 8 bit per component texture
     .MinFilter(TextureMinFilter::Nearest)
@@ -240,15 +259,14 @@ void DeferredHandler::SetupGBuffer(unsigned int windowWith,
     geometryBuffer.AttachTexture(
         FramebufferTarget::Draw,
         FramebufferColorAttachment::_2,
-        bufferTextures[DeferredProgram::Albedo],
-        0
+        bufferTextures[DeferredProgram::Albedo], 0
     );
     colorBuffers.push_back(FramebufferColorAttachment::_2);
     // specular intensity and shininess buffer
     gl.Bound(Texture::Target::_2D,
              bufferTextures[DeferredProgram::Specular])
     .Image2D(
-        0, PixelDataInternalFormat::R8, windowWith, windowHeight,
+        0, PixelDataInternalFormat::R8, windowWidth, windowHeight,
         0, PixelDataFormat::Red, PixelDataType::Float, nullptr
     ) // 8 bit per component texture
     .MinFilter(TextureMinFilter::Nearest)
@@ -262,7 +280,7 @@ void DeferredHandler::SetupGBuffer(unsigned int windowWith,
     // depth buffer
     gl.Bound(Texture::Target::_2D, bufferTextures[DeferredProgram::Depth])
     .Image2D(
-        0, PixelDataInternalFormat::DepthComponent32F, windowWith, windowHeight,
+        0, PixelDataInternalFormat::DepthComponent32F, windowWidth, windowHeight,
         0, PixelDataFormat::DepthComponent, PixelDataType::Float, nullptr
     ); // high precision float texture
     geometryBuffer.AttachTexture(
@@ -273,9 +291,9 @@ void DeferredHandler::SetupGBuffer(unsigned int windowWith,
 
     if (!Framebuffer::IsComplete(Framebuffer::Target::Draw))
     {
-        FramebufferStatus status = Framebuffer::Status(Framebuffer::Target::Draw);
+        auto status = Framebuffer::Status(Framebuffer::Target::Draw);
         std::cout << "(DeferredHandler) Framebuffer Error:"
-                  << (unsigned int)status;
+                  << static_cast<unsigned int>(status);
     }
 
     Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));
@@ -360,22 +378,34 @@ void GeometryProgram::ExtractUniform(oglplus::SLDataType uType,
 
     if (uType == SLDataType::Sampler2D)
     {
-        int addSamplerType = -1;
         // texture samplers
-        addSamplerType =
-            uName == "noneMap" ? RawTexture::None :
-            uName == "diffuseMap" ? RawTexture::Diffuse :
-            uName == "specularMap" ? RawTexture::Specular :
-            uName == "ambientMap" ? RawTexture::Ambient :
-            uName == "emissiveMap" ? RawTexture::Emissive :
-            uName == "heightMap" ? RawTexture::Height :
-            uName == "normalsMap" ? RawTexture::Normals :
-            uName == "shininessMap" ? RawTexture::Shininess :
-            uName == "opacityMap" ? RawTexture::Opacity :
-            uName == "displacementMap" ? RawTexture::Displacement :
-            uName == "lightMap" ? RawTexture::Lightmap :
-            uName == "reflectionMap" ? RawTexture::Reflection :
-            uName == "unknowMap" ? RawTexture::Unknow : -1;
+        auto addSamplerType =
+            uName == "noneMap"
+            ? RawTexture::None
+            : uName == "diffuseMap"
+            ? RawTexture::Diffuse
+            : uName == "specularMap"
+            ? RawTexture::Specular
+            : uName == "ambientMap"
+            ? RawTexture::Ambient
+            : uName == "emissiveMap"
+            ? RawTexture::Emissive
+            : uName == "heightMap"
+            ? RawTexture::Height
+            : uName == "normalsMap"
+            ? RawTexture::Normals
+            : uName == "shininessMap"
+            ? RawTexture::Shininess
+            : uName == "opacityMap"
+            ? RawTexture::Opacity
+            : uName == "displacementMap"
+            ? RawTexture::Displacement
+            : uName == "lightMap"
+            ? RawTexture::Lightmap
+            : uName == "reflectionMap"
+            ? RawTexture::Reflection
+            : uName == "unknowMap"
+            ? RawTexture::Unknow : -1;
 
         // geometry pass active samplers
         if (addSamplerType != -1)
@@ -387,32 +417,40 @@ void GeometryProgram::ExtractUniform(oglplus::SLDataType uType,
     }
     else if (uType == SLDataType::FloatMat4)
     {
-        int addMat4Type = -1;
-        addMat4Type =
-            uName == "matrices.modelView" ? TransformMatrices::ModelView :
-            uName == "matrices.modelViewProjection" ?
-            TransformMatrices::ModelViewProjection :
-            uName == "matrices.model" ? TransformMatrices::Model :
-            uName == "matrices.view" ? TransformMatrices::View :
-            uName == "matrices.projection" ? TransformMatrices::Projection :
-            uName == "matrices.normal" ? TransformMatrices::Normal : -1;
+        auto addMat4Type =
+            uName == "matrices.modelView"
+            ? TransformMatrices::ModelView
+            : uName == "matrices.modelViewProjection"
+            ? TransformMatrices::ModelViewProjection
+            : uName == "matrices.model"
+            ? TransformMatrices::Model
+            : uName == "matrices.view"
+            ? TransformMatrices::View
+            : uName == "matrices.projection"
+            ? TransformMatrices::Projection
+            : uName == "matrices.normal"
+            ? TransformMatrices::Normal : -1;
 
         if (addMat4Type != -1)
         {
-            transformMatrices
-            .Save(static_cast<TransformMatrices::MatrixId>(addMat4Type),
-                  Uniform<glm::mat4x4>(program, uName));
+            transformMatrices.Save(
+                static_cast<TransformMatrices::MatrixId>(addMat4Type),
+                Uniform<glm::mat4x4>(program, uName));
         }
     }
     else if (uType == SLDataType::FloatVec3)
     {
-        int addF3MatType = -1;
-        addF3MatType =
-            uName == "material.ambient" ? OGLMaterial::Ambient :
-            uName == "material.diffuse" ? OGLMaterial::Diffuse :
-            uName == "material.specular" ? OGLMaterial::Specular :
-            uName == "material.emissive" ? OGLMaterial::Emissive :
-            uName == "material.transparent" ? OGLMaterial::Transparent : -1;
+        auto addF3MatType =
+            uName == "material.ambient"
+            ? OGLMaterial::Ambient
+            : uName == "material.diffuse"
+            ? OGLMaterial::Diffuse
+            : uName == "material.specular"
+            ? OGLMaterial::Specular
+            : uName == "material.emissive"
+            ? OGLMaterial::Emissive
+            : uName == "material.transparent"
+            ? OGLMaterial::Transparent : -1;
 
         if (addF3MatType != -1)
         {
@@ -423,12 +461,15 @@ void GeometryProgram::ExtractUniform(oglplus::SLDataType uType,
     }
     else if (uType == SLDataType::Float)
     {
-        int addF1MatType = -1;
-        addF1MatType =
-            uName == "material.opacity" ? OGLMaterial::Opacity :
-            uName == "material.shininess" ? OGLMaterial::Shininess :
-            uName == "material.shininessStrenght" ? OGLMaterial::ShininessStrenght :
-            uName == "material.refractionIndex" ? OGLMaterial::RefractionIndex : -1;
+        auto addF1MatType =
+            uName == "material.opacity"
+            ? OGLMaterial::Opacity
+            : uName == "material.shininess"
+            ? OGLMaterial::Shininess
+            : uName == "material.shininessStrenght"
+            ? OGLMaterial::ShininessStrenght
+            : uName == "material.refractionIndex"
+            ? OGLMaterial::RefractionIndex : -1;
 
         if (addF1MatType != -1)
         {
@@ -439,9 +480,9 @@ void GeometryProgram::ExtractUniform(oglplus::SLDataType uType,
     }
     else if (uType == SLDataType::UnsignedInt)
     {
-        int addUint1MatType = -1;
-        addUint1MatType =
-            uName == "material.useNormalsMap" ? OGLMaterial::NormalMapping : -1;
+        auto addUint1MatType =
+            uName == "material.useNormalsMap"
+            ? OGLMaterial::NormalMapping : -1;
 
         if (addUint1MatType != -1)
         {
