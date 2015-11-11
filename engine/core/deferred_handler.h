@@ -2,7 +2,6 @@
 #include "scene\texture.h"
 #include "types\transform_matrices.h"
 #include "scene\material.h"
-#include "scene\light.h"
 
 /// <summary>
 /// Base class for each program shader used in deferred rendering
@@ -240,7 +239,7 @@ class DeferredHandler
         virtual ~DeferredHandler();
         void BindGeometryBuffer(const oglplus::FramebufferTarget &bindingMode);
         void ReadGeometryBuffer(const DeferredProgram::GBufferTextureId
-                                &gBufferTexType);
+                                &bufferTexId);
         void ActivateBindTextureTargets();
         void RenderFullscreenQuad();
 
@@ -262,8 +261,6 @@ class DeferredHandler
         oglplus::VertexArray fullscreenQuadVertexArray;
         oglplus::Buffer fullscreenQuadVertexBuffer;
         oglplus::Buffer fullscreenQuadElementBuffer;
-
-    private:
         void LoadShaders();
         void SetupGBuffer(unsigned int windowWith,
                           unsigned int windowHeight);
