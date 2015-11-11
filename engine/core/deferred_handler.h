@@ -33,7 +33,7 @@ class DeferredProgram
         /// <param name="uName">Name of the uniform.</param>
         virtual void ExtractUniform(oglplus::SLDataType uType,
                                     std::string uName) = 0;
-
+        void ExtractActiveUniforms();
 
         /// <summary>
         /// Holds collections of program uniforms of the same type
@@ -64,10 +64,11 @@ class DeferredProgram
             Normal, // texture with half float rgb precision storing normals
             Albedo, // texture with unsigned byte rgb precision storing albedo
             Specular, // texture with unsigned byte r precision storing specular
+            Depth, // depth buffer for completeness
             TEXTURE_TYPE_MAX
         };
         DeferredProgram() {};
-        void ExtractActiveUniforms();
+        void Use() const { program.Use(); }
 };
 
 /// <summary>
@@ -232,51 +233,39 @@ class LightingProgram : public DeferredProgram
 class DeferredHandler
 {
     public:
+        GeometryProgram geometryProgram;
+        LightingProgram lightingProgram;
 
-        // deferred shader programs handlers
-        GeometryProgram geometryPass;
-        LightingProgram lightPass;
-    private:
-        static oglplus::Context gl;
-        // geometry buffer
-        oglplus::Framebuffer geomBuffer;
-        oglplus::Texture bDepthTexture;
-        std::vector<oglplus::Context::ColorBuffer> openedColorBuffers;
-        std::array<oglplus::Texture,
-            static_cast<size_t>(DeferredProgram::TEXTURE_TYPE_MAX)> bTextures;
-        // full screen quad
-        oglplus::VertexArray fsQuadVertexArray;
-        oglplus::Buffer fsQuadVertexBuffer;
-        oglplus::Buffer fsQuadElementBuffer;
-
-        void LoadShaders();
-        void InitializeGBuffer(unsigned int windowWith,
-                               unsigned int windowHeight);
-        void CreateFullscreenQuad();
-    public:
         DeferredHandler(unsigned int windowWith, unsigned int windowHeight);
         virtual ~DeferredHandler();
+        void BindGeometryBuffer(const oglplus::FramebufferTarget &bindingMode);
+        void ReadGeometryBuffer(const DeferredProgram::GBufferTextureId
+                                &gBufferTexType);
+        void ActivateBindTextureTargets();
+        void RenderFullscreenQuad();
 
-        void UseGeometryPass() const
+        /// <summary>
+        /// Returns an array with all the geometry buffer textures
+        /// </summary>
+        /// <returns>Array of textures</returns>
+        const std::array<oglplus::Texture, static_cast<size_t>(
+            DeferredProgram::TEXTURE_TYPE_MAX)> &BufferTextures() const
         {
-            geometryPass.program.Use();
+            return bufferTextures;
         }
+    private:
+        oglplus::Framebuffer geometryBuffer;
+        std::array<oglplus::Texture, static_cast<size_t>(
+            DeferredProgram::TEXTURE_TYPE_MAX)> bufferTextures;
+        std::vector<oglplus::Context::ColorBuffer> colorBuffers;
+        // full screen quad
+        oglplus::VertexArray fullscreenQuadVertexArray;
+        oglplus::Buffer fullscreenQuadVertexBuffer;
+        oglplus::Buffer fullscreenQuadElementBuffer;
 
-        void UseLightPass() const
-        {
-            lightPass.program.Use();
-        }
-
-        void BindGBuffer(const oglplus::FramebufferTarget &bindingMode);
-        void ReadGBuffer(const DeferredProgram::GBufferTextureId &gBufferTexType);
-        // binds and sets as active all gbuffer textures ids
-        void ActivateGBufferTextures();
-        void SetLightPassUniforms(const glm::vec3 &viewPosition,
-                                  const std::vector<std::shared_ptr<Light>>
-                                  &lights);
-        // returns texture handlers to gbuffer color buffers
-        const oglplus::Texture
-        &GetGBufferTexture(DeferredProgram::GBufferTextureId tID) const;
-
-        void RenderFSQuad();
+    private:
+        void LoadShaders();
+        void SetupGBuffer(unsigned int windowWith,
+                          unsigned int windowHeight);
+        void CreateFullscreenQuad();
 };

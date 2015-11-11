@@ -60,3 +60,5 @@
 #include <tbb/tbb.h>
 // immediate mode interface library
 #include <3rdparty/imgui/imgui.h>
+
+static oglplus::Context gl;

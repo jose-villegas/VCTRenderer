@@ -197,7 +197,7 @@
     <ClCompile Include="types\bounding_volume.cpp" />
     <ClCompile Include="core\engine_assets.cpp" />
     <ClCompile Include="core\engine_base.cpp" />
-    <ClCompile Include="core\renderer.cpp" />
+    <ClCompile Include="core\deferred_renderer.cpp" />
     <ClCompile Include="core\deferred_handler.cpp" />
     <ClCompile Include="types\face.cpp" />
     <ClCompile Include="interface\interface.cpp" />
@@ -235,7 +235,7 @@
     <ClInclude Include="types\bounding_volume.h" />
     <ClInclude Include="core\engine_assets.h" />
     <ClInclude Include="core\engine_base.h" />
-    <ClInclude Include="core\renderer.h" />
+    <ClInclude Include="core\deferred_renderer.h" />
     <ClInclude Include="core\deferred_handler.h" />
     <ClInclude Include="types\face.h" />
     <ClInclude Include="interface\interface.h" />

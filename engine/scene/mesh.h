@@ -26,8 +26,6 @@ class Mesh
 class OGLMesh : public Mesh
 {
     protected:
-        static oglplus::Context gl;
-
         std::unique_ptr<oglplus::Buffer> oglArrayBuffer;
         std::unique_ptr<oglplus::Buffer> oglElementArrayBuffer;
         std::unique_ptr<oglplus::VertexArray> oglVertexArray;

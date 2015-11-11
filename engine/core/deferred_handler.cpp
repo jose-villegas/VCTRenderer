@@ -6,7 +6,7 @@ DeferredHandler::DeferredHandler(unsigned int windowWith,
                                  unsigned int windowHeight)
 {
     LoadShaders();
-    InitializeGBuffer(windowWith, windowHeight);
+    SetupGBuffer(windowWith, windowHeight);
     CreateFullscreenQuad();
 }
 
@@ -15,7 +15,7 @@ void DeferredHandler::CreateFullscreenQuad()
 {
     using namespace oglplus;
     // bind vao for full screen quad
-    fsQuadVertexArray.Bind();
+    fullscreenQuadVertexArray.Bind();
     // data for fs quad
     static const std::array<float, 20> fsQuadVertexBufferData =
     {
@@ -26,7 +26,7 @@ void DeferredHandler::CreateFullscreenQuad()
         -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, // vertex 3
     };
     // bind vertex buffer and fill
-    fsQuadVertexBuffer.Bind(Buffer::Target::Array);
+    fullscreenQuadVertexBuffer.Bind(Buffer::Target::Array);
     Buffer::Data(Buffer::Target::Array, fsQuadVertexBufferData);
     // set up attrib points
     VertexArrayAttrib(VertexAttribSlot(0)).Enable() // position
@@ -40,15 +40,18 @@ void DeferredHandler::CreateFullscreenQuad()
         2, 1, 3, // second triangle
     };
     // bind and fill element array
-    fsQuadElementBuffer.Bind(Buffer::Target::ElementArray);
+    fullscreenQuadElementBuffer.Bind(Buffer::Target::ElementArray);
     Buffer::Data(Buffer::Target::ElementArray, indexData);
     // unbind vao
     NoVertexArray().Bind();
 }
 
-void DeferredHandler::RenderFSQuad()
+/// <summary>
+/// Renders a full screen quad, useful for the light pass stage
+/// </summary>
+void DeferredHandler::RenderFullscreenQuad()
 {
-    fsQuadVertexArray.Bind();
+    fullscreenQuadVertexArray.Bind();
     gl.DrawElements(
         oglplus::PrimitiveType::Triangles, 6,
         oglplus::DataType::UnsignedInt
@@ -117,10 +120,10 @@ void LightingProgram::ExtractUniform(oglplus::SLDataType uType,
         int addGSamplerType = -1;
         // gbuffer samplers to read
         addGSamplerType =
-            uName == "gPosition" ? (int)GBufferTextureId::Position :
-            uName == "gNormal" ? (int)GBufferTextureId::Normal :
-            uName == "gAlbedo" ? (int)GBufferTextureId::Albedo :
-            uName == "gSpecular" ? (int)GBufferTextureId::Specular : -1;
+            uName == "gPosition" ? Position :
+            uName == "gNormal" ? Normal :
+            uName == "gAlbedo" ? Albedo :
+            uName == "gSpecular" ? Specular : -1;
 
         // g buffer active samplers
         if (addGSamplerType != -1)
@@ -141,23 +144,23 @@ void DeferredHandler::LoadShaders()
         (std::istreambuf_iterator<char>(vsLightPassFile)),
         std::istreambuf_iterator<char>()
     );
-    lightPass.vertexShader.Source(vsLightPassSource.c_str());
-    lightPass.vertexShader.Compile();
+    lightingProgram.vertexShader.Source(vsLightPassSource.c_str());
+    lightingProgram.vertexShader.Compile();
     // fragment shader
     std::ifstream fsLightPassFile("resources\\shaders\\light_pass.frag");
     std::string fsLightPassSource(
         (std::istreambuf_iterator<char>(fsLightPassFile)),
         std::istreambuf_iterator<char>()
     );
-    lightPass.fragmentShader.Source(fsLightPassSource.c_str());
-    lightPass.fragmentShader.Compile();
+    lightingProgram.fragmentShader.Source(fsLightPassSource.c_str());
+    lightingProgram.fragmentShader.Compile();
     // create a new shader program and attach the shaders
-    lightPass.program.AttachShader(lightPass.vertexShader);
-    lightPass.program.AttachShader(lightPass.fragmentShader);
+    lightingProgram.program.AttachShader(lightingProgram.vertexShader);
+    lightingProgram.program.AttachShader(lightingProgram.fragmentShader);
     // link attached shaders
-    lightPass.program.Link().Use();
+    lightingProgram.program.Link().Use();
     // extract relevant uniforms
-    lightPass.ExtractActiveUniforms();
+    lightingProgram.ExtractActiveUniforms();
     // close source files
     vsLightPassFile.close();
     fsLightPassFile.close();
@@ -167,107 +170,106 @@ void DeferredHandler::LoadShaders()
         (std::istreambuf_iterator<char>(vsGeomPassFile)),
         std::istreambuf_iterator<char>()
     );
-    geometryPass.vertexShader.Source(vsGeomPassSource.c_str());
-    geometryPass.vertexShader.Compile();
+    geometryProgram.vertexShader.Source(vsGeomPassSource.c_str());
+    geometryProgram.vertexShader.Compile();
     // fragment shader
     std::ifstream fsGeomPassFile("resources\\shaders\\geometry_pass.frag");
     std::string fsGeomPassSource(
         (std::istreambuf_iterator<char>(fsGeomPassFile)),
         std::istreambuf_iterator<char>()
     );
-    geometryPass.fragmentShader.Source(fsGeomPassSource.c_str());
-    geometryPass.fragmentShader.Compile();
+    geometryProgram.fragmentShader.Source(fsGeomPassSource.c_str());
+    geometryProgram.fragmentShader.Compile();
     // create a new shader program and attach the shaders
-    geometryPass.program.AttachShader(geometryPass.vertexShader);
-    geometryPass.program.AttachShader(geometryPass.fragmentShader);
+    geometryProgram.program.AttachShader(geometryProgram.vertexShader);
+    geometryProgram.program.AttachShader(geometryProgram.fragmentShader);
     // link attached shaders
-    geometryPass.program.Link().Use();
+    geometryProgram.program.Link().Use();
     // extract relevant uniforms
-    geometryPass.ExtractActiveUniforms();
+    geometryProgram.ExtractActiveUniforms();
     // close source files
     vsGeomPassFile.close();
     fsGeomPassFile.close();
 }
 
-void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
-                                        unsigned int windowHeight)
+void DeferredHandler::SetupGBuffer(unsigned int windowWith,
+                                   unsigned int windowHeight)
 {
     using namespace oglplus;
-    openedColorBuffers.clear();
-    geomBuffer.Bind(FramebufferTarget::Draw);
+    colorBuffers.clear();
+    geometryBuffer.Bind(FramebufferTarget::Draw);
     // position color buffer
     gl.Bound(Texture::Target::_2D,
-             bTextures[DeferredProgram::Position])
+             bufferTextures[DeferredProgram::Position])
     .Image2D(
         0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
     ) // high precision texture
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geomBuffer.AttachTexture(
+    geometryBuffer.AttachTexture(
         FramebufferTarget::Draw,
         FramebufferColorAttachment::_0,
-        bTextures[DeferredProgram::Position], 0
+        bufferTextures[DeferredProgram::Position], 0
     );
-    openedColorBuffers.push_back(FramebufferColorAttachment::_0);
+    colorBuffers.push_back(FramebufferColorAttachment::_0);
     // normal color buffer
     gl.Bound(Texture::Target::_2D,
-             bTextures[DeferredProgram::Normal])
+             bufferTextures[DeferredProgram::Normal])
     .Image2D(
         0, PixelDataInternalFormat::RGB16F, windowWith, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
     ) // high precision texture
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geomBuffer.AttachTexture(
+    geometryBuffer.AttachTexture(
         FramebufferTarget::Draw,
         FramebufferColorAttachment::_1,
-        bTextures[DeferredProgram::Normal],
-        0
+        bufferTextures[DeferredProgram::Normal], 0
     );
-    openedColorBuffers.push_back(FramebufferColorAttachment::_1);
+    colorBuffers.push_back(FramebufferColorAttachment::_1);
     // albedo color buffer
     gl.Bound(Texture::Target::_2D,
-             bTextures[DeferredProgram::Albedo])
+             bufferTextures[DeferredProgram::Albedo])
     .Image2D(
         0, PixelDataInternalFormat::RGB8, windowWith, windowHeight,
         0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
     ) // 8 bit per component texture
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geomBuffer.AttachTexture(
+    geometryBuffer.AttachTexture(
         FramebufferTarget::Draw,
         FramebufferColorAttachment::_2,
-        bTextures[DeferredProgram::Albedo],
+        bufferTextures[DeferredProgram::Albedo],
         0
     );
-    openedColorBuffers.push_back(FramebufferColorAttachment::_2);
+    colorBuffers.push_back(FramebufferColorAttachment::_2);
     // specular intensity and shininess buffer
     gl.Bound(Texture::Target::_2D,
-             bTextures[DeferredProgram::Specular])
+             bufferTextures[DeferredProgram::Specular])
     .Image2D(
         0, PixelDataInternalFormat::R8, windowWith, windowHeight,
         0, PixelDataFormat::Red, PixelDataType::Float, nullptr
     ) // 8 bit per component texture
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geomBuffer.AttachTexture(
+    geometryBuffer.AttachTexture(
         FramebufferTarget::Draw,
         FramebufferColorAttachment::_3,
-        bTextures[DeferredProgram::Specular], 0
+        bufferTextures[DeferredProgram::Specular], 0
     );
-    openedColorBuffers.push_back(FramebufferColorAttachment::_3);
+    colorBuffers.push_back(FramebufferColorAttachment::_3);
     // depth buffer
-    gl.Bound(Texture::Target::_2D, bDepthTexture)
+    gl.Bound(Texture::Target::_2D, bufferTextures[DeferredProgram::Depth])
     .Image2D(
         0, PixelDataInternalFormat::DepthComponent32F, windowWith, windowHeight,
         0, PixelDataFormat::DepthComponent, PixelDataType::Float, nullptr
     ); // high precision float texture
-    geomBuffer.AttachTexture(
+    geometryBuffer.AttachTexture(
         FramebufferTarget::Draw,
-        FramebufferAttachment::Depth, bDepthTexture, 0
+        FramebufferAttachment::Depth, bufferTextures[DeferredProgram::Depth], 0
     );
-    gl.DrawBuffers(openedColorBuffers.size(), openedColorBuffers.data());
+    gl.DrawBuffers(colorBuffers.size(), colorBuffers.data());
 
     if (!Framebuffer::IsComplete(Framebuffer::Target::Draw))
     {
@@ -281,65 +283,48 @@ void DeferredHandler::InitializeGBuffer(unsigned int windowWith,
 
 DeferredHandler::~DeferredHandler() {}
 
-void DeferredHandler::BindGBuffer(const oglplus::FramebufferTarget
-                                  & bindingMode)
+/// <summary>
+/// Binds the geometry buffer for reading or drawing
+/// </summary>
+/// <param name="bindingMode">The binding mode.</param>
+void DeferredHandler::BindGeometryBuffer(const oglplus::FramebufferTarget
+        & bindingMode)
 {
-    gl.Bind(bindingMode, geomBuffer);
+    gl.Bind(bindingMode, geometryBuffer);
 }
 
-void DeferredHandler::ReadGBuffer(const DeferredProgram::GBufferTextureId
-                                  &gBufferTexType)
+/// <summary>
+/// Reads from the specified color buffer attached to the geometry buffer.
+/// </summary>
+/// <param name="gBufferTexType">The texture target to read from.</param>
+void DeferredHandler::ReadGeometryBuffer(const DeferredProgram::GBufferTextureId
+        & gBufferTextureId)
 {
-    gl.ReadBuffer(openedColorBuffers[(unsigned int)gBufferTexType]);
+    gl.ReadBuffer(colorBuffers[static_cast<unsigned int>(gBufferTextureId)]);
 }
 
-void DeferredHandler::ActivateGBufferTextures()
+/// <summary>
+/// Activates texture slots for the geometry buffer
+/// texture targets and binds the textures
+/// </summary>
+void DeferredHandler::ActivateBindTextureTargets()
 {
     // bind and active position gbuffer texture
     oglplus::Texture::Active(DeferredProgram::Position);
-    bTextures[DeferredProgram::Position]
+    bufferTextures[DeferredProgram::Position]
     .Bind(oglplus::TextureTarget::_2D);
     // bind and active normal gbuffer texture
     oglplus::Texture::Active(DeferredProgram::Normal);
-    bTextures[DeferredProgram::Normal]
+    bufferTextures[DeferredProgram::Normal]
     .Bind(oglplus::TextureTarget::_2D);
     // bind and active albedo gbuffer texture
     oglplus::Texture::Active(DeferredProgram::Albedo);
-    bTextures[DeferredProgram::Albedo]
+    bufferTextures[DeferredProgram::Albedo]
     .Bind(oglplus::TextureTarget::_2D);
     // bind and active specular gbuffer texture
     oglplus::Texture::Active(DeferredProgram::Specular);
-    bTextures[DeferredProgram::Specular]
+    bufferTextures[DeferredProgram::Specular]
     .Bind(oglplus::TextureTarget::_2D);
-}
-
-void DeferredHandler::SetLightPassUniforms(const glm::vec3 &viewPosition,
-        const std::vector<std::shared_ptr<Light>> &lights)
-{
-    using namespace oglplus;
-    lightPass.SetUniform(viewPosition);
-    lightPass.SetUniform(
-        DeferredProgram::Position,
-        DeferredProgram::Position
-    );
-    lightPass.SetUniform(
-        DeferredProgram::Normal,
-        DeferredProgram::Normal
-    );
-    lightPass.SetUniform(
-        DeferredProgram::Albedo,
-        DeferredProgram::Albedo
-    );
-    lightPass.SetUniform(
-        DeferredProgram::Specular,
-        DeferredProgram::Specular
-    );
-}
-
-const oglplus::Texture &DeferredHandler::GetGBufferTexture(
-    DeferredProgram::GBufferTextureId tID) const
-{
-    return bTextures[tID];
 }
 
 /// <summary>

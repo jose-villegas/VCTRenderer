@@ -7,7 +7,6 @@
     #include <GLFW/glfw3native.h>
 #endif
 
-static oglplus::Context gl;
 std::unique_ptr<Interface::UIData> Interface::uiData = nullptr;
 
 Interface::Interface()

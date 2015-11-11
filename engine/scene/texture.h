@@ -77,7 +77,6 @@ class OGLTexture2D : public RawTexture
             ClampToBorder = (unsigned int)oglplus::TextureWrap::ClampToBorder
         };
     protected:
-        static oglplus::Context gl;
         std::unique_ptr<oglplus::Texture> oglTexture;
 
         bool mipmapGenerated;

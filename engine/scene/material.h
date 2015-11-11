@@ -74,7 +74,6 @@ class OGLMaterial : public Material
         void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                         RawTexture::TextureType texType);
         bool BindTexture(RawTexture::TextureType texType) const;
-        void SetMaterialUniforms();
 
         OGLMaterial();
         virtual ~OGLMaterial();

@@ -5,26 +5,26 @@
 #include "types\transform_matrices.h"
 #include "types\frustum.h"
 
-class Renderer
+class DeferredRenderer
 {
-    private:
-        static oglplus::Context gl;
-        const RenderWindow * renderWindow;
-        DeferredHandler deferredHandler;
     public:
         static bool FrustumCulling;
 
         TransformMatrices transformMatrices;
         Frustum viewFrustum;
 
-        Renderer(const RenderWindow &rWindow);
-        virtual ~Renderer();
+        DeferredRenderer(const RenderWindow &rWindow);
+        virtual ~DeferredRenderer();
 
         void Initialize();
         // calls drawing instructions
-        void Render(Scene &activeScene, Camera &activeCamera);
+        void Render(Scene &activeScene);
         DeferredHandler &GetDeferredHandler() { return deferredHandler; }
         // program uniform setters
         void SetMatricesUniforms();
-        void SetMaterialUniforms(const OGLMaterial &mat);
+        void SetMaterialUniforms(const std::shared_ptr<OGLMaterial> &mat);
+        void SetLightPassUniforms();
+    private:
+        const RenderWindow * renderWindow;
+        DeferredHandler deferredHandler;
 };
