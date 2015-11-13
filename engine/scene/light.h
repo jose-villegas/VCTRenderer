@@ -1,17 +1,16 @@
 #pragma once
-struct Attenuation
-{
-    float constant;
-    float linear;
-    float quadratic;
-
-    Attenuation() : constant(1.0f), linear(0.2f), quadratic(0.08f) {};
-    ~Attenuation() {};
-};
-
 class Light
 {
     public:
+        struct Attenuation
+        {
+            float constant;
+            float linear;
+            float quadratic;
+
+            Attenuation() : constant(1.0f), linear(0.2f), quadratic(0.08f) {};
+            ~Attenuation() {};
+        };
         enum LightType
         {
             Disabled,

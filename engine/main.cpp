@@ -2,15 +2,11 @@
 #include "stdafx.h"
 #include "core\engine_base.h"
 
-#ifdef _VISUAL_LEAK_DETECTOR
-    #include "vld.h"
-#endif
-
 int main(int argc, char * argv[])
 {
 #ifndef NDEBUG // DEBUG
     // pause in positive case
-    bool errorCaptured = false;
+    auto errorCaptured = false;
 
     try
     {

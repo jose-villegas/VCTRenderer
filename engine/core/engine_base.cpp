@@ -68,13 +68,13 @@ void EngineBase::Initialize()
     renderWindow.SetAsCurrentContext();
     // initialize context dependant external libs
     initializer.InitializeContextDependant();
+    initializer.PrintLibInfo();
     // set interface to current renderwindow
     userInterface.Initialize(renderWindow);
     // load engine demo scene assets
-    assetLoader = std::unique_ptr<EngineAssets>(new EngineAssets());
+    assetLoader = std::make_unique<EngineAssets>();
     assetLoader->LoadAssets();
     // initialize deferred shading renderer / manager
-    renderer = std::unique_ptr<DeferredRenderer>(new DeferredRenderer(
-                   renderWindow));
+    renderer = std::make_unique<DeferredRenderer>(renderWindow);
     renderer->Initialize();
 }
