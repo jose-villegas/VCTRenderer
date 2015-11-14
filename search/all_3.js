@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['decorated',['Decorated',['../class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5a37c71f1e0f41cdad32aa3d4add9f2f86',1,'RenderWindow']]],
   ['default',['Default',['../class_o_g_l_material.html#acd49212071e5ca8ff7093a7536186271ad8fb02dd08e3a1b9030886bec1aef727',1,'OGLMaterial']]],
   ['deferred_5fhandler_2ecpp',['deferred_handler.cpp',['../deferred__handler_8cpp.html',1,'']]],
   ['deferred_5fhandler_2eh',['deferred_handler.h',['../deferred__handler_8h.html',1,'']]],
@@ -9,6 +10,8 @@ var searchData=
   ['deferredprogram',['DeferredProgram',['../class_deferred_program.html',1,'DeferredProgram'],['../class_deferred_program.html#abb9bad1e48e3c46db040451dbced67a6',1,'DeferredProgram::DeferredProgram()']]],
   ['deferredrenderer',['DeferredRenderer',['../class_deferred_renderer.html',1,'DeferredRenderer'],['../class_deferred_renderer.html#a17784f1725c91518fc648dc9e91993c1',1,'DeferredRenderer::DeferredRenderer()']]],
   ['depth',['depth',['../class_raw_texture.html#abfd4db2756cc368282a55b1a6f8fc566',1,'RawTexture::depth()'],['../class_deferred_program.html#a135723a8dc28283c5a1ec28754cdbfeea8678c2baf00e137974d6c1984ad9e8c7',1,'DeferredProgram::Depth()']]],
+  ['depthbits',['DepthBits',['../class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a43d83af9dcb31d71b0991d1cd0026867',1,'RenderWindow']]],
+  ['desktop',['Desktop',['../namespaceutils.html#a7426aad6ff1f8c32ac037663d17bb203',1,'utils']]],
   ['destroy',['Destroy',['../class_render_window.html#a8e655e120e85612a4a20d8694f4b8471',1,'RenderWindow']]],
   ['diffuse',['diffuse',['../struct_lighting_program_1_1_light_uniform.html#ad4cfe4528badbc0815544c7adbb28af5',1,'LightingProgram::LightUniform::diffuse()'],['../class_light.html#ad47b5347556fd8cd9ebdc60fdfed196b',1,'Light::diffuse()'],['../class_material.html#a099904e2f5a7bbec3cba6bf8ec546b11',1,'Material::diffuse()'],['../class_o_g_l_material.html#a19c35bdfbaff354d518e4eda1400ee74abcd3b10f0373f4b2c8d4c5cfa099a04d',1,'OGLMaterial::Diffuse()'],['../class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078',1,'RawTexture::Diffuse()']]],
   ['direction',['direction',['../struct_lighting_program_1_1_light_uniform.html#aff67ba20a752ddcf6e86e5c395c86018',1,'LightingProgram::LightUniform::direction()'],['../class_light.html#a494230a45b5cfa2f9fb54dbd4de3812b',1,'Light::direction()']]],
@@ -17,6 +20,8 @@ var searchData=
   ['directory',['directory',['../class_scene.html#ae729793e28fa5451457cb869ee40bed5',1,'Scene']]],
   ['disabled',['Disabled',['../class_light.html#a661d9480e01af8b1612860b9630ef5f8a65021ca49102cf10ed4bd541e828ab6f',1,'Light']]],
   ['displacement',['Displacement',['../class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303',1,'RawTexture']]],
+  ['dontcare',['DontCare',['../class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a60a3629ef6a8f991f45d7a85f2458544',1,'RenderWindow']]],
+  ['doublebuffer',['DoubleBuffer',['../class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6283478f5b60807028cd4a5bd5b86f8c',1,'RenderWindow']]],
   ['draw',['Draw',['../class_interface.html#a82df247fd022d924995421ab90444945',1,'Interface::Draw()'],['../class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85',1,'UI::Draw()'],['../class_node.html#a0f2c6c5592597dd219aa64a1ab2814ee',1,'Node::Draw()']]],
   ['drawdebugwindow',['DrawDebugWindow',['../class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab',1,'UI']]],
   ['drawelements',['DrawElements',['../class_o_g_l_mesh.html#a5b4182b63fe4f4cbd11d525526eefbb2',1,'OGLMesh']]],

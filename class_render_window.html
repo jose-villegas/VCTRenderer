@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -85,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_render_window-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -94,29 +96,347 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="render__window_8h_source.html">render_window.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a01deff84d75dc87d3138ab8aaa24cde5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5">WindowHints</a> { <br />
+&#160;&#160;<a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5aaff10bf1618da00a8a80b74044e719b2">WindowHints::Resizable</a> = GLFW_RESIZABLE, 
+<a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5aec24d78ce33048dc73a2b6b1a0690192">WindowHints::Visible</a> = GLFW_VISIBLE, 
+<a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5a37c71f1e0f41cdad32aa3d4add9f2f86">WindowHints::Decorated</a> = GLFW_DECORATED, 
+<a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5aa2e08e1fbbc3e1489d688eba112f7964">WindowHints::Focused</a> = GLFW_FOCUSED, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5af1be21488589b6fe6a2c777e0c6ebc1f">WindowHints::AutoIconify</a> = GLFW_AUTO_ICONIFY, 
+<a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5ac8df43648942ec3a9aec140f07f47b7c">WindowHints::Floating</a> = GLFW_FLOATING
+<br />
+ }<tr class="separator:a01deff84d75dc87d3138ab8aaa24cde5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:a9a06aa14ba77e4b6dfa7eaa4c1f411d4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4">FramebufferHints</a> { <br />
+&#160;&#160;<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4afe2b057ce93d3d109cc4e61c035e6f93">FramebufferHints::RedBits</a> = GLFW_RED_BITS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a4cb49337db69fda1d7f874352598cab5">FramebufferHints::GreenBits</a> = GLFW_GREEN_BITS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6cdb895c7c8cb9a4fafe169cd29f95e0">FramebufferHints::BlueBits</a> = GLFW_BLUE_BITS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a2443eef240387c7f996c204c63189770">FramebufferHints::AlphaBits</a> = GLFW_ALPHA_BITS, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a43d83af9dcb31d71b0991d1cd0026867">FramebufferHints::DepthBits</a> = GLFW_DEPTH_BITS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4aebea258540fdb69bb7e6234126938cbf">FramebufferHints::StencilBits</a> = GLFW_STENCIL_BITS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4ae6ca48f4825a2ac9d4e66c76c0b4f42a">FramebufferHints::AccumRedBits</a> = GLFW_ACCUM_RED_BITS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a2df3def9510fc4f6674584ea03331de6">FramebufferHints::AccumGreenBits</a> = GLFW_ACCUM_GREEN_BITS, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a5208c729299322d348bac936e5999d7f">FramebufferHints::AccumBlueBits</a> = GLFW_ACCUM_BLUE_BITS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6954863d293aa1c0ef67f645f6755288">FramebufferHints::AccumAlphaBits</a> = GLFW_ACCUM_ALPHA_BITS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a172534b97b88e5eb7a89f9fe9d1eb9ca">FramebufferHints::AuxBuffers</a> = GLFW_AUX_BUFFERS, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4adb8d503322c46d746776ccb54dbb91eb">FramebufferHints::Samples</a> = GLFW_SAMPLES, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a4cb6a64aa6060dc3282dd238e7c57a56">FramebufferHints::RefreshRate</a> = GLFW_REFRESH_RATE, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4abbc45d9b35436f5f0ed9e33499efcea9">FramebufferHints::Stereo</a> = GLFW_STEREO, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a360061190e04f55482b10ea2a1ba502e">FramebufferHints::SRGBCapable</a> = GLFW_SRGB_CAPABLE, 
+<a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6283478f5b60807028cd4a5bd5b86f8c">FramebufferHints::DoubleBuffer</a> = GLFW_DOUBLEBUFFER
+<br />
+ }<tr class="separator:a9a06aa14ba77e4b6dfa7eaa4c1f411d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:a13125c4cf063b29a55b1f27aece23cd1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1">ContextHints</a> { <br />
+&#160;&#160;<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1aec47f0102ab62b45829e900a6da92fdb">ContextHints::ClientAPI</a> = GLFW_CLIENT_API, 
+<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1add281d7c4a8659dca9200354a9acec68">ContextHints::ContextVersionMajor</a> = GLFW_CONTEXT_VERSION_MAJOR, 
+<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a83099fc6a1c8daf8ba9479456ed746f7">ContextHints::ContextVersionMinor</a> = GLFW_CONTEXT_VERSION_MINOR, 
+<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1adab03f5d3bf3484029ae3937f251b06b">ContextHints::ContextRevision</a> = GLFW_CONTEXT_REVISION, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1af5d25e5aa5fb78bee64707402a48cb6f">ContextHints::ContextRobustness</a> = GLFW_CONTEXT_ROBUSTNESS, 
+<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a71d2c12f08d5708245cae3106aef5a81">ContextHints::OpenGLForwardCompatibility</a> = GLFW_OPENGL_FORWARD_COMPAT, 
+<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a71b90844623ee5639b810742926824e0">ContextHints::OpenGLDebugContext</a> = GLFW_OPENGL_DEBUG_CONTEXT, 
+<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a7a634cd12daf0e624e0af386ebae19f3">ContextHints::OpenGLProfile</a> = GLFW_OPENGL_PROFILE, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a2b7037ee5dd42a6b99b208f251f86f24">ContextHints::ContextReleaseBehavior</a> = GLFW_CONTEXT_RELEASE_BEHAVIOR
+<br />
+ }<tr class="separator:a13125c4cf063b29a55b1f27aece23cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:ad1fe41ad06931274d10323e898c61fc8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8">Hint</a> { <br />
+&#160;&#160;<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af827cf462f62848df37c5e1e94a4da74">Hint::True</a> = GL_TRUE, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af8320b26d30ab433c5a54546d21f414c">Hint::False</a> = GL_FALSE, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a60a3629ef6a8f991f45d7a85f2458544">Hint::DontCare</a> = GLFW_DONT_CARE, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af8c4b03387578ae736d3e27baba0581e">Hint::OpenGLAPI</a> = GLFW_OPENGL_API, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ace139341f2ede87eee438b9bd0e027ad">Hint::OpenGLESAPI</a> = GLFW_OPENGL_ES_API, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8abd8cebb62b8a321a2f35f8ee779c5194">Hint::NoRobustness</a> = GLFW_NO_ROBUSTNESS, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ac09912f69d7a5dc956fc096d47af37f8">Hint::NoResetNotification</a> = GLFW_NO_RESET_NOTIFICATION, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a9f11bc17e2495cd2799702f8bb0a3578">Hint::LoseContextOnReset</a> = GLFW_LOSE_CONTEXT_ON_RESET, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a03a9b45c2c6b69203a93985002928939">Hint::OpenGLAnyProfile</a> = GLFW_OPENGL_ANY_PROFILE, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a6cdcf4740c431c4a89c75b9fe776c872">Hint::OpenGLCoreProfile</a> = GLFW_OPENGL_CORE_PROFILE, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a5a2720be3d6935f937ea1a5a550c6ec4">Hint::OpenGLCompatibilityProfile</a> = GLFW_OPENGL_COMPAT_PROFILE, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ad7e7dcfe2b1de87d91c963bd6e4ca0a0">Hint::AnyReleaseBehavior</a> = GLFW_ANY_RELEASE_BEHAVIOR, 
+<br />
+&#160;&#160;<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a6c4a8a4b6f41c87d2357df6210d1cf82">Hint::FlushReleaseBehavior</a> = GLFW_RELEASE_BEHAVIOR_FLUSH, 
+<a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a338d60f2fdc6f520fb7ad582493e4e68">Hint::NoneReleaseBehavior</a> = GLFW_RELEASE_BEHAVIOR_NONE
+<br />
+ }<tr class="separator:ad1fe41ad06931274d10323e898c61fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:a71e0f5249b6cb0a0e6d6b52f036d3a24"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24">EventMode</a> { <a class="el" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24a87dde47c3c24ba7cc629ea2dacab3806">EventMode::Poll</a>, 
+<a class="el" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24a0f68101772bd5397ef8eb1b632798652">EventMode::Wait</a>
+ }<tr class="separator:a71e0f5249b6cb0a0e6d6b52f036d3a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af3e5cf1cb8101909466df8e27da7d05c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#af3e5cf1cb8101909466df8e27da7d05c">Open</a> ()</td></tr>
-<tr class="separator:af3e5cf1cb8101909466df8e27da7d05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11e26a383bce4948896c53b48b768e93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a11e26a383bce4948896c53b48b768e93">WindowHint</a> (const <a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5">WindowHints</a> &amp;target, const int value)</td></tr>
+<tr class="memdesc:a11e26a383bce4948896c53b48b768e93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a <a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5">WindowHints</a> hint value. Has to be called before calling WindowInfoRenderWindow.Open  <a href="#a11e26a383bce4948896c53b48b768e93">More...</a><br /></td></tr>
+<tr class="separator:a11e26a383bce4948896c53b48b768e93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11185b30a4d08ea4feca9ded0957fd64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a11185b30a4d08ea4feca9ded0957fd64">WindowHint</a> (const <a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4">FramebufferHints</a> &amp;target, const int value)</td></tr>
+<tr class="memdesc:a11185b30a4d08ea4feca9ded0957fd64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a <a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4">FramebufferHints</a> hint value. Has to be called before calling <a class="el" href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585" title="Opens a GLFW window with the specified configuration. ">RenderWindow.Open</a>  <a href="#a11185b30a4d08ea4feca9ded0957fd64">More...</a><br /></td></tr>
+<tr class="separator:a11185b30a4d08ea4feca9ded0957fd64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a15934f3c3a51747cf87a743aafdfa5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a3a15934f3c3a51747cf87a743aafdfa5">WindowHint</a> (const <a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1">ContextHints</a> &amp;target, const int value)</td></tr>
+<tr class="memdesc:a3a15934f3c3a51747cf87a743aafdfa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a <a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1">ContextHints</a> hint value. Has to be called before calling <a class="el" href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585" title="Opens a GLFW window with the specified configuration. ">RenderWindow.Open</a>  <a href="#a3a15934f3c3a51747cf87a743aafdfa5">More...</a><br /></td></tr>
+<tr class="separator:a3a15934f3c3a51747cf87a743aafdfa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4101f170613b0a231a1e73a6c70a535"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad4101f170613b0a231a1e73a6c70a535"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_render_window.html#ad4101f170613b0a231a1e73a6c70a535">WindowHint</a> (T &amp;&amp;target, const <a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8">Hint</a> value)</td></tr>
+<tr class="separator:ad4101f170613b0a231a1e73a6c70a535"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad73e986d18b73e3a34228348c5fa5585"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585">Open</a> (<a class="el" href="struct_window_info.html">WindowInfo</a> windowConfig=<a class="el" href="struct_window_info.html">WindowInfo</a>(), bool setPosition=true)</td></tr>
+<tr class="memdesc:ad73e986d18b73e3a34228348c5fa5585"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a GLFW window with the specified configuration.  <a href="#ad73e986d18b73e3a34228348c5fa5585">More...</a><br /></td></tr>
+<tr class="separator:ad73e986d18b73e3a34228348c5fa5585"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e655e120e85612a4a20d8694f4b8471"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a8e655e120e85612a4a20d8694f4b8471">Destroy</a> ()</td></tr>
+<tr class="memdesc:a8e655e120e85612a4a20d8694f4b8471"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the GLFW Window  <a href="#a8e655e120e85612a4a20d8694f4b8471">More...</a><br /></td></tr>
 <tr class="separator:a8e655e120e85612a4a20d8694f4b8471"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bb78a935fa06ae6b8e611df90d55d76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a2bb78a935fa06ae6b8e611df90d55d76">SetPosition</a> (const int x, const int y)</td></tr>
 <tr class="separator:a2bb78a935fa06ae6b8e611df90d55d76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3c3301e80e5893ba0766a805ef5aa78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#ad3c3301e80e5893ba0766a805ef5aa78">SetAsCurrentContext</a> ()</td></tr>
-<tr class="separator:ad3c3301e80e5893ba0766a805ef5aa78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a217d961208931af838038ff84c45d605"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a217d961208931af838038ff84c45d605">SetWindowSize</a> (const int w, const int h)</td></tr>
+<tr class="separator:a217d961208931af838038ff84c45d605"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac778c239011e9b7ecf3a9dd8ead287c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#ac778c239011e9b7ecf3a9dd8ead287c2">SetWindowTitle</a> (const std::string &amp;title)</td></tr>
+<tr class="separator:ac778c239011e9b7ecf3a9dd8ead287c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8573aaac007eaae9613a3e59a829ba1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a8573aaac007eaae9613a3e59a829ba1d">Events</a> (<a class="el" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24">EventMode</a> mode=<a class="el" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24a87dde47c3c24ba7cc629ea2dacab3806">EventMode::Poll</a>) const </td></tr>
+<tr class="memdesc:a8573aaac007eaae9613a3e59a829ba1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up for input events.  <a href="#a8573aaac007eaae9613a3e59a829ba1d">More...</a><br /></td></tr>
+<tr class="separator:a8573aaac007eaae9613a3e59a829ba1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e9613d2361c2ffa19c807df8f119503"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a8e9613d2361c2ffa19c807df8f119503">ShouldClose</a> (bool sendClose=false) const </td></tr>
+<tr class="memdesc:a8e9613d2361c2ffa19c807df8f119503"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if the render window should close or sets it to be closed.  <a href="#a8e9613d2361c2ffa19c807df8f119503">More...</a><br /></td></tr>
+<tr class="separator:a8e9613d2361c2ffa19c807df8f119503"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1cdc772f4e16b9c90843124c4b16944"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#ab1cdc772f4e16b9c90843124c4b16944">SetAsCurrentContext</a> () const </td></tr>
+<tr class="separator:ab1cdc772f4e16b9c90843124c4b16944"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9066920a972e5c87e46aba707eee19f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#ae9066920a972e5c87e46aba707eee19f">SwapBuffers</a> () const </td></tr>
+<tr class="separator:ae9066920a972e5c87e46aba707eee19f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac644ce5a7654e4cdbc5a644bd9e02952"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#ac644ce5a7654e4cdbc5a644bd9e02952">RenderWindow</a> ()</td></tr>
 <tr class="separator:ac644ce5a7654e4cdbc5a644bd9e02952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae17a8d98de14f8ddbbedbee39cf774e0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#ae17a8d98de14f8ddbbedbee39cf774e0">~RenderWindow</a> ()</td></tr>
 <tr class="separator:ae17a8d98de14f8ddbbedbee39cf774e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f707681ce58c39ae4c5205bf5bd6892"><td class="memItemLeft" align="right" valign="top">GLFWwindow *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a4f707681ce58c39ae4c5205bf5bd6892">Handler</a> () const </td></tr>
 <tr class="separator:a4f707681ce58c39ae4c5205bf5bd6892"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a014909e26258d2a9f149f7e2ffe72a88"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="struct_window_settings.html">WindowSettings</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#a014909e26258d2a9f149f7e2ffe72a88">Settings</a> () const </td></tr>
-<tr class="separator:a014909e26258d2a9f149f7e2ffe72a88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa64cb2b0b0c083a5925fde13dcbff4bd"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="struct_window_info.html">WindowInfo</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_render_window.html#aa64cb2b0b0c083a5925fde13dcbff4bd">Info</a> () const </td></tr>
+<tr class="separator:aa64cb2b0b0c083a5925fde13dcbff4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="render__window_8h_source.html#l00012">12</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00017">17</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1">RenderWindow::ContextHints</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1aec47f0102ab62b45829e900a6da92fdb"></a>ClientAPI&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1add281d7c4a8659dca9200354a9acec68"></a>ContextVersionMajor&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1a83099fc6a1c8daf8ba9479456ed746f7"></a>ContextVersionMinor&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1adab03f5d3bf3484029ae3937f251b06b"></a>ContextRevision&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1af5d25e5aa5fb78bee64707402a48cb6f"></a>ContextRobustness&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1a71d2c12f08d5708245cae3106aef5a81"></a>OpenGLForwardCompatibility&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1a71b90844623ee5639b810742926824e0"></a>OpenGLDebugContext&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1a7a634cd12daf0e624e0af386ebae19f3"></a>OpenGLProfile&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a13125c4cf063b29a55b1f27aece23cd1a2b7037ee5dd42a6b99b208f251f86f24"></a>ContextReleaseBehavior&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00048">48</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a71e0f5249b6cb0a0e6d6b52f036d3a24"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24">RenderWindow::EventMode</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a71e0f5249b6cb0a0e6d6b52f036d3a24a87dde47c3c24ba7cc629ea2dacab3806"></a>Poll&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a71e0f5249b6cb0a0e6d6b52f036d3a24a0f68101772bd5397ef8eb1b632798652"></a>Wait&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00078">78</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4">RenderWindow::FramebufferHints</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4afe2b057ce93d3d109cc4e61c035e6f93"></a>RedBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a4cb49337db69fda1d7f874352598cab5"></a>GreenBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6cdb895c7c8cb9a4fafe169cd29f95e0"></a>BlueBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a2443eef240387c7f996c204c63189770"></a>AlphaBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a43d83af9dcb31d71b0991d1cd0026867"></a>DepthBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4aebea258540fdb69bb7e6234126938cbf"></a>StencilBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4ae6ca48f4825a2ac9d4e66c76c0b4f42a"></a>AccumRedBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a2df3def9510fc4f6674584ea03331de6"></a>AccumGreenBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a5208c729299322d348bac936e5999d7f"></a>AccumBlueBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6954863d293aa1c0ef67f645f6755288"></a>AccumAlphaBits&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a172534b97b88e5eb7a89f9fe9d1eb9ca"></a>AuxBuffers&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4adb8d503322c46d746776ccb54dbb91eb"></a>Samples&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a4cb6a64aa6060dc3282dd238e7c57a56"></a>RefreshRate&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4abbc45d9b35436f5f0ed9e33499efcea9"></a>Stereo&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a360061190e04f55482b10ea2a1ba502e"></a>SRGBCapable&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6283478f5b60807028cd4a5bd5b86f8c"></a>DoubleBuffer&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00029">29</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8">RenderWindow::Hint</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8af827cf462f62848df37c5e1e94a4da74"></a>True&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8af8320b26d30ab433c5a54546d21f414c"></a>False&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8a60a3629ef6a8f991f45d7a85f2458544"></a>DontCare&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8af8c4b03387578ae736d3e27baba0581e"></a>OpenGLAPI&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8ace139341f2ede87eee438b9bd0e027ad"></a>OpenGLESAPI&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8abd8cebb62b8a321a2f35f8ee779c5194"></a>NoRobustness&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8ac09912f69d7a5dc956fc096d47af37f8"></a>NoResetNotification&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8a9f11bc17e2495cd2799702f8bb0a3578"></a>LoseContextOnReset&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8a03a9b45c2c6b69203a93985002928939"></a>OpenGLAnyProfile&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8a6cdcf4740c431c4a89c75b9fe776c872"></a>OpenGLCoreProfile&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8a5a2720be3d6935f937ea1a5a550c6ec4"></a>OpenGLCompatibilityProfile&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8ad7e7dcfe2b1de87d91c963bd6e4ca0a0"></a>AnyReleaseBehavior&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8a6c4a8a4b6f41c87d2357df6210d1cf82"></a>FlushReleaseBehavior&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="ad1fe41ad06931274d10323e898c61fc8a338d60f2fdc6f520fb7ad582493e4e68"></a>NoneReleaseBehavior&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00060">60</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a01deff84d75dc87d3138ab8aaa24cde5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5">RenderWindow::WindowHints</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a01deff84d75dc87d3138ab8aaa24cde5aaff10bf1618da00a8a80b74044e719b2"></a>Resizable&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a01deff84d75dc87d3138ab8aaa24cde5aec24d78ce33048dc73a2b6b1a0690192"></a>Visible&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a01deff84d75dc87d3138ab8aaa24cde5a37c71f1e0f41cdad32aa3d4add9f2f86"></a>Decorated&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a01deff84d75dc87d3138ab8aaa24cde5aa2e08e1fbbc3e1489d688eba112f7964"></a>Focused&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a01deff84d75dc87d3138ab8aaa24cde5af1be21488589b6fe6a2c777e0c6ebc1f"></a>AutoIconify&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a01deff84d75dc87d3138ab8aaa24cde5ac8df43648942ec3a9aec140f07f47b7c"></a>Floating&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00020">20</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ac644ce5a7654e4cdbc5a644bd9e02952"></a>
 <div class="memitem">
 <div class="memproto">
@@ -130,7 +450,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00056">56</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00236">236</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
 
 </div>
 </div>
@@ -155,7 +475,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00060">60</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00247">247</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
 
 </div>
 </div>
@@ -173,7 +493,35 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00039">39</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+<p>Destroys the GLFW Window </p>
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00170">170</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8573aaac007eaae9613a3e59a829ba1d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RenderWindow::Events </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24">EventMode</a>&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24a87dde47c3c24ba7cc629ea2dacab3806">EventMode::Poll</a></code></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Looks up for input events. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>The mode. Waiting or polling mode.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00204">204</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
 
 </div>
 </div>
@@ -198,28 +546,73 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="render__window_8h_source.html#l00027">27</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00106">106</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af3e5cf1cb8101909466df8e27da7d05c"></a>
+<a class="anchor" id="aa64cb2b0b0c083a5925fde13dcbff4bd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="struct_window_info.html">WindowInfo</a>&amp; RenderWindow::Info </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00107">107</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad73e986d18b73e3a34228348c5fa5585"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int RenderWindow::Open </td>
+          <td class="memname">void RenderWindow::Open </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="struct_window_info.html">WindowInfo</a>&#160;</td>
+          <td class="paramname"><em>windowConfig</em> = <code><a class="el" href="struct_window_info.html">WindowInfo</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>setPosition</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00009">9</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+<p>Opens a GLFW window with the specified configuration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">windowConfig</td><td>The window configuration.</td></tr>
+    <tr><td class="paramname">setPosition</td><td>if set to <code>true</code> will set the specified window position. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00139">139</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad3c3301e80e5893ba0766a805ef5aa78"></a>
+<a class="anchor" id="ab1cdc772f4e16b9c90843124c4b16944"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -227,12 +620,12 @@ Public Member Functions</h2></td></tr>
           <td class="memname">void RenderWindow::SetAsCurrentContext </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00051">51</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00195">195</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
 
 </div>
 </div>
@@ -260,38 +653,244 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00044">44</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00175">175</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a014909e26258d2a9f149f7e2ffe72a88"></a>
+<a class="anchor" id="a217d961208931af838038ff84c45d605"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="struct_window_settings.html">WindowSettings</a>&amp; RenderWindow::Settings </td>
+          <td class="memname">void RenderWindow::SetWindowSize </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>h</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00182">182</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac778c239011e9b7ecf3a9dd8ead287c2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RenderWindow::SetWindowTitle </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>title</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00189">189</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e9613d2361c2ffa19c807df8f119503"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RenderWindow::ShouldClose </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sendClose</em> = <code>false</code></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Indicates if the render window should close or sets it to be closed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sendClose</td><td>if set to <code>true</code> [send close event]. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Close flag</dd></dl>
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00224">224</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae9066920a972e5c87e46aba707eee19f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RenderWindow::SwapBuffers </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="render__window_8h_source.html#l00028">28</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00231">231</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11e26a383bce4948896c53b48b768e93"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RenderWindow::WindowHint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5">WindowHints</a> &amp;&#160;</td>
+          <td class="paramname"><em>target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a <a class="el" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5">WindowHints</a> hint value. Has to be called before calling WindowInfoRenderWindow.Open </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">target</td><td>The target.</td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00037">37</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11185b30a4d08ea4feca9ded0957fd64"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RenderWindow::WindowHint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4">FramebufferHints</a> &amp;&#160;</td>
+          <td class="paramname"><em>target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a <a class="el" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4">FramebufferHints</a> hint value. Has to be called before calling <a class="el" href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585" title="Opens a GLFW window with the specified configuration. ">RenderWindow.Open</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">target</td><td>The target.</td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00052">52</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3a15934f3c3a51747cf87a743aafdfa5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RenderWindow::WindowHint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1">ContextHints</a> &amp;&#160;</td>
+          <td class="paramname"><em>target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a <a class="el" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1">ContextHints</a> hint value. Has to be called before calling <a class="el" href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585" title="Opens a GLFW window with the specified configuration. ">RenderWindow.Open</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">target</td><td>The target.</td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="render__window_8cpp_source.html#l00077">77</a> of file <a class="el" href="render__window_8cpp_source.html">render_window.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad4101f170613b0a231a1e73a6c70a535"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void RenderWindow::WindowHint </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8">Hint</a>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="render__window_8h_source.html#l00116">116</a> of file <a class="el" href="render__window_8h_source.html">render_window.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>F:/Documents/Visual Studio 2015/Projects/VCTRenderer/engine/interface/<a class="el" href="render__window_8h_source.html">render_window.h</a></li>
-<li>F:/Documents/Visual Studio 2015/Projects/VCTRenderer/engine/interface/<a class="el" href="render__window_8cpp_source.html">render_window.cpp</a></li>
+<li>F:/Documents/Visual Studio 2015/Projects/VCTRenderer/engine/core/<a class="el" href="render__window_8h_source.html">render_window.h</a></li>
+<li>F:/Documents/Visual Studio 2015/Projects/VCTRenderer/engine/core/<a class="el" href="render__window_8cpp_source.html">render_window.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

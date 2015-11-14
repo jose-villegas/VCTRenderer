@@ -3,6 +3,7 @@ var searchData=
   ['deferredhandler',['DeferredHandler',['../class_deferred_handler.html#a067f61702c6bf91b1d8bd951da031a6f',1,'DeferredHandler']]],
   ['deferredprogram',['DeferredProgram',['../class_deferred_program.html#abb9bad1e48e3c46db040451dbced67a6',1,'DeferredProgram']]],
   ['deferredrenderer',['DeferredRenderer',['../class_deferred_renderer.html#a17784f1725c91518fc648dc9e91993c1',1,'DeferredRenderer']]],
+  ['desktop',['Desktop',['../namespaceutils.html#a7426aad6ff1f8c32ac037663d17bb203',1,'utils']]],
   ['destroy',['Destroy',['../class_render_window.html#a8e655e120e85612a4a20d8694f4b8471',1,'RenderWindow']]],
   ['draw',['Draw',['../class_interface.html#a82df247fd022d924995421ab90444945',1,'Interface::Draw()'],['../class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85',1,'UI::Draw()'],['../class_node.html#a0f2c6c5592597dd219aa64a1ab2814ee',1,'Node::Draw()']]],
   ['drawdebugwindow',['DrawDebugWindow',['../class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab',1,'UI']]],

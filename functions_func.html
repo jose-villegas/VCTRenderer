@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -125,6 +126,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>ActivateBindTextureTargets()
 : <a class="el" href="class_deferred_handler.html#a774649d75b9179f575748f7c35700ff2">DeferredHandler</a>
 </li>
+<li>Active()
+: <a class="el" href="class_single_active.html#a31667c909def617120b39854538ab09b">SingleActive&lt; T &gt;</a>
+</li>
 <li>ActiveMaterialFloat1Properties()
 : <a class="el" href="class_geometry_program.html#a5828f5fb2d39c3ab5adac0ca1e4db279">GeometryProgram</a>
 </li>
@@ -147,7 +151,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_o_g_l_material.html#a4d4de708b2dc2db1693e7d451d0d4941">OGLMaterial</a>
 </li>
 <li>Attenuation()
-: <a class="el" href="struct_attenuation.html#a2411a123c743f0b7e28f5419c0572303">Attenuation</a>
+: <a class="el" href="struct_light_1_1_attenuation.html#a8088251f7762f4832a49468599ccca4c">Light::Attenuation</a>
 </li>
 </ul>
 
@@ -254,11 +258,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>EngineAssets()
 : <a class="el" href="class_engine_assets.html#ad7c5eecd24a43c4ebecef7c2f7f522f6">EngineAssets</a>
 </li>
-<li>ExecutionInfo()
-: <a class="el" href="class_execution_info.html#ac9c3e78b19f213bc1c6cf3e77a590af1">ExecutionInfo</a>
-</li>
-<li>ExternalInitializer()
-: <a class="el" href="class_external_initializer.html#adcb0a3c3d9f96cc6fc3768bf7ca07613">ExternalInitializer</a>
+<li>Events()
+: <a class="el" href="class_render_window.html#a8573aaac007eaae9613a3e59a829ba1d">RenderWindow</a>
 </li>
 <li>ExtractActiveUniforms()
 : <a class="el" href="class_deferred_program.html#a1654d746e4734c0b0bf89f881723c36f">DeferredProgram</a>
@@ -289,9 +290,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>GetAssets()
 : <a class="el" href="class_engine_base.html#a4bc838b2ff2773533ce6d1bc081fc2cb">EngineBase</a>
 </li>
-<li>GetAvailableScenes()
-: <a class="el" href="class_engine_assets.html#a28e0d6bba960a24be7174205e284d78e">EngineAssets</a>
-</li>
 <li>GetDefaultNormalTexture()
 : <a class="el" href="class_o_g_l_texture2_d.html#a04fd79abfd27a237fb33fc4a16c4fb80">OGLTexture2D</a>
 </li>
@@ -306,9 +304,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>GetErrorTexture()
 : <a class="el" href="class_o_g_l_texture2_d.html#a928c3129e954a9e11f6436286a95c1a0">OGLTexture2D</a>
-</li>
-<li>GetExecInfo()
-: <a class="el" href="class_engine_base.html#afb6903df843953455d65eb3a047b8bb3">EngineBase</a>
 </li>
 <li>GetFilepath()
 : <a class="el" href="class_raw_texture.html#a481b8bb91a2218f802ad45ac9e9d9f77">RawTexture</a>
@@ -340,9 +335,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>GetRenderWindow()
 : <a class="el" href="class_engine_base.html#a18f54a478e5fb1466a03f52d586e4c83">EngineBase</a>
-</li>
-<li>GetScene()
-: <a class="el" href="class_engine_assets.html#a95715aeb24e26e4a0ef643d61ffab657">EngineAssets</a>
 </li>
 <li>GetUI()
 : <a class="el" href="class_engine_base.html#a6f17c1edf30de726cd5d27c52ee5187e">EngineBase</a>
@@ -391,12 +383,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>ImportTexture2D()
 : <a class="el" href="class_texture_importer.html#a8d10e2a976cf9434b4b341de8405f595">TextureImporter</a>
 </li>
+<li>Info()
+: <a class="el" href="class_render_window.html#aa64cb2b0b0c083a5925fde13dcbff4bd">RenderWindow</a>
+</li>
 <li>Initialize()
 : <a class="el" href="class_deferred_renderer.html#acb1cf92d56e0eb20d57f7412838b7751">DeferredRenderer</a>
 , <a class="el" href="class_interface.html#aeac0b572a2d73782b27da1f0084f0f5f">Interface</a>
-</li>
-<li>InitializeContextDependant()
-: <a class="el" href="class_external_initializer.html#aa9952dd4d931af2514874c7b9a179e38">ExternalInitializer</a>
 </li>
 <li>Instance()
 : <a class="el" href="class_engine_base.html#a9f5ab8d134491f17010a3c9d45f1db3c">EngineBase</a>
@@ -414,16 +406,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>LightingProgram()
 : <a class="el" href="class_lighting_program.html#a7b95767e1f34cd1ca8e0380dfbee111f">LightingProgram</a>
 </li>
-<li>LoadAssets()
-: <a class="el" href="class_engine_assets.html#ad93ec8dfb99be68e1365fd2bf2346eb7">EngineAssets</a>
+<li>LoadScenes()
+: <a class="el" href="class_engine_assets.html#a2ae383c03bf5567a50bf9add4754d074">EngineAssets</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
-<li>Main()
-: <a class="el" href="class_camera.html#a04e4d14a5dcacef2e6022bed78e1a832">Camera</a>
-</li>
 <li>MainLoop()
 : <a class="el" href="class_engine_base.html#acfac8e6ca7e296f89a7378d56021fb26">EngineBase</a>
 </li>
@@ -461,7 +450,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="class_o_g_l_texture2_d.html#aaae8e4366b6a604aefe29a084c829b40">OGLTexture2D</a>
 </li>
 <li>Open()
-: <a class="el" href="class_render_window.html#af3e5cf1cb8101909466df8e27da7d05c">RenderWindow</a>
+: <a class="el" href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585">RenderWindow</a>
 </li>
 <li>operator[]()
 : <a class="el" href="class_deferred_program_1_1_uniform_collection.html#adcf98df6d558a59694dea4a453d16764">DeferredProgram::UniformCollection&lt; T1, T2 &gt;</a>
@@ -475,9 +464,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
 <li>Position()
 : <a class="el" href="class_node.html#a80b0801a8f5ed09d8f00efab99aadb71">Node</a>
-</li>
-<li>PrintLibInfo()
-: <a class="el" href="class_external_initializer.html#a31b2f9c75f6128f56f0ae5cc0cc2945c">ExternalInitializer</a>
 </li>
 <li>ProcessNodes()
 : <a class="el" href="class_scene_importer.html#a01e7d7db526210110b5bbc46505e749b">SceneImporter</a>
@@ -499,7 +485,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_node.html#afc101c74031fcbff9015bf79aea3ca0f">Node</a>
 </li>
 <li>Render()
-: <a class="el" href="class_deferred_renderer.html#a5f40fb9d978cc9032ba3e29054f0c0e8">DeferredRenderer</a>
+: <a class="el" href="class_deferred_renderer.html#ad0802453f36eed254cbb5d4dbce7ca41">DeferredRenderer</a>
 , <a class="el" href="class_interface.html#a637ef08a4ccaaeedd10572470cf0afce">Interface</a>
 </li>
 <li>RenderFullscreenQuad()
@@ -527,20 +513,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Scene()
 : <a class="el" href="class_scene.html#ad10176d75a9cc0da56626f682d083507">Scene</a>
 </li>
-<li>SceneCount()
-: <a class="el" href="class_engine_assets.html#ab48076f1eae7736d45aa9c03683405b4">EngineAssets</a>
-</li>
 <li>SceneImporter()
 : <a class="el" href="class_scene_importer.html#a201f250b66f3624b837bb872f2eb272e">SceneImporter</a>
 </li>
+<li>SceneNames()
+: <a class="el" href="class_engine_assets.html#a97a2779927aad8cfa6e90dd7002be6f1">EngineAssets</a>
+</li>
+<li>Scenes()
+: <a class="el" href="class_engine_assets.html#a9b45d50d0a52d10ded377a252e5866a2">EngineAssets</a>
+</li>
+<li>SetAsActive()
+: <a class="el" href="class_single_active.html#ad823059b07a728784751fff15248b804">SingleActive&lt; T &gt;</a>
+</li>
 <li>SetAsCurrentContext()
-: <a class="el" href="class_render_window.html#ad3c3301e80e5893ba0766a805ef5aa78">RenderWindow</a>
+: <a class="el" href="class_render_window.html#ab1cdc772f4e16b9c90843124c4b16944">RenderWindow</a>
 </li>
 <li>SetLightPassUniforms()
 : <a class="el" href="class_deferred_renderer.html#acedced8ccf204f3f67183a29e427c786">DeferredRenderer</a>
-</li>
-<li>SetMainCamera()
-: <a class="el" href="class_camera.html#a9283388c9f4749f5bca4465d99841eb4">Camera</a>
 </li>
 <li>SetMaterialUniforms()
 : <a class="el" href="class_deferred_renderer.html#aba2a229d6a98bb94100450bd3c65113e">DeferredRenderer</a>
@@ -551,12 +540,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>SetPosition()
 : <a class="el" href="class_render_window.html#a2bb78a935fa06ae6b8e611df90d55d76">RenderWindow</a>
 </li>
-<li>Settings()
-: <a class="el" href="class_render_window.html#a014909e26258d2a9f149f7e2ffe72a88">RenderWindow</a>
-</li>
 <li>SetUniform()
-: <a class="el" href="class_geometry_program.html#a3d160e9f56528e85836a6add0d96e17c">GeometryProgram</a>
-, <a class="el" href="class_lighting_program.html#ae26cbab61465ff1797a33679962b2e9d">LightingProgram</a>
+: <a class="el" href="class_geometry_program.html#ac5e9a6d580e1f5d5c5283e26146b842a">GeometryProgram</a>
+, <a class="el" href="class_lighting_program.html#aec049c94f72443c25fa0d2fc30e87cd0">LightingProgram</a>
+</li>
+<li>SetWindowSize()
+: <a class="el" href="class_render_window.html#a217d961208931af838038ff84c45d605">RenderWindow</a>
+</li>
+<li>SetWindowTitle()
+: <a class="el" href="class_render_window.html#ac778c239011e9b7ecf3a9dd8ead287c2">RenderWindow</a>
+</li>
+<li>ShouldClose()
+: <a class="el" href="class_render_window.html#a8e9613d2361c2ffa19c807df8f119503">RenderWindow</a>
+</li>
+<li>SwapBuffers()
+: <a class="el" href="class_render_window.html#ae9066920a972e5c87e46aba707eee19f">RenderWindow</a>
 </li>
 </ul>
 
@@ -620,15 +618,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
-<li>WindowSettings()
-: <a class="el" href="struct_window_settings.html#a0e207ef630ccd1400f7066920b156fdf">WindowSettings</a>
+<li>WindowHint()
+: <a class="el" href="class_render_window.html#a11e26a383bce4948896c53b48b768e93">RenderWindow</a>
+</li>
+<li>WindowInfo()
+: <a class="el" href="struct_window_info.html#a33ea1ee65f87eaa1f4dd2a0779e08bf6">WindowInfo</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_~"></a>- ~ -</h3><ul>
 <li>~Attenuation()
-: <a class="el" href="struct_attenuation.html#aaf80b5fd88c78a083eab7799f7121091">Attenuation</a>
+: <a class="el" href="struct_light_1_1_attenuation.html#afb0f66feee74b4e5b074adb9d40c4e03">Light::Attenuation</a>
 </li>
 <li>~BoundingVolume()
 : <a class="el" href="class_bounding_volume.html#a53b1de0ad46d8f427e47686d7e25cdef">BoundingVolume</a>
@@ -650,12 +651,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>~EngineBase()
 : <a class="el" href="class_engine_base.html#a7ff76df0b36e49c52f5f9b3d902f2ed8">EngineBase</a>
-</li>
-<li>~ExecutionInfo()
-: <a class="el" href="class_execution_info.html#a61937bb8d24d67a7d2984c2a6bf4c95d">ExecutionInfo</a>
-</li>
-<li>~ExternalInitializer()
-: <a class="el" href="class_external_initializer.html#ae57bd59c5ff1794ea1e3f63ff24e5b91">ExternalInitializer</a>
 </li>
 <li>~Frustum()
 : <a class="el" href="class_frustum.html#ab02405770e9189e2e8edf51a3955bde2">Frustum</a>
@@ -699,6 +694,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>~SceneImporter()
 : <a class="el" href="class_scene_importer.html#a3bb4c596b51053e34370c5009938d534">SceneImporter</a>
 </li>
+<li>~SingleActive()
+: <a class="el" href="class_single_active.html#ae68d32bcb208b87358786a09f041c966">SingleActive&lt; T &gt;</a>
+</li>
 <li>~TextureImporter()
 : <a class="el" href="class_texture_importer.html#affb52baf15cb65a31b5ca0c2b42b61bd">TextureImporter</a>
 </li>
@@ -708,8 +706,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>~UI()
 : <a class="el" href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">UI</a>
 </li>
-<li>~WindowSettings()
-: <a class="el" href="struct_window_settings.html#a4d46e054b8672014b852f2d81ba272d3">WindowSettings</a>
+<li>~WindowInfo()
+: <a class="el" href="struct_window_info.html#a1389b3b188ba082c510a8e3cad842820">WindowInfo</a>
 </li>
 </ul>
 </div><!-- contents -->

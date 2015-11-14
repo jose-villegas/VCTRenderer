@@ -11,6 +11,7 @@ var searchData=
   ['black',['Black',['../class_o_g_l_material.html#acaeb2445a5f20d990e0667a8cdcec863',1,'OGLMaterial']]],
   ['blendmode',['BlendMode',['../class_o_g_l_material.html#acd49212071e5ca8ff7093a7536186271',1,'OGLMaterial']]],
   ['blinn',['Blinn',['../class_o_g_l_material.html#a00ec5436848c78403b6663c2a02f088fae5a55ff69e3fc8bdb83f921cdd3a9a3c',1,'OGLMaterial']]],
+  ['bluebits',['BlueBits',['../class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6cdb895c7c8cb9a4fafe169cd29f95e0',1,'RenderWindow']]],
   ['bordercolor',['borderColor',['../class_o_g_l_texture2_d.html#ab49fd4b19ab6b299d99c128b90861e9d',1,'OGLTexture2D']]],
   ['bottom',['Bottom',['../class_frustum.html#ab13c65bf33cca74e109102b20fe89618a1025204d654a9505265ec18e87503f46',1,'Frustum']]],
   ['boundaries',['boundaries',['../class_mesh.html#af058fb0d0fd3933311a4a05621ec95f7',1,'Mesh::boundaries()'],['../class_node.html#a15ee4828bc458d3f697ac05d8b89629e',1,'Node::boundaries()']]],

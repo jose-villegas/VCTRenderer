@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -92,68 +93,52 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <a href="camera_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="stdafx_8h.html">stdafx.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="camera_8h.html">camera.h</a>&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<a class="code" href="class_camera.html">Camera</a> * Camera::mainCamera = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">    5</a></span>&#160;<a class="code" href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">Camera::Camera</a>() : clipPlaneFar(100.0f), clipPlaneNear(1.0f),</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    this-&gt;<a class="code" href="class_camera.html#a04b5db2c530d8630660e8cfb93a4b3b5">position</a> = glm::vec3(0.0f, 0.0f, 0.0f);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    this-&gt;<a class="code" href="class_camera.html#a4cc07d9240227ef5d11fdaad14822b08">lookAt</a> = glm::vec3(0.0f, 0.0f, 1.0f);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    this-&gt;<a class="code" href="class_camera.html#a3fe5f351380fb118ffc600591769f049">up</a> = glm::vec3(0.0f, 1.0f, 0.0f);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="comment">// new cameras always as default</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="class_camera.html#a9283388c9f4749f5bca4465d99841eb4">SetMainCamera</a>();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="class_camera.html#ad1897942d0ccf91052386388a497349f">   16</a></span>&#160;<a class="code" href="class_camera.html#ad1897942d0ccf91052386388a497349f">Camera::~Camera</a>()</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="class_camera.html#a4422778e6c46095b523df4d50999fd9c">   20</a></span>&#160;glm::mat4x4 <a class="code" href="class_camera.html#a4422778e6c46095b523df4d50999fd9c">Camera::GetViewMatrix</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">return</span> glm::lookAt(</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;               this-&gt;<a class="code" href="class_camera.html#a04b5db2c530d8630660e8cfb93a4b3b5">position</a>,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;               this-&gt;<a class="code" href="class_camera.html#a4cc07d9240227ef5d11fdaad14822b08">lookAt</a>,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;               this-&gt;<a class="code" href="class_camera.html#a3fe5f351380fb118ffc600591769f049">up</a></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;           );</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_camera.html#ab1ae18711e7755390de69743008c92e7">   29</a></span>&#160;glm::mat4x4 <a class="code" href="class_camera.html#ab1ae18711e7755390de69743008c92e7">Camera::GetProjecctionMatrix</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> glm::perspective(</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;               glm::degrees(this-&gt;<a class="code" href="class_camera.html#a626d2ed03f88d6a740590117b5c9b72b">horizontalFoV</a>),</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;               this-&gt;<a class="code" href="class_camera.html#aa6f013fdb4560daaa5ca6ace1a846ca7">aspectRatio</a>,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;               this-&gt;<a class="code" href="class_camera.html#aa4d30db62c0140589c1e332d496b142d">clipPlaneNear</a>,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;               this-&gt;<a class="code" href="class_camera.html#a55581df24efcf3c7435cf34faa96aca6">clipPlaneFar</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;           );</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_camera.html#a9283388c9f4749f5bca4465d99841eb4">   39</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_camera.html#a9283388c9f4749f5bca4465d99841eb4">Camera::SetMainCamera</a>()</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    mainCamera = <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_camera.html#a04e4d14a5dcacef2e6022bed78e1a832">   44</a></span>&#160;<a class="code" href="class_camera.html">Camera</a> * <a class="code" href="class_camera.html#a04e4d14a5dcacef2e6022bed78e1a832">Camera::Main</a>()</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// return mainCamera;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> mainCamera;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="ttc" id="class_camera_html_a626d2ed03f88d6a740590117b5c9b72b"><div class="ttname"><a href="class_camera.html#a626d2ed03f88d6a740590117b5c9b72b">Camera::horizontalFoV</a></div><div class="ttdeci">float horizontalFoV</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00010">camera.h:10</a></div></div>
-<div class="ttc" id="class_camera_html_aa4d30db62c0140589c1e332d496b142d"><div class="ttname"><a href="class_camera.html#aa4d30db62c0140589c1e332d496b142d">Camera::clipPlaneNear</a></div><div class="ttdeci">float clipPlaneNear</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00009">camera.h:9</a></div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">    4</a></span>&#160;<a class="code" href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">Camera::Camera</a>() : clipPlaneFar(100.0f), clipPlaneNear(1.0f),</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    this-&gt;<a class="code" href="class_camera.html#a04b5db2c530d8630660e8cfb93a4b3b5">position</a> = glm::vec3(0.0f, 0.0f, 0.0f);</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    this-&gt;<a class="code" href="class_camera.html#a4cc07d9240227ef5d11fdaad14822b08">lookAt</a> = glm::vec3(0.0f, 0.0f, 1.0f);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    this-&gt;<a class="code" href="class_camera.html#a3fe5f351380fb118ffc600591769f049">up</a> = glm::vec3(0.0f, 1.0f, 0.0f);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="comment">// new cameras always as default</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_camera.html#ad1897942d0ccf91052386388a497349f">   14</a></span>&#160;<a class="code" href="class_camera.html#ad1897942d0ccf91052386388a497349f">Camera::~Camera</a>()</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="class_camera.html#a4422778e6c46095b523df4d50999fd9c">   18</a></span>&#160;glm::mat4x4 <a class="code" href="class_camera.html#a4422778e6c46095b523df4d50999fd9c">Camera::GetViewMatrix</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">return</span> glm::lookAt(</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;               this-&gt;<a class="code" href="class_camera.html#a04b5db2c530d8630660e8cfb93a4b3b5">position</a>,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;               this-&gt;<a class="code" href="class_camera.html#a4cc07d9240227ef5d11fdaad14822b08">lookAt</a>,</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;               this-&gt;<a class="code" href="class_camera.html#a3fe5f351380fb118ffc600591769f049">up</a></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;           );</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_camera.html#ab1ae18711e7755390de69743008c92e7">   27</a></span>&#160;glm::mat4x4 <a class="code" href="class_camera.html#ab1ae18711e7755390de69743008c92e7">Camera::GetProjecctionMatrix</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">return</span> glm::perspective(</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;               glm::degrees(this-&gt;<a class="code" href="class_camera.html#a626d2ed03f88d6a740590117b5c9b72b">horizontalFoV</a>),</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;               this-&gt;<a class="code" href="class_camera.html#aa6f013fdb4560daaa5ca6ace1a846ca7">aspectRatio</a>,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;               this-&gt;<a class="code" href="class_camera.html#aa4d30db62c0140589c1e332d496b142d">clipPlaneNear</a>,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;               this-&gt;<a class="code" href="class_camera.html#a55581df24efcf3c7435cf34faa96aca6">clipPlaneFar</a></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;           );</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="ttc" id="class_camera_html_a626d2ed03f88d6a740590117b5c9b72b"><div class="ttname"><a href="class_camera.html#a626d2ed03f88d6a740590117b5c9b72b">Camera::horizontalFoV</a></div><div class="ttdeci">float horizontalFoV</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00012">camera.h:12</a></div></div>
+<div class="ttc" id="class_camera_html_aa4d30db62c0140589c1e332d496b142d"><div class="ttname"><a href="class_camera.html#aa4d30db62c0140589c1e332d496b142d">Camera::clipPlaneNear</a></div><div class="ttdeci">float clipPlaneNear</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00011">camera.h:11</a></div></div>
 <div class="ttc" id="camera_8h_html"><div class="ttname"><a href="camera_8h.html">camera.h</a></div></div>
-<div class="ttc" id="class_camera_html_a3fe5f351380fb118ffc600591769f049"><div class="ttname"><a href="class_camera.html#a3fe5f351380fb118ffc600591769f049">Camera::up</a></div><div class="ttdeci">glm::vec3 up</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00014">camera.h:14</a></div></div>
-<div class="ttc" id="class_camera_html_a4cc07d9240227ef5d11fdaad14822b08"><div class="ttname"><a href="class_camera.html#a4cc07d9240227ef5d11fdaad14822b08">Camera::lookAt</a></div><div class="ttdeci">glm::vec3 lookAt</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00012">camera.h:12</a></div></div>
-<div class="ttc" id="class_camera_html"><div class="ttname"><a href="class_camera.html">Camera</a></div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00002">camera.h:2</a></div></div>
-<div class="ttc" id="class_camera_html_a4422778e6c46095b523df4d50999fd9c"><div class="ttname"><a href="class_camera.html#a4422778e6c46095b523df4d50999fd9c">Camera::GetViewMatrix</a></div><div class="ttdeci">glm::mat4x4 GetViewMatrix() const </div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00020">camera.cpp:20</a></div></div>
+<div class="ttc" id="class_camera_html_a3fe5f351380fb118ffc600591769f049"><div class="ttname"><a href="class_camera.html#a3fe5f351380fb118ffc600591769f049">Camera::up</a></div><div class="ttdeci">glm::vec3 up</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00016">camera.h:16</a></div></div>
+<div class="ttc" id="class_camera_html_a4cc07d9240227ef5d11fdaad14822b08"><div class="ttname"><a href="class_camera.html#a4cc07d9240227ef5d11fdaad14822b08">Camera::lookAt</a></div><div class="ttdeci">glm::vec3 lookAt</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00014">camera.h:14</a></div></div>
+<div class="ttc" id="class_camera_html_a4422778e6c46095b523df4d50999fd9c"><div class="ttname"><a href="class_camera.html#a4422778e6c46095b523df4d50999fd9c">Camera::GetViewMatrix</a></div><div class="ttdeci">glm::mat4x4 GetViewMatrix() const </div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00018">camera.cpp:18</a></div></div>
 <div class="ttc" id="stdafx_8h_html"><div class="ttname"><a href="stdafx_8h.html">stdafx.h</a></div></div>
-<div class="ttc" id="class_camera_html_a04e4d14a5dcacef2e6022bed78e1a832"><div class="ttname"><a href="class_camera.html#a04e4d14a5dcacef2e6022bed78e1a832">Camera::Main</a></div><div class="ttdeci">static Camera * Main()</div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00044">camera.cpp:44</a></div></div>
-<div class="ttc" id="class_camera_html_a01f94c3543f56ede7af49dc778f19331"><div class="ttname"><a href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">Camera::Camera</a></div><div class="ttdeci">Camera()</div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00005">camera.cpp:5</a></div></div>
-<div class="ttc" id="class_camera_html_a04b5db2c530d8630660e8cfb93a4b3b5"><div class="ttname"><a href="class_camera.html#a04b5db2c530d8630660e8cfb93a4b3b5">Camera::position</a></div><div class="ttdeci">glm::vec3 position</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00013">camera.h:13</a></div></div>
-<div class="ttc" id="class_camera_html_aa6f013fdb4560daaa5ca6ace1a846ca7"><div class="ttname"><a href="class_camera.html#aa6f013fdb4560daaa5ca6ace1a846ca7">Camera::aspectRatio</a></div><div class="ttdeci">float aspectRatio</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00011">camera.h:11</a></div></div>
-<div class="ttc" id="class_camera_html_ad1897942d0ccf91052386388a497349f"><div class="ttname"><a href="class_camera.html#ad1897942d0ccf91052386388a497349f">Camera::~Camera</a></div><div class="ttdeci">virtual ~Camera()</div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00016">camera.cpp:16</a></div></div>
-<div class="ttc" id="class_camera_html_a9283388c9f4749f5bca4465d99841eb4"><div class="ttname"><a href="class_camera.html#a9283388c9f4749f5bca4465d99841eb4">Camera::SetMainCamera</a></div><div class="ttdeci">void SetMainCamera()</div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00039">camera.cpp:39</a></div></div>
-<div class="ttc" id="class_camera_html_ab1ae18711e7755390de69743008c92e7"><div class="ttname"><a href="class_camera.html#ab1ae18711e7755390de69743008c92e7">Camera::GetProjecctionMatrix</a></div><div class="ttdeci">glm::mat4x4 GetProjecctionMatrix() const </div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00029">camera.cpp:29</a></div></div>
-<div class="ttc" id="class_camera_html_a55581df24efcf3c7435cf34faa96aca6"><div class="ttname"><a href="class_camera.html#a55581df24efcf3c7435cf34faa96aca6">Camera::clipPlaneFar</a></div><div class="ttdeci">float clipPlaneFar</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00008">camera.h:8</a></div></div>
+<div class="ttc" id="class_camera_html_a01f94c3543f56ede7af49dc778f19331"><div class="ttname"><a href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">Camera::Camera</a></div><div class="ttdeci">Camera()</div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00004">camera.cpp:4</a></div></div>
+<div class="ttc" id="class_camera_html_a04b5db2c530d8630660e8cfb93a4b3b5"><div class="ttname"><a href="class_camera.html#a04b5db2c530d8630660e8cfb93a4b3b5">Camera::position</a></div><div class="ttdeci">glm::vec3 position</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00015">camera.h:15</a></div></div>
+<div class="ttc" id="class_camera_html_aa6f013fdb4560daaa5ca6ace1a846ca7"><div class="ttname"><a href="class_camera.html#aa6f013fdb4560daaa5ca6ace1a846ca7">Camera::aspectRatio</a></div><div class="ttdeci">float aspectRatio</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00013">camera.h:13</a></div></div>
+<div class="ttc" id="class_camera_html_ad1897942d0ccf91052386388a497349f"><div class="ttname"><a href="class_camera.html#ad1897942d0ccf91052386388a497349f">Camera::~Camera</a></div><div class="ttdeci">virtual ~Camera()</div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00014">camera.cpp:14</a></div></div>
+<div class="ttc" id="class_camera_html_ab1ae18711e7755390de69743008c92e7"><div class="ttname"><a href="class_camera.html#ab1ae18711e7755390de69743008c92e7">Camera::GetProjecctionMatrix</a></div><div class="ttdeci">glm::mat4x4 GetProjecctionMatrix() const </div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00027">camera.cpp:27</a></div></div>
+<div class="ttc" id="class_camera_html_a55581df24efcf3c7435cf34faa96aca6"><div class="ttname"><a href="class_camera.html#a55581df24efcf3c7435cf34faa96aca6">Camera::clipPlaneFar</a></div><div class="ttdeci">float clipPlaneFar</div><div class="ttdef"><b>Definition:</b> <a href="camera_8h_source.html#l00010">camera.h:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

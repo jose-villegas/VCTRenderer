@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>VCT Engine: F:/Documents/Visual Studio 2015/Projects/VCTRenderer/engine/interface/render_window.cpp Source File</title>
+<title>VCT Engine: F:/Documents/Visual Studio 2015/Projects/VCTRenderer/engine/core/render_window.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -82,7 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_996f45160da62e1a3d7f6046fad68f51.html">engine</a></li><li class="navelem"><a class="el" href="dir_0c1f9a7c879d776e4b8af5a9df338eb3.html">interface</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_996f45160da62e1a3d7f6046fad68f51.html">engine</a></li><li class="navelem"><a class="el" href="dir_a0e47c104ecd6c0b6dccb5f33d071508.html">core</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -93,77 +94,252 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="render__window_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="stdafx_8h.html">stdafx.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="render__window_8h.html">render_window.h</a>&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keywordtype">void</span> RenderWindow::onErrorCallback(<span class="keywordtype">int</span> code, <span class="keyword">const</span> <span class="keywordtype">char</span> * description)</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keywordflow">throw</span> std::runtime_error(description);</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="class_render_window.html#af3e5cf1cb8101909466df8e27da7d05c">    9</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_render_window.html#af3e5cf1cb8101909466df8e27da7d05c">RenderWindow::Open</a>()</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> RenderWindow::OnErrorCallback(<span class="keywordtype">int</span> code, <span class="keyword">const</span> <span class="keywordtype">char</span> * description)</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="comment">// glfw error catching</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    glfwSetErrorCallback(RenderWindow::onErrorCallback);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">throw</span> std::runtime_error(description);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">if</span>(isOpen || !glfwInit()) <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="comment">//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="comment">//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    glfwWindowHint(GLFW_RESIZABLE, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    this-&gt;windowHandler = glfwCreateWindow(this-&gt;settings.<a class="code" href="struct_window_settings.html#a682fe02f872545c310d3d0dbf26720c7">width</a>,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                           this-&gt;settings.height,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                           this-&gt;settings.title.c_str(),</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                           <span class="keyword">nullptr</span>, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    glfwGetWindowPos(this-&gt;windowHandler, &amp;this-&gt;settings.<a class="code" href="struct_window_settings.html#a041200534ceac3296a8eb4b0dd1bbe30">position</a>.first,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                     &amp;this-&gt;settings.position.second);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span>(!this-&gt;windowHandler)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        glfwTerminate();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">return</span> 2;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// successfull window open</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    this-&gt;isOpen = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_render_window.html#a8e655e120e85612a4a20d8694f4b8471">   39</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a8e655e120e85612a4a20d8694f4b8471">RenderWindow::Destroy</a>()</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    glfwDestroyWindow(this-&gt;windowHandler);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_render_window.html#a2bb78a935fa06ae6b8e611df90d55d76">   44</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a2bb78a935fa06ae6b8e611df90d55d76">RenderWindow::SetPosition</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> x, <span class="keyword">const</span> <span class="keywordtype">int</span> y)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    glfwSetWindowPos(this-&gt;windowHandler, x, y);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    this-&gt;settings.<a class="code" href="struct_window_settings.html#a041200534ceac3296a8eb4b0dd1bbe30">position</a>.first = x;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    this-&gt;settings.<a class="code" href="struct_window_settings.html#a041200534ceac3296a8eb4b0dd1bbe30">position</a>.second = y;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="class_render_window.html#ad3c3301e80e5893ba0766a805ef5aa78">   51</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#ad3c3301e80e5893ba0766a805ef5aa78">RenderWindow::SetAsCurrentContext</a>()</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    glfwMakeContextCurrent(this-&gt;windowHandler);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="class_render_window.html#ac644ce5a7654e4cdbc5a644bd9e02952">   56</a></span>&#160;<a class="code" href="class_render_window.html#ac644ce5a7654e4cdbc5a644bd9e02952">RenderWindow::RenderWindow</a>()</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="class_render_window.html#ae17a8d98de14f8ddbbedbee39cf774e0">   60</a></span>&#160;<a class="code" href="class_render_window.html#ae17a8d98de14f8ddbbedbee39cf774e0">RenderWindow::~RenderWindow</a>()</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    glfwDestroyWindow(this-&gt;windowHandler);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    glfwMakeContextCurrent(this-&gt;windowHandler);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
-<div class="ttc" id="struct_window_settings_html_a682fe02f872545c310d3d0dbf26720c7"><div class="ttname"><a href="struct_window_settings.html#a682fe02f872545c310d3d0dbf26720c7">WindowSettings::width</a></div><div class="ttdeci">unsigned int width</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00004">render_window.h:4</a></div></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="struct_window_info.html#ab38561877c453bdd695dd2adf6c44762">   15</a></span>&#160;<a class="code" href="struct_window_info.html#ab38561877c453bdd695dd2adf6c44762">WindowInfo::WindowInfo</a>() : <a class="code" href="struct_window_info.html">WindowInfo</a>(1280, 720, 0, 0, <span class="stringliteral">&quot;Default&quot;</span>) {}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="struct_window_info.html#a33ea1ee65f87eaa1f4dd2a0779e08bf6">   25</a></span>&#160;<a class="code" href="struct_window_info.html#ab38561877c453bdd695dd2adf6c44762">WindowInfo::WindowInfo</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> width, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> height, <span class="keyword">const</span> <span class="keywordtype">int</span> x,</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">int</span> y, <span class="keyword">const</span> std::string &amp;title)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    : width{width}, height{height}, x{x}, y{y}, title{title}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class_render_window.html#a11e26a383bce4948896c53b48b768e93">   37</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a11e26a383bce4948896c53b48b768e93">RenderWindow::WindowHint</a>(<span class="keyword">const</span> <a class="code" href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5">WindowHints</a> &amp;target, <span class="keyword">const</span> <span class="keywordtype">int</span> value)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af827cf462f62848df37c5e1e94a4da74">Hint::True</a> ||</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af8320b26d30ab433c5a54546d21f414c">Hint::False</a>)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_render_window.html#a11185b30a4d08ea4feca9ded0957fd64">   52</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a11e26a383bce4948896c53b48b768e93">RenderWindow::WindowHint</a>(<span class="keyword">const</span> <a class="code" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4">FramebufferHints</a> &amp;target, <span class="keyword">const</span> <span class="keywordtype">int</span> value)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span> (target == <a class="code" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4abbc45d9b35436f5f0ed9e33499efcea9">FramebufferHints::Stereo</a> ||</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        target == <a class="code" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a360061190e04f55482b10ea2a1ba502e">FramebufferHints::SRGBCapable</a> ||</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        target == <a class="code" href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6283478f5b60807028cd4a5bd5b86f8c">FramebufferHints::DoubleBuffer</a>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">if</span> (static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af827cf462f62848df37c5e1e94a4da74">Hint::True</a> ||</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af8320b26d30ab433c5a54546d21f414c">Hint::False</a>)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (value &gt; 0 || value &lt; std::numeric_limits&lt;int&gt;::max() ||</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;             static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a60a3629ef6a8f991f45d7a85f2458544">Hint::DontCare</a>)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="class_render_window.html#a3a15934f3c3a51747cf87a743aafdfa5">   77</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a11e26a383bce4948896c53b48b768e93">RenderWindow::WindowHint</a>(<span class="keyword">const</span> <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1">ContextHints</a> &amp;target, <span class="keyword">const</span> <span class="keywordtype">int</span> value)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1aec47f0102ab62b45829e900a6da92fdb">ContextHints::ClientAPI</a>)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">if</span> (static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af8c4b03387578ae736d3e27baba0581e">Hint::OpenGLAPI</a> ||</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ace139341f2ede87eee438b9bd0e027ad">Hint::OpenGLESAPI</a>)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1af5d25e5aa5fb78bee64707402a48cb6f">ContextHints::ContextRobustness</a>)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">if</span> (static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8abd8cebb62b8a321a2f35f8ee779c5194">Hint::NoRobustness</a> ||</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ac09912f69d7a5dc956fc096d47af37f8">Hint::NoResetNotification</a> ||</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a9f11bc17e2495cd2799702f8bb0a3578">Hint::LoseContextOnReset</a>)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a71d2c12f08d5708245cae3106aef5a81">ContextHints::OpenGLForwardCompatibility</a> ||</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;             target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a71b90844623ee5639b810742926824e0">ContextHints::OpenGLDebugContext</a>)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">if</span> (static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af827cf462f62848df37c5e1e94a4da74">Hint::True</a> ||</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af8320b26d30ab433c5a54546d21f414c">Hint::False</a>)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a7a634cd12daf0e624e0af386ebae19f3">ContextHints::OpenGLProfile</a>)</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">if</span> (static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a03a9b45c2c6b69203a93985002928939">Hint::OpenGLAnyProfile</a> ||</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a6cdcf4740c431c4a89c75b9fe776c872">Hint::OpenGLCoreProfile</a> ||</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a5a2720be3d6935f937ea1a5a550c6ec4">Hint::OpenGLCompatibilityProfile</a>)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a2b7037ee5dd42a6b99b208f251f86f24">ContextHints::ContextReleaseBehavior</a>)</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">if</span> (static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ad7e7dcfe2b1de87d91c963bd6e4ca0a0">Hint::AnyReleaseBehavior</a> ||</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a6c4a8a4b6f41c87d2357df6210d1cf82">Hint::FlushReleaseBehavior</a> ||</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            static_cast&lt;Hint&gt;(value) == <a class="code" href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a338d60f2fdc6f520fb7ad582493e4e68">Hint::NoneReleaseBehavior</a>)</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1add281d7c4a8659dca9200354a9acec68">ContextHints::ContextVersionMajor</a> ||</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;             target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a83099fc6a1c8daf8ba9479456ed746f7">ContextHints::ContextVersionMinor</a> ||</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;             target == <a class="code" href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1adab03f5d3bf3484029ae3937f251b06b">ContextHints::ContextRevision</a>)</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        glfwWindowHint(static_cast&lt;int&gt;(target), value);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585">  139</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585">RenderWindow::Open</a>(<a class="code" href="struct_window_info.html">WindowInfo</a> windowConfig, <span class="keywordtype">bool</span> setPosition)</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;{</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">if</span> (isOpen || !glfwInit()) { <span class="keywordflow">return</span>; }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    windowInfo = std::move(windowConfig);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    windowHandler = glfwCreateWindow(windowInfo.<a class="code" href="struct_window_info.html#a9e35ca04d3d7d69c9bf3938a5467263a">width</a>, windowInfo.<a class="code" href="struct_window_info.html#ad9fe7c60410ca3cf50e848bc98a7353b">height</a>,</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                                     windowInfo.<a class="code" href="struct_window_info.html#abe192b2975092771593336dc1a8abe74">title</a>.c_str(),</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                                     <span class="keyword">nullptr</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">if</span> (setPosition)</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        glfwSetWindowPos(windowHandler, windowInfo.<a class="code" href="struct_window_info.html#ab8778ece91094ea9590b360ecefff671">x</a>, windowInfo.<a class="code" href="struct_window_info.html#a041eb30257791310ef32a97dba9a14aa">y</a>);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    }</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    glfwSetWindowSize(windowHandler, windowInfo.<a class="code" href="struct_window_info.html#a9e35ca04d3d7d69c9bf3938a5467263a">width</a>, windowInfo.<a class="code" href="struct_window_info.html#ad9fe7c60410ca3cf50e848bc98a7353b">height</a>);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    glfwSetWindowTitle(windowHandler, windowInfo.<a class="code" href="struct_window_info.html#abe192b2975092771593336dc1a8abe74">title</a>.c_str());</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    glfwGetWindowPos(windowHandler, &amp;windowInfo.<a class="code" href="struct_window_info.html#ab8778ece91094ea9590b360ecefff671">x</a>, &amp;windowInfo.<a class="code" href="struct_window_info.html#a041eb30257791310ef32a97dba9a14aa">y</a>);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">if</span> (!windowHandler)</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        glfwTerminate();</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Couldn&#39;t create GLFW window.&quot;</span>);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    }</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment">// successfull window open</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    isOpen = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;}</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="class_render_window.html#a8e655e120e85612a4a20d8694f4b8471">  170</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a8e655e120e85612a4a20d8694f4b8471">RenderWindow::Destroy</a>()</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;{</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    glfwDestroyWindow(windowHandler);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;}</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="class_render_window.html#a2bb78a935fa06ae6b8e611df90d55d76">  175</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a2bb78a935fa06ae6b8e611df90d55d76">RenderWindow::SetPosition</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> x, <span class="keyword">const</span> <span class="keywordtype">int</span> y)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;{</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    glfwSetWindowPos(windowHandler, x, y);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    windowInfo.<a class="code" href="struct_window_info.html#ab8778ece91094ea9590b360ecefff671">x</a> = x;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    windowInfo.<a class="code" href="struct_window_info.html#a041eb30257791310ef32a97dba9a14aa">y</a> = y;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="class_render_window.html#a217d961208931af838038ff84c45d605">  182</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a217d961208931af838038ff84c45d605">RenderWindow::SetWindowSize</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> w, <span class="keyword">const</span> <span class="keywordtype">int</span> h)</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;{</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    glfwSetWindowSize(windowHandler, w, h);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    windowInfo.<a class="code" href="struct_window_info.html#a9e35ca04d3d7d69c9bf3938a5467263a">width</a> = w;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    windowInfo.<a class="code" href="struct_window_info.html#ad9fe7c60410ca3cf50e848bc98a7353b">height</a> = h;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="class_render_window.html#ac778c239011e9b7ecf3a9dd8ead287c2">  189</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#ac778c239011e9b7ecf3a9dd8ead287c2">RenderWindow::SetWindowTitle</a>(<span class="keyword">const</span> std::string &amp;title)</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;{</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    glfwSetWindowTitle(windowHandler, title.c_str());</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    windowInfo.<a class="code" href="struct_window_info.html#abe192b2975092771593336dc1a8abe74">title</a> = title;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;}</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="class_render_window.html#ab1cdc772f4e16b9c90843124c4b16944">  195</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#ab1cdc772f4e16b9c90843124c4b16944">RenderWindow::SetAsCurrentContext</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    glfwMakeContextCurrent(windowHandler);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
+<div class="line"><a name="l00204"></a><span class="lineno"><a class="line" href="class_render_window.html#a8573aaac007eaae9613a3e59a829ba1d">  204</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#a8573aaac007eaae9613a3e59a829ba1d">RenderWindow::Events</a>(<a class="code" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24">EventMode</a> mode)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keywordflow">switch</span> (mode)</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24a87dde47c3c24ba7cc629ea2dacab3806">EventMode::Poll</a>: glfwPollEvents(); <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24a0f68101772bd5397ef8eb1b632798652">EventMode::Wait</a>: glfwWaitEvents(); <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="keywordflow">default</span>: <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    }</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;}</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno"><a class="line" href="class_render_window.html#a8e9613d2361c2ffa19c807df8f119503">  224</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_render_window.html#a8e9613d2361c2ffa19c807df8f119503">RenderWindow::ShouldClose</a>(<span class="keywordtype">bool</span> sendClose)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordflow">if</span> (sendClose) { glfwSetWindowShouldClose(windowHandler, <span class="keyword">true</span>); }</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">return</span> glfwWindowShouldClose(windowHandler);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;}</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="class_render_window.html#ae9066920a972e5c87e46aba707eee19f">  231</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_render_window.html#ae9066920a972e5c87e46aba707eee19f">RenderWindow::SwapBuffers</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    glfwSwapBuffers(windowHandler);</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;}</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
+<div class="line"><a name="l00236"></a><span class="lineno"><a class="line" href="class_render_window.html#ac644ce5a7654e4cdbc5a644bd9e02952">  236</a></span>&#160;<a class="code" href="class_render_window.html#ac644ce5a7654e4cdbc5a644bd9e02952">RenderWindow::RenderWindow</a>() : windowHandler(nullptr), isOpen(false)</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;{</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="comment">// glfw error catching</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    glfwSetErrorCallback(OnErrorCallback);</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordflow">if</span> (!glfwInit())</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    {</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        std::cerr &lt;&lt; <span class="stringliteral">&quot;Error initializing GLFW...&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    }</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;}</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;</div>
+<div class="line"><a name="l00247"></a><span class="lineno"><a class="line" href="class_render_window.html#ae17a8d98de14f8ddbbedbee39cf774e0">  247</a></span>&#160;<a class="code" href="class_render_window.html#ae17a8d98de14f8ddbbedbee39cf774e0">RenderWindow::~RenderWindow</a>()</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;{</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    glfwDestroyWindow(windowHandler);</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;}</div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8a6cdcf4740c431c4a89c75b9fe776c872"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a6cdcf4740c431c4a89c75b9fe776c872">RenderWindow::Hint::OpenGLCoreProfile</a></div></div>
 <div class="ttc" id="render__window_8h_html"><div class="ttname"><a href="render__window_8h.html">render_window.h</a></div></div>
-<div class="ttc" id="struct_window_settings_html_a041200534ceac3296a8eb4b0dd1bbe30"><div class="ttname"><a href="struct_window_settings.html#a041200534ceac3296a8eb4b0dd1bbe30">WindowSettings::position</a></div><div class="ttdeci">std::pair&lt; int, int &gt; position</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00006">render_window.h:6</a></div></div>
-<div class="ttc" id="class_render_window_html_af3e5cf1cb8101909466df8e27da7d05c"><div class="ttname"><a href="class_render_window.html#af3e5cf1cb8101909466df8e27da7d05c">RenderWindow::Open</a></div><div class="ttdeci">int Open()</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00009">render_window.cpp:9</a></div></div>
-<div class="ttc" id="class_render_window_html_a8e655e120e85612a4a20d8694f4b8471"><div class="ttname"><a href="class_render_window.html#a8e655e120e85612a4a20d8694f4b8471">RenderWindow::Destroy</a></div><div class="ttdeci">void Destroy()</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00039">render_window.cpp:39</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8af8c4b03387578ae736d3e27baba0581e"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af8c4b03387578ae736d3e27baba0581e">RenderWindow::Hint::OpenGLAPI</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8a60a3629ef6a8f991f45d7a85f2458544"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a60a3629ef6a8f991f45d7a85f2458544">RenderWindow::Hint::DontCare</a></div></div>
+<div class="ttc" id="struct_window_info_html_ab38561877c453bdd695dd2adf6c44762"><div class="ttname"><a href="struct_window_info.html#ab38561877c453bdd695dd2adf6c44762">WindowInfo::WindowInfo</a></div><div class="ttdeci">WindowInfo()</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00015">render_window.cpp:15</a></div></div>
+<div class="ttc" id="class_render_window_html_ac778c239011e9b7ecf3a9dd8ead287c2"><div class="ttname"><a href="class_render_window.html#ac778c239011e9b7ecf3a9dd8ead287c2">RenderWindow::SetWindowTitle</a></div><div class="ttdeci">void SetWindowTitle(const std::string &amp;title)</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00189">render_window.cpp:189</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8ace139341f2ede87eee438b9bd0e027ad"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ace139341f2ede87eee438b9bd0e027ad">RenderWindow::Hint::OpenGLESAPI</a></div></div>
+<div class="ttc" id="class_render_window_html_a71e0f5249b6cb0a0e6d6b52f036d3a24a0f68101772bd5397ef8eb1b632798652"><div class="ttname"><a href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24a0f68101772bd5397ef8eb1b632798652">RenderWindow::EventMode::Wait</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8a338d60f2fdc6f520fb7ad582493e4e68"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a338d60f2fdc6f520fb7ad582493e4e68">RenderWindow::Hint::NoneReleaseBehavior</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1">RenderWindow::ContextHints</a></div><div class="ttdeci">ContextHints</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00048">render_window.h:48</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1af5d25e5aa5fb78bee64707402a48cb6f"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1af5d25e5aa5fb78bee64707402a48cb6f">RenderWindow::ContextHints::ContextRobustness</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1a2b7037ee5dd42a6b99b208f251f86f24"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a2b7037ee5dd42a6b99b208f251f86f24">RenderWindow::ContextHints::ContextReleaseBehavior</a></div></div>
+<div class="ttc" id="struct_window_info_html_a041eb30257791310ef32a97dba9a14aa"><div class="ttname"><a href="struct_window_info.html#a041eb30257791310ef32a97dba9a14aa">WindowInfo::y</a></div><div class="ttdeci">int y</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00009">render_window.h:9</a></div></div>
+<div class="ttc" id="struct_window_info_html_ab8778ece91094ea9590b360ecefff671"><div class="ttname"><a href="struct_window_info.html#ab8778ece91094ea9590b360ecefff671">WindowInfo::x</a></div><div class="ttdeci">int x</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00008">render_window.h:8</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8ac09912f69d7a5dc956fc096d47af37f8"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ac09912f69d7a5dc956fc096d47af37f8">RenderWindow::Hint::NoResetNotification</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1a71b90844623ee5639b810742926824e0"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a71b90844623ee5639b810742926824e0">RenderWindow::ContextHints::OpenGLDebugContext</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8ad7e7dcfe2b1de87d91c963bd6e4ca0a0"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8ad7e7dcfe2b1de87d91c963bd6e4ca0a0">RenderWindow::Hint::AnyReleaseBehavior</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1a7a634cd12daf0e624e0af386ebae19f3"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a7a634cd12daf0e624e0af386ebae19f3">RenderWindow::ContextHints::OpenGLProfile</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8a03a9b45c2c6b69203a93985002928939"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a03a9b45c2c6b69203a93985002928939">RenderWindow::Hint::OpenGLAnyProfile</a></div></div>
+<div class="ttc" id="class_render_window_html_a71e0f5249b6cb0a0e6d6b52f036d3a24a87dde47c3c24ba7cc629ea2dacab3806"><div class="ttname"><a href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24a87dde47c3c24ba7cc629ea2dacab3806">RenderWindow::EventMode::Poll</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1aec47f0102ab62b45829e900a6da92fdb"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1aec47f0102ab62b45829e900a6da92fdb">RenderWindow::ContextHints::ClientAPI</a></div></div>
+<div class="ttc" id="class_render_window_html_ae9066920a972e5c87e46aba707eee19f"><div class="ttname"><a href="class_render_window.html#ae9066920a972e5c87e46aba707eee19f">RenderWindow::SwapBuffers</a></div><div class="ttdeci">void SwapBuffers() const </div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00231">render_window.cpp:231</a></div></div>
+<div class="ttc" id="class_render_window_html_a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6283478f5b60807028cd4a5bd5b86f8c"><div class="ttname"><a href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6283478f5b60807028cd4a5bd5b86f8c">RenderWindow::FramebufferHints::DoubleBuffer</a></div></div>
+<div class="ttc" id="class_render_window_html_ab1cdc772f4e16b9c90843124c4b16944"><div class="ttname"><a href="class_render_window.html#ab1cdc772f4e16b9c90843124c4b16944">RenderWindow::SetAsCurrentContext</a></div><div class="ttdeci">void SetAsCurrentContext() const </div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00195">render_window.cpp:195</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1a83099fc6a1c8daf8ba9479456ed746f7"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a83099fc6a1c8daf8ba9479456ed746f7">RenderWindow::ContextHints::ContextVersionMinor</a></div></div>
+<div class="ttc" id="class_render_window_html_a8573aaac007eaae9613a3e59a829ba1d"><div class="ttname"><a href="class_render_window.html#a8573aaac007eaae9613a3e59a829ba1d">RenderWindow::Events</a></div><div class="ttdeci">void Events(EventMode mode=EventMode::Poll) const </div><div class="ttdoc">Looks up for input events. </div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00204">render_window.cpp:204</a></div></div>
+<div class="ttc" id="class_render_window_html_a01deff84d75dc87d3138ab8aaa24cde5"><div class="ttname"><a href="class_render_window.html#a01deff84d75dc87d3138ab8aaa24cde5">RenderWindow::WindowHints</a></div><div class="ttdeci">WindowHints</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00020">render_window.h:20</a></div></div>
+<div class="ttc" id="class_render_window_html_a8e655e120e85612a4a20d8694f4b8471"><div class="ttname"><a href="class_render_window.html#a8e655e120e85612a4a20d8694f4b8471">RenderWindow::Destroy</a></div><div class="ttdeci">void Destroy()</div><div class="ttdoc">Destroys the GLFW Window </div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00170">render_window.cpp:170</a></div></div>
+<div class="ttc" id="class_render_window_html_a8e9613d2361c2ffa19c807df8f119503"><div class="ttname"><a href="class_render_window.html#a8e9613d2361c2ffa19c807df8f119503">RenderWindow::ShouldClose</a></div><div class="ttdeci">int ShouldClose(bool sendClose=false) const </div><div class="ttdoc">Indicates if the render window should close or sets it to be closed. </div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00224">render_window.cpp:224</a></div></div>
+<div class="ttc" id="struct_window_info_html_abe192b2975092771593336dc1a8abe74"><div class="ttname"><a href="struct_window_info.html#abe192b2975092771593336dc1a8abe74">WindowInfo::title</a></div><div class="ttdeci">std::string title</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00010">render_window.h:10</a></div></div>
 <div class="ttc" id="stdafx_8h_html"><div class="ttname"><a href="stdafx_8h.html">stdafx.h</a></div></div>
-<div class="ttc" id="class_render_window_html_ad3c3301e80e5893ba0766a805ef5aa78"><div class="ttname"><a href="class_render_window.html#ad3c3301e80e5893ba0766a805ef5aa78">RenderWindow::SetAsCurrentContext</a></div><div class="ttdeci">void SetAsCurrentContext()</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00051">render_window.cpp:51</a></div></div>
-<div class="ttc" id="class_render_window_html_a2bb78a935fa06ae6b8e611df90d55d76"><div class="ttname"><a href="class_render_window.html#a2bb78a935fa06ae6b8e611df90d55d76">RenderWindow::SetPosition</a></div><div class="ttdeci">void SetPosition(const int x, const int y)</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00044">render_window.cpp:44</a></div></div>
-<div class="ttc" id="class_render_window_html_ac644ce5a7654e4cdbc5a644bd9e02952"><div class="ttname"><a href="class_render_window.html#ac644ce5a7654e4cdbc5a644bd9e02952">RenderWindow::RenderWindow</a></div><div class="ttdeci">RenderWindow()</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00056">render_window.cpp:56</a></div></div>
-<div class="ttc" id="class_render_window_html_ae17a8d98de14f8ddbbedbee39cf774e0"><div class="ttname"><a href="class_render_window.html#ae17a8d98de14f8ddbbedbee39cf774e0">RenderWindow::~RenderWindow</a></div><div class="ttdeci">virtual ~RenderWindow()</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00060">render_window.cpp:60</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1a71d2c12f08d5708245cae3106aef5a81"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1a71d2c12f08d5708245cae3106aef5a81">RenderWindow::ContextHints::OpenGLForwardCompatibility</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8a9f11bc17e2495cd2799702f8bb0a3578"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a9f11bc17e2495cd2799702f8bb0a3578">RenderWindow::Hint::LoseContextOnReset</a></div></div>
+<div class="ttc" id="class_render_window_html_a217d961208931af838038ff84c45d605"><div class="ttname"><a href="class_render_window.html#a217d961208931af838038ff84c45d605">RenderWindow::SetWindowSize</a></div><div class="ttdeci">void SetWindowSize(const int w, const int h)</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00182">render_window.cpp:182</a></div></div>
+<div class="ttc" id="class_render_window_html_a9a06aa14ba77e4b6dfa7eaa4c1f411d4a360061190e04f55482b10ea2a1ba502e"><div class="ttname"><a href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a360061190e04f55482b10ea2a1ba502e">RenderWindow::FramebufferHints::SRGBCapable</a></div></div>
+<div class="ttc" id="struct_window_info_html_a9e35ca04d3d7d69c9bf3938a5467263a"><div class="ttname"><a href="struct_window_info.html#a9e35ca04d3d7d69c9bf3938a5467263a">WindowInfo::width</a></div><div class="ttdeci">unsigned int width</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00006">render_window.h:6</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8a6c4a8a4b6f41c87d2357df6210d1cf82"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a6c4a8a4b6f41c87d2357df6210d1cf82">RenderWindow::Hint::FlushReleaseBehavior</a></div></div>
+<div class="ttc" id="class_render_window_html_a11e26a383bce4948896c53b48b768e93"><div class="ttname"><a href="class_render_window.html#a11e26a383bce4948896c53b48b768e93">RenderWindow::WindowHint</a></div><div class="ttdeci">void WindowHint(const WindowHints &amp;target, const int value)</div><div class="ttdoc">Sets a WindowHints hint value. Has to be called before calling WindowInfoRenderWindow.Open </div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00037">render_window.cpp:37</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1add281d7c4a8659dca9200354a9acec68"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1add281d7c4a8659dca9200354a9acec68">RenderWindow::ContextHints::ContextVersionMajor</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8a5a2720be3d6935f937ea1a5a550c6ec4"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a5a2720be3d6935f937ea1a5a550c6ec4">RenderWindow::Hint::OpenGLCompatibilityProfile</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8af8320b26d30ab433c5a54546d21f414c"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af8320b26d30ab433c5a54546d21f414c">RenderWindow::Hint::False</a></div></div>
+<div class="ttc" id="class_render_window_html_ad73e986d18b73e3a34228348c5fa5585"><div class="ttname"><a href="class_render_window.html#ad73e986d18b73e3a34228348c5fa5585">RenderWindow::Open</a></div><div class="ttdeci">void Open(WindowInfo windowConfig=WindowInfo(), bool setPosition=true)</div><div class="ttdoc">Opens a GLFW window with the specified configuration. </div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00139">render_window.cpp:139</a></div></div>
+<div class="ttc" id="class_render_window_html_a9a06aa14ba77e4b6dfa7eaa4c1f411d4"><div class="ttname"><a href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4">RenderWindow::FramebufferHints</a></div><div class="ttdeci">FramebufferHints</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00029">render_window.h:29</a></div></div>
+<div class="ttc" id="class_render_window_html_a13125c4cf063b29a55b1f27aece23cd1adab03f5d3bf3484029ae3937f251b06b"><div class="ttname"><a href="class_render_window.html#a13125c4cf063b29a55b1f27aece23cd1adab03f5d3bf3484029ae3937f251b06b">RenderWindow::ContextHints::ContextRevision</a></div></div>
+<div class="ttc" id="class_render_window_html_a9a06aa14ba77e4b6dfa7eaa4c1f411d4abbc45d9b35436f5f0ed9e33499efcea9"><div class="ttname"><a href="class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4abbc45d9b35436f5f0ed9e33499efcea9">RenderWindow::FramebufferHints::Stereo</a></div></div>
+<div class="ttc" id="struct_window_info_html"><div class="ttname"><a href="struct_window_info.html">WindowInfo</a></div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00004">render_window.h:4</a></div></div>
+<div class="ttc" id="class_render_window_html_a2bb78a935fa06ae6b8e611df90d55d76"><div class="ttname"><a href="class_render_window.html#a2bb78a935fa06ae6b8e611df90d55d76">RenderWindow::SetPosition</a></div><div class="ttdeci">void SetPosition(const int x, const int y)</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00175">render_window.cpp:175</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8abd8cebb62b8a321a2f35f8ee779c5194"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8abd8cebb62b8a321a2f35f8ee779c5194">RenderWindow::Hint::NoRobustness</a></div></div>
+<div class="ttc" id="struct_window_info_html_ad9fe7c60410ca3cf50e848bc98a7353b"><div class="ttname"><a href="struct_window_info.html#ad9fe7c60410ca3cf50e848bc98a7353b">WindowInfo::height</a></div><div class="ttdeci">unsigned int height</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00007">render_window.h:7</a></div></div>
+<div class="ttc" id="class_render_window_html_ac644ce5a7654e4cdbc5a644bd9e02952"><div class="ttname"><a href="class_render_window.html#ac644ce5a7654e4cdbc5a644bd9e02952">RenderWindow::RenderWindow</a></div><div class="ttdeci">RenderWindow()</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00236">render_window.cpp:236</a></div></div>
+<div class="ttc" id="class_render_window_html_ad1fe41ad06931274d10323e898c61fc8af827cf462f62848df37c5e1e94a4da74"><div class="ttname"><a href="class_render_window.html#ad1fe41ad06931274d10323e898c61fc8af827cf462f62848df37c5e1e94a4da74">RenderWindow::Hint::True</a></div></div>
+<div class="ttc" id="class_render_window_html_ae17a8d98de14f8ddbbedbee39cf774e0"><div class="ttname"><a href="class_render_window.html#ae17a8d98de14f8ddbbedbee39cf774e0">RenderWindow::~RenderWindow</a></div><div class="ttdeci">virtual ~RenderWindow()</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8cpp_source.html#l00247">render_window.cpp:247</a></div></div>
+<div class="ttc" id="class_render_window_html_a71e0f5249b6cb0a0e6d6b52f036d3a24"><div class="ttname"><a href="class_render_window.html#a71e0f5249b6cb0a0e6d6b52f036d3a24">RenderWindow::EventMode</a></div><div class="ttdeci">EventMode</div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00078">render_window.h:78</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -100,7 +101,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_t"><span>t</span></a></li>
       <li><a href="#index_u"><span>u</span></a></li>
       <li><a href="#index_v"><span>v</span></a></li>
-      <li class="current"><a href="#index_w"><span>w</span></a></li>
+      <li><a href="#index_w"><span>w</span></a></li>
+      <li><a href="#index_x"><span>x</span></a></li>
+      <li class="current"><a href="#index_y"><span>y</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -122,12 +125,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
-<li>activeCamera
-: <a class="el" href="class_execution_info.html#a206d53b39d69b1876ef16117ab617399">ExecutionInfo</a>
-</li>
-<li>activeScene
-: <a class="el" href="class_execution_info.html#a61faea20bcc0795ad19a3a07ed4d9705">ExecutionInfo</a>
-</li>
 <li>ambient
 : <a class="el" href="class_light.html#afaa34bb2efc167adcb2055359fd08a49">Light</a>
 , <a class="el" href="struct_lighting_program_1_1_light_uniform.html#acbc6b3b7e4cd672792b54def550e15c1">LightingProgram::LightUniform</a>
@@ -182,8 +179,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_camera.html#aa4d30db62c0140589c1e332d496b142d">Camera</a>
 </li>
 <li>constant
-: <a class="el" href="struct_attenuation.html#a15d30ee920417f28903756abf619c48d">Attenuation</a>
+: <a class="el" href="struct_light_1_1_attenuation.html#ad84d64073a3d7507862b203c68474265">Light::Attenuation</a>
 , <a class="el" href="struct_lighting_program_1_1_light_uniform_1_1_attenuation_uniform.html#acd9586bc053c13f580964ad0c2b40dbe">LightingProgram::LightUniform::AttenuationUniform</a>
+</li>
+<li>current
+: <a class="el" href="class_single_active.html#a7478dca7fb8de966def7dbcf8b740dc6">SingleActive&lt; T &gt;</a>
 </li>
 </ul>
 
@@ -241,7 +241,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
 <li>height
 : <a class="el" href="class_raw_texture.html#ac5e37bde9f359cb9676891d8636e75d0">RawTexture</a>
-, <a class="el" href="struct_window_settings.html#a87cdc37b29add484995e2c54bcdb389b">WindowSettings</a>
+, <a class="el" href="struct_window_info.html#ad9fe7c60410ca3cf50e848bc98a7353b">WindowInfo</a>
 </li>
 <li>horizontalFoV
 : <a class="el" href="class_camera.html#a626d2ed03f88d6a740590117b5c9b72b">Camera</a>
@@ -271,7 +271,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="struct_lighting_program_1_1_light_uniform.html#aee159a679db1491a4b63eecba5a52a6a">LightingProgram::LightUniform</a>
 </li>
 <li>linear
-: <a class="el" href="struct_attenuation.html#a16bef464388b72b6e5955abe5be5a2aa">Attenuation</a>
+: <a class="el" href="struct_light_1_1_attenuation.html#a681ffc6fa6bd5dbc12790fd7d84f0800">Light::Attenuation</a>
 , <a class="el" href="struct_lighting_program_1_1_light_uniform_1_1_attenuation_uniform.html#a23fccedaa5748369f77a06e3a6d672f2">LightingProgram::LightUniform::AttenuationUniform</a>
 </li>
 <li>lineWidth
@@ -384,7 +384,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="class_light.html#a89bffe071ec6431a21c5b54021fe08d6">Light</a>
 , <a class="el" href="struct_lighting_program_1_1_light_uniform.html#ac5b78ef6bc19b8fce18efe4ce526650a">LightingProgram::LightUniform</a>
 , <a class="el" href="struct_vertex.html#a030819fdc241743bbd3e180a6b132ed3">Vertex</a>
-, <a class="el" href="struct_window_settings.html#a041200534ceac3296a8eb4b0dd1bbe30">WindowSettings</a>
 </li>
 <li>program
 : <a class="el" href="class_deferred_program.html#acfef2b1ebfa92bdb4d394d31cecd76af">DeferredProgram</a>
@@ -397,7 +396,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_q"></a>- q -</h3><ul>
 <li>quadratic
-: <a class="el" href="struct_attenuation.html#a3cea5ee4144a1e1d83900f559a6cf2ab">Attenuation</a>
+: <a class="el" href="struct_light_1_1_attenuation.html#a2a11965a25e0fd826c14dc9790fff810">Light::Attenuation</a>
 , <a class="el" href="struct_lighting_program_1_1_light_uniform_1_1_attenuation_uniform.html#aa523d7d63163deb5940258b2a3639a6d">LightingProgram::LightUniform::AttenuationUniform</a>
 </li>
 </ul>
@@ -449,7 +448,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_raw_texture.html#a41f22696466ec5f4996f0f4dccc7e5e0">RawTexture</a>
 </li>
 <li>title
-: <a class="el" href="struct_window_settings.html#a5f56c222507f096ac106b06235ac53e8">WindowSettings</a>
+: <a class="el" href="struct_window_info.html#abe192b2975092771593336dc1a8abe74">WindowInfo</a>
 </li>
 <li>transformMatrices
 : <a class="el" href="class_deferred_renderer.html#ac598e4706e91c58cd335500c2086b15e">DeferredRenderer</a>
@@ -499,13 +498,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>width
 : <a class="el" href="class_raw_texture.html#a8db9a3ed2c3851077b13b881db99232c">RawTexture</a>
-, <a class="el" href="struct_window_settings.html#a682fe02f872545c310d3d0dbf26720c7">WindowSettings</a>
+, <a class="el" href="struct_window_info.html#a9e35ca04d3d7d69c9bf3938a5467263a">WindowInfo</a>
 </li>
 <li>wrapS
 : <a class="el" href="class_o_g_l_texture2_d.html#a9ce6cda4bc4c3149447c20017c35efd8">OGLTexture2D</a>
 </li>
 <li>wrapT
 : <a class="el" href="class_o_g_l_texture2_d.html#a66d477be8c69a34eb6dc5660926bf28f">OGLTexture2D</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_x"></a>- x -</h3><ul>
+<li>x
+: <a class="el" href="struct_window_info.html#ab8778ece91094ea9590b360ecefff671">WindowInfo</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_y"></a>- y -</h3><ul>
+<li>y
+: <a class="el" href="struct_window_info.html#a041eb30257791310ef32a97dba9a14aa">WindowInfo</a>
 </li>
 </ul>
 </div><!-- contents -->

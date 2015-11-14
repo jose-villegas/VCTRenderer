@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uint1propertyid',['UInt1PropertyId',['../class_o_g_l_material.html#a81fa850de56de8694701524e81107b28',1,'OGLMaterial']]]
+  ['plane',['Plane',['../class_frustum.html#ab13c65bf33cca74e109102b20fe89618',1,'Frustum']]]
 ];

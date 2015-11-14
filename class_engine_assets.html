@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -100,14 +101,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad7c5eecd24a43c4ebecef7c2f7f522f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba9f303e2bc479be346c048a69aa94b1"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_assets.html#aba9f303e2bc479be346c048a69aa94b1">~EngineAssets</a> ()</td></tr>
 <tr class="separator:aba9f303e2bc479be346c048a69aa94b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95715aeb24e26e4a0ef643d61ffab657"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_assets.html#a95715aeb24e26e4a0ef643d61ffab657">GetScene</a> (const unsigned int index)</td></tr>
-<tr class="separator:a95715aeb24e26e4a0ef643d61ffab657"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28e0d6bba960a24be7174205e284d78e"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; const char * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_assets.html#a28e0d6bba960a24be7174205e284d78e">GetAvailableScenes</a> ()</td></tr>
-<tr class="separator:a28e0d6bba960a24be7174205e284d78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab48076f1eae7736d45aa9c03683405b4"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_assets.html#ab48076f1eae7736d45aa9c03683405b4">SceneCount</a> ()</td></tr>
-<tr class="separator:ab48076f1eae7736d45aa9c03683405b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad93ec8dfb99be68e1365fd2bf2346eb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_assets.html#ad93ec8dfb99be68e1365fd2bf2346eb7">LoadAssets</a> ()</td></tr>
-<tr class="separator:ad93ec8dfb99be68e1365fd2bf2346eb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97a2779927aad8cfa6e90dd7002be6f1"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; const char * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_assets.html#a97a2779927aad8cfa6e90dd7002be6f1">SceneNames</a> () const </td></tr>
+<tr class="separator:a97a2779927aad8cfa6e90dd7002be6f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b45d50d0a52d10ded377a252e5866a2"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="class_scene.html">Scene</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_assets.html#a9b45d50d0a52d10ded377a252e5866a2">Scenes</a> () const </td></tr>
+<tr class="separator:a9b45d50d0a52d10ded377a252e5866a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ae383c03bf5567a50bf9add4754d074"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_assets.html#a2ae383c03bf5567a50bf9add4754d074">LoadScenes</a> ()</td></tr>
+<tr class="separator:a2ae383c03bf5567a50bf9add4754d074"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -156,55 +155,12 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a28e0d6bba960a24be7174205e284d78e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt;const char *&gt;&amp; EngineAssets::GetAvailableScenes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="engine__assets_8h_source.html#l00022">22</a> of file <a class="el" href="engine__assets_8h_source.html">engine_assets.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a95715aeb24e26e4a0ef643d61ffab657"></a>
+<a class="anchor" id="a2ae383c03bf5567a50bf9add4754d074"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_scene.html">Scene</a> &amp; EngineAssets::GetScene </td>
-          <td>(</td>
-          <td class="paramtype">const unsigned int&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="engine__assets_8cpp_source.html#l00071">71</a> of file <a class="el" href="engine__assets_8cpp_source.html">engine_assets.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad93ec8dfb99be68e1365fd2bf2346eb7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void EngineAssets::LoadAssets </td>
+          <td class="memname">void EngineAssets::LoadScenes </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -212,32 +168,41 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="engine__assets_8cpp_source.html#l00076">76</a> of file <a class="el" href="engine__assets_8cpp_source.html">engine_assets.cpp</a>.</p>
+<p>Definition at line <a class="el" href="engine__assets_8cpp_source.html#l00041">41</a> of file <a class="el" href="engine__assets_8cpp_source.html">engine_assets.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab48076f1eae7736d45aa9c03683405b4"></a>
+<a class="anchor" id="a97a2779927aad8cfa6e90dd7002be6f1"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int EngineAssets::SceneCount </td>
+          <td class="memname">const std::vector&lt; const char * &gt; &amp; EngineAssets::SceneNames </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="engine__assets_8h_source.html#l00023">23</a> of file <a class="el" href="engine__assets_8h_source.html">engine_assets.h</a>.</p>
+<p>Definition at line <a class="el" href="engine__assets_8cpp_source.html#l00036">36</a> of file <a class="el" href="engine__assets_8cpp_source.html">engine_assets.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9b45d50d0a52d10ded377a252e5866a2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="class_scene.html">Scene</a> &gt; &gt; &amp; EngineAssets::Scenes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="engine__assets_8cpp_source.html#l00031">31</a> of file <a class="el" href="engine__assets_8cpp_source.html">engine_assets.cpp</a>.</p>
 
 </div>
 </div>

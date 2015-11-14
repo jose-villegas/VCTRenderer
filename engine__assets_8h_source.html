@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,38 +96,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="class_engine_assets.html">    4</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_engine_assets.html">EngineAssets</a></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        <span class="comment">// utility class to import scenes using assimp</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <a class="code" href="class_scene_importer.html">SceneImporter</a> sceneImporter;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="comment">// indicates when all threads have ended loading scenes</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordtype">bool</span> demoScenesLoaded;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="comment">// all scenes data used by the base engine are stored here</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        std::vector&lt;std::shared_ptr&lt;Scene&gt;&gt; demoScenes;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="comment">// stores locations of available scenes files</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        std::vector&lt;const char *&gt; sceneFilepaths;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="comment">// loaders</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordtype">void</span> LoadDefaultScenes();</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="class_engine_assets.html#ad7c5eecd24a43c4ebecef7c2f7f522f6">EngineAssets</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="class_engine_assets.html#aba9f303e2bc479be346c048a69aa94b1">~EngineAssets</a>();</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="class_scene.html">Scene</a> &amp;<a class="code" href="class_engine_assets.html#a95715aeb24e26e4a0ef643d61ffab657">GetScene</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> index);</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_engine_assets.html#a28e0d6bba960a24be7174205e284d78e">   22</a></span>&#160;        <span class="keyword">const</span> std::vector&lt;const char *&gt; &amp;<a class="code" href="class_engine_assets.html#a28e0d6bba960a24be7174205e284d78e">GetAvailableScenes</a>() { <span class="keywordflow">return</span> sceneFilepaths; }</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="class_engine_assets.html#ab48076f1eae7736d45aa9c03683405b4">   23</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_engine_assets.html#ab48076f1eae7736d45aa9c03683405b4">SceneCount</a>() { <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)sceneFilepaths.size(); }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_engine_assets.html#ad93ec8dfb99be68e1365fd2bf2346eb7">LoadAssets</a>();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        <a class="code" href="class_engine_assets.html#ad7c5eecd24a43c4ebecef7c2f7f522f6">EngineAssets</a>();</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="class_engine_assets.html#aba9f303e2bc479be346c048a69aa94b1">~EngineAssets</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">const</span> std::vector&lt;const char *&gt; &amp;<a class="code" href="class_engine_assets.html#a97a2779927aad8cfa6e90dd7002be6f1">SceneNames</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">const</span> std::vector&lt;std::shared_ptr&lt;Scene&gt;&gt; &amp;<a class="code" href="class_engine_assets.html#a9b45d50d0a52d10ded377a252e5866a2">Scenes</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_engine_assets.html#a2ae383c03bf5567a50bf9add4754d074">LoadScenes</a>();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="comment">// prevents loading scenes twice</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordtype">bool</span> scenesAlreadyLoaded;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="comment">// utility class to import scenes using assimp</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="class_scene_importer.html">SceneImporter</a> sceneImporter;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="comment">// all scenes data used by the base engine are stored here</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        std::vector&lt;std::shared_ptr&lt;Scene&gt;&gt; scenes;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment">// stores locations of available scenes files</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        std::vector&lt;const char *&gt; sceneFilepaths;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        std::vector&lt;const char *&gt; sceneNames;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;};</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="ttc" id="class_engine_assets_html_ad7c5eecd24a43c4ebecef7c2f7f522f6"><div class="ttname"><a href="class_engine_assets.html#ad7c5eecd24a43c4ebecef7c2f7f522f6">EngineAssets::EngineAssets</a></div><div class="ttdeci">EngineAssets()</div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8cpp_source.html#l00005">engine_assets.cpp:5</a></div></div>
+<div class="ttc" id="class_engine_assets_html_a9b45d50d0a52d10ded377a252e5866a2"><div class="ttname"><a href="class_engine_assets.html#a9b45d50d0a52d10ded377a252e5866a2">EngineAssets::Scenes</a></div><div class="ttdeci">const std::vector&lt; std::shared_ptr&lt; Scene &gt; &gt; &amp; Scenes() const </div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8cpp_source.html#l00031">engine_assets.cpp:31</a></div></div>
 <div class="ttc" id="class_engine_assets_html"><div class="ttname"><a href="class_engine_assets.html">EngineAssets</a></div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8h_source.html#l00004">engine_assets.h:4</a></div></div>
-<div class="ttc" id="class_engine_assets_html_a95715aeb24e26e4a0ef643d61ffab657"><div class="ttname"><a href="class_engine_assets.html#a95715aeb24e26e4a0ef643d61ffab657">EngineAssets::GetScene</a></div><div class="ttdeci">Scene &amp; GetScene(const unsigned int index)</div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8cpp_source.html#l00071">engine_assets.cpp:71</a></div></div>
-<div class="ttc" id="class_engine_assets_html_ad93ec8dfb99be68e1365fd2bf2346eb7"><div class="ttname"><a href="class_engine_assets.html#ad93ec8dfb99be68e1365fd2bf2346eb7">EngineAssets::LoadAssets</a></div><div class="ttdeci">void LoadAssets()</div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8cpp_source.html#l00076">engine_assets.cpp:76</a></div></div>
-<div class="ttc" id="class_scene_html"><div class="ttname"><a href="class_scene.html">Scene</a></div><div class="ttdef"><b>Definition:</b> <a href="scene_8h_source.html#l00009">scene.h:9</a></div></div>
-<div class="ttc" id="class_engine_assets_html_ab48076f1eae7736d45aa9c03683405b4"><div class="ttname"><a href="class_engine_assets.html#ab48076f1eae7736d45aa9c03683405b4">EngineAssets::SceneCount</a></div><div class="ttdeci">unsigned int SceneCount()</div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8h_source.html#l00023">engine_assets.h:23</a></div></div>
+<div class="ttc" id="class_engine_assets_html_a2ae383c03bf5567a50bf9add4754d074"><div class="ttname"><a href="class_engine_assets.html#a2ae383c03bf5567a50bf9add4754d074">EngineAssets::LoadScenes</a></div><div class="ttdeci">void LoadScenes()</div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8cpp_source.html#l00041">engine_assets.cpp:41</a></div></div>
 <div class="ttc" id="scene__importer_8h_html"><div class="ttname"><a href="scene__importer_8h.html">scene_importer.h</a></div></div>
-<div class="ttc" id="class_engine_assets_html_a28e0d6bba960a24be7174205e284d78e"><div class="ttname"><a href="class_engine_assets.html#a28e0d6bba960a24be7174205e284d78e">EngineAssets::GetAvailableScenes</a></div><div class="ttdeci">const std::vector&lt; const char * &gt; &amp; GetAvailableScenes()</div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8h_source.html#l00022">engine_assets.h:22</a></div></div>
+<div class="ttc" id="class_engine_assets_html_a97a2779927aad8cfa6e90dd7002be6f1"><div class="ttname"><a href="class_engine_assets.html#a97a2779927aad8cfa6e90dd7002be6f1">EngineAssets::SceneNames</a></div><div class="ttdeci">const std::vector&lt; const char * &gt; &amp; SceneNames() const </div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8cpp_source.html#l00036">engine_assets.cpp:36</a></div></div>
 <div class="ttc" id="class_engine_assets_html_aba9f303e2bc479be346c048a69aa94b1"><div class="ttname"><a href="class_engine_assets.html#aba9f303e2bc479be346c048a69aa94b1">EngineAssets::~EngineAssets</a></div><div class="ttdeci">virtual ~EngineAssets()</div><div class="ttdef"><b>Definition:</b> <a href="engine__assets_8cpp_source.html#l00023">engine_assets.cpp:23</a></div></div>
-<div class="ttc" id="class_scene_importer_html"><div class="ttname"><a href="class_scene_importer.html">SceneImporter</a></div><div class="ttdef"><b>Definition:</b> <a href="scene__importer_8h_source.html#l00010">scene_importer.h:10</a></div></div>
+<div class="ttc" id="class_scene_importer_html"><div class="ttname"><a href="class_scene_importer.html">SceneImporter</a></div><div class="ttdef"><b>Definition:</b> <a href="scene__importer_8h_source.html#l00009">scene_importer.h:9</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

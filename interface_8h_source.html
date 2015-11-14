@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -91,7 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="interface_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="render__window_8h.html">render_window.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">class </span><a class="code" href="class_render_window.html">RenderWindow</a>;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="class_interface.html">    4</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_interface.html">Interface</a></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
@@ -139,15 +140,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> SetClipboardText(<span class="keyword">const</span> <span class="keywordtype">char</span> * text);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * GetClipboardText();</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
-<div class="ttc" id="render__window_8h_html"><div class="ttname"><a href="render__window_8h.html">render_window.h</a></div></div>
-<div class="ttc" id="class_interface_html_ad7f4818ee9560b0462fc46ff82188413"><div class="ttname"><a href="class_interface.html#ad7f4818ee9560b0462fc46ff82188413">Interface::NewFrame</a></div><div class="ttdeci">void NewFrame()</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00178">interface.cpp:178</a></div></div>
-<div class="ttc" id="class_interface_html_a2bdcd6b2c85bb5f0bd756524a821b9df"><div class="ttname"><a href="class_interface.html#a2bdcd6b2c85bb5f0bd756524a821b9df">Interface::Terminate</a></div><div class="ttdeci">void Terminate()</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00340">interface.cpp:340</a></div></div>
+<div class="ttc" id="class_interface_html_ad7f4818ee9560b0462fc46ff82188413"><div class="ttname"><a href="class_interface.html#ad7f4818ee9560b0462fc46ff82188413">Interface::NewFrame</a></div><div class="ttdeci">void NewFrame()</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00179">interface.cpp:179</a></div></div>
+<div class="ttc" id="class_interface_html_a2bdcd6b2c85bb5f0bd756524a821b9df"><div class="ttname"><a href="class_interface.html#a2bdcd6b2c85bb5f0bd756524a821b9df">Interface::Terminate</a></div><div class="ttdeci">void Terminate()</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00341">interface.cpp:341</a></div></div>
 <div class="ttc" id="class_interface_html"><div class="ttname"><a href="class_interface.html">Interface</a></div><div class="ttdef"><b>Definition:</b> <a href="interface_8h_source.html#l00004">interface.h:4</a></div></div>
-<div class="ttc" id="class_interface_html_a4406d74c75bdfe150bf72be1f1cda8b1"><div class="ttname"><a href="class_interface.html#a4406d74c75bdfe150bf72be1f1cda8b1">Interface::Interface</a></div><div class="ttdeci">Interface()</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00012">interface.cpp:12</a></div></div>
-<div class="ttc" id="class_interface_html_aeac0b572a2d73782b27da1f0084f0f5f"><div class="ttname"><a href="class_interface.html#aeac0b572a2d73782b27da1f0084f0f5f">Interface::Initialize</a></div><div class="ttdeci">void Initialize(const RenderWindow &amp;activeWindow, bool instantCallbacks=true)</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00129">interface.cpp:129</a></div></div>
-<div class="ttc" id="class_render_window_html"><div class="ttname"><a href="class_render_window.html">RenderWindow</a></div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00012">render_window.h:12</a></div></div>
-<div class="ttc" id="class_interface_html_a19179888f29f18f1be54a3dfe98f68c0"><div class="ttname"><a href="class_interface.html#a19179888f29f18f1be54a3dfe98f68c0">Interface::~Interface</a></div><div class="ttdeci">virtual ~Interface()</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00017">interface.cpp:17</a></div></div>
-<div class="ttc" id="class_interface_html_a637ef08a4ccaaeedd10572470cf0afce"><div class="ttname"><a href="class_interface.html#a637ef08a4ccaaeedd10572470cf0afce">Interface::Render</a></div><div class="ttdeci">void Render() const </div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00173">interface.cpp:173</a></div></div>
+<div class="ttc" id="class_interface_html_a4406d74c75bdfe150bf72be1f1cda8b1"><div class="ttname"><a href="class_interface.html#a4406d74c75bdfe150bf72be1f1cda8b1">Interface::Interface</a></div><div class="ttdeci">Interface()</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00013">interface.cpp:13</a></div></div>
+<div class="ttc" id="class_interface_html_aeac0b572a2d73782b27da1f0084f0f5f"><div class="ttname"><a href="class_interface.html#aeac0b572a2d73782b27da1f0084f0f5f">Interface::Initialize</a></div><div class="ttdeci">void Initialize(const RenderWindow &amp;activeWindow, bool instantCallbacks=true)</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00130">interface.cpp:130</a></div></div>
+<div class="ttc" id="class_render_window_html"><div class="ttname"><a href="class_render_window.html">RenderWindow</a></div><div class="ttdef"><b>Definition:</b> <a href="render__window_8h_source.html#l00017">render_window.h:17</a></div></div>
+<div class="ttc" id="class_interface_html_a19179888f29f18f1be54a3dfe98f68c0"><div class="ttname"><a href="class_interface.html#a19179888f29f18f1be54a3dfe98f68c0">Interface::~Interface</a></div><div class="ttdeci">virtual ~Interface()</div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00018">interface.cpp:18</a></div></div>
+<div class="ttc" id="class_interface_html_a637ef08a4ccaaeedd10572470cf0afce"><div class="ttname"><a href="class_interface.html#a637ef08a4ccaaeedd10572470cf0afce">Interface::Render</a></div><div class="ttdeci">void Render() const </div><div class="ttdef"><b>Definition:</b> <a href="interface_8cpp_source.html#l00174">interface.cpp:174</a></div></div>
 <div class="ttc" id="class_interface_html_a82df247fd022d924995421ab90444945"><div class="ttname"><a href="class_interface.html#a82df247fd022d924995421ab90444945">Interface::Draw</a></div><div class="ttdeci">virtual void Draw()=0</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

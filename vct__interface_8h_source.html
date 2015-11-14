@@ -25,7 +25,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">VCT Engine
    </div>
-   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination computations.</div>
+   <div id="projectbrief">Rendering engine using voxel cone tracing for global illumination.</div>
   </td>
  </tr>
  </tbody>
@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -93,37 +94,40 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="vct__interface_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="interface_8h.html">interface.h</a>&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="class_u_i.html">    4</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_u_i.html">UI</a> : <span class="keyword">public</span> <a class="code" href="class_interface.html">Interface</a></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">DrawGBufferTexture</a>(<span class="keyword">const</span> oglplus::Texture &amp;texture,</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                <span class="keyword">const</span> std::string &amp;name) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#aa90f11a78ac64dd45035790a1962f045">DrawFramerateMetrics</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a0c8f97aeaacf2c2883764ced43a8d3e0">DrawSceneSelector</a>();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ab8567b8442587ef6af6224beb214034e">DrawGBufferTextures</a>();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab">DrawDebugWindow</a>();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a0c463177a6414ec16faa8029455814ce">DrawFPSNotif</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85">Draw</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">UI</a>();</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">~UI</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        ImVec2 uiPos, uiSize;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        ImGuiIO &amp;io;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;};</div>
-<div class="ttc" id="class_u_i_html_a675985a56b5e87ebdc8e5884b9f2ee09"><div class="ttname"><a href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">UI::UI</a></div><div class="ttdeci">UI()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00177">vct_interface.cpp:177</a></div></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">class </span><a class="code" href="class_engine_base.html">EngineBase</a>;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="class_u_i.html">    6</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_u_i.html">UI</a> : <span class="keyword">public</span> <a class="code" href="class_interface.html">Interface</a></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">DrawGBufferTexture</a>(<span class="keyword">const</span> oglplus::Texture &amp;texture,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                <span class="keyword">const</span> std::string &amp;name) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#aa90f11a78ac64dd45035790a1962f045">DrawFramerateMetrics</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a0c8f97aeaacf2c2883764ced43a8d3e0">DrawSceneSelector</a>();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ab8567b8442587ef6af6224beb214034e">DrawGBufferTextures</a>();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab">DrawDebugWindow</a>();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#a0c463177a6414ec16faa8029455814ce">DrawFPSNotif</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85">Draw</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">UI</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">~UI</a>();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> ImGuiIO &amp;io;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        ImVec2 uiPos, uiSize;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;};</div>
+<div class="ttc" id="class_engine_base_html"><div class="ttname"><a href="class_engine_base.html">EngineBase</a></div><div class="ttdef"><b>Definition:</b> <a href="engine__base_8h_source.html#l00007">engine_base.h:7</a></div></div>
+<div class="ttc" id="class_u_i_html_a675985a56b5e87ebdc8e5884b9f2ee09"><div class="ttname"><a href="class_u_i.html#a675985a56b5e87ebdc8e5884b9f2ee09">UI::UI</a></div><div class="ttdeci">UI()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00181">vct_interface.cpp:181</a></div></div>
 <div class="ttc" id="class_interface_html"><div class="ttname"><a href="class_interface.html">Interface</a></div><div class="ttdef"><b>Definition:</b> <a href="interface_8h_source.html#l00004">interface.h:4</a></div></div>
-<div class="ttc" id="class_u_i_html"><div class="ttname"><a href="class_u_i.html">UI</a></div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8h_source.html#l00004">vct_interface.h:4</a></div></div>
+<div class="ttc" id="class_u_i_html"><div class="ttname"><a href="class_u_i.html">UI</a></div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8h_source.html#l00006">vct_interface.h:6</a></div></div>
 <div class="ttc" id="interface_8h_html"><div class="ttname"><a href="interface_8h.html">interface.h</a></div></div>
-<div class="ttc" id="class_u_i_html_a53f9edbb566c125b59cbf7f02b8e74ab"><div class="ttname"><a href="class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab">UI::DrawDebugWindow</a></div><div class="ttdeci">void DrawDebugWindow()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00117">vct_interface.cpp:117</a></div></div>
-<div class="ttc" id="class_u_i_html_a0c463177a6414ec16faa8029455814ce"><div class="ttname"><a href="class_u_i.html#a0c463177a6414ec16faa8029455814ce">UI::DrawFPSNotif</a></div><div class="ttdeci">void DrawFPSNotif() const </div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00147">vct_interface.cpp:147</a></div></div>
-<div class="ttc" id="class_u_i_html_ab1403cfb83132a7815e11fd3ece8fc85"><div class="ttname"><a href="class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85">UI::Draw</a></div><div class="ttdeci">void Draw() override</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00168">vct_interface.cpp:168</a></div></div>
+<div class="ttc" id="class_u_i_html_a53f9edbb566c125b59cbf7f02b8e74ab"><div class="ttname"><a href="class_u_i.html#a53f9edbb566c125b59cbf7f02b8e74ab">UI::DrawDebugWindow</a></div><div class="ttdeci">void DrawDebugWindow()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00121">vct_interface.cpp:121</a></div></div>
+<div class="ttc" id="class_u_i_html_a0c463177a6414ec16faa8029455814ce"><div class="ttname"><a href="class_u_i.html#a0c463177a6414ec16faa8029455814ce">UI::DrawFPSNotif</a></div><div class="ttdeci">void DrawFPSNotif() const </div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00151">vct_interface.cpp:151</a></div></div>
+<div class="ttc" id="class_u_i_html_ab1403cfb83132a7815e11fd3ece8fc85"><div class="ttname"><a href="class_u_i.html#ab1403cfb83132a7815e11fd3ece8fc85">UI::Draw</a></div><div class="ttdeci">void Draw() override</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00172">vct_interface.cpp:172</a></div></div>
 <div class="ttc" id="class_u_i_html_ad0259f592dc53508b5a6de86a43ee85c"><div class="ttname"><a href="class_u_i.html#ad0259f592dc53508b5a6de86a43ee85c">UI::DrawGBufferTexture</a></div><div class="ttdeci">void DrawGBufferTexture(const oglplus::Texture &amp;texture, const std::string &amp;name) const </div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00007">vct_interface.cpp:7</a></div></div>
 <div class="ttc" id="class_u_i_html_a0c8f97aeaacf2c2883764ced43a8d3e0"><div class="ttname"><a href="class_u_i.html#a0c8f97aeaacf2c2883764ced43a8d3e0">UI::DrawSceneSelector</a></div><div class="ttdeci">void DrawSceneSelector()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00076">vct_interface.cpp:76</a></div></div>
-<div class="ttc" id="class_u_i_html_ab8567b8442587ef6af6224beb214034e"><div class="ttname"><a href="class_u_i.html#ab8567b8442587ef6af6224beb214034e">UI::DrawGBufferTextures</a></div><div class="ttdeci">void DrawGBufferTextures()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00095">vct_interface.cpp:95</a></div></div>
+<div class="ttc" id="class_u_i_html_ab8567b8442587ef6af6224beb214034e"><div class="ttname"><a href="class_u_i.html#ab8567b8442587ef6af6224beb214034e">UI::DrawGBufferTextures</a></div><div class="ttdeci">void DrawGBufferTextures()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00099">vct_interface.cpp:99</a></div></div>
 <div class="ttc" id="class_u_i_html_aa90f11a78ac64dd45035790a1962f045"><div class="ttname"><a href="class_u_i.html#aa90f11a78ac64dd45035790a1962f045">UI::DrawFramerateMetrics</a></div><div class="ttdeci">void DrawFramerateMetrics() const </div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00029">vct_interface.cpp:29</a></div></div>
-<div class="ttc" id="class_u_i_html_a1b23d0c64c7cbb3d143d90ec532a7ccd"><div class="ttname"><a href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">UI::~UI</a></div><div class="ttdeci">virtual ~UI()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00178">vct_interface.cpp:178</a></div></div>
+<div class="ttc" id="class_u_i_html_a1b23d0c64c7cbb3d143d90ec532a7ccd"><div class="ttname"><a href="class_u_i.html#a1b23d0c64c7cbb3d143d90ec532a7ccd">UI::~UI</a></div><div class="ttdeci">virtual ~UI()</div><div class="ttdef"><b>Definition:</b> <a href="vct__interface_8cpp_source.html#l00182">vct_interface.cpp:182</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
