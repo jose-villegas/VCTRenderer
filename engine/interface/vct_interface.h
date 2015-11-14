@@ -1,6 +1,8 @@
 #pragma once
 #include "interface.h"
 
+class EngineBase;
+
 class UI : public Interface
 {
 
@@ -17,6 +19,6 @@ class UI : public Interface
         UI();
         virtual ~UI();
     private:
+        const ImGuiIO &io;
         ImVec2 uiPos, uiSize;
-        ImGuiIO &io;
 };

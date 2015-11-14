@@ -1,6 +1,5 @@
 #pragma once
 #include "..\scene\scene.h"
-
 #include "assimp\Importer.hpp"
 #include "assimp\postprocess.h"
 #include "assimp\scene.h"
@@ -17,9 +16,9 @@ class SceneImporter
         bool Import(const std::string &sFilepath, Scene &outScene);
 
         // fine imports
-        void ImportMaterial(aiMaterial *mMaterial, OGLMaterial &outMaterial);
-        void ImportMesh(aiMesh *mMesh, Mesh &outMesh);
-        void ProcessNodes(Scene &scene, aiNode* node, Node &newNode);
+        void ImportMaterial(aiMaterial * mMaterial, OGLMaterial &outMaterial);
+        void ImportMesh(aiMesh * mMesh, Mesh &outMesh);
+        void ProcessNodes(Scene &scene, aiNode * node, Node &newNode);
         void ImportCamera(aiCamera * cam, Camera &newCamera);
         void ImportLight(aiLight * light, Light &newLight);
         void ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,

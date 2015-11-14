@@ -30,8 +30,8 @@ void EngineBase::MainLoop()
     using namespace oglplus;
     // import assets and initialize ext libraries
     this->Initialize();
+    // set rendering view port
     gl.Viewport(1280, 720);
-    int sceneCount = assetLoader->SceneCount();
 
     // render loop
     while (!renderWindow.ShouldClose())
@@ -43,13 +43,8 @@ void EngineBase::MainLoop()
         // draw custom engine ui
         userInterface.NewFrame();
         userInterface.Draw();
-
-        if (execInfo.activeScene >= 0 && execInfo.activeScene < sceneCount)
-        {
-            auto &activeScene = assetLoader->GetScene(execInfo.activeScene);
-            renderer->Render(activeScene);
-        }
-
+        // render main scene
+        renderer->Render();
         // ui render over scene
         userInterface.Render();
         // finally swap current frame
@@ -76,7 +71,7 @@ void EngineBase::Initialize()
     utils::PrintDependenciesVersions();
     // load engine demo scene assets
     assetLoader = std::make_unique<EngineAssets>();
-    assetLoader->LoadAssets();
+    assetLoader->LoadScenes();
     // initialize deferred shading renderer / manager
     renderer = std::make_unique<DeferredRenderer>(renderWindow);
     renderer->Initialize();

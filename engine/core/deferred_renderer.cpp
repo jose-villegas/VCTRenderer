@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "deferred_renderer.h"
+#include "engine_base.h"
 
 bool DeferredRenderer::FrustumCulling = true;
 
@@ -18,13 +19,13 @@ void DeferredRenderer::Initialize()
 {
 }
 
-void DeferredRenderer::Render(Scene &activeScene)
+void DeferredRenderer::Render()
 {
     using namespace oglplus;
-    auto mainCamera = Camera::Main();
+    auto &camera = Camera::Active();
+    auto &scene = Scene::Active();
 
-    // no active camera
-    if (mainCamera == nullptr) { return; }
+    if (!camera || !scene) { return; }
 
     // bind g buffer for writing
     deferredHandler.BindGeometryBuffer(FramebufferTarget::Draw);
@@ -37,27 +38,27 @@ void DeferredRenderer::Render(Scene &activeScene)
     gl.Enable(Capability::DepthTest);
     gl.Enable(Capability::CullFace);
     gl.FrontFace(FaceOrientation::CCW);
-    gl.CullFace(oglplus::Face::Back);
+    gl.CullFace(Face::Back);
     // play with camera parameters - testing
-    mainCamera->position = glm::vec3(0.0f, 0.50f, 0.0f);
-    mainCamera->lookAt =
+    camera->position = glm::vec3(0.0f, 0.50f, 0.0f);
+    camera->lookAt =
         glm::vec3(
-            std::sin(glfwGetTime() * 0.5f),
+            sin(glfwGetTime() * 0.5f),
             0.50f,
-            std::cos(glfwGetTime() * 0.5f)
+            cos(glfwGetTime() * 0.5f)
         );
-    mainCamera->clipPlaneFar = 10000.0f;
+    camera->clipPlaneFar = 10000.0f;
     // update view and projection matrices with camera parameters
     transformMatrices.UpdateProjectionMatrix
-    (mainCamera->GetProjecctionMatrix());
+    (camera->GetProjecctionMatrix());
     transformMatrices.UpdateViewMatrix
-    (mainCamera->GetViewMatrix());
+    (camera->GetViewMatrix());
 
     // update frustum planes with new viewProjection matrix
     if (FrustumCulling) { transformMatrices.UpdateFrustumPlanes(viewFrustum); }
 
     // draw whole scene hierarchy tree from root node
-    activeScene.rootNode.DrawRecursive();
+    scene->rootNode.DrawRecursive();
     // start light pass
     DefaultFramebuffer().Bind(FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
@@ -70,7 +71,7 @@ void DeferredRenderer::Render(Scene &activeScene)
 
 void DeferredRenderer::SetMatricesUniforms()
 {
-    auto &geom = deferredHandler.geometryProgram;
+    static auto &geom = deferredHandler.geometryProgram;
 
     for each(auto & matrixId in geom.ActiveTransformMatrices())
     {
@@ -132,7 +133,7 @@ void DeferredRenderer::SetMaterialUniforms(const std::shared_ptr<OGLMaterial>
     // no need to reset uniforms if material is already set
     if (activeMaterial == mat.get()) { return; }
 
-    auto &geom = deferredHandler.geometryProgram;
+    static auto &geom = deferredHandler.geometryProgram;
     activeMaterial = mat.get();
 
     for each(auto & float3PropertyId in geom.ActiveMaterialFloat3Properties())
@@ -247,8 +248,8 @@ void DeferredRenderer::SetMaterialUniforms(const std::shared_ptr<OGLMaterial>
 
 void DeferredRenderer::SetLightPassUniforms()
 {
-    auto &light = deferredHandler.lightingProgram;
-    light.SetUniform(Camera::Main()->position);
+    static auto &light = deferredHandler.lightingProgram;
+    light.SetUniform(Camera::Active()->position);
     light.SetUniform(
         DeferredProgram::Position,
         DeferredProgram::Position

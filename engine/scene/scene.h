@@ -6,7 +6,7 @@
 #include "texture.h"
 #include "node.h"
 
-class Scene
+class Scene : public SingleActive<Scene>
 {
     protected:
         std::string filepath;

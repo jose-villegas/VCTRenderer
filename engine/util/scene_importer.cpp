@@ -56,13 +56,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
             ImportMesh(scene->mMeshes[i], *newMesh);
             // material assigned to mesh
             newMesh->material = outScene.materials[scene->mMeshes[i]->mMaterialIndex];
-            // sort the meshes by material to reduce gl calls
-            auto it = std::lower_bound(
-                          outScene.meshes.begin(), outScene.meshes.end(), newMesh,
-                          [ = ](std::shared_ptr<OGLMesh> lhs, std::shared_ptr<OGLMesh> rhs)
-                          -> bool { return lhs->material->name < rhs->material->name; }
-                      );
-            outScene.meshes.insert(it, std::move(newMesh));
+            outScene.meshes.push_back(std::move(newMesh));
         }
     }
 
@@ -265,6 +259,7 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode * node, Node &newNode)
     // meshes associated with this node
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
+        // insert after same name
         newNode.meshes.push_back(scene.meshes[node->mMeshes[i]]);
         // node boundaries based on mesh boundaries
         newNode.boundaries.TryMinMax(

@@ -267,6 +267,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="util\single_active.h" />
     <ClInclude Include="types\frustum.h" />
     <ClInclude Include="types\bounding_volume.h" />
     <ClInclude Include="core\engine_assets.h" />

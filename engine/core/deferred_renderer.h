@@ -18,7 +18,7 @@ class DeferredRenderer
 
         void Initialize();
         // calls drawing instructions
-        void Render(Scene &activeScene);
+        void Render();
         DeferredHandler &GetDeferredHandler() { return deferredHandler; }
         // program uniform setters
         void SetMatricesUniforms();

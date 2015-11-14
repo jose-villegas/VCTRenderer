@@ -75,17 +75,21 @@ void UI::DrawFramerateMetrics() const
 
 void UI::DrawSceneSelector()
 {
-    static auto engineAssets = &EngineBase::Instance()->GetAssets();
-    static auto executionInfo = &EngineBase::Instance()->GetExecInfo();
+    static auto sceneNames = EngineBase::Instance()->GetAssets().SceneNames();
+    static int activeScene = sceneNames.size() - 1;
     ImGui::SetNextWindowPos(ImVec2(3, 3));
     ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
                  ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove);
     // active scene selector
     ImGui::PushItemWidth(450);
-    ImGui::Combo("Active", &executionInfo->activeScene,
-                 const_cast<const char **>
-                 (engineAssets->GetAvailableScenes().data()),
-                 static_cast<int>(engineAssets->GetAvailableScenes().size()));
+
+    if (ImGui::Combo("Active", &activeScene, const_cast<const char **>
+                     (sceneNames.data()), static_cast<int>(sceneNames.size())))
+    {
+        static auto scenes = EngineBase::Instance()->GetAssets().Scenes();
+        scenes[activeScene]->SetAsActive();
+    }
+
     ImGui::PopItemWidth();
     uiPos = ImGui::GetWindowPos();
     uiSize = ImGui::GetWindowSize();

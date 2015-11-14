@@ -3,25 +3,23 @@
 
 class EngineAssets
 {
-    private:
-        // utility class to import scenes using assimp
-        SceneImporter sceneImporter;
-        // indicates when all threads have ended loading scenes
-        bool demoScenesLoaded;
-        // all scenes data used by the base engine are stored here
-        std::vector<std::shared_ptr<Scene>> demoScenes;
-        // stores locations of available scenes files
-        std::vector<const char *> sceneFilepaths;
-        // loaders
-        void LoadDefaultScenes();
     public:
         EngineAssets();
         virtual ~EngineAssets();
 
-        Scene &GetScene(const unsigned int index);
-        const std::vector<const char *> &GetAvailableScenes() { return sceneFilepaths; }
-        unsigned int SceneCount() { return (unsigned int)sceneFilepaths.size(); }
-        void LoadAssets();
+        const std::vector<const char *> &SceneNames() const;
+        const std::vector<std::shared_ptr<Scene>> &Scenes() const;
+        void LoadScenes();
+    private:
+        // prevents loading scenes twice
+        bool scenesAlreadyLoaded;
+        // utility class to import scenes using assimp
+        SceneImporter sceneImporter;
+        // all scenes data used by the base engine are stored here
+        std::vector<std::shared_ptr<Scene>> scenes;
+        // stores locations of available scenes files
+        std::vector<const char *> sceneFilepaths;
+        std::vector<const char *> sceneNames;
 };
 
 

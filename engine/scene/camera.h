@@ -1,5 +1,7 @@
 #pragma once
-class Camera
+#include "../util/single_active.h"
+
+class Camera : public SingleActive<Camera>
 {
     public:
         Camera();
@@ -15,10 +17,5 @@ class Camera
 
         glm::mat4x4 GetViewMatrix() const;
         glm::mat4x4 GetProjecctionMatrix() const;
-
-        void SetMainCamera();
-        static Camera * Main();
-    private:
-        static Camera * mainCamera;
 };
 

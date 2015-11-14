@@ -2,7 +2,7 @@
 #include "engine_assets.h"
 #include "engine_base.h"
 
-EngineAssets::EngineAssets() : demoScenesLoaded(false)
+EngineAssets::EngineAssets() : scenesAlreadyLoaded(false)
 {
     // available scenes for execution
     //sceneFilepaths.push_back("resources\\models\\crytek-sponza\\sponza.obj");
@@ -22,15 +22,29 @@ EngineAssets::EngineAssets() : demoScenesLoaded(false)
 
 EngineAssets::~EngineAssets()
 {
+    // early owner-ship release for static scope (no gl context)
+    delete OGLTexture2D::GetDefaultTexture().release();
+    delete OGLTexture2D::GetDefaultNormalTexture().release();
+    delete OGLTexture2D::GetErrorTexture().release();
 }
 
-void EngineAssets::LoadDefaultScenes()
+const std::vector<std::shared_ptr<Scene>> &EngineAssets::Scenes() const
 {
-    if (demoScenesLoaded) { return; }
+    return scenes;
+}
+
+const std::vector<const char *> &EngineAssets::SceneNames() const
+{
+    return sceneNames;
+}
+
+void EngineAssets::LoadScenes()
+{
+    if (scenesAlreadyLoaded) { return; }
 
     // reserve space for available scenes for use
-    demoScenes.clear();
-    demoScenes.resize(sceneFilepaths.size());
+    scenes.clear();
+    scenes.resize(sceneFilepaths.size());
     // import scenes raw data, in parallel
     tbb::parallel_for(size_t(0), sceneFilepaths.size(), [ = ](size_t i)
     {
@@ -43,13 +57,13 @@ void EngineAssets::LoadDefaultScenes()
 
         std::cout << "(EngineAssets) Processing File: (.." + cutFilePath + ")\n";
         // create and import scene from file path
-        demoScenes[i] = std::make_unique<Scene>();
-        sceneImporter.Import(sceneFilepaths[i], *demoScenes[i]);
+        scenes[i] = std::make_unique<Scene>();
+        sceneImporter.Import(sceneFilepaths[i], *scenes[i]);
         // scene finally loaded
         std::cout << "(EngineAssets) Loaded Scene: (.." + cutFilePath + ")\n";
     });
 
-    for (auto it = demoScenes.begin(); it != demoScenes.end(); ++it)
+    for (auto it = scenes.begin(); it != scenes.end(); ++it)
     {
         // upload to GPU meshes buffers
         for (auto mesh = (*it)->meshes.begin(); mesh != (*it)->meshes.end(); ++mesh)
@@ -57,23 +71,19 @@ void EngineAssets::LoadDefaultScenes()
             (*mesh)->UploadToGPU();
         }
 
-        // upload to GPU textures 2d
+        // upload to GPU 2d textures
         for (auto tex = (*it)->textures.begin(); tex != (*it)->textures.end(); ++tex)
         {
             (*tex)->UploadToGPU();
         }
+
+        // store root node name as scene name
+        sceneNames.push_back((*it)->rootNode.name.c_str());
     }
 
+    // by default set first scene as active scene
+    scenes.front()->SetAsActive();
+    scenes.front()->cameras.front()->SetAsActive();
     // finally loaded
-    demoScenesLoaded = true;
-}
-
-Scene &EngineAssets::GetScene(const unsigned int index)
-{
-    return *demoScenes[index];
-}
-
-void EngineAssets::LoadAssets()
-{
-    LoadDefaultScenes();
+    scenesAlreadyLoaded = true;
 }
