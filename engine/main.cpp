@@ -14,17 +14,22 @@ int main(int argc, char * argv[])
         // relevant data and start rendering main loop
         EngineBase::Instance()->MainLoop();
     }
-    catch (oglplus::ProgramBuildError &pbe)
+    catch (const oglplus::ProgramBuildError &pbe)
     {
         std::cerr << pbe.Log() << std::endl;
         errorCaptured = true;
     }
-    catch (oglplus::Error &err)
+    catch (const oglplus::Error &err)
     {
         std::cerr << "Error (in " << err.GLFunc()
                   << "') [" << err.SourceFile()
                   << ":" << err.SourceLine()
                   << "]: " << err.what() << std::endl;
+        errorCaptured = true;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
         errorCaptured = true;
     }
 

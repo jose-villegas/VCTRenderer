@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "scene_importer.h"
-#include "..\scene\scene.h"
-#include "..\misc\miscellaneous.h"
-#include "scene\texture.h"
+#include "../scene/scene.h"
+#include "../misc/utils.h"
+#include "scene/texture.h"
 
 
 SceneImporter::SceneImporter()
@@ -29,7 +29,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
 
     // location info
     outScene.filepath = sFilepath;
-    outScene.directory = GetDirectoryPath(sFilepath);
+    outScene.directory = utils::GetDirectoryPath(sFilepath);
 
     if (scene->HasMaterials())
     {

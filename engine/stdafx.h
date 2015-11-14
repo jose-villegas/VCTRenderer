@@ -1,3 +1,4 @@
+#define NOMINMAX
 // glm pre-processors
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_PURE
@@ -59,6 +60,6 @@
 // intel thread building blocks library for multi-threading
 #include <tbb/tbb.h>
 // immediate mode interface library
-#include <3rdparty/imgui/imgui.h>
+#include "3rdparty/imgui/imgui.h"
 
 static oglplus::Context gl;

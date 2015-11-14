@@ -46,7 +46,6 @@ class OGLMaterial : public Material
             NormalMapping,
             UINT1_PROPERTY_ID_MAX
         };
-
         enum ShadingMode
         {
             Flat,

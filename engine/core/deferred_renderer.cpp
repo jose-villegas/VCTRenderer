@@ -5,7 +5,7 @@ bool DeferredRenderer::FrustumCulling = true;
 
 DeferredRenderer::DeferredRenderer(const RenderWindow &rWindow) :
     deferredHandler(
-        rWindow.Settings().width, rWindow.Settings().height)
+        rWindow.Info().width, rWindow.Info().height)
 {
     renderWindow = &rWindow;
 }

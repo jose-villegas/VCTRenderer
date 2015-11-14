@@ -1,6 +1,5 @@
 #pragma once
-#include "interface\render_window.h"
-#include "misc\External_initializer.h"
+#include "render_window.h"
 #include "interface\vct_interface.h"
 #include "engine_assets.h"
 #include "deferred_renderer.h"
@@ -38,8 +37,6 @@ class EngineBase
         UI userInterface;
         // glfw window containing ogl context
         RenderWindow renderWindow;
-        // initializes external libraries and prints their info
-        ExternalInitializer initializer;
         // loads all deferred shaders file and handles deferred rendering - context dependant
         std::unique_ptr<DeferredRenderer> renderer;
         // loads all scene raw data and uploads to gpu - context dependant

@@ -213,11 +213,10 @@
     <ClCompile Include="core\deferred_handler.cpp" />
     <ClCompile Include="types\face.cpp" />
     <ClCompile Include="interface\interface.cpp" />
-    <ClCompile Include="interface\render_window.cpp" />
+    <ClCompile Include="core\render_window.cpp" />
     <ClCompile Include="interface\vct_interface.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="misc\external_initializer.cpp" />
-    <ClCompile Include="misc\miscellaneous.cpp" />
+    <ClCompile Include="misc\utils.cpp" />
     <ClCompile Include="scene\camera.cpp" />
     <ClCompile Include="scene\light.cpp" />
     <ClCompile Include="scene\material.cpp" />
@@ -276,10 +275,9 @@
     <ClInclude Include="core\deferred_handler.h" />
     <ClInclude Include="types\face.h" />
     <ClInclude Include="interface\interface.h" />
-    <ClInclude Include="interface\render_window.h" />
+    <ClInclude Include="core\render_window.h" />
     <ClInclude Include="interface\vct_interface.h" />
-    <ClInclude Include="misc\external_initializer.h" />
-    <ClInclude Include="misc\miscellaneous.h" />
+    <ClInclude Include="misc\utils.h" />
     <ClInclude Include="scene\camera.h" />
     <ClInclude Include="scene\light.h" />
     <ClInclude Include="scene\material.h" />

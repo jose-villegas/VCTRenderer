@@ -6,6 +6,7 @@
     #define GLFW_EXPOSE_NATIVE_WGL
     #include <GLFW/glfw3native.h>
 #endif
+#include <core/render_window.h>
 
 std::unique_ptr<Interface::UIData> Interface::uiData = nullptr;
 
