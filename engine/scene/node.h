@@ -3,14 +3,6 @@
 
 class Node
 {
-    private:
-        glm::mat4x4 modelMatrix;
-
-        glm::vec3 position;
-        glm::vec3 scaling;
-        glm::quat rotation;
-        // position, scale or rotation changed
-        bool transformChanged;
     public:
         // node boundaries
         BoundingVolume boundaries;
@@ -18,11 +10,11 @@ class Node
         std::string name;
         // meshes associated and children
         std::vector<std::shared_ptr<OGLMesh>> meshes;
-        std::vector<Node> nodes;
+        std::vector<std::shared_ptr<Node>> nodes;
 
 
         Node();
-        virtual ~Node();
+        ~Node();
 
         glm::mat4x4 GetModelMatrix() const;
         void RecalculateModelMatrix();
@@ -40,5 +32,13 @@ class Node
         void Position(const glm::vec3 &position);
         void Scaling(const glm::vec3 &scaling);
         void Rotation(const glm::quat &rotation);
+    private:
+        glm::mat4x4 modelMatrix;
+
+        glm::vec3 position;
+        glm::vec3 scaling;
+        glm::quat rotation;
+        // position, scale or rotation changed
+        bool transformChanged;
 };
 

@@ -10,21 +10,22 @@ class DeferredRenderer
     public:
         static bool FrustumCulling;
 
-        TransformMatrices transformMatrices;
-        Frustum viewFrustum;
-
-        DeferredRenderer(const RenderWindow &rWindow);
+        explicit DeferredRenderer(const RenderWindow &rWindow);
         virtual ~DeferredRenderer();
 
         void Initialize();
         // calls drawing instructions
         void Render();
-        DeferredHandler &GetDeferredHandler() { return deferredHandler; }
+        DeferredHandler &GetDeferredHandler();
         // program uniform setters
         void SetMatricesUniforms();
-        void SetMaterialUniforms(const std::shared_ptr<OGLMaterial> &mat);
+        void SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat);
         void SetLightPassUniforms();
+        // frustum culling
+        bool InFrustum(const BoundingVolume &volume);
+        TransformMatrices &Matrices();
     private:
-        const RenderWindow * renderWindow;
         DeferredHandler deferredHandler;
+        Frustum viewFrustum;
+        TransformMatrices transformMatrices;
 };

@@ -20,12 +20,13 @@ class RawTexture
             Unknow,
             TYPE_MAX
         };
-    public:
         std::set<TextureType> textureTypes;
         // unloads raw data from RAM memory
         void FreeRawData();
-
         std::string GetFilepath() const { return filepath; }
+
+        RawTexture();
+        ~RawTexture();
     protected:
         std::string filepath;
 
@@ -41,9 +42,6 @@ class RawTexture
         // No copying or copy assignment allowed of this class or any derived class
         RawTexture(RawTexture const &);
         RawTexture &operator=(RawTexture const &);
-    public:
-        RawTexture();
-        ~RawTexture();
     private:
         // friends with
         friend class TextureImporter;
@@ -92,7 +90,7 @@ class OGLTexture2D : public RawTexture
                 glm::u8vec3 texColor);
     public:
         OGLTexture2D();
-        virtual ~OGLTexture2D();
+        ~OGLTexture2D();
         GLuint UploadToGPU(MinFilter minFilter = MinFilter::LinearMipmapLinear,
                            MagFilter magFilter = MagFilter::Linear,
                            WrapMode wrapS = WrapMode::Repeat,

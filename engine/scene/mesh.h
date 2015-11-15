@@ -18,7 +18,7 @@ class Mesh
         std::shared_ptr<OGLMaterial> material;
 
         Mesh();
-        virtual ~Mesh();
+        ~Mesh();
 
         void FreeRawData();
 };
@@ -36,7 +36,7 @@ class OGLMesh : public Mesh
     public:
 
         OGLMesh();
-        virtual ~OGLMesh();
+        ~OGLMesh();
 
         void UploadToGPU(bool unloadFromRAM = true);
         void BindArrayBuffer();

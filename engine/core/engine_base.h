@@ -8,28 +8,31 @@ class EngineBase
 {
     public:
         virtual ~EngineBase();
-        static std::shared_ptr<EngineBase> &Instance();
-        void MainLoop();
 
-        UI &GetUI() { return userInterface; }
-        EngineAssets &GetAssets() { return *assetLoader; }
-        RenderWindow &GetRenderWindow() { return renderWindow; }
-        DeferredRenderer &GetRenderer() { return *renderer; }
+        void MainLoop();
+        static std::shared_ptr<EngineBase> &Instance();
+
+        static UI &Interface() { return Instance()->userInterface; }
+        static EngineAssets &Assets() { return *Instance()->assetLoader; }
+        static RenderWindow &Window() { return Instance()->renderWindow; }
+        static DeferredRenderer &Renderer() { return *Instance()->renderer; }
     private:
         // over frame user interface
         UI userInterface;
         // glfw window containing ogl context
         RenderWindow renderWindow;
-        // loads all deferred shaders file and handles deferred rendering - context dependant
+        // loads all deferred shaders file and handles
+        // deferred rendering - context dependant
         std::unique_ptr<DeferredRenderer> renderer;
-        // loads all scene raw data and uploads to gpu - context dependant
+        // loads all scene raw data and uploads
+        // to gpu - context dependant
         std::unique_ptr<EngineAssets> assetLoader;
+        // imports assets and initializes engine libraries
+        void Initialize();
         // No copying, copy, move assignment allowed of this class
         // or any derived class
         EngineBase();
         EngineBase(EngineBase const &r);
         EngineBase(EngineBase const &&r);
         EngineBase &operator=(EngineBase const &r);
-        // imports assets and initializes engine libraries
-        void Initialize();
 };

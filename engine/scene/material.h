@@ -75,6 +75,6 @@ class OGLMaterial : public Material
         bool BindTexture(RawTexture::TextureType texType) const;
 
         OGLMaterial();
-        virtual ~OGLMaterial();
+        ~OGLMaterial();
 };
 

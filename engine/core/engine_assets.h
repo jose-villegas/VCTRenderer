@@ -7,8 +7,8 @@ class EngineAssets
         EngineAssets();
         virtual ~EngineAssets();
 
-        const std::vector<const char *> &SceneNames() const;
-        const std::vector<std::shared_ptr<Scene>> &Scenes() const;
+        std::vector<const char *> &SceneNames();
+        std::vector<std::shared_ptr<Scene>> &Scenes();
         void LoadScenes();
     private:
         // prevents loading scenes twice

@@ -32,7 +32,7 @@ class TransformMatrices
         void UpdateViewMatrix(const glm::mat4x4 &rView);
         void UpdateProjectionMatrix(const glm::mat4x4 &rProjection);
 
-        void RecalculateMatrices();
+        void RecalculateMatrices(bool useInverseTranspose = false);
         // passes viewProjection matrix to calculate frustum planes
         void UpdateFrustumPlanes(Frustum &fUpdate);
         // access to matrices

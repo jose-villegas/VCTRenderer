@@ -10,11 +10,6 @@ Camera::Camera() : clipPlaneFar(100.0f), clipPlaneNear(1.0f),
     // new cameras always as default
 }
 
-
-Camera::~Camera()
-{
-}
-
 glm::mat4x4 Camera::GetViewMatrix() const
 {
     return glm::lookAt(

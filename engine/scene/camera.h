@@ -5,7 +5,6 @@ class Camera : public SingleActive<Camera>
 {
     public:
         Camera();
-        virtual ~Camera();
 
         float clipPlaneFar;
         float clipPlaneNear;

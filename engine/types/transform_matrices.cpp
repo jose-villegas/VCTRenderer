@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "transform_matrices.h"
-#include "core\engine_base.h"
+
 
 TransformMatrices::TransformMatrices()
 {
@@ -12,7 +12,7 @@ TransformMatrices::~TransformMatrices()
 
 void TransformMatrices::UpdateModelMatrix(const glm::mat4x4 &rModel)
 {
-    if(matrices.model != rModel)
+    if (matrices.model != rModel)
     {
         matrices.model = rModel;
         modelMatrixChanged = true;
@@ -25,7 +25,7 @@ void TransformMatrices::UpdateModelMatrix(const glm::mat4x4 &rModel)
 
 void TransformMatrices::UpdateViewMatrix(const glm::mat4x4 &rView)
 {
-    if(matrices.view != rView)
+    if (matrices.view != rView)
     {
         matrices.view = rView;
         viewMatrixChanged = true;
@@ -38,7 +38,7 @@ void TransformMatrices::UpdateViewMatrix(const glm::mat4x4 &rView)
 
 void TransformMatrices::UpdateProjectionMatrix(const glm::mat4x4 &rProjection)
 {
-    if(matrices.projection != rProjection)
+    if (matrices.projection != rProjection)
     {
         matrices.projection = rProjection;
         projectionMatrixChanged = true;
@@ -49,29 +49,31 @@ void TransformMatrices::UpdateProjectionMatrix(const glm::mat4x4 &rProjection)
     }
 }
 
-void TransformMatrices::RecalculateMatrices()
+void TransformMatrices::RecalculateMatrices(bool useInverseTranspose)
 {
-    if(viewMatrixChanged || modelMatrixChanged)
+    if (viewMatrixChanged || modelMatrixChanged)
     {
         matrices.modelView = matrices.view * matrices.model;
         modelViewMatrixChanged = true;
     }
 
-    if(modelViewMatrixChanged || projectionMatrixChanged)
+    if (modelViewMatrixChanged || projectionMatrixChanged)
     {
         matrices.modelViewProjection = matrices.projection * matrices.modelView;
     }
 
-    if(modelViewMatrixChanged)
+    if (modelViewMatrixChanged)
     {
-        matrices.normal = glm::inverseTranspose(matrices.modelView);
+        matrices.normal = useInverseTranspose
+                          ? glm::inverseTranspose(matrices.modelView)
+                          : matrices.modelView;
     }
 }
 
 void TransformMatrices::UpdateFrustumPlanes(Frustum &fUpdate)
 {
     // can recalculate frustum in this case
-    if(viewMatrixChanged || projectionMatrixChanged)
+    if (viewMatrixChanged || projectionMatrixChanged)
     {
         fUpdate.CalculatePlanes(matrices.projection * matrices.view);
     }

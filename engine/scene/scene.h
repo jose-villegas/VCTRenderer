@@ -22,7 +22,6 @@ class Scene : public SingleActive<Scene>
         Node rootNode;
 
         Scene();
-        virtual ~Scene();
 
         std::string GetFilepath() const { return filepath; }
         std::string GetDirectory() const { return directory; }

@@ -18,7 +18,7 @@ inline BoundingVolume operator*(const BoundingVolume &lhs,
                                 const glm::mat4 &rhs)
 {
     // copy source values
-    BoundingVolume result = lhs;
+    auto result = std::move(lhs);
     // transform points
     result.maxPoint = glm::vec3(glm::vec4(result.maxPoint, 1.0f) * rhs);
     result.minPoint = glm::vec3(glm::vec4(result.minPoint, 1.0f) * rhs);

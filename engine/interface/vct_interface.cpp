@@ -75,8 +75,8 @@ void UI::DrawFramerateMetrics() const
 
 void UI::DrawSceneSelector()
 {
-    static auto sceneNames = EngineBase::Instance()->GetAssets().SceneNames();
-    static int activeScene = sceneNames.size() - 1;
+    static auto sceneNames = EngineBase::Assets().SceneNames();
+    static auto activeScene = 0;
     ImGui::SetNextWindowPos(ImVec2(3, 3));
     ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
                  ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove);
@@ -86,8 +86,7 @@ void UI::DrawSceneSelector()
     if (ImGui::Combo("Active", &activeScene, const_cast<const char **>
                      (sceneNames.data()), static_cast<int>(sceneNames.size())))
     {
-        static auto scenes = EngineBase::Instance()->GetAssets().Scenes();
-        scenes[activeScene]->SetAsActive();
+        EngineBase::Assets().Scenes()[activeScene]->SetAsActive();
     }
 
     ImGui::PopItemWidth();
@@ -98,8 +97,8 @@ void UI::DrawSceneSelector()
 
 void UI::DrawGBufferTextures()
 {
-    static const auto &deferredHandler =
-        EngineBase::Instance()->GetRenderer().GetDeferredHandler();
+    static const auto &deferredHandler = EngineBase::Renderer()
+                                         .GetDeferredHandler();
     const auto &bufferTextures = deferredHandler.BufferTextures();
     // position texture
     DrawGBufferTexture(bufferTextures[(DeferredProgram::Position)],
@@ -120,7 +119,6 @@ void UI::DrawGBufferTextures()
 
 void UI::DrawDebugWindow()
 {
-    static auto &io = ImGui::GetIO();
     static bool openDebugWindow;
     openDebugWindow ^= io.KeyCtrl && ImGui::IsKeyReleased(74);
 
@@ -150,7 +148,6 @@ void UI::DrawDebugWindow()
 
 void UI::DrawFPSNotif() const
 {
-    static auto &io = ImGui::GetIO();
     static auto openFPSWindow = false;
     openFPSWindow ^= io.KeyCtrl && ImGui::IsKeyReleased(70);
 

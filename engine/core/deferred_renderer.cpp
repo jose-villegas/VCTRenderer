@@ -1,14 +1,10 @@
 #include "stdafx.h"
 #include "deferred_renderer.h"
-#include "engine_base.h"
-
 bool DeferredRenderer::FrustumCulling = true;
 
 DeferredRenderer::DeferredRenderer(const RenderWindow &rWindow) :
-    deferredHandler(
-        rWindow.Info().width, rWindow.Info().height)
+    deferredHandler(rWindow.Info().width, rWindow.Info().height)
 {
-    renderWindow = &rWindow;
 }
 
 DeferredRenderer::~DeferredRenderer()
@@ -69,6 +65,11 @@ void DeferredRenderer::Render()
     deferredHandler.RenderFullscreenQuad();
 }
 
+DeferredHandler &DeferredRenderer::GetDeferredHandler()
+{
+    return deferredHandler;
+}
+
 void DeferredRenderer::SetMatricesUniforms()
 {
     static auto &geom = deferredHandler.geometryProgram;
@@ -125,7 +126,7 @@ void DeferredRenderer::SetMatricesUniforms()
     }
 }
 
-void DeferredRenderer::SetMaterialUniforms(const std::shared_ptr<OGLMaterial>
+void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial>
         &mat)
 {
     static const OGLMaterial * activeMaterial = nullptr;
@@ -266,4 +267,14 @@ void DeferredRenderer::SetLightPassUniforms()
         DeferredProgram::Specular,
         DeferredProgram::Specular
     );
+}
+
+bool DeferredRenderer::InFrustum(const BoundingVolume &volume)
+{
+    return viewFrustum.BoxInFrustum(volume);
+}
+
+TransformMatrices &DeferredRenderer::Matrices()
+{
+    return transformMatrices;
 }

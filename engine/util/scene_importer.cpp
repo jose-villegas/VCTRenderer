@@ -271,12 +271,12 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode * node, Node &newNode)
     // push childrens in hierachy
     for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
-        newNode.nodes.push_back(std::move(Node()));
-        ProcessNodes(scene, node->mChildren[i], newNode.nodes.back());
+        newNode.nodes.push_back(std::make_shared<Node>());
+        ProcessNodes(scene, node->mChildren[i], *newNode.nodes.back());
         // node boundaries based on children node boundaries
         newNode.boundaries.TryMinMax(
-            newNode.nodes.back().boundaries.minPoint,
-            newNode.nodes.back().boundaries.maxPoint
+            newNode.nodes.back()->boundaries.minPoint,
+            newNode.nodes.back()->boundaries.maxPoint
         );
     }
 }

@@ -28,12 +28,12 @@ EngineAssets::~EngineAssets()
     delete OGLTexture2D::GetErrorTexture().release();
 }
 
-const std::vector<std::shared_ptr<Scene>> &EngineAssets::Scenes() const
+std::vector<std::shared_ptr<Scene>> &EngineAssets::Scenes()
 {
     return scenes;
 }
 
-const std::vector<const char *> &EngineAssets::SceneNames() const
+std::vector<const char *> &EngineAssets::SceneNames()
 {
     return sceneNames;
 }
