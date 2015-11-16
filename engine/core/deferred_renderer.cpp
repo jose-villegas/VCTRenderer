@@ -43,9 +43,9 @@ void DeferredRenderer::Render()
     camera->position = glm::vec3(0.0f, 0.50f, 0.0f);
     camera->lookAt =
         glm::vec3(
-            sin(glfwGetTime() * 0.5f),
+            sin(1 * 0.5f),
             0.50f,
-            cos(glfwGetTime() * 0.5f)
+            cos(1 * 0.5f)
         );
     camera->clipPlaneFar = 10000.0f;
     // update view and projection matrices with camera parameters

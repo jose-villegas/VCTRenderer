@@ -288,7 +288,6 @@
     <ClInclude Include="scene\node.h" />
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\texture.h" />
-    <ClInclude Include="defines.h" />
     <ClInclude Include="types\transform_matrices.h" />
     <ClInclude Include="types\vertex.h" />
     <ClInclude Include="util\scene_importer.h" />
