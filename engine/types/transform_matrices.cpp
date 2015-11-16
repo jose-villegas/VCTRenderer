@@ -38,13 +38,12 @@ void TransformMatrices::UpdateProjectionMatrix(const glm::mat4x4 &rProjection)
 
 void TransformMatrices::RecalculateMatrices(bool useInverseTranspose)
 {
-    if (matricesChanged & ViewChanged || matricesChanged & ModelChanged)
+    if (matricesChanged & (ViewChanged | ModelChanged))
     {
         matrices.modelView = matrices.view * matrices.model;
     }
 
-    if (matricesChanged & ViewChanged || matricesChanged & ModelChanged
-        || matricesChanged & ProjectionChanged)
+    if (matricesChanged & (ViewChanged | ModelChanged | ProjectionChanged))
     {
         matrices.modelViewProjection = matrices.projection * matrices.modelView;
     }
@@ -55,8 +54,16 @@ void TransformMatrices::RecalculateMatrices(bool useInverseTranspose)
     matricesChanged = None;
 }
 
-void TransformMatrices::UpdateFrustumPlanes(Frustum &fUpdate)
+void TransformMatrices::UpdateFrustumPlanes(Frustum &fUpdate) const
 {
     // can recalculate frustum in this case
-    fUpdate.CalculatePlanes(matrices.projection * matrices.view);
+    if (matricesChanged & (ViewChanged | ProjectionChanged))
+    {
+        fUpdate.CalculatePlanes(matrices.projection * matrices.view);
+    }
+}
+
+const TransformMatrices::Changed &TransformMatrices::MatricesChanged() const
+{
+    return matricesChanged;
 }

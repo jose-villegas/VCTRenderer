@@ -28,6 +28,14 @@ class TransformMatrices
             MATRIX_ID_MAX
         };
 
+        enum Changed
+        {
+            None              = 0,
+            ModelChanged      = 1 << 1,
+            ViewChanged       = 1 << 2,
+            ProjectionChanged = 1 << 3,
+        };
+
         TransformMatrices();
         virtual ~TransformMatrices();
 
@@ -37,24 +45,16 @@ class TransformMatrices
 
         void RecalculateMatrices(bool useInverseTranspose = false);
         // passes viewProjection matrix to calculate frustum planes
-        void UpdateFrustumPlanes(Frustum &fUpdate);
+        void UpdateFrustumPlanes(Frustum &fUpdate) const;
         // access to matrices
         const glm::mat4x4 &GetModelView() const { return matrices.modelView; };
         const glm::mat4x4 &GetModelViewProjection() const { return matrices.modelViewProjection; };
         const glm::mat4x4 &GetModel() const { return matrices.model; };
         const glm::mat4x4 &GetView() const { return matrices.view; };
         const glm::mat4x4 &GetProjection() const { return matrices.projection; };
-        const glm::mat4x4 &GetNormal() const { return matrices.normal; };
+        const glm::mat4x4 &GetNormal() const { return matrices.normal; };   const
+        Changed &MatricesChanged() const;
     private:
         Matrices matrices;
-
-        enum Changed
-        {
-            None              = 0,
-            ModelChanged      = 1 << 1,
-            ViewChanged       = 1 << 2,
-            ProjectionChanged = 1 << 3,
-        };
-
         Changed matricesChanged;
 };
