@@ -48,8 +48,13 @@ class TransformMatrices
     private:
         Matrices matrices;
 
-        bool modelMatrixChanged;
-        bool viewMatrixChanged;
-        bool projectionMatrixChanged;
-        bool modelViewMatrixChanged;
+        enum Changed
+        {
+            None              = 0,
+            ModelChanged      = 1 << 1,
+            ViewChanged       = 1 << 2,
+            ProjectionChanged = 1 << 3,
+        };
+
+        Changed matricesChanged;
 };
