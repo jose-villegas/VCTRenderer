@@ -1,6 +1,8 @@
-#include "stdafx.h"
+#include <glm/detail/func_geometric.hpp>
+
 #include "frustum.h"
 
+#include "bounding_volume.h"
 
 Frustum::Frustum()
 {
@@ -41,7 +43,7 @@ void Frustum::CalculatePlanes(const glm::mat4x4 &mvMatrix)
                              mvMatrix[3][3] + mvMatrix[3][2]);
 
     // Normalize them
-    for(int i = 0; i < 6; i++)
+    for (int i = 0; i < 6; i++)
     {
         float invl = std::sqrt(fPlane[i].x * fPlane[i].x +
                                fPlane[i].y * fPlane[i].y +
@@ -53,7 +55,7 @@ void Frustum::CalculatePlanes(const glm::mat4x4 &mvMatrix)
 bool Frustum::BoxInFrustum(const BoundingVolume &bVolume)
 {
     // check box outside/inside of frustum
-    for(int i = 0; i < 6; i++)
+    for (int i = 0; i < 6; i++)
     {
         int out = 0;
         out += ((dot(fPlane[i], glm::vec4(bVolume.minPoint.x, bVolume.minPoint.y,
@@ -73,7 +75,7 @@ bool Frustum::BoxInFrustum(const BoundingVolume &bVolume)
         out += ((dot(fPlane[i], glm::vec4(bVolume.maxPoint.x, bVolume.maxPoint.y,
                                           bVolume.maxPoint.z, 1.0f)) < 0.0) ? 1 : 0);
 
-        if(out == 8) return false;
+        if (out == 8) { return false; }
     }
 
     return true;

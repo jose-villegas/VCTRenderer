@@ -1,9 +1,20 @@
-#include "stdafx.h"
-#include "scene_importer.h"
-#include "../scene/scene.h"
-#include "../misc/utils.h"
-#include "scene/texture.h"
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+#include <iostream>
+#include <memory>
+#include <glm/gtc/quaternion.hpp>
 
+#include "scene_importer.h"
+
+#include "texture_importer.h"
+#include "../misc/utils.h"
+#include "../scene/scene.h"
+#include "../scene/material.h"
+#include "../scene/mesh.h"
+#include "../scene/camera.h"
+#include "../scene/light.h"
+#include "../types/vertex.h"
 
 SceneImporter::SceneImporter()
 {
@@ -44,7 +55,8 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         // import per material and scene, textures
         for (unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
-            ImportMaterialTextures(outScene, scene->mMaterials[i], *outScene.materials[i]);
+            ImportMaterialTextures(outScene, scene->mMaterials[i],
+                                   *outScene.materials[i]);
         }
     }
 
@@ -55,7 +67,8 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
             std::shared_ptr<OGLMesh> newMesh(new OGLMesh());
             ImportMesh(scene->mMeshes[i], *newMesh);
             // material assigned to mesh
-            newMesh->material = outScene.materials[scene->mMeshes[i]->mMaterialIndex];
+            newMesh->material = outScene.materials
+                                [scene->mMeshes[i]->mMaterialIndex];
             outScene.meshes.push_back(std::move(newMesh));
         }
     }
@@ -133,8 +146,8 @@ void SceneImporter::ImportLight(aiLight * light, Light &newLight)
 
 void SceneImporter::ImportCamera(aiCamera * cam, Camera &newCamera)
 {
-    newCamera.aspectRatio = cam->mAspect;
-    newCamera.clipPlaneFar = cam->mClipPlaneFar;
+    newCamera.aspectRatio   = cam->mAspect;
+    newCamera.clipPlaneFar  = cam->mClipPlaneFar;
     newCamera.clipPlaneNear = cam->mClipPlaneNear;
     newCamera.horizontalFoV = cam->mHorizontalFOV;
     newCamera.position = glm::vec3(
@@ -279,6 +292,10 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode * node, Node &newNode)
             newNode.nodes.back()->boundaries.maxPoint
         );
     }
+
+    // build per node draw lists from recursive draw
+    // useful for easier batching
+    newNode.BuildDrawList();
 }
 
 void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
@@ -308,7 +325,7 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
             int savedTextureIndex = 0;
 
             // for wavefront obj we assump bump = normal map
-            if (GetExtension(scene.filepath) == "obj" &&
+            if (utils::GetFileExtension(scene.filepath) == "obj" &&
                 texType == aiTextureType::aiTextureType_HEIGHT)
             { texType = aiTextureType::aiTextureType_NORMALS; }
 
@@ -324,7 +341,7 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
             {
                 std::shared_ptr<OGLTexture2D> newTexture(new OGLTexture2D());
 
-                if (textureImporter.ImportTexture2D(filepath, *newTexture))
+                if (TextureImporter::ImportTexture2D(filepath, *newTexture))
                 {
                     scene.textures.push_back(newTexture);
                     material.AddTexture(newTexture, (RawTexture::TextureType)texType);

@@ -1,4 +1,4 @@
-#version 440
+#version 330
 
 out vec3 position;
 out vec3 texCoord;

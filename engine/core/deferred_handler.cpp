@@ -1,5 +1,9 @@
-#include "stdafx.h"
 #include "deferred_handler.h"
+
+#include <oglplus/vertex_attrib.hpp>
+#include <oglplus/bound/texture.hpp>
+
+#include <iostream>
 
 DeferredHandler::DeferredHandler(unsigned int windowWith,
                                  unsigned int windowHeight)
@@ -29,10 +33,10 @@ void DeferredHandler::CreateFullscreenQuad()
     // set up attrib points
     VertexArrayAttrib(VertexAttribSlot(0)).Enable() // position
     .Pointer(3, DataType::Float, false, 5 * sizeof(float),
-             reinterpret_cast<const GLvoid *>(0));
+             reinterpret_cast<const void *>(0));
     VertexArrayAttrib(VertexAttribSlot(1)).Enable() // uvs
     .Pointer(2, DataType::Float, false, 5 * sizeof(float),
-             reinterpret_cast<const GLvoid *>(12));
+             reinterpret_cast<const void *>(12));
     // data for element buffer array
     static const std::array<unsigned int, 6> indexData =
     {
@@ -51,6 +55,7 @@ void DeferredHandler::CreateFullscreenQuad()
 /// </summary>
 void DeferredHandler::RenderFullscreenQuad()
 {
+    static oglplus::Context gl;
     fullscreenQuadVertexArray.Bind();
     gl.DrawElements(
         oglplus::PrimitiveType::Triangles, 6,
@@ -215,6 +220,7 @@ void DeferredHandler::SetupGBuffer(unsigned int windowWidth,
                                    unsigned int windowHeight)
 {
     using namespace oglplus;
+    static Context gl;
     colorBuffers.clear();
     geometryBuffer.Bind(FramebufferTarget::Draw);
     // position color buffer
@@ -308,6 +314,7 @@ DeferredHandler::~DeferredHandler() {}
 void DeferredHandler::BindGeometryBuffer(const oglplus::FramebufferTarget
         & bindingMode)
 {
+    static oglplus::Context gl;
     gl.Bind(bindingMode, geometryBuffer);
 }
 
@@ -318,6 +325,7 @@ void DeferredHandler::BindGeometryBuffer(const oglplus::FramebufferTarget
 void DeferredHandler::ReadGeometryBuffer(const DeferredProgram::GBufferTextureId
         & bufferTexId)
 {
+    static oglplus::Context gl;
     gl.ReadBuffer(colorBuffers[static_cast<unsigned int>(bufferTexId)]);
 }
 

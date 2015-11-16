@@ -1,22 +1,27 @@
-#include "stdafx.h"
 #include "vct_interface.h"
-#include "core\engine_base.h"
-#include "core\deferred_handler.h"
+#include <oglplus/object/name_tpl.hpp>
+#include <vector>
+#include <numeric>
 
+#include "../core/deferred_handler.h"
+#include "../core/engine_base.h"
+#include "../core/deferred_renderer.h"
+#include "../core/engine_assets.h"
+#include "../scene/scene.h"
 
 void UI::DrawGBufferTexture(const oglplus::Texture &texture,
                             const std::string &name) const
 {
     ImGui::BeginGroup();
     ImGui::Image(reinterpret_cast<void *>
-                 (static_cast<intptr_t>(GetName(texture))),
+                 (static_cast<intptr_t>(oglplus::GetName(texture))),
                  ImVec2(140, 140), ImVec2(1, 1), ImVec2(0, 0));
 
     if (ImGui::IsItemHovered())
     {
         ImGui::BeginTooltip();
         ImGui::Image(reinterpret_cast<void *>
-                     (static_cast<intptr_t>(GetName(texture))),
+                     (static_cast<intptr_t>(oglplus::GetName(texture))),
                      ImVec2(io.DisplaySize.x / 2.0f, io.DisplaySize.y / 2.0f),
                      ImVec2(1, 1), ImVec2(0, 0));
         ImGui::EndTooltip();

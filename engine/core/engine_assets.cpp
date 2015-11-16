@@ -1,6 +1,10 @@
-#include "stdafx.h"
 #include "engine_assets.h"
-#include "engine_base.h"
+#include "../scene/texture.h"
+#include <iostream>
+#include <tbb/tbb.h>
+#include "../scene/camera.h"
+#include "../scene/mesh.h"
+#include "../scene/scene.h"
 
 EngineAssets::EngineAssets() : scenesAlreadyLoaded(false)
 {

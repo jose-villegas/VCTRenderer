@@ -1,9 +1,9 @@
 #pragma once
-#include "scene\scene.h"
+
 #include "deferred_handler.h"
-#include "render_window.h"
-#include "types\transform_matrices.h"
-#include "types\frustum.h"
+#include "../types/frustum.h"
+
+class RenderWindow;
 
 class DeferredRenderer
 {

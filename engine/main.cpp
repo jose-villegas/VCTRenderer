@@ -1,6 +1,7 @@
-// VCT_Engine.cpp : Defines the entry point for the console application.
-#include "stdafx.h"
-#include "core\engine_base.h"
+#include "core/engine_base.h"
+
+#include <oglplus/error/program.hpp>
+#include <iostream>
 
 int main(int argc, char * argv[])
 {

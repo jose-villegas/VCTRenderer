@@ -1,7 +1,10 @@
-#include "stdafx.h"
 #include "engine_base.h"
-#include "misc/utils.h"
 
+#include "deferred_renderer.h"
+#include "engine_assets.h"
+#include "../misc/utils.h"
+
+#include <oglplus/gl.hpp>
 
 // initializes base engine assets and libs
 EngineBase::EngineBase()
@@ -27,7 +30,7 @@ std::shared_ptr<EngineBase> &EngineBase::Instance()
 
 void EngineBase::MainLoop()
 {
-    using namespace oglplus;
+    static oglplus::Context gl;
     // import assets and initialize ext libraries
     this->Initialize();
     // set rendering view port

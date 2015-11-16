@@ -1,5 +1,6 @@
-#include "stdafx.h"
 #include "light.h"
+
+#include <glm/detail/type_vec3.hpp>
 
 
 Light::Light() : angleInnerCone(0), angleOuterCone(90), lightType(Directional)

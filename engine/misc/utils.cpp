@@ -1,8 +1,13 @@
-#include "stdafx.h"
 #include "utils.h"
-#include "assimp/Importer.hpp"
+
+#include "../3rdparty/imgui/imgui.h"
+
+#include <assimp/Importer.hpp>
 #include <assimp/version.h>
 #include <FreeImage.h>
+#include <iostream>
+#include <GL/glew.h>
+#include <fstream>
 
 void utils::ConsoleProgressBar(const std::string &title, int barWidth,
                                int index,

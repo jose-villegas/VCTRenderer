@@ -1,4 +1,6 @@
 #pragma once
+#include <glm/detail/type_vec3.hpp>
+
 class Light
 {
     public:

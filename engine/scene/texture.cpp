@@ -1,5 +1,8 @@
-#include "stdafx.h"
 #include "texture.h"
+
+#include <oglplus/bound/texture.hpp>
+#include <oglplus/context.hpp>
+#include <glm/detail/type_vec3.hpp>
 
 void RawTexture::FreeRawData()
 {
@@ -19,13 +22,13 @@ RawTexture::~RawTexture()
     FreeRawData();
 }
 
-GLuint OGLTexture2D::UploadToGPU(MinFilter
-                                 minFilter /*= MinFilter::LinearMipmapLinear*/,
-                                 MagFilter magFilter /*= MagFilter::Linear*/,
-                                 WrapMode wrapS /*= WrapMode::Repeat*/, WrapMode wrapT /*= WrapMode::Repeat*/,
-                                 bool unloadFromRAM /*= true*/, bool generateMipmaps /*= true*/,
-                                 glm::vec4 borderColor /*= glm::vec4(0.f)*/)
+GLuint OGLTexture2D::UploadToGPU(MinFilter minFilter, MagFilter magFilter,
+                                 WrapMode wrapS , WrapMode wrapT ,
+                                 bool unloadFromRAM , bool generateMipmaps,
+                                 glm::vec4 borderColor)
 {
+    static oglplus::Context gl;
+
     // already loaded a texture
     if (this->oglTexture) { return 0; }
 

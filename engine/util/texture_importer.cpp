@@ -1,6 +1,8 @@
-#include "stdafx.h"
-#include "FreeImage.h"
+#include <FreeImage.h>
+
 #include "texture_importer.h"
+
+#include "../scene/texture.h"
 
 bool TextureImporter::Minimum24Bits = false;
 
@@ -11,27 +13,27 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilepath.c_str());
 
     //if still unknown, try to guess the file format from the file extension
-    if(fif == FIF_UNKNOWN)
+    if (fif == FIF_UNKNOWN)
     {
         fif = FreeImage_GetFIFFromFilename(sFilepath.c_str());
     }
 
     //if still unkown, exit
-    if(fif == FIF_UNKNOWN)
+    if (fif == FIF_UNKNOWN)
     {
         return false;
     }
 
     // pointer to the image once loaded
-    FIBITMAP *dib = nullptr;
+    FIBITMAP * dib = nullptr;
 
     //check that the plugin has reading capabilities and load the file
-    if(FreeImage_FIFSupportsReading(fif))
+    if (FreeImage_FIFSupportsReading(fif))
     {
         dib = FreeImage_Load(fif, sFilepath.c_str());
     }
 
-    if(Minimum24Bits && FreeImage_GetBPP(dib) / 8 < 3)
+    if (Minimum24Bits && FreeImage_GetBPP(dib) / 8 < 3)
     {
         dib = FreeImage_ConvertTo24Bits(dib);
     }
@@ -46,7 +48,7 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
 
     // If this somehow one of these failed (they shouldn't), return failure
 
-    if((bitsPerPixel == 0) || (height == 0) || (width == 0) || !bits)
+    if ((bitsPerPixel == 0) || (height == 0) || (width == 0) || !bits)
     {
         FreeImage_Unload(dib);
         return false;
@@ -57,7 +59,7 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     unsigned char * data = new(std::nothrow)unsigned char[buffer_size];
 
     // couldn't allocate memory
-    if(data == nullptr)
+    if (data == nullptr)
     {
         FreeImage_Unload(dib);
         return false;
@@ -76,13 +78,4 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     FreeImage_Unload(dib);
     // successful image data extraction
     return true;
-}
-
-TextureImporter::TextureImporter()
-{
-}
-
-
-TextureImporter::~TextureImporter()
-{
 }

@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "interface.h"
 #ifdef _WIN32
     #undef APIENTRY
@@ -6,7 +5,9 @@
     #define GLFW_EXPOSE_NATIVE_WGL
     #include <GLFW/glfw3native.h>
 #endif
-#include <core/render_window.h>
+#include <../core/render_window.h>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 std::unique_ptr<Interface::UIData> Interface::uiData = nullptr;
 

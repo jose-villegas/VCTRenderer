@@ -1,4 +1,7 @@
 #pragma once
+#include <glm/detail/type_vec3.hpp>
+#include <array>
+#include <memory>
 #include "texture.h"
 
 class Material
@@ -20,9 +23,6 @@ class Material
 
 class OGLMaterial : public Material
 {
-    private:
-        std::array <std::shared_ptr<OGLTexture2D>,
-            RawTexture::TYPE_MAX> textures;
     public:
         enum Float3PropertyId
         {
@@ -76,5 +76,8 @@ class OGLMaterial : public Material
 
         OGLMaterial();
         ~OGLMaterial();
+    private:
+        std::array<std::shared_ptr<OGLTexture2D>,
+            RawTexture::TYPE_MAX> textures;
 };
 

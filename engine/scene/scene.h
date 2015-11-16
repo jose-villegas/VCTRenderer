@@ -1,10 +1,17 @@
 #pragma once
-#include "camera.h"
-#include "light.h"
-#include "material.h"
-#include "mesh.h"
-#include "texture.h"
+
+#include <string>
+#include <vector>
+
 #include "node.h"
+#include "../util/single_active.h"
+
+class Camera;
+class OGLMesh;
+class OGLTexture2D;
+class OGLMaterial;
+class Light;
+class Node;
 
 class Scene : public SingleActive<Scene>
 {

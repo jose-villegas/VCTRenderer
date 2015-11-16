@@ -1,6 +1,8 @@
-#include "stdafx.h"
+#include <glm/gtc/matrix_inverse.hpp>
+
 #include "transform_matrices.h"
 
+#include "frustum.h"
 
 TransformMatrices::TransformMatrices()
 {
@@ -65,7 +67,7 @@ void TransformMatrices::RecalculateMatrices(bool useInverseTranspose)
     if (modelViewMatrixChanged)
     {
         matrices.normal = useInverseTranspose
-                          ? glm::inverseTranspose(matrices.modelView)
+                          ? inverseTranspose(matrices.modelView)
                           : matrices.modelView;
     }
 }

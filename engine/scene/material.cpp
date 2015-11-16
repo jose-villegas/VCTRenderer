@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "material.h"
 
 glm::vec3 OGLMaterial::White = glm::vec3(1.0f);;
@@ -17,9 +16,7 @@ void OGLMaterial::AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
 
 bool OGLMaterial::BindTexture(RawTexture::TextureType texType) const
 {
-    if (texType > 0  &&
-        static_cast<size_t>(texType) < textures.size() &&
-        textures[texType] != nullptr)
+    if (textures[texType] != nullptr)
     {
         textures[texType]->Bind();
         return true;
@@ -31,7 +28,8 @@ bool OGLMaterial::BindTexture(RawTexture::TextureType texType) const
 OGLMaterial::OGLMaterial() : name("Default Material")
 {
     diffuse = specular = ambient = emissive = transparent = Black;
-    refractionIndex = 1.5f; shininess = 0.0f; opacity = shininessStrenght = 1.0f;
+    refractionIndex = 1.5f; shininess = 0.0f;
+    opacity = shininessStrenght = 1.0f;
 }
 
 OGLMaterial::~OGLMaterial()

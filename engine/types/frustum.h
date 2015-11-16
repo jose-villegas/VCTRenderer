@@ -1,5 +1,8 @@
 #pragma once
-#include "bounding_volume.h"
+
+#include <glm/mat4x4.hpp>
+
+class BoundingVolume;
 
 class Frustum
 {

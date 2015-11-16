@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 template<class T> class SingleActive
 {
     public:

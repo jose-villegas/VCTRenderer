@@ -1,14 +1,16 @@
-#include "stdafx.h"
 #include "node.h"
-#include "core\engine_base.h"
-#include <mutex>
+
+#include <glm/gtx/transform.hpp>
+
+#include "mesh.h"
+#include "../core/engine_base.h"
+#include "../core/deferred_renderer.h"
 
 Node::Node() : name("Default Node")
 {
     position = glm::vec3(0.0f, 0.0f, 0.0f);
     scaling = glm::vec3(1.0f, 1.0f, 1.0f);
     rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
-    transformChanged = true;
     GetModelMatrix(); // initially as invalid
 }
 
@@ -24,12 +26,19 @@ glm::mat4x4 Node::GetModelMatrix() const
 
 void Node::RecalculateModelMatrix()
 {
-    if (transformChanged)
+    modelMatrix = translate(position) * mat4_cast(rotation) * scale(scaling);
+}
+
+void Node::BuildDrawList(std::vector<DrawInfo> &base)
+{
+    for (auto &mesh : meshes)
     {
-        transformChanged = false;
-        modelMatrix = glm::translate(position) *
-                      glm::mat4_cast(rotation) *
-                      glm::scale(scaling);
+        base.push_back(DrawInfo(std::ref(modelMatrix), mesh));
+    }
+
+    for (auto &node : nodes)
+    {
+        node->BuildDrawList(base);
     }
 }
 
@@ -37,14 +46,16 @@ void Node::DrawMeshes()
 {
     static auto &renderer = EngineBase::Renderer();
 
-    for each(auto & mesh in meshes)
+    for (auto &mesh : meshes)
     {
         if (!mesh->OnGPUMemory()) { return; }
 
-        if (DeferredRenderer::FrustumCulling && meshes.size() > 1 && !renderer
-            .InFrustum(mesh->boundaries * renderer.Matrices().GetModel()))
+        if (DeferredRenderer::FrustumCulling)
         {
-            continue;
+            if (!renderer.InFrustum(mesh->boundaries.Transform(modelMatrix)))
+            {
+                continue;
+            }
         }
 
         renderer.SetMaterialUniforms(mesh->material);
@@ -57,15 +68,16 @@ void Node::Draw()
 {
     static auto &renderer = EngineBase::Renderer();
     // update matrices with node model matrix
-    RecalculateModelMatrix();
     renderer.Matrices().UpdateModelMatrix(modelMatrix);
+    // recalculate model-dependant transform matrices
     renderer.Matrices().RecalculateMatrices();
 
-    // frustum culling
     if (DeferredRenderer::FrustumCulling)
     {
-        if (!renderer.InFrustum
-            (boundaries * renderer.Matrices().GetModel())) { return; }
+        if (!renderer.InFrustum(boundaries.Transform(modelMatrix)))
+        {
+            return;
+        }
     }
 
     renderer.SetMatricesUniforms();
@@ -76,8 +88,6 @@ void Node::Draw()
 void Node::DrawRecursive()
 {
     static auto &renderer = EngineBase::Renderer();
-    // update matrices with node model matrix
-    RecalculateModelMatrix();
     // update with node model matrix
     renderer.Matrices().UpdateModelMatrix(modelMatrix);
     // recalculate model-dependant transform matrices
@@ -86,8 +96,10 @@ void Node::DrawRecursive()
     // frustum culling per node boundaries
     if (DeferredRenderer::FrustumCulling)
     {
-        if (!renderer.InFrustum(boundaries * renderer.Matrices().GetModel()))
-        { return; }
+        if (!renderer.InFrustum(boundaries.Transform(modelMatrix)))
+        {
+            return;
+        }
     }
 
     // set matrices uniform with updated matrices
@@ -95,7 +107,7 @@ void Node::DrawRecursive()
     // draw elements per mesh
     DrawMeshes();
 
-    for each(auto & node in nodes)
+    for (auto &node : nodes)
     {
         node->DrawRecursive();
     }
@@ -107,23 +119,29 @@ void Node::Transform(const glm::vec3 &position, const glm::vec3 &scaling,
     this->position = position;
     this->scaling = scaling;
     this->rotation = rotation;
-    transformChanged = true;
+    RecalculateModelMatrix();
 }
 
 void Node::Position(const glm::vec3 &position)
 {
     this->position = position;
-    transformChanged = true;
+    RecalculateModelMatrix();
 }
 
 void Node::Scaling(const glm::vec3 &scaling)
 {
     this->scaling = scaling;
-    transformChanged = true;
+    RecalculateModelMatrix();
 }
 
 void Node::Rotation(const glm::quat &rotation)
 {
     this->rotation = rotation;
-    transformChanged = true;
+    RecalculateModelMatrix();
+}
+
+void Node::BuildDrawList()
+{
+    drawList.clear();
+    BuildDrawList(drawList);
 }

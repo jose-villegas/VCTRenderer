@@ -1,7 +1,28 @@
 #pragma once
-#include "material.h"
-#include "types\vertex.h"
-#include "types\bounding_volume.h"
+
+#include <string>
+#include <vector>
+
+// opengl and context creation headers
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+// ogl headers c++ wrapper on opengl
+#include <oglplus/gl.hpp>
+#include <oglplus/all.hpp>
+#include <oglplus/opt/smart_enums.hpp>
+#include <oglplus/shapes/cube.hpp>
+#include <oglplus/bound/texture.hpp>
+#include <oglplus/buffer_usage.hpp>
+#include <oglplus/glsl_source.hpp>
+#include <oglplus/glsl_string.hpp>
+#include <oglplus/object/array.hpp>
+#include <oglplus/object/group.hpp>
+#include <oglplus/interop/glm.hpp>
+
+#include "../types/bounding_volume.h"
+
+class OGLMaterial;
+struct Vertex;
 
 class Mesh
 {

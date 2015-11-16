@@ -1,5 +1,12 @@
 #pragma once
-#include "mesh.h"
+
+#include <string>
+#include <vector>
+#include <glm/gtc/quaternion.hpp>
+
+#include "../types/bounding_volume.h"
+
+class OGLMesh;
 
 class Node
 {
@@ -11,14 +18,10 @@ class Node
         // meshes associated and children
         std::vector<std::shared_ptr<OGLMesh>> meshes;
         std::vector<std::shared_ptr<Node>> nodes;
-
-
         Node();
         ~Node();
 
         glm::mat4x4 GetModelMatrix() const;
-        void RecalculateModelMatrix();
-
         // draws only the meshes associated to the node
         void Draw();
         // draws the meshes associated to the parents and all descendants
@@ -32,13 +35,18 @@ class Node
         void Position(const glm::vec3 &position);
         void Scaling(const glm::vec3 &scaling);
         void Rotation(const glm::quat &rotation);
+        void BuildDrawList();
     private:
-        glm::mat4x4 modelMatrix;
+        typedef std::pair<std::reference_wrapper<glm::mat4x4>,
+                std::shared_ptr<OGLMesh>> DrawInfo;
+        std::vector<DrawInfo> drawList;
 
+        glm::mat4x4 modelMatrix;
         glm::vec3 position;
         glm::vec3 scaling;
         glm::quat rotation;
-        // position, scale or rotation changed
-        bool transformChanged;
+
+        void RecalculateModelMatrix();
+        void BuildDrawList(std::vector<DrawInfo> &base);
 };
 

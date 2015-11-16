@@ -1,5 +1,9 @@
-#include "stdafx.h"
 #include "deferred_renderer.h"
+
+#include "render_window.h"
+#include "../scene/camera.h"
+#include "../scene/scene.h"
+
 bool DeferredRenderer::FrustumCulling = true;
 
 DeferredRenderer::DeferredRenderer(const RenderWindow &rWindow) :
@@ -17,24 +21,24 @@ void DeferredRenderer::Initialize()
 
 void DeferredRenderer::Render()
 {
-    using namespace oglplus;
+    static oglplus::Context gl;
     auto &camera = Camera::Active();
     auto &scene = Scene::Active();
 
     if (!camera || !scene) { return; }
 
     // bind g buffer for writing
-    deferredHandler.BindGeometryBuffer(FramebufferTarget::Draw);
+    deferredHandler.BindGeometryBuffer(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
     deferredHandler.geometryProgram.Use();
     // opengl flags
     gl.ClearDepth(1.0f);
     //gl.Disable(Capability::Blend);
-    gl.Enable(Capability::DepthTest);
-    gl.Enable(Capability::CullFace);
-    gl.FrontFace(FaceOrientation::CCW);
-    gl.CullFace(Face::Back);
+    gl.Enable(oglplus::Capability::DepthTest);
+    gl.Enable(oglplus::Capability::CullFace);
+    gl.FrontFace(oglplus::FaceOrientation::CCW);
+    gl.CullFace(oglplus::Face::Back);
     // play with camera parameters - testing
     camera->position = glm::vec3(0.0f, 0.50f, 0.0f);
     camera->lookAt =
@@ -56,7 +60,7 @@ void DeferredRenderer::Render()
     // draw whole scene hierarchy tree from root node
     scene->rootNode.DrawRecursive();
     // start light pass
-    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
+    oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // bind g buffer for reading
     deferredHandler.lightingProgram.Use();
@@ -74,7 +78,7 @@ void DeferredRenderer::SetMatricesUniforms()
 {
     static auto &geom = deferredHandler.geometryProgram;
 
-    for each(auto & matrixId in geom.ActiveTransformMatrices())
+    for (auto &matrixId : geom.ActiveTransformMatrices())
     {
         switch (matrixId)
         {
@@ -126,18 +130,11 @@ void DeferredRenderer::SetMatricesUniforms()
     }
 }
 
-void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial>
-        &mat)
+void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
 {
-    static const OGLMaterial * activeMaterial = nullptr;
-
-    // no need to reset uniforms if material is already set
-    if (activeMaterial == mat.get()) { return; }
-
     static auto &geom = deferredHandler.geometryProgram;
-    activeMaterial = mat.get();
 
-    for each(auto & float3PropertyId in geom.ActiveMaterialFloat3Properties())
+    for (auto &float3PropertyId : geom.ActiveMaterialFloat3Properties())
     {
         switch (float3PropertyId)
         {
@@ -183,7 +180,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial>
         }
     }
 
-    for each(auto & float1PropertyId in geom.ActiveMaterialFloat1Properties())
+    for (auto &float1PropertyId : geom.ActiveMaterialFloat1Properties())
     {
         switch (float1PropertyId)
         {
@@ -218,7 +215,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial>
         }
     }
 
-    for each(auto & uInt1PropertyId in geom.ActiveMaterialUInt1Properties())
+    for (auto &uInt1PropertyId : geom.ActiveMaterialUInt1Properties())
     {
         switch (uInt1PropertyId)
         {
@@ -234,7 +231,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial>
         }
     }
 
-    for each(auto texType in geom.ActiveSamplers())
+    for (auto &texType : geom.ActiveSamplers())
     {
         oglplus::Texture::Active(texType);
 

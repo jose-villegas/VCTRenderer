@@ -1,5 +1,8 @@
 #pragma once
-#include "frustum.h"
+
+#include <glm/mat4x4.hpp>
+
+class Frustum;
 
 struct Matrices
 {

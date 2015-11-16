@@ -1,5 +1,9 @@
 #pragma once
-#include "util\scene_importer.h"
+#include <vector>
+#include <memory>
+#include "../util/scene_importer.h"
+
+class Scene;
 
 class EngineAssets
 {

@@ -1,8 +1,11 @@
 #pragma once
+#include <memory>
+
+#include "../interface/vct_interface.h"
 #include "render_window.h"
-#include "interface\vct_interface.h"
-#include "engine_assets.h"
-#include "deferred_renderer.h"
+
+class DeferredRenderer;
+class EngineAssets;
 
 class EngineBase
 {

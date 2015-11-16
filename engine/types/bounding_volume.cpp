@@ -1,8 +1,6 @@
-#include "stdafx.h"
 #include "bounding_volume.h"
 
-
-BoundingVolume::BoundingVolume()
+BoundingVolume::BoundingVolume() : transformedVolume(nullptr)
 {
     this->maxPoint = glm::vec3(std::numeric_limits<float>::lowest());
     this->minPoint = glm::vec3(std::numeric_limits<float>::infinity());
@@ -30,4 +28,27 @@ void BoundingVolume::TryMax(const glm::vec3 &vMax)
 void BoundingVolume::TryMinMax(const glm::vec3 &vMin, const glm::vec3 &vMax)
 {
     TryMin(vMin); TryMax(vMax);
+}
+
+const BoundingVolume &BoundingVolume::Transform(const glm::mat4x4 &model)
+{
+    if (!transformedVolume)
+    {
+        // create transformed boundaries holder
+        transformedVolume = std::make_shared<BoundingVolume>();
+        // update transform matrix
+        transform = model;
+        // calculate transformed boundaries
+        return (*transformedVolume = (*this) * model);
+    }
+
+    if (transform != model)
+    {
+        // reassing new transform matrix
+        transform = model;
+        // recalculate new boundaries with transform
+        *transformedVolume = (*this) * transform;
+    }
+
+    return *transformedVolume;
 }

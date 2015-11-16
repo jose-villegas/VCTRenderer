@@ -1,5 +1,5 @@
-#include "stdafx.h"
 #include "render_window.h"
+#include <iostream>
 
 /// <summary>
 /// Called when an error occurs using the GLFW window

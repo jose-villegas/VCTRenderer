@@ -1,12 +1,13 @@
 #pragma once
+
 #include "interface.h"
+
+#include <oglplus/texture.hpp>
 
 class EngineBase;
 
 class UI : public Interface
 {
-
-
     public:
         void DrawGBufferTexture(const oglplus::Texture &texture,
                                 const std::string &name) const;

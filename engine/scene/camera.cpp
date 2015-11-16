@@ -1,5 +1,5 @@
-#include "stdafx.h"
 #include "camera.h"
+#include <glm/gtc/matrix_transform.inl>
 
 Camera::Camera() : clipPlaneFar(100.0f), clipPlaneNear(1.0f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
@@ -12,19 +12,11 @@ Camera::Camera() : clipPlaneFar(100.0f), clipPlaneNear(1.0f),
 
 glm::mat4x4 Camera::GetViewMatrix() const
 {
-    return glm::lookAt(
-               this->position,
-               this->lookAt,
-               this->up
-           );
+    return glm::lookAt(position, lookAt, up);
 }
 
 glm::mat4x4 Camera::GetProjecctionMatrix() const
 {
-    return glm::perspective(
-               glm::degrees(this->horizontalFoV),
-               this->aspectRatio,
-               this->clipPlaneNear,
-               this->clipPlaneFar
-           );
+    return glm::perspective(glm::degrees(horizontalFoV), aspectRatio,
+                            clipPlaneNear, clipPlaneFar);
 }

@@ -1,7 +1,17 @@
 #pragma once
-#include "scene\texture.h"
-#include "types\transform_matrices.h"
-#include "scene\material.h"
+
+#include "../scene/texture.h"
+#include "../types/transform_matrices.h"
+#include "../scene/material.h"
+
+#include <oglplus/program.hpp>
+#include <oglplus/framebuffer.hpp>
+#include <oglplus/context.hpp>
+#include <oglplus/vertex_array.hpp>
+#include <oglplus/buffer.hpp>
+#include <oglplus/uniform.hpp>
+#include <oglplus/interop/glm.hpp>
+
 
 /// <summary>
 /// Base class for each program shader used in deferred rendering

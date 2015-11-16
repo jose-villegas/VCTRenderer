@@ -1,4 +1,6 @@
-#include "stdafx.h"
+#include <glm/gtx/norm.hpp>
+#include <glm/gtx/orthonormalize.hpp>
+
 #include "vertex.h"
 
 Vertex::Vertex()
@@ -8,12 +10,12 @@ Vertex::Vertex()
 
 void Vertex::Orthonormalize()
 {
-    normal = glm::normalize(normal);
+    normal = normalize(normal);
     // Gram-Schmidt orthonormalization
-    this->tangent = glm::orthonormalize(tangent, normal);
+    this->tangent = orthonormalize(tangent, normal);
 
     // secure handedness
-    if(glm::dot(glm::cross(normal, tangent), bitangent) < 0.0f)
+    if (dot(cross(normal, tangent), bitangent) < 0.0f)
     {
         tangent = tangent * -1.0f;
     }

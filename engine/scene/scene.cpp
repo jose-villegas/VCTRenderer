@@ -1,5 +1,7 @@
-#include "stdafx.h"
 #include "scene.h"
+
+#include "light.h"
+#include "camera.h"
 
 Scene::Scene()
 {

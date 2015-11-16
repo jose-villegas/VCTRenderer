@@ -1,5 +1,12 @@
 #pragma once
 
+#include <set>
+#include <memory>
+#include <GL/glew.h>
+#include <oglplus/texture.hpp>
+#include <glm/detail/type_vec1.hpp>
+#include <glm/detail/type_vec4.hpp>
+
 class RawTexture
 {
     public:
