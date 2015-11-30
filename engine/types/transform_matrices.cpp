@@ -41,6 +41,10 @@ void TransformMatrices::RecalculateMatrices(bool useInverseTranspose)
     if (matricesChanged & (ViewChanged | ModelChanged))
     {
         matrices.modelView = matrices.view * matrices.model;
+        // recalculate normal matrix too
+        matrices.normal = useInverseTranspose
+                          ? inverseTranspose(matrices.modelView)
+                          : matrices.modelView;
     }
 
     if (matricesChanged & (ViewChanged | ModelChanged | ProjectionChanged))
@@ -48,9 +52,6 @@ void TransformMatrices::RecalculateMatrices(bool useInverseTranspose)
         matrices.modelViewProjection = matrices.projection * matrices.modelView;
     }
 
-    matrices.normal = useInverseTranspose
-                      ? inverseTranspose(matrices.modelView)
-                      : matrices.modelView;
     matricesChanged = None;
 }
 

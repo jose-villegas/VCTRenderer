@@ -6,7 +6,6 @@ Mesh::Mesh() : name("Default Mesh")
 {
 }
 
-
 Mesh::~Mesh()
 {
 }
@@ -16,8 +15,6 @@ void Mesh::FreeRawData()
     this->vertices.clear();
     this->indices.clear();
 }
-
-
 
 OGLMesh::OGLMesh() : onGPUMemory(false)
 {

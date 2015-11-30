@@ -249,20 +249,20 @@ void DeferredRenderer::SetLightPassUniforms()
     static auto &light = deferredHandler.lightingProgram;
     light.SetUniform(Camera::Active()->position);
     light.SetUniform(
-        DeferredProgram::Position,
-        DeferredProgram::Position
+        GBufferTextureId::Position,
+        (int)GBufferTextureId::Position
     );
     light.SetUniform(
-        DeferredProgram::Normal,
-        DeferredProgram::Normal
+        GBufferTextureId::Normal,
+        (int)GBufferTextureId::Normal
     );
     light.SetUniform(
-        DeferredProgram::Albedo,
-        DeferredProgram::Albedo
+        GBufferTextureId::Albedo,
+        (int)GBufferTextureId::Albedo
     );
     light.SetUniform(
-        DeferredProgram::Specular,
-        DeferredProgram::Specular
+        GBufferTextureId::Specular,
+        (int)GBufferTextureId::Specular
     );
 }
 

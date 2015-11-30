@@ -69,7 +69,7 @@ void Node::Draw()
     static auto &renderer = EngineBase::Renderer();
     // update matrices with node model matrix
     renderer.Matrices().UpdateModelMatrix(modelMatrix);
-    // recalculate model-dependant transform matrices
+    // recalculate model-dependent transform matrices
     renderer.Matrices().RecalculateMatrices();
 
     if (DeferredRenderer::FrustumCulling)
@@ -90,7 +90,7 @@ void Node::DrawRecursive()
     static auto &renderer = EngineBase::Renderer();
     // update with node model matrix
     renderer.Matrices().UpdateModelMatrix(modelMatrix);
-    // recalculate model-dependant transform matrices
+    // recalculate model-dependent transform matrices
     renderer.Matrices().RecalculateMatrices();
 
     // frustum culling per node boundaries

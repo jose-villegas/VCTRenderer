@@ -1,10 +1,12 @@
 #include "interface.h"
+
 #ifdef _WIN32
     #undef APIENTRY
     #define GLFW_EXPOSE_NATIVE_WIN32
     #define GLFW_EXPOSE_NATIVE_WGL
     #include <GLFW/glfw3native.h>
 #endif
+
 #include <../core/render_window.h>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -235,7 +237,6 @@ void Interface::NewFrame()
                      : GLFW_CURSOR_NORMAL);
     // Start the frame
     ImGui::NewFrame();
-    // ImGui_ImplGlfwGL3_NewFrame();
 }
 
 
@@ -269,7 +270,7 @@ void Interface::CreateDeviceObjects()
     glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
     glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
     glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
-    const GLchar * vertex_shader =
+    auto vertex_shader =
         "#version 330\n"
         "uniform mat4 ProjMtx;\n"
         "in vec2 Position;\n"
@@ -283,7 +284,7 @@ void Interface::CreateDeviceObjects()
         "	Frag_Color = Color;\n"
         "	gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
         "}\n";
-    const GLchar * fragment_shader =
+    auto fragment_shader =
         "#version 330\n"
         "uniform sampler2D Texture;\n"
         "in vec2 Frag_UV;\n"
@@ -370,6 +371,30 @@ void Interface::Terminate()
 
 void Interface::InvalidateDeviceObjects()
 {
+    if (uiData->vaoHandle) { glDeleteVertexArrays(1, &uiData->vaoHandle); }
+
+    if (uiData->vboHandle) { glDeleteBuffers(1, &uiData->vboHandle); }
+
+    if (uiData->elementsHandle) { glDeleteBuffers(1, &uiData->elementsHandle); }
+
+    uiData->vaoHandle = uiData->vboHandle = uiData->elementsHandle = 0;
+    glDetachShader(uiData->shaderHandle, uiData->vertHandle);
+    glDeleteShader(uiData->vertHandle);
+    uiData->vertHandle = 0;
+    glDetachShader(uiData->shaderHandle, uiData->fragHandle);
+    glDeleteShader(uiData->fragHandle);
+    uiData->fragHandle = 0;
+    glDeleteProgram(uiData->shaderHandle);
+    uiData->shaderHandle = 0;
+
+    if (uiData->fontTexture)
+    {
+        glDeleteTextures(1, &uiData->fontTexture);
+        ImGui::GetIO().Fonts->TexID = 0;
+        uiData->fontTexture = 0;
+    }
+
+    ImGui::Shutdown();
 }
 
 void Interface::MouseButtonCallback(GLFWwindow * window, int button, int action,
