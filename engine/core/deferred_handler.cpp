@@ -370,10 +370,10 @@ void DeferredHandler::ActivateBindTextureTargets()
 }
 
 /// <summary>
-/// Calls ExtractUniform virtual method per every active uniform
-/// in the shader program
+/// Calls <see cref="ExtractUniform"> virtual method per
+/// every active uniform in the shader program
 /// </summary>
-void DeferredProgram::ExtractActiveUniforms()
+void BaseProgram::ExtractActiveUniforms()
 {
     auto uRange = program.ActiveUniforms();
 

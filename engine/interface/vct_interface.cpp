@@ -106,19 +106,19 @@ void UI::DrawGBufferTextures()
                                          .GetDeferredHandler();
     const auto &bufferTextures = deferredHandler.BufferTextures();
     // position texture
-    DrawGBufferTexture(bufferTextures[(DeferredProgram::Position)],
+    DrawGBufferTexture(bufferTextures[(int)(GBufferTextureId::Position)],
                        "Position");
     ImGui::SameLine();
     // normal texture
-    DrawGBufferTexture(bufferTextures[(DeferredProgram::Normal)],
+    DrawGBufferTexture(bufferTextures[(int)(GBufferTextureId::Normal)],
                        "Normal");
     ImGui::SameLine();
     // albedo texture
-    DrawGBufferTexture(bufferTextures[(DeferredProgram::Albedo)],
+    DrawGBufferTexture(bufferTextures[(int)(GBufferTextureId::Albedo)],
                        "Albedo");
     ImGui::SameLine();
     // specular texture
-    DrawGBufferTexture(bufferTextures[(DeferredProgram::Specular)],
+    DrawGBufferTexture(bufferTextures[(int)(GBufferTextureId::Specular)],
                        "Specular");
 }
 

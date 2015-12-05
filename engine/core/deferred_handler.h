@@ -25,7 +25,7 @@ enum class GBufferTextureId
     TEXTURE_TYPE_MAX
 };
 
-class GeometryProgram : public DeferredProgram
+class GeometryProgram : public BaseProgram
 {
     protected:
         /// <summary>
@@ -84,7 +84,7 @@ class GeometryProgram : public DeferredProgram
         &ActiveMaterialUInt1Properties()const;
 };
 
-class LightingProgram : public DeferredProgram
+class LightingProgram : public BaseProgram
 {
     protected:
         // light pass uniforms
