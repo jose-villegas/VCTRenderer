@@ -4,6 +4,7 @@
 #include <numeric>
 
 #include "../core/deferred_handler.h"
+#include "../core/geometry_program.h"
 #include "../core/engine_base.h"
 #include "../core/deferred_renderer.h"
 #include "../core/engine_assets.h"

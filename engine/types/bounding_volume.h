@@ -18,6 +18,7 @@ class BoundingVolume
         void TryMax(const glm::vec3 &vMax);
         void TryMinMax(const glm::vec3 &vMin, const glm::vec3 &vMax);
         const BoundingVolume &Transform(const glm::mat4x4 &model);
+        const glm::vec3 Center();
 
     private:
         glm::mat4x4 transform;

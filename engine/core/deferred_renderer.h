@@ -2,7 +2,9 @@
 
 #include "deferred_handler.h"
 #include "../types/frustum.h"
+#include "../types/transform_matrices.h"
 
+class OGLMaterial;
 class RenderWindow;
 
 class DeferredRenderer

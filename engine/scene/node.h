@@ -18,6 +18,7 @@ class Node
         // meshes associated and children
         std::vector<std::shared_ptr<OGLMesh>> meshes;
         std::vector<std::shared_ptr<Node>> nodes;
+
         Node();
         ~Node();
 
@@ -26,8 +27,8 @@ class Node
         void Draw();
         // draws the meshes associated to the parents and all descendants
         void DrawRecursive();
-        // call drawElements per mesh
-        void DrawMeshes();
+        // draws using the built drawList
+        void DrawList();
         // transformations
         void Transform(const glm::vec3 &position,
                        const glm::vec3 &scaling,
@@ -37,8 +38,10 @@ class Node
         void Rotation(const glm::quat &rotation);
         void BuildDrawList();
     private:
-        typedef std::pair<std::reference_wrapper<glm::mat4x4>,
-                std::shared_ptr<OGLMesh>> DrawInfo;
+        typedef std::reference_wrapper<Node> NodeRef;
+        typedef std::shared_ptr<OGLMesh> MeshPtr;
+        typedef std::pair <NodeRef, MeshPtr> DrawInfo;
+
         std::vector<DrawInfo> drawList;
 
         glm::mat4x4 modelMatrix;
@@ -48,5 +51,7 @@ class Node
 
         void RecalculateModelMatrix();
         void BuildDrawList(std::vector<DrawInfo> &base);
+        // call drawElements per mesh
+        void DrawMeshes();
 };
 

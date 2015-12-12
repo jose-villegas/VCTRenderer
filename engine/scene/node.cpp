@@ -5,6 +5,8 @@
 #include "mesh.h"
 #include "../core/engine_base.h"
 #include "../core/deferred_renderer.h"
+#include "material.h"
+#include <iomanip>
 
 Node::Node() : name("Default Node")
 {
@@ -33,13 +35,20 @@ void Node::BuildDrawList(std::vector<DrawInfo> &base)
 {
     for (auto &mesh : meshes)
     {
-        base.push_back(DrawInfo(std::ref(modelMatrix), mesh));
+        base.push_back(DrawInfo(std::ref<Node>(*this), mesh));
     }
 
     for (auto &node : nodes)
     {
         node->BuildDrawList(base);
     }
+
+    // order by material name
+    auto sortByMaterial = [](DrawInfo & rhs, DrawInfo & lhs) -> bool
+    {
+        return rhs.second->material < lhs.second->material;
+    };
+    std::sort(base.begin(), base.end(), sortByMaterial);
 }
 
 void Node::DrawMeshes()
@@ -110,6 +119,49 @@ void Node::DrawRecursive()
     for (auto &node : nodes)
     {
         node->DrawRecursive();
+    }
+}
+
+void Node::DrawList()
+{
+    static auto &renderer = EngineBase::Renderer();
+    // update with node model matrix
+    renderer.Matrices().UpdateModelMatrix(modelMatrix);
+    // recalculate model-dependent transform matrices
+    renderer.Matrices().RecalculateMatrices();
+
+    // frustum culling node boundaries
+    if (DeferredRenderer::FrustumCulling)
+    {
+        if (!renderer.InFrustum(boundaries.Transform(modelMatrix)))
+        {
+            return;
+        }
+    }
+
+    // set matrices uniform with updated matrices
+    renderer.SetMatricesUniforms();
+
+    // draw elements using draw list
+    for (auto &drawInfo : drawList)
+    {
+        auto &mesh = drawInfo.second;
+
+        if (!mesh->OnGPUMemory()) { return; }
+
+        if (DeferredRenderer::FrustumCulling)
+        {
+            auto &model = drawInfo.first.get().modelMatrix;
+
+            if (!renderer.InFrustum(mesh->boundaries.Transform(model)))
+            {
+                continue;
+            }
+        }
+
+        renderer.SetMaterialUniforms(mesh->material);
+        mesh->BindVertexArrayObject();
+        mesh->DrawElements();
     }
 }
 
