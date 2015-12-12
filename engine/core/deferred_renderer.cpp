@@ -1,4 +1,6 @@
 #include "deferred_renderer.h"
+#include "geometry_program.h"
+#include "lighting_program.h"
 
 #include "render_window.h"
 #include "../scene/camera.h"
@@ -31,8 +33,8 @@ void DeferredRenderer::Render()
     deferredHandler.BindGeometryBuffer(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
-    deferredHandler.geometryProgram.Use();
-    // opengl flags
+    deferredHandler.geometryProgram->Use();
+    // Open GL flags
     gl.ClearDepth(1.0f);
     //gl.Disable(Capability::Blend);
     gl.Enable(oglplus::Capability::DepthTest);
@@ -63,7 +65,7 @@ void DeferredRenderer::Render()
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // bind g buffer for reading
-    deferredHandler.lightingProgram.Use();
+    deferredHandler.lightingProgram->Use();
     deferredHandler.ActivateBindTextureTargets();
     SetLightPassUniforms();
     deferredHandler.RenderFullscreenQuad();
@@ -78,7 +80,7 @@ void DeferredRenderer::SetMatricesUniforms()
 {
     static auto &geom = deferredHandler.geometryProgram;
 
-    for (auto &matrixId : geom.ActiveTransformMatrices())
+    for (auto &matrixId : geom->ActiveTransformMatrices())
     {
         switch (matrixId)
         {
@@ -86,42 +88,42 @@ void DeferredRenderer::SetMatricesUniforms()
                 break;
 
             case TransformMatrices::ModelView:
-                geom.SetUniform(
+                geom->SetUniform(
                     TransformMatrices::ModelView,
                     transformMatrices.GetModelView()
                 );
                 break;
 
             case TransformMatrices::ModelViewProjection:
-                geom.SetUniform(
+                geom->SetUniform(
                     TransformMatrices::ModelViewProjection,
                     transformMatrices.GetModelViewProjection()
                 );
                 break;
 
             case TransformMatrices::Model:
-                geom.SetUniform(
+                geom->SetUniform(
                     TransformMatrices::Model,
                     transformMatrices.GetModel()
                 );
                 break;
 
             case TransformMatrices::View:
-                geom.SetUniform(
+                geom->SetUniform(
                     TransformMatrices::View,
                     transformMatrices.GetView()
                 );
                 break;
 
             case TransformMatrices::Projection:
-                geom.SetUniform(
+                geom->SetUniform(
                     TransformMatrices::Projection,
                     transformMatrices.GetProjection()
                 );
                 break;
 
             case TransformMatrices::Normal:
-                geom.SetUniform(
+                geom->SetUniform(
                     TransformMatrices::Normal,
                     transformMatrices.GetNormal()
                 );
@@ -134,7 +136,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
 {
     static auto &geom = deferredHandler.geometryProgram;
 
-    for (auto &float3PropertyId : geom.ActiveMaterialFloat3Properties())
+    for (auto &float3PropertyId : geom->ActiveMaterialFloat3Properties())
     {
         switch (float3PropertyId)
         {
@@ -142,7 +144,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::Ambient:
-                geom.SetUniform(
+                geom->SetUniform(
                     OGLMaterial::Ambient,
                     mat->HasTexture(RawTexture::Ambient) ?
                     mat->White : mat->ambient
@@ -150,7 +152,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::Diffuse:
-                geom.SetUniform(
+                geom->SetUniform(
                     OGLMaterial::Diffuse,
                     mat->HasTexture(RawTexture::Diffuse) ?
                     mat->White : mat->diffuse
@@ -158,7 +160,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::Specular:
-                geom.SetUniform(
+                geom->SetUniform(
                     OGLMaterial::Specular,
                     mat->HasTexture(RawTexture::Specular) ?
                     mat->White : mat->specular
@@ -166,7 +168,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::Emissive:
-                geom.SetUniform(
+                geom->SetUniform(
                     OGLMaterial::Emissive,
                     mat->HasTexture(RawTexture::Emissive) ?
                     mat->White : mat->emissive
@@ -174,13 +176,13 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::Transparent:
-                geom.SetUniform
+                geom->SetUniform
                 (OGLMaterial::Transparent, mat->transparent);
                 break;
         }
     }
 
-    for (auto &float1PropertyId : geom.ActiveMaterialFloat1Properties())
+    for (auto &float1PropertyId : geom->ActiveMaterialFloat1Properties())
     {
         switch (float1PropertyId)
         {
@@ -188,7 +190,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::Opacity:
-                geom.SetUniform(
+                geom->SetUniform(
                     OGLMaterial::Opacity,
                     mat->HasTexture(RawTexture::Opacity) ?
                     1.0f : mat->opacity
@@ -196,7 +198,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::Shininess:
-                geom.SetUniform(
+                geom->SetUniform(
                     OGLMaterial::Shininess,
                     mat->HasTexture(RawTexture::Shininess) ?
                     0.0f : mat->shininess
@@ -204,18 +206,18 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::ShininessStrenght:
-                geom.SetUniform
+                geom->SetUniform
                 (OGLMaterial::ShininessStrenght, mat->shininessStrenght);
                 break;
 
             case OGLMaterial::RefractionIndex:
-                geom.SetUniform
+                geom->SetUniform
                 (OGLMaterial::RefractionIndex, mat->refractionIndex);
                 break;
         }
     }
 
-    for (auto &uInt1PropertyId : geom.ActiveMaterialUInt1Properties())
+    for (auto &uInt1PropertyId : geom->ActiveMaterialUInt1Properties())
     {
         switch (uInt1PropertyId)
         {
@@ -223,7 +225,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
                 break;
 
             case OGLMaterial::NormalMapping:
-                geom.SetUniform(
+                geom->SetUniform(
                     OGLMaterial::NormalMapping,
                     mat->HasTexture(RawTexture::Normals)
                 );
@@ -231,7 +233,7 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
         }
     }
 
-    for (auto &texType : geom.ActiveSamplers())
+    for (auto &texType : geom->ActiveSamplers())
     {
         oglplus::Texture::Active(texType);
 
@@ -240,27 +242,27 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
             OGLTexture2D::GetDefaultTexture()->Bind();
         }
 
-        geom.SetUniform(texType, static_cast<int>(texType));
+        geom->SetUniform(texType, static_cast<int>(texType));
     }
 }
 
 void DeferredRenderer::SetLightPassUniforms()
 {
     static auto &light = deferredHandler.lightingProgram;
-    light.SetUniform(Camera::Active()->position);
-    light.SetUniform(
+    light->SetUniform(Camera::Active()->position);
+    light->SetUniform(
         GBufferTextureId::Position,
         (int)GBufferTextureId::Position
     );
-    light.SetUniform(
+    light->SetUniform(
         GBufferTextureId::Normal,
         (int)GBufferTextureId::Normal
     );
-    light.SetUniform(
+    light->SetUniform(
         GBufferTextureId::Albedo,
         (int)GBufferTextureId::Albedo
     );
-    light.SetUniform(
+    light->SetUniform(
         GBufferTextureId::Specular,
         (int)GBufferTextureId::Specular
     );

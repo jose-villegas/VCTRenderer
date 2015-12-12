@@ -1,13 +1,17 @@
+#pragma once
+
 #include <vector>
+#include <GL/glew.h>
 #include <oglplus/program.hpp>
+#include <oglplus/uniform.hpp>
 
 /// <summary>
 /// Base class for each program shader used in deferred rendering
 /// </summary>
-class BaseProgram
+class EngineShaderProgram
 {
     protected:
-        ~BaseProgram() {}
+        ~EngineShaderProgram() {}
         friend class DeferredHandler;
         /// <summary>
         /// The fragment shader
@@ -32,7 +36,7 @@ class BaseProgram
                                     std::string uName) = 0;
         void ExtractActiveUniforms();
     public:
-        BaseProgram() {};
+        EngineShaderProgram() {};
         void Use() const { program.Use(); }
 };
 

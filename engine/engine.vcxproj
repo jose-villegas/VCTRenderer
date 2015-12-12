@@ -213,6 +213,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="core\lighting_program.cpp" />
+    <ClCompile Include="types\engine_shader_program.cpp" />
+    <ClCompile Include="core\geometry_program.cpp" />
     <ClCompile Include="types\frustum.cpp" />
     <ClCompile Include="types\bounding_volume.cpp" />
     <ClCompile Include="core\engine_assets.cpp" />
@@ -269,7 +272,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="types\program_base.h" />
+    <ClInclude Include="core\geometry_program.h" />
+    <ClInclude Include="core\lighting_program.h" />
+    <ClInclude Include="types\engine_shader_program.h" />
     <ClInclude Include="util\single_active.h" />
     <ClInclude Include="types\frustum.h" />
     <ClInclude Include="types\bounding_volume.h" />
