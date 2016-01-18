@@ -13,6 +13,9 @@
 [submodule "engine/dependencies/imgui"]
 	path = engine/dependencies/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "engine/3rdparty/imgui"]
+	path = engine/3rdparty/imgui
+	url = https://github.com/ocornut/imgui.git
 [submodule "engine/dependencies/freeimage"]
 	path = engine/dependencies/freeimage
 	url = https://github.com/imazen/freeimage.git
