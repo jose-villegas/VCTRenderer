@@ -166,6 +166,13 @@ std::unique_ptr<OGLTexture2D> &OGLTexture2D::GetErrorTexture()
 }
 
 OGLTexture2D::OGLTexture2D()
+    : mipmapGenerated(false),
+      borderColor(glm::uninitialize),
+      magFilter(MagFilter::Linear),
+      minFilter(MinFilter::Linear),
+      wrapS(WrapMode::Repeat),
+      wrapT(WrapMode::Repeat),
+      onGPUMemory(false)
 {
 }
 

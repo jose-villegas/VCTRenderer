@@ -22,6 +22,16 @@ struct Matrices
     mat4 normal;
 };
 
+layout(std140) uniform UBMatrices
+{
+    mat4 modelView;
+    mat4 modelViewProjection;
+    mat4 model;
+    mat4 view;
+    mat4 projection;
+    mat4 normal;	
+} uMatrices;
+
 uniform Matrices matrices;
 
 void main()

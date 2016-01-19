@@ -3,10 +3,13 @@
 #include "../scene/texture.h"
 #include "../types/transform_matrices.h"
 #include "../scene/material.h"
-#include "../types/engine_shader_program.h"
+#include "../types/program_shader.h"
+#include "../types/uniform_collection.h"
 
 #include <oglplus/uniform.hpp>
 #include <oglplus/interop/glm.hpp>
+#include <oglplus/uniform_block.hpp>
+
 
 /// <summary>
 /// Identifies the geometry buffer texture target
@@ -21,7 +24,7 @@ enum class GBufferTextureId
     TEXTURE_TYPE_MAX
 };
 
-class GeometryProgram : public EngineShaderProgram
+class GeometryProgram : public ProgramShader
 {
     protected:
         /// <summary>
@@ -49,6 +52,7 @@ class GeometryProgram : public EngineShaderProgram
         /// </summary>
         UniformCollection<oglplus::Uniform<unsigned int>,
                           OGLMaterial::UInt1PropertyId> materialUInt1;
+
     public:
 
         GeometryProgram();

@@ -1,14 +1,15 @@
 #pragma once
 
 #include "../scene/texture.h"
-#include "../types/engine_shader_program.h"
+#include "../types/program_shader.h"
+#include "../types/uniform_collection.h"
 
 #include <oglplus/uniform.hpp>
 #include <oglplus/interop/glm.hpp>
 
 enum class GBufferTextureId;
 
-class LightingProgram : public EngineShaderProgram
+class LightingProgram : public ProgramShader
 {
     protected:
         // light pass uniforms

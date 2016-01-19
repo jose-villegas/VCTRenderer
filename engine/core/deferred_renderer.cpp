@@ -134,15 +134,15 @@ void DeferredRenderer::SetMatricesUniforms()
 
 void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
 {
-    static auto previousMaterial = std::make_shared<OGLMaterial>();
+    static OGLMaterial * previousMaterial = nullptr;
+    static auto &geom = deferredHandler.geometryProgram;
 
-    if (previousMaterial == mat)
+    if (previousMaterial == mat.get())
     {
         return;
     }
 
-    previousMaterial = mat;
-    static auto &geom = deferredHandler.geometryProgram;
+    previousMaterial = mat.get();
 
     for (auto &float3PropertyId : geom->ActiveMaterialFloat3Properties())
     {
