@@ -19,6 +19,3 @@
 [submodule "engine/dependencies/oglplus"]
 	path = engine/dependencies/oglplus
 	url = https://github.com/matus-chochlik/oglplus.git
-[submodule "engine/3rdparty/imgui"]
-	path = engine/3rdparty/imgui
-	url = https://github.com/ocornut/imgui.git
