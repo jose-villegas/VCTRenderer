@@ -214,6 +214,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="core\lighting_program.cpp" />
+    <ClCompile Include="util\raw_format.cpp" />
     <ClCompile Include="types\engine_shader_program.cpp" />
     <ClCompile Include="core\geometry_program.cpp" />
     <ClCompile Include="types\frustum.cpp" />
@@ -235,6 +236,7 @@
     <ClCompile Include="scene\node.cpp" />
     <ClCompile Include="scene\scene.cpp" />
     <ClCompile Include="scene\texture.cpp" />
+    <ClCompile Include="types\program_shader.cpp" />
     <ClCompile Include="types\transform_matrices.cpp" />
     <ClCompile Include="types\vertex.cpp" />
     <ClCompile Include="util\scene_importer.cpp" />
@@ -274,7 +276,10 @@
     </ClInclude>
     <ClInclude Include="core\geometry_program.h" />
     <ClInclude Include="core\lighting_program.h" />
+    <ClInclude Include="util\raw_format.h" />
     <ClInclude Include="types\engine_shader_program.h" />
+    <ClInclude Include="types\program_shader.h" />
+    <ClInclude Include="types\uniform_collection.h" />
     <ClInclude Include="util\single_active.h" />
     <ClInclude Include="types\frustum.h" />
     <ClInclude Include="types\bounding_volume.h" />
