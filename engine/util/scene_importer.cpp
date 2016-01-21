@@ -304,8 +304,8 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
     bool materialHasTexture = false;
 
     for (aiTextureType texType = aiTextureType::aiTextureType_NONE;
-         texType < aiTextureType::aiTextureType_UNKNOWN;
-         texType = aiTextureType(texType + 1))
+            texType < aiTextureType::aiTextureType_UNKNOWN;
+            texType = aiTextureType(texType + 1))
     {
         int textureTypeCount = mMaterial->GetTextureCount((aiTextureType)texType);
 
@@ -326,7 +326,7 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
 
             // for wavefront obj we assump bump = normal map
             if (utils::GetFileExtension(scene.filepath) == "obj" &&
-                texType == aiTextureType::aiTextureType_HEIGHT)
+                    texType == aiTextureType::aiTextureType_HEIGHT)
             { texType = aiTextureType::aiTextureType_NORMALS; }
 
             for (unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; ++i)

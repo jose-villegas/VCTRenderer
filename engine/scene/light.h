@@ -1,7 +1,8 @@
 #pragma once
 #include <glm/detail/type_vec3.hpp>
+#include "../util/raw_format.h"
 
-class Light
+class Light : public RawFormat
 {
     public:
         struct Attenuation
@@ -35,7 +36,9 @@ class Light
 
         LightType lightType;
 
+        void BuildFormat() override;
+
         Light();
-        ~Light();
+        virtual ~Light();
 };
 
