@@ -3,15 +3,15 @@
 #include <glm/detail/type_vec3.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-void Light::BuildFormat()
+void Light::StackFormat()
 {
-    (*this) << DataSegment<float>(&angleInnerCone)
-            << DataSegment<float>(&angleOuterCone)
-            << DataSegment<float>(value_ptr(ambient), sizeof(glm::vec3))
-            << DataSegment<float>(value_ptr(diffuse), sizeof(glm::vec3))
-            << DataSegment<float>(value_ptr(specular), sizeof(glm::vec3))
-            << DataSegment<float>(value_ptr(position), sizeof(glm::vec3))
-            << DataSegment<float>(value_ptr(direction), sizeof(glm::vec3));
+    Stack(DataSegment<float>("angleInnerCone"));
+    Stack(DataSegment<float>("angleOuterCone"));
+    Stack(DataSegment<float>("ambient"), sizeof(glm::vec3));
+    Stack(DataSegment<float>("diffuse"), sizeof(glm::vec3));
+    Stack(DataSegment<float>("specular"), sizeof(glm::vec3));
+    Stack(DataSegment<float>("direction"), sizeof(glm::vec3));
+    Stack(DataSegment<float>("position"), sizeof(glm::vec3));
 }
 
 Light::Light() : angleInnerCone(0), angleOuterCone(90), lightType(Directional)

@@ -1,7 +1,6 @@
 #pragma once
-#include <stack>
-#include <vector>
-#include <typeinfo>
+#include <unordered_map>
+#include <queue>
 
 class RawFormat
 {
@@ -9,13 +8,18 @@ class RawFormat
         template<typename T>
         struct DataSegment
         {
+            std::string name;
             T * pointer;
             size_t size;
             size_t offset;
 
-            explicit DataSegment(T * pointer);
-            DataSegment(T * pointer, size_t size);
-            DataSegment(T * pointer, size_t size, size_t offset);
+            explicit DataSegment(std::string name);
+            DataSegment(std::string name, size_t size);
+            DataSegment(std::string name, size_t size, size_t offset);
+
+            explicit DataSegment(std::string name, T * pointer);
+            DataSegment(std::string name, T * pointer, size_t size);
+            DataSegment(std::string name, T * pointer, size_t size, size_t offset);
         };
 
         template<typename T, typename... Args>
@@ -23,7 +27,7 @@ class RawFormat
         template<typename T>
         void Stack(DataSegment<T> segment);
 
-        virtual void BuildFormat() = 0;
+        void Build();
         void * RawData();
 
         template<typename T>
@@ -31,33 +35,73 @@ class RawFormat
 
         RawFormat();
     protected:
+        virtual void StackFormat() = 0;
+        template<typename T>
+        T * SegmentPointer(std::string name);
         ~RawFormat();
     private:
+        bool _isBuilt;
         void * rawDataPointer;
         size_t wholeSize;
-        std::vector<DataSegment<void>> format;
+        std::queue<DataSegment<void>> format;
+        std::unordered_map<std::string, DataSegment<void>> accessMap;
+
+        void * BuildRawData();
 };
 
 template <typename T>
-RawFormat::DataSegment<T>::DataSegment(T * pointer)
+RawFormat::DataSegment<T>::DataSegment(std::string name, T * pointer)
 {
+    this->name = name;
     this->pointer = pointer;
     this->size = sizeof(T);
     this->offset = 0;
 }
 
 template <typename T>
-RawFormat::DataSegment<T>::DataSegment(T * pointer, size_t size)
+RawFormat::DataSegment<T>::DataSegment(std::string name, T * pointer,
+                                       size_t size)
 {
+    this->name = name;
     this->pointer = pointer;
     this->size = size;
     this->offset = 0;
 }
 
 template <typename T>
-RawFormat::DataSegment<T>::DataSegment(T * pointer, size_t size, size_t offset)
+RawFormat::DataSegment<T>::DataSegment(std::string name, T * pointer,
+                                       size_t size, size_t offset)
 {
+    this->name = name;
     this->pointer = pointer;
+    this->size = size;
+    this->offset = offset;
+}
+
+template <typename T>
+RawFormat::DataSegment<T>::DataSegment(std::string name)
+{
+    this->name = name;
+    this->pointer = nullptr;
+    this->size = sizeof(T);
+    this->offset = 0;
+}
+
+template <typename T>
+RawFormat::DataSegment<T>::DataSegment(std::string name, size_t size)
+{
+    this->name = name;
+    this->pointer = nullptr;
+    this->size = size;
+    this->offset = 0;
+}
+
+template <typename T>
+RawFormat::DataSegment<T>::DataSegment(std::string name, size_t size,
+                                       size_t offset)
+{
+    this->name = name;
+    this->pointer = nullptr;
     this->size = size;
     this->offset = offset;
 }
@@ -72,7 +116,12 @@ void RawFormat::Stack(DataSegment<T> segment, Args... args)
 template <typename T>
 void RawFormat::Stack(DataSegment<T> segment)
 {
-    format.push_back(
+    if (_isBuilt)
+    {
+        return;
+    }
+
+    format.push(
         DataSegment<void>
         (
             static_cast<void *>(segment.pointer),
@@ -80,6 +129,7 @@ void RawFormat::Stack(DataSegment<T> segment)
             segment.offset
         )
     );
+    wholeSize += segment.size + segment.offset;
 }
 
 template <typename T>
@@ -87,4 +137,15 @@ RawFormat &RawFormat::operator<<(const DataSegment<T> &segment)
 {
     Stack(segment);
     return *this;
+}
+
+template <typename T>
+T * RawFormat::SegmentPointer(std::string name)
+{
+    if (accessMap.find(name) != accessMap.end())
+    {
+        return reinterpret_cast<T *>(accessMap[name].pointer);
+    }
+
+    return nullptr;
 }

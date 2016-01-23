@@ -36,9 +36,9 @@ class Light : public RawFormat
 
         LightType lightType;
 
-        void BuildFormat() override;
-
         Light();
         virtual ~Light();
+    private:
+        void StackFormat() override;
 };
 
