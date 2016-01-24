@@ -2,6 +2,11 @@
 
 void * RawFormat::BuildRawData()
 {
+    if (rawDataPointer != nullptr)
+    {
+        free(rawDataPointer);
+    }
+
     auto data = reinterpret_cast<unsigned char *>(malloc(wholeSize));
     auto begin = data;
 
@@ -9,17 +14,23 @@ void * RawFormat::BuildRawData()
     {
         auto &segment = format.front();
         // transfer data
-        data += segment.offset;
+        data += segment->offset;
 
-        if (segment.pointer != nullptr)
+        if (segment->vPointer != nullptr)
         {
-            memcpy(data, segment.pointer, segment.size);
+            memcpy(data, segment->vPointer, segment->size);
         }
 
-        segment.pointer = data;
-        data += segment.size;
+        static_cast<DataSegment <unsigned char> *>
+        (segment)->pointer = data;
+
+        segment->vPointer = data;
+
+        data += segment->size;
+
         // save to hash map
-        accessMap[segment.name] = segment;
+        accessMap[segment->name] = segment;
+
         // pop format stack
         format.pop();
     }
@@ -37,6 +48,18 @@ void * RawFormat::RawData()
     return BuildRawData();
 }
 
+void RawFormat::SetForRebuild()
+{
+    free(rawDataPointer);
+    accessMap.clear();
+
+    while (!format.empty()) { format.pop(); }
+
+    rawDataPointer = nullptr;
+    wholeSize = 0;
+    _isBuilt = false;
+}
+
 RawFormat::RawFormat() : _isBuilt(false), rawDataPointer(nullptr), wholeSize(0)
 {
 }
@@ -45,7 +68,6 @@ void RawFormat::Build()
 {
     if (!_isBuilt)
     {
-        StackFormat();
         rawDataPointer = RawData();
         // can't enter this function anymore
         // once whole data pointer is built

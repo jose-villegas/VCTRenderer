@@ -36,9 +36,10 @@ class Light : public RawFormat
 
         LightType lightType;
 
+        DataSegment<float> * angleInnerConeSeg;
+
+        void DoSomething();
         Light();
         virtual ~Light();
-    private:
-        void StackFormat() override;
 };
 

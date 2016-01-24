@@ -276,6 +276,7 @@
     </ClInclude>
     <ClInclude Include="core\geometry_program.h" />
     <ClInclude Include="core\lighting_program.h" />
+    <ClInclude Include="util\data_segment.h" />
     <ClInclude Include="util\raw_format.h" />
     <ClInclude Include="types\engine_shader_program.h" />
     <ClInclude Include="types\program_shader.h" />
