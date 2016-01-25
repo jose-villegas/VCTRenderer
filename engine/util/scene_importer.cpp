@@ -103,8 +103,6 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         }
     }
 
-    outScene.lights[0]->RawData();
-    outScene.lights[0]->DoSomething();
     return true;
 }
 

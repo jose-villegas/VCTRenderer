@@ -1,4 +1,5 @@
 #include "raw_format.h"
+#include "data_segment.h"
 
 void * RawFormat::BuildRawData()
 {
@@ -19,6 +20,7 @@ void * RawFormat::BuildRawData()
         if (segment->vPointer != nullptr)
         {
             memcpy(data, segment->vPointer, segment->size);
+            free(segment->vPointer);
         }
 
         static_cast<DataSegment <unsigned char> *>
@@ -27,9 +29,6 @@ void * RawFormat::BuildRawData()
         segment->vPointer = data;
 
         data += segment->size;
-
-        // save to hash map
-        accessMap[segment->name] = segment;
 
         // pop format stack
         format.pop();
@@ -51,7 +50,6 @@ void * RawFormat::RawData()
 void RawFormat::SetForRebuild()
 {
     free(rawDataPointer);
-    accessMap.clear();
 
     while (!format.empty()) { format.pop(); }
 
@@ -78,4 +76,18 @@ void RawFormat::Build()
 RawFormat::~RawFormat()
 {
     free(rawDataPointer);
+}
+
+void RawFormat::SegmentPush(Segment * segment)
+{
+    if (_isBuilt)
+    {
+        throw std::logic_error(
+            "RawFormat is already built, can't push more data segments"
+        );
+    }
+
+    // build format queue
+    format.push(segment);
+    wholeSize += segment->size + segment->offset;
 }

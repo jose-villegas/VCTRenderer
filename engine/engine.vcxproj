@@ -214,6 +214,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="core\lighting_program.cpp" />
+    <ClCompile Include="util\data_segment.cpp" />
     <ClCompile Include="util\raw_format.cpp" />
     <ClCompile Include="types\engine_shader_program.cpp" />
     <ClCompile Include="core\geometry_program.cpp" />
