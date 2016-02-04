@@ -13,27 +13,23 @@ void * RawFormat::BuildRawData()
 
     while (!format.empty())
     {
-        auto &segment = format.front();
+        auto segment = static_cast<DataSegment<unsigned char> *>(format.front());
         // transfer data
         data += segment->offset;
 
-        if (segment->vPointer != nullptr)
+        if (segment->pointer != nullptr)
         {
-            memcpy(data, segment->vPointer, segment->size);
-            free(segment->vPointer);
+            memcpy(data, segment->pointer, segment->size);
+            free(segment->pointer);
         }
 
-        static_cast<DataSegment <unsigned char> *>
-        (segment)->pointer = data;
-
-        segment->vPointer = data;
-
+        segment->pointer = data;
         data += segment->size;
-
         // pop format stack
         format.pop();
     }
 
+    // return whole pointer
     return rawDataPointer = begin;
 }
 
@@ -44,43 +40,40 @@ void * RawFormat::RawData()
         return rawDataPointer;
     }
 
-    return BuildRawData();
+    // build whole data
+    Build();
+    // return built raw pointer
+    return rawDataPointer;
 }
 
-void RawFormat::SetForRebuild()
-{
-    free(rawDataPointer);
-
-    while (!format.empty()) { format.pop(); }
-
-    rawDataPointer = nullptr;
-    wholeSize = 0;
-    _isBuilt = false;
-}
-
-RawFormat::RawFormat() : _isBuilt(false), rawDataPointer(nullptr), wholeSize(0)
+RawFormat::RawFormat() : isBuilt(false), rawDataPointer(nullptr), wholeSize(0)
 {
 }
 
 void RawFormat::Build()
 {
-    if (!_isBuilt)
+    if (!isBuilt)
     {
-        rawDataPointer = RawData();
+        rawDataPointer = BuildRawData();
         // can't enter this function anymore
         // once whole data pointer is built
-        _isBuilt = true;
+        isBuilt = true;
     }
 }
 
 RawFormat::~RawFormat()
 {
-    free(rawDataPointer);
+    if (rawDataPointer != nullptr)
+    {
+        free(rawDataPointer);
+    }
+
+    rawDataPointer = nullptr;
 }
 
 void RawFormat::SegmentPush(Segment * segment)
 {
-    if (_isBuilt)
+    if (isBuilt)
     {
         throw std::logic_error(
             "RawFormat is already built, can't push more data segments"

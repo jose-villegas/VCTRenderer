@@ -214,7 +214,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="core\lighting_program.cpp" />
-    <ClCompile Include="util\data_segment.cpp" />
     <ClCompile Include="util\raw_format.cpp" />
     <ClCompile Include="types\engine_shader_program.cpp" />
     <ClCompile Include="core\geometry_program.cpp" />
@@ -282,6 +281,7 @@
     <ClInclude Include="types\engine_shader_program.h" />
     <ClInclude Include="types\program_shader.h" />
     <ClInclude Include="types\uniform_collection.h" />
+    <ClInclude Include="util\segment.h" />
     <ClInclude Include="util\single_active.h" />
     <ClInclude Include="types\frustum.h" />
     <ClInclude Include="types\bounding_volume.h" />

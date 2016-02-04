@@ -1,6 +1,8 @@
 #pragma once
-#include <glm/detail/type_vec3.hpp>
 #include "../util/raw_format.h"
+#include "../util/data_segment.h"
+
+#include <glm/detail/type_vec3.hpp>
 
 class Light : public RawFormat
 {
@@ -22,7 +24,7 @@ class Light : public RawFormat
             Spot
         };
 
-        float angleInnerCone;
+        DataSegment<float> angleInnerCone;
         float angleOuterCone;
 
         glm::vec3 ambient;
