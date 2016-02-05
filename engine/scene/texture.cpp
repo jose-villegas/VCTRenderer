@@ -33,9 +33,9 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter minFilter, MagFilter magFilter,
     if (this->oglTexture) { return 0; }
 
     using namespace oglplus;
-    PixelDataFormat pdf = PixelDataFormat::BGRA;
-    PixelDataInternalFormat pdif = PixelDataInternalFormat::RGBA8;
-    this->oglTexture = std::unique_ptr<Texture>(new oglplus::Texture());
+    auto pdf = PixelDataFormat::BGRA;
+    auto pdif = PixelDataInternalFormat::RGBA8;
+    this->oglTexture = std::make_unique<Texture>();
     unsigned int bytesPerPixel = this->bitsPerPixel / 8;
     // proper data format
     pdf = bytesPerPixel == 3 ? PixelDataFormat::BGR : pdf;

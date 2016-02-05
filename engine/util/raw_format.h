@@ -12,6 +12,7 @@ class RawFormat
         /// </summary>
         /// <returns>Pointer holding all the stacked data</returns>
         void * RawData();
+        size_t Size() const { return wholeSize; };
         RawFormat();
     protected:
         ~RawFormat();

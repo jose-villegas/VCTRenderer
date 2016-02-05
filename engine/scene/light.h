@@ -25,16 +25,18 @@ class Light : public RawFormat
         };
 
         DataSegment<float> angleInnerCone;
-        float angleOuterCone;
+        DataSegment<float> angleOuterCone;
 
-        glm::vec3 ambient;
-        glm::vec3 diffuse;
-        glm::vec3 specular;
+        DataSegment<glm::vec3> ambient;
+        DataSegment<glm::vec3> diffuse;
+        DataSegment<glm::vec3> specular;
 
-        glm::vec3 direction;
-        glm::vec3 position;
+        DataSegment<glm::vec3> position;
+        DataSegment<glm::vec3> direction;
 
-        Attenuation attenuation;
+        DataSegment<float> constant;
+        DataSegment<float> linear;
+        DataSegment<float> quadratic;
 
         LightType lightType;
 

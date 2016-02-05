@@ -107,7 +107,7 @@ class OGLTexture2D : public RawTexture
                            glm::vec4 borderColor = glm::vec4(0.f));
         bool OnGPUMemory() const { return onGPUMemory; }
         void Bind();
-        int Name() { return oglplus::GetName(*oglTexture); };
+        int Name() const { return oglplus::GetName(*oglTexture); };
 
         static std::unique_ptr<OGLTexture2D> &GetDefaultTexture();
         static std::unique_ptr<OGLTexture2D> &GetDefaultNormalTexture();

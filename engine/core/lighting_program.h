@@ -6,12 +6,14 @@
 
 #include <oglplus/uniform.hpp>
 #include <oglplus/interop/glm.hpp>
+#include <oglplus/uniform_block.hpp>
+#include <oglplus/buffer.hpp>
 
 enum class GBufferTextureId;
 
 class LightingProgram : public ProgramShader
 {
-    protected:
+    public:
         // light pass uniforms
         struct LightUniform
         {
@@ -40,6 +42,7 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<glm::vec3> viewPosUniform;
 
         UniformCollection<oglplus::UniformSampler, GBufferTextureId> samplers;
+
     public:
         LightingProgram();
         virtual ~LightingProgram() {}
@@ -49,5 +52,8 @@ class LightingProgram : public ProgramShader
 
         void SetUniform(GBufferTextureId tId, const int val);
         void SetUniform(const glm::vec3 &val, bool viewPosition = true);
+
+        oglplus::UniformBlock uBlock;
+        oglplus::Buffer ubo;
 };
 

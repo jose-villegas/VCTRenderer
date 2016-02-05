@@ -26,7 +26,6 @@ struct Vertex;
 
 class Mesh
 {
-
     public:
         // node boundaries
         BoundingVolume boundaries;
@@ -73,6 +72,5 @@ class OGLMesh : public Mesh
         // No copying or copy assignment allowed of this class or any derived class
         OGLMesh(OGLMesh const &);
         OGLMesh &operator=(OGLMesh const &);
-
 };
 

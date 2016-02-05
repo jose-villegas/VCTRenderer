@@ -10,6 +10,9 @@ void LightingProgram::ExtractUniform(oglplus::SLDataType uType,
                                      std::string uName)
 {
     using namespace oglplus;
+    //uBlock = UniformBlock(program, "SceneLights");
+    //uBlock.Binding(1);
+    //auto bSize = uBlock.DataSize();
 
     // extract light uniform data
     if (uType == SLDataType::FloatVec3)
@@ -41,11 +44,11 @@ void LightingProgram::ExtractUniform(oglplus::SLDataType uType,
             ? &directionalLight.angleInnerCone
             : uName == "directionalLight.angleOuterCone"
             ? &directionalLight.angleOuterCone
-            : uName == "directionalLight.attenuation.constant"
+            : uName == "directionalLight.constant"
             ? &directionalLight.attenuation.constant
-            : uName == "directionalLight.attenuation.linear"
+            : uName == "directionalLight.linear"
             ? &directionalLight.attenuation.linear
-            : uName == "directionalLight.attenuation.quadratic"
+            : uName == "directionalLight.quadratic"
             ? &directionalLight.attenuation.quadratic : nullptr;
 
         if (floatToSet != nullptr)

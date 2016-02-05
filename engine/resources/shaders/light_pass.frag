@@ -4,13 +4,6 @@ out vec4 fragColor;
 
 in vec2 texCoord;
 
-struct Attenuation
-{
-    float constant;
-    float linear;
-    float quadratic;
-};
-
 struct Light {
     float angleInnerCone;
     float angleOuterCone;
@@ -22,9 +15,9 @@ struct Light {
     vec3 position;
     vec3 direction;
 
-    Attenuation attenuation;
-
-    uint lightType;
+    float constant;
+    float linear;
+    float quadratic;
 };
 
 uniform sampler2D gPosition;
@@ -36,8 +29,13 @@ uniform float ambientFactor = 0.01;
 
 uniform vec3 viewPosition;
 
+const uint LIGHT_MAX_DIRECTIONAL = 1;
+
 // light uniforms
-uniform Light directionalLight;
+layout (std140) uniform SceneLights 
+{
+	Light directionalLight[LIGHT_MAX_DIRECTIONAL];
+};
 
 void main()
 {
@@ -52,10 +50,9 @@ void main()
     // specular color factor
     vec3 viewDir = normalize(viewPosition - fragPos);
 
-
     for(int i = 0; i < 1; i++)
     {
-        vec3 lightDir = normalize(directionalLight.direction);
+        vec3 lightDir = normalize(directionalLight[i].direction);
         // diffuse color factor
         float diffuseFactor = max(dot(normal, -lightDir), 0.0);
         vec3 lightReflect = normalize(reflect(lightDir, normal));

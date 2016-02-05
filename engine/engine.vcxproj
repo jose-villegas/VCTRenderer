@@ -94,6 +94,8 @@
       <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

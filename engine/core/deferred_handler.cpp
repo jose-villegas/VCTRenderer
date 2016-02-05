@@ -70,8 +70,6 @@ const std::vector<oglplus::Texture> &DeferredHandler::BufferTextures() const
     return bufferTextures;
 }
 
-
-
 /// <summary>
 /// Loads the deferred rendering required shaders
 /// </summary>

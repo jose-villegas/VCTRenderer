@@ -5,6 +5,7 @@
 #include "render_window.h"
 #include "../scene/camera.h"
 #include "../scene/scene.h"
+#include "../scene/light.h"
 
 bool DeferredRenderer::FrustumCulling = true;
 
@@ -274,6 +275,13 @@ void DeferredRenderer::SetLightPassUniforms()
         GBufferTextureId::Specular,
         (int)GBufferTextureId::Specular
     );
+    //auto &dirL = Scene::Active()->lights[0];
+    //light->uBlock.Binding(1);
+    //light->ubo.Bind(oglplus::BufferTarget::Uniform);
+    //oglplus::Buffer::Data(oglplus::BufferTarget::Uniform, dirL->Size(),
+    //                      (GLubyte *)dirL->RawData(),
+    //                      oglplus::BufferUsage::DynamicDraw);
+    //light->ubo.BindBaseUniform(1);
 }
 
 bool DeferredRenderer::InFrustum(const BoundingVolume &volume)

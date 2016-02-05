@@ -77,6 +77,7 @@ T * RawFormat::DataSegment<T, _Count>::operator=(const std::array <T, _Count>
     return pointer;
 }
 
+#pragma once
 #ifdef DATA_SEGMENT_GLM_INTEROP
 
 #include <glm/detail/type_vec.hpp>
@@ -141,7 +142,7 @@ T * RawFormat::DataSegment<T, _Count>::operator=(const std::array <T, _Count>
             this->pointer = static_cast<T *>(malloc(size)); \
         } \
         \
-        memccpy(pointer, GLM_TPLNS::value_ptr(value), size); \
+        memcpy(pointer, GLM_TPLNS::value_ptr(value), size); \
         return value; \
     } \
 
@@ -200,7 +201,7 @@ T * RawFormat::DataSegment<T, _Count>::operator=(const std::array <T, _Count>
             this->pointer = static_cast<T *>(malloc(size)); \
         } \
         \
-        memccpy(pointer, GLM_TPLNS::value_ptr(value), size); \
+        memcpy(pointer, GLM_TPLNS::value_ptr(value), size); \
         return value; \
     } \
 

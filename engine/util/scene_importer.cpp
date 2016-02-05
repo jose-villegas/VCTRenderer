@@ -133,15 +133,15 @@ void SceneImporter::ImportLight(aiLight * light, Light &newLight)
                             light->mPosition.y,
                             light->mPosition.z
                         );
-    newLight.lightType = light->mType == aiLightSourceType::aiLightSource_POINT ?
-                         Light::Point : light->mType == aiLightSourceType::aiLightSource_DIRECTIONAL ?
-                         Light::Directional : light->mType == aiLightSourceType::aiLightSource_SPOT ?
+    newLight.lightType = light->mType == aiLightSource_POINT ?
+                         Light::Point : light->mType == aiLightSource_DIRECTIONAL ?
+                         Light::Directional : light->mType == aiLightSource_SPOT ?
                          Light::Spot : Light::Point;
     newLight.angleInnerCone = light->mAngleInnerCone;
     newLight.angleOuterCone = light->mAngleOuterCone;
-    newLight.attenuation.constant = light->mAttenuationConstant;
-    newLight.attenuation.linear = light->mAttenuationLinear;
-    newLight.attenuation.quadratic = light->mAttenuationQuadratic;
+    newLight.constant = light->mAttenuationConstant;
+    newLight.linear = light->mAttenuationLinear;
+    newLight.quadratic = light->mAttenuationQuadratic;
 }
 
 void SceneImporter::ImportCamera(aiCamera * cam, Camera &newCamera)
