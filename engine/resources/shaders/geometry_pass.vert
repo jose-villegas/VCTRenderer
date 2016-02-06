@@ -6,6 +6,8 @@ out vec3 normal;
 out vec3 tangent;
 out vec3 bitangent;
 
+out vec3 normalView;
+
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec3 vertexTexCoord;
 layout(location = 2) in vec3 vertexNormal;
@@ -22,16 +24,6 @@ struct Matrices
     mat4 normal;
 };
 
-layout(std140) uniform UBMatrices
-{
-    mat4 modelView;
-    mat4 modelViewProjection;
-    mat4 model;
-    mat4 view;
-    mat4 projection;
-    mat4 normal;	
-} uMatrices;
-
 uniform Matrices matrices;
 
 void main()
@@ -42,9 +34,10 @@ void main()
     // space transform
     normal = (matrices.normal * vertexNorm).xyz;
     position = (matrices.modelView * vertexPos).xyz;
-    // model to camera view
-    tangent = (matrices.normal * vec4(vertexTangent, 0.0)).xyz;
-    bitangent = (matrices.normal * vec4(vertexBitangent, 0.0)).xyz;
+    // TBN matrix build - model to camera view
+    normalView = (matrices.modelView * vertexNorm).xyz;
+    tangent = (matrices.modelView * vec4(vertexTangent, 0.0)).xyz;
+    bitangent = (matrices.modelView * vec4(vertexBitangent, 0.0)).xyz;
     // final drawing pos
     gl_Position = matrices.modelViewProjection * vertexPos;
 }

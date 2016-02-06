@@ -6,13 +6,12 @@ LightingProgram::LightingProgram()
     samplers.Resize(static_cast<size_t>(GBufferTextureId::TEXTURE_TYPE_MAX));
 }
 
-void LightingProgram::ExtractUniform(oglplus::SLDataType uType,
-                                     std::string uName)
+void LightingProgram::ExtractUniform(const oglplus::aux::ActiveUniformInfo
+                                     &info)
 {
     using namespace oglplus;
-    //uBlock = UniformBlock(program, "SceneLights");
-    //uBlock.Binding(1);
-    //auto bSize = uBlock.DataSize();
+    auto uType = info.Type();
+    auto uName = info.Name();
 
     // extract light uniform data
     if (uType == SLDataType::FloatVec3)

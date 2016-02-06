@@ -10,8 +10,9 @@
 /// </summary>
 class ProgramShader
 {
-    protected:
-        ~ProgramShader() {}
+    public:
+        ProgramShader() {};
+        virtual ~ProgramShader() {}
         friend class DeferredHandler;
         /// <summary>
         /// The fragment shader
@@ -32,10 +33,11 @@ class ProgramShader
         /// </summary>
         /// <param name="uType">Type of the uniform.</param>
         /// <param name="uName">Name of the uniform.</param>
-        virtual void ExtractUniform(oglplus::SLDataType uType,
-                                    std::string uName) = 0;
-        void ExtractActiveUniforms();
-    public:
-        ProgramShader() {};
+        void Build(const std::string &vsFilePath, const std::string &fsFilePath);
         void Use() const { program.Use(); }
+    protected:
+        virtual void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) = 0;
+    private:
+        static std::string ProgramShader::SourceFromFile(const std::string &filePath);
+        void PassActiveUniforms();
 };

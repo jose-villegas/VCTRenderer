@@ -80,61 +80,15 @@ DeferredHandler &DeferredRenderer::GetDeferredHandler()
 void DeferredRenderer::SetMatricesUniforms()
 {
     static auto &geom = deferredHandler.geometryProgram;
-
-    for (auto &matrixId : geom->ActiveTransformMatrices())
-    {
-        switch (matrixId)
-        {
-            default:
-                break;
-
-            case TransformMatrices::ModelView:
-                geom->SetUniform(
-                    TransformMatrices::ModelView,
-                    transformMatrices.GetModelView()
-                );
-                break;
-
-            case TransformMatrices::ModelViewProjection:
-                geom->SetUniform(
-                    TransformMatrices::ModelViewProjection,
-                    transformMatrices.GetModelViewProjection()
-                );
-                break;
-
-            case TransformMatrices::Model:
-                geom->SetUniform(
-                    TransformMatrices::Model,
-                    transformMatrices.GetModel()
-                );
-                break;
-
-            case TransformMatrices::View:
-                geom->SetUniform(
-                    TransformMatrices::View,
-                    transformMatrices.GetView()
-                );
-                break;
-
-            case TransformMatrices::Projection:
-                geom->SetUniform(
-                    TransformMatrices::Projection,
-                    transformMatrices.GetProjection()
-                );
-                break;
-
-            case TransformMatrices::Normal:
-                geom->SetUniform(
-                    TransformMatrices::Normal,
-                    transformMatrices.GetNormal()
-                );
-                break;
-        }
-    }
+    geom->matricesNormal.Set(transformMatrices.GetNormal());
+    geom->matricesModelView.Set(transformMatrices.GetModelView());
+    geom->matricesModelViewProjection.Set(
+        transformMatrices.GetModelViewProjection());
 }
 
 void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
 {
+    using namespace oglplus;
     static OGLMaterial * previousMaterial = nullptr;
     static auto &geom = deferredHandler.geometryProgram;
 
@@ -144,115 +98,20 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
     }
 
     previousMaterial = mat.get();
-
-    for (auto &float3PropertyId : geom->ActiveMaterialFloat3Properties())
-    {
-        switch (float3PropertyId)
-        {
-            default:
-                break;
-
-            case OGLMaterial::Ambient:
-                geom->SetUniform(
-                    OGLMaterial::Ambient,
-                    mat->HasTexture(RawTexture::Ambient) ?
-                    mat->White : mat->ambient
-                );
-                break;
-
-            case OGLMaterial::Diffuse:
-                geom->SetUniform(
-                    OGLMaterial::Diffuse,
-                    mat->HasTexture(RawTexture::Diffuse) ?
-                    mat->White : mat->diffuse
-                );
-                break;
-
-            case OGLMaterial::Specular:
-                geom->SetUniform(
-                    OGLMaterial::Specular,
-                    mat->HasTexture(RawTexture::Specular) ?
-                    mat->White : mat->specular
-                );
-                break;
-
-            case OGLMaterial::Emissive:
-                geom->SetUniform(
-                    OGLMaterial::Emissive,
-                    mat->HasTexture(RawTexture::Emissive) ?
-                    mat->White : mat->emissive
-                );
-                break;
-
-            case OGLMaterial::Transparent:
-                geom->SetUniform
-                (OGLMaterial::Transparent, mat->transparent);
-                break;
-        }
-    }
-
-    for (auto &float1PropertyId : geom->ActiveMaterialFloat1Properties())
-    {
-        switch (float1PropertyId)
-        {
-            default:
-                break;
-
-            case OGLMaterial::Opacity:
-                geom->SetUniform(
-                    OGLMaterial::Opacity,
-                    mat->HasTexture(RawTexture::Opacity) ?
-                    1.0f : mat->opacity
-                );
-                break;
-
-            case OGLMaterial::Shininess:
-                geom->SetUniform(
-                    OGLMaterial::Shininess,
-                    mat->HasTexture(RawTexture::Shininess) ?
-                    0.0f : mat->shininess
-                );
-                break;
-
-            case OGLMaterial::ShininessStrenght:
-                geom->SetUniform
-                (OGLMaterial::ShininessStrenght, mat->shininessStrenght);
-                break;
-
-            case OGLMaterial::RefractionIndex:
-                geom->SetUniform
-                (OGLMaterial::RefractionIndex, mat->refractionIndex);
-                break;
-        }
-    }
-
-    for (auto &uInt1PropertyId : geom->ActiveMaterialUInt1Properties())
-    {
-        switch (uInt1PropertyId)
-        {
-            default:
-                break;
-
-            case OGLMaterial::NormalMapping:
-                geom->SetUniform(
-                    OGLMaterial::NormalMapping,
-                    mat->HasTexture(RawTexture::Normals)
-                );
-                break;
-        }
-    }
-
-    for (auto &texType : geom->ActiveSamplers())
-    {
-        oglplus::Texture::Active(texType);
-
-        if (!mat->BindTexture(texType))
-        {
-            OGLTexture2D::GetDefaultTexture()->Bind();
-        }
-
-        geom->SetUniform(texType, static_cast<int>(texType));
-    }
+    geom->materialDiffuse.Set(mat->diffuse);
+    geom->materialSpecular.Set(mat->HasTexture(RawTexture::Specular) ?
+                               mat->White : mat->specular);
+    geom->materialUseNormalsMap.Set(mat->HasTexture(RawTexture::Normals));
+    // set textures
+    Texture::Active(RawTexture::Diffuse);
+    mat->BindTexture(RawTexture::Diffuse);
+    geom->diffuseMap.Set(RawTexture::Diffuse);
+    Texture::Active(RawTexture::Specular);
+    mat->BindTexture(RawTexture::Specular);
+    geom->specularMap.Set(RawTexture::Specular);
+    Texture::Active(RawTexture::Normals);
+    mat->BindTexture(RawTexture::Normals);
+    geom->normalsMap.Set(RawTexture::Normals);
 }
 
 void DeferredRenderer::SetLightPassUniforms()
@@ -275,13 +134,6 @@ void DeferredRenderer::SetLightPassUniforms()
         GBufferTextureId::Specular,
         (int)GBufferTextureId::Specular
     );
-    //auto &dirL = Scene::Active()->lights[0];
-    //light->uBlock.Binding(1);
-    //light->ubo.Bind(oglplus::BufferTarget::Uniform);
-    //oglplus::Buffer::Data(oglplus::BufferTarget::Uniform, dirL->Size(),
-    //                      (GLubyte *)dirL->RawData(),
-    //                      oglplus::BufferUsage::DynamicDraw);
-    //light->ubo.BindBaseUniform(1);
 }
 
 bool DeferredRenderer::InFrustum(const BoundingVolume &volume)

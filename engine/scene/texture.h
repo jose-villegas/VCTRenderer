@@ -117,4 +117,3 @@ class OGLTexture2D : public RawTexture
         OGLTexture2D(OGLTexture2D const &);
         OGLTexture2D &operator=(OGLTexture2D const &);
 };
-

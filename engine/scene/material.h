@@ -24,28 +24,6 @@ class Material
 class OGLMaterial : public Material
 {
     public:
-        enum Float3PropertyId
-        {
-            Ambient,
-            Diffuse,
-            Specular,
-            Emissive,
-            Transparent,
-            FLOAT3_PROPERTY_ID_MAX
-        };
-        enum Float1PropertyId
-        {
-            Opacity,
-            Shininess,
-            ShininessStrenght,
-            RefractionIndex,
-            FLOAT1_PROPERTY_ID_MAX
-        };
-        enum UInt1PropertyId
-        {
-            NormalMapping,
-            UINT1_PROPERTY_ID_MAX
-        };
         enum ShadingMode
         {
             Flat,
@@ -72,7 +50,7 @@ class OGLMaterial : public Material
         bool HasTexture(RawTexture::TextureType texType) const;
         void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                         RawTexture::TextureType texType);
-        bool BindTexture(RawTexture::TextureType texType) const;
+        bool BindTexture(RawTexture::TextureType texType, bool bindDefaul = true) const;
 
         OGLMaterial();
         ~OGLMaterial();

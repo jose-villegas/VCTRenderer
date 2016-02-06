@@ -14,13 +14,16 @@ void OGLMaterial::AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
     textures[texType] = spTexture;
 }
 
-bool OGLMaterial::BindTexture(RawTexture::TextureType texType) const
+bool OGLMaterial::BindTexture(RawTexture::TextureType texType,
+                              bool bindDefault) const
 {
     if (textures[texType] != nullptr)
     {
         textures[texType]->Bind();
         return true;
     }
+
+    if (bindDefault) { OGLTexture2D::GetDefaultTexture()->Bind(); }
 
     return false;
 }

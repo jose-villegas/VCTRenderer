@@ -29,13 +29,8 @@ uniform float ambientFactor = 0.01;
 
 uniform vec3 viewPosition;
 
-const uint LIGHT_MAX_DIRECTIONAL = 1;
+uniform	Light directionalLight;
 
-// light uniforms
-layout (std140) uniform SceneLights 
-{
-	Light directionalLight[LIGHT_MAX_DIRECTIONAL];
-};
 
 void main()
 {
@@ -52,7 +47,7 @@ void main()
 
     for(int i = 0; i < 1; i++)
     {
-        vec3 lightDir = normalize(directionalLight[i].direction);
+        vec3 lightDir = normalize(vec3(0.0f, -0.7f, 0.3f));
         // diffuse color factor
         float diffuseFactor = max(dot(normal, -lightDir), 0.0);
         vec3 lightReflect = normalize(reflect(lightDir, normal));

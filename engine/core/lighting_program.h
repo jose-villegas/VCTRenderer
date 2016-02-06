@@ -47,8 +47,7 @@ class LightingProgram : public ProgramShader
         LightingProgram();
         virtual ~LightingProgram() {}
 
-        void ExtractUniform(oglplus::SLDataType uType,
-                            std::string uName) override;
+        void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) override;
 
         void SetUniform(GBufferTextureId tId, const int val);
         void SetUniform(const glm::vec3 &val, bool viewPosition = true);

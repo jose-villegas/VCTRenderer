@@ -27,60 +27,21 @@ enum class GBufferTextureId
 class GeometryProgram : public ProgramShader
 {
     protected:
-        /// <summary>
-        /// Geometry shader program samplers
-        /// </summary>
-        UniformCollection<oglplus::UniformSampler,
-                          RawTexture::TextureType> samplers;
-        /// <summary>
-        /// Geometry shader transform matrices
-        /// </summary>
-        UniformCollection<oglplus::Uniform<glm::mat4x4>,
-                          TransformMatrices::MatrixId> transformMatrices;
-        /// <summary>
-        /// Geometry shader material vec3 float properties uniforms
-        /// </summary>
-        UniformCollection<oglplus::Uniform<glm::vec3>,
-                          OGLMaterial::Float3PropertyId> materialFloat3;
-        /// <summary>
-        /// Geometry shader material float properties uniforms
-        /// </summary>
-        UniformCollection<oglplus::Uniform<float>,
-                          OGLMaterial::Float1PropertyId> materialFloat1;
-        /// <summary>
-        /// Geometry shader material unsigned int (uint) properties
-        /// </summary>
-        UniformCollection<oglplus::Uniform<unsigned int>,
-                          OGLMaterial::UInt1PropertyId> materialUInt1;
-
+        void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) override;
     public:
+        // fragment shader uniforms
+        oglplus::Uniform<glm::vec3> materialDiffuse;
+        oglplus::Uniform<glm::vec3> materialSpecular;
+        oglplus::Uniform<unsigned int> materialUseNormalsMap;
+        oglplus::UniformSampler diffuseMap;
+        oglplus::UniformSampler specularMap;
+        oglplus::UniformSampler normalsMap;
+        oglplus::Uniform<float> alphaCutoff;
+        // vertex shader uniforms
+        oglplus::Uniform<glm::mat4> matricesNormal;
+        oglplus::Uniform<glm::mat4> matricesModelView;
+        oglplus::Uniform<glm::mat4> matricesModelViewProjection;
 
         GeometryProgram();
         virtual ~GeometryProgram() {}
-
-        void ExtractUniform(oglplus::SLDataType uType,
-                            std::string uName) override;
-
-        void SetUniform(TransformMatrices::MatrixId mId,
-                        const glm::mat4x4 &val);
-        void SetUniform(RawTexture::TextureType tId,
-                        const int val);
-        void SetUniform(OGLMaterial::Float3PropertyId mF3Id,
-                        const glm::vec3 &val);
-        void SetUniform(OGLMaterial::Float1PropertyId mF1Id,
-                        const float val);
-        void SetUniform(OGLMaterial::UInt1PropertyId mF1Id,
-                        const unsigned int val);
-
-        const std::vector<RawTexture::TextureType>
-        &ActiveSamplers() const;
-        const std::vector<TransformMatrices::MatrixId>
-        &ActiveTransformMatrices() const;
-        const std::vector<OGLMaterial::Float3PropertyId>
-        &ActiveMaterialFloat3Properties() const;
-        const std::vector<OGLMaterial::Float1PropertyId>
-        &ActiveMaterialFloat1Properties() const;
-        const std::vector<OGLMaterial::UInt1PropertyId>
-        &ActiveMaterialUInt1Properties()const;
 };
-

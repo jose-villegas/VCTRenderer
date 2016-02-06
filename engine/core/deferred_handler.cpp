@@ -82,64 +82,17 @@ void DeferredHandler::LoadShaders()
         lightingProgram = std::make_unique<LightingProgram>();
     }
 
-    // light pass shader source code and compile
-    std::ifstream vsLightPassFile("resources\\shaders\\light_pass.vert");
-    std::string vsLightPassSource(
-        (std::istreambuf_iterator<char>(vsLightPassFile)),
-        std::istreambuf_iterator<char>()
-    );
-    lightingProgram->vertexShader.Source(vsLightPassSource.c_str());
-    lightingProgram->vertexShader.Compile();
-    // fragment shader
-    std::ifstream fsLightPassFile("resources\\shaders\\light_pass.frag");
-    std::string fsLightPassSource(
-        (std::istreambuf_iterator<char>(fsLightPassFile)),
-        std::istreambuf_iterator<char>()
-    );
-    lightingProgram->fragmentShader.Source(fsLightPassSource.c_str());
-    lightingProgram->fragmentShader.Compile();
-    // create a new shader program and attach the shader
-    lightingProgram->program.AttachShader(lightingProgram->vertexShader);
-    lightingProgram->program.AttachShader(lightingProgram->fragmentShader);
-    // link attached shader
-    lightingProgram->program.Link().Use();
-    // extract relevant uniforms
-    lightingProgram->ExtractActiveUniforms();
-    // close source files
-    vsLightPassFile.close();
-    fsLightPassFile.close();
-    // geometry pass shader source code and compile
-    std::ifstream vsGeomPassFile("resources\\shaders\\geometry_pass.vert");
-    std::string vsGeomPassSource(
-        (std::istreambuf_iterator<char>(vsGeomPassFile)),
-        std::istreambuf_iterator<char>()
-    );
-
     if (!geometryProgram)
     {
         geometryProgram = std::make_unique<GeometryProgram>();
     }
 
-    geometryProgram->vertexShader.Source(vsGeomPassSource.c_str());
-    geometryProgram->vertexShader.Compile();
-    // fragment shader
-    std::ifstream fsGeomPassFile("resources\\shaders\\geometry_pass.frag");
-    std::string fsGeomPassSource(
-        (std::istreambuf_iterator<char>(fsGeomPassFile)),
-        std::istreambuf_iterator<char>()
-    );
-    geometryProgram->fragmentShader.Source(fsGeomPassSource.c_str());
-    geometryProgram->fragmentShader.Compile();
-    // create a new shader program and attach the shaders
-    geometryProgram->program.AttachShader(geometryProgram->vertexShader);
-    geometryProgram->program.AttachShader(geometryProgram->fragmentShader);
-    // link attached shaders
-    geometryProgram->program.Link().Use();
-    // extract relevant uniforms
-    geometryProgram->ExtractActiveUniforms();
-    // close source files
-    vsGeomPassFile.close();
-    fsGeomPassFile.close();
+    // geometry pass shader source code and compile
+    geometryProgram->Build("resources\\shaders\\geometry_pass.vert",
+                           "resources\\shaders\\geometry_pass.frag");
+    //// light pass shader source code and compile
+    lightingProgram->Build("resources\\shaders\\light_pass.vert",
+                           "resources\\shaders\\light_pass.frag");
 }
 
 /// <summary>
@@ -213,8 +166,8 @@ void DeferredHandler::SetupGBuffer(unsigned int windowWidth,
         gl.Bound(Texture::Target::_2D,
                  bufferTextures[(int)GBufferTextureId::Specular])
         .Image2D(
-            0, PixelDataInternalFormat::R8, windowWidth, windowHeight,
-            0, PixelDataFormat::Red, PixelDataType::Float, nullptr
+            0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
+            0, PixelDataFormat::RGB, PixelDataType::Float, nullptr
         ) // 8 bit per component texture
         .MinFilter(TextureMinFilter::Nearest)
         .MagFilter(TextureMagFilter::Nearest);
