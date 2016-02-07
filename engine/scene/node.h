@@ -5,10 +5,12 @@
 #include <glm/gtc/quaternion.hpp>
 
 #include "../types/bounding_volume.h"
+#include "../util/single_active.h"
 
+class Camera;
 class OGLMesh;
 
-class Node
+class Node : public SingleActive<Node>
 {
     public:
         // node boundaries
@@ -37,21 +39,26 @@ class Node
         void Scaling(const glm::vec3 &scaling);
         void Rotation(const glm::quat &rotation);
         void BuildDrawList();
-    private:
-        typedef std::reference_wrapper<Node> NodeRef;
-        typedef std::shared_ptr<OGLMesh> MeshPtr;
-        typedef std::pair <NodeRef, MeshPtr> DrawInfo;
 
-        std::vector<DrawInfo> drawList;
+        const glm::mat4x4 &NormalMatrix() const;
+        const glm::mat4x4 &ModelViewMatrix() const;
+        const glm::mat4x4 &ModelViewProjectionMatrix() const;
+    private:
+        std::vector<Node *> drawList;
 
         glm::mat4x4 modelMatrix;
+        glm::mat4x4 modelViewMatrix;
+        glm::mat4x4 modelViewProjectionMatrix;
+        glm::mat4x4 normalMatrix;
+
         glm::vec3 position;
         glm::vec3 scaling;
         glm::quat rotation;
 
-        void RecalculateModelMatrix();
-        void BuildDrawList(std::vector<DrawInfo> &base);
+        void ComputeModelMatrix();
+        void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
         void DrawMeshes();
+        void ComputeMatrices(std::unique_ptr<Camera> &camera);
 };
 

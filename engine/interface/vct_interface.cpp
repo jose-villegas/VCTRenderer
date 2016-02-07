@@ -101,10 +101,9 @@ void UI::DrawSceneSelector()
     ImGui::End();
 }
 
-void UI::DrawGBufferTextures()
+void UI::DrawGBufferTextures() const
 {
-    static auto &gbuffer = EngineBase::Renderer()
-                           .GetDeferredHandler().geometryBuffer;
+    static auto &gbuffer = EngineBase::Renderer().GeometryBuffer();
     // position texture
     DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Position),
                        "Position");
@@ -122,7 +121,7 @@ void UI::DrawGBufferTextures()
                        "Specular");
 }
 
-void UI::DrawDebugWindow()
+void UI::DrawDebugWindow() const
 {
     static bool openDebugWindow;
     openDebugWindow ^= io.KeyCtrl && ImGui::IsKeyReleased(74);

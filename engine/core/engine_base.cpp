@@ -74,7 +74,6 @@ void EngineBase::Initialize()
     utils::PrintDependenciesVersions();
     // initialize deferred shading renderer / manager
     renderer = std::make_unique<DeferredRenderer>(renderWindow);
-    renderer->Initialize();
     // load engine demo scene assets
     assetLoader = std::make_unique<EngineAssets>();
     assetLoader->LoadScenes();

@@ -1,14 +1,10 @@
 #pragma once
 
 #include "../scene/texture.h"
-#include "../types/transform_matrices.h"
-#include "../scene/material.h"
 #include "../types/program_shader.h"
-#include "../types/uniform_collection.h"
 
 #include <oglplus/uniform.hpp>
 #include <oglplus/interop/glm.hpp>
-#include <oglplus/uniform_block.hpp>
 
 class GeometryProgram : public ProgramShader
 {

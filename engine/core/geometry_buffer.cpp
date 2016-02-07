@@ -1,7 +1,8 @@
 #include "geometry_buffer.h"
 
-void GeometryBuffer::Bind(oglplus::FramebufferTarget target) const
+void GeometryBuffer::Bind(oglplus::FramebufferTarget target)
 {
+    binding = target;
     geometryBuffer.Bind(target);
 }
 
@@ -27,14 +28,16 @@ void GeometryBuffer::AttachTexture(RenderTargets renderTarget,
     }
 }
 
-oglplus::Texture &GeometryBuffer::RenderTarget(RenderTargets renderTarget)
+const oglplus::Texture &GeometryBuffer::RenderTarget(RenderTargets renderTarget)
+const
 {
     return bufferTextures[renderTarget];
 }
 
-void GeometryBuffer::DrawBuffers() const
+void GeometryBuffer::DrawBuffers()
 {
     oglplus::Context().DrawBuffers(colorBuffers);
+    colorBuffers.clear();
 }
 
 void GeometryBuffer::ActivateTextures()
@@ -59,5 +62,9 @@ void GeometryBuffer::ActivateTextures()
 }
 
 GeometryBuffer::GeometryBuffer()
+{
+}
+
+GeometryBuffer::~GeometryBuffer()
 {
 }

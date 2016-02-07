@@ -52,7 +52,7 @@ void Frustum::CalculatePlanes(const glm::mat4x4 &mvMatrix)
     }
 }
 
-bool Frustum::BoxInFrustum(const BoundingVolume &bVolume)
+bool Frustum::VolumeInFrustum(const BoundingVolume &bVolume) const
 {
     // check box outside/inside of frustum
     for (int i = 0; i < 6; i++)

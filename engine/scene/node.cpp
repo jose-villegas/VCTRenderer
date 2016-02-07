@@ -5,8 +5,8 @@
 #include "mesh.h"
 #include "../core/engine_base.h"
 #include "../core/deferred_renderer.h"
-#include "material.h"
-#include <iomanip>
+#include "camera.h"
+#include <glm/gtc/matrix_inverse.inl>
 
 Node::Node() : name("Default Node")
 {
@@ -26,29 +26,19 @@ glm::mat4x4 Node::GetModelMatrix() const
     return modelMatrix;
 }
 
-void Node::RecalculateModelMatrix()
+void Node::ComputeModelMatrix()
 {
     modelMatrix = translate(position) * mat4_cast(rotation) * scale(scaling);
 }
 
-void Node::BuildDrawList(std::vector<DrawInfo> &base)
+void Node::BuildDrawList(std::vector<Node *> &base)
 {
-    for (auto &mesh : meshes)
-    {
-        base.push_back(DrawInfo(std::ref<Node>(*this), mesh));
-    }
+    base.push_back(this);
 
     for (auto &node : nodes)
     {
         node->BuildDrawList(base);
     }
-
-    // order by material name
-    auto sortByMaterial = [](DrawInfo & rhs, DrawInfo & lhs) -> bool
-    {
-        return rhs.second->material < lhs.second->material;
-    };
-    std::sort(base.begin(), base.end(), sortByMaterial);
 }
 
 void Node::DrawMeshes()
@@ -59,12 +49,9 @@ void Node::DrawMeshes()
     {
         if (!mesh->OnGPUMemory()) { return; }
 
-        if (DeferredRenderer::FrustumCulling)
+        if (!Camera::Active()->InFrustum(mesh->boundaries.Transform(modelMatrix)))
         {
-            if (!renderer.InFrustum(mesh->boundaries.Transform(modelMatrix)))
-            {
-                continue;
-            }
+            continue;
         }
 
         renderer.SetMaterialUniforms(mesh->material);
@@ -75,44 +62,35 @@ void Node::DrawMeshes()
 
 void Node::Draw()
 {
-    static auto &renderer = EngineBase::Renderer();
-    // update matrices with node model matrix
-    renderer.Matrices().UpdateModelMatrix(modelMatrix);
     // recalculate model-dependent transform matrices
-    renderer.Matrices().RecalculateMatrices();
+    ComputeMatrices(Camera::Active());
+    // set this node as rendering active
+    SetAsActive();
 
-    if (DeferredRenderer::FrustumCulling)
+    if (!Camera::Active()->InFrustum(boundaries.Transform(modelMatrix)))
     {
-        if (!renderer.InFrustum(boundaries.Transform(modelMatrix)))
-        {
-            return;
-        }
+        return;
     }
 
-    renderer.SetMatricesUniforms();
+    EngineBase::Renderer().SetMatricesUniforms();
     // draw elements per mesh
     DrawMeshes();
 }
 
 void Node::DrawRecursive()
 {
-    static auto &renderer = EngineBase::Renderer();
-    // update with node model matrix
-    renderer.Matrices().UpdateModelMatrix(modelMatrix);
-    // recalculate model-dependent transform matrices
-    renderer.Matrices().RecalculateMatrices();
+    // set this node as rendering active
+    SetAsActive();
 
-    // frustum culling per node boundaries
-    if (DeferredRenderer::FrustumCulling)
+    if (!Camera::Active()->InFrustum(boundaries.Transform(modelMatrix)))
     {
-        if (!renderer.InFrustum(boundaries.Transform(modelMatrix)))
-        {
-            return;
-        }
+        return;
     }
 
+    // recalculate model-dependent transform matrices
+    ComputeMatrices(Camera::Active());
     // set matrices uniform with updated matrices
-    renderer.SetMatricesUniforms();
+    EngineBase::Renderer().SetMatricesUniforms();
     // draw elements per mesh
     DrawMeshes();
 
@@ -124,45 +102,34 @@ void Node::DrawRecursive()
 
 void Node::DrawList()
 {
-    static auto &renderer = EngineBase::Renderer();
-    // update with node model matrix
-    renderer.Matrices().UpdateModelMatrix(modelMatrix);
-    // recalculate model-dependent transform matrices
-    renderer.Matrices().RecalculateMatrices();
-
-    // frustum culling node boundaries
-    if (DeferredRenderer::FrustumCulling)
-    {
-        if (!renderer.InFrustum(boundaries.Transform(modelMatrix)))
-        {
-            return;
-        }
-    }
-
-    // set matrices uniform with updated matrices
-    renderer.SetMatricesUniforms();
+    auto &camera = Camera::Active();
+    auto &renderer = EngineBase::Renderer();
 
     // draw elements using draw list
-    for (auto &drawInfo : drawList)
+    for (auto node : drawList)
     {
-        auto &mesh = drawInfo.second;
+        // set this node as rendering active
+        node->SetAsActive();
 
-        if (!mesh->OnGPUMemory()) { return; }
-
-        if (DeferredRenderer::FrustumCulling)
+        if (!camera->InFrustum(node->boundaries.Transform(node->modelMatrix)))
         {
-            auto &model = drawInfo.first.get().modelMatrix;
-
-            if (!renderer.InFrustum(mesh->boundaries.Transform(model)))
-            {
-                continue;
-            }
+            continue;
         }
 
-        renderer.SetMaterialUniforms(mesh->material);
-        mesh->BindVertexArrayObject();
-        mesh->DrawElements();
+        // recalculate model-dependent transform matrices
+        node->ComputeMatrices(camera);
+        // set matrices uniform with updated matrices
+        renderer.SetMatricesUniforms();
+        // draw node meshes
+        node->DrawMeshes();
     }
+}
+
+void Node::ComputeMatrices(std::unique_ptr<Camera> &camera)
+{
+    modelViewMatrix = camera->ViewMatrix() * modelMatrix;
+    normalMatrix = inverseTranspose(modelViewMatrix);
+    modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
 }
 
 void Node::Transform(const glm::vec3 &position, const glm::vec3 &scaling,
@@ -171,29 +138,44 @@ void Node::Transform(const glm::vec3 &position, const glm::vec3 &scaling,
     this->position = position;
     this->scaling = scaling;
     this->rotation = rotation;
-    RecalculateModelMatrix();
+    ComputeModelMatrix();
 }
 
 void Node::Position(const glm::vec3 &position)
 {
     this->position = position;
-    RecalculateModelMatrix();
+    ComputeModelMatrix();
 }
 
 void Node::Scaling(const glm::vec3 &scaling)
 {
     this->scaling = scaling;
-    RecalculateModelMatrix();
+    ComputeModelMatrix();
 }
 
 void Node::Rotation(const glm::quat &rotation)
 {
     this->rotation = rotation;
-    RecalculateModelMatrix();
+    ComputeModelMatrix();
 }
 
 void Node::BuildDrawList()
 {
     drawList.clear();
     BuildDrawList(drawList);
+}
+
+const glm::mat4x4 &Node::NormalMatrix() const
+{
+    return normalMatrix;
+}
+
+const glm::mat4x4 &Node::ModelViewMatrix() const
+{
+    return modelViewMatrix;
+}
+
+const glm::mat4x4 &Node::ModelViewProjectionMatrix() const
+{
+    return modelViewProjectionMatrix;
 }

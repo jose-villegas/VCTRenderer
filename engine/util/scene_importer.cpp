@@ -146,25 +146,25 @@ void SceneImporter::ImportLight(aiLight * light, Light &newLight)
 
 void SceneImporter::ImportCamera(aiCamera * cam, Camera &newCamera)
 {
-    newCamera.aspectRatio   = cam->mAspect;
-    newCamera.clipPlaneFar  = cam->mClipPlaneFar;
-    newCamera.clipPlaneNear = cam->mClipPlaneNear;
-    newCamera.horizontalFoV = cam->mHorizontalFOV;
-    newCamera.position = glm::vec3(
-                             cam->mPosition.x,
-                             cam->mPosition.y,
-                             cam->mPosition.z
-                         );
-    newCamera.lookAt = glm::vec3(
-                           cam->mLookAt.x,
-                           cam->mLookAt.y,
-                           cam->mLookAt.z
-                       );
-    newCamera.up = glm::vec3(
-                       cam->mUp.x,
-                       cam->mUp.y,
-                       cam->mUp.z
-                   );
+    newCamera.AspectRatio(cam->mAspect);
+    newCamera.ClipPlaneFar(cam->mClipPlaneFar);
+    newCamera.ClipPlaneNear(cam->mClipPlaneNear);
+    newCamera.HorizontalFoV(cam->mHorizontalFOV);
+    newCamera.Position(glm::vec3(
+                           cam->mPosition.x,
+                           cam->mPosition.y,
+                           cam->mPosition.z
+                       ));
+    newCamera.LookAt(glm::vec3(
+                         cam->mLookAt.x,
+                         cam->mLookAt.y,
+                         cam->mLookAt.z
+                     ));
+    newCamera.Up(glm::vec3(
+                     cam->mUp.x,
+                     cam->mUp.y,
+                     cam->mUp.z
+                 ));
 }
 
 void SceneImporter::ImportMaterial(aiMaterial * mMaterial,

@@ -53,7 +53,7 @@ const BoundingVolume &BoundingVolume::Transform(const glm::mat4x4 &model)
     return *transformedVolume;
 }
 
-const glm::vec3 BoundingVolume::Center()
+glm::vec3 BoundingVolume::Center() const
 {
     return (maxPoint + minPoint) / 2.0f;
 }

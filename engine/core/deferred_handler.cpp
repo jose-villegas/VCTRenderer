@@ -52,9 +52,6 @@ void DeferredHandler::CreateFullscreenQuad() const
     NoVertexArray().Bind();
 }
 
-/// <summary>
-/// Renders a full screen quad, useful for the light pass stage
-/// </summary>
 void DeferredHandler::RenderFullscreenQuad() const
 {
     static oglplus::Context gl;
@@ -65,9 +62,6 @@ void DeferredHandler::RenderFullscreenQuad() const
     );
 }
 
-/// <summary>
-/// Loads the deferred rendering required shaders
-/// </summary>
 void DeferredHandler::LoadShaders()
 {
     using namespace oglplus;
@@ -90,12 +84,6 @@ void DeferredHandler::LoadShaders()
                            "resources\\shaders\\light_pass.frag");
 }
 
-/// <summary>
-/// Setups the geometry buffer accordingly
-/// with the rendering resolution
-/// </summary>
-/// <param name="windowWith">The window width.</param>
-/// <param name="windowHeight">Height of the window.</param>
 void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,
         unsigned int windowHeight)
 {

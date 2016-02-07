@@ -19,20 +19,20 @@ class GeometryBuffer
             Depth, // depth buffer for completeness
             TARGETS_MAX
         };
-        oglplus::Texture &RenderTarget(RenderTargets renderTarget);
-        void Bind(oglplus::FramebufferTarget target) const;
+
+        const oglplus::Texture &RenderTarget(RenderTargets renderTarget) const;
+        void Bind(oglplus::FramebufferTarget target);
         void AttachTexture(RenderTargets renderTarget,
                            oglplus::FramebufferTarget target =
                                oglplus::FramebufferTarget::Draw, int level = 0);
-
-        void DrawBuffers() const;
+        void DrawBuffers();
         void ActivateTextures();
 
         GeometryBuffer();
+        ~GeometryBuffer();
     private:
+        oglplus::FramebufferTarget binding;
         oglplus::Framebuffer geometryBuffer;
         std::array<oglplus::Texture, TARGETS_MAX> bufferTextures;
         std::vector<oglplus::Context::ColorBuffer> colorBuffers;
 };
-
-

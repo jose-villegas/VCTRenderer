@@ -20,7 +20,7 @@ class Frustum
         virtual ~Frustum();
 
         void CalculatePlanes(const glm::mat4x4 &mvMatrix);
-        bool BoxInFrustum(const BoundingVolume &bVolume);
+        bool VolumeInFrustum(const BoundingVolume &bVolume) const;
     private:
         glm::vec4 fPlane[6];
 };

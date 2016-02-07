@@ -13,8 +13,8 @@ class UI : public Interface
                                 const std::string &name) const;
         void DrawFramerateMetrics() const;
         void DrawSceneSelector();
-        void DrawGBufferTextures();
-        void DrawDebugWindow();
+        void DrawGBufferTextures() const;
+        void DrawDebugWindow() const;
         void DrawFPSNotif() const;
         void Draw() override;
         UI();
