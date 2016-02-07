@@ -25,6 +25,7 @@ class Material
             Default,
             Additive
         };
+        std::string name;
 
         glm::vec3 ambient;
         glm::vec3 diffuse;
@@ -36,6 +37,8 @@ class Material
         float shininess;
         float shininessStrenght;
         float refractionIndex;
+
+        Material();
 };
 
 class OGLMaterial : public Material
@@ -43,8 +46,6 @@ class OGLMaterial : public Material
     public:
         static glm::vec3 White;
         static glm::vec3 Black;
-
-        std::string name;
 
         bool HasTexture(RawTexture::TextureType texType) const;
         void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,

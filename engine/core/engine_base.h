@@ -7,35 +7,58 @@
 class DeferredRenderer;
 class EngineAssets;
 
+/// <summary>
+/// This is the entry point of the rendering engine
+/// where the main rendering loop resides.
+/// </summary>
 class EngineBase
 {
     public:
         virtual ~EngineBase();
 
+        /// <summary>
+        /// Main rendering loop
+        /// </summary>
         void MainLoop();
+
+        /// <summary>
+        /// Returns the EngineBase singleton instance.
+        /// </summary>
+        /// <returns></returns>
         static std::shared_ptr<EngineBase> &Instance();
 
         static UI &Interface() { return Instance()->userInterface; }
-        static EngineAssets &Assets() { return *Instance()->assets; }
         static RenderWindow &Window() { return Instance()->renderWindow; }
+        static EngineAssets &Assets() { return *Instance()->assets; }
         static DeferredRenderer &Renderer() { return *Instance()->renderer; }
+
         // No copying, copy, move assignment allowed of this class
         // or any derived class
         EngineBase(EngineBase const &r) = delete;
         EngineBase(EngineBase const &&r) = delete;
         EngineBase &operator=(EngineBase const &r) = delete;
     private:
-        // over frame user interface
+        /// <summary>
+        /// The user interface, renderer per frame. Immediate mode
+        /// </summary>
         UI userInterface;
-        // glfw window containing ogl context
+        /// <summary>
+        /// The rendering window.
+        /// </summary>
         RenderWindow renderWindow;
-        // loads all deferred shaders file and handles
-        // deferred rendering - context dependant
+        /// <summary>
+        /// The engine renderer, uses deferred rendering path.
+        /// </summary>
         std::unique_ptr<DeferredRenderer> renderer;
-        // loads all scene raw data and uploads
-        // to gpu - context dependant
+        /// <summary>
+        /// All the engine available assets.
+        /// </summary>
         std::unique_ptr<EngineAssets> assets;
-        // imports assets and initializes engine libraries
+
+        /// <summary>
+        /// Setups all the engine components, imports assets
+        /// and initializes libraries.
+        /// </summary>
         void Initialize();
 
         EngineBase();

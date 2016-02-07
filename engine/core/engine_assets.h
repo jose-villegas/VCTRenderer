@@ -5,6 +5,10 @@
 
 class Scene;
 
+/// <summary>
+/// This class holds all the assets
+/// used by the engine in runtime.
+/// </summary>
 class EngineAssets
 {
     public:

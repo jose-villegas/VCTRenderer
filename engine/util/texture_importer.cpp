@@ -4,8 +4,6 @@
 
 #include "../scene/texture.h"
 
-bool TextureImporter::Minimum24Bits = false;
-
 // transforms picture to raw data and stores info in Texture class
 bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
                                       RawTexture &outTexture)
@@ -33,11 +31,6 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
         dib = FreeImage_Load(fif, sFilepath.c_str());
     }
 
-    if (Minimum24Bits && FreeImage_GetBPP(dib) / 8 < 3)
-    {
-        dib = FreeImage_ConvertTo24Bits(dib);
-    }
-
     // get raw data
     unsigned char * bits = FreeImage_GetBits(dib);
     // get image data
@@ -55,8 +48,8 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     }
 
     // copy data before unload
-    size_t buffer_size = height * lineWidth;
-    unsigned char * data = new(std::nothrow)unsigned char[buffer_size];
+    size_t buffer_size = height * lineWidth * sizeof(unsigned char);
+    auto data = reinterpret_cast<unsigned char *>(malloc(buffer_size));
 
     // couldn't allocate memory
     if (data == nullptr)

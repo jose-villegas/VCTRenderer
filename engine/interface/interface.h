@@ -8,16 +8,35 @@
 
 class RenderWindow;
 
+/// <summary>
+/// Main class to implement custom interfaces
+/// setups IMGUI to render in the current context
+/// </summary>
 class Interface
 {
     public:
         Interface();
         virtual ~Interface();
 
+        /// <summary>
+        /// Setups the interface to render in the current
+        /// rendering context
+        /// </summary>
+        /// <param name="activeWindow">The rendering window.</param>
+        /// <param name="instantCallbacks">if set to <c>true</c> [instant callbacks].</param>
         void Initialize(const RenderWindow &activeWindow,
                         bool instantCallbacks = true);
+        /// <summary>
+        /// Deletes all rendering objects and UI data
+        /// </summary>
         void Terminate();
+        /// <summary>
+        /// Renders the UI
+        /// </summary>
         void Render() const;
+        /// <summary>
+        /// Sets up the GUI for a new frame.
+        /// </summary>
         void NewFrame();
     protected:
         // application specific UI code

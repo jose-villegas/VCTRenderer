@@ -2,18 +2,7 @@
 
 #include <glm/detail/type_vec3.hpp>
 
-Light::Light() :
-    angleInnerCone(this),
-    angleOuterCone(this),
-    ambient(this),
-    diffuse(this),
-    specular(this),
-    position(this),
-    direction(this),
-    constant(this),
-    linear(this),
-    quadratic(this),
-    lightType(Directional)
+Light::Light() : lightType(Directional)
 {
     angleInnerCone = 0.0f;
     angleOuterCone = 90.0f;

@@ -59,14 +59,14 @@ class OGLMesh : public Mesh
         ~OGLMesh();
 
         void Load();
-        void BindArrayBuffer();
-        void BindElementArrayBuffer();
-        void BindVertexArrayObject();
+        void BindArrayBuffer() const;
+        void BindElementArrayBuffer() const;
+        void BindVertexArrayObject() const;
 
-        void BufferPointers(oglplus::Program &program);
+        void BufferPointers(oglplus::Program &program) const;
         void BufferSetup(oglplus::Program &program);
 
-        void DrawElements();
+        void DrawElements() const;
         bool IsLoaded() const { return loaded; }
     protected:
         // No copying or copy assignment allowed of this class or any derived class

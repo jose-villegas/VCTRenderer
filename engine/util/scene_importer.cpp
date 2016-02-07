@@ -4,7 +4,6 @@
 #include <iostream>
 #include <memory>
 #include <glm/gtc/quaternion.hpp>
-#include <tbb/tbb.h>
 
 #include "scene_importer.h"
 
@@ -106,6 +105,7 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene * outScene)
         }
     }
 
+    importer.FreeScene();
     return true;
 }
 
@@ -310,17 +310,18 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
             texType < aiTextureType_UNKNOWN;
             texType = aiTextureType(texType + 1))
     {
-        int textureTypeCount = mMaterial->GetTextureCount((aiTextureType)texType);
+        int textureTypeCount = mMaterial->GetTextureCount(static_cast<aiTextureType>
+                               (texType));
 
         // only loading one
         if (textureTypeCount <= 0) { continue; }
 
         aiString texPath;
 
-        if (mMaterial->GetTexture((aiTextureType)texType, 0,
+        if (mMaterial->GetTexture(static_cast<aiTextureType>(texType), 0,
                                   &texPath) == AI_SUCCESS)
         {
-            std::string filepath = scene->directory + "\\" + std::string(texPath.data);
+            auto filepath = scene->directory + "\\" + std::string(texPath.data);
             // find if texture was already loaded previously
             bool alreadyLoaded = false;
             int savedTextureIndex = 0;
@@ -332,34 +333,45 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
 
             for (unsigned int i = 0; i < scene->textures.size() && !alreadyLoaded; ++i)
             {
-                alreadyLoaded |= scene->textures[i]->GetFilepath() == filepath
-                                 ? true
-                                 : false;
+                alreadyLoaded |= scene->textures[i]->GetFilepath() == filepath;
                 savedTextureIndex = i;
             }
 
             if (!alreadyLoaded)
             {
-                std::shared_ptr<OGLTexture2D> newTexture(new OGLTexture2D());
+                auto newTexture = std::make_shared<OGLTexture2D>();
 
                 if (TextureImporter::ImportTexture2D(filepath, *newTexture))
                 {
                     scene->textures.push_back(newTexture);
-                    material.AddTexture(newTexture, (RawTexture::TextureType)texType);
-                    newTexture->textureTypes.insert((RawTexture::TextureType)texType);
+                    material.AddTexture
+                    (
+                        newTexture,
+                        static_cast<RawTexture::TextureType>(texType)
+                    );
+                    newTexture->textureTypes.insert
+                    (
+                        static_cast<RawTexture::TextureType>(texType)
+                    );
                 }
                 else
                 {
-                    std::cout << "(SceneImporter) Error Loading Texture: " << filepath << std::endl;
+                    std::cout << "(SceneImporter) Error Loading Texture: "
+                              << filepath << std::endl;
                 }
             } // raw data from this texture has been previously loaded
             else
             {
                 // just add reference and associate a new texture type
-                material.AddTexture(scene->textures[savedTextureIndex],
-                                    (RawTexture::TextureType)texType);
+                material.AddTexture
+                (
+                    scene->textures[savedTextureIndex],
+                    static_cast<RawTexture::TextureType>(texType)
+                );
                 scene->textures[savedTextureIndex]->textureTypes.insert
-                ((RawTexture::TextureType)texType);
+                (
+                    static_cast<RawTexture::TextureType>(texType)
+                );
             }
         }
     }

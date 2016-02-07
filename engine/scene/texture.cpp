@@ -8,8 +8,7 @@ void RawTexture::FreeRawData()
 {
     if (!this->rawData) { return; }
 
-    unsigned char * pRawData = this->rawData.release();
-    delete []pRawData;
+    free(this->rawData.release());
 }
 
 RawTexture::RawTexture() : rawData(nullptr)

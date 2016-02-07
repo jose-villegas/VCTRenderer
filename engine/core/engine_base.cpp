@@ -6,7 +6,6 @@
 
 #include <oglplus/gl.hpp>
 
-// initializes base engine assets and libs
 EngineBase::EngineBase()
 {
 }

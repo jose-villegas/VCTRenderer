@@ -3,6 +3,11 @@
 glm::vec3 OGLMaterial::White = glm::vec3(1.0f);;
 glm::vec3 OGLMaterial::Black = glm::vec3(1.0f);
 
+Material::Material() : name("Default Material"), opacity(1), shininess(0),
+    shininessStrenght(1), refractionIndex(1)
+{
+}
+
 bool OGLMaterial::HasTexture(RawTexture::TextureType texType) const
 {
     return textures[texType] != nullptr;
@@ -28,7 +33,7 @@ bool OGLMaterial::BindTexture(RawTexture::TextureType texType,
     return false;
 }
 
-OGLMaterial::OGLMaterial() : name("Default Material")
+OGLMaterial::OGLMaterial()
 {
     diffuse = specular = ambient = emissive = transparent = Black;
     refractionIndex = 1.5f; shininess = 0.0f;

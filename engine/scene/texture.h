@@ -9,6 +9,17 @@
 
 class RawTexture
 {
+    protected:
+        std::string filepath;
+
+        unsigned int height;
+        unsigned int width;
+        unsigned int depth;
+        // line width in bytes
+        unsigned int lineWidth;
+        unsigned int bitsPerPixel;
+
+        std::unique_ptr<unsigned char> rawData;
     public:
         enum TextureType
         {
@@ -34,22 +45,10 @@ class RawTexture
 
         RawTexture();
         ~RawTexture();
-    protected:
-        std::string filepath;
-
-        unsigned int height;
-        unsigned int width;
-        unsigned int depth;
-        // line width in bytes
-        unsigned int lineWidth;
-        unsigned int bitsPerPixel;
-
-        std::unique_ptr<unsigned char> rawData;
     private:
         // No copying or copy assignment allowed of this class or any derived class
         RawTexture(RawTexture const &);
         RawTexture &operator=(RawTexture const &);
-    private:
         // friends with
         friend class TextureImporter;
 };
