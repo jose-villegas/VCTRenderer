@@ -22,7 +22,7 @@ class Node : public SingleActive<Node>
         std::vector<std::shared_ptr<Node>> nodes;
 
         Node();
-        ~Node();
+        virtual ~Node();
 
         glm::mat4x4 GetModelMatrix() const;
         // draws only the meshes associated to the node

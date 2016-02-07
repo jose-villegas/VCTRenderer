@@ -16,8 +16,11 @@ class Node;
 class Scene : public SingleActive<Scene>
 {
     protected:
+        std::string name;
         std::string filepath;
         std::string directory;
+
+        bool isLoaded = false;
     public:
         std::vector<std::shared_ptr<OGLMesh>> meshes;
         std::vector<std::shared_ptr<OGLTexture2D>> textures;
@@ -28,10 +31,20 @@ class Scene : public SingleActive<Scene>
 
         Node rootNode;
 
-        Scene();
+        explicit Scene(std::string filepath);
+        virtual ~Scene();
 
-        std::string GetFilepath() const { return filepath; }
-        std::string GetDirectory() const { return directory; }
+        const std::string &GetFilepath() const
+        {
+            return filepath;
+        }
+
+        const std::string &GetDirectory() const
+        {
+            return directory;
+        }
+
+        void Load();
     private:
         // friends with
         friend class SceneImporter;

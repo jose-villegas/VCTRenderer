@@ -91,27 +91,21 @@ class OGLTexture2D : public RawTexture
         WrapMode wrapS;
         WrapMode wrapT;
 
-        bool onGPUMemory;
-
         static OGLTexture2D * CreateColorTexture(std::string texName,
                 glm::u8vec3 texColor);
     public:
         OGLTexture2D();
         ~OGLTexture2D();
-        GLuint UploadToGPU(MinFilter minFilter = MinFilter::LinearMipmapLinear,
-                           MagFilter magFilter = MagFilter::Linear,
-                           WrapMode wrapS = WrapMode::Repeat,
-                           WrapMode wrapT = WrapMode::Repeat,
-                           bool unloadFromRAM = true,
-                           bool generateMipmaps = true,
-                           glm::vec4 borderColor = glm::vec4(0.f));
-        bool OnGPUMemory() const { return onGPUMemory; }
+        GLuint Load(MinFilter minFilter = MinFilter::LinearMipmapLinear,
+                    MagFilter magFilter = MagFilter::Linear,
+                    WrapMode wrapS = WrapMode::Repeat,
+                    WrapMode wrapT = WrapMode::Repeat,
+                    bool generateMipmaps = true,
+                    glm::vec4 borderColor = glm::vec4(0.f));
         void Bind();
         int Name() const { return oglplus::GetName(*oglTexture); };
 
         static std::unique_ptr<OGLTexture2D> &GetDefaultTexture();
-        static std::unique_ptr<OGLTexture2D> &GetDefaultNormalTexture();
-        static std::unique_ptr<OGLTexture2D> &GetErrorTexture();
     private:
         // No copying or copy assignment allowed of this class or any derived class
         OGLTexture2D(OGLTexture2D const &);

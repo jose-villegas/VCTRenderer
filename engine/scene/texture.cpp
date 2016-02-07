@@ -22,10 +22,12 @@ RawTexture::~RawTexture()
     FreeRawData();
 }
 
-GLuint OGLTexture2D::UploadToGPU(MinFilter minFilter, MagFilter magFilter,
-                                 WrapMode wrapS , WrapMode wrapT ,
-                                 bool unloadFromRAM , bool generateMipmaps,
-                                 glm::vec4 borderColor)
+GLuint OGLTexture2D::Load(MinFilter
+                          minFilter /*= MinFilter::LinearMipmapLinear*/,
+                          MagFilter magFilter /*= MagFilter::Linear*/,
+                          WrapMode wrapS /*= WrapMode::Repeat*/ , WrapMode wrapT /*= WrapMode::Repeat*/ ,
+                          bool generateMipmaps /*= true*/,
+                          glm::vec4 borderColor /*= glm::vec4(0.f)*/)
 {
     static oglplus::Context gl;
 
@@ -48,11 +50,7 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter minFilter, MagFilter magFilter,
     gl.Bound(Texture::Target::_2D, *this->oglTexture)
     .Image2D(0, pdif, this->width, this->height, 0, pdf,
              PixelDataType::UnsignedByte, this->rawData.get());
-
-    if (unloadFromRAM)
-    {
-        this->FreeRawData();
-    }
+    this->FreeRawData();
 
     // gen mipmaps
     if (generateMipmaps)
@@ -75,13 +73,12 @@ GLuint OGLTexture2D::UploadToGPU(MinFilter minFilter, MagFilter magFilter,
 
     if (wrapS == WrapMode::ClampToBorder || wrapT == WrapMode::ClampToBorder)
     {
-        oglplus::Vector<float, 4> color(borderColor.x, borderColor.y, borderColor.z,
-                                        borderColor.w);
+        Vector<float, 4> color(borderColor.x, borderColor.y, borderColor.z,
+                               borderColor.w);
         gl.Bound(Texture::Target::_2D, *this->oglTexture).BorderColor(color);
         this->borderColor = borderColor;
     }
 
-    this->onGPUMemory = true;
     // return ogl idenfier on success
     return GetGLName(*this->oglTexture);
 }
@@ -125,41 +122,7 @@ std::unique_ptr<OGLTexture2D> &OGLTexture2D::GetDefaultTexture()
         glm::u8vec3 texColor = glm::u8vec3(255, 255, 255);
         // save to instance
         instance.reset(CreateColorTexture(texName, texColor));
-        instance->UploadToGPU();
-    }
-
-    return instance;
-}
-
-std::unique_ptr<OGLTexture2D> &OGLTexture2D::GetDefaultNormalTexture()
-{
-    static std::unique_ptr<OGLTexture2D> instance = nullptr;
-
-    if (!instance)
-    {
-        // default texture is white
-        std::string texName = "!defaultNormalTexture";
-        glm::u8vec3 texColor = glm::u8vec3(128, 128, 255);
-        // save to instance
-        instance.reset(CreateColorTexture(texName, texColor));
-        instance->UploadToGPU();
-    }
-
-    return instance;
-}
-
-std::unique_ptr<OGLTexture2D> &OGLTexture2D::GetErrorTexture()
-{
-    static std::unique_ptr<OGLTexture2D> instance = nullptr;
-
-    if (!instance)
-    {
-        // default texture is white
-        std::string texName = "!errorTexture";
-        glm::u8vec3 texColor = glm::u8vec3(128, 0, 128);
-        // save to instance
-        instance.reset(CreateColorTexture(texName, texColor));
-        instance->UploadToGPU();
+        instance->Load();
     }
 
     return instance;
@@ -171,8 +134,7 @@ OGLTexture2D::OGLTexture2D()
       magFilter(MagFilter::Linear),
       minFilter(MinFilter::Linear),
       wrapS(WrapMode::Repeat),
-      wrapT(WrapMode::Repeat),
-      onGPUMemory(false)
+      wrapT(WrapMode::Repeat)
 {
 }
 

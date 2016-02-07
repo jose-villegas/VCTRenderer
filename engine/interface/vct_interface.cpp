@@ -8,6 +8,7 @@
 #include "../core/deferred_renderer.h"
 #include "../core/engine_assets.h"
 #include "../scene/scene.h"
+#include "../scene/camera.h"
 
 void UI::DrawGBufferTexture(const oglplus::Texture &texture,
                             const std::string &name) const
@@ -79,20 +80,40 @@ void UI::DrawFramerateMetrics() const
                      "", minfSample, maxfSample, ImVec2(584.0f, 80.0f));
 }
 
+bool SceneName(void * data, int idx, const char ** out_text)
+{
+    auto items = static_cast<std::shared_ptr<Scene> *>(data);
+
+    if (out_text)
+    {
+        *out_text = items[idx]->GetFilepath().c_str();
+    }
+
+    return true;
+}
+
 void UI::DrawSceneSelector()
 {
-    static auto sceneNames = EngineBase::Assets().SceneNames();
-    static auto activeScene = 0;
+    static auto &assets = EngineBase::Assets();
+    static auto activeScene = -1;
     ImGui::SetNextWindowPos(ImVec2(3, 3));
     ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
                  ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove);
     // active scene selector
     ImGui::PushItemWidth(450);
 
-    if (ImGui::Combo("Active", &activeScene, const_cast<const char **>
-                     (sceneNames.data()), static_cast<int>(sceneNames.size())))
+    if (ImGui::Combo("Path", &activeScene, SceneName, assets.scenes.data(),
+                     assets.scenes.size()))
     {
-        EngineBase::Assets().Scenes()[activeScene]->SetAsActive();
+        assets.scenes[activeScene]->SetAsActive();
+        assets.scenes[activeScene]->cameras.front()->SetAsActive();
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Button("Load") && Scene::Active())
+    {
+        Scene::Active()->Load();
     }
 
     ImGui::PopItemWidth();

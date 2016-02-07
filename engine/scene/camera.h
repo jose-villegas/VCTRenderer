@@ -14,6 +14,7 @@ class Camera : public SingleActive<Camera>
 {
     public:
         Camera();
+        virtual ~Camera();
 
         float ClipPlaneFar() const;
         /// <summary>

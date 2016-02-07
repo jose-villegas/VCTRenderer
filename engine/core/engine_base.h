@@ -16,9 +16,14 @@ class EngineBase
         static std::shared_ptr<EngineBase> &Instance();
 
         static UI &Interface() { return Instance()->userInterface; }
-        static EngineAssets &Assets() { return *Instance()->assetLoader; }
+        static EngineAssets &Assets() { return *Instance()->assets; }
         static RenderWindow &Window() { return Instance()->renderWindow; }
         static DeferredRenderer &Renderer() { return *Instance()->renderer; }
+        // No copying, copy, move assignment allowed of this class
+        // or any derived class
+        EngineBase(EngineBase const &r) = delete;
+        EngineBase(EngineBase const &&r) = delete;
+        EngineBase &operator=(EngineBase const &r) = delete;
     private:
         // over frame user interface
         UI userInterface;
@@ -29,13 +34,9 @@ class EngineBase
         std::unique_ptr<DeferredRenderer> renderer;
         // loads all scene raw data and uploads
         // to gpu - context dependant
-        std::unique_ptr<EngineAssets> assetLoader;
+        std::unique_ptr<EngineAssets> assets;
         // imports assets and initializes engine libraries
         void Initialize();
-        // No copying, copy, move assignment allowed of this class
-        // or any derived class
+
         EngineBase();
-        EngineBase(EngineBase const &r);
-        EngineBase(EngineBase const &&r);
-        EngineBase &operator=(EngineBase const &r);
 };

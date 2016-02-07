@@ -56,8 +56,8 @@ void EngineBase::MainLoop()
 
     userInterface.Terminate();
     // release reserved data early (context dependent)
-    assetLoader.reset(nullptr);
-    renderer.reset(nullptr);
+    delete assets.release();
+    delete renderer.release();
 }
 
 void EngineBase::Initialize()
@@ -72,9 +72,8 @@ void EngineBase::Initialize()
     userInterface.Initialize(renderWindow);
     // print libs version info
     utils::PrintDependenciesVersions();
-    // initialize deferred shading renderer / manager
+    // deferred shading renderer / manager
     renderer = std::make_unique<DeferredRenderer>(renderWindow);
-    // load engine demo scene assets
-    assetLoader = std::make_unique<EngineAssets>();
-    assetLoader->LoadScenes();
+    // engine assets holder
+    assets = std::make_unique<EngineAssets>();
 }

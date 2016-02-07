@@ -43,18 +43,17 @@ void Node::BuildDrawList(std::vector<Node *> &base)
 
 void Node::DrawMeshes()
 {
-    static auto &renderer = EngineBase::Renderer();
-
     for (auto &mesh : meshes)
     {
-        if (!mesh->OnGPUMemory()) { return; }
+        if (!mesh->IsLoaded()) { return; }
 
-        if (!Camera::Active()->InFrustum(mesh->boundaries.Transform(modelMatrix)))
+        if (meshes.size() > 1 && !Camera::Active()->InFrustum
+                (mesh->boundaries.Transform(modelMatrix)))
         {
             continue;
         }
 
-        renderer.SetMaterialUniforms(mesh->material);
+        EngineBase::Renderer().SetMaterialUniforms(mesh->material);
         mesh->BindVertexArrayObject();
         mesh->DrawElements();
     }

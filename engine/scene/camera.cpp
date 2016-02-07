@@ -1,6 +1,10 @@
 #include "camera.h"
 #include <glm/gtc/matrix_transform.inl>
 
+Camera::~Camera()
+{
+}
+
 Camera::Camera() : clipPlaneFar(1000.0f), clipPlaneNear(0.3f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
 {

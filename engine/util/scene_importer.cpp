@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 #include <glm/gtc/quaternion.hpp>
+#include <tbb/tbb.h>
 
 #include "scene_importer.h"
 
@@ -25,7 +26,7 @@ SceneImporter::~SceneImporter()
 {
 }
 
-bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
+bool SceneImporter::Import(const std::string &sFilepath, Scene * outScene)
 {
     Assimp::Importer importer;
     const aiScene * scene = importer.ReadFile(sFilepath,
@@ -38,68 +39,70 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene &outScene)
         return false;
     }
 
-    // location info
-    outScene.filepath = sFilepath;
-    outScene.directory = utils::GetDirectoryPath(sFilepath);
-
     if (scene->HasMaterials())
     {
+        outScene->materials.clear();
+
         // process material properties
         for (unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             std::shared_ptr<OGLMaterial> newMaterial(new OGLMaterial());
             ImportMaterial(scene->mMaterials[i], *newMaterial);
-            outScene.materials.push_back(newMaterial);
+            outScene->materials.push_back(newMaterial);
         }
+
+        outScene->textures.clear();
 
         // import per material and scene, textures
         for (unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             ImportMaterialTextures(outScene, scene->mMaterials[i],
-                                   *outScene.materials[i]);
+                                   *outScene->materials[i]);
         }
     }
 
     if (scene->HasMeshes())
     {
+        outScene->meshes.clear();
+
         for (unsigned int i = 0; i < scene->mNumMeshes; i++)
         {
             std::shared_ptr<OGLMesh> newMesh(new OGLMesh());
             ImportMesh(scene->mMeshes[i], *newMesh);
             // material assigned to mesh
-            newMesh->material = outScene.materials
+            newMesh->material = outScene->materials
                                 [scene->mMeshes[i]->mMaterialIndex];
-            outScene.meshes.push_back(std::move(newMesh));
+            outScene->meshes.push_back(move(newMesh));
         }
     }
 
     if (scene->mRootNode != nullptr)
     {
-        ProcessNodes(outScene, scene->mRootNode, outScene.rootNode);
+        ProcessNodes(outScene, scene->mRootNode, outScene->rootNode);
     }
 
     // if these objects don't exist in scene, they are created by default
     if (scene->HasCameras())
     {
-        outScene.cameras.clear();
+        outScene->cameras.clear();
 
         for (unsigned int i = 0; i < scene->mNumCameras; i++)
         {
             std::shared_ptr<Camera> newCamera = std::make_shared<Camera>();
             ImportCamera(scene->mCameras[i], *newCamera);
-            outScene.cameras.push_back(newCamera);
+            outScene->cameras.push_back(newCamera);
         }
     }
 
     if (scene->HasLights())
     {
-        outScene.lights.clear();
+        outScene->lights.clear();
 
         for (unsigned int i = 0; i < scene->mNumLights; i++)
         {
             std::shared_ptr<Light> newLight = std::make_shared<Light>();
             ImportLight(scene->mLights[i], *newLight);
-            outScene.lights.push_back(newLight);
+            outScene->lights.push_back(newLight);
         }
     }
 
@@ -198,6 +201,7 @@ void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
     outMaterial.transparent = glm::vec3(transparent.r, transparent.g,
                                         transparent.b);
 }
+
 void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &outMesh)
 {
     outMesh.name = mMesh->mName.length > 0 ? mMesh->mName.C_Str() : outMesh.name;
@@ -259,7 +263,7 @@ void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &outMesh)
     }
 }
 
-void SceneImporter::ProcessNodes(Scene &scene, aiNode * node, Node &newNode)
+void SceneImporter::ProcessNodes(Scene * scene, aiNode * node, Node &newNode)
 {
     newNode.name = node->mName.length > 0 ? node->mName.C_Str() : newNode.name;
     // transformation matrix decomposition using assimp implementation
@@ -273,11 +277,11 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode * node, Node &newNode)
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         // insert after same name
-        newNode.meshes.push_back(scene.meshes[node->mMeshes[i]]);
+        newNode.meshes.push_back(scene->meshes[node->mMeshes[i]]);
         // node boundaries based on mesh boundaries
         newNode.boundaries.TryMinMax(
-            scene.meshes[node->mMeshes[i]]->boundaries.minPoint,
-            scene.meshes[node->mMeshes[i]]->boundaries.maxPoint
+            scene->meshes[node->mMeshes[i]]->boundaries.minPoint,
+            scene->meshes[node->mMeshes[i]]->boundaries.maxPoint
         );
     }
 
@@ -298,13 +302,12 @@ void SceneImporter::ProcessNodes(Scene &scene, aiNode * node, Node &newNode)
     newNode.BuildDrawList();
 }
 
-void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
+void SceneImporter::ImportMaterialTextures(Scene * scene,
+        aiMaterial * mMaterial,
         OGLMaterial &material)
 {
-    bool materialHasTexture = false;
-
-    for (aiTextureType texType = aiTextureType::aiTextureType_NONE;
-            texType < aiTextureType::aiTextureType_UNKNOWN;
+    for (aiTextureType texType = aiTextureType_NONE;
+            texType < aiTextureType_UNKNOWN;
             texType = aiTextureType(texType + 1))
     {
         int textureTypeCount = mMaterial->GetTextureCount((aiTextureType)texType);
@@ -313,25 +316,23 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
         if (textureTypeCount <= 0) { continue; }
 
         aiString texPath;
-        // material has at least one texture
-        materialHasTexture = true;
 
         if (mMaterial->GetTexture((aiTextureType)texType, 0,
                                   &texPath) == AI_SUCCESS)
         {
-            std::string filepath = scene.directory + "\\" + std::string(texPath.data);
+            std::string filepath = scene->directory + "\\" + std::string(texPath.data);
             // find if texture was already loaded previously
             bool alreadyLoaded = false;
             int savedTextureIndex = 0;
 
-            // for wavefront obj we assump bump = normal map
-            if (utils::GetFileExtension(scene.filepath) == "obj" &&
-                    texType == aiTextureType::aiTextureType_HEIGHT)
-            { texType = aiTextureType::aiTextureType_NORMALS; }
+            // for wavefront obj we assimp bump = normal map
+            if (utils::GetFileExtension(scene->filepath) == "obj" &&
+                    texType == aiTextureType_HEIGHT)
+            { texType = aiTextureType_NORMALS; }
 
-            for (unsigned int i = 0; i < scene.textures.size() && !alreadyLoaded; ++i)
+            for (unsigned int i = 0; i < scene->textures.size() && !alreadyLoaded; ++i)
             {
-                alreadyLoaded |= scene.textures[i]->GetFilepath() == filepath
+                alreadyLoaded |= scene->textures[i]->GetFilepath() == filepath
                                  ? true
                                  : false;
                 savedTextureIndex = i;
@@ -343,7 +344,7 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
 
                 if (TextureImporter::ImportTexture2D(filepath, *newTexture))
                 {
-                    scene.textures.push_back(newTexture);
+                    scene->textures.push_back(newTexture);
                     material.AddTexture(newTexture, (RawTexture::TextureType)texType);
                     newTexture->textureTypes.insert((RawTexture::TextureType)texType);
                 }
@@ -355,9 +356,9 @@ void SceneImporter::ImportMaterialTextures(Scene &scene, aiMaterial * mMaterial,
             else
             {
                 // just add reference and associate a new texture type
-                material.AddTexture(scene.textures[savedTextureIndex],
+                material.AddTexture(scene->textures[savedTextureIndex],
                                     (RawTexture::TextureType)texType);
-                scene.textures[savedTextureIndex]->textureTypes.insert
+                scene->textures[savedTextureIndex]->textureTypes.insert
                 ((RawTexture::TextureType)texType);
             }
         }

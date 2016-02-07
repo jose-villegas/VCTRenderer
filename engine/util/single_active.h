@@ -8,11 +8,12 @@
 /// </summary>
 template<class T> class SingleActive
 {
-    public:
+    protected:
         ~SingleActive();
         /// <summary>
         /// Sets this instance as active.
         /// </summary>
+    public:
         virtual void SetAsActive();
         /// <summary>
         /// Returns the active instance;

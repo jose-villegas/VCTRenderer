@@ -16,7 +16,7 @@ void Mesh::FreeRawData()
     this->indices.clear();
 }
 
-OGLMesh::OGLMesh() : onGPUMemory(false)
+OGLMesh::OGLMesh() : loaded(false)
 {
 }
 
@@ -24,7 +24,7 @@ OGLMesh::~OGLMesh()
 {
 }
 
-void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
+void OGLMesh::Load()
 {
     if (oglElementArrayBuffer || oglArrayBuffer) { return; }
 
@@ -53,16 +53,11 @@ void OGLMesh::UploadToGPU(bool unloadFromRAM /*= true*/)
     // save number of faces and vertices for rendering
     this->indicesCount = (unsigned int)this->indices.size();
     this->vertexCount = (unsigned int)this->vertices.size();
-
-    if (unloadFromRAM)
-    {
-        this->vertices.clear();
-        this->indices.clear();
-    }
-
+    this->vertices.clear();
+    this->indices.clear();
     // unbind vao
     NoVertexArray().Bind();
-    onGPUMemory = true;
+    loaded = true;
 }
 
 void OGLMesh::BindArrayBuffer()

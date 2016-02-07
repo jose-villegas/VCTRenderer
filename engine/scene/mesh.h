@@ -50,7 +50,7 @@ class OGLMesh : public Mesh
         std::unique_ptr<oglplus::Buffer> oglElementArrayBuffer;
         std::unique_ptr<oglplus::VertexArray> oglVertexArray;
 
-        bool onGPUMemory;
+        bool loaded;
         unsigned int indicesCount;
         unsigned int vertexCount;
     public:
@@ -58,7 +58,7 @@ class OGLMesh : public Mesh
         OGLMesh();
         ~OGLMesh();
 
-        void UploadToGPU(bool unloadFromRAM = true);
+        void Load();
         void BindArrayBuffer();
         void BindElementArrayBuffer();
         void BindVertexArrayObject();
@@ -67,10 +67,10 @@ class OGLMesh : public Mesh
         void BufferSetup(oglplus::Program &program);
 
         void DrawElements();
-        bool OnGPUMemory() const { return onGPUMemory; }
-    private:
+        bool IsLoaded() const { return loaded; }
+    protected:
         // No copying or copy assignment allowed of this class or any derived class
-        OGLMesh(OGLMesh const &);
-        OGLMesh &operator=(OGLMesh const &);
+        OGLMesh(OGLMesh const &) = delete;
+        OGLMesh &operator=(OGLMesh const &) = delete;
 };
 
