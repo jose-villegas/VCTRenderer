@@ -1,0 +1,21 @@
+[submodule "engine/dependencies/glfw"]
+	path = engine/dependencies/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "engine/dependencies/glew-cmake"]
+	path = engine/dependencies/glew-cmake
+	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "engine/dependencies/assimp"]
+	path = engine/dependencies/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "engine/dependencies/glm"]
+	path = engine/dependencies/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "engine/dependencies/imgui"]
+	path = engine/dependencies/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "engine/dependencies/freeimage"]
+	path = engine/dependencies/freeimage
+	url = https://github.com/imazen/freeimage.git
+[submodule "engine/dependencies/oglplus"]
+	path = engine/dependencies/oglplus
+	url = https://github.com/matus-chochlik/oglplus.git
