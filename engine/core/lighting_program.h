@@ -9,16 +9,15 @@
 #include <oglplus/uniform_block.hpp>
 #include <oglplus/buffer.hpp>
 
-enum class GBufferTextureId;
-
 class LightingProgram : public ProgramShader
 {
-    public:
+    protected:
         // light pass uniforms
-        struct LightUniform
+        struct UniformLight
         {
             oglplus::Uniform<float> angleInnerCone;
             oglplus::Uniform<float> angleOuterCone;
+
             oglplus::Uniform<glm::vec3> ambient;
             oglplus::Uniform<glm::vec3> diffuse;
             oglplus::Uniform<glm::vec3> specular;
@@ -26,33 +25,28 @@ class LightingProgram : public ProgramShader
             oglplus::Uniform<glm::vec3> position;
             oglplus::Uniform<glm::vec3> direction;
 
-            struct AttenuationUniform
+            struct UniformAttenuation
             {
                 oglplus::Uniform<float> constant;
                 oglplus::Uniform<float> linear;
                 oglplus::Uniform<float> quadratic;
-            } attenuation;
+            };
 
-            oglplus::Uniform<unsigned int> lightType;
+            UniformAttenuation attenuation;
         };
-
-        LightUniform directionalLight;
-        std::vector<LightUniform> pointLight;
-        std::vector<LightUniform> spotLight;
-        oglplus::Uniform<glm::vec3> viewPosUniform;
-
-        UniformCollection<oglplus::UniformSampler, GBufferTextureId> samplers;
-
+        void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) override;
     public:
+        // fragment shader uniforms
+        oglplus::UniformSampler gPosition;
+        oglplus::UniformSampler gNormal;
+        oglplus::UniformSampler gAlbedo;
+        oglplus::UniformSampler gSpecular;
+        oglplus::Uniform<float> ambientFactor;
+        oglplus::Uniform<glm::vec3> viewPosition;
+        UniformLight directionalLight;
+
         LightingProgram();
         virtual ~LightingProgram() {}
 
-        void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) override;
-
-        void SetUniform(GBufferTextureId tId, const int val);
-        void SetUniform(const glm::vec3 &val, bool viewPosition = true);
-
-        oglplus::UniformBlock uBlock;
-        oglplus::Buffer ubo;
 };
 

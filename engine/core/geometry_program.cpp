@@ -9,15 +9,15 @@ void GeometryProgram::ExtractUniform(const oglplus::aux::ActiveUniformInfo
     // fragment shader names
     if (name == "material.diffuse")
     {
-        materialDiffuse = Uniform<glm::vec3>(program, name);
+        material.diffuse = Uniform<glm::vec3>(program, name);
     }
     else if (name == "material.specular")
     {
-        materialSpecular = Uniform<glm::vec3>(program, name);
+        material.specular = Uniform<glm::vec3>(program, name);
     }
     else if (name == "material.useNormalsMap")
     {
-        materialUseNormalsMap = Uniform<unsigned int>(program, name);
+        material.useNormalsMap = Uniform<unsigned int>(program, name);
     }
     else if (name == "diffuseMap")
     {
@@ -37,15 +37,15 @@ void GeometryProgram::ExtractUniform(const oglplus::aux::ActiveUniformInfo
     }
     else if (name == "matrices.normal")
     {
-        matricesNormal = Uniform<glm::mat4>(program, name);
+        matrices.normal  = Uniform<glm::mat4>(program, name);
     }
     else if (name == "matrices.modelView")
     {
-        matricesModelView = Uniform<glm::mat4>(program, name);
+        matrices.modelView = Uniform<glm::mat4>(program, name);
     }
     else if (name == "matrices.modelViewProjection")
     {
-        matricesModelViewProjection = Uniform<glm::mat4>(program, name);
+        matrices.modelViewProjection = Uniform<glm::mat4>(program, name);
     }
 }
 

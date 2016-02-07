@@ -215,6 +215,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="core\geometry_buffer.cpp" />
     <ClCompile Include="core\lighting_program.cpp" />
     <ClCompile Include="util\raw_format.cpp" />
     <ClCompile Include="types\engine_shader_program.cpp" />
@@ -276,6 +277,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="core\geometry_buffer.h" />
     <ClInclude Include="core\geometry_program.h" />
     <ClInclude Include="core\lighting_program.h" />
     <ClInclude Include="util\data_segment.h" />

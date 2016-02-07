@@ -40,11 +40,11 @@ vec3 normalMapping()
 {                                                                                           
     vec3 norm = normalize(normalView);
     vec3 tang = normalize(tangent);
+    tang = normalize(tang - dot(tang, norm) * norm);
     vec3 bTan = normalize(bitangent);
     vec3 tNormal = texture(normalsMap, texCoord.xy).rgb;
 
     vec3 bumpedNormal = 2.0 * tNormal - vec3(1.0);          
-    tang = normalize(tang - dot(tang, norm) * norm);                                                                                                                             
 
     mat3 TBN = mat3(tang, bTan, norm); 
                                                   

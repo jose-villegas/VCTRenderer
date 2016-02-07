@@ -10,37 +10,43 @@
 #include <oglplus/interop/glm.hpp>
 #include <oglplus/uniform_block.hpp>
 
-
-/// <summary>
-/// Identifies the geometry buffer texture target
-/// </summary>
-enum class GBufferTextureId
-{
-    Position, // texture with half float rgb precision storing positions
-    Normal, // texture with half float rgb precision storing normals
-    Albedo, // texture with unsigned byte rgb precision storing albedo
-    Specular, // texture with unsigned byte r precision storing specular
-    Depth, // depth buffer for completeness
-    TEXTURE_TYPE_MAX
-};
-
 class GeometryProgram : public ProgramShader
 {
     protected:
+        struct UniformMaterial
+        {
+            oglplus::Uniform<glm::vec3> ambient;
+            oglplus::Uniform<glm::vec3> diffuse;
+            oglplus::Uniform<glm::vec3> specular;
+            oglplus::Uniform<glm::vec3> emissive;
+            oglplus::Uniform<glm::vec3> transparent;
+
+            oglplus::Uniform<float> opacity;
+            oglplus::Uniform<float> shininess;
+            oglplus::Uniform<float> shininessStrength;
+            oglplus::Uniform<float> refractionIndex;
+
+            oglplus::Uniform<unsigned int> useNormalsMap;
+        };
+        struct UniformMatrices
+        {
+            oglplus::Uniform<glm::mat4> modelView;
+            oglplus::Uniform<glm::mat4> modelViewProjection;
+            oglplus::Uniform<glm::mat4> model;
+            oglplus::Uniform<glm::mat4> view;
+            oglplus::Uniform<glm::mat4> projection;
+            oglplus::Uniform<glm::mat4> normal;
+        };
         void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) override;
     public:
         // fragment shader uniforms
-        oglplus::Uniform<glm::vec3> materialDiffuse;
-        oglplus::Uniform<glm::vec3> materialSpecular;
-        oglplus::Uniform<unsigned int> materialUseNormalsMap;
+        UniformMaterial material;
         oglplus::UniformSampler diffuseMap;
         oglplus::UniformSampler specularMap;
         oglplus::UniformSampler normalsMap;
         oglplus::Uniform<float> alphaCutoff;
         // vertex shader uniforms
-        oglplus::Uniform<glm::mat4> matricesNormal;
-        oglplus::Uniform<glm::mat4> matricesModelView;
-        oglplus::Uniform<glm::mat4> matricesModelViewProjection;
+        UniformMatrices matrices;
 
         GeometryProgram();
         virtual ~GeometryProgram() {}

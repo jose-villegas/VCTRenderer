@@ -17,17 +17,6 @@ struct Matrices
 class TransformMatrices
 {
     public:
-        enum MatrixId
-        {
-            ModelView,
-            ModelViewProjection,
-            Model,
-            View,
-            Projection,
-            Normal,
-            MATRIX_ID_MAX
-        };
-
         enum Changed
         {
             None              = 0,

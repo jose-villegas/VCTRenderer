@@ -4,7 +4,6 @@
 #include <numeric>
 
 #include "../core/deferred_handler.h"
-#include "../core/geometry_program.h"
 #include "../core/engine_base.h"
 #include "../core/deferred_renderer.h"
 #include "../core/engine_assets.h"
@@ -75,7 +74,8 @@ void UI::DrawFramerateMetrics() const
     }
 
     // draw plotline with frame samples
-    ImGui::PlotLines("##Lines", frameSamples.data(), frameSamples.size(), 0,
+    ImGui::PlotLines("##Lines", frameSamples.data(),
+                     static_cast<int>(frameSamples.size()), 0,
                      "", minfSample, maxfSample, ImVec2(584.0f, 80.0f));
 }
 
@@ -103,23 +103,22 @@ void UI::DrawSceneSelector()
 
 void UI::DrawGBufferTextures()
 {
-    static const auto &deferredHandler = EngineBase::Renderer()
-                                         .GetDeferredHandler();
-    const auto &bufferTextures = deferredHandler.BufferTextures();
+    static auto &gbuffer = EngineBase::Renderer()
+                           .GetDeferredHandler().geometryBuffer;
     // position texture
-    DrawGBufferTexture(bufferTextures[(int)(GBufferTextureId::Position)],
+    DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Position),
                        "Position");
     ImGui::SameLine();
     // normal texture
-    DrawGBufferTexture(bufferTextures[(int)(GBufferTextureId::Normal)],
+    DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Normal),
                        "Normal");
     ImGui::SameLine();
     // albedo texture
-    DrawGBufferTexture(bufferTextures[(int)(GBufferTextureId::Albedo)],
+    DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Albedo),
                        "Albedo");
     ImGui::SameLine();
     // specular texture
-    DrawGBufferTexture(bufferTextures[(int)(GBufferTextureId::Specular)],
+    DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Specular),
                        "Specular");
 }
 

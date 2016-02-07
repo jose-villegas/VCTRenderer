@@ -7,23 +7,6 @@
 class Material
 {
     public:
-        glm::vec3 ambient;
-        glm::vec3 diffuse;
-        glm::vec3 specular;
-        glm::vec3 emissive;
-        glm::vec3 transparent;
-
-        float opacity;
-        float shininess;
-        float shininessStrenght;
-        float refractionIndex;
-
-        unsigned int materialFlags;
-};
-
-class OGLMaterial : public Material
-{
-    public:
         enum ShadingMode
         {
             Flat,
@@ -42,6 +25,22 @@ class OGLMaterial : public Material
             Default,
             Additive
         };
+
+        glm::vec3 ambient;
+        glm::vec3 diffuse;
+        glm::vec3 specular;
+        glm::vec3 emissive;
+        glm::vec3 transparent;
+
+        float opacity;
+        float shininess;
+        float shininessStrenght;
+        float refractionIndex;
+};
+
+class OGLMaterial : public Material
+{
+    public:
         static glm::vec3 White;
         static glm::vec3 Black;
 

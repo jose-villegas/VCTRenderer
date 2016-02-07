@@ -4,6 +4,13 @@ out vec4 fragColor;
 
 in vec2 texCoord;
 
+struct Attenuation
+{
+    float constant;
+    float linear;
+    float quadratic;
+};
+
 struct Light {
     float angleInnerCone;
     float angleOuterCone;
@@ -15,9 +22,7 @@ struct Light {
     vec3 position;
     vec3 direction;
 
-    float constant;
-    float linear;
-    float quadratic;
+    Attenuation attenuation;
 };
 
 uniform sampler2D gPosition;

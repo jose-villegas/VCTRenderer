@@ -31,7 +31,7 @@ void DeferredRenderer::Render()
     if (!camera || !scene) { return; }
 
     // bind g buffer for writing
-    deferredHandler.BindGeometryBuffer(oglplus::FramebufferTarget::Draw);
+    deferredHandler.geometryBuffer.Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
     deferredHandler.geometryProgram->Use();
@@ -67,7 +67,7 @@ void DeferredRenderer::Render()
     gl.Clear().ColorBuffer().DepthBuffer();
     // bind g buffer for reading
     deferredHandler.lightingProgram->Use();
-    deferredHandler.ActivateBindTextureTargets();
+    deferredHandler.geometryBuffer.ActivateTextures();
     SetLightPassUniforms();
     deferredHandler.RenderFullscreenQuad();
 }
@@ -80,10 +80,10 @@ DeferredHandler &DeferredRenderer::GetDeferredHandler()
 void DeferredRenderer::SetMatricesUniforms()
 {
     static auto &geom = deferredHandler.geometryProgram;
-    geom->matricesNormal.Set(transformMatrices.GetNormal());
-    geom->matricesModelView.Set(transformMatrices.GetModelView());
-    geom->matricesModelViewProjection.Set(
-        transformMatrices.GetModelViewProjection());
+    geom->matrices.normal.Set(transformMatrices.GetNormal());
+    geom->matrices.modelView.Set(transformMatrices.GetModelView());
+    geom->matrices.modelViewProjection.Set(transformMatrices
+                                           .GetModelViewProjection());
 }
 
 void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
@@ -98,10 +98,10 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
     }
 
     previousMaterial = mat.get();
-    geom->materialDiffuse.Set(mat->diffuse);
-    geom->materialSpecular.Set(mat->HasTexture(RawTexture::Specular) ?
-                               mat->White : mat->specular);
-    geom->materialUseNormalsMap.Set(mat->HasTexture(RawTexture::Normals));
+    geom->material.diffuse.Set(mat->diffuse);
+    geom->material.specular.Set(mat->HasTexture(RawTexture::Specular) ?
+                                mat->White : mat->specular);
+    geom->material.useNormalsMap.Set(mat->HasTexture(RawTexture::Normals));
     // set textures
     Texture::Active(RawTexture::Diffuse);
     mat->BindTexture(RawTexture::Diffuse);
@@ -117,23 +117,11 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
 void DeferredRenderer::SetLightPassUniforms()
 {
     static auto &light = deferredHandler.lightingProgram;
-    light->SetUniform(Camera::Active()->position);
-    light->SetUniform(
-        GBufferTextureId::Position,
-        (int)GBufferTextureId::Position
-    );
-    light->SetUniform(
-        GBufferTextureId::Normal,
-        (int)GBufferTextureId::Normal
-    );
-    light->SetUniform(
-        GBufferTextureId::Albedo,
-        (int)GBufferTextureId::Albedo
-    );
-    light->SetUniform(
-        GBufferTextureId::Specular,
-        (int)GBufferTextureId::Specular
-    );
+    light->viewPosition.Set(Camera::Active()->position);
+    light->gPosition.Set(GeometryBuffer::Position);
+    light->gNormal.Set(GeometryBuffer::Normal);
+    light->gAlbedo.Set(GeometryBuffer::Albedo);
+    light->gSpecular.Set(GeometryBuffer::Specular);
 }
 
 bool DeferredRenderer::InFrustum(const BoundingVolume &volume)

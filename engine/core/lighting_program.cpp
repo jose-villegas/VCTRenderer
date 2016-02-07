@@ -1,107 +1,37 @@
 #include "lighting_program.h"
-#include "geometry_program.h"
 
 LightingProgram::LightingProgram()
 {
-    samplers.Resize(static_cast<size_t>(GBufferTextureId::TEXTURE_TYPE_MAX));
 }
 
 void LightingProgram::ExtractUniform(const oglplus::aux::ActiveUniformInfo
                                      &info)
 {
     using namespace oglplus;
-    auto uType = info.Type();
-    auto uName = info.Name();
+    auto &name = info.Name();
 
-    // extract light uniform data
-    if (uType == SLDataType::FloatVec3)
+    if (name == "gPosition")
     {
-        auto float3ToSet =
-            uName == "viewPosition"
-            ? &viewPosUniform
-            : uName == "directionalLight.ambient"
-            ? &directionalLight.ambient
-            : uName == "directionalLight.diffuse"
-            ? &directionalLight.diffuse
-            : uName == "directionalLight.specular"
-            ? &directionalLight.specular
-            : uName == "directionalLight.position"
-            ? &directionalLight.position
-            : uName == "directionalLight.direction"
-            ? &directionalLight.direction : nullptr;
-
-        if (float3ToSet != nullptr)
-        {
-            *float3ToSet = Uniform<glm::vec3>(program, uName);
-        }
+        gPosition = UniformSampler(program, name);
     }
-
-    if (uType == SLDataType::Float)
+    else if (name == "gNormal")
     {
-        auto floatToSet =
-            uName == "directionalLight.angleInnerCone"
-            ? &directionalLight.angleInnerCone
-            : uName == "directionalLight.angleOuterCone"
-            ? &directionalLight.angleOuterCone
-            : uName == "directionalLight.constant"
-            ? &directionalLight.attenuation.constant
-            : uName == "directionalLight.linear"
-            ? &directionalLight.attenuation.linear
-            : uName == "directionalLight.quadratic"
-            ? &directionalLight.attenuation.quadratic : nullptr;
-
-        if (floatToSet != nullptr)
-        {
-            *floatToSet = Uniform<float>(program, uName);
-        }
+        gNormal = UniformSampler(program, name);
     }
-
-    if (uType == SLDataType::UnsignedInt)
+    else if (name == "gAlbedo")
     {
-        auto uintToSet =
-            uName == "directionalLight.lightType"
-            ? &directionalLight.lightType : nullptr;
-
-        if (uintToSet != nullptr)
-        {
-            *uintToSet = Uniform<unsigned int>(program, uName);
-        }
+        gAlbedo = UniformSampler(program, name);
     }
-
-    if (uType == SLDataType::Sampler2D)
+    else if (name == "gSpecular")
     {
-        // gbuffer samplers to read
-        auto addGSamplerType =
-            uName == "gPosition"
-            ? (int)GBufferTextureId::Position
-            : uName == "gNormal"
-            ? (int)GBufferTextureId::Normal
-            : uName == "gAlbedo"
-            ? (int)GBufferTextureId::Albedo
-            : uName == "gSpecular"
-            ? (int)GBufferTextureId::Specular : -1;
-
-        // g buffer active samplers
-        if ((int)addGSamplerType != -1)
-        {
-            samplers.Save(static_cast<GBufferTextureId>(addGSamplerType),
-                          UniformSampler(program, uName));
-        }
+        gSpecular = UniformSampler(program, name);
     }
-}
-
-void LightingProgram::SetUniform(GBufferTextureId tId, const int val)
-{
-    if (samplers.Has(tId))
+    else if (name == "ambientFactor")
     {
-        samplers[tId].Set(val);
+        ambientFactor = Uniform<float>(program, name);
     }
-}
-
-void LightingProgram::SetUniform(const glm::vec3 &val, bool viewPosition)
-{
-    if (viewPosition == true)
+    else if (name == "viewPosition")
     {
-        viewPosUniform.Set(val);
+        viewPosition = Uniform<glm::vec3>(program, name);
     }
 }
