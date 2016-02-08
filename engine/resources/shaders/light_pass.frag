@@ -2,8 +2,6 @@
 
 out vec4 fragColor;
 
-in vec2 texCoord;
-
 struct Attenuation
 {
     float constant;
@@ -30,20 +28,21 @@ uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
 
-uniform float ambientFactor = 0.01;
-
+uniform vec2 screenSize;
 uniform vec3 viewPosition;
-
 uniform	Light directionalLight;
+
+uniform float ambientFactor = 0.01;
 
 
 void main()
 {
+    vec2 texCoord = gl_FragCoord.xy / screenSize;
     // retrieve gbuffer data
-    vec3 position = texture(gPosition, texCoord).rgb;
-    vec3 normal = texture(gNormal, texCoord).rbg;
+    vec3 position = texture(gPosition, texCoord).xyz;
+    vec3 normal = texture(gNormal, texCoord).xyz;
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
-    float specular = texture(gSpecular, texCoord).r;
+    vec3 specular = texture(gSpecular, texCoord).rgb;
 
     // calculate lighting
     vec3 lighting = albedo * ambientFactor; // ambient;
@@ -54,13 +53,20 @@ void main()
     for(int i = 0; i < 1; i++)
     {
         // diffuse color factor
-        float diffuseFactor = dot(normal, lightDir);
-        vec3 lightReflect = normalize(reflect(-lightDir, normal));
-        float specularFactor = dot(viewDir, lightReflect);
+        float diffuseFactor = dot(normal, -lightDir);
 
-        // ambient + diffuse + specular
-        lighting += albedo * diffuseFactor;
-        lighting += specular * specularFactor;
+        if(diffuseFactor > 0.0f)
+        {
+            lighting += albedo * diffuseFactor;
+
+            vec3 lightReflect = normalize(reflect(lightDir, normal));
+            float specularFactor = dot(viewDir, lightReflect);
+
+            if(specularFactor > 0.0)
+            {
+                lighting += specular * specularFactor;
+            }
+        }
     }
     // final color
     fragColor = vec4(lighting, 1.0);

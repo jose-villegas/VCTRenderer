@@ -5,6 +5,7 @@
 
 #include <oglplus/vertex_array.hpp>
 #include <oglplus/buffer.hpp>
+#include <glm/detail/type_vec2.hpp>
 
 class LightingProgram;
 class GeometryProgram;
@@ -17,6 +18,7 @@ class GeometryProgram;
 class DeferredHandler
 {
     protected:
+        glm::vec2 renderingSize;
         /// <summary>
         /// The geometry buffer which holds all the framebuffer
         /// with all the render target texture attachments

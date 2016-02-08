@@ -41,10 +41,12 @@ class LightingProgram : public ProgramShader
         oglplus::UniformSampler gNormal;
         oglplus::UniformSampler gAlbedo;
         oglplus::UniformSampler gSpecular;
-        oglplus::Uniform<float> ambientFactor;
+
+        oglplus::Uniform<glm::vec2> screenSize;
         oglplus::Uniform<glm::vec3> viewPosition;
         UniformLight directionalLight;
 
+        oglplus::Uniform<float> ambientFactor;
         LightingProgram();
         virtual ~LightingProgram() {}
 

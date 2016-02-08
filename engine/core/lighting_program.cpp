@@ -38,4 +38,8 @@ void LightingProgram::ExtractUniform(const oglplus::aux::ActiveUniformInfo
     {
         directionalLight.direction = Uniform<glm::vec3>(program, name);
     }
+    else if (name == "screenSize")
+    {
+        screenSize = Uniform<glm::vec2>(program, name);
+    }
 }

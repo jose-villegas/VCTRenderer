@@ -23,22 +23,19 @@ void DeferredHandler::CreateFullscreenQuad() const
     // data for fs quad
     static const std::array<float, 20> fsQuadVertexBufferData =
     {
-        // X    Y    Z     U     V
-        1.0f, 1.0f, 0.0f, 1.0f, 1.0f, // vertex 0
-        -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, // vertex 1
-        1.0f, -1.0f, 0.0f, 1.0f, 0.0f, // vertex 2
-        -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, // vertex 3
+        // X    Y    Z
+        1.0f, 1.0f, 0.0f, // vertex 0
+        -1.0f, 1.0f, 0.0f, // vertex 1
+        1.0f, -1.0f, 0.0f, // vertex 2
+        -1.0f, -1.0f, 0.0f, // vertex 3
     };
     // bind vertex buffer and fill
     fullscreenQuadVertexBuffer.Bind(Buffer::Target::Array);
     Buffer::Data(Buffer::Target::Array, fsQuadVertexBufferData);
     // set up attrib points
     VertexArrayAttrib(VertexAttribSlot(0)).Enable() // position
-    .Pointer(3, DataType::Float, false, 5 * sizeof(float),
+    .Pointer(3, DataType::Float, false, 3 * sizeof(float),
              reinterpret_cast<const void *>(0));
-    VertexArrayAttrib(VertexAttribSlot(1)).Enable() // uvs
-    .Pointer(2, DataType::Float, false, 5 * sizeof(float),
-             reinterpret_cast<const void *>(12));
     // data for element buffer array
     static const std::array<unsigned int, 6> indexData =
     {
@@ -89,6 +86,7 @@ void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,
 {
     using namespace oglplus;
     static Context gl;
+    renderingSize = glm::vec2(windowWidth, windowHeight);
     // initialize geometry buffer
     geometryBuffer.Bind(FramebufferTarget::Draw);
     // build textures -- position

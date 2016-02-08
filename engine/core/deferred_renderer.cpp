@@ -103,4 +103,5 @@ void DeferredRenderer::SetLightPassUniforms() const
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);
     lightingProgram->gSpecular.Set(GeometryBuffer::Specular);
     lightingProgram->directionalLight.direction.Set(dirLight->Direction());
+    lightingProgram->screenSize.Set(renderingSize);
 }

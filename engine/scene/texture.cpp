@@ -52,20 +52,28 @@ GLuint OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
     pdf = bytesPerPixel == 1 ? PixelDataFormat::Red : pdf;
     pdif = bytesPerPixel == 1 ? PixelDataInternalFormat::R8 : pdif;
     // create texture with raw data (upload to gpu)
-    gl.Bound(Texture::Target::_2D, *this->oglTexture)
+    gl.Bound(TextureTarget::_2D, *this->oglTexture)
     .Image2D(0, pdif, this->width, this->height, 0, pdf,
              PixelDataType::UnsignedByte, this->rawData.get());
+
+    if (bytesPerPixel == 1)
+    {
+        Texture::SwizzleRGBA(TextureTarget::_2D, TextureSwizzle::Red,
+                             TextureSwizzle::Red, TextureSwizzle::Red,
+                             TextureSwizzle::Red);
+    }
+
     this->FreeRawData();
 
     // gen mipmaps
     if (generateMipmaps)
     {
-        gl.Bound(Texture::Target::_2D, *this->oglTexture).GenerateMipmap();
+        gl.Bound(TextureTarget::_2D, *this->oglTexture).GenerateMipmap();
         this->mipmapGenerated = true;
     }
 
     // opengl texture parameters
-    gl.Bound(Texture::Target::_2D, *this->oglTexture)
+    gl.Bound(TextureTarget::_2D, *this->oglTexture)
     .MinFilter(minFilter)
     .MagFilter(magFilter)
     .WrapS(wrapS)
@@ -80,7 +88,7 @@ GLuint OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
     {
         Vector<float, 4> color(borderColor.x, borderColor.y, borderColor.z,
                                borderColor.w);
-        gl.Bound(Texture::Target::_2D, *this->oglTexture).BorderColor(color);
+        gl.Bound(TextureTarget::_2D, *this->oglTexture).BorderColor(color);
         this->borderColor = borderColor;
     }
 

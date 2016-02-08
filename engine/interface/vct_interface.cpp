@@ -207,30 +207,26 @@ void UI::Draw()
     if (!camera) { return; }
 
     static float yaw, pitch;
-    float sensitivity = 0.05f;
+    float sensitivity = 0.135f;
     float xOffset = io.MouseDelta.x;
     float yOffset = -io.MouseDelta.y;
     xOffset *= sensitivity;
     yOffset *= sensitivity;
     yaw = yaw + xOffset;
     pitch = pitch + yOffset;
-
-    if (pitch > 89.0f)
-    {
-        pitch = 89.0f;
-    }
-
-    if (pitch < -89.0f)
-    {
-        pitch = -89.0f;
-    }
-
+    //if (pitch > 89.0f)
+    //{
+    //    pitch = 89.0f;
+    //}
+    //if (pitch < -89.0f)
+    //{
+    //    pitch = -89.0f;
+    //}
     glm::vec3 front;
     front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     front.y = sin(glm::radians(pitch));
     front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     front = normalize(front);
-    camera->LookAt(camera->Position() + front);
     auto right = normalize(cross(front, camera->Up()));
 
     if (ImGui::IsKeyDown(GLFW_KEY_W))
@@ -262,6 +258,8 @@ void UI::Draw()
     {
         camera->Position(camera->Position() - camera->Up() * cameraSpeed);
     }
+
+    camera->LookAt(camera->Position() + front);
 
     if (ImGui::IsKeyDown(GLFW_KEY_Z))
     {

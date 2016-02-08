@@ -406,7 +406,9 @@ void Interface::MousePosCallback(GLFWwindow * window, double xpos, double ypos)
     if (firstMouse)
     {
         firstMouse = false;
-        io.MousePos = ImVec2(xpos, ypos);
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        io.MousePos = ImVec2( width / 2.0f, height / 2.0f );
         io.MousePosPrev = io.MousePos;
     }
     else

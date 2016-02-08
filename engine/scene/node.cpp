@@ -47,12 +47,11 @@ void Node::DrawMeshes()
     {
         if (!mesh->IsLoaded()) { return; }
 
-        if (meshes.size() > 1 && !Camera::Active()->InFrustum
-                (mesh->boundaries.Transform(modelMatrix)))
-        {
-            continue;
-        }
-
+        //if (meshes.size() > 1 && !Camera::Active()->InFrustum
+        //        (mesh->boundaries.Transform(modelMatrix)))
+        //{
+        //    continue;
+        //}
         EngineBase::Renderer().SetMaterialUniforms(mesh->material);
         mesh->BindVertexArrayObject();
         mesh->DrawElements();
@@ -109,12 +108,10 @@ void Node::DrawList()
     {
         // set this node as rendering active
         node->SetAsActive();
-
-        if (!camera->InFrustum(node->boundaries.Transform(node->modelMatrix)))
-        {
-            continue;
-        }
-
+        //if (!camera->InFrustum(node->boundaries.Transform(node->modelMatrix)))
+        //{
+        //  continue;
+        //}
         // recalculate model-dependent transform matrices
         node->ComputeMatrices(camera);
         // set matrices uniform with updated matrices

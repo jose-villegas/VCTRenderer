@@ -10,7 +10,6 @@ EngineBase::EngineBase()
 {
 }
 
-
 EngineBase::~EngineBase()
 {
 }
