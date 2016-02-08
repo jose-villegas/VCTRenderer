@@ -34,4 +34,8 @@ void LightingProgram::ExtractUniform(const oglplus::aux::ActiveUniformInfo
     {
         viewPosition = Uniform<glm::vec3>(program, name);
     }
+    else if (name == "directionalLight.direction")
+    {
+        directionalLight.direction = Uniform<glm::vec3>(program, name);
+    }
 }

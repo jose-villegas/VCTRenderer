@@ -63,6 +63,7 @@ class Interface
         void CreateDeviceObjects();
 
         static void RenderDrawList(ImDrawData * drawData);
+        static void MousePosCallback(GLFWwindow * window, double xpos, double ypos);
         static void MouseButtonCallback(GLFWwindow * window, int button,
                                         int action, int mods);
         static void ScrollCallback(GLFWwindow * window, double xoffset,

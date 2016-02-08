@@ -9,6 +9,7 @@
 #include "../core/engine_assets.h"
 #include "../scene/scene.h"
 #include "../scene/camera.h"
+#include <iostream>
 
 void UI::DrawGBufferTexture(const oglplus::Texture &texture,
                             const std::string &name) const
@@ -198,6 +199,79 @@ void UI::Draw()
     DrawDebugWindow();
     // show only fps
     DrawFPSNotif();
+    // test movement
+    auto &camera = Camera::Active();
+    static float speed = 5.0f;
+    float cameraSpeed = speed * io.DeltaTime;
+
+    if (!camera) { return; }
+
+    static float yaw, pitch;
+    float sensitivity = 0.05f;
+    float xOffset = io.MouseDelta.x;
+    float yOffset = -io.MouseDelta.y;
+    xOffset *= sensitivity;
+    yOffset *= sensitivity;
+    yaw = yaw + xOffset;
+    pitch = pitch + yOffset;
+
+    if (pitch > 89.0f)
+    {
+        pitch = 89.0f;
+    }
+
+    if (pitch < -89.0f)
+    {
+        pitch = -89.0f;
+    }
+
+    glm::vec3 front;
+    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    front.y = sin(glm::radians(pitch));
+    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    front = normalize(front);
+    camera->LookAt(camera->Position() + front);
+    auto right = normalize(cross(front, camera->Up()));
+
+    if (ImGui::IsKeyDown(GLFW_KEY_W))
+    {
+        camera->Position(camera->Position() + front * cameraSpeed);
+    }
+
+    if (ImGui::IsKeyDown(GLFW_KEY_S))
+    {
+        camera->Position(camera->Position() - front * cameraSpeed);
+    }
+
+    if (ImGui::IsKeyDown(GLFW_KEY_D))
+    {
+        camera->Position(camera->Position() + right * cameraSpeed);
+    }
+
+    if (ImGui::IsKeyDown(GLFW_KEY_A))
+    {
+        camera->Position(camera->Position() - right * cameraSpeed);
+    }
+
+    if (ImGui::IsKeyDown(GLFW_KEY_Q))
+    {
+        camera->Position(camera->Position() + camera->Up() * cameraSpeed);
+    }
+
+    if (ImGui::IsKeyDown(GLFW_KEY_E))
+    {
+        camera->Position(camera->Position() - camera->Up() * cameraSpeed);
+    }
+
+    if (ImGui::IsKeyDown(GLFW_KEY_Z))
+    {
+        speed -= 0.75f;
+    }
+
+    if (ImGui::IsKeyDown(GLFW_KEY_X))
+    {
+        speed += 0.75f;
+    }
 }
 
 UI::UI() : io(ImGui::GetIO()) {}

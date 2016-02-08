@@ -87,7 +87,7 @@ void Interface::RenderDrawList(ImDrawData * drawData)
                      (GLvoid *)&cmd_list->IdxBuffer.front(), GL_STREAM_DRAW);
 
         for (const ImDrawCmd * pcmd = cmd_list->CmdBuffer.begin();
-             pcmd != cmd_list->CmdBuffer.end(); pcmd++)
+                pcmd != cmd_list->CmdBuffer.end(); pcmd++)
         {
             if (pcmd->UserCallback)
             {
@@ -167,6 +167,7 @@ void Interface::Initialize(const RenderWindow &activeWindow,
 
     if (instantCallbacks)
     {
+        glfwSetCursorPosCallback(uiData->window, MousePosCallback);
         glfwSetMouseButtonCallback(uiData->window, MouseButtonCallback);
         glfwSetScrollCallback(uiData->window, ScrollCallback);
         glfwSetKeyCallback(uiData->window, KeyCallback);
@@ -397,13 +398,35 @@ void Interface::InvalidateDeviceObjects()
     ImGui::Shutdown();
 }
 
+void Interface::MousePosCallback(GLFWwindow * window, double xpos, double ypos)
+{
+    static bool firstMouse = true;
+    auto &io = ImGui::GetIO();
+
+    if (firstMouse)
+    {
+        firstMouse = false;
+        io.MousePos = ImVec2(xpos, ypos);
+        io.MousePosPrev = io.MousePos;
+    }
+    else
+    {
+        io.MousePosPrev = io.MousePos;
+        io.MousePos = ImVec2(xpos, ypos);
+    }
+}
+
 void Interface::MouseButtonCallback(GLFWwindow * window, int button, int action,
                                     int mods)
 {
+    auto &io = ImGui::GetIO();
+
     if (action == GLFW_PRESS && button >= 0 && button < 3)
     {
         uiData->mousePressed[button] = true;
     }
+
+    io.MouseClickedPos[button] = io.MousePos;
 }
 
 void Interface::ScrollCallback(GLFWwindow * window, double xoffset,

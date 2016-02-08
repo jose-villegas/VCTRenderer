@@ -6,6 +6,7 @@
 #include "../scene/camera.h"
 #include "../scene/scene.h"
 #include "../scene/material.h"
+#include "../scene/light.h"
 
 DeferredRenderer::DeferredRenderer(const RenderWindow &rWindow) :
     DeferredHandler(rWindow.Info().width, rWindow.Info().height)
@@ -36,14 +37,7 @@ void DeferredRenderer::Render()
     gl.Enable(oglplus::Capability::CullFace);
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
-    // play with camera parameters - testing
-    camera->Position(glm::vec3(0.0f, 0.50f, 0.0f));
-    camera->LookAt(glm::vec3(
-                       sin(glfwGetTime() * 0.5f),
-                       0.50f,
-                       cos(glfwGetTime()  * 0.5f)
-                   ));
-    // draw whole scene hierarchy tree from root node
+    // draw whole scene tree from root node
     scene->rootNode.DrawList();
     // start light pass
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
@@ -102,9 +96,11 @@ const
 
 void DeferredRenderer::SetLightPassUniforms() const
 {
+    auto dirLight = Scene::Active()->lights[0];
     lightingProgram->viewPosition.Set(Camera::Active()->Position());
     lightingProgram->gPosition.Set(GeometryBuffer::Position);
     lightingProgram->gNormal.Set(GeometryBuffer::Normal);
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);
     lightingProgram->gSpecular.Set(GeometryBuffer::Specular);
+    lightingProgram->directionalLight.direction.Set(dirLight->Direction());
 }
