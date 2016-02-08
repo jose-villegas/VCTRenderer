@@ -11,7 +11,13 @@ void RawTexture::FreeRawData()
     free(this->rawData.release());
 }
 
-RawTexture::RawTexture() : rawData(nullptr)
+RawTexture::RawTexture() :
+    height(1),
+    width(1),
+    depth(1),
+    lineWidth(1),
+    bitsPerPixel(1),
+    rawData(nullptr)
 {
 }
 
@@ -21,12 +27,12 @@ RawTexture::~RawTexture()
     FreeRawData();
 }
 
-GLuint OGLTexture2D::Load(MinFilter
-                          minFilter /*= MinFilter::LinearMipmapLinear*/,
-                          MagFilter magFilter /*= MagFilter::Linear*/,
-                          WrapMode wrapS /*= WrapMode::Repeat*/ , WrapMode wrapT /*= WrapMode::Repeat*/ ,
-                          bool generateMipmaps /*= true*/,
-                          glm::vec4 borderColor /*= glm::vec4(0.f)*/)
+GLuint OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
+                          oglplus::TextureMagFilter magFilter,
+                          oglplus::TextureWrap wrapS,
+                          oglplus::TextureWrap wrapT,
+                          bool generateMipmaps,
+                          glm::vec4 borderColor)
 {
     static oglplus::Context gl;
 
@@ -60,17 +66,17 @@ GLuint OGLTexture2D::Load(MinFilter
 
     // opengl texture parameters
     gl.Bound(Texture::Target::_2D, *this->oglTexture)
-    .MinFilter((TextureMinFilter)minFilter)
-    .MagFilter((TextureMagFilter)magFilter)
-    .WrapS((TextureWrap)wrapS)
-    .WrapT((TextureWrap)wrapT);
+    .MinFilter(minFilter)
+    .MagFilter(magFilter)
+    .WrapS(wrapS)
+    .WrapT(wrapT);
     // set internals
     this->minFilter = minFilter;
     this->magFilter = magFilter;
     this->wrapS = wrapS;
     this->wrapT = wrapT;
 
-    if (wrapS == WrapMode::ClampToBorder || wrapT == WrapMode::ClampToBorder)
+    if (wrapS == TextureWrap::ClampToBorder || wrapT == TextureWrap::ClampToBorder)
     {
         Vector<float, 4> color(borderColor.x, borderColor.y, borderColor.z,
                                borderColor.w);
@@ -82,7 +88,7 @@ GLuint OGLTexture2D::Load(MinFilter
     return GetGLName(*this->oglTexture);
 }
 
-void OGLTexture2D::Bind()
+void OGLTexture2D::Bind() const
 {
     this->oglTexture->Bind(oglplus::Texture::Target::_2D);
 }
@@ -97,14 +103,15 @@ OGLTexture2D * OGLTexture2D::CreateColorTexture(std::string texName,
     defaultTexture->lineWidth = 1;
     defaultTexture->depth = 1;
     defaultTexture->bitsPerPixel = 24;
-    defaultTexture->rawData.reset(new unsigned char[3] {texColor.b, texColor.g, texColor.r});
+    defaultTexture->rawData.reset(new unsigned char[3]
+    {
+        texColor.b, texColor.g, texColor.r
+    });
 
     // texture types conveyed by default
-    for (unsigned int i = 0; i < RawTexture::TYPE_MAX; ++i)
+    for (unsigned int i = 0; i < TYPE_MAX; ++i)
     {
-        defaultTexture->textureTypes.insert(
-            RawTexture::TextureType(RawTexture::None + i)
-        );
+        defaultTexture->textureTypes.insert(TextureType(None + i));
     }
 
     return defaultTexture;
@@ -130,10 +137,10 @@ std::unique_ptr<OGLTexture2D> &OGLTexture2D::GetDefaultTexture()
 OGLTexture2D::OGLTexture2D()
     : mipmapGenerated(false),
       borderColor(glm::uninitialize),
-      magFilter(MagFilter::Linear),
-      minFilter(MinFilter::Linear),
-      wrapS(WrapMode::Repeat),
-      wrapT(WrapMode::Repeat)
+      magFilter(oglplus::TextureMagFilter::Linear),
+      minFilter(oglplus::TextureMinFilter::Linear),
+      wrapS(oglplus::TextureWrap::Repeat),
+      wrapT(oglplus::TextureWrap::Repeat)
 {
 }
 

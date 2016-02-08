@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <string>
 
-namespace utils
+namespace Utils
 {
     void ConsoleProgressBar(const std::string &title, int barWidth, int index,
                             int last);

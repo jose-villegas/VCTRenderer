@@ -45,10 +45,10 @@ class RawTexture
 
         RawTexture();
         ~RawTexture();
-    private:
         // No copying or copy assignment allowed of this class or any derived class
-        RawTexture(RawTexture const &);
-        RawTexture &operator=(RawTexture const &);
+        RawTexture(RawTexture const &) = delete;
+        RawTexture &operator=(RawTexture const &) = delete;
+    private:
         // friends with
         friend class TextureImporter;
 };
@@ -56,52 +56,32 @@ class RawTexture
 // holds information to opengl texture
 class OGLTexture2D : public RawTexture
 {
-    public:
-        enum class MinFilter : unsigned int
-        {
-            Nearest = (unsigned int)oglplus::TextureMinFilter::Nearest,
-            Linear = (unsigned int)oglplus::TextureMinFilter::Linear,
-            NearestMipmapNearest = (unsigned int)oglplus::TextureMinFilter::NearestMipmapNearest,
-            LinearMipmapNearest = (unsigned int)oglplus::TextureMinFilter::LinearMipmapNearest,
-            NearestMipmapLinear = (unsigned int)oglplus::TextureMinFilter::NearestMipmapLinear,
-            LinearMipmapLinear = (unsigned int)oglplus::TextureMinFilter::LinearMipmapLinear
-        };
-
-        enum class MagFilter : unsigned int
-        {
-            Nearest = (unsigned int)oglplus::TextureMagFilter::Nearest,
-            Linear = (unsigned int)oglplus::TextureMagFilter::Linear
-        };
-
-        enum class WrapMode : unsigned int
-        {
-            Repeat = (unsigned int)oglplus::TextureWrap::Repeat,
-            MirroredRepeat = (unsigned int)oglplus::TextureWrap::MirroredRepeat,
-            ClampToEdge = (unsigned int)oglplus::TextureWrap::ClampToEdge,
-            ClampToBorder = (unsigned int)oglplus::TextureWrap::ClampToBorder
-        };
     protected:
         std::unique_ptr<oglplus::Texture> oglTexture;
 
         bool mipmapGenerated;
         glm::vec4 borderColor;
-        MagFilter magFilter;
-        MinFilter minFilter;
-        WrapMode wrapS;
-        WrapMode wrapT;
+        oglplus::TextureMagFilter magFilter;
+        oglplus::TextureMinFilter minFilter;
+        oglplus::TextureWrap wrapS;
+        oglplus::TextureWrap wrapT;
 
         static OGLTexture2D * CreateColorTexture(std::string texName,
                 glm::u8vec3 texColor);
     public:
         OGLTexture2D();
         ~OGLTexture2D();
-        GLuint Load(MinFilter minFilter = MinFilter::LinearMipmapLinear,
-                    MagFilter magFilter = MagFilter::Linear,
-                    WrapMode wrapS = WrapMode::Repeat,
-                    WrapMode wrapT = WrapMode::Repeat,
+        GLuint Load(oglplus::TextureMinFilter minFilter =
+                        oglplus::TextureMinFilter::LinearMipmapLinear,
+                    oglplus::TextureMagFilter magFilter =
+                        oglplus::TextureMagFilter::Linear,
+                    oglplus::TextureWrap wrapS =
+                        oglplus::TextureWrap::Repeat,
+                    oglplus::TextureWrap wrapT =
+                        oglplus::TextureWrap::Repeat,
                     bool generateMipmaps = true,
                     glm::vec4 borderColor = glm::vec4(0.f));
-        void Bind();
+        void Bind() const;
         int Name() const { return oglplus::GetName(*oglTexture); };
 
         static std::unique_ptr<OGLTexture2D> &GetDefaultTexture();

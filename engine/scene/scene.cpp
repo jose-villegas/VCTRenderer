@@ -11,7 +11,7 @@
 Scene::Scene(std::string filepath)
 {
     this->filepath = filepath;
-    this->directory = utils::GetDirectoryPath(filepath);
+    this->directory = Utils::GetDirectoryPath(filepath);
     // scenes have by default at least one camera
     // they will be removed if camera or light info
     // is found during scene extraction

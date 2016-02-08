@@ -70,7 +70,7 @@ void EngineBase::Initialize()
     // set interface to current renderwindow
     userInterface.Initialize(renderWindow);
     // print libs version info
-    utils::PrintDependenciesVersions();
+    Utils::PrintDependenciesVersions();
     // deferred shading renderer / manager
     renderer = std::make_unique<DeferredRenderer>(renderWindow);
     // engine assets holder

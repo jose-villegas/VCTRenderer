@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 #include <fstream>
 
-void utils::ConsoleProgressBar(const std::string &title, int barWidth,
+void Utils::ConsoleProgressBar(const std::string &title, int barWidth,
                                int index,
                                int last)
 {
@@ -28,13 +28,13 @@ void utils::ConsoleProgressBar(const std::string &title, int barWidth,
     std::cout.flush();
 }
 
-std::string utils::GetDirectoryPath(const std::string &filePath)
+std::string Utils::GetDirectoryPath(const std::string &filePath)
 {
     auto pos = filePath.find_last_of("\\/");
     return (std::string::npos == pos) ? "" : filePath.substr(0, pos);
 }
 
-void utils::PrintDependenciesVersions()
+void Utils::PrintDependenciesVersions()
 {
     std::cout << "GLFW " << glfwGetVersionString() << std::endl;
     std::cout << "Assimp " << aiGetVersionMajor() << "." << aiGetVersionMinor()
@@ -46,19 +46,19 @@ void utils::PrintDependenciesVersions()
     std::cout << "Ocornut's IMGUI " << ImGui::GetVersion() << std::endl;
 }
 
-const GLFWvidmode * utils::Desktop()
+const GLFWvidmode * Utils::Desktop()
 {
     return glfwGetVideoMode(glfwGetPrimaryMonitor());
 }
 
-void utils::SkipBOM(std::ifstream &in)
+void Utils::SkipBOM(std::ifstream &in)
 {
     char test[3] = { 0 };
     in.read(test, 3);
 
     if (static_cast<unsigned char>(test[0]) == 0xEF &&
-        static_cast<unsigned char>(test[1]) == 0xBB &&
-        static_cast<unsigned char>(test[2]) == 0xBF)
+            static_cast<unsigned char>(test[1]) == 0xBB &&
+            static_cast<unsigned char>(test[2]) == 0xBF)
     {
         return;
     }

@@ -69,6 +69,7 @@ const
 {
     using namespace oglplus;
     static OGLMaterial * previousMaterial = nullptr;
+    static glm::vec3 white = glm::vec3(1.0f);
 
     if (previousMaterial == mat.get())
     {
@@ -76,12 +77,12 @@ const
     }
 
     previousMaterial = mat.get();
-    geometryProgram->material.diffuse.Set(mat->diffuse);
+    geometryProgram->material.diffuse.Set(mat->Diffuse());
     geometryProgram->material.specular.Set
     (
         mat->HasTexture(RawTexture::Specular)
-        ? mat->White
-        : mat->specular
+        ? white
+        : mat->Specular()
     );
     geometryProgram->material.useNormalsMap.Set
     (

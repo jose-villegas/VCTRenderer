@@ -111,40 +111,40 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene * outScene)
 
 void SceneImporter::ImportLight(aiLight * light, Light &newLight)
 {
-    newLight.ambient = glm::vec3(
-                           light->mColorAmbient.r,
-                           light->mColorAmbient.g,
-                           light->mColorAmbient.b
-                       );
-    newLight.diffuse = glm::vec3(
-                           light->mColorDiffuse.r,
-                           light->mColorDiffuse.g,
-                           light->mColorDiffuse.b
-                       );
-    newLight.specular = glm::vec3(
-                            light->mColorSpecular.r,
-                            light->mColorSpecular.g,
-                            light->mColorSpecular.b
-                        );
-    newLight.direction = glm::vec3(
-                             light->mDirection.x,
-                             light->mDirection.y,
-                             light->mDirection.z
-                         );
-    newLight.position = glm::vec3(
-                            light->mPosition.x,
-                            light->mPosition.y,
-                            light->mPosition.z
-                        );
-    newLight.lightType = light->mType == aiLightSource_POINT ?
-                         Light::Point : light->mType == aiLightSource_DIRECTIONAL ?
-                         Light::Directional : light->mType == aiLightSource_SPOT ?
-                         Light::Spot : Light::Point;
-    newLight.angleInnerCone = light->mAngleInnerCone;
-    newLight.angleOuterCone = light->mAngleOuterCone;
-    newLight.constant = light->mAttenuationConstant;
-    newLight.linear = light->mAttenuationLinear;
-    newLight.quadratic = light->mAttenuationQuadratic;
+    newLight.Ambient(glm::vec3(
+                         light->mColorAmbient.r,
+                         light->mColorAmbient.g,
+                         light->mColorAmbient.b
+                     ));
+    newLight.Diffuse(glm::vec3(
+                         light->mColorDiffuse.r,
+                         light->mColorDiffuse.g,
+                         light->mColorDiffuse.b
+                     ));
+    newLight.Specular(glm::vec3(
+                          light->mColorSpecular.r,
+                          light->mColorSpecular.g,
+                          light->mColorSpecular.b
+                      ));
+    newLight.Direction(glm::vec3(
+                           light->mDirection.x,
+                           light->mDirection.y,
+                           light->mDirection.z
+                       ));
+    newLight.Position(glm::vec3(
+                          light->mPosition.x,
+                          light->mPosition.y,
+                          light->mPosition.z
+                      ));
+    newLight.Type(light->mType == aiLightSource_POINT ?
+                  Light::Point : light->mType == aiLightSource_DIRECTIONAL ?
+                  Light::Directional : light->mType == aiLightSource_SPOT ?
+                  Light::Spot : Light::Point);
+    newLight.AngleInnerCone(light->mAngleInnerCone);
+    newLight.AngleOuterCone(light->mAngleOuterCone);
+    newLight.attenuation.Constant(light->mAttenuationConstant);
+    newLight.attenuation.Linear(light->mAttenuationLinear);
+    newLight.attenuation.Quadratic(light->mAttenuationQuadratic);
 }
 
 void SceneImporter::ImportCamera(aiCamera * cam, Camera &newCamera)
@@ -182,10 +182,14 @@ void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
         outMaterial.name = materialName.C_Str();
     }
 
+    float refracti, shininess, shinStrength;
     // material factors
-    mMaterial->Get(AI_MATKEY_REFRACTI, outMaterial.refractionIndex);
-    mMaterial->Get(AI_MATKEY_SHININESS, outMaterial.shininess);
-    mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, outMaterial.shininessStrenght);
+    mMaterial->Get(AI_MATKEY_REFRACTI, refracti);
+    mMaterial->Get(AI_MATKEY_SHININESS, shininess);
+    mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, shinStrength);
+    outMaterial.RefractionIndex(refracti);
+    outMaterial.Shininess(shininess);
+    outMaterial.ShininessStrenght(shinStrength);
     // get material properties
     aiColor3D ambient(0.f), diffuse(0.f), specular(0.f);
     aiColor3D emissive(0.f), transparent(0.f);
@@ -194,12 +198,12 @@ void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
     mMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specular);
     mMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emissive);
     mMaterial->Get(AI_MATKEY_COLOR_TRANSPARENT, transparent);
-    outMaterial.ambient = glm::vec3(ambient.r, ambient.g, ambient.b);
-    outMaterial.diffuse = glm::vec3(diffuse.r, diffuse.g, diffuse.b);
-    outMaterial.specular = glm::vec3(specular.r, specular.g, specular.b);
-    outMaterial.emissive = glm::vec3(emissive.r, emissive.g, emissive.b);
-    outMaterial.transparent = glm::vec3(transparent.r, transparent.g,
-                                        transparent.b);
+    outMaterial.Ambient(glm::vec3(ambient.r, ambient.g, ambient.b));
+    outMaterial.Diffuse(glm::vec3(diffuse.r, diffuse.g, diffuse.b));
+    outMaterial.Specular(glm::vec3(specular.r, specular.g, specular.b));
+    outMaterial.Emissive(glm::vec3(emissive.r, emissive.g, emissive.b));
+    outMaterial.Transparent(glm::vec3(transparent.r, transparent.g,
+                                      transparent.b));
 }
 
 void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &outMesh)
@@ -327,7 +331,7 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
             int savedTextureIndex = 0;
 
             // for wavefront obj we assimp bump = normal map
-            if (utils::GetFileExtension(scene->filepath) == "obj" &&
+            if (Utils::GetFileExtension(scene->filepath) == "obj" &&
                     texType == aiTextureType_HEIGHT)
             { texType = aiTextureType_NORMALS; }
 
