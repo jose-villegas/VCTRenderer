@@ -20,7 +20,6 @@ class Node : public SingleActive<Node>
         // meshes associated and children
         std::vector<std::shared_ptr<OGLMesh>> meshes;
         std::vector<std::shared_ptr<Node>> nodes;
-
         Node();
         virtual ~Node();
 
@@ -55,11 +54,15 @@ class Node : public SingleActive<Node>
         glm::vec3 scaling;
         glm::quat rotation;
 
+        bool outsideFrustum;
+
         void ComputeModelMatrix();
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
         void DrawMeshes();
         void ComputeMatrices();
         void UpdateBoundaries();
+        // updates all nodes in the drawlist
+        void PoolDrawList();
 };
 

@@ -106,6 +106,10 @@ void OGLMaterial::AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                              RawTexture::TextureType texType)
 {
     textures[texType] = spTexture;
+
+    // will set the material specular to one
+    // so multiplying keeps the texture values
+    if (texType == RawTexture::Specular) { Specular(glm::vec3(1.0f)); }
 }
 
 bool OGLMaterial::BindTexture(RawTexture::TextureType texType,

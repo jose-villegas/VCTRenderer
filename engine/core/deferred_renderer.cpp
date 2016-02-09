@@ -37,7 +37,7 @@ void DeferredRenderer::Render()
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
     // draw whole scene tree from root node
-    scene->rootNode.DrawRecursive();
+    scene->rootNode.DrawList();
     // start light pass
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
@@ -61,14 +61,8 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
 const
 {
     using namespace oglplus;
-    static auto white = glm::vec3(1.0f);
     geometryProgram->material.diffuse.Set(mat->Diffuse());
-    geometryProgram->material.specular.Set
-    (
-        mat->HasTexture(RawTexture::Specular)
-        ? white
-        : mat->Specular()
-    );
+    geometryProgram->material.specular.Set(mat->Specular());
     geometryProgram->material.useNormalsMap.Set
     (
         mat->HasTexture(RawTexture::Normals)

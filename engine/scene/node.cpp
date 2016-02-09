@@ -1,13 +1,14 @@
 #include "node.h"
 
 #include <glm/gtx/transform.hpp>
+#include <tbb/tbb.h>
 
 #include "mesh.h"
 #include "../core/engine_base.h"
 #include "../core/deferred_renderer.h"
 #include "camera.h"
 
-Node::Node() : name("Default Node")
+Node::Node() : name("Default Node"), outsideFrustum(true)
 {
     position = glm::vec3(0.0f, 0.0f, 0.0f);
     scaling = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -61,24 +62,10 @@ void Node::DrawMeshes()
 
 void Node::Draw()
 {
-    // recalculate model-dependent transform matrices
-    ComputeMatrices();
-    // set this node as rendering active
-    SetAsActive();
+    static const auto &camera = Camera::Active();
+    static const auto &renderer = EngineBase::Renderer();
 
-    if (!Camera::Active()->InFrustum(boundaries))
-    {
-        return;
-    }
-
-    EngineBase::Renderer().SetMatricesUniforms();
-    // draw elements per mesh
-    DrawMeshes();
-}
-
-void Node::DrawRecursive()
-{
-    if (!Camera::Active()->InFrustum(boundaries))
+    if (!camera->InFrustum(boundaries))
     {
         return;
     }
@@ -88,9 +75,14 @@ void Node::DrawRecursive()
     // recalculate model-dependent transform matrices
     ComputeMatrices();
     // set matrices uniform with updated matrices
-    EngineBase::Renderer().SetMatricesUniforms();
+    renderer.SetMatricesUniforms();
     // draw elements per mesh
     DrawMeshes();
+}
+
+void Node::DrawRecursive()
+{
+    Draw();
 
     for (auto &node : nodes)
     {
@@ -100,21 +92,20 @@ void Node::DrawRecursive()
 
 void Node::DrawList()
 {
-    static const auto &camera = Camera::Active();
     static const auto &renderer = EngineBase::Renderer();
+    // refresh all nodes with proper data
+    PoolDrawList();
 
     // draw elements using draw list
     for (auto node : drawList)
     {
-        if (!camera->InFrustum(node->boundaries))
+        if (node->outsideFrustum)
         {
             continue;
         }
 
         // set this node as rendering active
         node->SetAsActive();
-        // recalculate model-dependent transform matrices
-        node->ComputeMatrices();
         // set matrices uniform with updated matrices
         renderer.SetMatricesUniforms();
         // draw node meshes
@@ -166,6 +157,26 @@ void Node::UpdateBoundaries()
     {
         mesh->boundaries.Transform(modelMatrix);
     }
+}
+
+void Node::PoolDrawList()
+{
+    static const auto &camera = Camera::Active();
+    // update all frustum culling statuses and model-depedent matrices
+    tbb::parallel_for(size_t(0), drawList.size(), [ = ](size_t i)
+    {
+        auto &node = drawList[i];
+
+        if (camera->InFrustum(node->boundaries))
+        {
+            node->outsideFrustum = false;
+            node->ComputeMatrices();
+        }
+        else
+        {
+            node->outsideFrustum = true;
+        }
+    });
 }
 
 void Node::Rotation(const glm::quat &rotation)
