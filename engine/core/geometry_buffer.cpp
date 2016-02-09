@@ -1,8 +1,10 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "geometry_buffer.h"
 
-void GeometryBuffer::Bind(oglplus::FramebufferTarget target)
+void GeometryBuffer::Bind(oglplus::FramebufferTarget target) const
 {
-    binding = target;
     geometryBuffer.Bind(target);
 }
 

@@ -1,8 +1,10 @@
 #pragma once
-#include <glm/detail/type_vec3.hpp>
+
+#include "texture.h"
+
 #include <array>
 #include <memory>
-#include "texture.h"
+#include <glm/detail/type_vec3.hpp>
 
 class Material
 {

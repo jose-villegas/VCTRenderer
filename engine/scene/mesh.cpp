@@ -1,3 +1,7 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <oglplus/vertex_attrib.hpp>
+#include <oglplus/context.hpp>
 #include "mesh.h"
 
 #include "../types/vertex.h"

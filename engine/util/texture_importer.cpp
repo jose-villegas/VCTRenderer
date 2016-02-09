@@ -1,7 +1,8 @@
-#include <FreeImage.h>
-
 #include "texture_importer.h"
 
+#include <FreeImage.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "../scene/texture.h"
 
 // transforms picture to raw data and stores info in Texture class

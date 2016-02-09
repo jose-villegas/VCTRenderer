@@ -37,7 +37,7 @@ WindowInfo::WindowInfo(const unsigned width, const unsigned height, const int x,
 void RenderWindow::WindowHint(const WindowHints &target, const int value)
 {
     if (static_cast<Hint>(value) == Hint::True ||
-        static_cast<Hint>(value) == Hint::False)
+            static_cast<Hint>(value) == Hint::False)
     {
         glfwWindowHint(static_cast<int>(target), value);
     }
@@ -52,11 +52,11 @@ void RenderWindow::WindowHint(const WindowHints &target, const int value)
 void RenderWindow::WindowHint(const FramebufferHints &target, const int value)
 {
     if (target == FramebufferHints::Stereo ||
-        target == FramebufferHints::SRGBCapable ||
-        target == FramebufferHints::DoubleBuffer)
+            target == FramebufferHints::SRGBCapable ||
+            target == FramebufferHints::DoubleBuffer)
     {
         if (static_cast<Hint>(value) == Hint::True ||
-            static_cast<Hint>(value) == Hint::False)
+                static_cast<Hint>(value) == Hint::False)
         {
             glfwWindowHint(static_cast<int>(target), value);
         }
@@ -79,7 +79,7 @@ void RenderWindow::WindowHint(const ContextHints &target, const int value)
     if (target == ContextHints::ClientAPI)
     {
         if (static_cast<Hint>(value) == Hint::OpenGLAPI ||
-            static_cast<Hint>(value) == Hint::OpenGLESAPI)
+                static_cast<Hint>(value) == Hint::OpenGLESAPI)
         {
             glfwWindowHint(static_cast<int>(target), value);
         }
@@ -87,8 +87,8 @@ void RenderWindow::WindowHint(const ContextHints &target, const int value)
     else if (target == ContextHints::ContextRobustness)
     {
         if (static_cast<Hint>(value) == Hint::NoRobustness ||
-            static_cast<Hint>(value) == Hint::NoResetNotification ||
-            static_cast<Hint>(value) == Hint::LoseContextOnReset)
+                static_cast<Hint>(value) == Hint::NoResetNotification ||
+                static_cast<Hint>(value) == Hint::LoseContextOnReset)
         {
             glfwWindowHint(static_cast<int>(target), value);
         }
@@ -97,7 +97,7 @@ void RenderWindow::WindowHint(const ContextHints &target, const int value)
              target == ContextHints::OpenGLDebugContext)
     {
         if (static_cast<Hint>(value) == Hint::True ||
-            static_cast<Hint>(value) == Hint::False)
+                static_cast<Hint>(value) == Hint::False)
         {
             glfwWindowHint(static_cast<int>(target), value);
         }
@@ -105,8 +105,8 @@ void RenderWindow::WindowHint(const ContextHints &target, const int value)
     else if (target == ContextHints::OpenGLProfile)
     {
         if (static_cast<Hint>(value) == Hint::OpenGLAnyProfile ||
-            static_cast<Hint>(value) == Hint::OpenGLCoreProfile ||
-            static_cast<Hint>(value) == Hint::OpenGLCompatibilityProfile)
+                static_cast<Hint>(value) == Hint::OpenGLCoreProfile ||
+                static_cast<Hint>(value) == Hint::OpenGLCompatibilityProfile)
         {
             glfwWindowHint(static_cast<int>(target), value);
         }
@@ -114,8 +114,8 @@ void RenderWindow::WindowHint(const ContextHints &target, const int value)
     else if (target == ContextHints::ContextReleaseBehavior)
     {
         if (static_cast<Hint>(value) == Hint::AnyReleaseBehavior ||
-            static_cast<Hint>(value) == Hint::FlushReleaseBehavior ||
-            static_cast<Hint>(value) == Hint::NoneReleaseBehavior)
+                static_cast<Hint>(value) == Hint::FlushReleaseBehavior ||
+                static_cast<Hint>(value) == Hint::NoneReleaseBehavior)
         {
             glfwWindowHint(static_cast<int>(target), value);
         }
@@ -167,7 +167,7 @@ void RenderWindow::Open(WindowInfo windowConfig, bool setPosition)
 /// <summary>
 /// Destroys the GLFW Window
 /// </summary>
-void RenderWindow::Destroy()
+void RenderWindow::Destroy() const
 {
     glfwDestroyWindow(windowHandler);
 }
@@ -201,7 +201,7 @@ void RenderWindow::SetAsCurrentContext() const
 /// Looks up for input events.
 /// </summary>
 /// <param name="mode">The mode. Waiting or polling mode.</param>
-void RenderWindow::Events(EventMode mode) const
+void RenderWindow::Events(EventMode mode)
 {
     switch (mode)
     {

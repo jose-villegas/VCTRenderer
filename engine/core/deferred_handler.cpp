@@ -1,15 +1,18 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "deferred_handler.h"
 
 #include <oglplus/vertex_attrib.hpp>
 #include <oglplus/bound/texture.hpp>
 
-#include <iostream>
 #include "lighting_program.h"
 #include "geometry_program.h"
+#include "geometry_buffer.h"
 
 DeferredHandler::DeferredHandler(unsigned int windowWith,
                                  unsigned int windowHeight)
 {
+    geometryBuffer = std::make_unique<GeometryBuffer>();
     LoadShaders();
     SetupGeometryBuffer(windowWith, windowHeight);
     CreateFullscreenQuad();
@@ -47,6 +50,11 @@ void DeferredHandler::CreateFullscreenQuad() const
     Buffer::Data(Buffer::Target::ElementArray, indexData);
     // unbind vao
     NoVertexArray().Bind();
+}
+
+const std::unique_ptr<GeometryBuffer> &DeferredHandler::GBuffer() const
+{
+    return geometryBuffer;
 }
 
 void DeferredHandler::RenderFullscreenQuad() const
@@ -88,57 +96,57 @@ void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,
     static Context gl;
     renderingSize = glm::vec2(windowWidth, windowHeight);
     // initialize geometry buffer
-    geometryBuffer.Bind(FramebufferTarget::Draw);
+    geometryBuffer->Bind(FramebufferTarget::Draw);
     // build textures -- position
     gl.Bound(TextureTarget::_2D,
-             geometryBuffer.RenderTarget(GeometryBuffer::Position))
+             geometryBuffer->RenderTarget(GeometryBuffer::Position))
     .Image2D(0, PixelDataInternalFormat::RGB16F, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer.AttachTexture(GeometryBuffer::Position);
+    geometryBuffer->AttachTexture(GeometryBuffer::Position,
+                                  FramebufferTarget::Draw);
     // build textures -- normal
     gl.Bound(TextureTarget::_2D,
-             geometryBuffer.RenderTarget(GeometryBuffer::Normal))
+             geometryBuffer->RenderTarget(GeometryBuffer::Normal))
     .Image2D(0, PixelDataInternalFormat::RGB16F, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer.AttachTexture(GeometryBuffer::Normal);
+    geometryBuffer->AttachTexture(GeometryBuffer::Normal, FramebufferTarget::Draw);
     // build textures -- albedo
     gl.Bound(TextureTarget::_2D,
-             geometryBuffer.RenderTarget(GeometryBuffer::Albedo))
+             geometryBuffer->RenderTarget(GeometryBuffer::Albedo))
     .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer.AttachTexture(GeometryBuffer::Albedo);
+    geometryBuffer->AttachTexture(GeometryBuffer::Albedo, FramebufferTarget::Draw);
     // build textures -- specular
     gl.Bound(TextureTarget::_2D,
-             geometryBuffer.RenderTarget(GeometryBuffer::Specular))
+             geometryBuffer->RenderTarget(GeometryBuffer::Specular))
     .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer.AttachTexture(GeometryBuffer::Specular);
+    geometryBuffer->AttachTexture(GeometryBuffer::Specular,
+                                  FramebufferTarget::Draw);
     // build textures -- depth
     gl.Bound(TextureTarget::_2D,
-             geometryBuffer.RenderTarget(GeometryBuffer::Depth))
+             geometryBuffer->RenderTarget(GeometryBuffer::Depth))
     .Image2D(0, PixelDataInternalFormat::DepthComponent32F, windowWidth,
              windowHeight, 0, PixelDataFormat::DepthComponent,
              PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer.AttachTexture(GeometryBuffer::Depth);
+    geometryBuffer->AttachTexture(GeometryBuffer::Depth, FramebufferTarget::Draw);
     // set draw buffers
-    geometryBuffer.DrawBuffers();
+    geometryBuffer->DrawBuffers();
 
     // check if success building frame buffer
     if (!Framebuffer::IsComplete(FramebufferTarget::Draw))
     {
         auto status = Framebuffer::Status(FramebufferTarget::Draw);
-        std::cerr << "(DeferredHandler) Framebuffer Error:"
-                  << static_cast<unsigned int>(status);
         Framebuffer::HandleIncompleteError(FramebufferTarget::Draw, status);
     }
 

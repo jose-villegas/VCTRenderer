@@ -1,25 +1,31 @@
 #pragma once
+
 #include <vector>
 #include <memory>
-#include "../util/scene_importer.h"
 
 class Scene;
+class Interface;
 
 /// <summary>
 /// This class holds all the assets
 /// used by the engine in runtime.
 /// </summary>
-class EngineAssets
+class AssetsManager
 {
     public:
-        EngineAssets();
-        virtual ~EngineAssets();
+        virtual ~AssetsManager();
+        static std::unique_ptr<AssetsManager> &Instance();
         std::vector<std::shared_ptr<Scene>> scenes;
+        std::vector<std::shared_ptr<Interface>> interfaces;
+
+        static void Terminate();
         // No copying, copy, move assignment allowed of this class
         // or any derived class
-        EngineAssets(EngineAssets const &r) = delete;
-        EngineAssets(EngineAssets const &&r) = delete;
-        EngineAssets &operator=(EngineAssets const &r) = delete;
+        AssetsManager(AssetsManager const &r) = delete;
+        AssetsManager(AssetsManager const &&r) = delete;
+        AssetsManager &operator=(AssetsManager const &r) = delete;
+    private:
+        AssetsManager();
 };
 
 

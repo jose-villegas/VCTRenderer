@@ -2,11 +2,12 @@
 
 #include "../3rdparty/imgui/imgui.h"
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <assimp/Importer.hpp>
 #include <assimp/version.h>
 #include <FreeImage.h>
 #include <iostream>
-#include <GL/glew.h>
 #include <fstream>
 
 void Utils::ConsoleProgressBar(const std::string &title, int barWidth,

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 struct WindowInfo
@@ -83,20 +84,20 @@ class RenderWindow
             Wait
         };
 
-        void WindowHint(const WindowHints &target, const int value);
-        void WindowHint(const FramebufferHints &target, const int value);
-        void WindowHint(const ContextHints &target, const int value);
+        static void WindowHint(const WindowHints &target, const int value);
+        static void WindowHint(const FramebufferHints &target, const int value);
+        static void WindowHint(const ContextHints &target, const int value);
         template<typename T> void WindowHint(T &&target, const Hint value);
 
         void Open(WindowInfo windowConfig = WindowInfo(),
                   bool setPosition = true);
-        void Destroy();
+        void Destroy() const;
 
         void SetPosition(const int x, const int y);
         void SetWindowSize(const int w, const int h);
         void SetWindowTitle(const std::string &title);
 
-        void Events(EventMode mode = EventMode::Poll) const;
+        static void Events(EventMode mode = EventMode::Poll);
         int ShouldClose(bool sendClose = false) const;
 
         void SetAsCurrentContext() const;

@@ -1,10 +1,9 @@
 #pragma once
 
-#include <glm/detail/type_vec3.hpp>
-#include <glm/mat4x4.hpp>
-
 #include "../util/single_active.h"
 #include "../types/frustum.h"
+
+#include <glm/detail/type_vec3.hpp>
 
 /// <summary>
 /// Describes a scene camera.
@@ -55,6 +54,7 @@ class Camera : public SingleActive<Camera>
         const glm::mat4x4 &ViewMatrix();
         const glm::mat4x4 &ProjectionMatrix();
 
+        bool ParametersChanged() const;
         /// <summary>
         /// Checks if the bounding volume is inside the
         /// camera frustum <see cref="frustum">

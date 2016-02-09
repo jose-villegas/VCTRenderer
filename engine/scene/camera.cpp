@@ -1,6 +1,9 @@
 #include "camera.h"
-#include <glm/gtc/matrix_transform.inl>
+
 #include "../types/bounding_box.h"
+
+#include <glm/detail/func_common.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 Camera::~Camera()
 {
@@ -22,8 +25,8 @@ float Camera::ClipPlaneFar() const
 
 void Camera::ClipPlaneFar(float val)
 {
+    projectionValuesChanged |= val != clipPlaneFar;
     clipPlaneFar = glm::max(val, 0.01f);
-    projectionValuesChanged = true;
 }
 
 float Camera::ClipPlaneNear() const
@@ -33,8 +36,8 @@ float Camera::ClipPlaneNear() const
 
 void Camera::ClipPlaneNear(float val)
 {
+    projectionValuesChanged |= val != clipPlaneNear;
     clipPlaneNear = glm::max(val, 0.01f);
-    projectionValuesChanged = true;
 }
 
 float Camera::HorizontalFoV() const
@@ -44,8 +47,8 @@ float Camera::HorizontalFoV() const
 
 void Camera::HorizontalFoV(float val)
 {
+    projectionValuesChanged |= val != horizontalFoV;
     horizontalFoV = glm::clamp(val, 1.0f, 179.0f);
-    projectionValuesChanged = true;
 }
 
 float Camera::AspectRatio() const
@@ -55,8 +58,8 @@ float Camera::AspectRatio() const
 
 void Camera::AspectRatio(float val)
 {
+    projectionValuesChanged |= val != aspectRatio;
     aspectRatio = val;
-    projectionValuesChanged = true;
 }
 
 const glm::vec3 &Camera::LookAt() const
@@ -66,8 +69,8 @@ const glm::vec3 &Camera::LookAt() const
 
 void Camera::LookAt(const glm::vec3 &val)
 {
+    viewValuesChanged |= val != lookAt;
     lookAt = val;
-    viewValuesChanged = true;
 }
 
 const glm::vec3 &Camera::Position() const
@@ -77,8 +80,8 @@ const glm::vec3 &Camera::Position() const
 
 void Camera::Position(const glm::vec3 &val)
 {
+    viewValuesChanged |= val != position;
     position = val;
-    viewValuesChanged = true;
 }
 
 const glm::vec3 &Camera::Up() const
@@ -88,8 +91,8 @@ const glm::vec3 &Camera::Up() const
 
 void Camera::Up(const glm::vec3 &val)
 {
+    viewValuesChanged |= val != up;
     up = val;
-    viewValuesChanged = true;
 }
 
 const glm::mat4x4 &Camera::ViewMatrix()
@@ -114,6 +117,11 @@ const glm::mat4x4 &Camera::ProjectionMatrix()
     }
 
     return projectionMatrix;
+}
+
+bool Camera::ParametersChanged() const
+{
+    return projectionValuesChanged || viewValuesChanged;
 }
 
 bool Camera::InFrustum(const BoundingBox &volume)

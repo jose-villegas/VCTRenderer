@@ -1,7 +1,9 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <oglplus/context.hpp>
+#include <oglplus/bound/texture.hpp>
 #include "texture.h"
 
-#include <oglplus/bound/texture.hpp>
-#include <oglplus/context.hpp>
 #include <glm/detail/type_vec3.hpp>
 
 void RawTexture::FreeRawData()
@@ -27,17 +29,17 @@ RawTexture::~RawTexture()
     FreeRawData();
 }
 
-GLuint OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
-                          oglplus::TextureMagFilter magFilter,
-                          oglplus::TextureWrap wrapS,
-                          oglplus::TextureWrap wrapT,
-                          bool generateMipmaps,
-                          glm::vec4 borderColor)
+void OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
+                        oglplus::TextureMagFilter magFilter,
+                        oglplus::TextureWrap wrapS,
+                        oglplus::TextureWrap wrapT,
+                        bool generateMipmaps,
+                        glm::vec4 borderColor)
 {
     static oglplus::Context gl;
 
     // already loaded a texture
-    if (this->oglTexture) { return 0; }
+    if (this->oglTexture) { return; }
 
     using namespace oglplus;
     auto pdf = PixelDataFormat::BGRA;
@@ -69,7 +71,6 @@ GLuint OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
     if (generateMipmaps)
     {
         gl.Bound(TextureTarget::_2D, *this->oglTexture).GenerateMipmap();
-        this->mipmapGenerated = true;
     }
 
     // opengl texture parameters
@@ -78,22 +79,13 @@ GLuint OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
     .MagFilter(magFilter)
     .WrapS(wrapS)
     .WrapT(wrapT);
-    // set internals
-    this->minFilter = minFilter;
-    this->magFilter = magFilter;
-    this->wrapS = wrapS;
-    this->wrapT = wrapT;
 
     if (wrapS == TextureWrap::ClampToBorder || wrapT == TextureWrap::ClampToBorder)
     {
         Vector<float, 4> color(borderColor.x, borderColor.y, borderColor.z,
                                borderColor.w);
         gl.Bound(TextureTarget::_2D, *this->oglTexture).BorderColor(color);
-        this->borderColor = borderColor;
     }
-
-    // return ogl idenfier on success
-    return GetGLName(*this->oglTexture);
 }
 
 void OGLTexture2D::Bind() const
@@ -101,10 +93,15 @@ void OGLTexture2D::Bind() const
     this->oglTexture->Bind(oglplus::Texture::Target::_2D);
 }
 
+int OGLTexture2D::Name() const
+{
+    return oglplus::GetName(*oglTexture);
+}
+
 OGLTexture2D * OGLTexture2D::CreateColorTexture(std::string texName,
         glm::u8vec3 texColor)
 {
-    OGLTexture2D * defaultTexture = new OGLTexture2D();
+    auto defaultTexture = new OGLTexture2D();
     defaultTexture->filepath = texName;
     defaultTexture->width = 1;
     defaultTexture->height = 1;
@@ -136,19 +133,19 @@ std::unique_ptr<OGLTexture2D> &OGLTexture2D::GetDefaultTexture()
         glm::u8vec3 texColor = glm::u8vec3(255, 255, 255);
         // save to instance
         instance.reset(CreateColorTexture(texName, texColor));
-        instance->Load();
+        instance->Load
+        (
+            oglplus::TextureMinFilter::LinearMipmapLinear,
+            oglplus::TextureMagFilter::Linear,
+            oglplus::TextureWrap::Repeat,
+            oglplus::TextureWrap::Repeat
+        );
     }
 
     return instance;
 }
 
 OGLTexture2D::OGLTexture2D()
-    : mipmapGenerated(false),
-      borderColor(glm::uninitialize),
-      magFilter(oglplus::TextureMagFilter::Linear),
-      minFilter(oglplus::TextureMinFilter::Linear),
-      wrapS(oglplus::TextureWrap::Repeat),
-      wrapT(oglplus::TextureWrap::Repeat)
 {
 }
 

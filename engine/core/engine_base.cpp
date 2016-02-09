@@ -1,22 +1,32 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "engine_base.h"
 
+#include "render_window.h"
 #include "deferred_renderer.h"
 #include "engine_assets.h"
 #include "../misc/utils.h"
+#include "../interface/interface.h"
 
 #include <oglplus/gl.hpp>
+#include <oglplus/context.hpp>
 
 EngineBase::EngineBase()
 {
+    renderWindow = std::make_unique<RenderWindow>();
 }
 
 EngineBase::~EngineBase()
 {
+    // release reserved data early (context dependent)
+    InterfaceRenderer::Terminate();
+    AssetsManager::Terminate();
+    delete renderer.release();
 }
 
-std::shared_ptr<EngineBase> &EngineBase::Instance()
+std::unique_ptr<EngineBase> &EngineBase::Instance()
 {
-    static std::shared_ptr<EngineBase> instance = nullptr;
+    static std::unique_ptr<EngineBase> instance = nullptr;
 
     if (!instance)
     {
@@ -26,52 +36,59 @@ std::shared_ptr<EngineBase> &EngineBase::Instance()
     return instance;
 }
 
+const DeferredRenderer &EngineBase::Renderer()
+{
+    return *Instance()->renderer;
+}
+
+void EngineBase::Terminate()
+{
+    delete Instance().release();
+}
+
 void EngineBase::MainLoop()
 {
     static oglplus::Context gl;
     // import assets and initialize ext libraries
     this->Initialize();
     // set rendering view port
-    gl.Viewport(1280, 720);
+    gl.Viewport(renderWindow->Info().width, renderWindow->Info().height);
 
     // render loop
-    while (!renderWindow.ShouldClose())
+    while (!renderWindow->ShouldClose())
     {
         gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.Clear().ColorBuffer().DepthBuffer();
         // poll window inputs
-        renderWindow.Events();
+        RenderWindow::Events();
         // draw custom engine ui
-        userInterface.NewFrame();
-        userInterface.Draw();
+        InterfaceRenderer::NewFrame();
+        Interface::DrawAll();
         // render main scene
         renderer->Render();
         // ui render over scene
-        userInterface.Render();
+        InterfaceRenderer::Render();
         // finally swap current frame
-        renderWindow.SwapBuffers();
+        renderWindow->SwapBuffers();
     }
-
-    userInterface.Terminate();
-    // release reserved data early (context dependent)
-    delete assets.release();
-    delete renderer.release();
 }
 
 void EngineBase::Initialize()
 {
     // open window and set rendering context
-    renderWindow.WindowHint(RenderWindow::WindowHints::Resizable, false);
-    renderWindow.Open(WindowInfo(1280, 720, 0, 0, "VCTRenderer"), false);
-    renderWindow.SetAsCurrentContext();
+    renderWindow->WindowHint(RenderWindow::WindowHints::Resizable, false);
+    renderWindow->WindowHint(RenderWindow::ContextHints::ContextVersionMajor, 3);
+    renderWindow->WindowHint(RenderWindow::ContextHints::ContextVersionMinor, 3);
+    renderWindow->Open(WindowInfo(1280, 720, 0, 0, "VCTRenderer"), false);
+    renderWindow->SetAsCurrentContext();
     // initialize OpenGL API
     oglplus::GLAPIInitializer();
     // set interface to current renderwindow
-    userInterface.Initialize(renderWindow);
+    InterfaceRenderer::Initialize(*renderWindow);
     // print libs version info
     Utils::PrintDependenciesVersions();
     // deferred shading renderer / manager
-    renderer = std::make_unique<DeferredRenderer>(renderWindow);
-    // engine assets holder
-    assets = std::make_unique<EngineAssets>();
+    renderer = std::make_unique<DeferredRenderer>(*renderWindow);
+    // initialize assets manager, holds all engine assets
+    AssetsManager::Instance();
 }

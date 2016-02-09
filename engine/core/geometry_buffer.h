@@ -1,5 +1,5 @@
 #pragma once
-#include <GL/glew.h>
+
 #include <oglplus/texture.hpp>
 #include <oglplus/framebuffer.hpp>
 #include <oglplus/context.hpp>
@@ -21,17 +21,15 @@ class GeometryBuffer
         };
 
         const oglplus::Texture &RenderTarget(RenderTargets renderTarget) const;
-        void Bind(oglplus::FramebufferTarget target);
+        void Bind(oglplus::FramebufferTarget target) const;
         void AttachTexture(RenderTargets renderTarget,
-                           oglplus::FramebufferTarget target =
-                               oglplus::FramebufferTarget::Draw, int level = 0);
+                           oglplus::FramebufferTarget target, int level = 0);
         void DrawBuffers();
         void ActivateTextures();
 
         GeometryBuffer();
         ~GeometryBuffer();
     private:
-        oglplus::FramebufferTarget binding;
         oglplus::Framebuffer geometryBuffer;
         std::array<oglplus::Texture, TARGETS_MAX> bufferTextures;
         std::vector<oglplus::Context::ColorBuffer> colorBuffers;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "interface.h"
-
 #include <oglplus/texture.hpp>
 
 class EngineBase;
@@ -20,6 +19,5 @@ class UI : public Interface
         UI();
         virtual ~UI();
     private:
-        const ImGuiIO &io;
         ImVec2 uiPos, uiSize;
 };

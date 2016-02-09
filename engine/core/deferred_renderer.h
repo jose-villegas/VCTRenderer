@@ -18,7 +18,7 @@ class DeferredRenderer : public DeferredHandler
         /// <summary>
         /// Renders a frame using deferred rendering
         /// </summary>
-        void Render();
+        void Render() const;
         /// <summary>
         /// Sets the matrices uniforms during geometry pass.
         /// </summary>

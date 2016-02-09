@@ -1,9 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <GL/glew.h>
 #include <oglplus/program.hpp>
-#include <oglplus/uniform.hpp>
 
 /// <summary>
 /// Base class for each program shader used in deferred rendering
@@ -17,15 +15,15 @@ class ProgramShader
         /// <summary>
         /// The fragment shader
         /// </summary>
-        oglplus::FragmentShader fragmentShader;
+        std::unique_ptr<oglplus::Shader> fragmentShader;
         /// <summary>
         /// The vertex shader
         /// </summary>
-        oglplus::VertexShader vertexShader;
+        std::unique_ptr<oglplus::Shader> vertexShader;
         /// <summary>
         /// The program shader
         /// </summary>
-        oglplus::Program program;
+        std::unique_ptr<oglplus::Program> program;
         /// <summary>
         /// Meant to be implemented in inheriting classes
         /// to extract uniform info such as binding location
@@ -34,10 +32,12 @@ class ProgramShader
         /// <param name="uType">Type of the uniform.</param>
         /// <param name="uName">Name of the uniform.</param>
         void Build(const std::string &vsFilePath, const std::string &fsFilePath);
-        void Use() const { program.Use(); }
+        void Use() const;
+        // non copyable
+        ProgramShader(ProgramShader const &r) = delete;
+        ProgramShader &operator=(ProgramShader const &r) = delete;
     protected:
-        virtual void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) = 0;
+        virtual void ExtractUniforms() = 0;
     private:
         static std::string ProgramShader::SourceFromFile(const std::string &filePath);
-        void PassActiveUniforms();
 };

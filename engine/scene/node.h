@@ -1,11 +1,10 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <glm/gtc/quaternion.hpp>
-
 #include "../types/bounding_box.h"
 #include "../util/single_active.h"
+
+#include <vector>
+#include <glm/gtc/quaternion.hpp>
 
 class Camera;
 class OGLMesh;

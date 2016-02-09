@@ -1,8 +1,29 @@
 #include "engine_assets.h"
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "../scene/texture.h"
 #include "../scene/scene.h"
+#include "../interface/vct_interface.h"
 
-EngineAssets::EngineAssets()
+std::unique_ptr<AssetsManager> &AssetsManager::Instance()
+{
+    static std::unique_ptr<AssetsManager> instance = nullptr;
+
+    if (!instance)
+    {
+        instance.reset(new AssetsManager());
+    }
+
+    return instance;
+}
+
+void AssetsManager::Terminate()
+{
+    delete Instance().release();
+}
+
+AssetsManager::AssetsManager()
 {
     scenes.push_back
     (
@@ -16,12 +37,18 @@ EngineAssets::EngineAssets()
     (
         std::make_shared<Scene>("resources\\models\\cornell-box\\cornellbox-original.obj")
     );
+    interfaces.push_back
+    (
+        std::make_shared<UI>()
+    );
     OGLTexture2D::GetDefaultTexture();
 }
 
 
-EngineAssets::~EngineAssets()
+AssetsManager::~AssetsManager()
 {
+    scenes.clear();
+    interfaces.clear();
     // early owner-ship release for static scope (no gl context)
     auto dTexture = OGLTexture2D::GetDefaultTexture().release();
 

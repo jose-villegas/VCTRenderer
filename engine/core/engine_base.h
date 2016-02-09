@@ -1,11 +1,10 @@
 #pragma once
+
 #include <memory>
 
-#include "../interface/vct_interface.h"
-#include "render_window.h"
-
+class RenderWindow;
 class DeferredRenderer;
-class EngineAssets;
+class AssetsManager;
 
 /// <summary>
 /// This is the entry point of the rendering engine
@@ -25,13 +24,9 @@ class EngineBase
         /// Returns the EngineBase singleton instance.
         /// </summary>
         /// <returns></returns>
-        static std::shared_ptr<EngineBase> &Instance();
-
-        static UI &Interface() { return Instance()->userInterface; }
-        static RenderWindow &Window() { return Instance()->renderWindow; }
-        static EngineAssets &Assets() { return *Instance()->assets; }
-        static DeferredRenderer &Renderer() { return *Instance()->renderer; }
-
+        static std::unique_ptr<EngineBase> &Instance();
+        static const DeferredRenderer &Renderer();
+        static void Terminate();
         // No copying, copy, move assignment allowed of this class
         // or any derived class
         EngineBase(EngineBase const &r) = delete;
@@ -39,21 +34,13 @@ class EngineBase
         EngineBase &operator=(EngineBase const &r) = delete;
     private:
         /// <summary>
-        /// The user interface, renderer per frame. Immediate mode
-        /// </summary>
-        UI userInterface;
-        /// <summary>
         /// The rendering window.
         /// </summary>
-        RenderWindow renderWindow;
+        std::unique_ptr<RenderWindow> renderWindow;
         /// <summary>
         /// The engine renderer, uses deferred rendering path.
         /// </summary>
         std::unique_ptr<DeferredRenderer> renderer;
-        /// <summary>
-        /// All the engine available assets.
-        /// </summary>
-        std::unique_ptr<EngineAssets> assets;
 
         /// <summary>
         /// Setups all the engine components, imports assets

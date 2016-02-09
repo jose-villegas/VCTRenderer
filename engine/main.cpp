@@ -1,5 +1,7 @@
 #include "core/engine_base.h"
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <oglplus/error/program.hpp>
 #include <iostream>
 
@@ -41,6 +43,7 @@ int main(int argc, char * argv[])
     // relevant data and start rendering main loop
     EngineBase::Instance()->MainLoop();
 #endif
+    EngineBase::Terminate();
     // exit application
     return 0;
 }

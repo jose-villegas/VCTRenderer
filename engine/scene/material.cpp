@@ -1,4 +1,7 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "material.h"
+
 #include <glm/detail/func_common.hpp>
 
 const glm::vec3 &Material::Ambient() const

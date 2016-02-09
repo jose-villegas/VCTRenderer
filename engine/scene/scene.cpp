@@ -1,12 +1,13 @@
 #include "scene.h"
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include "mesh.h"
 #include "light.h"
 #include "camera.h"
-
+#include "texture.h"
 #include "../util/scene_importer.h"
 #include "../misc/utils.h"
-#include "mesh.h"
-#include "texture.h"
 
 Scene::Scene(std::string filepath): isLoaded(false)
 {
@@ -36,7 +37,13 @@ void Scene::Load()
 
     for (auto &texture : textures)
     {
-        texture->Load();
+        texture->Load
+        (
+            oglplus::TextureMinFilter::LinearMipmapLinear,
+            oglplus::TextureMagFilter::Linear,
+            oglplus::TextureWrap::Repeat,
+            oglplus::TextureWrap::Repeat
+        );
     }
 
     if (name.empty()) { name = rootNode.name; }

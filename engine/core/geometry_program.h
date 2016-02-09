@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../scene/texture.h"
 #include "../types/program_shader.h"
 
 #include <oglplus/uniform.hpp>
@@ -33,7 +32,7 @@ class GeometryProgram : public ProgramShader
             oglplus::Uniform<glm::mat4> projection;
             oglplus::Uniform<glm::mat4> normal;
         };
-        void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) override;
+        void ExtractUniforms() override;
     public:
         // fragment shader uniforms
         UniformMaterial material;
@@ -46,4 +45,6 @@ class GeometryProgram : public ProgramShader
 
         GeometryProgram();
         virtual ~GeometryProgram() {}
+        GeometryProgram(GeometryProgram const &r) = delete;
+        GeometryProgram &operator=(GeometryProgram const &r) = delete;
 };

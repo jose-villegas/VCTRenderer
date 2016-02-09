@@ -1,45 +1,23 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "lighting_program.h"
 
 LightingProgram::LightingProgram()
 {
 }
 
-void LightingProgram::ExtractUniform(const oglplus::aux::ActiveUniformInfo
-                                     &info)
+void LightingProgram::ExtractUniforms()
 {
     using namespace oglplus;
-    auto &name = info.Name();
-
-    if (name == "gPosition")
-    {
-        gPosition = UniformSampler(program, name);
-    }
-    else if (name == "gNormal")
-    {
-        gNormal = UniformSampler(program, name);
-    }
-    else if (name == "gAlbedo")
-    {
-        gAlbedo = UniformSampler(program, name);
-    }
-    else if (name == "gSpecular")
-    {
-        gSpecular = UniformSampler(program, name);
-    }
-    else if (name == "ambientFactor")
-    {
-        ambientFactor = Uniform<float>(program, name);
-    }
-    else if (name == "viewPosition")
-    {
-        viewPosition = Uniform<glm::vec3>(program, name);
-    }
-    else if (name == "directionalLight.direction")
-    {
-        directionalLight.direction = Uniform<glm::vec3>(program, name);
-    }
-    else if (name == "screenSize")
-    {
-        screenSize = Uniform<glm::vec2>(program, name);
-    }
+    auto &prog = *program;
+    gPosition = UniformSampler(prog, "gPosition");
+    gNormal = UniformSampler(prog, "gNormal");
+    gAlbedo = UniformSampler(prog, "gAlbedo");
+    gSpecular = UniformSampler(prog, "gSpecular");
+    ambientFactor = Uniform<float>(prog, "ambientFactor");
+    viewPosition = Uniform<glm::vec3>(prog, "viewPosition");
+    directionalLight.direction = Uniform<glm::vec3>(prog,
+                                 "directionalLight.direction");
+    screenSize = Uniform<glm::vec2>(prog, "screenSize");
 }

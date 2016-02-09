@@ -1,13 +1,9 @@
 #pragma once
 
-#include "../scene/texture.h"
 #include "../types/program_shader.h"
-#include "../types/uniform_collection.h"
 
 #include <oglplus/uniform.hpp>
 #include <oglplus/interop/glm.hpp>
-#include <oglplus/uniform_block.hpp>
-#include <oglplus/buffer.hpp>
 
 class LightingProgram : public ProgramShader
 {
@@ -34,7 +30,7 @@ class LightingProgram : public ProgramShader
 
             UniformAttenuation attenuation;
         };
-        void ExtractUniform(const oglplus::aux::ActiveUniformInfo &info) override;
+        void ExtractUniforms() override;
     public:
         // fragment shader uniforms
         oglplus::UniformSampler gPosition;
@@ -49,6 +45,8 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<float> ambientFactor;
         LightingProgram();
         virtual ~LightingProgram() {}
+        LightingProgram(LightingProgram const &r) = delete;
+        LightingProgram &operator=(LightingProgram const &r) = delete;
 
 };
 

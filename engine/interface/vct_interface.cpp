@@ -1,5 +1,6 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "vct_interface.h"
-#include <oglplus/object/name_tpl.hpp>
 #include <vector>
 #include <numeric>
 
@@ -7,9 +8,9 @@
 #include "../core/engine_base.h"
 #include "../core/deferred_renderer.h"
 #include "../core/engine_assets.h"
+#include "../core/geometry_buffer.h"
 #include "../scene/scene.h"
 #include "../scene/camera.h"
-#include <iostream>
 
 void UI::DrawGBufferTexture(const oglplus::Texture &texture,
                             const std::string &name) const
@@ -95,7 +96,7 @@ bool SceneName(void * data, int idx, const char ** out_text)
 
 void UI::DrawSceneSelector()
 {
-    static auto &assets = EngineBase::Assets();
+    static auto &assets = AssetsManager::Instance();
     static auto activeScene = -1;
     ImGui::SetNextWindowPos(ImVec2(3, 3));
     ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
@@ -103,11 +104,11 @@ void UI::DrawSceneSelector()
     // active scene selector
     ImGui::PushItemWidth(450);
 
-    if (ImGui::Combo("Path", &activeScene, SceneName, assets.scenes.data(),
-                     static_cast<int>(assets.scenes.size())))
+    if (ImGui::Combo("Path", &activeScene, SceneName, assets->scenes.data(),
+                     static_cast<int>(assets->scenes.size())))
     {
-        assets.scenes[activeScene]->SetAsActive();
-        assets.scenes[activeScene]->cameras.front()->SetAsActive();
+        assets->scenes[activeScene]->SetAsActive();
+        assets->scenes[activeScene]->cameras.front()->SetAsActive();
     }
 
     ImGui::SameLine();
@@ -125,21 +126,24 @@ void UI::DrawSceneSelector()
 
 void UI::DrawGBufferTextures() const
 {
-    static auto &gbuffer = EngineBase::Renderer().GeometryBuffer();
+    static auto &gbuffer = EngineBase::Renderer().GBuffer();
+
+    if (!gbuffer) { return; }
+
     // position texture
-    DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Position),
+    DrawGBufferTexture(gbuffer->RenderTarget(GeometryBuffer::Position),
                        "Position");
     ImGui::SameLine();
     // normal texture
-    DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Normal),
+    DrawGBufferTexture(gbuffer->RenderTarget(GeometryBuffer::Normal),
                        "Normal");
     ImGui::SameLine();
     // albedo texture
-    DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Albedo),
+    DrawGBufferTexture(gbuffer->RenderTarget(GeometryBuffer::Albedo),
                        "Albedo");
     ImGui::SameLine();
     // specular texture
-    DrawGBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Specular),
+    DrawGBufferTexture(gbuffer->RenderTarget(GeometryBuffer::Specular),
                        "Specular");
 }
 
@@ -199,78 +203,12 @@ void UI::Draw()
     DrawDebugWindow();
     // show only fps
     DrawFPSNotif();
-    // test movement
-    auto &camera = Camera::Active();
-    static float speed = 5.0f;
-    float cameraSpeed = speed * io.DeltaTime;
-
-    if (!camera) { return; }
-
-    static float yaw, pitch;
-    float sensitivity = 0.135f;
-    float xOffset = io.MouseDelta.x;
-    float yOffset = -io.MouseDelta.y;
-    xOffset *= sensitivity;
-    yOffset *= sensitivity;
-    yaw = yaw + xOffset;
-    pitch = pitch + yOffset;
-    //if (pitch > 89.0f)
-    //{
-    //    pitch = 89.0f;
-    //}
-    //if (pitch < -89.0f)
-    //{
-    //    pitch = -89.0f;
-    //}
-    glm::vec3 front;
-    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    front.y = sin(glm::radians(pitch));
-    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    front = normalize(front);
-    auto right = normalize(cross(front, camera->Up()));
-
-    if (ImGui::IsKeyDown(GLFW_KEY_W))
-    {
-        camera->Position(camera->Position() + front * cameraSpeed);
-    }
-
-    if (ImGui::IsKeyDown(GLFW_KEY_S))
-    {
-        camera->Position(camera->Position() - front * cameraSpeed);
-    }
-
-    if (ImGui::IsKeyDown(GLFW_KEY_D))
-    {
-        camera->Position(camera->Position() + right * cameraSpeed);
-    }
-
-    if (ImGui::IsKeyDown(GLFW_KEY_A))
-    {
-        camera->Position(camera->Position() - right * cameraSpeed);
-    }
-
-    if (ImGui::IsKeyDown(GLFW_KEY_Q))
-    {
-        camera->Position(camera->Position() + camera->Up() * cameraSpeed);
-    }
-
-    if (ImGui::IsKeyDown(GLFW_KEY_E))
-    {
-        camera->Position(camera->Position() - camera->Up() * cameraSpeed);
-    }
-
-    camera->LookAt(camera->Position() + front);
-
-    if (ImGui::IsKeyDown(GLFW_KEY_Z))
-    {
-        speed -= 0.75f;
-    }
-
-    if (ImGui::IsKeyDown(GLFW_KEY_X))
-    {
-        speed += 0.75f;
-    }
 }
 
-UI::UI() : io(ImGui::GetIO()) {}
-UI::~UI() {}
+UI::UI()
+{
+}
+
+UI::~UI()
+{
+}

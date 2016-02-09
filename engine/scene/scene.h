@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <vector>
-
 #include "node.h"
 #include "../util/single_active.h"
 

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../scene/texture.h"
-#include "geometry_buffer.h"
+#include <memory>
 
 #include <oglplus/vertex_array.hpp>
 #include <oglplus/buffer.hpp>
 #include <glm/detail/type_vec2.hpp>
 
+class GeometryBuffer;
 class LightingProgram;
 class GeometryProgram;
 
@@ -23,7 +23,7 @@ class DeferredHandler
         /// The geometry buffer which holds all the framebuffer
         /// with all the render target texture attachments
         /// </summary>
-        GeometryBuffer geometryBuffer;
+        std::unique_ptr<GeometryBuffer> geometryBuffer;
         /// <summary>
         /// The deferred rendering geometry pass program
         /// </summary>
@@ -65,5 +65,5 @@ class DeferredHandler
         void SetupGeometryBuffer(unsigned int windowWith, unsigned int windowHeight);
         void CreateFullscreenQuad() const;
     public:
-        const GeometryBuffer &GeometryBuffer() const { return geometryBuffer; }
+        const std::unique_ptr<GeometryBuffer> &GBuffer() const;
 };

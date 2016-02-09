@@ -2,10 +2,9 @@
 
 #include <set>
 #include <memory>
-#include <GL/glew.h>
-#include <oglplus/texture.hpp>
 #include <glm/detail/type_vec1.hpp>
 #include <glm/detail/type_vec4.hpp>
+#include <oglplus/texture.hpp>
 
 class RawTexture
 {
@@ -59,34 +58,23 @@ class OGLTexture2D : public RawTexture
     protected:
         std::unique_ptr<oglplus::Texture> oglTexture;
 
-        bool mipmapGenerated;
-        glm::vec4 borderColor;
-        oglplus::TextureMagFilter magFilter;
-        oglplus::TextureMinFilter minFilter;
-        oglplus::TextureWrap wrapS;
-        oglplus::TextureWrap wrapT;
-
         static OGLTexture2D * CreateColorTexture(std::string texName,
                 glm::u8vec3 texColor);
     public:
         OGLTexture2D();
         ~OGLTexture2D();
-        GLuint Load(oglplus::TextureMinFilter minFilter =
-                        oglplus::TextureMinFilter::LinearMipmapLinear,
-                    oglplus::TextureMagFilter magFilter =
-                        oglplus::TextureMagFilter::Linear,
-                    oglplus::TextureWrap wrapS =
-                        oglplus::TextureWrap::Repeat,
-                    oglplus::TextureWrap wrapT =
-                        oglplus::TextureWrap::Repeat,
-                    bool generateMipmaps = true,
-                    glm::vec4 borderColor = glm::vec4(0.f));
+        void Load(oglplus::TextureMinFilter minFilter,
+                  oglplus::TextureMagFilter magFilter,
+                  oglplus::TextureWrap wrapS,
+                  oglplus::TextureWrap wrapT,
+                  bool generateMipmaps = true,
+                  glm::vec4 borderColor = glm::vec4(0.f));
         void Bind() const;
-        int Name() const { return oglplus::GetName(*oglTexture); };
+        int Name() const;
 
         static std::unique_ptr<OGLTexture2D> &GetDefaultTexture();
     private:
         // No copying or copy assignment allowed of this class or any derived class
-        OGLTexture2D(OGLTexture2D const &);
-        OGLTexture2D &operator=(OGLTexture2D const &);
+        OGLTexture2D(OGLTexture2D const &) = delete;
+        OGLTexture2D &operator=(OGLTexture2D const &) = delete;
 };

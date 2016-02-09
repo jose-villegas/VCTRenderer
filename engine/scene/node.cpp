@@ -1,12 +1,14 @@
 #include "node.h"
 
-#include <glm/gtx/transform.hpp>
 #include <tbb/tbb.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <glm/gtx/transform.hpp>
 
 #include "mesh.h"
+#include "camera.h"
 #include "../core/engine_base.h"
 #include "../core/deferred_renderer.h"
-#include "camera.h"
 
 Node::Node() : name("Default Node"), outsideFrustum(true)
 {
@@ -96,13 +98,14 @@ void Node::DrawList()
     // refresh all nodes with proper data
     PoolDrawList();
 
+    // we can conclude that if the root node
+    // is culled all of its childs are also
+    if (drawList[0]->outsideFrustum) { return; }
+
     // draw elements using draw list
     for (auto node : drawList)
     {
-        if (node->outsideFrustum)
-        {
-            continue;
-        }
+        if (node->outsideFrustum) { continue; }
 
         // set this node as rendering active
         node->SetAsActive();
@@ -162,8 +165,27 @@ void Node::UpdateBoundaries()
 void Node::PoolDrawList()
 {
     static const auto &camera = Camera::Active();
+
+    if (!camera->ParametersChanged()) { return; }
+
+    // cull root node to compute frustum planes and
+    // avoid thread collisions on frustum planes
+    if (camera->InFrustum(boundaries))
+    {
+        outsideFrustum = false;
+        ComputeMatrices();
+    }
+    // we can conclude that if the root node
+    // is culled all of its childs are also
+    else
+    {
+        outsideFrustum = true;
+        return;
+    }
+
     // update all frustum culling statuses and model-depedent matrices
-    tbb::parallel_for(size_t(0), drawList.size(), [ = ](size_t i)
+    // starts from 1 since first node is root already checked.
+    tbb::parallel_for(size_t(1), drawList.size(), [ = ](size_t i)
     {
         auto &node = drawList[i];
 

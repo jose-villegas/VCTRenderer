@@ -1,6 +1,9 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "deferred_renderer.h"
 #include "geometry_program.h"
 #include "lighting_program.h"
+#include "geometry_buffer.h"
 
 #include "render_window.h"
 #include "../scene/camera.h"
@@ -17,7 +20,7 @@ DeferredRenderer::~DeferredRenderer()
 {
 }
 
-void DeferredRenderer::Render()
+void DeferredRenderer::Render() const
 {
     static oglplus::Context gl;
     auto &camera = Camera::Active();
@@ -26,7 +29,7 @@ void DeferredRenderer::Render()
     if (!camera || !scene || !scene->IsLoaded()) { return; }
 
     // bind g buffer for writing
-    geometryBuffer.Bind(oglplus::FramebufferTarget::Draw);
+    geometryBuffer->Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
     geometryProgram->Use();
@@ -37,13 +40,13 @@ void DeferredRenderer::Render()
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
     // draw whole scene tree from root node
-    scene->rootNode.DrawList();
+    scene->rootNode.DrawRecursive();
     // start light pass
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // bind g buffer for reading
     lightingProgram->Use();
-    geometryBuffer.ActivateTextures();
+    geometryBuffer->ActivateTextures();
     SetLightPassUniforms();
     RenderFullscreenQuad();
 }
