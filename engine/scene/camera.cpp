@@ -1,6 +1,6 @@
 #include "camera.h"
 #include <glm/gtc/matrix_transform.inl>
-#include "../types/bounding_volume.h"
+#include "../types/bounding_box.h"
 
 Camera::~Camera()
 {
@@ -116,15 +116,15 @@ const glm::mat4x4 &Camera::ProjectionMatrix()
     return projectionMatrix;
 }
 
-bool Camera::InFrustum(const BoundingVolume &volume)
+bool Camera::InFrustum(const BoundingBox &volume)
 {
     if (frustumValuesChanged)
     {
-        frustum.CalculatePlanes(projectionMatrix * viewMatrix);
+        frustum.ExtractPlanes(projectionMatrix * viewMatrix);
         frustumValuesChanged = false;
     }
 
-    return frustum.BoxInFrustum(volume);
+    return frustum.InFrustum(volume);
 }
 
 void Camera::ComputeViewMatrix()

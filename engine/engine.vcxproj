@@ -222,7 +222,7 @@
     <ClCompile Include="util\raw_format.cpp" />
     <ClCompile Include="core\geometry_program.cpp" />
     <ClCompile Include="types\frustum.cpp" />
-    <ClCompile Include="types\bounding_volume.cpp" />
+    <ClCompile Include="types\bounding_box.cpp" />
     <ClCompile Include="core\engine_assets.cpp" />
     <ClCompile Include="core\engine_base.cpp" />
     <ClCompile Include="core\deferred_renderer.cpp" />
@@ -287,7 +287,7 @@
     <ClInclude Include="util\segment.h" />
     <ClInclude Include="util\single_active.h" />
     <ClInclude Include="types\frustum.h" />
-    <ClInclude Include="types\bounding_volume.h" />
+    <ClInclude Include="types\bounding_box.h" />
     <ClInclude Include="core\engine_assets.h" />
     <ClInclude Include="core\engine_base.h" />
     <ClInclude Include="core\deferred_renderer.h" />

@@ -78,14 +78,13 @@ void Node::Draw()
 
 void Node::DrawRecursive()
 {
-    // set this node as rendering active
-    SetAsActive();
-
     if (!Camera::Active()->InFrustum(boundaries))
     {
         return;
     }
 
+    // set this node as rendering active
+    SetAsActive();
     // recalculate model-dependent transform matrices
     ComputeMatrices();
     // set matrices uniform with updated matrices
@@ -107,14 +106,13 @@ void Node::DrawList()
     // draw elements using draw list
     for (auto node : drawList)
     {
-        // set this node as rendering active
-        node->SetAsActive();
-
         if (!camera->InFrustum(node->boundaries))
         {
             continue;
         }
 
+        // set this node as rendering active
+        node->SetAsActive();
         // recalculate model-dependent transform matrices
         node->ComputeMatrices();
         // set matrices uniform with updated matrices

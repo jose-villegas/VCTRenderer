@@ -4,7 +4,7 @@
 #include <vector>
 #include <glm/gtc/quaternion.hpp>
 
-#include "../types/bounding_volume.h"
+#include "../types/bounding_box.h"
 #include "../util/single_active.h"
 
 class Camera;
@@ -14,7 +14,7 @@ class Node : public SingleActive<Node>
 {
     public:
         // node boundaries
-        BoundingVolume boundaries;
+        BoundingBox boundaries;
         // node identifier
         std::string name;
         // meshes associated and children

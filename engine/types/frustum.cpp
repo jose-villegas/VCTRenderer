@@ -2,7 +2,7 @@
 
 #include "frustum.h"
 
-#include "bounding_volume.h"
+#include "bounding_box.h"
 #include <glm/gtc/matrix_access.hpp>
 
 CullingFrustum::CullingFrustum()
@@ -14,7 +14,7 @@ CullingFrustum::~CullingFrustum()
 {
 }
 
-void Frustum::CalculatePlanes(const glm::mat4x4 &matrix, bool normalize)
+void Frustum::ExtractPlanes(const glm::mat4x4 &matrix, bool normalize)
 {
     // extract frustum planes from matrix
     // planes are in format: normal(xyz), offset(w)
@@ -39,42 +39,17 @@ void Frustum::CalculatePlanes(const glm::mat4x4 &matrix, bool normalize)
     }
 }
 
-bool CullingFrustum::BoxInFrustum(const BoundingVolume &volume) const
+bool CullingFrustum::InFrustum(const BoundingBox &volume) const
 {
-    // check box outside/inside of frustum
-    //for (int i = 0; i < 6; i++)
-    //{
-    //    int out = 0;
-    //    out += ((dot(plane[i], glm::vec4(bVolume.MinPoint().x, bVolume.MinPoint().y,
-    //                                     bVolume.MinPoint().z, 1.0f)) < 0.0) ? 1 : 0);
-    //    out += ((dot(plane[i], glm::vec4(bVolume.MaxPoint().x, bVolume.MinPoint().y,
-    //                                     bVolume.MinPoint().z, 1.0f)) < 0.0) ? 1 : 0);
-    //    out += ((dot(plane[i], glm::vec4(bVolume.MinPoint().x, bVolume.MaxPoint().y,
-    //                                     bVolume.MinPoint().z, 1.0f)) < 0.0) ? 1 : 0);
-    //    out += ((dot(plane[i], glm::vec4(bVolume.MaxPoint().x, bVolume.MaxPoint().y,
-    //                                     bVolume.MinPoint().z, 1.0f)) < 0.0) ? 1 : 0);
-    //    out += ((dot(plane[i], glm::vec4(bVolume.MinPoint().x, bVolume.MinPoint().y,
-    //                                     bVolume.MaxPoint().z, 1.0f)) < 0.0) ? 1 : 0);
-    //    out += ((dot(plane[i], glm::vec4(bVolume.MaxPoint().x, bVolume.MinPoint().y,
-    //                                     bVolume.MaxPoint().z, 1.0f)) < 0.0) ? 1 : 0);
-    //    out += ((dot(plane[i], glm::vec4(bVolume.MinPoint().x, bVolume.MaxPoint().y,
-    //                                     bVolume.MaxPoint().z, 1.0f)) < 0.0) ? 1 : 0);
-    //    out += ((dot(plane[i], glm::vec4(bVolume.MaxPoint().x, bVolume.MaxPoint().y,
-    //                                     bVolume.MaxPoint().z, 1.0f)) < 0.0) ? 1 : 0);
-    //    if (out == 8) { return false; }
-    //}
-    return true;
-}
+    glm::vec3 normal;
 
-bool CullingFrustum::SphereInFrustum(const BoundingSphere &volume) const
-{
-    float fDistance;
-
-    for (auto &p : planes)
+    for (auto &plane : planes)
     {
-        fDistance = distance(glm::vec3(p), volume.Center());
+        normal = glm::vec3(plane);
+        auto d = dot(volume.Extent(), abs(normal));
+        auto r = dot(volume.Center(), normal) + plane.w;
 
-        if (fDistance < -volume.Radius())
+        if (!(d + r > 0))
         {
             return false;
         }
@@ -82,3 +57,5 @@ bool CullingFrustum::SphereInFrustum(const BoundingSphere &volume) const
 
     return true;
 }
+
+

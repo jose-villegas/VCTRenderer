@@ -32,13 +32,12 @@ void DeferredRenderer::Render()
     geometryProgram->Use();
     // Open GL flags
     gl.ClearDepth(1.0f);
-    //gl.Disable(Capability::Blend);
     gl.Enable(oglplus::Capability::DepthTest);
     gl.Enable(oglplus::Capability::CullFace);
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
     // draw whole scene tree from root node
-    scene->rootNode.DrawList();
+    scene->rootNode.DrawRecursive();
     // start light pass
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
@@ -63,14 +62,6 @@ const
 {
     using namespace oglplus;
     static auto white = glm::vec3(1.0f);
-    static OGLMaterial * previousMaterial = nullptr;
-
-    if (previousMaterial == mat.get())
-    {
-        return;
-    }
-
-    previousMaterial = mat.get();
     geometryProgram->material.diffuse.Set(mat->Diffuse());
     geometryProgram->material.specular.Set
     (

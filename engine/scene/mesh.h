@@ -19,7 +19,7 @@
 #include <oglplus/object/group.hpp>
 #include <oglplus/interop/glm.hpp>
 
-#include "../types/bounding_volume.h"
+#include "../types/bounding_box.h"
 
 class OGLMaterial;
 struct Vertex;
@@ -28,7 +28,7 @@ class Mesh
 {
     public:
         // node boundaries
-        BoundingVolume boundaries;
+        BoundingBox boundaries;
         // mesh identifier
         std::string name;
         // mesh raw data

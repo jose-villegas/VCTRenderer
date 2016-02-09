@@ -104,7 +104,7 @@ void UI::DrawSceneSelector()
     ImGui::PushItemWidth(450);
 
     if (ImGui::Combo("Path", &activeScene, SceneName, assets.scenes.data(),
-                     assets.scenes.size()))
+                     static_cast<int>(assets.scenes.size())))
     {
         assets.scenes[activeScene]->SetAsActive();
         assets.scenes[activeScene]->cameras.front()->SetAsActive();
