@@ -80,6 +80,6 @@ class Camera : public SingleActive<Camera>
 
         glm::mat4x4 viewMatrix;
         glm::mat4x4 projectionMatrix;
-        Frustum frustum;
+        CullingFrustum frustum;
 };
 

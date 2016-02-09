@@ -1,59 +1,122 @@
 #include "bounding_volume.h"
 
-BoundingVolume::BoundingVolume() : transformedVolume(nullptr)
+#include <glm/detail/func_common.hpp>
+#include <glm/gtc/matrix_access.hpp>
+#include <glm/detail/func_geometric.hpp>
+
+void BoundingVolume::MinPoint(const glm::vec3 &val)
 {
-    this->maxPoint = glm::vec3(std::numeric_limits<float>::lowest());
-    this->minPoint = glm::vec3(std::numeric_limits<float>::infinity());
+    if (!original)
+    {
+        this->boundaries[0] = min(this->boundaries[0], val);
+    }
+    else
+    {
+        original->boundaries[0] = min(original->boundaries[0], val);
+    }
+
+    BoundariesChanged();
 }
 
+void BoundingVolume::MaxPoint(const glm::vec3 &val)
+{
+    if (!original)
+    {
+        this->boundaries[1] = max(this->boundaries[1], val);
+    }
+    else
+    {
+        original->boundaries[1] = max(original->boundaries[1], val);
+    };
+
+    BoundariesChanged();
+}
+
+void BoundingVolume::Reset()
+{
+    this->boundaries[1] = glm::vec3(std::numeric_limits<float>::lowest());
+    this->boundaries[0] = glm::vec3(std::numeric_limits<float>::infinity());
+
+    if (original)
+    {
+        original.reset();
+    }
+}
+
+const glm::vec3 &BoundingVolume::MinPoint(bool transformed) const
+{
+    return transformed || !original ? boundaries[0] : original->boundaries[0];
+}
+
+const glm::vec3 &BoundingVolume::MaxPoint(bool transformed) const
+{
+    return transformed || !original ? boundaries[1] : original->boundaries[1];
+}
+
+void BoundingVolume::Transform(const glm::mat4x4 &model)
+{
+    if (!original) { original = std::make_shared<BoundingVolume>(*this); }
+
+    glm::vec4 right = row(model, 0);
+    glm::vec4 up = row(model, 1);
+    glm::vec4 backward = row(model, 2);;
+    glm::vec3 translation = glm::vec3(row(model, 3));
+    glm::vec3 a[3], b[3];
+    a[0] = glm::vec3(right * original->boundaries[0].x);
+    a[1] = glm::vec3(up * original->boundaries[0].y);
+    a[2] = glm::vec3(backward * original->boundaries[0].z);
+    b[0] = glm::vec3(right * original->boundaries[1].x);
+    b[1] = glm::vec3(up * original->boundaries[1].y);
+    b[2] = glm::vec3(backward * original->boundaries[1].z);
+    glm::vec3 min = glm::min(a[0], b[0]) + glm::min(a[1], b[1]) +
+                    glm::min(a[2], b[2]) + translation;
+    glm::vec3 max = glm::max(a[0], b[0]) + glm::max(a[1], b[1]) +
+                    glm::max(a[2], b[2]) + translation;
+    this->boundaries[0] = min;
+    this->boundaries[1] = max;
+    BoundariesChanged();
+}
+
+BoundingVolume::BoundingVolume() : original(nullptr)
+{
+    Reset();
+}
+
+BoundingVolume::BoundingVolume(const glm::vec3 &min,
+                               const glm::vec3 &max) : original(nullptr)
+{
+    Reset();
+    MinPoint(min);
+    MaxPoint(max);
+}
 
 BoundingVolume::~BoundingVolume()
 {
 }
 
-void BoundingVolume::TryMin(const glm::vec3 &vMin)
+BoundingSphere::~BoundingSphere()
 {
-    minPoint.x > vMin.x ? minPoint.x = vMin.x : 0;
-    minPoint.y > vMin.y ? minPoint.y = vMin.y : 0;
-    minPoint.z > vMin.z ? minPoint.z = vMin.z : 0;
 }
 
-void BoundingVolume::TryMax(const glm::vec3 &vMax)
+void BoundingSphere::BoundariesChanged()
 {
-    maxPoint.x < vMax.x ? maxPoint.x = vMax.x : 0;
-    maxPoint.y < vMax.y ? maxPoint.y = vMax.y : 0;
-    maxPoint.z < vMax.z ? maxPoint.z = vMax.z : 0;
+    radius = distance(MinPoint(true), MaxPoint(true)) * 0.5f;
+    center = (MinPoint(true) + MaxPoint(true)) / 2.0f;
 }
 
-void BoundingVolume::TryMinMax(const glm::vec3 &vMin, const glm::vec3 &vMax)
+float BoundingSphere::Radius() const
 {
-    TryMin(vMin); TryMax(vMax);
+    return radius;
 }
 
-const BoundingVolume &BoundingVolume::Transform(const glm::mat4x4 &model)
+const glm::vec3 &BoundingSphere::Center() const
 {
-    if (!transformedVolume)
-    {
-        // create transformed boundaries holder
-        transformedVolume = std::make_shared<BoundingVolume>();
-        // update transform matrix
-        transform = model;
-        // calculate transformed boundaries
-        return (*transformedVolume = (*this) * model);
-    }
-
-    if (transform != model)
-    {
-        // reassing new transform matrix
-        transform = model;
-        // recalculate new boundaries with transform
-        *transformedVolume = (*this) * transform;
-    }
-
-    return *transformedVolume;
+    return center;
 }
 
-glm::vec3 BoundingVolume::Center() const
+BoundingSphere::BoundingSphere(const BoundingVolume &volume) :
+    BoundingVolume(volume)
 {
-    return (maxPoint + minPoint) / 2.0f;
+    radius = distance(MinPoint(true), MaxPoint(true)) * 0.5f;
+    center = (MinPoint(true) + MaxPoint(true)) / 2.0f;
 }

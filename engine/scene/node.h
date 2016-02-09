@@ -59,6 +59,7 @@ class Node : public SingleActive<Node>
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
         void DrawMeshes();
-        void ComputeMatrices(std::unique_ptr<Camera> &camera);
+        void ComputeMatrices();
+        void UpdateBoundaries();
 };
 

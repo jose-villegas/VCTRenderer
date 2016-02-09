@@ -1,26 +1,30 @@
 #pragma once
 
+class BoundingSphere;
 class BoundingVolume;
 
 class Frustum
 {
-
     public:
+        void CalculatePlanes(const glm::mat4x4 &mvMatrix, bool normalize = false);
+    protected:
         enum Plane
         {
-            Right = 0,
-            Left,
-            Bottom,
-            Top,
-            Far,
-            Near
+            Left, Right,
+            Bottom, Top,
+            Near, Far,
         };
 
-        Frustum();
-        virtual ~Frustum();
+        glm::vec4 planes[6];
 
-        void CalculatePlanes(const glm::mat4x4 &mvMatrix);
-        bool VolumeInFrustum(const BoundingVolume &bVolume) const;
-    private:
-        glm::vec4 fPlane[6];
+};
+
+class CullingFrustum : public Frustum
+{
+    public:
+        CullingFrustum();
+        virtual ~CullingFrustum();
+
+        bool BoxInFrustum(const BoundingVolume &volume) const;
+        bool SphereInFrustum(const BoundingSphere &volume) const;
 };

@@ -23,7 +23,7 @@ void DeferredRenderer::Render()
     auto &camera = Camera::Active();
     auto &scene = Scene::Active();
 
-    if (!camera || !scene) { return; }
+    if (!camera || !scene || !scene->IsLoaded()) { return; }
 
     // bind g buffer for writing
     geometryBuffer.Bind(oglplus::FramebufferTarget::Draw);
@@ -51,7 +51,7 @@ void DeferredRenderer::Render()
 
 void DeferredRenderer::SetMatricesUniforms() const
 {
-    auto &node = Node::Active();
+    static const auto &node = Node::Active();
     geometryProgram->matrices.normal.Set(node->NormalMatrix());
     geometryProgram->matrices.modelView.Set(node->ModelViewMatrix());
     geometryProgram->matrices.modelViewProjection.Set(
@@ -62,8 +62,8 @@ void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
 const
 {
     using namespace oglplus;
+    static auto white = glm::vec3(1.0f);
     static OGLMaterial * previousMaterial = nullptr;
-    static glm::vec3 white = glm::vec3(1.0f);
 
     if (previousMaterial == mat.get())
     {

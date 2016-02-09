@@ -6,7 +6,6 @@
 #include "../core/engine_base.h"
 #include "../core/deferred_renderer.h"
 #include "camera.h"
-#include <glm/gtc/matrix_inverse.inl>
 
 Node::Node() : name("Default Node")
 {
@@ -43,16 +42,18 @@ void Node::BuildDrawList(std::vector<Node *> &base)
 
 void Node::DrawMeshes()
 {
+    static const auto &renderer = EngineBase::Renderer();
+
     for (auto &mesh : meshes)
     {
         if (!mesh->IsLoaded()) { return; }
 
-        //if (meshes.size() > 1 && !Camera::Active()->InFrustum
-        //        (mesh->boundaries.Transform(modelMatrix)))
-        //{
-        //    continue;
-        //}
-        EngineBase::Renderer().SetMaterialUniforms(mesh->material);
+        if (meshes.size() > 1 && !Camera::Active()->InFrustum(mesh->boundaries))
+        {
+            continue;
+        }
+
+        renderer.SetMaterialUniforms(mesh->material);
         mesh->BindVertexArrayObject();
         mesh->DrawElements();
     }
@@ -61,11 +62,11 @@ void Node::DrawMeshes()
 void Node::Draw()
 {
     // recalculate model-dependent transform matrices
-    ComputeMatrices(Camera::Active());
+    ComputeMatrices();
     // set this node as rendering active
     SetAsActive();
 
-    if (!Camera::Active()->InFrustum(boundaries.Transform(modelMatrix)))
+    if (!Camera::Active()->InFrustum(boundaries))
     {
         return;
     }
@@ -80,13 +81,13 @@ void Node::DrawRecursive()
     // set this node as rendering active
     SetAsActive();
 
-    if (!Camera::Active()->InFrustum(boundaries.Transform(modelMatrix)))
+    if (!Camera::Active()->InFrustum(boundaries))
     {
         return;
     }
 
     // recalculate model-dependent transform matrices
-    ComputeMatrices(Camera::Active());
+    ComputeMatrices();
     // set matrices uniform with updated matrices
     EngineBase::Renderer().SetMatricesUniforms();
     // draw elements per mesh
@@ -100,20 +101,22 @@ void Node::DrawRecursive()
 
 void Node::DrawList()
 {
-    auto &camera = Camera::Active();
-    auto &renderer = EngineBase::Renderer();
+    static const auto &camera = Camera::Active();
+    static const auto &renderer = EngineBase::Renderer();
 
     // draw elements using draw list
     for (auto node : drawList)
     {
         // set this node as rendering active
         node->SetAsActive();
-        //if (!camera->InFrustum(node->boundaries.Transform(node->modelMatrix)))
-        //{
-        //  continue;
-        //}
+
+        if (!camera->InFrustum(node->boundaries))
+        {
+            continue;
+        }
+
         // recalculate model-dependent transform matrices
-        node->ComputeMatrices(camera);
+        node->ComputeMatrices();
         // set matrices uniform with updated matrices
         renderer.SetMatricesUniforms();
         // draw node meshes
@@ -121,10 +124,11 @@ void Node::DrawList()
     }
 }
 
-void Node::ComputeMatrices(std::unique_ptr<Camera> &camera)
+void Node::ComputeMatrices()
 {
+    static const auto &camera = Camera::Active();
     modelViewMatrix = camera->ViewMatrix() * modelMatrix;
-    normalMatrix = inverseTranspose(modelViewMatrix);
+    normalMatrix = modelViewMatrix;
     modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
 }
 
@@ -139,20 +143,41 @@ void Node::Transform(const glm::vec3 &position, const glm::vec3 &scaling,
 
 void Node::Position(const glm::vec3 &position)
 {
-    this->position = position;
-    ComputeModelMatrix();
+    if (position != this->position)
+    {
+        this->position = position;
+        ComputeModelMatrix();
+    }
 }
 
 void Node::Scaling(const glm::vec3 &scaling)
 {
-    this->scaling = scaling;
-    ComputeModelMatrix();
+    if (scaling != this->scaling)
+    {
+        this->scaling = scaling;
+        ComputeModelMatrix();
+        UpdateBoundaries();
+    }
+}
+
+void Node::UpdateBoundaries()
+{
+    boundaries.Transform(modelMatrix);
+
+    for (auto &mesh : meshes)
+    {
+        mesh->boundaries.Transform(modelMatrix);
+    }
 }
 
 void Node::Rotation(const glm::quat &rotation)
 {
-    this->rotation = rotation;
-    ComputeModelMatrix();
+    if (rotation != this->rotation)
+    {
+        this->rotation = rotation;
+        ComputeModelMatrix();
+        boundaries.Transform(modelMatrix);
+    }
 }
 
 void Node::BuildDrawList()

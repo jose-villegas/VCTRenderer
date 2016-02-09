@@ -251,7 +251,8 @@ void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &outMesh)
             }
 
             // update boundaries with current position
-            outMesh.boundaries.TryMinMax(vertex.position, vertex.position);
+            outMesh.boundaries.MinPoint(vertex.position);
+            outMesh.boundaries.MaxPoint(vertex.position);
             // gram-schmidt orthonormalization
             vertex.Orthonormalize();
             // new vertex to raw mesh data
@@ -270,12 +271,6 @@ void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &outMesh)
 void SceneImporter::ProcessNodes(Scene * scene, aiNode * node, Node &newNode)
 {
     newNode.name = node->mName.length > 0 ? node->mName.C_Str() : newNode.name;
-    // transformation matrix decomposition using assimp implementation
-    aiVector3D position; aiVector3D scaling; aiQuaternion rotation;
-    node->mTransformation.Decompose(scaling, rotation, position);
-    newNode.Position(glm::vec3(position.x, position.y, position.z));
-    newNode.Scaling(glm::vec3(scaling.x, scaling.y, scaling.z));
-    newNode.Rotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
 
     // meshes associated with this node
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -283,9 +278,13 @@ void SceneImporter::ProcessNodes(Scene * scene, aiNode * node, Node &newNode)
         // insert after same name
         newNode.meshes.push_back(scene->meshes[node->mMeshes[i]]);
         // node boundaries based on mesh boundaries
-        newNode.boundaries.TryMinMax(
-            scene->meshes[node->mMeshes[i]]->boundaries.minPoint,
-            scene->meshes[node->mMeshes[i]]->boundaries.maxPoint
+        newNode.boundaries.MinPoint
+        (
+            scene->meshes[node->mMeshes[i]]->boundaries.MinPoint()
+        );
+        newNode.boundaries.MaxPoint
+        (
+            scene->meshes[node->mMeshes[i]]->boundaries.MaxPoint()
         );
     }
 
@@ -295,12 +294,22 @@ void SceneImporter::ProcessNodes(Scene * scene, aiNode * node, Node &newNode)
         newNode.nodes.push_back(std::make_shared<Node>());
         ProcessNodes(scene, node->mChildren[i], *newNode.nodes.back());
         // node boundaries based on children node boundaries
-        newNode.boundaries.TryMinMax(
-            newNode.nodes.back()->boundaries.minPoint,
-            newNode.nodes.back()->boundaries.maxPoint
+        newNode.boundaries.MinPoint
+        (
+            newNode.nodes.back()->boundaries.MinPoint()
+        );
+        newNode.boundaries.MaxPoint
+        (
+            newNode.nodes.back()->boundaries.MaxPoint()
         );
     }
 
+    // transformation matrix decomposition using assimp implementation
+    aiVector3D position; aiVector3D scaling; aiQuaternion rotation;
+    node->mTransformation.Decompose(scaling, rotation, position);
+    newNode.Position(glm::vec3(position.x, position.y, position.z));
+    newNode.Scaling(glm::vec3(scaling.x, scaling.y, scaling.z));
+    newNode.Rotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
     // build per node draw lists from recursive draw
     // useful for easier batching
     newNode.BuildDrawList();

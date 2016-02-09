@@ -55,6 +55,9 @@ void main()
 {
     // store albedo rgb
     vec4 diffuseColor = texture(diffuseMap, texCoord.xy);
+
+    if(diffuseColor.a <= alphaCutoff) discard;
+
     gAlbedo = diffuseColor.rgb * material.diffuse;
 
     // store specular intensity

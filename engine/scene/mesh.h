@@ -63,9 +63,6 @@ class OGLMesh : public Mesh
         void BindElementArrayBuffer() const;
         void BindVertexArrayObject() const;
 
-        void BufferPointers(oglplus::Program &program) const;
-        void BufferSetup(oglplus::Program &program);
-
         void DrawElements() const;
         bool IsLoaded() const { return loaded; }
     protected:

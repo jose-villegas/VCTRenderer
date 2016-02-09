@@ -96,6 +96,7 @@
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -145,6 +146,7 @@
       <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -202,8 +204,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="3rdparty\imgui\imgui_draw.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

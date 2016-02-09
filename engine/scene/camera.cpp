@@ -1,11 +1,12 @@
 #include "camera.h"
 #include <glm/gtc/matrix_transform.inl>
+#include "../types/bounding_volume.h"
 
 Camera::~Camera()
 {
 }
 
-Camera::Camera() : clipPlaneFar(1000.0f), clipPlaneNear(0.3f),
+Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
 {
     this->position = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -123,7 +124,7 @@ bool Camera::InFrustum(const BoundingVolume &volume)
         frustumValuesChanged = false;
     }
 
-    return frustum.VolumeInFrustum(volume);
+    return frustum.BoxInFrustum(volume);
 }
 
 void Camera::ComputeViewMatrix()

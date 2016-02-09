@@ -20,7 +20,7 @@ class Scene : public SingleActive<Scene>
         std::string filepath;
         std::string directory;
 
-        bool isLoaded = false;
+        bool isLoaded;
     public:
         std::vector<std::shared_ptr<OGLMesh>> meshes;
         std::vector<std::shared_ptr<OGLTexture2D>> textures;
@@ -45,6 +45,7 @@ class Scene : public SingleActive<Scene>
         }
 
         void Load();
+        bool IsLoaded() const { return isLoaded; }
     private:
         // friends with
         friend class SceneImporter;

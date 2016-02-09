@@ -58,7 +58,7 @@ class DeferredHandler
         /// <summary>
         /// Setups the geometry buffer, initializes the render target
         /// textures and attaches these textures to the
-        /// <see cref="GeometryProgram.framebuffer">
+        /// <see cref="GeometryProgram.geometryBuffer">
         /// </summary>
         /// <param name="windowWith">The rendering window width.</param>
         /// <param name="windowHeight">The rendering window height.</param>

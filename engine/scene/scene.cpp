@@ -8,7 +8,7 @@
 #include "mesh.h"
 #include "texture.h"
 
-Scene::Scene(std::string filepath)
+Scene::Scene(std::string filepath): isLoaded(false)
 {
     this->filepath = filepath;
     this->directory = Utils::GetDirectoryPath(filepath);
@@ -25,7 +25,7 @@ Scene::~Scene()
 
 void Scene::Load()
 {
-    if (isLoaded) { return; }
+    if (IsLoaded()) { return; }
 
     SceneImporter::Import(filepath, this);
 

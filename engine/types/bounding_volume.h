@@ -1,38 +1,54 @@
 #pragma once
 
-#include <memory>
 #include <glm/mat4x4.hpp>
 #include <glm/detail/type_vec3.hpp>
+#include <array>
+#include <memory>
 
 class BoundingVolume
 {
     public:
-        glm::vec3 minPoint;
-        glm::vec3 maxPoint;
+        void MinPoint(const glm::vec3 &val);
+        const glm::vec3 &MinPoint(bool transformed = false) const;
+        /// <summary>
+        /// Sets the minimum point only if <see cref="value">
+        /// ifs smaller than the current <see cref="minPoint">.
+        /// Sets <see cref="center"> and <see cref="extent">.
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void MaxPoint(const glm::vec3 &val);
+        const glm::vec3 &MaxPoint(bool transformed = false) const;
+        /// <summary>
+        /// Sets the maximum point only if <see cref="value">
+        /// ifs bigger than the current <see cref="maxPoint">.
+        /// Sets <see cref="center"> and <see cref="extent">.
+        /// </summary>
+        /// <param name="val">The value.</param>
+
+        void Reset();
+        void Transform(const glm::mat4x4 &model);
 
         BoundingVolume();
+        BoundingVolume(const glm::vec3 &min, const glm::vec3 &max);
         virtual ~BoundingVolume();
-
-        // tries to set new min or max value
-        void TryMin(const glm::vec3 &vMin);
-        void TryMax(const glm::vec3 &vMax);
-        void TryMinMax(const glm::vec3 &vMin, const glm::vec3 &vMax);
-        const BoundingVolume &Transform(const glm::mat4x4 &model);
-        glm::vec3 Center() const;
+    protected:
+        virtual void BoundariesChanged() {};
     private:
-        glm::mat4x4 transform;
-
-        std::shared_ptr<BoundingVolume> transformedVolume;
+        std::array<glm::vec3, 2> boundaries;
+        std::shared_ptr<BoundingVolume> original;
 };
 
-inline BoundingVolume operator*(const BoundingVolume &lhs,
-                                const glm::mat4 &rhs)
+class BoundingSphere : public BoundingVolume
 {
-    // copy source values
-    auto result = lhs;
-    // transform points
-    result.maxPoint = glm::vec3(glm::vec4(result.maxPoint, 1.0f) * rhs);
-    result.minPoint = glm::vec3(glm::vec4(result.minPoint, 1.0f) * rhs);
-    // result modified b volume
-    return result;
-}
+    public:
+        float Radius() const;
+        const glm::vec3 &Center() const;
+
+        explicit BoundingSphere(const BoundingVolume &volume);
+        ~BoundingSphere() override;
+    protected:
+        void BoundariesChanged() override;
+    private:
+        float radius;
+        glm::vec3 center;
+};
