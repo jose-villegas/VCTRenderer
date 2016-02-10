@@ -99,10 +99,9 @@ void UI::DrawSceneSelector()
     static auto &assets = AssetsManager::Instance();
     static auto activeScene = -1;
     ImGui::SetNextWindowPos(ImVec2(3, 3));
-    ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
+    ImGui::Begin("Import Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
                  ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove);
     // active scene selector
-    ImGui::PushItemWidth(450);
 
     if (ImGui::Combo("Path", &activeScene, SceneName, assets->scenes.data(),
                      static_cast<int>(assets->scenes.size())))
@@ -118,7 +117,6 @@ void UI::DrawSceneSelector()
         Scene::Active()->Load();
     }
 
-    ImGui::PopItemWidth();
     uiPos = ImGui::GetWindowPos();
     uiSize = ImGui::GetWindowSize();
     ImGui::End();

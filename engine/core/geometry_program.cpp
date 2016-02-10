@@ -7,18 +7,28 @@ void GeometryProgram::ExtractUniforms()
 {
     using namespace oglplus;
     auto &prog = *program;
-    material.diffuse = Uniform<glm::vec3>(prog, "material.diffuse");
-    material.specular = Uniform<glm::vec3>(prog, "material.specular");
-    material.useNormalsMap = Uniform<unsigned int>(prog,
-                             "material.useNormalsMap");
-    diffuseMap = UniformSampler(prog, "diffuseMap");
-    specularMap = UniformSampler(prog, "specularMap");
-    normalsMap = UniformSampler(prog, "normalsMap");
-    alphaCutoff = Uniform<float>(prog, "alphaCutoff");
-    matrices.normal  = Uniform<glm::mat4>(prog, "matrices.normal");
-    matrices.modelView = Uniform<glm::mat4>(prog, "matrices.modelView");
-    matrices.modelViewProjection = Uniform<glm::mat4>(prog,
-                                   "matrices.modelViewProjection");
+    // assign program
+    material.diffuse.Assign(prog);
+    material.specular.Assign(prog);
+    material.useNormalsMap.Assign(prog);
+    diffuseMap.Assign(prog);
+    specularMap.Assign(prog);
+    normalsMap.Assign(prog);
+    alphaCutoff.Assign(prog);
+    matrices.normal .Assign(prog);
+    matrices.modelView.Assign(prog);
+    matrices.modelViewProjection.Assign(prog);
+    // bind to uniform name
+    material.diffuse.BindTo("material.diffuse");
+    material.specular.BindTo("material.specular");
+    material.useNormalsMap.BindTo("material.useNormalsMap");
+    diffuseMap.BindTo("diffuseMap");
+    specularMap.BindTo("specularMap");
+    normalsMap.BindTo("normalsMap");
+    alphaCutoff.BindTo("alphaCutoff");
+    matrices.normal.BindTo("matrices.normal");
+    matrices.modelView.BindTo("matrices.modelView");
+    matrices.modelViewProjection.BindTo("matrices.modelViewProjection");
 }
 
 GeometryProgram::GeometryProgram()

@@ -175,7 +175,7 @@ std::vector<GLfloat> Cube::_tex_coords(void) const
 			{
 				*vi++ = n[v][c];
 			}
-			*vi++ = static_cast<float>(f);
+			*vi++ = f;
 		}
 	}
 	assert(vi == dest.end());

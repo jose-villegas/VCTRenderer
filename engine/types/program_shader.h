@@ -9,7 +9,6 @@
 class ProgramShader
 {
     public:
-        ProgramShader() {};
         virtual ~ProgramShader() {}
         friend class DeferredHandler;
         /// <summary>
@@ -34,6 +33,7 @@ class ProgramShader
         void Build(const std::string &vsFilePath, const std::string &fsFilePath);
         void Use() const;
         // non copyable
+        ProgramShader() = default;
         ProgramShader(ProgramShader const &r) = delete;
         ProgramShader &operator=(ProgramShader const &r) = delete;
     protected:

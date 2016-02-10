@@ -11,13 +11,22 @@ void LightingProgram::ExtractUniforms()
 {
     using namespace oglplus;
     auto &prog = *program;
-    gPosition = UniformSampler(prog, "gPosition");
-    gNormal = UniformSampler(prog, "gNormal");
-    gAlbedo = UniformSampler(prog, "gAlbedo");
-    gSpecular = UniformSampler(prog, "gSpecular");
-    ambientFactor = Uniform<float>(prog, "ambientFactor");
-    viewPosition = Uniform<glm::vec3>(prog, "viewPosition");
-    directionalLight.direction = Uniform<glm::vec3>(prog,
-                                 "directionalLight.direction");
-    screenSize = Uniform<glm::vec2>(prog, "screenSize");
+    // assign program
+    gPosition.Assign(prog);
+    gNormal.Assign(prog);
+    gAlbedo.Assign(prog);
+    gSpecular.Assign(prog);
+    ambientFactor.Assign(prog);
+    viewPosition.Assign(prog);
+    directionalLight.direction.Assign(prog);
+    screenSize.Assign(prog);
+    // bind to uniform name
+    gPosition.BindTo("gPosition");
+    gNormal.BindTo("gNormal");
+    gAlbedo.BindTo("gAlbedo");
+    gSpecular.BindTo("gSpecular");
+    ambientFactor.BindTo("ambientFactor");
+    viewPosition.BindTo("viewPosition");
+    directionalLight.direction.BindTo("directionalLight.direction");
+    screenSize.BindTo("screenSize");
 }
