@@ -17,21 +17,21 @@ class GeometryProgram;
 /// </summary>
 class DeferredHandler
 {
+    public:
+        const std::unique_ptr<GeometryBuffer> &GBuffer() const;
     protected:
-        glm::vec2 renderingSize;
-        /// <summary>
-        /// The geometry buffer which holds all the framebuffer
-        /// with all the render target texture attachments
-        /// </summary>
-        std::unique_ptr<GeometryBuffer> geometryBuffer;
         /// <summary>
         /// The deferred rendering geometry pass program
         /// </summary>
-        std::unique_ptr<GeometryProgram> geometryProgram;
+        GeometryProgram * geometryProgram;
         /// <summary>
         /// The deferred rendering lighting pass program
         /// </summary>
-        std::unique_ptr<LightingProgram> lightingProgram;
+        LightingProgram * lightingProgram;
+        /// <summary>
+        /// Geometry buffer resolution.
+        /// </summary>
+        glm::vec2 renderingSize;
         /// <summary>
         /// Renders a full screen quad, used in the light pass stage
         /// </summary>
@@ -50,7 +50,11 @@ class DeferredHandler
         oglplus::VertexArray fullscreenQuadVertexArray;
         oglplus::Buffer fullscreenQuadVertexBuffer;
         oglplus::Buffer fullscreenQuadElementBuffer;
-
+        /// <summary>
+        /// The geometry buffer which holds all the framebuffer
+        /// with all the render target texture attachments
+        /// </summary>
+        std::unique_ptr<GeometryBuffer> geometryBuffer;
         /// <summary>
         /// Loads the deferred rendering required shaders
         /// </summary>
@@ -64,6 +68,4 @@ class DeferredHandler
         /// <param name="windowHeight">The rendering window height.</param>
         void SetupGeometryBuffer(unsigned int windowWith, unsigned int windowHeight);
         void CreateFullscreenQuad() const;
-    public:
-        const std::unique_ptr<GeometryBuffer> &GBuffer() const;
 };

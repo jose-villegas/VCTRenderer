@@ -8,7 +8,7 @@
 #include "mesh.h"
 #include "camera.h"
 #include "../core/engine_base.h"
-#include "../core/deferred_renderer.h"
+#include "../rendering/deferred_renderer.h"
 
 Node::Node() : name("Default Node"), outsideFrustum(true)
 {

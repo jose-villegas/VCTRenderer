@@ -2,9 +2,13 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+#include "../programs/lighting_program.h"
+#include "../programs/geometry_program.h"
 #include "../scene/texture.h"
 #include "../scene/scene.h"
-#include "../interface/vct_interface.h"
+
+#include "../assets/code/ui/scene_loader.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -25,21 +29,34 @@ void AssetsManager::Terminate()
 
 AssetsManager::AssetsManager()
 {
+    // associate scene paths
     scenes.push_back
     (
-        std::make_shared<Scene>("resources\\models\\crytek-sponza\\sponza.obj")
+        std::make_shared<Scene>("assets\\models\\crytek-sponza\\sponza.obj")
     );
     scenes.push_back
     (
-        std::make_shared<Scene>("resources\\models\\sibenik\\sibenik.obj")
+        std::make_shared<Scene>("assets\\models\\sibenik\\sibenik.obj")
     );
     scenes.push_back
     (
-        std::make_shared<Scene>("resources\\models\\cornell-box\\cornellbox-original.obj")
+        std::make_shared<Scene>("assets\\models\\cornell-box\\cornellbox-original.obj")
     );
+    // instantiate implemented interfaces
     interfaces.push_back
     (
-        std::make_shared<UI>()
+        std::make_shared<UISceneLoader>()
+    );
+    // load shaders sources
+    programs.push_back
+    (
+        std::make_shared<GeometryProgram>("assets\\shaders\\geometry_pass.vert",
+                                          "assets\\shaders\\geometry_pass.frag")
+    );
+    programs.push_back
+    (
+        std::make_shared<LightingProgram>("assets\\shaders\\light_pass.vert",
+                                          "assets\\shaders\\light_pass.frag")
     );
     OGLTexture2D::GetDefaultTexture();
 }
@@ -47,8 +64,6 @@ AssetsManager::AssetsManager()
 
 AssetsManager::~AssetsManager()
 {
-    scenes.clear();
-    interfaces.clear();
     // early owner-ship release for static scope (no gl context)
     auto dTexture = OGLTexture2D::GetDefaultTexture().release();
 

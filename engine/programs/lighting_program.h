@@ -30,7 +30,6 @@ class LightingProgram : public ProgramShader
 
             UniformAttenuation attenuation;
         };
-        void ExtractUniforms() override;
     public:
         // fragment shader uniforms
         oglplus::UniformSampler gPosition;
@@ -43,8 +42,11 @@ class LightingProgram : public ProgramShader
         UniformLight directionalLight;
 
         oglplus::Uniform<float> ambientFactor;
-        LightingProgram();
-        virtual ~LightingProgram() {}
+
+        void ExtractUniforms() override;
+
+        using ProgramShader::ProgramShader;
+        ~LightingProgram() override;
         LightingProgram(LightingProgram const &r) = delete;
         LightingProgram &operator=(LightingProgram const &r) = delete;
 

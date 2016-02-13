@@ -29,7 +29,7 @@ class Scene : public SingleActive<Scene>
         Node rootNode;
 
         explicit Scene(std::string filepath);
-        virtual ~Scene();
+        ~Scene();
 
         const std::string &GetFilepath() const
         {

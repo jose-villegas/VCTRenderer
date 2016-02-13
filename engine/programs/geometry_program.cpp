@@ -31,6 +31,6 @@ void GeometryProgram::ExtractUniforms()
     matrices.modelViewProjection.BindTo("matrices.modelViewProjection");
 }
 
-GeometryProgram::GeometryProgram()
+GeometryProgram::~GeometryProgram()
 {
 }

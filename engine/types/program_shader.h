@@ -23,21 +23,13 @@ class ProgramShader
         /// The program shader
         /// </summary>
         std::unique_ptr<oglplus::Program> program;
-        /// <summary>
-        /// Meant to be implemented in inheriting classes
-        /// to extract uniform info such as binding location
-        /// type, etc
-        /// </summary>
-        /// <param name="uType">Type of the uniform.</param>
-        /// <param name="uName">Name of the uniform.</param>
-        void Build(const std::string &vsFilePath, const std::string &fsFilePath);
+        virtual void ExtractUniforms() = 0;
         void Use() const;
         // non copyable
-        ProgramShader() = default;
+        ProgramShader(const std::string &vsFilePath,
+                      const std::string &fsFilePath);
         ProgramShader(ProgramShader const &r) = delete;
         ProgramShader &operator=(ProgramShader const &r) = delete;
-    protected:
-        virtual void ExtractUniforms() = 0;
     private:
         static std::string ProgramShader::SourceFromFile(const std::string &filePath);
 };

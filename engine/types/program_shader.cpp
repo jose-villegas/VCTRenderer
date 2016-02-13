@@ -3,14 +3,25 @@
 
 #include "program_shader.h"
 
-void ProgramShader::Build(const std::string &vsFilePath,
-                          const std::string &fsFilePath)
+void ProgramShader::Use() const
+{
+    program->Use();
+}
+
+ProgramShader::ProgramShader(const std::string &vsFilePath,
+                             const std::string &fsFilePath)
 {
     using namespace oglplus;
 
-    if (!vertexShader) { vertexShader = std::make_unique<Shader>(ShaderType::Vertex); }
+    if (!vertexShader)
+    {
+        vertexShader = std::make_unique<Shader>(ShaderType::Vertex);
+    }
 
-    if (!fragmentShader) { fragmentShader = std::make_unique<Shader>(ShaderType::Fragment); }
+    if (!fragmentShader)
+    {
+        fragmentShader = std::make_unique<Shader>(ShaderType::Fragment);
+    }
 
     if (!program) { program = std::make_unique<Program>(); }
 
@@ -20,13 +31,7 @@ void ProgramShader::Build(const std::string &vsFilePath,
     fragmentShader->Compile();
     program->AttachShader(*vertexShader);
     program->AttachShader(*fragmentShader);
-    program->Link().Use();
-    ExtractUniforms();
-}
-
-void ProgramShader::Use() const
-{
-    program->Use();
+    program->Link();
 }
 
 std::string ProgramShader::SourceFromFile(const std::string &filePath)

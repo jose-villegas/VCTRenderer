@@ -32,7 +32,6 @@ class GeometryProgram : public ProgramShader
             oglplus::Uniform<glm::mat4> projection;
             oglplus::Uniform<glm::mat4> normal;
         };
-        void ExtractUniforms() override;
     public:
         // fragment shader uniforms
         UniformMaterial material;
@@ -43,8 +42,10 @@ class GeometryProgram : public ProgramShader
         // vertex shader uniforms
         UniformMatrices matrices;
 
-        GeometryProgram();
-        virtual ~GeometryProgram() {}
+        void ExtractUniforms() override;
+
+        using ProgramShader::ProgramShader;
+        ~GeometryProgram() override;
         GeometryProgram(GeometryProgram const &r) = delete;
         GeometryProgram &operator=(GeometryProgram const &r) = delete;
 };

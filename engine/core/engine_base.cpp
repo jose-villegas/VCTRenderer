@@ -2,11 +2,12 @@
 #include <GLFW/glfw3.h>
 #include "engine_base.h"
 
-#include "render_window.h"
-#include "deferred_renderer.h"
 #include "engine_assets.h"
 #include "../misc/utils.h"
+#include "../behavior/behavior.h"
 #include "../interface/interface.h"
+#include "../rendering/render_window.h"
+#include "../rendering/deferred_renderer.h"
 
 #include <oglplus/gl.hpp>
 #include <oglplus/context.hpp>
@@ -64,6 +65,8 @@ void EngineBase::MainLoop()
         // draw custom engine ui
         InterfaceRenderer::NewFrame();
         Interface::DrawAll();
+        // behaviors update
+        Behavior::UpdateAll();
         // render main scene
         renderer->Render();
         // ui render over scene
@@ -77,8 +80,6 @@ void EngineBase::Initialize()
 {
     // open window and set rendering context
     renderWindow->WindowHint(RenderWindow::WindowHints::Resizable, false);
-    renderWindow->WindowHint(RenderWindow::ContextHints::ContextVersionMajor, 3);
-    renderWindow->WindowHint(RenderWindow::ContextHints::ContextVersionMinor, 3);
     renderWindow->Open(WindowInfo(1280, 720, 0, 0, "VCTRenderer"), false);
     renderWindow->SetAsCurrentContext();
     // initialize OpenGL API

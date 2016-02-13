@@ -14,12 +14,10 @@ class EngineBase
 {
     public:
         virtual ~EngineBase();
-
         /// <summary>
         /// Main rendering loop
         /// </summary>
         void MainLoop();
-
         /// <summary>
         /// Returns the EngineBase singleton instance.
         /// </summary>
@@ -41,12 +39,10 @@ class EngineBase
         /// The engine renderer, uses deferred rendering path.
         /// </summary>
         std::unique_ptr<DeferredRenderer> renderer;
-
         /// <summary>
         /// Setups all the engine components, imports assets
         /// and initializes libraries.
         /// </summary>
         void Initialize();
-
         EngineBase();
 };

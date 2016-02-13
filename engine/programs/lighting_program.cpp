@@ -3,10 +3,6 @@
 
 #include "lighting_program.h"
 
-LightingProgram::LightingProgram()
-{
-}
-
 void LightingProgram::ExtractUniforms()
 {
     using namespace oglplus;
@@ -30,3 +26,6 @@ void LightingProgram::ExtractUniforms()
     directionalLight.direction.BindTo("directionalLight.direction");
     screenSize.BindTo("screenSize");
 }
+
+LightingProgram::~LightingProgram()
+{}

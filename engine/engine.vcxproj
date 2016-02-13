@@ -319,9 +319,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Releaso|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="core\geometry_buffer.cpp" />
-    <ClCompile Include="core\lighting_program.cpp" />
+    <ClCompile Include="behavior\behavior.cpp" />
+    <ClCompile Include="types\geometry_buffer.cpp" />
+    <ClCompile Include="programs\lighting_program.cpp" />
     <ClCompile Include="interface\interface_renderer.cpp" />
+    <ClCompile Include="assets\code\ui\scene_loader.cpp" />
     <ClCompile Include="util\raw_format.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -330,16 +332,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Releaso|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="core\geometry_program.cpp" />
+    <ClCompile Include="programs\geometry_program.cpp" />
     <ClCompile Include="types\frustum.cpp" />
     <ClCompile Include="types\bounding_box.cpp" />
     <ClCompile Include="core\engine_assets.cpp" />
     <ClCompile Include="core\engine_base.cpp" />
-    <ClCompile Include="core\deferred_renderer.cpp" />
-    <ClCompile Include="core\deferred_handler.cpp" />
+    <ClCompile Include="rendering\deferred_renderer.cpp" />
+    <ClCompile Include="rendering\deferred_handler.cpp" />
     <ClCompile Include="interface\interface.cpp" />
-    <ClCompile Include="core\render_window.cpp" />
-    <ClCompile Include="interface\vct_interface.cpp" />
+    <ClCompile Include="rendering\render_window.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="misc\utils.cpp" />
     <ClCompile Include="scene\camera.cpp" />
@@ -396,10 +397,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Releaso|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="core\geometry_buffer.h" />
-    <ClInclude Include="core\geometry_program.h" />
-    <ClInclude Include="core\lighting_program.h" />
+    <ClInclude Include="behavior\behavior.h" />
+    <ClInclude Include="types\geometry_buffer.h" />
+    <ClInclude Include="programs\geometry_program.h" />
+    <ClInclude Include="programs\lighting_program.h" />
     <ClInclude Include="interface\interface_renderer.h" />
+    <ClInclude Include="assets\code\ui\scene_loader.h" />
     <ClInclude Include="types\instance_pool.h" />
     <ClInclude Include="util\data_segment.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -425,12 +428,11 @@
     <ClInclude Include="types\bounding_box.h" />
     <ClInclude Include="core\engine_assets.h" />
     <ClInclude Include="core\engine_base.h" />
-    <ClInclude Include="core\deferred_renderer.h" />
-    <ClInclude Include="core\deferred_handler.h" />
+    <ClInclude Include="rendering\deferred_renderer.h" />
+    <ClInclude Include="rendering\deferred_handler.h" />
     <ClInclude Include="types\face.h" />
     <ClInclude Include="interface\interface.h" />
-    <ClInclude Include="core\render_window.h" />
-    <ClInclude Include="interface\vct_interface.h" />
+    <ClInclude Include="rendering\render_window.h" />
     <ClInclude Include="misc\utils.h" />
     <ClInclude Include="scene\camera.h" />
     <ClInclude Include="scene\light.h" />
@@ -444,10 +446,10 @@
     <ClInclude Include="util\texture_importer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\geometry_pass.frag" />
-    <None Include="resources\shaders\geometry_pass.vert" />
-    <None Include="resources\shaders\light_pass.frag" />
-    <None Include="resources\shaders\light_pass.vert" />
+    <None Include="assets\shaders\geometry_pass.frag" />
+    <None Include="assets\shaders\geometry_pass.vert" />
+    <None Include="assets\shaders\light_pass.frag" />
+    <None Include="assets\shaders\light_pass.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

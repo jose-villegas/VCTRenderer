@@ -5,9 +5,10 @@
 #include <oglplus/vertex_attrib.hpp>
 #include <oglplus/bound/texture.hpp>
 
-#include "lighting_program.h"
-#include "geometry_program.h"
-#include "geometry_buffer.h"
+#include "../core/engine_assets.h"
+#include "../types/geometry_buffer.h"
+#include "../programs/lighting_program.h"
+#include "../programs/geometry_program.h"
 
 DeferredHandler::DeferredHandler(unsigned int windowWith,
                                  unsigned int windowHeight)
@@ -69,24 +70,16 @@ void DeferredHandler::RenderFullscreenQuad() const
 
 void DeferredHandler::LoadShaders()
 {
-    using namespace oglplus;
-
-    if (!lightingProgram)
-    {
-        lightingProgram = std::make_unique<LightingProgram>();
-    }
-
-    if (!geometryProgram)
-    {
-        geometryProgram = std::make_unique<GeometryProgram>();
-    }
-
+    static auto &assets = AssetsManager::Instance();
+    // get program shaders from assets manager
+    geometryProgram = static_cast<GeometryProgram *>
+                      (assets->programs[AssetsManager::GeometryPass].get());
+    lightingProgram = static_cast<LightingProgram *>
+                      (assets->programs[AssetsManager::LightPass].get());
     // geometry pass shader source code and compile
-    geometryProgram->Build("resources\\shaders\\geometry_pass.vert",
-                           "resources\\shaders\\geometry_pass.frag");
+    geometryProgram->ExtractUniforms();
     //// light pass shader source code and compile
-    lightingProgram->Build("resources\\shaders\\light_pass.vert",
-                           "resources\\shaders\\light_pass.frag");
+    lightingProgram->ExtractUniforms();
 }
 
 void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,

@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 
+class ProgramShader;
 class Scene;
 class Interface;
 
@@ -13,12 +14,20 @@ class Interface;
 class AssetsManager
 {
     public:
-        virtual ~AssetsManager();
+        enum CorePrograms
+        {
+            GeometryPass = 0,
+            LightPass,
+        };
+
+        ~AssetsManager();
         static std::unique_ptr<AssetsManager> &Instance();
+        static void Terminate();
+
         std::vector<std::shared_ptr<Scene>> scenes;
         std::vector<std::shared_ptr<Interface>> interfaces;
+        std::vector<std::shared_ptr<ProgramShader>> programs;
 
-        static void Terminate();
         // No copying, copy, move assignment allowed of this class
         // or any derived class
         AssetsManager(AssetsManager const &r) = delete;
