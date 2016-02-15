@@ -395,13 +395,13 @@
 #elif defined(GLM_FORCE_SSE2)
 #	define GLM_ARCH (GLM_ARCH_SSE2)
 #elif (GLM_COMPILER & (GLM_COMPILER_APPLE_CLANG | GLM_COMPILER_LLVM | GLM_COMPILER_GCC)) || ((GLM_COMPILER & GLM_COMPILER_INTEL) && (GLM_PLATFORM & GLM_PLATFORM_LINUX))
-#	if(__AVX2__)
+#	if defined(__AVX2__)
 #		define GLM_ARCH (GLM_ARCH_AVX2 | GLM_ARCH_AVX | GLM_ARCH_SSE3 | GLM_ARCH_SSE2)
-#	elif(__AVX__)
+#	elif defined(__AVX__)
 #		define GLM_ARCH (GLM_ARCH_AVX | GLM_ARCH_SSE3 | GLM_ARCH_SSE2)
-#	elif(__SSE3__)
+#	elif defined(__SSE3__)
 #		define GLM_ARCH (GLM_ARCH_SSE3 | GLM_ARCH_SSE2)
-#	elif(__SSE2__)
+#	elif defined(__SSE2__)
 #		define GLM_ARCH (GLM_ARCH_SSE2)
 #	else
 #		define GLM_ARCH GLM_ARCH_PURE
@@ -457,13 +457,6 @@
 #endif//GLM_ARCH
 #if GLM_ARCH & GLM_ARCH_SSE2
 #	include <emmintrin.h>
-#	if(GLM_COMPILER == GLM_COMPILER_VC2005) // VC2005 is missing some intrinsics, workaround
-		inline float _mm_cvtss_f32(__m128 A) { return A.m128_f32[0]; }
-		inline __m128 _mm_castpd_ps(__m128d PD) { union { __m128 ps; __m128d pd; } c; c.pd = PD; return c.ps; }
-		inline __m128d _mm_castps_pd(__m128 PS) { union { __m128 ps; __m128d pd; } c; c.ps = PS; return c.pd; }
-		inline __m128i _mm_castps_si128(__m128 PS) { union { __m128 ps; __m128i pi; } c; c.ps = PS; return c.pi; }
-		inline __m128 _mm_castsi128_ps(__m128i PI) { union { __m128 ps; __m128i pi; } c; c.pi = PI; return c.ps; }
-#	endif
 #endif//GLM_ARCH
 
 #if defined(GLM_MESSAGES) && !defined(GLM_MESSAGE_ARCH_DISPLAYED)
@@ -579,29 +572,20 @@
 #		endif
 #	elif GLM_COMPILER & GLM_COMPILER_INTEL
 #		ifdef _MSC_EXTENSIONS
-#			if __cplusplus >= 201402L
-#				define GLM_LANG (GLM_LANG_CXX14 | GLM_LANG_CXXMS_FLAG)
-#			elif __cplusplus >= 201103L
-#				define GLM_LANG (GLM_LANG_CXX11 | GLM_LANG_CXXMS_FLAG)
-#			elif GLM_COMPILER >= GLM_COMPILER_INTEL13
-#				define GLM_LANG (GLM_LANG_CXX0X | GLM_LANG_CXXMS_FLAG)
-#			elif __cplusplus >= 199711L
-#				define GLM_LANG (GLM_LANG_CXX98 | GLM_LANG_CXXMS_FLAG)
-#			else
-#				define GLM_LANG (GLM_LANG_CXX | GLM_LANG_CXXMS_FLAG)
-#			endif
+#			define GLM_MSC_EXT GLM_LANG_CXXMS_FLAG
 #		else
-#			if __cplusplus >= 201402L
-#				define GLM_LANG (GLM_LANG_CXX14 | GLM_LANG_CXXMS_FLAG)
-#			elif __cplusplus >= 201103L
-#				define GLM_LANG (GLM_LANG_CXX11 | GLM_LANG_CXXMS_FLAG)
-#			elif GLM_COMPILER >= GLM_COMPILER_INTEL13
-#				define GLM_LANG (GLM_LANG_CXX0X | GLM_LANG_CXXMS_FLAG)
-#			elif __cplusplus >= 199711L
-#				define GLM_LANG (GLM_LANG_CXX98 | GLM_LANG_CXXMS_FLAG)
-#			else
-#				define GLM_LANG (GLM_LANG_CXX | GLM_LANG_CXXMS_FLAG)
-#			endif
+#			define GLM_MSC_EXT 0
+#		endif
+#		if __cplusplus >= 201402L
+#			define GLM_LANG (GLM_LANG_CXX14 | GLM_MSC_EXT)
+#		elif __cplusplus >= 201103L
+#			define GLM_LANG (GLM_LANG_CXX11 | GLM_MSC_EXT)
+#		elif __INTEL_CXX11_MODE__
+#			define GLM_LANG (GLM_LANG_CXX0X | GLM_MSC_EXT)
+#		elif __cplusplus >= 199711L
+#			define GLM_LANG (GLM_LANG_CXX98 | GLM_MSC_EXT)
+#		else
+#			define GLM_LANG (GLM_LANG_CXX | GLM_MSC_EXT)
 #		endif
 #	else // Unkown compiler
 #		if __cplusplus >= 201402L
@@ -1013,7 +997,7 @@ namespace detail
 		}
 	}//namespace glm
 #	define GLM_COUNTOF(arr) glm::countof(arr)
-#elif _MSC_VER
+#elif defined(_MSC_VER)
 #	define GLM_COUNTOF(arr) _countof(arr)
 #else
 #	define GLM_COUNTOF(arr) sizeof(arr) / sizeof(arr[0])

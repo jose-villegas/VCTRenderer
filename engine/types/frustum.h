@@ -1,26 +1,33 @@
 #pragma once
+#include <array>
 
-class BoundingVolume;
+#include <glm\detail\type_mat4x4.hpp>
+#include <glm\detail\type_vec4.hpp>
+
+class BoundingBox;
+class BoundingSphere;
+class BoundingBox;
 
 class Frustum
 {
-
     public:
+        void ExtractPlanes(const glm::mat4x4 &mvMatrix, bool normalize = true);
+    protected:
         enum Plane
         {
-            Right = 0,
-            Left,
-            Bottom,
-            Top,
-            Far,
-            Near
+            Left, Right,
+            Bottom, Top,
+            Near, Far,
         };
 
-        Frustum();
-        virtual ~Frustum();
+        std::array<glm::vec4, 6> planes;
+};
 
-        void CalculatePlanes(const glm::mat4x4 &mvMatrix);
-        bool BoxInFrustum(const BoundingVolume &bVolume);
-    private:
-        glm::vec4 fPlane[6];
+class CullingFrustum : public Frustum
+{
+    public:
+        CullingFrustum();
+        virtual ~CullingFrustum();
+
+        bool InFrustum(const BoundingBox &volume) const;
 };

@@ -1,25 +1,10 @@
 #pragma once
 
-#include <string>
+#include "../types/bounding_box.h"
+
 #include <vector>
-
-// opengl and context creation headers
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-// ogl headers c++ wrapper on opengl
-#include <oglplus/gl.hpp>
-#include <oglplus/all.hpp>
-#include <oglplus/opt/smart_enums.hpp>
-#include <oglplus/shapes/cube.hpp>
-#include <oglplus/bound/texture.hpp>
-#include <oglplus/buffer_usage.hpp>
-#include <oglplus/glsl_source.hpp>
-#include <oglplus/glsl_string.hpp>
-#include <oglplus/object/array.hpp>
-#include <oglplus/object/group.hpp>
-#include <oglplus/interop/glm.hpp>
-
-#include "../types/bounding_volume.h"
+#include <oglplus/buffer.hpp>
+#include <oglplus/vertex_array.hpp>
 
 class OGLMaterial;
 struct Vertex;
@@ -28,7 +13,7 @@ class Mesh
 {
     public:
         // node boundaries
-        BoundingVolume boundaries;
+        BoundingBox boundaries;
         // mesh identifier
         std::string name;
         // mesh raw data
@@ -50,7 +35,7 @@ class OGLMesh : public Mesh
         std::unique_ptr<oglplus::Buffer> oglElementArrayBuffer;
         std::unique_ptr<oglplus::VertexArray> oglVertexArray;
 
-        bool onGPUMemory;
+        bool loaded;
         unsigned int indicesCount;
         unsigned int vertexCount;
     public:
@@ -58,19 +43,16 @@ class OGLMesh : public Mesh
         OGLMesh();
         ~OGLMesh();
 
-        void UploadToGPU(bool unloadFromRAM = true);
-        void BindArrayBuffer();
-        void BindElementArrayBuffer();
-        void BindVertexArrayObject();
+        void Load();
+        void BindArrayBuffer() const;
+        void BindElementArrayBuffer() const;
+        void BindVertexArrayObject() const;
 
-        void BufferPointers(oglplus::Program &program);
-        void BufferSetup(oglplus::Program &program);
-
-        void DrawElements();
-        bool OnGPUMemory() const { return onGPUMemory; }
-    private:
+        void DrawElements() const;
+        bool IsLoaded() const { return loaded; }
+    protected:
         // No copying or copy assignment allowed of this class or any derived class
-        OGLMesh(OGLMesh const &);
-        OGLMesh &operator=(OGLMesh const &);
+        OGLMesh(OGLMesh const &) = delete;
+        OGLMesh &operator=(OGLMesh const &) = delete;
 };
 

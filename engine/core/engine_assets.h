@@ -1,29 +1,40 @@
 #pragma once
+
 #include <vector>
 #include <memory>
-#include "../util/scene_importer.h"
 
+class ProgramShader;
 class Scene;
+class Interface;
 
-class EngineAssets
+/// <summary>
+/// This class holds all the assets
+/// used by the engine in runtime.
+/// </summary>
+class AssetsManager
 {
     public:
-        EngineAssets();
-        virtual ~EngineAssets();
+        enum CorePrograms
+        {
+            GeometryPass = 0,
+            LightPass,
+        };
 
-        std::vector<const char *> &SceneNames();
-        std::vector<std::shared_ptr<Scene>> &Scenes();
-        void LoadScenes();
-    private:
-        // prevents loading scenes twice
-        bool scenesAlreadyLoaded;
-        // utility class to import scenes using assimp
-        SceneImporter sceneImporter;
-        // all scenes data used by the base engine are stored here
+        ~AssetsManager();
+        static std::unique_ptr<AssetsManager> &Instance();
+        static void Terminate();
+
         std::vector<std::shared_ptr<Scene>> scenes;
-        // stores locations of available scenes files
-        std::vector<const char *> sceneFilepaths;
-        std::vector<const char *> sceneNames;
+        std::vector<std::shared_ptr<Interface>> interfaces;
+        std::vector<std::shared_ptr<ProgramShader>> programs;
+
+        // No copying, copy, move assignment allowed of this class
+        // or any derived class
+        AssetsManager(AssetsManager const &r) = delete;
+        AssetsManager(AssetsManager const &&r) = delete;
+        AssetsManager &operator=(AssetsManager const &r) = delete;
+    private:
+        AssetsManager();
 };
 
 

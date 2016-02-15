@@ -2,8 +2,6 @@
 #include "segment.h"
 #include "raw_format.h"
 
-#define DATA_SEGMENT_GLM_INTEROP
-
 template<typename T, size_t _Count = 1>
 class RawFormat::DataSegment : public Segment
 {

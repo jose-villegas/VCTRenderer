@@ -1,41 +1,48 @@
 #pragma once
+
 #include <memory>
 
-#include "../interface/vct_interface.h"
-#include "render_window.h"
-
+class RenderWindow;
 class DeferredRenderer;
-class EngineAssets;
+class AssetsManager;
 
+/// <summary>
+/// This is the entry point of the rendering engine
+/// where the main rendering loop resides.
+/// </summary>
 class EngineBase
 {
     public:
         virtual ~EngineBase();
-
+        /// <summary>
+        /// Main rendering loop
+        /// </summary>
         void MainLoop();
-        static std::shared_ptr<EngineBase> &Instance();
-
-        static UI &Interface() { return Instance()->userInterface; }
-        static EngineAssets &Assets() { return *Instance()->assetLoader; }
-        static RenderWindow &Window() { return Instance()->renderWindow; }
-        static DeferredRenderer &Renderer() { return *Instance()->renderer; }
-    private:
-        // over frame user interface
-        UI userInterface;
-        // glfw window containing ogl context
-        RenderWindow renderWindow;
-        // loads all deferred shaders file and handles
-        // deferred rendering - context dependant
-        std::unique_ptr<DeferredRenderer> renderer;
-        // loads all scene raw data and uploads
-        // to gpu - context dependant
-        std::unique_ptr<EngineAssets> assetLoader;
-        // imports assets and initializes engine libraries
-        void Initialize();
+        /// <summary>
+        /// Returns the EngineBase singleton instance.
+        /// </summary>
+        /// <returns></returns>
+        static std::unique_ptr<EngineBase> &Instance();
+        static const DeferredRenderer &Renderer();
+        static void Terminate();
         // No copying, copy, move assignment allowed of this class
         // or any derived class
+        EngineBase(EngineBase const &r) = delete;
+        EngineBase(EngineBase const &&r) = delete;
+        EngineBase &operator=(EngineBase const &r) = delete;
+    private:
+        /// <summary>
+        /// The rendering window.
+        /// </summary>
+        std::unique_ptr<RenderWindow> renderWindow;
+        /// <summary>
+        /// The engine renderer, uses deferred rendering path.
+        /// </summary>
+        std::unique_ptr<DeferredRenderer> renderer;
+        /// <summary>
+        /// Setups all the engine components, imports assets
+        /// and initializes libraries.
+        /// </summary>
+        void Initialize();
         EngineBase();
-        EngineBase(EngineBase const &r);
-        EngineBase(EngineBase const &&r);
-        EngineBase &operator=(EngineBase const &r);
 };

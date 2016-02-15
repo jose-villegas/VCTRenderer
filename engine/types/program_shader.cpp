@@ -1,16 +1,37 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "program_shader.h"
 
-void ProgramShader::Build(const std::string &vsFilePath,
-                          const std::string &fsFilePath)
+void ProgramShader::Use() const
 {
-    vertexShader.Source(SourceFromFile(vsFilePath));
-    vertexShader.Compile();
-    fragmentShader.Source(SourceFromFile(fsFilePath));
-    fragmentShader.Compile();
-    program.AttachShader(vertexShader);
-    program.AttachShader(fragmentShader);
-    program.Link().Use();
-    PassActiveUniforms();
+    program->Use();
+}
+
+ProgramShader::ProgramShader(const std::string &vsFilePath,
+                             const std::string &fsFilePath)
+{
+    using namespace oglplus;
+
+    if (!vertexShader)
+    {
+        vertexShader = std::make_unique<Shader>(ShaderType::Vertex);
+    }
+
+    if (!fragmentShader)
+    {
+        fragmentShader = std::make_unique<Shader>(ShaderType::Fragment);
+    }
+
+    if (!program) { program = std::make_unique<Program>(); }
+
+    vertexShader->Source(SourceFromFile(vsFilePath));
+    vertexShader->Compile();
+    fragmentShader->Source(SourceFromFile(fsFilePath));
+    fragmentShader->Compile();
+    program->AttachShader(*vertexShader);
+    program->AttachShader(*fragmentShader);
+    program->Link();
 }
 
 std::string ProgramShader::SourceFromFile(const std::string &filePath)
@@ -20,15 +41,4 @@ std::string ProgramShader::SourceFromFile(const std::string &filePath)
                        std::istreambuf_iterator<char>());
     file.close();
     return result;
-}
-
-void ProgramShader::PassActiveUniforms()
-{
-    auto uRange = program.ActiveUniforms();
-
-    for (unsigned int i = 0; i < uRange.Size(); i++)
-    {
-        // call virtual implemented virtual method
-        ExtractUniform(uRange.At(i));
-    }
 }

@@ -2,81 +2,60 @@
 
 #include "frustum.h"
 
-#include "bounding_volume.h"
+#include "bounding_box.h"
+#include <glm/gtc/matrix_access.hpp>
 
-Frustum::Frustum()
+CullingFrustum::CullingFrustum()
 {
 }
 
 
-Frustum::~Frustum()
+CullingFrustum::~CullingFrustum()
 {
 }
 
-void Frustum::CalculatePlanes(const glm::mat4x4 &mvMatrix)
+void Frustum::ExtractPlanes(const glm::mat4x4 &matrix, bool normalize)
 {
-    // Extract frustum planes from matrix
-    // Planes are in format: normal(xyz), offset(w)
-    fPlane[Right] = glm::vec4(mvMatrix[0][3] - mvMatrix[0][0],
-                              mvMatrix[1][3] - mvMatrix[1][0],
-                              mvMatrix[2][3] - mvMatrix[2][0],
-                              mvMatrix[3][3] - mvMatrix[3][0]);
-    fPlane[Left] = glm::vec4(mvMatrix[0][3] + mvMatrix[0][0],
-                             mvMatrix[1][3] + mvMatrix[1][0],
-                             mvMatrix[2][3] + mvMatrix[2][0],
-                             mvMatrix[3][3] + mvMatrix[3][0]);
-    fPlane[Bottom] = glm::vec4(mvMatrix[0][3] + mvMatrix[0][1],
-                               mvMatrix[1][3] + mvMatrix[1][1],
-                               mvMatrix[2][3] + mvMatrix[2][1],
-                               mvMatrix[3][3] + mvMatrix[3][1]);
-    fPlane[Top] = glm::vec4(mvMatrix[0][3] - mvMatrix[0][1],
-                            mvMatrix[1][3] - mvMatrix[1][1],
-                            mvMatrix[2][3] - mvMatrix[2][1],
-                            mvMatrix[3][3] - mvMatrix[3][1]);
-    fPlane[Far] = glm::vec4(mvMatrix[0][3] - mvMatrix[0][2],
-                            mvMatrix[1][3] - mvMatrix[1][2],
-                            mvMatrix[2][3] - mvMatrix[2][2],
-                            mvMatrix[3][3] - mvMatrix[3][2]);
-    fPlane[Near] = glm::vec4(mvMatrix[0][3] + mvMatrix[0][2],
-                             mvMatrix[1][3] + mvMatrix[1][2],
-                             mvMatrix[2][3] + mvMatrix[2][2],
-                             mvMatrix[3][3] + mvMatrix[3][2]);
+    // extract frustum planes from matrix
+    // planes are in format: normal(xyz), offset(w)
+    const glm::vec4 mRow[4] =
+    {
+        row(matrix, 0), row(matrix, 1),
+        row(matrix, 2), row(matrix, 3)
+    };
+    planes[Left] = mRow[3] + mRow[0];
+    planes[Right] = mRow[3] - mRow[0];
+    planes[Bottom] = mRow[3] + mRow[1];
+    planes[Top] = mRow[3] - mRow[1];
+    planes[Near] = mRow[3] + mRow[2];
+    planes[Far] = mRow[3] - mRow[2];
+
+    if (!normalize) { return; }
 
     // Normalize them
-    for (int i = 0; i < 6; i++)
+    for (auto &p : planes)
     {
-        float invl = std::sqrt(fPlane[i].x * fPlane[i].x +
-                               fPlane[i].y * fPlane[i].y +
-                               fPlane[i].z * fPlane[i].z);
-        fPlane[i] /= invl;
+        p /= length(p);
     }
 }
 
-bool Frustum::BoxInFrustum(const BoundingVolume &bVolume)
+bool CullingFrustum::InFrustum(const BoundingBox &volume) const
 {
-    // check box outside/inside of frustum
-    for (int i = 0; i < 6; i++)
-    {
-        int out = 0;
-        out += ((dot(fPlane[i], glm::vec4(bVolume.minPoint.x, bVolume.minPoint.y,
-                                          bVolume.minPoint.z, 1.0f)) < 0.0) ? 1 : 0);
-        out += ((dot(fPlane[i], glm::vec4(bVolume.maxPoint.x, bVolume.minPoint.y,
-                                          bVolume.minPoint.z, 1.0f)) < 0.0) ? 1 : 0);
-        out += ((dot(fPlane[i], glm::vec4(bVolume.minPoint.x, bVolume.maxPoint.y,
-                                          bVolume.minPoint.z, 1.0f)) < 0.0) ? 1 : 0);
-        out += ((dot(fPlane[i], glm::vec4(bVolume.maxPoint.x, bVolume.maxPoint.y,
-                                          bVolume.minPoint.z, 1.0f)) < 0.0) ? 1 : 0);
-        out += ((dot(fPlane[i], glm::vec4(bVolume.minPoint.x, bVolume.minPoint.y,
-                                          bVolume.maxPoint.z, 1.0f)) < 0.0) ? 1 : 0);
-        out += ((dot(fPlane[i], glm::vec4(bVolume.maxPoint.x, bVolume.minPoint.y,
-                                          bVolume.maxPoint.z, 1.0f)) < 0.0) ? 1 : 0);
-        out += ((dot(fPlane[i], glm::vec4(bVolume.minPoint.x, bVolume.maxPoint.y,
-                                          bVolume.maxPoint.z, 1.0f)) < 0.0) ? 1 : 0);
-        out += ((dot(fPlane[i], glm::vec4(bVolume.maxPoint.x, bVolume.maxPoint.y,
-                                          bVolume.maxPoint.z, 1.0f)) < 0.0) ? 1 : 0);
+    glm::vec3 normal;
 
-        if (out == 8) { return false; }
+    for (auto &plane : planes)
+    {
+        normal = glm::vec3(plane);
+        auto d = dot(volume.Extent(), abs(normal));
+        auto r = dot(volume.Center(), normal) + plane.w;
+
+        if (!(d + r > 0))
+        {
+            return false;
+        }
     }
 
     return true;
 }
+
+

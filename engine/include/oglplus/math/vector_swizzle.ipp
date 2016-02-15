@@ -4,7 +4,7 @@
  *  Automatically generated header file. DO NOT modify manually,
  *  edit 'tools/make_vec_swiz_header.sh' instead.
  *
- *  Copyright 2010-2014 Matus Chochlik. Distributed under the Boost
+ *  Copyright 2010-2016 Matus Chochlik. Distributed under the Boost
  *  Software License, Version 1.0. (See accompanying file
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
@@ -21,7 +21,7 @@ public:
 	 : Vector<T, 1>(v)
 	{ }
 
-	T x(void) const  { return this->template At(0); }
+	T x(void) const  { return this->At(0); }
 };
 
 template <typename T>
@@ -33,8 +33,8 @@ public:
 	 : Vector<T, 2>(v)
 	{ }
 
-	T x(void) const  { return this->template At(0); }
-	T y(void) const  { return this->template At(1); }
+	T x(void) const  { return this->At(0); }
+	T y(void) const  { return this->At(1); }
 
 	Vector<T, 2> xx(void) const { return Vector<T, 2>(x(),x()); }
 	Vector<T, 2> xy(void) const { return Vector<T, 2>(x(),y()); }
@@ -51,9 +51,9 @@ public:
 	 : Vector<T, 3>(v)
 	{ }
 
-	T x(void) const  { return this->template At(0); }
-	T y(void) const  { return this->template At(1); }
-	T z(void) const  { return this->template At(2); }
+	T x(void) const  { return this->At(0); }
+	T y(void) const  { return this->At(1); }
+	T z(void) const  { return this->At(2); }
 
 	Vector<T, 2> xx(void) const { return Vector<T, 2>(x(),x()); }
 	Vector<T, 2> xy(void) const { return Vector<T, 2>(x(),y()); }
@@ -103,10 +103,10 @@ public:
 	 : Vector<T, 4>(v)
 	{ }
 
-	T x(void) const  { return this->template At(0); }
-	T y(void) const  { return this->template At(1); }
-	T z(void) const  { return this->template At(2); }
-	T w(void) const  { return this->template At(3); }
+	T x(void) const  { return this->At(0); }
+	T y(void) const  { return this->At(1); }
+	T z(void) const  { return this->At(2); }
+	T w(void) const  { return this->At(3); }
 
 	Vector<T, 2> xx(void) const { return Vector<T, 2>(x(),x()); }
 	Vector<T, 2> xy(void) const { return Vector<T, 2>(x(),y()); }

@@ -481,6 +481,12 @@ namespace glm
 	// -- Unary arithmetic operators --
 
 	template <typename T, precision P>
+	GLM_FUNC_QUALIFIER tvec2<T, P> operator+(tvec2<T, P> const & v)
+	{
+		return v;
+	}
+
+	template <typename T, precision P>
 	GLM_FUNC_QUALIFIER tvec2<T, P> operator-(tvec2<T, P> const & v)
 	{
 		return tvec2<T, P>(

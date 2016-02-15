@@ -1,8 +1,10 @@
 #pragma once
-#include <glm/detail/type_vec3.hpp>
+
+#include "texture.h"
+
 #include <array>
 #include <memory>
-#include "texture.h"
+#include <glm/detail/type_vec3.hpp>
 
 class Material
 {
@@ -25,13 +27,34 @@ class Material
             Default,
             Additive
         };
+        std::string name;
 
+        const glm::vec3 &Ambient() const;
+        void Ambient(const glm::vec3 &val);
+        const glm::vec3 &Diffuse() const;
+        void Diffuse(const glm::vec3 &val);
+        const glm::vec3 &Specular() const;
+        void Specular(const glm::vec3 &val);
+        const glm::vec3 &Emissive() const;
+        void Emissive(const glm::vec3 &val);
+        const glm::vec3 &Transparent() const;
+        void Transparent(const glm::vec3 &val);
+
+        float Opacity() const;
+        void Opacity(float val);
+        float Shininess() const;
+        void Shininess(float val);
+        float ShininessStrenght() const;
+        void ShininessStrenght(float val);
+        float RefractionIndex() const;
+        void RefractionIndex(float val);
+        Material();
+    private:
         glm::vec3 ambient;
         glm::vec3 diffuse;
         glm::vec3 specular;
         glm::vec3 emissive;
         glm::vec3 transparent;
-
         float opacity;
         float shininess;
         float shininessStrenght;
@@ -41,11 +64,6 @@ class Material
 class OGLMaterial : public Material
 {
     public:
-        static glm::vec3 White;
-        static glm::vec3 Black;
-
-        std::string name;
-
         bool HasTexture(RawTexture::TextureType texType) const;
         void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
                         RawTexture::TextureType texType);
@@ -54,7 +72,6 @@ class OGLMaterial : public Material
         OGLMaterial();
         ~OGLMaterial();
     private:
-        std::array<std::shared_ptr<OGLTexture2D>,
-            RawTexture::TYPE_MAX> textures;
+        std::array<std::shared_ptr<OGLTexture2D>, RawTexture::TYPE_MAX> textures;
 };
 
