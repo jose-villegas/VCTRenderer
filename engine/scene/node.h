@@ -1,5 +1,6 @@
 #pragma once
 
+#include "scene_object.h"
 #include "../types/bounding_box.h"
 #include "../util/single_active.h"
 
@@ -7,17 +8,15 @@
 #include <glm/gtc/quaternion.hpp>
 
 class Camera;
-class OGLMesh;
+class MeshDrawer;
 
-class Node : public SingleActive<Node>
+class Node : public SceneObject, public SingleActive<Node>
 {
     public:
         // node boundaries
         BoundingBox boundaries;
-        // node identifier
-        std::string name;
         // meshes associated and children
-        std::vector<std::shared_ptr<OGLMesh>> meshes;
+        std::vector<std::shared_ptr<MeshDrawer>> meshes;
         std::vector<std::shared_ptr<Node>> nodes;
         Node();
         virtual ~Node();

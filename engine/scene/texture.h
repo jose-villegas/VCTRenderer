@@ -53,16 +53,16 @@ class RawTexture
 };
 
 // holds information to opengl texture
-class OGLTexture2D : public RawTexture
+class Texture2D : public RawTexture
 {
     protected:
         std::unique_ptr<oglplus::Texture> oglTexture;
 
-        static OGLTexture2D * CreateColorTexture(std::string texName,
-                glm::u8vec3 texColor);
+        static Texture2D * CreateColorTexture(std::string texName,
+                                              glm::u8vec3 texColor);
     public:
-        OGLTexture2D();
-        ~OGLTexture2D();
+        Texture2D();
+        ~Texture2D();
         void Load(oglplus::TextureMinFilter minFilter,
                   oglplus::TextureMagFilter magFilter,
                   oglplus::TextureWrap wrapS,
@@ -72,9 +72,9 @@ class OGLTexture2D : public RawTexture
         void Bind() const;
         int Name() const;
 
-        static std::unique_ptr<OGLTexture2D> &GetDefaultTexture();
+        static std::unique_ptr<Texture2D> &GetDefaultTexture();
     private:
         // No copying or copy assignment allowed of this class or any derived class
-        OGLTexture2D(OGLTexture2D const &) = delete;
-        OGLTexture2D &operator=(OGLTexture2D const &) = delete;
+        Texture2D(Texture2D const &) = delete;
+        Texture2D &operator=(Texture2D const &) = delete;
 };

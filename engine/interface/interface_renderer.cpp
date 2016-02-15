@@ -13,7 +13,8 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-std::unique_ptr<InterfaceRenderer::UIData> InterfaceRenderer::uiData = nullptr;
+std::unique_ptr<InterfaceRenderer::RendererData> InterfaceRenderer::renderer =
+    nullptr;
 
 InterfaceRenderer::InterfaceRenderer()
 {
@@ -26,16 +27,20 @@ InterfaceRenderer::~InterfaceRenderer()
 void InterfaceRenderer::RenderDrawList(ImDrawData * drawData)
 {
     // Backup GL state
-    GLint last_program; glGetIntegerv(GL_CURRENT_PROGRAM, &last_program);
-    GLint last_texture; glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
+    GLint last_program;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &last_program);
+    GLint last_texture;
+    glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
     GLint last_array_buffer;
     glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
     GLint last_element_array_buffer;
     glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &last_element_array_buffer);
     GLint last_vertex_array;
     glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
-    GLint last_blend_src; glGetIntegerv(GL_BLEND_SRC, &last_blend_src);
-    GLint last_blend_dst; glGetIntegerv(GL_BLEND_DST, &last_blend_dst);
+    GLint last_blend_src;
+    glGetIntegerv(GL_BLEND_SRC, &last_blend_src);
+    GLint last_blend_dst;
+    glGetIntegerv(GL_BLEND_DST, &last_blend_dst);
     GLint last_blend_equation_rgb;
     glGetIntegerv(GL_BLEND_EQUATION_RGB, &last_blend_equation_rgb);
     GLint last_blend_equation_alpha;
@@ -68,21 +73,21 @@ void InterfaceRenderer::RenderDrawList(ImDrawData * drawData)
     };
     ortho_projection[0][0] = 2.0f / io.DisplaySize.x;
     ortho_projection[1][1] = 2.0f / -io.DisplaySize.y;
-    glUseProgram(uiData->shaderHandle);
-    glUniform1i(uiData->attribLocationTex, 0);
-    glUniformMatrix4fv(uiData->attribLocationProjMtx, 1, GL_FALSE,
+    glUseProgram(renderer->shaderHandle);
+    glUniform1i(renderer->attribLocationTex, 0);
+    glUniformMatrix4fv(renderer->attribLocationProjMtx, 1, GL_FALSE,
                        glm::value_ptr(ortho_projection));
-    glBindVertexArray(uiData->vaoHandle);
+    glBindVertexArray(renderer->vaoHandle);
 
     for (int index = 0; index < drawData->CmdListsCount; index++)
     {
         const ImDrawList * cmd_list = drawData->CmdLists[index];
         const ImDrawIdx * idx_buffer_offset = 0;
-        glBindBuffer(GL_ARRAY_BUFFER, uiData->vboHandle);
+        glBindBuffer(GL_ARRAY_BUFFER, renderer->vboHandle);
         glBufferData(GL_ARRAY_BUFFER,
                      (GLsizeiptr)cmd_list->VtxBuffer.size() * sizeof(ImDrawVert),
                      (GLvoid *)&cmd_list->VtxBuffer.front(), GL_STREAM_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, uiData->elementsHandle);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer->elementsHandle);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                      (GLsizeiptr)cmd_list->IdxBuffer.size() * sizeof(ImDrawIdx),
                      (GLvoid *)&cmd_list->IdxBuffer.front(), GL_STREAM_DRAW);
@@ -134,9 +139,9 @@ void InterfaceRenderer::RenderDrawList(ImDrawData * drawData)
 void InterfaceRenderer::Initialize(const RenderWindow &activeWindow,
                                    bool instantCallbacks /* = true */)
 {
-    if (!uiData) { uiData = std::make_unique<UIData>(); }
+    if (!renderer) { renderer = std::make_unique<RendererData>(); }
 
-    uiData->window = activeWindow.Handler();
+    renderer->window = activeWindow.Handler();
     ImGuiIO &io = ImGui::GetIO();
     // Keyboard mapping. ImGui will use those indices to peek
     // into the io.KeyDown[] array.
@@ -163,56 +168,73 @@ void InterfaceRenderer::Initialize(const RenderWindow &activeWindow,
     io.SetClipboardTextFn = SetClipboardText;
     io.GetClipboardTextFn = GetClipboardText;
 #ifdef _WIN32
-    io.ImeWindowHandle = glfwGetWin32Window(uiData->window);
+    io.ImeWindowHandle = glfwGetWin32Window(renderer->window);
 #endif
 
     if (instantCallbacks)
     {
-        glfwSetCursorPosCallback(uiData->window, MousePosCallback);
-        glfwSetMouseButtonCallback(uiData->window, MouseButtonCallback);
-        glfwSetScrollCallback(uiData->window, ScrollCallback);
-        glfwSetKeyCallback(uiData->window, KeyCallback);
-        glfwSetCharCallback(uiData->window, CharCallback);
+        glfwSetMouseButtonCallback(renderer->window, MouseButtonCallback);
+        glfwSetScrollCallback(renderer->window, ScrollCallback);
+        glfwSetKeyCallback(renderer->window, KeyCallback);
+        glfwSetCharCallback(renderer->window, CharCallback);
     }
+
+    int w, h, display_w, display_h;;
+    glfwGetWindowSize(renderer->window, &w, &h);
+    glfwGetFramebufferSize(renderer->window, &display_w, &display_h);
+    io.DisplaySize.x = static_cast<float>(w);
+    io.DisplaySize.y = static_cast<float>(h);
+    io.DisplayFramebufferScale.x = static_cast<float>(display_w) / w;
+    io.DisplayFramebufferScale.y = static_cast<float>(display_h) / h;
 }
 
 void InterfaceRenderer::Render()
 {
+    if (renderer->disabled) { return; }
+
     ImGui::Render();
 }
 
 void InterfaceRenderer::NewFrame()
 {
-    if (!uiData->fontTexture)
+    if (renderer->disabled) { return; }
+
+    if (!renderer->fontTexture)
     {
         CreateDeviceObjects();
     }
 
-    auto &io = ImGui::GetIO();
-    // setup display size (every frame to accommodate for window resizing)
-    int w, h;
-    int display_w, display_h;
-    glfwGetWindowSize(uiData->window, &w, &h);
-    glfwGetFramebufferSize(uiData->window, &display_w, &display_h);
-    io.DisplaySize = ImVec2(static_cast<float>(w), static_cast<float>(h));
-    io.DisplayFramebufferScale = ImVec2(static_cast<float>(display_w) / w,
-                                        static_cast<float>(display_h) / h);
+    static auto &io = ImGui::GetIO();
+
+    if (glfwGetWindowAttrib(renderer->window, GLFW_RESIZABLE))
+    {
+        // setup display size (every frame to accommodate for window resizing)
+        static int w, h, display_w, display_h;
+        glfwGetWindowSize(renderer->window, &w, &h);
+        glfwGetFramebufferSize(renderer->window, &display_w, &display_h);
+        io.DisplaySize.x = static_cast<float>(w);
+        io.DisplaySize.y = static_cast<float>(h);;
+        io.DisplayFramebufferScale.x = static_cast<float>(display_w) / w;
+        io.DisplayFramebufferScale.y = static_cast<float>(display_h) / h;
+    }
+
     // setup time step
     auto current_time = glfwGetTime();
-    io.DeltaTime = uiData->time > 0.0
-                   ? static_cast<float>(current_time - uiData->time)
+    io.DeltaTime = renderer->time > 0.0
+                   ? static_cast<float>(current_time - renderer->time)
                    : static_cast<float>(1.0f / 60.0f);
-    uiData->time = current_time;
+    renderer->time = current_time;
 
     // setup inputs
     // (we already got mouse wheel, keyboard keys
     // & characters from glfw callbacks polled in glfwPollEvents())
-    if (glfwGetWindowAttrib(uiData->window, GLFW_FOCUSED))
+    if (glfwGetWindowAttrib(renderer->window, GLFW_FOCUSED))
     {
         // Mouse position in screen coordinates
         // (set to -1,-1 if no mouse / on another screen, etc.)
         double mouse_x, mouse_y;
-        glfwGetCursorPos(uiData->window, &mouse_x, &mouse_y);
+        glfwGetCursorPos(renderer->window, &mouse_x, &mouse_y);
+        io.MousePosPrev = io.MousePos;
         io.MousePos = ImVec2(static_cast<float>(mouse_x),
                              static_cast<float>(mouse_y));
     }
@@ -223,18 +245,18 @@ void InterfaceRenderer::NewFrame()
 
     for (auto i = 0; i < 3; i++)
     {
-        io.MouseDown[i] = uiData->mousePressed[i] ||
-                          glfwGetMouseButton(uiData->window, i) != 0;
+        io.MouseDown[i] = renderer->mousePressed[i] ||
+                          glfwGetMouseButton(renderer->window, i) != 0;
         // If a mouse press event came, always pass it as
         // "this frame", so we don't miss click-release events
         // that are shorter than 1 frame.
-        uiData->mousePressed[i] = false;
+        renderer->mousePressed[i] = false;
     }
 
-    io.MouseWheel = uiData->mouseWheel;
-    uiData->mouseWheel = 0.0f;
+    io.MouseWheel = renderer->mouseWheel;
+    renderer->mouseWheel = 0.0f;
     // Hide OS mouse cursor if ImGui is drawing it
-    glfwSetInputMode(uiData->window, GLFW_CURSOR, io.MouseDrawCursor
+    glfwSetInputMode(renderer->window, GLFW_CURSOR, io.MouseDrawCursor
                      ? GLFW_CURSOR_HIDDEN
                      : GLFW_CURSOR_NORMAL);
     // Start the frame
@@ -250,19 +272,17 @@ void InterfaceRenderer::CreateFontsTexture()
     int width, height;
     // Load as RGBA 32-bits for OpenGL3 demo because it is more
     // likely to be compatible with user's existing shader.
+    io.Fonts->AddFontFromFileTTF("3rdparty\\imgui\\extra_fonts\\DroidSans.ttf", 13);
     io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
     // Create OpenGL texture
-    glGenTextures(1, &uiData->fontTexture);
-    glBindTexture(GL_TEXTURE_2D, uiData->fontTexture);
+    glGenTextures(1, &renderer->fontTexture);
+    glBindTexture(GL_TEXTURE_2D, renderer->fontTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, pixels);
     // Store our identifier
-    io.Fonts->TexID = (void *)(intptr_t)uiData->fontTexture;
-    // Cleanup
-    io.Fonts->ClearInputData();
-    io.Fonts->ClearTexData();
+    io.Fonts->TexID = (void *)(intptr_t)renderer->fontTexture;
 }
 
 void InterfaceRenderer::CreateDeviceObjects()
@@ -296,42 +316,42 @@ void InterfaceRenderer::CreateDeviceObjects()
         "{\n"
         "	Out_Color = Frag_Color * texture( Texture, Frag_UV.st);\n"
         "}\n";
-    uiData->shaderHandle = glCreateProgram();
-    uiData->vertHandle = glCreateShader(GL_VERTEX_SHADER);
-    uiData->fragHandle = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(uiData->vertHandle, 1, &vertex_shader, 0);
-    glShaderSource(uiData->fragHandle, 1, &fragment_shader, 0);
-    glCompileShader(uiData->vertHandle);
-    glCompileShader(uiData->fragHandle);
-    glAttachShader(uiData->shaderHandle, uiData->vertHandle);
-    glAttachShader(uiData->shaderHandle, uiData->fragHandle);
-    glLinkProgram(uiData->shaderHandle);
-    uiData->attribLocationTex = glGetUniformLocation
-                                (uiData->shaderHandle, "Texture");
-    uiData->attribLocationProjMtx = glGetUniformLocation
-                                    (uiData->shaderHandle, "ProjMtx");
-    uiData->attribLocationPosition = glGetAttribLocation
-                                     (uiData->shaderHandle, "Position");
-    uiData->attribLocationUV = glGetAttribLocation
-                               (uiData->shaderHandle, "UV");
-    uiData->attribLocationColor = glGetAttribLocation
-                                  (uiData->shaderHandle, "Color");
-    glGenBuffers(1, &uiData->vboHandle);
-    glGenBuffers(1, &uiData->elementsHandle);
-    glGenVertexArrays(1, &uiData->vaoHandle);
-    glBindVertexArray(uiData->vaoHandle);
-    glBindBuffer(GL_ARRAY_BUFFER, uiData->vboHandle);
-    glEnableVertexAttribArray(uiData->attribLocationPosition);
-    glEnableVertexAttribArray(uiData->attribLocationUV);
-    glEnableVertexAttribArray(uiData->attribLocationColor);
+    renderer->shaderHandle = glCreateProgram();
+    renderer->vertHandle = glCreateShader(GL_VERTEX_SHADER);
+    renderer->fragHandle = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(renderer->vertHandle, 1, &vertex_shader, 0);
+    glShaderSource(renderer->fragHandle, 1, &fragment_shader, 0);
+    glCompileShader(renderer->vertHandle);
+    glCompileShader(renderer->fragHandle);
+    glAttachShader(renderer->shaderHandle, renderer->vertHandle);
+    glAttachShader(renderer->shaderHandle, renderer->fragHandle);
+    glLinkProgram(renderer->shaderHandle);
+    renderer->attribLocationTex = glGetUniformLocation
+                                  (renderer->shaderHandle, "Texture");
+    renderer->attribLocationProjMtx = glGetUniformLocation
+                                      (renderer->shaderHandle, "ProjMtx");
+    renderer->attribLocationPosition = glGetAttribLocation
+                                       (renderer->shaderHandle, "Position");
+    renderer->attribLocationUV = glGetAttribLocation
+                                 (renderer->shaderHandle, "UV");
+    renderer->attribLocationColor = glGetAttribLocation
+                                    (renderer->shaderHandle, "Color");
+    glGenBuffers(1, &renderer->vboHandle);
+    glGenBuffers(1, &renderer->elementsHandle);
+    glGenVertexArrays(1, &renderer->vaoHandle);
+    glBindVertexArray(renderer->vaoHandle);
+    glBindBuffer(GL_ARRAY_BUFFER, renderer->vboHandle);
+    glEnableVertexAttribArray(renderer->attribLocationPosition);
+    glEnableVertexAttribArray(renderer->attribLocationUV);
+    glEnableVertexAttribArray(renderer->attribLocationColor);
 #define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
-    glVertexAttribPointer(uiData->attribLocationPosition, 2, GL_FLOAT,
+    glVertexAttribPointer(renderer->attribLocationPosition, 2, GL_FLOAT,
                           GL_FALSE, sizeof(ImDrawVert), (GLvoid *)
                           OFFSETOF(ImDrawVert, pos));
-    glVertexAttribPointer(uiData->attribLocationUV, 2, GL_FLOAT,
+    glVertexAttribPointer(renderer->attribLocationUV, 2, GL_FLOAT,
                           GL_FALSE, sizeof(ImDrawVert), (GLvoid *)
                           OFFSETOF(ImDrawVert, uv));
-    glVertexAttribPointer(uiData->attribLocationColor, 4, GL_UNSIGNED_BYTE,
+    glVertexAttribPointer(renderer->attribLocationColor, 4, GL_UNSIGNED_BYTE,
                           GL_TRUE, sizeof(ImDrawVert), (GLvoid *)
                           OFFSETOF(ImDrawVert, col));
 #undef OFFSETOF
@@ -344,80 +364,59 @@ void InterfaceRenderer::CreateDeviceObjects()
 
 void InterfaceRenderer::Terminate()
 {
-    if (uiData->vaoHandle) { glDeleteVertexArrays(1, &uiData->vaoHandle); }
+    if (renderer->vaoHandle) { glDeleteVertexArrays(1, &renderer->vaoHandle); }
 
-    if (uiData->vboHandle) { glDeleteBuffers(1, &uiData->vboHandle); }
+    if (renderer->vboHandle) { glDeleteBuffers(1, &renderer->vboHandle); }
 
-    if (uiData->elementsHandle) { glDeleteBuffers(1, &uiData->elementsHandle); }
+    if (renderer->elementsHandle) { glDeleteBuffers(1, &renderer->elementsHandle); }
 
-    uiData->vaoHandle = uiData->vboHandle = uiData->elementsHandle = 0;
-    glDetachShader(uiData->shaderHandle, uiData->vertHandle);
-    glDeleteShader(uiData->vertHandle);
-    uiData->vertHandle = 0;
-    glDetachShader(uiData->shaderHandle, uiData->fragHandle);
-    glDeleteShader(uiData->fragHandle);
-    uiData->fragHandle = 0;
-    glDeleteProgram(uiData->shaderHandle);
-    uiData->shaderHandle = 0;
+    renderer->vaoHandle = renderer->vboHandle = renderer->elementsHandle = 0;
+    glDetachShader(renderer->shaderHandle, renderer->vertHandle);
+    glDeleteShader(renderer->vertHandle);
+    renderer->vertHandle = 0;
+    glDetachShader(renderer->shaderHandle, renderer->fragHandle);
+    glDeleteShader(renderer->fragHandle);
+    renderer->fragHandle = 0;
+    glDeleteProgram(renderer->shaderHandle);
+    renderer->shaderHandle = 0;
 
-    if (uiData->fontTexture)
+    if (renderer->fontTexture)
     {
-        glDeleteTextures(1, &uiData->fontTexture);
+        glDeleteTextures(1, &renderer->fontTexture);
         ImGui::GetIO().Fonts->TexID = 0;
-        uiData->fontTexture = 0;
+        renderer->fontTexture = 0;
     }
 
     ImGui::Shutdown();
-    delete uiData.release();
+    delete renderer.release();
 }
 
 void InterfaceRenderer::InvalidateDeviceObjects()
 {
-    if (uiData->vaoHandle) { glDeleteVertexArrays(1, &uiData->vaoHandle); }
+    if (renderer->vaoHandle) { glDeleteVertexArrays(1, &renderer->vaoHandle); }
 
-    if (uiData->vboHandle) { glDeleteBuffers(1, &uiData->vboHandle); }
+    if (renderer->vboHandle) { glDeleteBuffers(1, &renderer->vboHandle); }
 
-    if (uiData->elementsHandle) { glDeleteBuffers(1, &uiData->elementsHandle); }
+    if (renderer->elementsHandle) { glDeleteBuffers(1, &renderer->elementsHandle); }
 
-    uiData->vaoHandle = uiData->vboHandle = uiData->elementsHandle = 0;
-    glDetachShader(uiData->shaderHandle, uiData->vertHandle);
-    glDeleteShader(uiData->vertHandle);
-    uiData->vertHandle = 0;
-    glDetachShader(uiData->shaderHandle, uiData->fragHandle);
-    glDeleteShader(uiData->fragHandle);
-    uiData->fragHandle = 0;
-    glDeleteProgram(uiData->shaderHandle);
-    uiData->shaderHandle = 0;
+    renderer->vaoHandle = renderer->vboHandle = renderer->elementsHandle = 0;
+    glDetachShader(renderer->shaderHandle, renderer->vertHandle);
+    glDeleteShader(renderer->vertHandle);
+    renderer->vertHandle = 0;
+    glDetachShader(renderer->shaderHandle, renderer->fragHandle);
+    glDeleteShader(renderer->fragHandle);
+    renderer->fragHandle = 0;
+    glDeleteProgram(renderer->shaderHandle);
+    renderer->shaderHandle = 0;
 
-    if (uiData->fontTexture)
+    if (renderer->fontTexture)
     {
-        glDeleteTextures(1, &uiData->fontTexture);
+        glDeleteTextures(1, &renderer->fontTexture);
         ImGui::GetIO().Fonts->TexID = 0;
-        uiData->fontTexture = 0;
+        renderer->fontTexture = 0;
     }
 
     ImGui::Shutdown();
-}
-
-void InterfaceRenderer::MousePosCallback(GLFWwindow * window, double xpos,
-        double ypos)
-{
-    static bool firstMouse = true;
-    auto &io = ImGui::GetIO();
-
-    if (firstMouse)
-    {
-        firstMouse = false;
-        int width, height;
-        glfwGetWindowSize(window, &width, &height);
-        io.MousePos = ImVec2( width / 2.0f, height / 2.0f );
-        io.MousePosPrev = io.MousePos;
-    }
-    else
-    {
-        io.MousePosPrev = io.MousePos;
-        io.MousePos = ImVec2(xpos, ypos);
-    }
 }
 
 void InterfaceRenderer::MouseButtonCallback(GLFWwindow * window, int button,
@@ -428,7 +427,7 @@ void InterfaceRenderer::MouseButtonCallback(GLFWwindow * window, int button,
 
     if (action == GLFW_PRESS && button >= 0 && button < 3)
     {
-        uiData->mousePressed[button] = true;
+        renderer->mousePressed[button] = true;
     }
 
     io.MouseClickedPos[button] = io.MousePos;
@@ -438,7 +437,7 @@ void InterfaceRenderer::ScrollCallback(GLFWwindow * window, double xoffset,
                                        double yoffset)
 {
     // Use fractional mouse wheel, 1.0 unit 5 lines.
-    uiData->mouseWheel += static_cast<float>(yoffset);
+    renderer->mouseWheel += static_cast<float>(yoffset);
 }
 
 void InterfaceRenderer::KeyCallback(GLFWwindow * window, int key, int scancode,
@@ -463,6 +462,11 @@ void InterfaceRenderer::KeyCallback(GLFWwindow * window, int key, int scancode,
                   io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
     io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] ||
                 io.KeysDown[GLFW_KEY_RIGHT_ALT];
+
+    if (io.KeyCtrl && io.KeyShift && ImGui::IsKeyReleased(GLFW_KEY_H))
+    {
+        renderer->disabled = !renderer->disabled;
+    }
 }
 
 void InterfaceRenderer::CharCallback(GLFWwindow * window, unsigned int c)
@@ -477,11 +481,11 @@ void InterfaceRenderer::CharCallback(GLFWwindow * window, unsigned int c)
 
 void InterfaceRenderer::SetClipboardText(const char * text)
 {
-    glfwSetClipboardString(uiData->window, text);
+    glfwSetClipboardString(renderer->window, text);
 }
 
 const char * InterfaceRenderer::GetClipboardText()
 {
-    return glfwGetClipboardString(uiData->window);
+    return glfwGetClipboardString(renderer->window);
 }
 

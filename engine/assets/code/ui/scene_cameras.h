@@ -2,13 +2,12 @@
 
 #include "../../../interface/interface.h"
 
-class EngineBase;
-
-class UISceneLoader : public Interface
+class UISceneCameras : public Interface
 {
     protected:
         void Draw() override;
     public:
-        UISceneLoader();
-        ~UISceneLoader() override;
+        UISceneCameras();
+        ~UISceneCameras();
 };
+

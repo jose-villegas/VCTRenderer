@@ -1,12 +1,13 @@
 #pragma once
 
+#include "scene_object.h"
 #include "texture.h"
 
 #include <array>
 #include <memory>
 #include <glm/detail/type_vec3.hpp>
 
-class Material
+class Material : public SceneObject
 {
     public:
         enum ShadingMode
@@ -27,7 +28,6 @@ class Material
             Default,
             Additive
         };
-        std::string name;
 
         const glm::vec3 &Ambient() const;
         void Ambient(const glm::vec3 &val);
@@ -48,7 +48,14 @@ class Material
         void ShininessStrenght(float val);
         float RefractionIndex() const;
         void RefractionIndex(float val);
+
+        bool HasTexture(RawTexture::TextureType texType) const;
+        void AddTexture(const std::shared_ptr<Texture2D> &spTexture,
+                        RawTexture::TextureType texType);
+        bool BindTexture(RawTexture::TextureType texType, bool bindDefaul = true) const;
+
         Material();
+        ~Material();
     private:
         glm::vec3 ambient;
         glm::vec3 diffuse;
@@ -59,19 +66,6 @@ class Material
         float shininess;
         float shininessStrenght;
         float refractionIndex;
+
+        std::array<std::shared_ptr<Texture2D>, RawTexture::TYPE_MAX> textures;
 };
-
-class OGLMaterial : public Material
-{
-    public:
-        bool HasTexture(RawTexture::TextureType texType) const;
-        void AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
-                        RawTexture::TextureType texType);
-        bool BindTexture(RawTexture::TextureType texType, bool bindDefaul = true) const;
-
-        OGLMaterial();
-        ~OGLMaterial();
-    private:
-        std::array<std::shared_ptr<OGLTexture2D>, RawTexture::TYPE_MAX> textures;
-};
-

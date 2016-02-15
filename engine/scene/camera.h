@@ -1,5 +1,6 @@
 #pragma once
 
+#include "scene_object.h"
 #include "../util/single_active.h"
 #include "../types/frustum.h"
 
@@ -9,7 +10,7 @@
 /// Describes a scene camera.
 /// </summary>
 /// <seealso cref="SingleActive{Camera}" />
-class Camera : public SingleActive<Camera>
+class Camera :  public SceneObject, public SingleActive<Camera>
 {
     public:
         Camera();

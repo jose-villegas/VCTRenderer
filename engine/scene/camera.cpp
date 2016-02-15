@@ -12,6 +12,7 @@ Camera::~Camera()
 Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
 {
+    name = "Default Camera";
     this->position = glm::vec3(0.0f, 0.0f, 0.0f);
     this->lookAt = glm::vec3(0.0f, 0.0f, 1.0f);
     this->up = glm::vec3(0.0f, 1.0f, 0.0f);

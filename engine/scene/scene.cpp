@@ -9,7 +9,7 @@
 #include "../util/scene_importer.h"
 #include "../misc/utils.h"
 
-Scene::Scene(std::string filepath): isLoaded(false)
+Scene::Scene(std::string filepath): isLoaded(false), isImported(false)
 {
     this->filepath = filepath;
     this->directory = Utils::GetDirectoryPath(filepath);
@@ -24,11 +24,17 @@ Scene::~Scene()
 {
 }
 
-void Scene::Load()
+void Scene::Import()
 {
-    if (IsLoaded()) { return; }
+    if (isImported || isLoaded) { return; }
 
     SceneImporter::Import(filepath, this);
+    isImported = true;
+}
+
+void Scene::Load()
+{
+    if (isLoaded || !isImported) { return; }
 
     for (auto &mesh : meshes)
     {

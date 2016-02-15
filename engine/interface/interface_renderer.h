@@ -15,28 +15,6 @@ class InterfaceRenderer
     public:
         InterfaceRenderer();
         virtual ~InterfaceRenderer();
-    private:
-        friend class EngineBase;
-
-        struct UIData
-        {
-            GLFWwindow * window = nullptr;
-            double       time = 0.0f;
-            bool         mousePressed[3] = { false, false, false };
-            float        mouseWheel = 0.0f;
-            GLuint       fontTexture = 0;
-            int          shaderHandle = 0, vertHandle = 0, fragHandle = 0;
-            int          attribLocationTex = 0, attribLocationProjMtx = 0;
-            int          attribLocationPosition = 0, attribLocationUV = 0,
-                         attribLocationColor = 0;
-            unsigned int vboHandle = 0, vaoHandle = 0, elementsHandle = 0;
-        };
-
-        static std::unique_ptr<UIData> uiData;
-
-        static void InvalidateDeviceObjects();
-        static void CreateFontsTexture();
-        static void CreateDeviceObjects();
 
         /// <summary>
         /// Setups the interface to render in the current
@@ -60,9 +38,49 @@ class InterfaceRenderer
         /// Sets up the GUI for a new frame.
         /// </summary>
         static void NewFrame();
+    protected:
+        struct RendererData
+        {
+            GLFWwindow * window;
+            double time;
+            bool mousePressed[3];
+            float mouseWheel;
+            GLuint fontTexture;
+            int shaderHandle;
+            int vertHandle;
+            int fragHandle;
+            int attribLocationTex;
+            int attribLocationProjMtx;
+            int attribLocationPosition;
+            int attribLocationUV;
+            int attribLocationColor;
+            unsigned int vboHandle;
+            unsigned int vaoHandle;
+            unsigned int elementsHandle;
+            bool disabled;
+
+            RendererData()
+            {
+                window = nullptr;
+                time = 0.0f;
+                mousePressed[0] = mousePressed[1] = mousePressed[2] = false;
+                mouseWheel = 0.0f;
+                fontTexture = 0;
+                shaderHandle = 0, vertHandle = 0, fragHandle = 0;
+                attribLocationTex = 0, attribLocationProjMtx = 0;
+                attribLocationPosition = 0, attribLocationUV = 0,
+                attribLocationColor = 0;
+                vboHandle = 0, vaoHandle = 0, elementsHandle = 0;
+                disabled = false;
+            }
+        };
+
+        static std::unique_ptr<RendererData> renderer;
+        static void InvalidateDeviceObjects();
+        static void CreateFontsTexture();
+        static void CreateDeviceObjects();
 
         static void RenderDrawList(ImDrawData * drawData);
-        static void MousePosCallback(GLFWwindow * window, double xpos, double ypos);
         static void MouseButtonCallback(GLFWwindow * window, int button,
                                         int action, int mods);
         static void ScrollCallback(GLFWwindow * window, double xoffset,

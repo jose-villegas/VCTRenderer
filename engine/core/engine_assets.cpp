@@ -9,6 +9,9 @@
 #include "../scene/scene.h"
 
 #include "../assets/code/ui/scene_loader.h"
+#include "../assets/code/ui/framerate.h"
+#include "../assets/code/ui/main_menu.h"
+#include "../assets/code/ui/scene_cameras.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -30,42 +33,41 @@ void AssetsManager::Terminate()
 AssetsManager::AssetsManager()
 {
     // associate scene paths
-    scenes.push_back
-    (
-        std::make_shared<Scene>("assets\\models\\crytek-sponza\\sponza.obj")
-    );
-    scenes.push_back
-    (
-        std::make_shared<Scene>("assets\\models\\sibenik\\sibenik.obj")
-    );
-    scenes.push_back
-    (
-        std::make_shared<Scene>("assets\\models\\cornell-box\\cornellbox-original.obj")
-    );
+    scenes =
+    {
+        std::make_shared<Scene>
+        ("assets\\models\\crytek-sponza\\sponza.obj" ),
+        std::make_shared<Scene>
+        ("assets\\models\\sibenik\\sibenik.obj" ),
+        std::make_shared<Scene>
+        ("assets\\models\\cornell-box\\cornellbox-original.obj")
+    };
     // instantiate implemented interfaces
-    interfaces.push_back
-    (
-        std::make_shared<UISceneLoader>()
-    );
+    interfaces =
+    {
+        std::make_shared<UISceneLoader>(),
+        std::make_shared<UIFramerate>(),
+        std::make_shared<UIMainMenu>(),
+        std::make_shared<UISceneCameras>(),
+    };
     // load shaders sources
-    programs.push_back
-    (
-        std::make_shared<GeometryProgram>("assets\\shaders\\geometry_pass.vert",
-                                          "assets\\shaders\\geometry_pass.frag")
-    );
-    programs.push_back
-    (
-        std::make_shared<LightingProgram>("assets\\shaders\\light_pass.vert",
-                                          "assets\\shaders\\light_pass.frag")
-    );
-    OGLTexture2D::GetDefaultTexture();
+    programs =
+    {
+        std::make_shared<GeometryProgram>
+        ("assets\\shaders\\geometry_pass.vert",
+        "assets\\shaders\\geometry_pass.frag"),
+        std::make_shared<LightingProgram>
+        ("assets\\shaders\\light_pass.vert",
+        "assets\\shaders\\light_pass.frag")
+    };
+    Texture2D::GetDefaultTexture();
 }
 
 
 AssetsManager::~AssetsManager()
 {
     // early owner-ship release for static scope (no gl context)
-    auto dTexture = OGLTexture2D::GetDefaultTexture().release();
+    auto dTexture = Texture2D::GetDefaultTexture().release();
 
     if (dTexture != nullptr) { delete dTexture; }
 }

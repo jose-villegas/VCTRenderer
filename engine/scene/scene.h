@@ -4,24 +4,24 @@
 #include "../util/single_active.h"
 
 class Camera;
-class OGLMesh;
-class OGLTexture2D;
-class OGLMaterial;
+class MeshDrawer;
+class Texture2D;
+class Material;
 class Light;
 class Node;
 
-class Scene : public SingleActive<Scene>
+class Scene : public SceneObject, public SingleActive<Scene>
 {
     protected:
-        std::string name;
         std::string filepath;
         std::string directory;
 
         bool isLoaded;
+        bool isImported;
     public:
-        std::vector<std::shared_ptr<OGLMesh>> meshes;
-        std::vector<std::shared_ptr<OGLTexture2D>> textures;
-        std::vector<std::shared_ptr<OGLMaterial>> materials;
+        std::vector<std::shared_ptr<MeshDrawer>> meshes;
+        std::vector<std::shared_ptr<Texture2D>> textures;
+        std::vector<std::shared_ptr<Material>> materials;
 
         std::vector<std::shared_ptr<Camera>> cameras;
         std::vector<std::shared_ptr<Light>> lights;
@@ -41,6 +41,7 @@ class Scene : public SingleActive<Scene>
             return directory;
         }
 
+        void Import();
         void Load();
         bool IsLoaded() const { return isLoaded; }
     private:
