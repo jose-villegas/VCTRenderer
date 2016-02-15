@@ -2,9 +2,12 @@
 #include <GLFW/glfw3.h>
 #include "scene_loader.h"
 
+#include "main_menu.h"
 #include "../../../scene/camera.h"
 #include "../../../scene/scene.h"
 #include "../../../core/engine_assets.h"
+
+using namespace ImGui;
 
 bool SceneName(void * data, int idx, const char ** out_text)
 {
@@ -20,30 +23,38 @@ bool SceneName(void * data, int idx, const char ** out_text)
 
 void UISceneLoader::Draw()
 {
+    if (!UIMainMenu::drawSceneLoader) { return; }
+
     static auto &assets = AssetsManager::Instance();
+    static auto &scene = Scene::Active();
     static auto activeScene = -1;
-    ImGui::SetNextWindowPos(ImVec2(3, 3));
-    ImGui::Begin("Import Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
-                 ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove);
-    // active scene selector
+    SetNextWindowPosCenter();
 
-    if (ImGui::Combo("Path", &activeScene, SceneName, assets->scenes.data(),
-                     static_cast<int>(assets->scenes.size())))
+    if (Begin("Load Scene", &UIMainMenu::drawSceneLoader, ImGuiWindowFlags_NoMove |
+              ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings))
     {
-        assets->scenes[activeScene]->SetAsActive();
-        assets->scenes[activeScene]->cameras.front()->SetAsActive();
+        // active scene selector
+        PushItemWidth(350);
+
+        if (Combo("Path", &activeScene, SceneName, assets->scenes.data(),
+                  static_cast<int>(assets->scenes.size())))
+        {
+            assets->scenes[activeScene]->SetAsActive();
+            assets->scenes[activeScene]->cameras.front()->SetAsActive();
+        }
+
+        SameLine();
+
+        if (Button("Load") && scene)
+        {
+            scene->Import();
+            scene->Load();
+        }
+
+        PopItemWidth();
     }
 
-    ImGui::SameLine();
-
-    if (ImGui::Button("Load") && Scene::Active())
-    {
-        Scene::Active()->Load();
-    }
-
-    uiPos = ImGui::GetWindowPos();
-    uiSize = ImGui::GetWindowSize();
-    ImGui::End();
+    End();
 }
 
 UISceneLoader::UISceneLoader()

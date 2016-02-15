@@ -6,8 +6,9 @@
 
 #include "../types/vertex.h"
 
-Mesh::Mesh() : name("Default Mesh")
+Mesh::Mesh()
 {
+    name = "Default Mesh";
 }
 
 Mesh::~Mesh()
@@ -20,15 +21,15 @@ void Mesh::FreeRawData()
     this->indices.clear();
 }
 
-OGLMesh::OGLMesh() : loaded(false)
+MeshDrawer::MeshDrawer() : loaded(false)
 {
 }
 
-OGLMesh::~OGLMesh()
+MeshDrawer::~MeshDrawer()
 {
 }
 
-void OGLMesh::Load()
+void MeshDrawer::Load()
 {
     if (oglElementArrayBuffer || oglArrayBuffer) { return; }
 
@@ -69,22 +70,22 @@ void OGLMesh::Load()
     loaded = true;
 }
 
-void OGLMesh::BindArrayBuffer() const
+void MeshDrawer::BindArrayBuffer() const
 {
     this->oglArrayBuffer->Bind(oglplus::Buffer::Target::Array);
 }
 
-void OGLMesh::BindElementArrayBuffer() const
+void MeshDrawer::BindElementArrayBuffer() const
 {
     this->oglElementArrayBuffer->Bind(oglplus::Buffer::Target::ElementArray);
 }
 
-void OGLMesh::BindVertexArrayObject() const
+void MeshDrawer::BindVertexArrayObject() const
 {
     this->oglVertexArray->Bind();
 }
 
-void OGLMesh::DrawElements() const
+void MeshDrawer::DrawElements() const
 {
     static oglplus::Context gl;
     gl.DrawElements(oglplus::PrimitiveType::Triangles, indicesCount,

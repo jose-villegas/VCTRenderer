@@ -94,19 +94,13 @@ void Material::RefractionIndex(float val)
     refractionIndex = glm::max(0.0f, val);
 }
 
-Material::Material() : name("Default Material"), opacity(1), shininess(0),
-    shininessStrenght(1), refractionIndex(1)
-{
-    diffuse = specular = ambient = emissive = transparent = glm::vec3(1.0f);
-}
-
-bool OGLMaterial::HasTexture(RawTexture::TextureType texType) const
+bool Material::HasTexture(RawTexture::TextureType texType) const
 {
     return textures[texType] != nullptr;
 }
 
-void OGLMaterial::AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
-                             RawTexture::TextureType texType)
+void Material::AddTexture(const std::shared_ptr<Texture2D> &spTexture,
+                          RawTexture::TextureType texType)
 {
     textures[texType] = spTexture;
 
@@ -115,8 +109,8 @@ void OGLMaterial::AddTexture(const std::shared_ptr<OGLTexture2D> &spTexture,
     if (texType == RawTexture::Specular) { Specular(glm::vec3(1.0f)); }
 }
 
-bool OGLMaterial::BindTexture(RawTexture::TextureType texType,
-                              bool bindDefault) const
+bool Material::BindTexture(RawTexture::TextureType texType,
+                           bool bindDefault) const
 {
     if (textures[texType] != nullptr)
     {
@@ -124,15 +118,18 @@ bool OGLMaterial::BindTexture(RawTexture::TextureType texType,
         return true;
     }
 
-    if (bindDefault) { OGLTexture2D::GetDefaultTexture()->Bind(); }
+    if (bindDefault) { Texture2D::GetDefaultTexture()->Bind(); }
 
     return false;
 }
 
-OGLMaterial::OGLMaterial()
+Material::Material() : opacity(1), shininess(0),
+    shininessStrenght(1), refractionIndex(1)
 {
+    name = "Default Material";
+    diffuse = specular = ambient = emissive = transparent = glm::vec3(1.0f);
 }
 
-OGLMaterial::~OGLMaterial()
+Material::~Material()
 {
 }

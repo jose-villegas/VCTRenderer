@@ -301,9 +301,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Releaso|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Releaso|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Releaso|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="3rdparty\imgui\imgui_draw.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -319,7 +319,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Releaso|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="assets\code\ui\main_menu.cpp" />
+    <ClCompile Include="assets\code\ui\scene_cameras.cpp" />
     <ClCompile Include="behavior\behavior.cpp" />
+    <ClCompile Include="assets\code\ui\framerate.cpp" />
+    <ClCompile Include="scene\scene_object.cpp" />
     <ClCompile Include="types\geometry_buffer.cpp" />
     <ClCompile Include="programs\lighting_program.cpp" />
     <ClCompile Include="interface\interface_renderer.cpp" />
@@ -397,13 +401,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Releaso|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="assets\code\ui\main_menu.h" />
+    <ClInclude Include="assets\code\ui\scene_cameras.h" />
     <ClInclude Include="behavior\behavior.h" />
+    <ClInclude Include="scene\scene_object.h" />
     <ClInclude Include="types\geometry_buffer.h" />
     <ClInclude Include="programs\geometry_program.h" />
     <ClInclude Include="programs\lighting_program.h" />
     <ClInclude Include="interface\interface_renderer.h" />
     <ClInclude Include="assets\code\ui\scene_loader.h" />
     <ClInclude Include="types\instance_pool.h" />
+    <ClInclude Include="assets\code\ui\framerate.h" />
     <ClInclude Include="util\data_segment.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

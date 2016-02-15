@@ -29,12 +29,12 @@ RawTexture::~RawTexture()
     FreeRawData();
 }
 
-void OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
-                        oglplus::TextureMagFilter magFilter,
-                        oglplus::TextureWrap wrapS,
-                        oglplus::TextureWrap wrapT,
-                        bool generateMipmaps,
-                        glm::vec4 borderColor)
+void Texture2D::Load(oglplus::TextureMinFilter minFilter,
+                     oglplus::TextureMagFilter magFilter,
+                     oglplus::TextureWrap wrapS,
+                     oglplus::TextureWrap wrapT,
+                     bool generateMipmaps,
+                     glm::vec4 borderColor)
 {
     static oglplus::Context gl;
 
@@ -88,20 +88,20 @@ void OGLTexture2D::Load(oglplus::TextureMinFilter minFilter,
     }
 }
 
-void OGLTexture2D::Bind() const
+void Texture2D::Bind() const
 {
     this->oglTexture->Bind(oglplus::Texture::Target::_2D);
 }
 
-int OGLTexture2D::Name() const
+int Texture2D::Name() const
 {
     return oglplus::GetName(*oglTexture);
 }
 
-OGLTexture2D * OGLTexture2D::CreateColorTexture(std::string texName,
+Texture2D * Texture2D::CreateColorTexture(std::string texName,
         glm::u8vec3 texColor)
 {
-    auto defaultTexture = new OGLTexture2D();
+    auto defaultTexture = new Texture2D();
     defaultTexture->filepath = texName;
     defaultTexture->width = 1;
     defaultTexture->height = 1;
@@ -122,9 +122,9 @@ OGLTexture2D * OGLTexture2D::CreateColorTexture(std::string texName,
     return defaultTexture;
 }
 
-std::unique_ptr<OGLTexture2D> &OGLTexture2D::GetDefaultTexture()
+std::unique_ptr<Texture2D> &Texture2D::GetDefaultTexture()
 {
-    static std::unique_ptr<OGLTexture2D> instance = nullptr;
+    static std::unique_ptr<Texture2D> instance = nullptr;
 
     if (!instance)
     {
@@ -145,10 +145,10 @@ std::unique_ptr<OGLTexture2D> &OGLTexture2D::GetDefaultTexture()
     return instance;
 }
 
-OGLTexture2D::OGLTexture2D()
+Texture2D::Texture2D()
 {
 }
 
-OGLTexture2D::~OGLTexture2D()
+Texture2D::~Texture2D()
 {
 }

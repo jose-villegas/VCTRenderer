@@ -2,7 +2,7 @@
 
 #include "deferred_handler.h"
 
-class OGLMaterial;
+class Material;
 class RenderWindow;
 
 class DeferredRenderer : public DeferredHandler
@@ -27,7 +27,7 @@ class DeferredRenderer : public DeferredHandler
         /// Sets the material uniforms during geometry pass.
         /// </summary>
         /// <param name="mat">The mat.</param>
-        void SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat) const;
+        void SetMaterialUniforms(std::shared_ptr<Material> &mat) const;
         /// <summary>
         /// Sets the light pass uniforms.
         /// </summary>

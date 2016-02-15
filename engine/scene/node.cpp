@@ -10,8 +10,9 @@
 #include "../core/engine_base.h"
 #include "../rendering/deferred_renderer.h"
 
-Node::Node() : name("Default Node"), outsideFrustum(true)
+Node::Node() : outsideFrustum(true)
 {
+    name = "Default Node";
     position = glm::vec3(0.0f, 0.0f, 0.0f);
     scaling = glm::vec3(1.0f, 1.0f, 1.0f);
     rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);

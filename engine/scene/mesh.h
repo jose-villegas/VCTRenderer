@@ -1,26 +1,25 @@
 #pragma once
 
+#include "scene_object.h"
 #include "../types/bounding_box.h"
 
 #include <vector>
 #include <oglplus/buffer.hpp>
 #include <oglplus/vertex_array.hpp>
 
-class OGLMaterial;
+class Material;
 struct Vertex;
 
-class Mesh
+class Mesh : public SceneObject
 {
     public:
         // node boundaries
         BoundingBox boundaries;
-        // mesh identifier
-        std::string name;
         // mesh raw data
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
         // material used by mesh
-        std::shared_ptr<OGLMaterial> material;
+        std::shared_ptr<Material> material;
 
         Mesh();
         ~Mesh();
@@ -28,7 +27,7 @@ class Mesh
         void FreeRawData();
 };
 
-class OGLMesh : public Mesh
+class MeshDrawer : public Mesh
 {
     protected:
         std::unique_ptr<oglplus::Buffer> oglArrayBuffer;
@@ -40,8 +39,8 @@ class OGLMesh : public Mesh
         unsigned int vertexCount;
     public:
 
-        OGLMesh();
-        ~OGLMesh();
+        MeshDrawer();
+        ~MeshDrawer();
 
         void Load();
         void BindArrayBuffer() const;
@@ -52,7 +51,7 @@ class OGLMesh : public Mesh
         bool IsLoaded() const { return loaded; }
     protected:
         // No copying or copy assignment allowed of this class or any derived class
-        OGLMesh(OGLMesh const &) = delete;
-        OGLMesh &operator=(OGLMesh const &) = delete;
+        MeshDrawer(MeshDrawer const &) = delete;
+        MeshDrawer &operator=(MeshDrawer const &) = delete;
 };
 

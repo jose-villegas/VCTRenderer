@@ -1,7 +1,6 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <iostream>
 #include <memory>
 #include <glm/gtc/quaternion.hpp>
 
@@ -27,83 +26,81 @@ SceneImporter::~SceneImporter()
 {
 }
 
-bool SceneImporter::Import(const std::string &sFilepath, Scene * outScene)
+bool SceneImporter::Import(const std::string &filepath, Scene * scene)
 {
     Assimp::Importer importer;
-    const aiScene * scene = importer.ReadFile(sFilepath,
-                            aiProcessPreset_TargetRealtime_Fast);
+    const aiScene * mScene = importer.ReadFile(filepath,
+                             aiProcessPreset_TargetRealtime_Fast);
 
-    if (!scene)
+    if (!mScene)
     {
-        std::cout << "(Assimp) Error Loading File: " << importer.GetErrorString() <<
-                  std::endl;
-        return false;
+        throw std::runtime_error(importer.GetErrorString());
     }
 
-    if (scene->HasMaterials())
+    if (mScene->HasMaterials())
     {
-        outScene->materials.clear();
+        scene->materials.clear();
 
         // process material properties
-        for (unsigned int i = 0; i < scene->mNumMaterials; i++)
+        for (unsigned int i = 0; i < mScene->mNumMaterials; i++)
         {
-            std::shared_ptr<OGLMaterial> newMaterial(new OGLMaterial());
-            ImportMaterial(scene->mMaterials[i], *newMaterial);
-            outScene->materials.push_back(newMaterial);
+            std::shared_ptr<Material> newMaterial(new Material());
+            ImportMaterial(mScene->mMaterials[i], *newMaterial);
+            scene->materials.push_back(newMaterial);
         }
 
-        outScene->textures.clear();
+        scene->textures.clear();
 
         // import per material and scene, textures
-        for (unsigned int i = 0; i < scene->mNumMaterials; i++)
+        for (unsigned int i = 0; i < mScene->mNumMaterials; i++)
         {
-            ImportMaterialTextures(outScene, scene->mMaterials[i],
-                                   *outScene->materials[i]);
+            ImportMaterialTextures(scene, mScene->mMaterials[i],
+                                   *scene->materials[i]);
         }
     }
 
-    if (scene->HasMeshes())
+    if (mScene->HasMeshes())
     {
-        outScene->meshes.clear();
+        scene->meshes.clear();
 
-        for (unsigned int i = 0; i < scene->mNumMeshes; i++)
+        for (unsigned int i = 0; i < mScene->mNumMeshes; i++)
         {
-            std::shared_ptr<OGLMesh> newMesh(new OGLMesh());
-            ImportMesh(scene->mMeshes[i], *newMesh);
+            std::shared_ptr<MeshDrawer> newMesh(new MeshDrawer());
+            ImportMesh(mScene->mMeshes[i], *newMesh);
             // material assigned to mesh
-            newMesh->material = outScene->materials
-                                [scene->mMeshes[i]->mMaterialIndex];
-            outScene->meshes.push_back(move(newMesh));
+            newMesh->material = scene->materials
+                                [mScene->mMeshes[i]->mMaterialIndex];
+            scene->meshes.push_back(move(newMesh));
         }
     }
 
-    if (scene->mRootNode != nullptr)
+    if (mScene->mRootNode != nullptr)
     {
-        ProcessNodes(outScene, scene->mRootNode, outScene->rootNode);
+        ProcessNodes(scene, mScene->mRootNode, scene->rootNode);
     }
 
     // if these objects don't exist in scene, they are created by default
-    if (scene->HasCameras())
+    if (mScene->HasCameras())
     {
-        outScene->cameras.clear();
+        scene->cameras.clear();
 
-        for (unsigned int i = 0; i < scene->mNumCameras; i++)
+        for (unsigned int i = 0; i < mScene->mNumCameras; i++)
         {
             std::shared_ptr<Camera> newCamera = std::make_shared<Camera>();
-            ImportCamera(scene->mCameras[i], *newCamera);
-            outScene->cameras.push_back(newCamera);
+            ImportCamera(mScene->mCameras[i], *newCamera);
+            scene->cameras.push_back(newCamera);
         }
     }
 
-    if (scene->HasLights())
+    if (mScene->HasLights())
     {
-        outScene->lights.clear();
+        scene->lights.clear();
 
-        for (unsigned int i = 0; i < scene->mNumLights; i++)
+        for (unsigned int i = 0; i < mScene->mNumLights; i++)
         {
             std::shared_ptr<Light> newLight = std::make_shared<Light>();
-            ImportLight(scene->mLights[i], *newLight);
-            outScene->lights.push_back(newLight);
+            ImportLight(mScene->mLights[i], *newLight);
+            scene->lights.push_back(newLight);
         }
     }
 
@@ -111,87 +108,84 @@ bool SceneImporter::Import(const std::string &sFilepath, Scene * outScene)
     return true;
 }
 
-void SceneImporter::ImportLight(aiLight * light, Light &newLight)
+void SceneImporter::ImportLight(aiLight * mLight, Light &light)
 {
-    newLight.Ambient(glm::vec3(
-                         light->mColorAmbient.r,
-                         light->mColorAmbient.g,
-                         light->mColorAmbient.b
-                     ));
-    newLight.Diffuse(glm::vec3(
-                         light->mColorDiffuse.r,
-                         light->mColorDiffuse.g,
-                         light->mColorDiffuse.b
-                     ));
-    newLight.Specular(glm::vec3(
-                          light->mColorSpecular.r,
-                          light->mColorSpecular.g,
-                          light->mColorSpecular.b
-                      ));
-    newLight.Direction(glm::vec3(
-                           light->mDirection.x,
-                           light->mDirection.y,
-                           light->mDirection.z
-                       ));
-    newLight.Position(glm::vec3(
-                          light->mPosition.x,
-                          light->mPosition.y,
-                          light->mPosition.z
-                      ));
-    newLight.Type(light->mType == aiLightSource_POINT ?
-                  Light::Point : light->mType == aiLightSource_DIRECTIONAL ?
-                  Light::Directional : light->mType == aiLightSource_SPOT ?
-                  Light::Spot : Light::Point);
-    newLight.AngleInnerCone(light->mAngleInnerCone);
-    newLight.AngleOuterCone(light->mAngleOuterCone);
-    newLight.attenuation.Constant(light->mAttenuationConstant);
-    newLight.attenuation.Linear(light->mAttenuationLinear);
-    newLight.attenuation.Quadratic(light->mAttenuationQuadratic);
+    light.name = mLight->mName.length > 0 ? mLight->mName.C_Str() : light.name;
+    light.Ambient(glm::vec3(
+                      mLight->mColorAmbient.r,
+                      mLight->mColorAmbient.g,
+                      mLight->mColorAmbient.b
+                  ));
+    light.Diffuse(glm::vec3(
+                      mLight->mColorDiffuse.r,
+                      mLight->mColorDiffuse.g,
+                      mLight->mColorDiffuse.b
+                  ));
+    light.Specular(glm::vec3(
+                       mLight->mColorSpecular.r,
+                       mLight->mColorSpecular.g,
+                       mLight->mColorSpecular.b
+                   ));
+    light.Direction(glm::vec3(
+                        mLight->mDirection.x,
+                        mLight->mDirection.y,
+                        mLight->mDirection.z
+                    ));
+    light.Position(glm::vec3(
+                       mLight->mPosition.x,
+                       mLight->mPosition.y,
+                       mLight->mPosition.z
+                   ));
+    light.Type(mLight->mType == aiLightSource_POINT ?
+               Light::Point : mLight->mType == aiLightSource_DIRECTIONAL ?
+               Light::Directional : mLight->mType == aiLightSource_SPOT ?
+               Light::Spot : Light::Point);
+    light.AngleInnerCone(mLight->mAngleInnerCone);
+    light.AngleOuterCone(mLight->mAngleOuterCone);
+    light.attenuation.Constant(mLight->mAttenuationConstant);
+    light.attenuation.Linear(mLight->mAttenuationLinear);
+    light.attenuation.Quadratic(mLight->mAttenuationQuadratic);
 }
 
-void SceneImporter::ImportCamera(aiCamera * cam, Camera &newCamera)
+void SceneImporter::ImportCamera(aiCamera * mCam, Camera &camera)
 {
-    newCamera.AspectRatio(cam->mAspect);
-    newCamera.ClipPlaneFar(cam->mClipPlaneFar);
-    newCamera.ClipPlaneNear(cam->mClipPlaneNear);
-    newCamera.HorizontalFoV(cam->mHorizontalFOV);
-    newCamera.Position(glm::vec3(
-                           cam->mPosition.x,
-                           cam->mPosition.y,
-                           cam->mPosition.z
-                       ));
-    newCamera.LookAt(glm::vec3(
-                         cam->mLookAt.x,
-                         cam->mLookAt.y,
-                         cam->mLookAt.z
-                     ));
-    newCamera.Up(glm::vec3(
-                     cam->mUp.x,
-                     cam->mUp.y,
-                     cam->mUp.z
-                 ));
+    camera.name = mCam->mName.length > 0 ? mCam->mName.C_Str() : camera.name;
+    camera.AspectRatio(mCam->mAspect);
+    camera.ClipPlaneFar(mCam->mClipPlaneFar);
+    camera.ClipPlaneNear(mCam->mClipPlaneNear);
+    camera.HorizontalFoV(mCam->mHorizontalFOV);
+    camera.Position(glm::vec3(
+                        mCam->mPosition.x,
+                        mCam->mPosition.y,
+                        mCam->mPosition.z
+                    ));
+    camera.LookAt(glm::vec3(
+                      mCam->mLookAt.x,
+                      mCam->mLookAt.y,
+                      mCam->mLookAt.z
+                  ));
+    camera.Up(glm::vec3(
+                  mCam->mUp.x,
+                  mCam->mUp.y,
+                  mCam->mUp.z
+              ));
 }
 
 void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
-                                   OGLMaterial &outMaterial)
+                                   Material &material)
 {
     // assimp scene material name extract
-    aiString materialName;
-    mMaterial->Get(AI_MATKEY_NAME, materialName);
-
-    if (materialName.length > 0)
-    {
-        outMaterial.name = materialName.C_Str();
-    }
-
+    aiString matName;
+    mMaterial->Get(AI_MATKEY_NAME, matName);
+    material.name = matName.length > 0 ? matName.C_Str() : material.name;
     float refracti, shininess, shinStrength;
     // material factors
     mMaterial->Get(AI_MATKEY_REFRACTI, refracti);
     mMaterial->Get(AI_MATKEY_SHININESS, shininess);
     mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, shinStrength);
-    outMaterial.RefractionIndex(refracti);
-    outMaterial.Shininess(shininess);
-    outMaterial.ShininessStrenght(shinStrength);
+    material.RefractionIndex(refracti);
+    material.Shininess(shininess);
+    material.ShininessStrenght(shinStrength);
     // get material properties
     aiColor3D ambient(0.f), diffuse(0.f), specular(0.f);
     aiColor3D emissive(0.f), transparent(0.f);
@@ -200,17 +194,17 @@ void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
     mMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specular);
     mMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emissive);
     mMaterial->Get(AI_MATKEY_COLOR_TRANSPARENT, transparent);
-    outMaterial.Ambient(glm::vec3(ambient.r, ambient.g, ambient.b));
-    outMaterial.Diffuse(glm::vec3(diffuse.r, diffuse.g, diffuse.b));
-    outMaterial.Specular(glm::vec3(specular.r, specular.g, specular.b));
-    outMaterial.Emissive(glm::vec3(emissive.r, emissive.g, emissive.b));
-    outMaterial.Transparent(glm::vec3(transparent.r, transparent.g,
-                                      transparent.b));
+    material.Ambient(glm::vec3(ambient.r, ambient.g, ambient.b));
+    material.Diffuse(glm::vec3(diffuse.r, diffuse.g, diffuse.b));
+    material.Specular(glm::vec3(specular.r, specular.g, specular.b));
+    material.Emissive(glm::vec3(emissive.r, emissive.g, emissive.b));
+    material.Transparent(glm::vec3(transparent.r, transparent.g,
+                                   transparent.b));
 }
 
-void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &outMesh)
+void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &mesh)
 {
-    outMesh.name = mMesh->mName.length > 0 ? mMesh->mName.C_Str() : outMesh.name;
+    mesh.name = mMesh->mName.length > 0 ? mMesh->mName.C_Str() : mesh.name;
 
     if (mMesh->mNumVertices > 0)
     {
@@ -253,73 +247,73 @@ void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &outMesh)
             }
 
             // update boundaries with current position
-            outMesh.boundaries.MinPoint(vertex.position);
-            outMesh.boundaries.MaxPoint(vertex.position);
+            mesh.boundaries.MinPoint(vertex.position);
+            mesh.boundaries.MaxPoint(vertex.position);
             // gram-schmidt orthonormalization
             vertex.Orthonormalize();
             // new vertex to raw mesh data
-            outMesh.vertices.push_back(std::move(vertex));
+            mesh.vertices.push_back(std::move(vertex));
         }
     }
 
     for (unsigned int i = 0; i < mMesh->mNumFaces; i++)
     {
-        outMesh.indices.push_back(mMesh->mFaces[i].mIndices[0]);
-        outMesh.indices.push_back(mMesh->mFaces[i].mIndices[1]);
-        outMesh.indices.push_back(mMesh->mFaces[i].mIndices[2]);
+        mesh.indices.push_back(mMesh->mFaces[i].mIndices[0]);
+        mesh.indices.push_back(mMesh->mFaces[i].mIndices[1]);
+        mesh.indices.push_back(mMesh->mFaces[i].mIndices[2]);
     }
 }
 
-void SceneImporter::ProcessNodes(Scene * scene, aiNode * node, Node &newNode)
+void SceneImporter::ProcessNodes(Scene * scene, aiNode * mNode, Node &node)
 {
-    newNode.name = node->mName.length > 0 ? node->mName.C_Str() : newNode.name;
+    node.name = mNode->mName.length > 0 ? mNode->mName.C_Str() : node.name;
 
     // meshes associated with this node
-    for (unsigned int i = 0; i < node->mNumMeshes; i++)
+    for (unsigned int i = 0; i < mNode->mNumMeshes; i++)
     {
         // insert after same name
-        newNode.meshes.push_back(scene->meshes[node->mMeshes[i]]);
+        node.meshes.push_back(scene->meshes[mNode->mMeshes[i]]);
         // node boundaries based on mesh boundaries
-        newNode.boundaries.MinPoint
+        node.boundaries.MinPoint
         (
-            scene->meshes[node->mMeshes[i]]->boundaries.MinPoint()
+            scene->meshes[mNode->mMeshes[i]]->boundaries.MinPoint()
         );
-        newNode.boundaries.MaxPoint
+        node.boundaries.MaxPoint
         (
-            scene->meshes[node->mMeshes[i]]->boundaries.MaxPoint()
+            scene->meshes[mNode->mMeshes[i]]->boundaries.MaxPoint()
         );
     }
 
     // push childrens in hierachy
-    for (unsigned int i = 0; i < node->mNumChildren; i++)
+    for (unsigned int i = 0; i < mNode->mNumChildren; i++)
     {
-        newNode.nodes.push_back(std::make_shared<Node>());
-        ProcessNodes(scene, node->mChildren[i], *newNode.nodes.back());
+        node.nodes.push_back(std::make_shared<Node>());
+        ProcessNodes(scene, mNode->mChildren[i], *node.nodes.back());
         // node boundaries based on children node boundaries
-        newNode.boundaries.MinPoint
+        node.boundaries.MinPoint
         (
-            newNode.nodes.back()->boundaries.MinPoint()
+            node.nodes.back()->boundaries.MinPoint()
         );
-        newNode.boundaries.MaxPoint
+        node.boundaries.MaxPoint
         (
-            newNode.nodes.back()->boundaries.MaxPoint()
+            node.nodes.back()->boundaries.MaxPoint()
         );
     }
 
     // transformation matrix decomposition using assimp implementation
     aiVector3D position; aiVector3D scaling; aiQuaternion rotation;
-    node->mTransformation.Decompose(scaling, rotation, position);
-    newNode.Position(glm::vec3(position.x, position.y, position.z));
-    newNode.Scaling(glm::vec3(scaling.x, scaling.y, scaling.z));
-    newNode.Rotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
+    mNode->mTransformation.Decompose(scaling, rotation, position);
+    node.Position(glm::vec3(position.x, position.y, position.z));
+    node.Scaling(glm::vec3(scaling.x, scaling.y, scaling.z));
+    node.Rotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
     // build per node draw lists from recursive draw
     // useful for easier batching
-    newNode.BuildDrawList();
+    node.BuildDrawList();
 }
 
 void SceneImporter::ImportMaterialTextures(Scene * scene,
         aiMaterial * mMaterial,
-        OGLMaterial &material)
+        Material &material)
 {
     for (aiTextureType texType = aiTextureType_NONE;
             texType < aiTextureType_UNKNOWN;
@@ -354,7 +348,7 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
 
             if (!alreadyLoaded)
             {
-                auto newTexture = std::make_shared<OGLTexture2D>();
+                auto newTexture = std::make_shared<Texture2D>();
 
                 if (TextureImporter::ImportTexture2D(filepath, *newTexture))
                 {
@@ -371,8 +365,7 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
                 }
                 else
                 {
-                    std::cout << "(SceneImporter) Error Loading Texture: "
-                              << filepath << std::endl;
+                    throw std::runtime_error("Error loading texture " + filepath);
                 }
             } // raw data from this texture has been previously loaded
             else

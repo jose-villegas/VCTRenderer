@@ -61,7 +61,7 @@ void DeferredRenderer::SetMatricesUniforms() const
         node->ModelViewProjectionMatrix());
 }
 
-void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<OGLMaterial> &mat)
+void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<Material> &mat)
 const
 {
     using namespace oglplus;
