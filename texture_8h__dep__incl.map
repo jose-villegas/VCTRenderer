@@ -1,0 +1,10 @@
+<map id="D:/Documents/Projects/VCTRenderer/engine/scene/texture.h" name="D:/Documents/Projects/VCTRenderer/engine/scene/texture.h">
+<area shape="rect" id="node2" href="$engine__assets_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/core\l/engine_assets.cpp" alt="" coords="33,109,207,165"/>
+<area shape="rect" id="node3" href="$material_8h.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/material.h" alt="" coords="232,109,416,165"/>
+<area shape="rect" id="node7" href="$scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="440,109,624,165"/>
+<area shape="rect" id="node8" href="$texture_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/texture.cpp" alt="" coords="648,109,832,165"/>
+<area shape="rect" id="node9" href="$texture__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/texture_importer.cpp" alt="" coords="857,109,1023,165"/>
+<area shape="rect" id="node4" href="$deferred__renderer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/rendering\l/deferred_renderer.cpp" alt="" coords="5,213,208,269"/>
+<area shape="rect" id="node5" href="$material_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/material.cpp" alt="" coords="232,213,416,269"/>
+<area shape="rect" id="node6" href="$scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="441,213,607,269"/>
+</map>

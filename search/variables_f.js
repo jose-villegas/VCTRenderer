@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['rawdata',['rawData',['../class_raw_texture.html#abe931dadd2a4b5bdbe82ee31f87ae60c',1,'RawTexture']]],
-  ['refractionindex',['refractionIndex',['../class_material.html#a52b96d96f3a3c9bf506fd7dc7ff6f40a',1,'Material']]],
-  ['rootnode',['rootNode',['../class_scene.html#a14b82ab277b794679fa68873a3920fd7',1,'Scene']]]
+  ['quadratic',['quadratic',['../struct_lighting_program_1_1_uniform_light_1_1_uniform_attenuation.html#ae52efa03f4cda0798a1873ff96dd4c11',1,'LightingProgram::UniformLight::UniformAttenuation::quadratic()'],['../class_light_1_1_attenuation.html#a2a11965a25e0fd826c14dc9790fff810',1,'Light::Attenuation::quadratic()']]]
 ];

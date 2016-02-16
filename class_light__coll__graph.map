@@ -1,0 +1,4 @@
+<map id="Light" name="Light">
+<area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="5,125,103,152"/>
+<area shape="rect" id="node6" href="$class_light_1_1_attenuation.html" title="Light::Attenuation" alt="" coords="273,125,397,152"/>
+</map>

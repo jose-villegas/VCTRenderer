@@ -1,0 +1,5 @@
+<map id="MeshDrawer" name="MeshDrawer">
+<area shape="rect" id="node2" href="$class_mesh.html" title="Mesh" alt="" coords="615,108,669,135"/>
+<area shape="rect" id="node3" href="$class_scene_object.html" title="SceneObject" alt="" coords="333,7,431,33"/>
+<area shape="rect" id="node6" href="$class_bounding_box.html" title="BoundingBox" alt="" coords="333,108,431,135"/>
+</map>

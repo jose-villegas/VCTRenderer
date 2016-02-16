@@ -1,0 +1,10 @@
+<map id="DeferredRenderer" name="DeferredRenderer">
+<area shape="rect" id="node2" href="$class_deferred_handler.html" title="DeferredHandler holds the deferred rendering programs and the geometry buffer object. It also handles rendering the full screen quad during the light pass stage. " alt="" coords="1295,619,1409,645"/>
+<area shape="rect" id="node3" href="$class_geometry_program.html" title="GeometryProgram" alt="" coords="913,292,1041,319"/>
+<area shape="rect" id="node4" href="$class_program_shader.html" title="Base class for each program shader used in deferred rendering " alt="" coords="593,371,705,397"/>
+<area shape="rect" id="node14" href="$class_lighting_program.html" title="LightingProgram" alt="" coords="919,539,1035,565"/>
+<area shape="rect" id="node8" href="$struct_geometry_program_1_1_uniform_material.html" title="GeometryProgram::Uniform\lMaterial" alt="" coords="559,209,739,250"/>
+<area shape="rect" id="node16" href="$struct_lighting_program_1_1_uniform_light.html" title="LightingProgram::Uniform\lLight" alt="" coords="565,642,733,683"/>
+<area shape="rect" id="node17" href="$struct_lighting_program_1_1_uniform_light_1_1_uniform_attenuation.html" title="LightingProgram::Uniform\lLight::UniformAttenuation" alt="" coords="221,698,389,739"/>
+<area shape="rect" id="node12" href="$struct_geometry_program_1_1_uniform_matrices.html" title="GeometryProgram::Uniform\lMatrices" alt="" coords="559,102,739,143"/>
+</map>

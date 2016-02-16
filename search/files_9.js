@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['render_5fwindow_2ecpp',['render_window.cpp',['../render__window_8cpp.html',1,'']]],
-  ['render_5fwindow_2eh',['render_window.h',['../render__window_8h.html',1,'']]]
+  ['light_2ecpp',['light.cpp',['../light_8cpp.html',1,'']]],
+  ['light_2eh',['light.h',['../light_8h.html',1,'']]],
+  ['lighting_5fprogram_2ecpp',['lighting_program.cpp',['../lighting__program_8cpp.html',1,'']]],
+  ['lighting_5fprogram_2eh',['lighting_program.h',['../lighting__program_8h.html',1,'']]]
 ];

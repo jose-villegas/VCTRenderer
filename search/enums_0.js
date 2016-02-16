@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blendmode',['BlendMode',['../class_o_g_l_material.html#acd49212071e5ca8ff7093a7536186271',1,'OGLMaterial']]]
+  ['blendmode',['BlendMode',['../class_material.html#a20eb0118e4ce0a3d43979e740426ae8a',1,'Material']]]
 ];

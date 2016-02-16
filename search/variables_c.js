@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['oglarraybuffer',['oglArrayBuffer',['../class_o_g_l_mesh.html#add6dba0a9c25b3861ddb1dae4ce61dc0',1,'OGLMesh']]],
-  ['oglelementarraybuffer',['oglElementArrayBuffer',['../class_o_g_l_mesh.html#aa6ee45949ecaec113ad8062d1b601bec',1,'OGLMesh']]],
-  ['ogltexture',['oglTexture',['../class_o_g_l_texture2_d.html#a81c34266417bac598a6dcf78655e3657',1,'OGLTexture2D']]],
-  ['oglvertexarray',['oglVertexArray',['../class_o_g_l_mesh.html#acf47aa123c36d1d06c2d71b13787b0e6',1,'OGLMesh']]],
-  ['ongpumemory',['onGPUMemory',['../class_o_g_l_mesh.html#aaa6cd7e62890961f6114d9753b7b3b58',1,'OGLMesh::onGPUMemory()'],['../class_o_g_l_texture2_d.html#a986498afd6ef99ef2bfc05b62a4c5b8b',1,'OGLTexture2D::onGPUMemory()']]],
-  ['opacity',['opacity',['../class_material.html#a4ddb4745b69e0b8747ef819bc3e3ceee',1,'Material']]]
+  ['name',['name',['../class_scene_object.html#a6c5ece15b6c7fe5b4d41ebcf4b13e9fc',1,'SceneObject']]],
+  ['nodes',['nodes',['../class_node.html#a1cc70f1c0b85dce01d9ff8b3450f221c',1,'Node']]],
+  ['normal',['normal',['../struct_geometry_program_1_1_uniform_matrices.html#a3dcd79835e34bb95b43b9d03677794f6',1,'GeometryProgram::UniformMatrices::normal()'],['../class_face.html#a9384eab7c9ebb8fed6fafe11aed9bd7b',1,'Face::normal()'],['../struct_vertex.html#a3aa35fe84025ecf1acccb5f65f5577fd',1,'Vertex::normal()']]],
+  ['normalmatrix',['normalMatrix',['../class_node.html#aab7e39f39d009f99e63db371167c32b8',1,'Node']]],
+  ['normalsmap',['normalsMap',['../class_geometry_program.html#aa724658278ad239045190149592268de',1,'GeometryProgram']]]
 ];

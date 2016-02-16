@@ -1,0 +1,3 @@
+<map id="DeferredRenderer" name="DeferredRenderer">
+<area shape="rect" id="node2" href="$class_deferred_handler.html" title="DeferredHandler holds the deferred rendering programs and the geometry buffer object. It also handles rendering the full screen quad during the light pass stage. " alt="" coords="9,5,124,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_deferred_handler.html" title="DeferredHandler holds the deferred rendering programs and the geometry buffer object. It also handles rendering the full screen quad during the light pass stage. " alt="" coords="5,5,120,32"/>
+<area shape="rect" id="node2" href="$class_deferred_renderer.html" title="DeferredRenderer" alt="" coords="168,5,291,32"/>
+</map>

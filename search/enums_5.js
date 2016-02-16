@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hint',['Hint',['../class_render_window.html#ad1fe41ad06931274d10323e898c61fc8',1,'RenderWindow']]]
+  ['lighttype',['LightType',['../class_light.html#a661d9480e01af8b1612860b9630ef5f8',1,'Light']]]
 ];

@@ -1,0 +1,5 @@
+<map id="Camera" name="Camera">
+<area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="5,95,103,121"/>
+<area shape="rect" id="node3" href="$class_single_active.html" title="SingleActive\&lt; Camera \&gt;" alt="" coords="127,95,290,121"/>
+<area shape="rect" id="node4" href="$class_single_active.html" title="Template class for set up a single instance of certain class as active, differentiating it from the r..." alt="" coords="147,5,271,32"/>
+</map>

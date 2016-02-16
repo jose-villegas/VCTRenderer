@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['textureimporter',['TextureImporter',['../class_raw_texture.html#a72d3411e09812d0e365245420a64c3ec',1,'RawTexture']]]
+  ['sceneimporter',['SceneImporter',['../class_scene.html#ad85db6eca234241f01732f4c175a4ee6',1,'Scene']]]
 ];
