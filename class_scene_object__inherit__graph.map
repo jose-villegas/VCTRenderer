@@ -1,5 +1,5 @@
 <map id="SceneObject" name="SceneObject">
-<area shape="rect" id="node2" href="$class_camera.html" title="Describes a scene camera. " alt="" coords="5,80,72,107"/>
+<area shape="rect" id="node2" href="$class_camera.html" title="Holds parameters and settings for scene cameras. " alt="" coords="5,80,72,107"/>
 <area shape="rect" id="node3" href="$class_light.html" title="Light" alt="" coords="96,80,147,107"/>
 <area shape="rect" id="node4" href="$class_material.html" title="Material" alt="" coords="171,80,239,107"/>
 <area shape="rect" id="node5" href="$class_mesh.html" title="Mesh" alt="" coords="263,80,318,107"/>

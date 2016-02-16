@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['light_2ecpp',['light.cpp',['../light_8cpp.html',1,'']]],
-  ['light_2eh',['light.h',['../light_8h.html',1,'']]],
-  ['lighting_5fprogram_2ecpp',['lighting_program.cpp',['../lighting__program_8cpp.html',1,'']]],
-  ['lighting_5fprogram_2eh',['lighting_program.h',['../lighting__program_8h.html',1,'']]]
+  ['jquery_2ejs',['jquery.js',['../jquery_8js.html',1,'']]],
+  ['jquery_5f8js_2ejs',['jquery_8js.js',['../jquery__8js_8js.html',1,'']]]
 ];

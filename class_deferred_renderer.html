@@ -115,6 +115,9 @@ $(document).ready(function(){initNavTree('class_deferred_renderer.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>The main renderer for the engine. Uses a deferred rendering path.  
+ <a href="class_deferred_renderer.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="deferred__renderer_8h_source.html">deferred_renderer.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for DeferredRenderer:</div>
@@ -143,7 +146,7 @@ Collaboration diagram for DeferredRenderer:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aecff93f21ba63e83c4a92ac7a0c96dbf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_renderer.html#aecff93f21ba63e83c4a92ac7a0c96dbf">DeferredRenderer</a> (const <a class="el" href="class_render_window.html">RenderWindow</a> &amp;rWindow)</td></tr>
-<tr class="memdesc:aecff93f21ba63e83c4a92ac7a0c96dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_deferred_renderer.html">DeferredRenderer</a> class.  <a href="#aecff93f21ba63e83c4a92ac7a0c96dbf">More...</a><br /></td></tr>
+<tr class="memdesc:aecff93f21ba63e83c4a92ac7a0c96dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_deferred_renderer.html" title="The main renderer for the engine. Uses a deferred rendering path. ">DeferredRenderer</a> class.  <a href="#aecff93f21ba63e83c4a92ac7a0c96dbf">More...</a><br /></td></tr>
 <tr class="separator:aecff93f21ba63e83c4a92ac7a0c96dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a368439a4df71918ce564b3763d1a26aa"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_renderer.html#a368439a4df71918ce564b3763d1a26aa">~DeferredRenderer</a> ()</td></tr>
 <tr class="separator:a368439a4df71918ce564b3763d1a26aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,7 +172,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:ada3b3476e767bbbc0e146f2c9e7591bf inherit pro_methods_class_deferred_handler"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#ada3b3476e767bbbc0e146f2c9e7591bf">RenderFullscreenQuad</a> () const </td></tr>
 <tr class="memdesc:ada3b3476e767bbbc0e146f2c9e7591bf inherit pro_methods_class_deferred_handler"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders a full screen quad, used in the light pass stage  <a href="#ada3b3476e767bbbc0e146f2c9e7591bf">More...</a><br /></td></tr>
 <tr class="separator:ada3b3476e767bbbc0e146f2c9e7591bf inherit pro_methods_class_deferred_handler"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a067f61702c6bf91b1d8bd951da031a6f inherit pro_methods_class_deferred_handler"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#a067f61702c6bf91b1d8bd951da031a6f">DeferredHandler</a> (unsigned int windowWith, unsigned int windowHeight)</td></tr>
+<tr class="memitem:a067f61702c6bf91b1d8bd951da031a6f inherit pro_methods_class_deferred_handler"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#a067f61702c6bf91b1d8bd951da031a6f">DeferredHandler</a> (unsigned int windowWith, unsigned int <a class="el" href="svgpan_8js.html#aedf2e75c73d9bd4f4d35925867495e22">windowHeight</a>)</td></tr>
 <tr class="memdesc:a067f61702c6bf91b1d8bd951da031a6f inherit pro_methods_class_deferred_handler"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_deferred_handler.html" title="DeferredHandler holds the deferred rendering programs and the geometry buffer object. It also handles rendering the full screen quad during the light pass stage. ">DeferredHandler</a> class. At construction the geometry buffer is set up with the window height and width for the texture's resolution.  <a href="#a067f61702c6bf91b1d8bd951da031a6f">More...</a><br /></td></tr>
 <tr class="separator:a067f61702c6bf91b1d8bd951da031a6f inherit pro_methods_class_deferred_handler"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb2df800949d3bfaf7326d1bb44af0ce inherit pro_methods_class_deferred_handler"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#aeb2df800949d3bfaf7326d1bb44af0ce">~DeferredHandler</a> ()</td></tr>
@@ -186,8 +189,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:af4fa28b761292d4c8f6c5bfced34a332 inherit pro_attribs_class_deferred_handler"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="deferred__renderer_8h_source.html#l00008">8</a> of file <a class="el" href="deferred__renderer_8h_source.html">deferred_renderer.h</a>.</p>
+<div class="textblock"><p>The main renderer for the engine. Uses a deferred rendering path. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_deferred_handler.html" title="DeferredHandler holds the deferred rendering programs and the geometry buffer object. It also handles rendering the full screen quad during the light pass stage. ">DeferredHandler</a></dd></dl>
+
+<p>Definition at line <a class="el" href="deferred__renderer_8h_source.html#l00013">13</a> of file <a class="el" href="deferred__renderer_8h_source.html">deferred_renderer.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aecff93f21ba63e83c4a92ac7a0c96dbf"></a>
 <div class="memitem">
@@ -211,7 +216,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Initializes a new instance of the <a class="el" href="class_deferred_renderer.html">DeferredRenderer</a> class. </p>
+<p>Initializes a new instance of the <a class="el" href="class_deferred_renderer.html" title="The main renderer for the engine. Uses a deferred rendering path. ">DeferredRenderer</a> class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">rWindow</td><td>The rendering window.</td></tr>

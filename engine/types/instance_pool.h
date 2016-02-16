@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
 
+/// <summary>
+/// Stores all instaces of the inheriting class
+/// </summary>
 template<typename T>
 class InstancePool
 {

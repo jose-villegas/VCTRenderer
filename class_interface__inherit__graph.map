@@ -5,5 +5,5 @@
 <area shape="rect" id="node8" href="$class_u_i_scene_loader.html" title="UISceneLoader" alt="" coords="390,247,501,273"/>
 <area shape="rect" id="node2" href="$class_interface_renderer.html" title="Main class to implement custom interfaces setups IMGUI to render in the current context ..." alt="" coords="125,95,248,121"/>
 <area shape="rect" id="node3" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="272,95,443,121"/>
-<area shape="rect" id="node4" href="$class_instance_pool.html" title="InstancePool\&lt; T \&gt;" alt="" coords="293,5,421,32"/>
+<area shape="rect" id="node4" href="$class_instance_pool.html" title="Stores all instaces of the inheriting class " alt="" coords="293,5,421,32"/>
 </map>

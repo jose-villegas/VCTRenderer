@@ -1,4 +1,4 @@
 <map id="Mesh" name="Mesh">
 <area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="333,7,431,33"/>
-<area shape="rect" id="node5" href="$class_bounding_box.html" title="BoundingBox" alt="" coords="333,108,431,135"/>
+<area shape="rect" id="node5" href="$class_bounding_box.html" title="Describes a volume box which contains anything inside be it a node or a mesh. " alt="" coords="333,108,431,135"/>
 </map>

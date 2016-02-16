@@ -3,6 +3,7 @@ var searchData=
   ['datasegment',['DataSegment',['../class_raw_format_1_1_data_segment.html#a0c6199660ecff143bdf97b5a4492cc54',1,'RawFormat::DataSegment::DataSegment(RawFormat *format, T *pointer=nullptr, size_t offset=0)'],['../class_raw_format_1_1_data_segment.html#a9615cc19f3a404353bf90182a9345d13',1,'RawFormat::DataSegment::DataSegment(const DataSegment &amp;other)=delete'],['../class_raw_format_1_1_data_segment.html#af65af05152f900872748be3bfdfec95d',1,'RawFormat::DataSegment::DataSegment()=delete']]],
   ['deferredhandler',['DeferredHandler',['../class_deferred_handler.html#a067f61702c6bf91b1d8bd951da031a6f',1,'DeferredHandler']]],
   ['deferredrenderer',['DeferredRenderer',['../class_deferred_renderer.html#aecff93f21ba63e83c4a92ac7a0c96dbf',1,'DeferredRenderer']]],
+  ['deletelink',['deleteLink',['../navtree_8js.html#abdf8e0e69c89803c1b84784a13b7fd2e',1,'navtree.js']]],
   ['desktop',['Desktop',['../namespace_utils.html#a6229c02953ff278be009bea4d54aa231',1,'Utils']]],
   ['destroy',['Destroy',['../class_render_window.html#abafdb8715b61f866399b6741c517be55',1,'RenderWindow']]],
   ['diffuse',['Diffuse',['../class_light.html#a5482ee3331fdb17c25c8eb8a05a1a2d2',1,'Light::Diffuse() const '],['../class_light.html#adad340c54d68cdbfaff21698dee8854e',1,'Light::Diffuse(const glm::vec3 &amp;val)'],['../class_material.html#abb589a537add95d7697c8ecf176f4d31',1,'Material::Diffuse() const '],['../class_material.html#a721bbfd14ce122f34da1a4d3a56906a3',1,'Material::Diffuse(const glm::vec3 &amp;val)']]],

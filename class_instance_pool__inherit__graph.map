@@ -1,8 +1,8 @@
 <map id="InstancePool&lt; T &gt;" name="InstancePool&lt; T &gt;">
 <area shape="rect" id="node2" href="$class_instance_pool.html" title="InstancePool\&lt; Behavior \&gt;" alt="" coords="5,95,176,121"/>
 <area shape="rect" id="node4" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="200,95,371,121"/>
-<area shape="rect" id="node3" href="$class_behavior.html" title="Behavior" alt="" coords="55,171,126,197"/>
-<area shape="rect" id="node5" href="$class_interface.html" title="Interface" alt="" coords="250,171,321,197"/>
+<area shape="rect" id="node3" href="$class_behavior.html" title="Holds logic code in the Update method to be executed by all inheriting classes during rendering..." alt="" coords="55,171,126,197"/>
+<area shape="rect" id="node5" href="$class_interface.html" title="Holds interfaces code it the Draw method to be executed by all inheriting classes during rendering..." alt="" coords="250,171,321,197"/>
 <area shape="rect" id="node6" href="$class_u_i_framerate.html" title="UIFramerate" alt="" coords="53,247,147,273"/>
 <area shape="rect" id="node7" href="$class_u_i_main_menu.html" title="UIMainMenu" alt="" coords="171,247,266,273"/>
 <area shape="rect" id="node8" href="$class_u_i_scene_cameras.html" title="UISceneCameras" alt="" coords="291,247,413,273"/>

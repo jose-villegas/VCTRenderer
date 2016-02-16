@@ -8,6 +8,9 @@ class BoundingBox;
 class BoundingSphere;
 class BoundingBox;
 
+/// <summary>
+/// A frustum formed by six planes
+/// </summary>
 class Frustum
 {
     public:
@@ -23,6 +26,11 @@ class Frustum
         std::array<glm::vec4, 6> planes;
 };
 
+/// <summary>
+/// Contains methods for frustum culling
+/// with its <see cref="Frustum" /> parameters.
+/// </summary>
+/// <seealso cref="Frustum" />
 class CullingFrustum : public Frustum
 {
     public:

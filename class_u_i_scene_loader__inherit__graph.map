@@ -1,6 +1,6 @@
 <map id="UISceneLoader" name="UISceneLoader">
-<area shape="rect" id="node2" href="$class_interface.html" title="Interface" alt="" coords="82,171,153,197"/>
+<area shape="rect" id="node2" href="$class_interface.html" title="Holds interfaces code it the Draw method to be executed by all inheriting classes during rendering..." alt="" coords="82,171,153,197"/>
 <area shape="rect" id="node3" href="$class_interface_renderer.html" title="Main class to implement custom interfaces setups IMGUI to render in the current context ..." alt="" coords="5,95,128,121"/>
 <area shape="rect" id="node4" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="152,95,323,121"/>
-<area shape="rect" id="node5" href="$class_instance_pool.html" title="InstancePool\&lt; T \&gt;" alt="" coords="173,5,301,32"/>
+<area shape="rect" id="node5" href="$class_instance_pool.html" title="Stores all instaces of the inheriting class " alt="" coords="173,5,301,32"/>
 </map>

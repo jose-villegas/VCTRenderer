@@ -6,6 +6,6 @@ class SceneObject
     public:
         std::string name;
         SceneObject();
-        ~SceneObject();
+        virtual ~SceneObject();
 };
 

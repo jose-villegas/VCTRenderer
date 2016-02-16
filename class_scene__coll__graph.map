@@ -6,5 +6,5 @@
 <area shape="rect" id="node6" href="$class_single_active.html" title="Template class for set up a single instance of certain class as active, differentiating it from the r..." alt="" coords="242,73,366,100"/>
 <area shape="rect" id="node9" href="$class_single_active.html" title="SingleActive\&lt; Node \&gt;" alt="" coords="516,99,663,125"/>
 <area shape="rect" id="node10" href="$classstatic_01std_1_1unique__ptr_3_01_node_01_4.html" title="unique_ptr\&lt; Node \&gt;" alt="" coords="236,141,372,168"/>
-<area shape="rect" id="node15" href="$class_bounding_box.html" title="BoundingBox" alt="" coords="540,373,639,400"/>
+<area shape="rect" id="node15" href="$class_bounding_box.html" title="Describes a volume box which contains anything inside be it a node or a mesh. " alt="" coords="540,373,639,400"/>
 </map>

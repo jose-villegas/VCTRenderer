@@ -116,24 +116,25 @@ $(document).ready(function(){initNavTree('class_bounding_box.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Describes a volume box which contains anything inside be it a node or a mesh.  
+ <a href="class_bounding_box.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for BoundingBox:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_bounding_box__coll__graph.png" border="0" usemap="#_bounding_box_coll__map" alt="Collaboration graph"/></div>
-<map name="_bounding_box_coll__map" id="_bounding_box_coll__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab15642cbfbb575a8d87240186e23c46d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box.html#ab15642cbfbb575a8d87240186e23c46d">MinPoint</a> (const glm::vec3 &amp;val)</td></tr>
-<tr class="memdesc:ab15642cbfbb575a8d87240186e23c46d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the minimum point only if <a class="el" href="">ifs smaller than the current </a>. Sets <a class="el" href="class_bounding_box.html#a4581e8476026990423d14fdd5c94b74f">and </a>.  <a href="#ab15642cbfbb575a8d87240186e23c46d">More...</a><br /></td></tr>
+<tr class="memdesc:ab15642cbfbb575a8d87240186e23c46d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the minimum point only if value ifs smaller than the current minPoint. Sets <a class="el" href="class_bounding_box.html#a4581e8476026990423d14fdd5c94b74f">and </a>.  <a href="#ab15642cbfbb575a8d87240186e23c46d">More...</a><br /></td></tr>
 <tr class="separator:ab15642cbfbb575a8d87240186e23c46d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a961ca9592dbfb67fb02149f1734e8cc6"><td class="memItemLeft" align="right" valign="top">const glm::vec3 &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box.html#a961ca9592dbfb67fb02149f1734e8cc6">MinPoint</a> (bool transformed=false) const </td></tr>
 <tr class="separator:a961ca9592dbfb67fb02149f1734e8cc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e9bc636b38cda4b112c8bb445157a62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box.html#a2e9bc636b38cda4b112c8bb445157a62">MaxPoint</a> (const glm::vec3 &amp;val)</td></tr>
-<tr class="memdesc:a2e9bc636b38cda4b112c8bb445157a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the maximum point only if <a class="el" href="">ifs bigger than the current </a>. Sets <a class="el" href="class_bounding_box.html#a4581e8476026990423d14fdd5c94b74f">and </a>.  <a href="#a2e9bc636b38cda4b112c8bb445157a62">More...</a><br /></td></tr>
+<tr class="memdesc:a2e9bc636b38cda4b112c8bb445157a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the maximum point only if value ifs bigger than the current maxPoint. Sets <a class="el" href="class_bounding_box.html#a4581e8476026990423d14fdd5c94b74f">and </a>.  <a href="#a2e9bc636b38cda4b112c8bb445157a62">More...</a><br /></td></tr>
 <tr class="separator:a2e9bc636b38cda4b112c8bb445157a62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16c22eaf969819baf84ebe65b63f6404"><td class="memItemLeft" align="right" valign="top">const glm::vec3 &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box.html#a16c22eaf969819baf84ebe65b63f6404">MaxPoint</a> (bool transformed=false) const </td></tr>
 <tr class="separator:a16c22eaf969819baf84ebe65b63f6404"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,8 +163,9 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a590da523666a33dc5b0676310b9a3f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00008">8</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
+<div class="textblock"><p>Describes a volume box which contains anything inside be it a node or a mesh. </p>
+
+<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00012">12</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a6e401c4da5839950f1f30c8b8c4d1208"></a>
 <div class="memitem">
@@ -258,7 +260,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the maximum point only if <a class="el" href="">ifs bigger than the current </a>. Sets <a class="el" href="class_bounding_box.html#a4581e8476026990423d14fdd5c94b74f">and </a>. </p>
+<p>Sets the maximum point only if value ifs bigger than the current maxPoint. Sets <a class="el" href="class_bounding_box.html#a4581e8476026990423d14fdd5c94b74f">and </a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">val</td><td>The value.</td></tr>
@@ -302,7 +304,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the minimum point only if <a class="el" href="">ifs smaller than the current </a>. Sets <a class="el" href="class_bounding_box.html#a4581e8476026990423d14fdd5c94b74f">and </a>. </p>
+<p>Sets the minimum point only if value ifs smaller than the current minPoint. Sets <a class="el" href="class_bounding_box.html#a4581e8476026990423d14fdd5c94b74f">and </a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">val</td><td>The value.</td></tr>
@@ -386,7 +388,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00037">37</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
+<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00041">41</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
 
 </div>
 </div>
@@ -408,7 +410,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00040">40</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
+<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00044">44</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
 
 </div>
 </div>
@@ -430,7 +432,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00041">41</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
+<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00045">45</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
 
 </div>
 </div>
@@ -452,7 +454,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00038">38</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
+<p>Definition at line <a class="el" href="bounding__box_8h_source.html#l00042">42</a> of file <a class="el" href="bounding__box_8h_source.html">bounding_box.h</a>.</p>
 
 </div>
 </div>

@@ -1,5 +1,5 @@
 <map id="InterfaceRenderer" name="InterfaceRenderer">
-<area shape="rect" id="node2" href="$class_interface.html" title="Interface" alt="" coords="202,80,273,107"/>
+<area shape="rect" id="node2" href="$class_interface.html" title="Holds interfaces code it the Draw method to be executed by all inheriting classes during rendering..." alt="" coords="202,80,273,107"/>
 <area shape="rect" id="node3" href="$class_u_i_framerate.html" title="UIFramerate" alt="" coords="5,155,99,181"/>
 <area shape="rect" id="node4" href="$class_u_i_main_menu.html" title="UIMainMenu" alt="" coords="123,155,218,181"/>
 <area shape="rect" id="node5" href="$class_u_i_scene_cameras.html" title="UISceneCameras" alt="" coords="243,155,365,181"/>

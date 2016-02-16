@@ -1,4 +1,4 @@
 <map id="Behavior" name="Behavior">
 <area shape="rect" id="node2" href="$class_instance_pool.html" title="InstancePool\&lt; Behavior \&gt;" alt="" coords="5,95,176,121"/>
-<area shape="rect" id="node3" href="$class_instance_pool.html" title="InstancePool\&lt; T \&gt;" alt="" coords="27,5,155,32"/>
+<area shape="rect" id="node3" href="$class_instance_pool.html" title="Stores all instaces of the inheriting class " alt="" coords="27,5,155,32"/>
 </map>

@@ -5,6 +5,7 @@ var searchData=
   ['togglefolder',['toggleFolder',['../dynsections_8js.html#af244da4527af2d845dca04f5656376cd',1,'dynsections.js']]],
   ['toggleinherit',['toggleInherit',['../dynsections_8js.html#ac057b640b17ff32af11ced151c9305b4',1,'dynsections.js']]],
   ['togglelevel',['toggleLevel',['../dynsections_8js.html#a19f577cc1ba571396a85bb1f48bf4df2',1,'dynsections.js']]],
+  ['togglesyncbutton',['toggleSyncButton',['../navtree_8js.html#a646cb31d83b39aafec92e0e1d123563a',1,'navtree.js']]],
   ['togglevisibility',['toggleVisibility',['../dynsections_8js.html#a1922c462474df7dfd18741c961d59a25',1,'dynsections.js']]],
   ['transform',['Transform',['../class_node.html#ae955f587b5f1efc7636eb895f7dfa146',1,'Node::Transform()'],['../class_bounding_box.html#af1b0ff294f0bf63362e66be53af5e915',1,'BoundingBox::Transform()']]],
   ['transparent',['Transparent',['../class_material.html#ab99cceedd3c57c9186677617bd4fb655',1,'Material::Transparent() const '],['../class_material.html#a71eab8b3312d2c4deb7a3eeed805161d',1,'Material::Transparent(const glm::vec3 &amp;val)']]],

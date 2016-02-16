@@ -3,5 +3,5 @@
 <area shape="rect" id="node4" href="$class_single_active.html" title="SingleActive\&lt; Node \&gt;" alt="" coords="515,57,661,84"/>
 <area shape="rect" id="node5" href="$classstatic_01std_1_1unique__ptr_3_01_node_01_4.html" title="unique_ptr\&lt; Node \&gt;" alt="" coords="236,57,372,84"/>
 <area shape="rect" id="node6" href="$class_single_active.html" title="Template class for set up a single instance of certain class as active, differentiating it from the r..." alt="" coords="242,108,366,135"/>
-<area shape="rect" id="node12" href="$class_bounding_box.html" title="BoundingBox" alt="" coords="539,343,637,369"/>
+<area shape="rect" id="node12" href="$class_bounding_box.html" title="Describes a volume box which contains anything inside be it a node or a mesh. " alt="" coords="539,343,637,369"/>
 </map>

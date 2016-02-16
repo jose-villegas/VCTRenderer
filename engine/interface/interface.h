@@ -4,6 +4,13 @@
 #include "../core/engine_base.h"
 #include "../types/instance_pool.h"
 
+/// <summary>
+/// Holds interfaces code it the <see cref="Draw"/>
+/// method to be executed by all inheriting classes
+/// during rendering.
+/// </summary>
+/// <seealso cref="InterfaceRenderer" />
+/// <seealso cref="InstancePool{Interface}" />
 class Interface : InterfaceRenderer, InstancePool<Interface>
 {
     public:
