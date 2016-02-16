@@ -39,6 +39,11 @@ class InterfaceRenderer
         /// </summary>
         static void NewFrame();
     protected:
+        /// <summary>
+        /// Contains all the OpenGL objects
+        /// names and useful fields for callback
+        /// logic.
+        /// </summary>
         struct RendererData
         {
             GLFWwindow * window;

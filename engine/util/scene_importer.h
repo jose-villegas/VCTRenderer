@@ -16,7 +16,7 @@ class Scene;
 
 /// <summary>
 /// Utilizes Assimp library to import scenes
-/// info into the <see cref="Scene"> class
+/// info into the <see cref="Scene"></see> class.
 /// </summary>
 class SceneImporter
 {

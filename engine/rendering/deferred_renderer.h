@@ -5,6 +5,11 @@
 class Material;
 class RenderWindow;
 
+/// <summary>
+/// The main renderer for the engine.
+/// Uses a deferred rendering path.
+/// </summary>
+/// <seealso cref="DeferredHandler" />
 class DeferredRenderer : public DeferredHandler
 {
     public:

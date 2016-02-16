@@ -6,6 +6,9 @@
 
 struct Vertex;
 
+/// <summary>
+/// A polygonal face formed by three <see cref="Vertex"/>
+/// </summary>
 class Face
 {
         std::array<std::shared_ptr<Vertex>, 3> vertices;

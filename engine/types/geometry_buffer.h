@@ -4,6 +4,11 @@
 #include <oglplus/framebuffer.hpp>
 #include <oglplus/context.hpp>
 
+/// <summary>
+/// Describes the geometry buffer used in
+/// deferred rendering. Holds all the render
+/// target textures and the associated framebuffer.
+/// </summary>
 class GeometryBuffer
 {
     public:
