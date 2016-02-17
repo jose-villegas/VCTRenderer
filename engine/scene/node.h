@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scene_object.h"
+#include "../types/scene_object.h"
 #include "../types/bounding_box.h"
 #include "../util/single_active.h"
 
@@ -21,7 +21,6 @@ class Node : public SceneObject, public SingleActive<Node>
         Node();
         virtual ~Node();
 
-        glm::mat4x4 GetModelMatrix() const;
         // draws only the meshes associated to the node
         void Draw();
         // draws the meshes associated to the parents and all descendants
@@ -29,12 +28,6 @@ class Node : public SceneObject, public SingleActive<Node>
         // draws using the built drawList
         void DrawList();
         // transformations
-        void Transform(const glm::vec3 &position,
-                       const glm::vec3 &scaling,
-                       const glm::quat &rotation);
-        void Position(const glm::vec3 &position);
-        void Scaling(const glm::vec3 &scaling);
-        void Rotation(const glm::quat &rotation);
         void BuildDrawList();
 
         const glm::mat4x4 &NormalMatrix() const;
@@ -43,18 +36,12 @@ class Node : public SceneObject, public SingleActive<Node>
     private:
         std::vector<Node *> drawList;
 
-        glm::mat4x4 modelMatrix;
         glm::mat4x4 modelViewMatrix;
         glm::mat4x4 modelViewProjectionMatrix;
         glm::mat4x4 normalMatrix;
 
-        glm::vec3 position;
-        glm::vec3 scaling;
-        glm::quat rotation;
-
         bool outsideFrustum;
 
-        void ComputeModelMatrix();
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
         void DrawMeshes();

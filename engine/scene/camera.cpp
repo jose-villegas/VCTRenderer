@@ -19,20 +19,10 @@ Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     viewValuesChanged = projectionValuesChanged = frustumValuesChanged = true;
 }
 
-float Camera::ClipPlaneFar() const
-{
-    return clipPlaneFar;
-}
-
 void Camera::ClipPlaneFar(float val)
 {
     projectionValuesChanged |= val != clipPlaneFar;
     clipPlaneFar = glm::max(val, 0.01f);
-}
-
-float Camera::ClipPlaneNear() const
-{
-    return clipPlaneNear;
 }
 
 void Camera::ClipPlaneNear(float val)
@@ -41,20 +31,10 @@ void Camera::ClipPlaneNear(float val)
     clipPlaneNear = glm::max(val, 0.01f);
 }
 
-float Camera::HorizontalFoV() const
-{
-    return horizontalFoV;
-}
-
 void Camera::HorizontalFoV(float val)
 {
     projectionValuesChanged |= val != horizontalFoV;
     horizontalFoV = glm::clamp(val, 1.0f, 179.0f);
-}
-
-float Camera::AspectRatio() const
-{
-    return aspectRatio;
 }
 
 void Camera::AspectRatio(float val)
@@ -63,31 +43,16 @@ void Camera::AspectRatio(float val)
     aspectRatio = val;
 }
 
-const glm::vec3 &Camera::LookAt() const
-{
-    return lookAt;
-}
-
 void Camera::LookAt(const glm::vec3 &val)
 {
     viewValuesChanged |= val != lookAt;
     lookAt = val;
 }
 
-const glm::vec3 &Camera::Position() const
-{
-    return position;
-}
-
 void Camera::Position(const glm::vec3 &val)
 {
     viewValuesChanged |= val != position;
     position = val;
-}
-
-const glm::vec3 &Camera::Up() const
-{
-    return up;
 }
 
 void Camera::Up(const glm::vec3 &val)

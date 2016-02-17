@@ -1,8 +1,8 @@
 #pragma once
 
-#include "scene_object.h"
 #include "../util/single_active.h"
 #include "../types/frustum.h"
+#include "../types/scene_object.h"
 
 #include <glm/detail/type_vec3.hpp>
 
@@ -16,46 +16,9 @@ class Camera :  public SceneObject, public SingleActive<Camera>
         Camera();
         virtual ~Camera();
 
-        float ClipPlaneFar() const;
-        /// <summary>
-        /// Sets the <see cref="clipPlaneFar"/> value.
-        /// Value is in the range [0.01, inf]
-        /// </summary>
-        /// <param name="val">The value.</param>
-        void ClipPlaneFar(float val);
-
-        float ClipPlaneNear() const;
-        /// <summary>
-        /// Sets the <see cref="clipPlaneNear"/> value.
-        /// Value is in the range [0.01, inf]
-        /// </summary>
-        /// <param name="val">The value.</param>
-        void ClipPlaneNear(float val);
-
-        float HorizontalFoV() const;
-        /// <summary>
-        /// Sets the <see cref="horizontalFoV"/> value.
-        /// Value is in the range [1, 179]
-        /// </summary>
-        /// <param name="val">The value.</param>
-        void HorizontalFoV(float val);
-
-        float AspectRatio() const;
-        void AspectRatio(float val);
-
-        const glm::vec3 &LookAt() const;
-        void LookAt(const glm::vec3 &val);
-
-        const glm::vec3 &Position() const;
-        void Position(const glm::vec3 &val);
-
-        const glm::vec3 &Up() const;
-        void Up(const glm::vec3 &val);
-
         const glm::mat4x4 &ViewMatrix();
         const glm::mat4x4 &ProjectionMatrix();
 
-        bool ParametersChanged() const;
         /// <summary>
         /// Checks if the bounding volume is inside the
         /// camera frustum <see cref="CullingFrustum"/>
@@ -63,6 +26,29 @@ class Camera :  public SceneObject, public SingleActive<Camera>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>
         bool InFrustum(const BoundingBox &volume);
+        /// <summary>
+        /// Sets the <see cref="clipPlaneFar"/> value.
+        /// Value is in the range [0.01, inf]
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void ClipPlaneFar(float val);
+        /// <summary>
+        /// Sets the <see cref="clipPlaneNear"/> value.
+        /// Value is in the range [0.01, inf]
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void ClipPlaneNear(float val);
+        /// <summary>
+        /// Sets the <see cref="horizontalFoV"/> value.
+        /// Value is in the range [1, 179]
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void HorizontalFoV(float val);
+        void AspectRatio(float val);
+        void LookAt(const glm::vec3 &val);
+        void Position(const glm::vec3 &val);
+        void Up(const glm::vec3 &val);
+        bool ParametersChanged() const;
     private:
         float clipPlaneFar;
         float clipPlaneNear;

@@ -10,7 +10,7 @@ class Material;
 class Light;
 class Node;
 
-class Scene : public SceneObject, public SingleActive<Scene>
+class Scene : public BaseObject, public SingleActive<Scene>
 {
     protected:
         std::string filepath;

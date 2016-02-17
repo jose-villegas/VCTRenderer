@@ -62,10 +62,11 @@ void EngineBase::MainLoop()
         gl.Clear().ColorBuffer().DepthBuffer();
         // poll window inputs
         RenderWindow::Events();
+        // setup interface renderer for a new frame
+        InterfaceRenderer::NewFrame();
         // behaviors update
         Behavior::UpdateAll();
-        // draw custom engine uis
-        InterfaceRenderer::NewFrame();
+        // interfaces update
         Interface::DrawAll();
         // render main scene
         renderer->Render();

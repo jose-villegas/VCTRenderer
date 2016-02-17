@@ -323,7 +323,9 @@
     <ClCompile Include="assets\code\ui\scene_cameras.cpp" />
     <ClCompile Include="behavior\behavior.cpp" />
     <ClCompile Include="assets\code\ui\framerate.cpp" />
-    <ClCompile Include="scene\scene_object.cpp" />
+    <ClCompile Include="scene\transform.cpp" />
+    <ClCompile Include="types\scene_object.cpp" />
+    <ClCompile Include="types\base_object.cpp" />
     <ClCompile Include="types\geometry_buffer.cpp" />
     <ClCompile Include="programs\lighting_program.cpp" />
     <ClCompile Include="interface\interface_renderer.cpp" />
@@ -404,7 +406,9 @@
     <ClInclude Include="assets\code\ui\main_menu.h" />
     <ClInclude Include="assets\code\ui\scene_cameras.h" />
     <ClInclude Include="behavior\behavior.h" />
-    <ClInclude Include="scene\scene_object.h" />
+    <ClInclude Include="scene\transform.h" />
+    <ClInclude Include="types\scene_object.h" />
+    <ClInclude Include="types\base_object.h" />
     <ClInclude Include="types\geometry_buffer.h" />
     <ClInclude Include="programs\geometry_program.h" />
     <ClInclude Include="programs\lighting_program.h" />

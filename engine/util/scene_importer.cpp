@@ -303,9 +303,9 @@ void SceneImporter::ProcessNodes(Scene * scene, aiNode * mNode, Node &node)
     // transformation matrix decomposition using assimp implementation
     aiVector3D position; aiVector3D scaling; aiQuaternion rotation;
     mNode->mTransformation.Decompose(scaling, rotation, position);
-    node.Position(glm::vec3(position.x, position.y, position.z));
-    node.Scaling(glm::vec3(scaling.x, scaling.y, scaling.z));
-    node.Rotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
+    node.transform.Position(position.x, position.y, position.z);
+    node.transform.Scale(scaling.x, scaling.y, scaling.z);
+    node.transform.Rotation(rotation.w, rotation.x, rotation.y, rotation.z);
     // build per node draw lists from recursive draw
     // useful for easier batching
     node.BuildDrawList();

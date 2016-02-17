@@ -13,25 +13,11 @@
 Node::Node() : outsideFrustum(true)
 {
     name = "Default Node";
-    position = glm::vec3(0.0f, 0.0f, 0.0f);
-    scaling = glm::vec3(1.0f, 1.0f, 1.0f);
-    rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
-    GetModelMatrix(); // initially as invalid
 }
 
 
 Node::~Node()
 {
-}
-
-glm::mat4x4 Node::GetModelMatrix() const
-{
-    return modelMatrix;
-}
-
-void Node::ComputeModelMatrix()
-{
-    modelMatrix = translate(position) * mat4_cast(rotation) * scale(scaling);
 }
 
 void Node::BuildDrawList(std::vector<Node *> &base)
@@ -120,46 +106,18 @@ void Node::DrawList()
 void Node::ComputeMatrices()
 {
     static const auto &camera = Camera::Active();
-    modelViewMatrix = camera->ViewMatrix() * modelMatrix;
+    modelViewMatrix = camera->ViewMatrix() * transform.ToMatrix();
     normalMatrix = modelViewMatrix;
     modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
 }
 
-void Node::Transform(const glm::vec3 &position, const glm::vec3 &scaling,
-                     const glm::quat &rotation)
-{
-    this->position = position;
-    this->scaling = scaling;
-    this->rotation = rotation;
-    ComputeModelMatrix();
-}
-
-void Node::Position(const glm::vec3 &position)
-{
-    if (position != this->position)
-    {
-        this->position = position;
-        ComputeModelMatrix();
-    }
-}
-
-void Node::Scaling(const glm::vec3 &scaling)
-{
-    if (scaling != this->scaling)
-    {
-        this->scaling = scaling;
-        ComputeModelMatrix();
-        UpdateBoundaries();
-    }
-}
-
 void Node::UpdateBoundaries()
 {
-    boundaries.Transform(modelMatrix);
+    boundaries.Transform(transform.ToMatrix());
 
     for (auto &mesh : meshes)
     {
-        mesh->boundaries.Transform(modelMatrix);
+        mesh->boundaries.Transform(transform.ToMatrix());
     }
 }
 
@@ -200,16 +158,6 @@ void Node::PoolDrawList()
             node->outsideFrustum = true;
         }
     });
-}
-
-void Node::Rotation(const glm::quat &rotation)
-{
-    if (rotation != this->rotation)
-    {
-        this->rotation = rotation;
-        ComputeModelMatrix();
-        boundaries.Transform(modelMatrix);
-    }
 }
 
 void Node::BuildDrawList()

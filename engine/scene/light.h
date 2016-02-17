@@ -1,10 +1,9 @@
 #pragma once
 
-#include "scene_object.h"
-
+#include "../types/base_object.h"
 #include <glm/detail/type_vec3.hpp>
 
-class Light : public SceneObject
+class Light : public BaseObject
 {
     public:
         class Attenuation

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scene_object.h"
+#include "../types/base_object.h"
 #include "../types/bounding_box.h"
 
 #include <vector>
@@ -10,7 +10,7 @@
 class Material;
 struct Vertex;
 
-class Mesh : public SceneObject
+class Mesh : public BaseObject
 {
     public:
         // node boundaries

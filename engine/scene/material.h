@@ -1,13 +1,13 @@
 #pragma once
 
-#include "scene_object.h"
 #include "texture.h"
+#include "../types/base_object.h"
 
 #include <array>
 #include <memory>
 #include <glm/detail/type_vec3.hpp>
 
-class Material : public SceneObject
+class Material : public BaseObject
 {
     public:
         enum ShadingMode
