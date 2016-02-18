@@ -330,6 +330,7 @@
     <ClCompile Include="programs\lighting_program.cpp" />
     <ClCompile Include="interface\interface_renderer.cpp" />
     <ClCompile Include="assets\code\ui\scene_loader.cpp" />
+    <ClCompile Include="util\const_definitions.cpp" />
     <ClCompile Include="util\raw_format.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -456,6 +457,7 @@
     <ClInclude Include="types\vertex.h" />
     <ClInclude Include="util\scene_importer.h" />
     <ClInclude Include="util\texture_importer.h" />
+    <ClInclude Include="util\const_definitions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\geometry_pass.frag" />

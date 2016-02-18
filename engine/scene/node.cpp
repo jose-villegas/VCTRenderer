@@ -54,6 +54,8 @@ void Node::Draw()
     static const auto &camera = Camera::Active();
     static const auto &renderer = EngineBase::Renderer();
 
+    if (transform.changed) { UpdateBoundaries(); }
+
     if (!camera->InFrustum(boundaries))
     {
         return;
@@ -109,15 +111,22 @@ void Node::ComputeMatrices()
     modelViewMatrix = camera->ViewMatrix() * transform.ToMatrix();
     normalMatrix = modelViewMatrix;
     modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
+    // since we already obtained the model matrix the changed flag is no
+    // longer necessary. This is in case UpdateBoundaries didn't get called
+    transform.changed = false;
 }
 
 void Node::UpdateBoundaries()
 {
-    boundaries.Transform(transform.ToMatrix());
+    auto &model = transform.ToMatrix();
+    boundaries.Transform(model);
+    // since we already obtained the model matrix
+    // the changed flag is no longer necessary
+    transform.changed = false;
 
     for (auto &mesh : meshes)
     {
-        mesh->boundaries.Transform(transform.ToMatrix());
+        mesh->boundaries.Transform(model);
     }
 }
 
@@ -125,7 +134,9 @@ void Node::PoolDrawList()
 {
     static const auto &camera = Camera::Active();
 
-    if (!camera->ParametersChanged()) { return; }
+    if (!camera->ParametersChanged() && !transform.changed) { return; }
+
+    if (transform.changed) { UpdateBoundaries(); }
 
     // cull root node to compute frustum planes and
     // avoid thread collisions on frustum planes
@@ -147,6 +158,8 @@ void Node::PoolDrawList()
     tbb::parallel_for(size_t(1), drawList.size(), [ = ](size_t i)
     {
         auto &node = drawList[i];
+
+        if (node->transform.changed) { node->UpdateBoundaries(); }
 
         if (camera->InFrustum(node->boundaries))
         {
