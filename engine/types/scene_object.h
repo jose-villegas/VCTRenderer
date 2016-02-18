@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../scene/Transform.h"
+#include "transform.h"
+#include "base_object.h"
 
 class SceneObject : public BaseObject
 {

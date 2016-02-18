@@ -7,7 +7,7 @@
 #include "../scene/material.h"
 #include "../scene/light.h"
 #include "../types/geometry_buffer.h"
-#include "../rendering/render_window.h"\n
+#include "../rendering/render_window.h"
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
 
@@ -86,7 +86,7 @@ const
 void DeferredRenderer::SetLightPassUniforms() const
 {
     auto dirLight = Scene::Active()->lights[0];
-    lightingProgram->viewPosition.Set(Camera::Active()->transform.Position());
+    lightingProgram->viewPosition.Set(Camera::Active()->Position());
     lightingProgram->gPosition.Set(GeometryBuffer::Position);
     lightingProgram->gNormal.Set(GeometryBuffer::Normal);
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);

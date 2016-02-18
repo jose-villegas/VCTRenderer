@@ -1,11 +1,9 @@
 #pragma once
 
-#include "../types/base_object.h"
-
 #include <glm/detail/type_vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-class Transform : public BaseObject
+class Transform
 {
     public:
         Transform();
