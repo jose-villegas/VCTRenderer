@@ -9,6 +9,7 @@
 /// <summary>
 /// Holds parameters and settings for scene cameras.
 /// </summary>
+/// <seealso cref="BaseObject" />
 /// <seealso cref="SingleActive{Camera}" />
 class Camera : public BaseObject, public SingleActive<Camera>
 {

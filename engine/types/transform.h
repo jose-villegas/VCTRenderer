@@ -11,6 +11,7 @@ class Transform
 
         void Position(const glm::vec3 &val);
         void Rotation(const glm::quat &val);
+        void Rotation(const glm::vec3 &angles);
         void Scale(const glm::vec3 &val);
 
         const glm::vec3 &Position() const;

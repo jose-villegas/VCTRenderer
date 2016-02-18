@@ -6,9 +6,6 @@
 
 Transform::Transform() : changed(false)
 {
-    position = Vector3::zero;
-    rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
-    scale = Vector3::zero;
     forward = Vector3::forward;
     up = Vector3::up;
     right = Vector3::right;
@@ -27,6 +24,11 @@ void Transform::Position(const glm::vec3 &val)
 void Transform::Rotation(const glm::quat &val)
 {
     rotation = val; changed = true;
+}
+
+void Transform::Rotation(const glm::vec3 &angles)
+{
+    rotation = glm::quat(angles); changed = true;
 }
 
 void Transform::Scale(const glm::vec3 &val)
