@@ -86,7 +86,7 @@ const
 void DeferredRenderer::SetLightPassUniforms() const
 {
     auto dirLight = Scene::Active()->lights[0];
-    lightingProgram->viewPosition.Set(Camera::Active()->Position());
+    lightingProgram->viewPosition.Set(Camera::Active()->transform.Position());
     lightingProgram->gPosition.Set(GeometryBuffer::Position);
     lightingProgram->gNormal.Set(GeometryBuffer::Normal);
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);

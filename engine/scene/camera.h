@@ -2,7 +2,7 @@
 
 #include "../util/single_active.h"
 #include "../types/frustum.h"
-#include "../types/base_object.h"
+#include "../types/scene_object.h"
 
 #include <glm/detail/type_vec3.hpp>
 
@@ -11,7 +11,7 @@
 /// </summary>
 /// <seealso cref="BaseObject" />
 /// <seealso cref="SingleActive{Camera}" />
-class Camera : public BaseObject, public SingleActive<Camera>
+class Camera : public SceneObject, public SingleActive<Camera>
 {
     public:
         Camera();
@@ -44,15 +44,6 @@ class Camera : public BaseObject, public SingleActive<Camera>
         float AspectRatio() const;
         void AspectRatio(float val);
 
-        const glm::vec3 &LookAt() const;
-        void LookAt(const glm::vec3 &val);
-
-        const glm::vec3 &Position() const;
-        void Position(const glm::vec3 &val);
-
-        const glm::vec3 &Up() const;
-        void Up(const glm::vec3 &val);
-
         const glm::mat4x4 &ViewMatrix();
         const glm::mat4x4 &ProjectionMatrix();
 
@@ -69,15 +60,11 @@ class Camera : public BaseObject, public SingleActive<Camera>
         float clipPlaneNear;
         float horizontalFoV;
         float aspectRatio;
-        glm::vec3 lookAt;
-        glm::vec3 position;
-        glm::vec3 up;
 
         void ComputeViewMatrix();
         void ComputeProjectionMatrix();
 
-        bool viewValuesChanged;
-        bool projectionValuesChanged;
+        bool projectionChanged;
         bool frustumValuesChanged;
 
         glm::mat4x4 viewMatrix;

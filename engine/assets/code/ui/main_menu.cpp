@@ -20,7 +20,7 @@ void UIMainMenu::Draw()
 
         if (BeginMenu("Scene"))
         {
-            MenuItem("Cameras");
+            MenuItem("Cameras", nullptr, &drawSceneCameras);
             MenuItem("Lights");
             MenuItem("Hierachy");
             EndMenu();

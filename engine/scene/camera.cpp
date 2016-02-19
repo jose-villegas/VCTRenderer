@@ -13,10 +13,7 @@ Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
 {
     name = "Default Camera";
-    this->position = glm::vec3(0.0f, 0.0f, 0.0f);
-    this->lookAt = glm::vec3(0.0f, 0.0f, 1.0f);
-    this->up = glm::vec3(0.0f, 1.0f, 0.0f);
-    viewValuesChanged = projectionValuesChanged = frustumValuesChanged = true;
+    projectionChanged = frustumValuesChanged = true;
 }
 
 float Camera::ClipPlaneFar() const
@@ -26,7 +23,7 @@ float Camera::ClipPlaneFar() const
 
 void Camera::ClipPlaneFar(float val)
 {
-    projectionValuesChanged |= val != clipPlaneFar;
+    projectionChanged = true;
     clipPlaneFar = glm::max(val, 0.01f);
 }
 
@@ -37,7 +34,7 @@ float Camera::ClipPlaneNear() const
 
 void Camera::ClipPlaneNear(float val)
 {
-    projectionValuesChanged |= val != clipPlaneNear;
+    projectionChanged = true;
     clipPlaneNear = glm::max(val, 0.01f);
 }
 
@@ -48,7 +45,7 @@ float Camera::HorizontalFoV() const
 
 void Camera::HorizontalFoV(float val)
 {
-    projectionValuesChanged |= val != horizontalFoV;
+    projectionChanged = true;;
     horizontalFoV = glm::clamp(val, 1.0f, 179.0f);
 }
 
@@ -59,50 +56,17 @@ float Camera::AspectRatio() const
 
 void Camera::AspectRatio(float val)
 {
-    projectionValuesChanged |= val != aspectRatio;
+    projectionChanged = true;
     aspectRatio = val;
-}
-
-const glm::vec3 &Camera::LookAt() const
-{
-    return lookAt;
-}
-
-void Camera::LookAt(const glm::vec3 &val)
-{
-    viewValuesChanged |= val != lookAt;
-    lookAt = val;
-}
-
-const glm::vec3 &Camera::Position() const
-{
-    return position;
-}
-
-void Camera::Position(const glm::vec3 &val)
-{
-    viewValuesChanged |= val != position;
-    position = val;
-}
-
-const glm::vec3 &Camera::Up() const
-{
-    return up;
-}
-
-void Camera::Up(const glm::vec3 &val)
-{
-    viewValuesChanged |= val != up;
-    up = val;
 }
 
 const glm::mat4x4 &Camera::ViewMatrix()
 {
-    if (viewValuesChanged)
+    if (transform.changed)
     {
         ComputeViewMatrix();
         frustumValuesChanged = true;
-        viewValuesChanged = false;
+        transform.changed = false;
     }
 
     return viewMatrix;
@@ -110,11 +74,11 @@ const glm::mat4x4 &Camera::ViewMatrix()
 
 const glm::mat4x4 &Camera::ProjectionMatrix()
 {
-    if (projectionValuesChanged)
+    if (projectionChanged)
     {
         ComputeProjectionMatrix();
         frustumValuesChanged = true;
-        projectionValuesChanged = false;
+        projectionChanged = false;
     }
 
     return projectionMatrix;
@@ -122,7 +86,7 @@ const glm::mat4x4 &Camera::ProjectionMatrix()
 
 bool Camera::ParametersChanged() const
 {
-    return projectionValuesChanged || viewValuesChanged;
+    return projectionChanged || transform.changed;
 }
 
 bool Camera::InFrustum(const BoundingBox &volume)
@@ -138,7 +102,13 @@ bool Camera::InFrustum(const BoundingBox &volume)
 
 void Camera::ComputeViewMatrix()
 {
-    viewMatrix = glm::lookAt(position, lookAt, up);
+    viewMatrix = lookAt
+                 (
+                     transform.Position(),
+                     transform.Position() +
+                     transform.Forward(),
+                     transform.Up()
+                 );
 }
 
 void Camera::ComputeProjectionMatrix()
