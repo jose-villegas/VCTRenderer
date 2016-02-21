@@ -76,7 +76,7 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene)
 
     if (mScene->mRootNode != nullptr)
     {
-        ProcessNodes(scene, mScene->mRootNode, scene->rootNode);
+        ProcessNodes(scene, mScene->mRootNode, *scene->rootNode);
     }
 
     // if these objects don't exist in scene, they are created by default
@@ -159,6 +159,8 @@ void SceneImporter::ImportCamera(aiCamera * mCam, Camera &camera)
     auto up = glm::vec3(mCam->mUp.x, mCam->mUp.y, mCam->mUp.z);
     camera.transform.Position(pos);
     camera.transform.LookAt(lookat, up);
+    // latest created always as active
+    camera.SetAsActive();
 }
 
 void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
@@ -277,6 +279,7 @@ void SceneImporter::ProcessNodes(Scene * scene, aiNode * mNode, Node &node)
     // push childrens in hierachy
     for (unsigned int i = 0; i < mNode->mNumChildren; i++)
     {
+        // create children
         node.nodes.push_back(std::make_shared<Node>());
         ProcessNodes(scene, mNode->mChildren[i], *node.nodes.back());
         // node boundaries based on children node boundaries

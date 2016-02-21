@@ -65,7 +65,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
         void ComputeProjectionMatrix();
 
         bool projectionChanged;
-        bool frustumValuesChanged;
+        bool frustumChanged;
 
         glm::mat4x4 viewMatrix;
         glm::mat4x4 projectionMatrix;

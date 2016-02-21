@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "main_menu.h"
 
-bool UIMainMenu::drawSceneLoader = false;
+bool UIMainMenu::drawSceneLoader = true;
 bool UIMainMenu::drawFramerate = false;
 bool UIMainMenu::drawSceneCameras = false;
 

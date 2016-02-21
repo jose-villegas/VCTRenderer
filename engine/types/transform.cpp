@@ -5,12 +5,16 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/orthonormalize.inl>
 
-Transform::Transform() : changed(false)
+Transform::Transform() : changed(true)
 {
+    position = Vector3::zero;
+    scale = Vector3::one;
+    rotation = glm::quat(Vector3::zero);
     forward = Vector3::forward;
     up = Vector3::up;
     right = Vector3::right;
-    transformation = Matrix::identity4;
+    transformation = ToMatrix();
+    changed = false;
 }
 
 Transform::~Transform()
@@ -19,26 +23,42 @@ Transform::~Transform()
 
 void Transform::Position(const glm::vec3 &val)
 {
-    position = val; changed = true;
+    changed |= position != val;
+
+    if (!changed) { return; }
+
+    position = val;
 }
 
 void Transform::Rotation(const glm::quat &val)
 {
-    rotation = val; changed = true;
+    changed |= rotation != val;
+
+    if (!changed) { return; }
+
     this->angles = eulerAngles(val);
+    rotation = val;
     UpdateCoordinates();
 }
 
 void Transform::Rotation(const glm::vec3 &angles)
 {
-    rotation = glm::quat(angles); changed = true;
+    changed |= this->angles != angles;
+
+    if (!changed) { return; }
+
     this->angles = angles;
+    rotation = glm::quat(angles);
     UpdateCoordinates();
 }
 
 void Transform::Scale(const glm::vec3 &val)
 {
-    scale = val; changed = true;
+    changed |= scale != val;
+
+    if (!changed) { return; }
+
+    scale = val;
 }
 
 const glm::vec3 &Transform::Position() const
@@ -78,7 +98,7 @@ const glm::vec3 &Transform::Up() const
     return up;
 }
 
-const glm::vec3 &Transform::Angles()
+const glm::vec3 &Transform::Angles() const
 {
     return angles;
 }
@@ -105,4 +125,5 @@ void Transform::LookAt(const glm::vec3 &pos, const glm::vec3 &up)
     rotation.x = (up.z - forward.y) * recip;
     rotation.y = (forward.x - right.z) * recip;
     rotation.z = (right.y - up.x) * recip;
+    changed = true;
 }

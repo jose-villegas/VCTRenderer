@@ -42,7 +42,7 @@ class Transform
         const glm::vec3 &Right() const;
         const glm::vec3 &Up() const;
 
-        const glm::vec3 &Angles();
+        const glm::vec3 &Angles() const;
 
         /// <summary>
         /// Returns the transformation matrix product of this transform

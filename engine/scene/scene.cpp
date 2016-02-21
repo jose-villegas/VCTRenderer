@@ -18,6 +18,10 @@ Scene::Scene(std::string filepath): isLoaded(false), isImported(false)
     // is found during scene extraction
     this->cameras.push_back(std::make_shared<Camera>());
     this->lights.push_back(std::make_shared<Light>());
+    // default camera created always as active
+    this->cameras.back()->SetAsActive();
+    // create scene root node
+    this->rootNode = std::make_shared<Node>();
 }
 
 Scene::~Scene()
@@ -52,7 +56,7 @@ void Scene::Load()
         );
     }
 
-    if (name.empty()) { name = rootNode.name; }
+    if (name.empty()) { name = rootNode->name; }
 
     cameras.front()->SetAsActive();
     isLoaded = true;

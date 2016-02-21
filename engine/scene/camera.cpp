@@ -13,7 +13,10 @@ Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
 {
     name = "Default Camera";
-    projectionChanged = frustumValuesChanged = true;
+    projectionChanged = frustumChanged = false;
+    ComputeViewMatrix();
+    ComputeProjectionMatrix();
+    frustum.ExtractPlanes(projectionMatrix * viewMatrix);
 }
 
 float Camera::ClipPlaneFar() const
@@ -65,7 +68,7 @@ const glm::mat4x4 &Camera::ViewMatrix()
     if (transform.changed)
     {
         ComputeViewMatrix();
-        frustumValuesChanged = true;
+        frustumChanged = true;
         transform.changed = false;
     }
 
@@ -77,7 +80,7 @@ const glm::mat4x4 &Camera::ProjectionMatrix()
     if (projectionChanged)
     {
         ComputeProjectionMatrix();
-        frustumValuesChanged = true;
+        frustumChanged = true;
         projectionChanged = false;
     }
 
@@ -86,15 +89,15 @@ const glm::mat4x4 &Camera::ProjectionMatrix()
 
 bool Camera::ParametersChanged() const
 {
-    return projectionChanged || transform.changed;
+    return projectionChanged || transform.changed || frustumChanged;
 }
 
 bool Camera::InFrustum(const BoundingBox &volume)
 {
-    if (frustumValuesChanged)
+    if (frustumChanged || projectionChanged || transform.changed)
     {
-        frustum.ExtractPlanes(projectionMatrix * viewMatrix);
-        frustumValuesChanged = false;
+        frustum.ExtractPlanes(ProjectionMatrix() * ViewMatrix());
+        frustumChanged = false;
     }
 
     return frustum.InFrustum(volume);

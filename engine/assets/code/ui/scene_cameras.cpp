@@ -45,10 +45,17 @@ void UISceneCameras::Draw()
     }
 
     NextColumn();
-    DragFloat3("Position", value_ptr(position));
-    DragFloat3("Rotation", value_ptr(angles));
-    selected.transform.Position(position);
-    selected.transform.Rotation(glm::quat(radians(angles)));
+
+    if (DragFloat3("Position", value_ptr(position)))
+    {
+        selected.transform.Position(position);
+    }
+
+    if ( DragFloat3("Rotation", value_ptr(angles)))
+    {
+        selected.transform.Rotation(glm::quat(radians(angles)));
+    }
+
     End();
 }
 

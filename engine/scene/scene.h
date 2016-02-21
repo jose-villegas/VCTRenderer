@@ -26,7 +26,7 @@ class Scene : public BaseObject, public SingleActive<Scene>
         std::vector<std::shared_ptr<Camera>> cameras;
         std::vector<std::shared_ptr<Light>> lights;
 
-        Node rootNode;
+        std::shared_ptr<Node> rootNode;
 
         explicit Scene(std::string filepath);
         ~Scene();

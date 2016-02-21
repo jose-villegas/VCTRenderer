@@ -41,7 +41,7 @@ void DeferredRenderer::Render() const
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
     // draw whole scene tree from root node
-    scene->rootNode.DrawRecursive();
+    scene->rootNode->DrawList();
     // start light pass
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
@@ -55,10 +55,10 @@ void DeferredRenderer::Render() const
 void DeferredRenderer::SetMatricesUniforms() const
 {
     static const auto &node = Node::Active();
-    geometryProgram->matrices.normal.Set(node->NormalMatrix());
-    geometryProgram->matrices.modelView.Set(node->ModelViewMatrix());
-    geometryProgram->matrices.modelViewProjection.Set(
-        node->ModelViewProjectionMatrix());
+    geometryProgram->matrices.modelView
+    .Set(node->ModeView());
+    geometryProgram->matrices.modelViewProjection
+    .Set(node->ModelViewProjection());
 }
 
 void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<Material> &mat)
@@ -86,7 +86,6 @@ const
 void DeferredRenderer::SetLightPassUniforms() const
 {
     auto dirLight = Scene::Active()->lights[0];
-    lightingProgram->viewPosition.Set(Camera::Active()->transform.Position());
     lightingProgram->gPosition.Set(GeometryBuffer::Position);
     lightingProgram->gNormal.Set(GeometryBuffer::Normal);
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);

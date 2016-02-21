@@ -13,7 +13,6 @@ void LightingProgram::ExtractUniforms()
     gAlbedo.Assign(prog);
     gSpecular.Assign(prog);
     ambientFactor.Assign(prog);
-    viewPosition.Assign(prog);
     directionalLight.direction.Assign(prog);
     screenSize.Assign(prog);
     // bind to uniform name
@@ -22,7 +21,6 @@ void LightingProgram::ExtractUniforms()
     gAlbedo.BindTo("gAlbedo");
     gSpecular.BindTo("gSpecular");
     ambientFactor.BindTo("ambientFactor");
-    viewPosition.BindTo("viewPosition");
     directionalLight.direction.BindTo("directionalLight.direction");
     screenSize.BindTo("screenSize");
 }

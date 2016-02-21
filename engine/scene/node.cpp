@@ -3,16 +3,19 @@
 #include <tbb/tbb.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/gtx/transform.hpp>
 
 #include "mesh.h"
 #include "camera.h"
 #include "../core/engine_base.h"
 #include "../rendering/deferred_renderer.h"
 
-Node::Node() : outsideFrustum(true)
+bool Node::loopCameraModified = true;
+
+Node::Node() : outsideFrustum(false)
 {
     name = "Default Node";
+    ComputeMatrices();
+    UpdateBoundaries();
 }
 
 
@@ -38,66 +41,37 @@ void Node::DrawMeshes()
     {
         if (!mesh->IsLoaded()) { return; }
 
-        if (meshes.size() > 1 && !Camera::Active()->InFrustum(mesh->boundaries))
-        {
-            continue;
-        }
-
         renderer.SetMaterialUniforms(mesh->material);
         mesh->BindVertexArrayObject();
         mesh->DrawElements();
     }
 }
 
-void Node::Draw()
-{
-    static const auto &camera = Camera::Active();
-    static const auto &renderer = EngineBase::Renderer();
-
-    if (transform.changed) { UpdateBoundaries(); }
-
-    if (!camera->InFrustum(boundaries))
-    {
-        return;
-    }
-
-    // set this node as rendering active
-    SetAsActive();
-    // recalculate model-dependent transform matrices
-    ComputeMatrices();
-    // set matrices uniform with updated matrices
-    renderer.SetMatricesUniforms();
-    // draw elements per mesh
-    DrawMeshes();
-}
-
-void Node::DrawRecursive()
-{
-    Draw();
-
-    for (auto &node : nodes)
-    {
-        node->DrawRecursive();
-    }
-}
-
 void Node::DrawList()
 {
     static const auto &renderer = EngineBase::Renderer();
-    // refresh all nodes with proper data
-    PoolDrawList();
-
-    // we can conclude that if the root node
-    // is culled all of its childs are also
-    if (drawList[0]->outsideFrustum) { return; }
+    static const auto &camera = Camera::Active();
+    // checks if we need to redo InFrustum checks per nodes
+    loopCameraModified = camera->ParametersChanged();
 
     // draw elements using draw list
-    for (auto node : drawList)
+    for (auto &node : drawList)
     {
+        if (node->transform.changed) { node->UpdateBoundaries(); }
+
+        // only two scenarios require updating outsideFrustum both when
+        // either the camera or the node's transform have been modified
+        if (loopCameraModified || node->transform.changed)
+        {
+            node->outsideFrustum = !camera->InFrustum(node->boundaries);
+        }
+
         if (node->outsideFrustum) { continue; }
 
         // set this node as rendering active
         node->SetAsActive();
+        // calculate model dependant matrices
+        node->ComputeMatrices();
         // set matrices uniform with updated matrices
         renderer.SetMatricesUniforms();
         // draw node meshes
@@ -108,21 +82,24 @@ void Node::DrawList()
 void Node::ComputeMatrices()
 {
     static const auto &camera = Camera::Active();
+
+    // no need to update the model dependant matrices if the node's
+    // transform or the camera matrices haven't been modified
+    if (!loopCameraModified && !transform.changed) { return; }
+
+    // if changed was true the transformation matrix has been already
+    // updated in UpdateBoundaries. We set it to false to avoid
+    // recalculating the transformation matrix.
+    if (transform.changed) { transform.changed = false; }
+
     modelViewMatrix = camera->ViewMatrix() * transform.ToMatrix();
-    normalMatrix = modelViewMatrix;
     modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
-    // since we already obtained the model matrix the changed flag is no
-    // longer necessary. This is in case UpdateBoundaries didn't get called
-    transform.changed = false;
 }
 
 void Node::UpdateBoundaries()
 {
     auto &model = transform.ToMatrix();
     boundaries.Transform(model);
-    // since we already obtained the model matrix
-    // the changed flag is no longer necessary
-    transform.changed = false;
 
     for (auto &mesh : meshes)
     {
@@ -134,8 +111,6 @@ void Node::PoolDrawList()
 {
     static const auto &camera = Camera::Active();
 
-    if (!camera->ParametersChanged() && !transform.changed) { return; }
-
     if (transform.changed) { UpdateBoundaries(); }
 
     // cull root node to compute frustum planes and
@@ -145,12 +120,9 @@ void Node::PoolDrawList()
         outsideFrustum = false;
         ComputeMatrices();
     }
-    // we can conclude that if the root node
-    // is culled all of its childs are also
     else
     {
         outsideFrustum = true;
-        return;
     }
 
     // update all frustum culling statuses and model-depedent matrices
@@ -179,17 +151,12 @@ void Node::BuildDrawList()
     BuildDrawList(drawList);
 }
 
-const glm::mat4x4 &Node::NormalMatrix() const
-{
-    return normalMatrix;
-}
-
-const glm::mat4x4 &Node::ModelViewMatrix() const
+const glm::mat4x4 &Node::ModeView() const
 {
     return modelViewMatrix;
 }
 
-const glm::mat4x4 &Node::ModelViewProjectionMatrix() const
+const glm::mat4x4 &Node::ModelViewProjection() const
 {
     return modelViewProjectionMatrix;
 }

@@ -38,7 +38,6 @@ class LightingProgram : public ProgramShader
         oglplus::UniformSampler gSpecular;
 
         oglplus::Uniform<glm::vec2> screenSize;
-        oglplus::Uniform<glm::vec3> viewPosition;
         UniformLight directionalLight;
 
         oglplus::Uniform<float> ambientFactor;
