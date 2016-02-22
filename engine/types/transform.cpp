@@ -4,6 +4,7 @@
 
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/orthonormalize.inl>
+#include <glm/gtx/euler_angles.hpp>
 
 Transform::Transform() : changed(true)
 {
@@ -48,7 +49,12 @@ void Transform::Rotation(const glm::vec3 &angles)
     if (!changed) { return; }
 
     this->angles = angles;
-    rotation = glm::quat(angles);
+    auto rotationX = angleAxis(angles.x, Vector3::right);
+    auto rotationY = angleAxis(angles.y, Vector3::up);
+    auto rotationZ = angleAxis(angles.z, Vector3::forward);
+    // final composite rotation
+    rotation = rotationZ * rotationX * rotationY;
+    // rotate direction vectors
     UpdateCoordinates();
 }
 
@@ -73,9 +79,9 @@ const glm::quat &Transform::Rotation() const
 
 void Transform::UpdateCoordinates()
 {
-    forward = Vector3::forward * rotation;
-    right = Vector3::right * rotation;
-    up = Vector3::up * rotation;
+    up = normalize(Vector3::up * rotation);
+    right = normalize(Vector3::right * rotation);
+    forward = normalize(Vector3::forward * rotation);
 }
 
 const glm::vec3 &Transform::Scale() const

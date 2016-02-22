@@ -47,7 +47,5 @@ class Node : public SceneObject, public SingleActive<Node>
         void DrawMeshes();
         void ComputeMatrices();
         void UpdateBoundaries();
-        // updates all nodes in the drawlist
-        void PoolDrawList();
 };
 

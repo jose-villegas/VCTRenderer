@@ -107,44 +107,6 @@ void Node::UpdateBoundaries()
     }
 }
 
-void Node::PoolDrawList()
-{
-    static const auto &camera = Camera::Active();
-
-    if (transform.changed) { UpdateBoundaries(); }
-
-    // cull root node to compute frustum planes and
-    // avoid thread collisions on frustum planes
-    if (camera->InFrustum(boundaries))
-    {
-        outsideFrustum = false;
-        ComputeMatrices();
-    }
-    else
-    {
-        outsideFrustum = true;
-    }
-
-    // update all frustum culling statuses and model-depedent matrices
-    // starts from 1 since first node is root already checked.
-    tbb::parallel_for(size_t(1), drawList.size(), [ = ](size_t i)
-    {
-        auto &node = drawList[i];
-
-        if (node->transform.changed) { node->UpdateBoundaries(); }
-
-        if (camera->InFrustum(node->boundaries))
-        {
-            node->outsideFrustum = false;
-            node->ComputeMatrices();
-        }
-        else
-        {
-            node->outsideFrustum = true;
-        }
-    });
-}
-
 void Node::BuildDrawList()
 {
     drawList.clear();

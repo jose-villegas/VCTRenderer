@@ -89,6 +89,12 @@ const glm::mat4x4 &Camera::ProjectionMatrix()
 
 bool Camera::ParametersChanged() const
 {
+    if (changedActive)
+    {
+        changedActive = false;
+        return true;
+    }
+
     return projectionChanged || transform.changed || frustumChanged;
 }
 
@@ -118,7 +124,7 @@ void Camera::ComputeProjectionMatrix()
 {
     projectionMatrix = glm::perspective
                        (
-                           glm::degrees(horizontalFoV),
+                           glm::radians(horizontalFoV),
                            aspectRatio,
                            clipPlaneNear, clipPlaneFar
                        );
