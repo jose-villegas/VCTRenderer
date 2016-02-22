@@ -5,6 +5,7 @@
 bool UIMainMenu::drawSceneLoader = true;
 bool UIMainMenu::drawFramerate = false;
 bool UIMainMenu::drawSceneCameras = false;
+bool UIMainMenu::drawSceneLights = false;
 
 using namespace ImGui;
 
@@ -21,8 +22,7 @@ void UIMainMenu::Draw()
         if (BeginMenu("Scene"))
         {
             MenuItem("Cameras", nullptr, &drawSceneCameras);
-            MenuItem("Lights");
-            MenuItem("Hierachy");
+            MenuItem("Lights", nullptr, &drawSceneLights);
             EndMenu();
         }
 

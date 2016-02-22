@@ -40,7 +40,6 @@ void UISceneLoader::Draw()
                   static_cast<int>(assets->scenes.size())))
         {
             assets->scenes[activeScene]->SetAsActive();
-            assets->scenes[activeScene]->cameras.front()->SetAsActive();
         }
 
         SameLine();

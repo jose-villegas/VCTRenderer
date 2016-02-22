@@ -42,6 +42,10 @@ class Transform
         const glm::vec3 &Right() const;
         const glm::vec3 &Up() const;
 
+        void Forward(const glm::vec3 &val);
+        void Right(const glm::vec3 &val);
+        void Up(const glm::vec3 &val);
+
         const glm::vec3 &Angles() const;
 
         /// <summary>

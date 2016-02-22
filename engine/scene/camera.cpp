@@ -63,6 +63,11 @@ void Camera::AspectRatio(float val)
     aspectRatio = val;
 }
 
+glm::vec3 Camera::LookAt() const
+{
+    return transform.Position() + transform.Forward();
+}
+
 const glm::mat4x4 &Camera::ViewMatrix()
 {
     if (transform.changed)
@@ -114,8 +119,7 @@ void Camera::ComputeViewMatrix()
     viewMatrix = lookAt
                  (
                      transform.Position(),
-                     transform.Position() +
-                     transform.Forward(),
+                     LookAt(),
                      transform.Up()
                  );
 }

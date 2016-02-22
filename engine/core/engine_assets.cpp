@@ -12,6 +12,7 @@
 #include "../assets/code/ui/framerate.h"
 #include "../assets/code/ui/main_menu.h"
 #include "../assets/code/ui/scene_cameras.h"
+#include "../assets/code/ui/scene_lights.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -49,6 +50,7 @@ AssetsManager::AssetsManager()
         std::make_shared<UIFramerate>(),
         std::make_shared<UIMainMenu>(),
         std::make_shared<UISceneCameras>(),
+        std::make_shared<UISceneLights>(),
     };
     // load shaders sources
     programs =

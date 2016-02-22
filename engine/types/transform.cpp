@@ -53,7 +53,7 @@ void Transform::Rotation(const glm::vec3 &angles)
     auto rotationY = angleAxis(angles.y, Vector3::up);
     auto rotationZ = angleAxis(angles.z, Vector3::forward);
     // final composite rotation
-    rotation = rotationZ * rotationX * rotationY;
+    rotation = normalize(rotationZ * rotationX * rotationY);
     // rotate direction vectors
     UpdateCoordinates();
 }
@@ -102,6 +102,27 @@ const glm::vec3 &Transform::Right() const
 const glm::vec3 &Transform::Up() const
 {
     return up;
+}
+
+void Transform::Forward(const glm::vec3 &val)
+{
+    auto w = cross(Vector3::forward, val);
+    auto q = glm::quat(1.f + dot(Vector3::forward, val), w.x, w.y, w.z);
+    Rotation(normalize(q));
+}
+
+void Transform::Right(const glm::vec3 &val)
+{
+    auto w = cross(Vector3::right, val);
+    auto q = glm::quat(1.f + dot(Vector3::right, val), w.x, w.y, w.z);
+    Rotation(normalize(q));
+}
+
+void Transform::Up(const glm::vec3 &val)
+{
+    auto w = cross(Vector3::up, val);
+    auto q = glm::quat(1.f + dot(Vector3::up, val), w.x, w.y, w.z);
+    Rotation(normalize(q));
 }
 
 const glm::vec3 &Transform::Angles() const

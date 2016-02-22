@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../types/base_object.h"
+#include "../types/scene_object.h"
+
 #include <glm/detail/type_vec3.hpp>
 
-class Light : public BaseObject
+class Light : public SceneObject
 {
     public:
         class Attenuation
@@ -43,10 +44,7 @@ class Light : public BaseObject
         const glm::vec3 &Specular() const;
         void Specular(const glm::vec3 &val);
 
-        glm::vec3 Position() const;
-        void Position(glm::vec3 val);
         glm::vec3 Direction() const;
-        void Direction(glm::vec3 val);
 
         Attenuation attenuation;
 
@@ -61,8 +59,6 @@ class Light : public BaseObject
         glm::vec3 ambient;
         glm::vec3 diffuse;
         glm::vec3 specular;
-        glm::vec3 position;
-        glm::vec3 direction;
         LightType lightType;
 };
 

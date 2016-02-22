@@ -126,20 +126,24 @@ void SceneImporter::ImportLight(aiLight * mLight, Light &light)
                        mLight->mColorSpecular.g,
                        mLight->mColorSpecular.b
                    ));
-    light.Direction(glm::vec3(
-                        mLight->mDirection.x,
-                        mLight->mDirection.y,
-                        mLight->mDirection.z
-                    ));
-    light.Position(glm::vec3(
-                       mLight->mPosition.x,
-                       mLight->mPosition.y,
-                       mLight->mPosition.z
-                   ));
-    light.Type(mLight->mType == aiLightSource_POINT ?
-               Light::Point : mLight->mType == aiLightSource_DIRECTIONAL ?
-               Light::Directional : mLight->mType == aiLightSource_SPOT ?
-               Light::Spot : Light::Point);
+    light.transform.Forward(glm::vec3(
+                                mLight->mDirection.x,
+                                mLight->mDirection.y,
+                                mLight->mDirection.z
+                            ));
+    light.transform.Position(glm::vec3(
+                                 mLight->mPosition.x,
+                                 mLight->mPosition.y,
+                                 mLight->mPosition.z
+                             ));
+    light.Type(mLight->mType == aiLightSource_POINT
+               ? Light::Point
+               : mLight->mType == aiLightSource_DIRECTIONAL
+               ? Light::Directional
+               : mLight->mType == aiLightSource_SPOT
+               ? Light::Spot
+               : Light::Point
+              );
     light.AngleInnerCone(mLight->mAngleInnerCone);
     light.AngleOuterCone(mLight->mAngleOuterCone);
     light.attenuation.Constant(mLight->mAttenuationConstant);

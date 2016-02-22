@@ -321,6 +321,7 @@
     </ClCompile>
     <ClCompile Include="assets\code\ui\main_menu.cpp" />
     <ClCompile Include="assets\code\ui\scene_cameras.cpp" />
+    <ClCompile Include="assets\code\ui\scene_lights.cpp" />
     <ClCompile Include="behavior\behavior.cpp" />
     <ClCompile Include="assets\code\ui\framerate.cpp" />
     <ClCompile Include="types\transform.cpp" />
@@ -406,6 +407,7 @@
     </ClInclude>
     <ClInclude Include="assets\code\ui\main_menu.h" />
     <ClInclude Include="assets\code\ui\scene_cameras.h" />
+    <ClInclude Include="assets\code\ui\scene_lights.h" />
     <ClInclude Include="behavior\behavior.h" />
     <ClInclude Include="types\transform.h" />
     <ClInclude Include="types\scene_object.h" />

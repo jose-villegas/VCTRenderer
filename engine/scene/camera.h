@@ -44,6 +44,8 @@ class Camera : public SceneObject, public SingleActive<Camera>
         float AspectRatio() const;
         void AspectRatio(float val);
 
+        glm::vec3 LookAt() const;
+
         const glm::mat4x4 &ViewMatrix();
         const glm::mat4x4 &ProjectionMatrix();
 

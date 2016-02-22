@@ -53,24 +53,9 @@ void Light::Specular(const glm::vec3 &val)
     specular = max(val, glm::vec3(0.0f));
 }
 
-glm::vec3 Light::Position() const
-{
-    return position;
-}
-
-void Light::Position(glm::vec3 val)
-{
-    position = val;
-}
-
 glm::vec3 Light::Direction() const
 {
-    return direction;
-}
-
-void Light::Direction(glm::vec3 val)
-{
-    direction = val;
+    return transform.Forward();
 }
 
 Light::LightType Light::Type() const
@@ -85,11 +70,11 @@ void Light::Type(LightType val)
 
 Light::Light() : lightType(Directional)
 {
+    name = "Default Light";
     angleInnerCone = 30.0f;
     angleOuterCone = 30.0f;
     ambient = diffuse = specular = glm::vec3(1.0f);
-    direction = glm::vec3(0.25f, 0.7f, 0.3f);
-    position = glm::vec3(0.0f, 1.0f, 0.0f);
+    transform.Rotation(radians(glm::vec3(50, -30, 0)));
 }
 
 Light::~Light()

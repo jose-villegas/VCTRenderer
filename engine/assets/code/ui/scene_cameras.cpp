@@ -7,6 +7,7 @@
 #include "../../../scene/camera.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <unordered_map>
 
 using namespace ImGui;
 
@@ -14,16 +15,42 @@ void UISceneCameras::Draw()
 {
     if (!UIMainMenu::drawSceneCameras) { return; }
 
-    static auto &scene = Scene::Active();
-    static auto camera = Camera::Active().get();
-
-    if (!scene || !camera) { return; }
-
+    static auto scenesCamera = std::unordered_map<Scene *, int>();
+    static auto scene = static_cast<Scene *>(nullptr);
+    static auto camera = static_cast<Camera *>(nullptr);
+    // control variables
     static auto selected = -1;
     static glm::vec3 position;
     static glm::vec3 angles;
     static glm::vec3 proj;
     static std::vector<char> name;
+
+    // active scene changed
+    if (scene != Scene::Active().get())
+    {
+        scene = Scene::Active().get();
+
+        // this scene is not logged in the hash map
+        if (scenesCamera.find(scene) == scenesCamera.end())
+        {
+            if (scene->cameras.size() > 0)
+            {
+                scene->cameras[0]->SetAsActive();
+                scenesCamera[scene] = 0;
+            }
+        }
+        else if (scene->cameras.size() > scenesCamera[scene])
+        {
+            scene->cameras[scenesCamera[scene]]->SetAsActive();
+        }
+
+        selected = -1;
+        camera == nullptr;
+    }
+
+    // no active scene
+    if (!scene) { return; }
+
     // begin editor
     Begin("Cameras", &UIMainMenu::drawSceneCameras,
           ImGuiWindowFlags_AlwaysAutoResize);
@@ -33,6 +60,13 @@ void UISceneCameras::Draw()
     if (Button("New Camera"))
     {
         scene->cameras.push_back(std::make_shared<Camera>());
+
+        // just added a camera to a scene with no cameras
+        // thus make it default as active
+        if (scene->cameras.size() == 1)
+        {
+            scene->cameras[0]->SetAsActive();
+        }
     }
 
     for (int i = 0; i < scene->cameras.size(); i++)
@@ -69,7 +103,7 @@ void UISceneCameras::Draw()
 
     NextColumn();
 
-    if (selected >= 0)
+    if (selected >= 0 && camera != nullptr)
     {
         if (InputText("Name", name.data(), name.size()))
         {
@@ -111,6 +145,26 @@ void UISceneCameras::Draw()
         if (Button("Set as Active"))
         {
             camera->SetAsActive();
+            // save currently active camera index
+            scenesCamera[scene] = selected;
+        }
+
+        SameLine();
+
+        if (Button("Delete"))
+        {
+            // temporal shared ptr ref
+            auto toDelete = scene->cameras[selected];
+            // delete ref in scene cameras
+            scene->cameras.erase(scene->cameras.begin() + selected);
+
+            // in case the camera deleted was marked
+            // as active, set another camera as active
+            if (scene->cameras.size() > 0 && toDelete->IsActive())
+            {
+                scene->cameras[0]->SetAsActive();
+                selected = 0;
+            }
         }
     }
     else
@@ -119,13 +173,11 @@ void UISceneCameras::Draw()
     }
 
     PopStyleVar();
-    End();
+    ImGui::End();
 }
-
 UISceneCameras::UISceneCameras()
 {
 }
-
 UISceneCameras::~UISceneCameras()
 {
 }
