@@ -2,6 +2,10 @@
 
 out vec4 fragColor;
 
+const uint MAX_DIRECTIONAL_LIGHTS = 8;
+const uint MAX_POINT_LIGHTS = 256;
+const uint MAX_SPOT_LIGHTS = 256;
+
 struct Attenuation
 {
     float constant;
@@ -29,10 +33,7 @@ uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
 
 uniform vec2 screenSize;
-uniform	Light directionalLight;
-
-uniform float ambientFactor = 0.01;
-
+uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 
 void main()
 {
@@ -43,26 +44,36 @@ void main()
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     vec3 specular = texture(gSpecular, texCoord).rgb;
 
-    // calculate lighting
-    vec3 lighting = albedo * ambientFactor; // ambient;
-    // specular color factor
+    // calculate lighting for directional lights
+    vec3 lighting = vec3(0.0f);
     vec3 viewDir = normalize(-position);
-    vec3 lightDir = -normalize(directionalLight.direction);
 
-    // diffuse color factor
-    float diffuseFactor = dot(normal, -lightDir);
-
-    if(diffuseFactor > 0.0f)
+    for(int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
     {
-        lighting += albedo * diffuseFactor;
-
-        vec3 lightReflect = normalize(reflect(lightDir, normal));
-        float specularFactor = dot(viewDir, lightReflect);
-
-        if(specularFactor > 0.0)
+        // add ambient component
+        lighting += albedo * directionalLight[i].ambient;
+        // get directional light direction
+        vec3 lightDir = -normalize(directionalLight[i].direction);
+        // diffuse color factor
+        float diffuseFactor = dot(normal, -lightDir);
+        // in a lighten fragment
+        if(diffuseFactor > 0.0f)
         {
-            lighting += specular * specularFactor;
+            // add diffuse component
+            lighting += albedo * diffuseFactor * directionalLight[i].diffuse;
+
+            // specular factor
+            vec3 lightReflect = normalize(reflect(lightDir, normal));
+            float specularFactor = dot(viewDir, lightReflect);
+
+            // in specular lighting
+            if(specularFactor > 0.0)
+            {
+                // add specular component
+                lighting += specular * specularFactor * directionalLight[i].specular;
+            }
         }
+
     }
 
     // final color

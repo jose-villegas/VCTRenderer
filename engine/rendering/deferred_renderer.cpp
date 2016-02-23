@@ -90,6 +90,10 @@ void DeferredRenderer::SetLightPassUniforms() const
     lightingProgram->gNormal.Set(GeometryBuffer::Normal);
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);
     lightingProgram->gSpecular.Set(GeometryBuffer::Specular);
-    lightingProgram->directionalLight.direction.Set(dirLight->Direction());
+    lightingProgram->directionalLight[0].direction.Set(dirLight->Direction());
+	lightingProgram->directionalLight[0].ambient.Set(dirLight->Ambient());
+	lightingProgram->directionalLight[0].diffuse.Set(dirLight->Diffuse());
+	lightingProgram->directionalLight[0].specular.Set(dirLight->Specular());
     lightingProgram->screenSize.Set(renderingSize);
+	// set directional lights uniforms
 }

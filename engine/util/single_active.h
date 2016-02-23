@@ -9,6 +9,7 @@
 template<class T> class SingleActive
 {
     public:
+        static void ResetActive();
         /// <summary>
         /// Sets this instance as active.
         /// </summary>
@@ -49,6 +50,14 @@ SingleActive<T>::~SingleActive()
     {
         current.release();
     }
+}
+
+template <class T>
+void SingleActive<T>::ResetActive()
+{
+    current.release();
+    current.reset(static_cast<T *>(nullptr));
+    changedActive = true;;
 }
 
 template<class T>

@@ -38,9 +38,7 @@ class LightingProgram : public ProgramShader
         oglplus::UniformSampler gSpecular;
 
         oglplus::Uniform<glm::vec2> screenSize;
-        UniformLight directionalLight;
-
-        oglplus::Uniform<float> ambientFactor;
+        std::vector<UniformLight> directionalLight;
 
         void ExtractUniforms() override;
 

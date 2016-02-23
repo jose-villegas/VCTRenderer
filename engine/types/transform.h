@@ -38,16 +38,15 @@ class Transform
         const glm::quat &Rotation() const;
         const glm::vec3 &Scale() const;
 
-        const glm::vec3 &Forward() const;
-        const glm::vec3 &Right() const;
-        const glm::vec3 &Up() const;
-
         void Forward(const glm::vec3 &val);
         void Right(const glm::vec3 &val);
         void Up(const glm::vec3 &val);
 
-        const glm::vec3 &Angles() const;
+        const glm::vec3 &Forward() const;
+        const glm::vec3 &Right() const;
+        const glm::vec3 &Up() const;
 
+        const glm::vec3 &Angles() const;
         /// <summary>
         /// Returns the transformation matrix product of this transform
         /// </summary>

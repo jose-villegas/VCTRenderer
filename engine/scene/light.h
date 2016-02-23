@@ -3,6 +3,7 @@
 #include "../types/scene_object.h"
 
 #include <glm/detail/type_vec3.hpp>
+#include <vector>
 
 class Light : public SceneObject
 {
@@ -10,12 +11,13 @@ class Light : public SceneObject
         class Attenuation
         {
             public:
-                float Linear() const { return linear; }
                 void Linear(float val) { linear = val; }
-                float Quadratic() const { return quadratic; }
                 void Quadratic(float val) { quadratic = val; }
-                float Constant() const { return constant; }
                 void Constant(float val) { constant = val; }
+
+                float Linear() const { return linear; }
+                float Quadratic() const { return quadratic; }
+                float Constant() const { return constant; }
 
                 Attenuation() : constant(1.0f), linear(0.2f), quadratic(0.08f) {};
                 ~Attenuation() {};
@@ -26,34 +28,56 @@ class Light : public SceneObject
         };
         enum LightType
         {
-            Disabled,
             Directional,
             Point,
             Spot
         };
 
-        float AngleInnerCone() const;
-        void AngleInnerCone(float val);
-        float AngleOuterCone() const;
-        void AngleOuterCone(float val);
+        static const unsigned int DirectionalsLimit;
+        static const unsigned int PointsLimit;
+        static const unsigned int SpotsLimit;
 
-        const glm::vec3 &Ambient() const;
+        void AngleInnerCone(float val);
+        void AngleOuterCone(float val);
         void Ambient(const glm::vec3 &val);
-        const glm::vec3 &Diffuse() const;
         void Diffuse(const glm::vec3 &val);
-        const glm::vec3 &Specular() const;
         void Specular(const glm::vec3 &val);
 
+        float AngleInnerCone() const;
+        float AngleOuterCone() const;
+        const glm::vec3 &Ambient() const;
+        const glm::vec3 &Diffuse() const;
+        const glm::vec3 &Specular() const;
         glm::vec3 Direction() const;
 
         Attenuation attenuation;
 
         LightType Type() const;
-        void Type(LightType val);
+        /// <summary>
+        /// Changes the light type and also adds it to one of of the
+        /// light vectors storing lights references per type of light.
+        /// </summary>
+        /// <param name="val">The value.</param>
+        /// <param name="force">
+        /// if set to <c>true</c> it will add the light to
+        /// a collection vector without checking for previous addition.
+        /// </param>
+        void TypeCollection(LightType val, bool force = false);
 
         Light();
         virtual ~Light();
+
+        static void CleanCollections();
+        static const std::vector<const Light *> &Directionals();
+        static const std::vector<const Light *> &Points();
+        static const std::vector<const Light *> &Spots();
     private:
+        static std::vector<const Light *> directionals;
+        static std::vector<const Light *> points;
+        static std::vector<const Light *> spots;
+
+        int collectionIndex;
+
         float angleInnerCone;
         float angleOuterCone;
         glm::vec3 ambient;

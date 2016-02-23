@@ -136,14 +136,14 @@ void SceneImporter::ImportLight(aiLight * mLight, Light &light)
                                  mLight->mPosition.y,
                                  mLight->mPosition.z
                              ));
-    light.Type(mLight->mType == aiLightSource_POINT
-               ? Light::Point
-               : mLight->mType == aiLightSource_DIRECTIONAL
-               ? Light::Directional
-               : mLight->mType == aiLightSource_SPOT
-               ? Light::Spot
-               : Light::Point
-              );
+    light.TypeCollection(mLight->mType == aiLightSource_POINT
+                         ? Light::Point
+                         : mLight->mType == aiLightSource_DIRECTIONAL
+                         ? Light::Directional
+                         : mLight->mType == aiLightSource_SPOT
+                         ? Light::Spot
+                         : Light::Point
+                        );
     light.AngleInnerCone(mLight->mAngleInnerCone);
     light.AngleOuterCone(mLight->mAngleOuterCone);
     light.attenuation.Constant(mLight->mAttenuationConstant);

@@ -9,7 +9,50 @@
 #include "../util/scene_importer.h"
 #include "../misc/utils.h"
 
-Scene::Scene(std::string filepath): isLoaded(false), isImported(false)
+void Scene::SetAsActive()
+{
+    // previous active scene
+    auto previous = Active().get();
+
+    if (previous != nullptr)
+    {
+        // save current scene active camera index
+        previous->activeCamera = -1;
+
+        for (size_t i = 0; i < previous->cameras.size(); i++)
+        {
+            if (previous->cameras[i]->IsActive())
+            {
+                previous->activeCamera = static_cast<int>(i);
+            }
+        }
+    }
+
+    // call base method, now this instace is marked as active
+    SingleActive::SetAsActive();
+    // clean current light per type collections
+    Light::CleanCollections();
+
+    // add all the current scene lights to type collection
+    for (auto &light : lights)
+    {
+        light->TypeCollection(light->Type(), true);
+    }
+
+    // once changing scene previous active cameras
+    // from other scene shouldn't be active
+    if (activeCamera != -1 && activeCamera < cameras.size())
+    {
+        cameras[activeCamera]->SetAsActive();
+    }
+    else
+    {
+        Camera::ResetActive();
+    }
+}
+
+Scene::Scene(std::string filepath): isLoaded(false), isImported(false),
+    activeCamera(0)
 {
     this->filepath = filepath;
     this->directory = Utils::GetDirectoryPath(filepath);

@@ -7,7 +7,6 @@
 #include "../../../scene/camera.h"
 
 #include <glm/gtc/type_ptr.hpp>
-#include <unordered_map>
 
 using namespace ImGui;
 
@@ -15,7 +14,6 @@ void UISceneCameras::Draw()
 {
     if (!UIMainMenu::drawSceneCameras) { return; }
 
-    static auto scenesCamera = std::unordered_map<Scene *, int>();
     static auto scene = static_cast<Scene *>(nullptr);
     static auto camera = static_cast<Camera *>(nullptr);
     // control variables
@@ -29,23 +27,8 @@ void UISceneCameras::Draw()
     if (scene != Scene::Active().get())
     {
         scene = Scene::Active().get();
-
-        // this scene is not logged in the hash map
-        if (scenesCamera.find(scene) == scenesCamera.end())
-        {
-            if (scene->cameras.size() > 0)
-            {
-                scene->cameras[0]->SetAsActive();
-                scenesCamera[scene] = 0;
-            }
-        }
-        else if (scene->cameras.size() > scenesCamera[scene])
-        {
-            scene->cameras[scenesCamera[scene]]->SetAsActive();
-        }
-
         selected = -1;
-        camera == nullptr;
+        camera = nullptr;
     }
 
     // no active scene
@@ -110,12 +93,12 @@ void UISceneCameras::Draw()
             camera->name = std::string(name.data());
         }
 
-        if (DragFloat3("Position", value_ptr(position), 0.1))
+        if (DragFloat3("Position", value_ptr(position), 0.1f))
         {
             camera->transform.Position(position);
         }
 
-        if (DragFloat3("Rotation", value_ptr(angles), 0.1))
+        if (DragFloat3("Rotation", value_ptr(angles), 0.1f))
         {
             camera->transform.Rotation(radians(angles));
         }
@@ -145,8 +128,6 @@ void UISceneCameras::Draw()
         if (Button("Set as Active"))
         {
             camera->SetAsActive();
-            // save currently active camera index
-            scenesCamera[scene] = selected;
         }
 
         SameLine();

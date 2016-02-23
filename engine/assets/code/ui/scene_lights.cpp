@@ -14,15 +14,25 @@ void UISceneLights::Draw()
 {
     if (!UIMainMenu::drawSceneLights) { return; }
 
-    static auto &scene = Scene::Active();
+    static auto scene = static_cast<Scene *>(nullptr);
     static auto light = static_cast<Light *>(nullptr);
-
-    if (!scene) { return; }
-
+    // control variables
     static auto selected = -1;
     static glm::vec3 position;
     static glm::vec3 angles;
+    static glm::vec3 color[3];
     static std::vector<char> name;
+
+    // active scene changed
+    if (scene != Scene::Active().get())
+    {
+        scene = Scene::Active().get();
+        light = nullptr;
+        selected = -1;
+    }
+
+    if (!scene) { return; }
+
     // begin editor
     Begin("Lights", &UIMainMenu::drawSceneLights,
           ImGuiWindowFlags_AlwaysAutoResize);
@@ -47,6 +57,9 @@ void UISceneLights::Draw()
             light = current.get();
             position = light->transform.Position();
             angles = degrees(light->transform.Angles());
+            color[0] = light->Ambient();
+            color[1] = light->Diffuse();
+            color[2] = light->Specular();
             // copy name to a standard vector
             name.clear();
             copy(light->name.begin(), light->name.end(), back_inserter(name));
@@ -66,15 +79,35 @@ void UISceneLights::Draw()
             light->name = std::string(name.data());
         }
 
-        if (DragFloat3("Position", value_ptr(position), 0.1))
+        if (DragFloat3("Position", value_ptr(position), 0.1f))
         {
             light->transform.Position(position);
         }
 
-        if (DragFloat3("Rotation", value_ptr(angles), 0.1))
+        if (DragFloat3("Rotation", value_ptr(angles), 0.1f))
         {
             light->transform.Rotation(radians(angles));
         }
+
+        Text("Color");
+        Indent();
+
+        if (ColorEdit3("Ambient", value_ptr(color[0])))
+        {
+            light->Ambient(color[0]);
+        }
+
+        if (ColorEdit3("Diffuse", value_ptr(color[1])))
+        {
+            light->Diffuse(color[1]);
+        }
+
+        if (ColorEdit3("Specular", value_ptr(color[2])))
+        {
+            light->Specular(color[2]);
+        }
+
+        Unindent();
     }
     else
     {
