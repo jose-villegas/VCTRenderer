@@ -85,13 +85,15 @@ const
 
 void DeferredRenderer::SetLightPassUniforms() const
 {
-    auto dirLight = Scene::Active()->lights[0];
     lightingProgram->gPosition.Set(GeometryBuffer::Position);
     lightingProgram->gNormal.Set(GeometryBuffer::Normal);
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);
     lightingProgram->gSpecular.Set(GeometryBuffer::Specular);
     // set directional lights uniforms
     auto &directionals = Light::Directionals();
+    auto &points = Light::Points();
+    auto &spots = Light::Spots();
+    // uniform arrya of lights
     auto &uDirectionals = lightingProgram->directionalLight;
 
     for (int i = 0; i < directionals.size(); i++)
@@ -103,4 +105,9 @@ void DeferredRenderer::SetLightPassUniforms() const
         uDirectionals[i].diffuse.Set(light->Diffuse() * intensity.y);
         uDirectionals[i].specular.Set(light->Specular() * intensity.z);
     }
+
+    // pass number of lights per type
+    lightingProgram->lightTypeCount[0].Set(directionals.size());
+    lightingProgram->lightTypeCount[1].Set(points.size());
+    lightingProgram->lightTypeCount[2].Set(spots.size());
 }

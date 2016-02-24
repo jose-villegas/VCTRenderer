@@ -38,6 +38,9 @@ class LightingProgram : public ProgramShader
         oglplus::UniformSampler gSpecular;
 
         std::vector<UniformLight> directionalLight;
+        std::vector<UniformLight> pointLight;
+        std::vector<UniformLight> spotLight;
+        std::array<oglplus::Uniform<unsigned int>, 3> lightTypeCount;
 
         void ExtractUniforms() override;
 

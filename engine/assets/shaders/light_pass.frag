@@ -35,6 +35,10 @@ uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
 
 uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
+uniform Light pointLight[MAX_POINT_LIGHTS];
+uniform Light spotLight[MAX_SPOT_LIGHTS];
+
+uniform uint lightTypeCount[3];
 
 void main()
 {
@@ -48,7 +52,7 @@ void main()
     vec3 lighting = vec3(0.0f);
     vec3 viewDir = normalize(-position);
 
-    for(int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
+    for(int i = 0; i < lightTypeCount[0]; i++)
     {
         // add ambient component
         lighting += albedo * directionalLight[i].ambient;
@@ -75,6 +79,9 @@ void main()
         }
 
     }
+
+    for(int i = 0; i < lightTypeCount[1]; i++) {}
+    for(int i = 0; i < lightTypeCount[2]; i++) {}
 
     // final color
     fragColor = vec4(lighting, 1.0);

@@ -13,11 +13,17 @@ void LightingProgram::ExtractUniforms()
     gNormal.Assign(prog);
     gAlbedo.Assign(prog);
     gSpecular.Assign(prog);
+    lightTypeCount[0].Assign(prog);
+    lightTypeCount[1].Assign(prog);
+    lightTypeCount[2].Assign(prog);
     // bind to uniform name
     gPosition.BindTo("gPosition");
     gNormal.BindTo("gNormal");
     gAlbedo.BindTo("gAlbedo");
     gSpecular.BindTo("gSpecular");
+    lightTypeCount[0].BindTo("lightTypeCount[0]");
+    lightTypeCount[1].BindTo("lightTypeCount[1]");
+    lightTypeCount[2].BindTo("lightTypeCount[2]");
     // collections
     directionalLight.resize(Light::DirectionalsLimit);
 
