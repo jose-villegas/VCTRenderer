@@ -6,8 +6,6 @@ out vec3 normal;
 out vec3 tangent;
 out vec3 bitangent;
 
-out vec3 normalView;
-
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec3 vertexTexCoord;
 layout(location = 2) in vec3 vertexNormal;
@@ -38,7 +36,6 @@ void main()
     normal = (matrices.modelView * vertexNorm).xyz;
 
     // TBN matrix build - model to camera view
-    normalView = (matrices.modelView * vertexNorm).xyz;
     tangent = (matrices.modelView * vec4(vertexTangent, 0.0)).xyz;
     bitangent = (matrices.modelView * vec4(vertexBitangent, 0.0)).xyz;
     

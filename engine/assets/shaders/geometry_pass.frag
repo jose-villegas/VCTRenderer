@@ -9,7 +9,6 @@ in vec3 position;
 in vec3 texCoord;
 in vec3 normal;
 
-in vec3 normalView;
 in vec3 tangent;
 in vec3 bitangent;
 
@@ -38,7 +37,7 @@ uniform float alphaCutoff = 0.1;
 
 vec3 normalMapping()                                                                     
 {                                                                                           
-    vec3 norm = normalize(normalView);
+    vec3 norm = normalize(normal);
     vec3 tang = normalize(tangent);
     tang = normalize(tang - dot(tang, norm) * norm);
     vec3 bTan = normalize(bitangent);

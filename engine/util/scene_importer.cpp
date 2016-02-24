@@ -9,7 +9,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "texture_importer.h"
-#include "../misc/utils.h"
 #include "../scene/scene.h"
 #include "../scene/material.h"
 #include "../scene/mesh.h"
@@ -308,6 +307,12 @@ void SceneImporter::ProcessNodes(Scene * scene, aiNode * mNode, Node &node)
     node.BuildDrawList();
 }
 
+inline std::string GetFileExtension(const std::string &sFilepath)
+{
+    auto result = sFilepath.substr(sFilepath.find_last_of(".") + 1);
+    return result == sFilepath ? "" : result;
+}
+
 void SceneImporter::ImportMaterialTextures(Scene * scene,
         aiMaterial * mMaterial,
         Material &material)
@@ -333,7 +338,7 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
             int savedTextureIndex = 0;
 
             // for wavefront obj we assimp bump = normal map
-            if (Utils::GetFileExtension(scene->filepath) == "obj" &&
+            if (GetFileExtension(scene->filepath) == "obj" &&
                     texType == aiTextureType_HEIGHT)
             { texType = aiTextureType_NORMALS; }
 

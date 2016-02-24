@@ -14,7 +14,7 @@ Transform::Transform() : changed(true)
     forward = Vector3::forward;
     up = Vector3::up;
     right = Vector3::right;
-    transformation = ToMatrix();
+    transformation = Matrix();
     changed = false;
 }
 
@@ -130,7 +130,7 @@ const glm::vec3 &Transform::Angles() const
     return angles;
 }
 
-const glm::mat4x4 &Transform::ToMatrix()
+const glm::mat4x4 &Transform::Matrix()
 {
     if (changed)
     {
@@ -140,6 +140,16 @@ const glm::mat4x4 &Transform::ToMatrix()
     }
 
     return transformation;
+}
+
+const glm::mat4x4 &Transform::InverseMatrix()
+{
+    if (changed)
+    {
+        inverseTransformation = inverse(transformation);
+    }
+
+    return inverseTransformation;
 }
 
 void Transform::LookAt(const glm::vec3 &pos, const glm::vec3 &up)

@@ -48,6 +48,8 @@ class Camera : public SceneObject, public SingleActive<Camera>
 
         const glm::mat4x4 &ViewMatrix();
         const glm::mat4x4 &ProjectionMatrix();
+        const glm::mat4x4 &InverseViewMatrix();
+        const glm::mat4x4 &InverseProjectionMatrix();
 
         bool ParametersChanged() const;
         /// <summary>
@@ -67,10 +69,14 @@ class Camera : public SceneObject, public SingleActive<Camera>
         void ComputeProjectionMatrix();
 
         bool projectionChanged;
+        bool inverseProjectionChanged;
+        bool inverseViewChanged;
         bool frustumChanged;
 
         glm::mat4x4 viewMatrix;
         glm::mat4x4 projectionMatrix;
+        glm::mat4x4 inverseViewMatrix;
+        glm::mat4x4 inverseProjectionMatrix;
         CullingFrustum frustum;
 };
 

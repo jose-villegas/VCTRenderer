@@ -7,7 +7,6 @@
 #include "camera.h"
 #include "texture.h"
 #include "../util/scene_importer.h"
-#include "../misc/utils.h"
 
 void Scene::SetAsActive()
 {
@@ -51,11 +50,18 @@ void Scene::SetAsActive()
     }
 }
 
+inline std::string GetDirectoryPath(const std::string &filePath)
+{
+    auto pos = filePath.find_last_of("\\/");
+    return (std::string::npos == pos) ? "" : filePath.substr(0, pos);
+}
+
+
 Scene::Scene(std::string filepath): isLoaded(false), isImported(false),
     activeCamera(0)
 {
     this->filepath = filepath;
-    this->directory = Utils::GetDirectoryPath(filepath);
+    this->directory = GetDirectoryPath(filepath);
     // scenes have by default at least one camera
     // they will be removed if camera or light info
     // is found during scene extraction

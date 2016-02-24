@@ -3,6 +3,11 @@
 
 #include "geometry_buffer.h"
 
+oglplus::Texture &GeometryBuffer::RenderTarget(RenderTargets renderTarget)
+{
+    return bufferTextures[renderTarget];
+}
+
 void GeometryBuffer::Bind(oglplus::FramebufferTarget target) const
 {
     geometryBuffer.Bind(target);
@@ -28,12 +33,6 @@ void GeometryBuffer::AttachTexture(RenderTargets renderTarget,
         geometryBuffer.AttachTexture(target, oglplus::FramebufferAttachment::Depth,
                                      bufferTextures[renderTarget], level);
     }
-}
-
-const oglplus::Texture &GeometryBuffer::RenderTarget(RenderTargets renderTarget)
-const
-{
-    return bufferTextures[renderTarget];
 }
 
 void GeometryBuffer::DrawBuffers()

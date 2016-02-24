@@ -2,6 +2,8 @@
 
 out vec4 fragColor;
 
+in vec2 texCoord;
+
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
@@ -32,12 +34,10 @@ uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
 
-uniform vec2 screenSize;
 uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 
 void main()
 {
-    vec2 texCoord = gl_FragCoord.xy / screenSize;
     // retrieve gbuffer data
     vec3 position = texture(gPosition, texCoord).xyz;
     vec3 normal = texture(gNormal, texCoord).xyz;

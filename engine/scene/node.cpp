@@ -92,13 +92,13 @@ void Node::ComputeMatrices()
     // recalculating the transformation matrix.
     if (transform.changed) { transform.changed = false; }
 
-    modelViewMatrix = camera->ViewMatrix() * transform.ToMatrix();
+    modelViewMatrix = camera->ViewMatrix() * transform.Matrix();
     modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
 }
 
 void Node::UpdateBoundaries()
 {
-    auto &model = transform.ToMatrix();
+    auto &model = transform.Matrix();
     boundaries.Transform(model);
 
     for (auto &mesh : meshes)

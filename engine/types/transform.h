@@ -48,10 +48,21 @@ class Transform
 
         const glm::vec3 &Angles() const;
         /// <summary>
-        /// Returns the transformation matrix product of this transform
+        /// Returns the transformation matrix result of this transform
+        /// components. If changed is true Matrix will keep calculating
+        /// the transform matrix, otherwise it will just return a reference to
+        /// <see cref="transformation" />
         /// </summary>
         /// <returns></returns>
-        const glm::mat4x4 &ToMatrix();
+        const glm::mat4x4 &Matrix();
+        /// <summary>
+        /// Returns the inverse transformation matrix. If changed is true
+        /// InverseMatrix will keep calculating the inverse transformation
+        /// matrix otherwise it will just return a reference to
+        /// <see cref="inverseTransformation" />
+        /// </summary>
+        /// <returns></returns>
+        const glm::mat4x4 &InverseMatrix();
 
         /// <summary>
         /// Makes the transform forward point at the specified position
@@ -78,6 +89,7 @@ class Transform
         glm::vec3 angles;
 
         glm::mat4x4 transformation;
+        glm::mat4x4 inverseTransformation;
 
         void UpdateCoordinates();
 };

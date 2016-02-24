@@ -13,7 +13,7 @@ Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
 {
     name = "Default Camera";
-    projectionChanged = frustumChanged = false;
+    projectionChanged = frustumChanged = inverseProjectionChanged = false;
     ComputeViewMatrix();
     ComputeProjectionMatrix();
     frustum.ExtractPlanes(projectionMatrix * viewMatrix);
@@ -75,6 +75,7 @@ const glm::mat4x4 &Camera::ViewMatrix()
         ComputeViewMatrix();
         frustumChanged = true;
         transform.changed = false;
+        inverseViewChanged = true;
     }
 
     return viewMatrix;
@@ -87,9 +88,32 @@ const glm::mat4x4 &Camera::ProjectionMatrix()
         ComputeProjectionMatrix();
         frustumChanged = true;
         projectionChanged = false;
+        inverseProjectionChanged = true;
     }
 
     return projectionMatrix;
+}
+
+const glm::mat4x4 &Camera::InverseViewMatrix()
+{
+    if (inverseViewChanged)
+    {
+        inverseViewMatrix = inverse(viewMatrix);
+        inverseViewChanged = false;
+    }
+
+    return  inverseViewMatrix;
+}
+
+const glm::mat4x4 &Camera::InverseProjectionMatrix()
+{
+    if (inverseProjectionChanged)
+    {
+        inverseProjectionMatrix = inverse(projectionMatrix);
+        inverseProjectionChanged = false;
+    }
+
+    return  inverseProjectionMatrix;
 }
 
 bool Camera::ParametersChanged() const
