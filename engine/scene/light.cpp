@@ -30,6 +30,7 @@ float Light::AngleOuterCone() const
 void Light::AngleOuterCone(float val)
 {
     angleOuterCone = glm::clamp(val, 1.0f, 179.0f);;
+    angleInnerCone = glm::min(angleInnerCone, angleOuterCone);
 }
 
 const glm::vec3 &Light::Ambient() const
@@ -57,9 +58,19 @@ const glm::vec3 &Light::Specular() const
     return specular;
 }
 
+const glm::vec3 &Light::Intensity() const
+{
+    return intensity;
+}
+
 void Light::Specular(const glm::vec3 &val)
 {
     specular = max(val, glm::vec3(0.0f));
+}
+
+void Light::Intensity(const glm::vec3 &val)
+{
+    intensity = max(val, glm::vec3(0.0f));
 }
 
 glm::vec3 Light::Direction() const
@@ -147,10 +158,12 @@ Light::Light() : lightType(Directional)
     angleInnerCone = 30.0f;
     angleOuterCone = 30.0f;
     ambient = Vector3::zero;
-    diffuse = specular = Vector3::one;
+    diffuse = specular = intensity =  Vector3::one;
     transform.Rotation(radians(glm::vec3(50, -30, 0)));
     // indicates this light hasn't been added to any collection
     collectionIndex = -1;
+    // add to type collection
+    TypeCollection(lightType);
 }
 
 Light::~Light()

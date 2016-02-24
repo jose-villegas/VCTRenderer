@@ -42,12 +42,14 @@ class Light : public SceneObject
         void Ambient(const glm::vec3 &val);
         void Diffuse(const glm::vec3 &val);
         void Specular(const glm::vec3 &val);
+        void Intensity(const glm::vec3 &val);
 
         float AngleInnerCone() const;
         float AngleOuterCone() const;
         const glm::vec3 &Ambient() const;
         const glm::vec3 &Diffuse() const;
         const glm::vec3 &Specular() const;
+        const glm::vec3 &Intensity() const;
         glm::vec3 Direction() const;
 
         Attenuation attenuation;
@@ -83,6 +85,11 @@ class Light : public SceneObject
         glm::vec3 ambient;
         glm::vec3 diffuse;
         glm::vec3 specular;
+        /// <summary>
+        /// The intensity per component
+        /// x * ambient, y * diffuse, z * specular
+        /// </summary>
+        glm::vec3 intensity;
         LightType lightType;
 };
 
