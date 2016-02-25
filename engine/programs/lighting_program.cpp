@@ -26,6 +26,7 @@ void LightingProgram::ExtractUniforms()
     lightTypeCount[2].BindTo("lightTypeCount[2]");
     // collections
     directionalLight.resize(Light::DirectionalsLimit);
+    pointLight.resize(Light::PointsLimit);
 
     for (auto i = 0; i < directionalLight.size(); i++)
     {
@@ -39,6 +40,29 @@ void LightingProgram::ExtractUniforms()
         light.ambient.BindTo("directionalLight[" + index + "].ambient");
         light.diffuse.BindTo("directionalLight[" + index + "].diffuse");
         light.specular.BindTo("directionalLight[" + index + "].specular");
+    }
+
+    for (auto i = 0; i < pointLight.size(); i++)
+    {
+        auto &light = pointLight[i];
+        auto index = std::to_string(i);
+        light.position.Assign(prog);
+        light.ambient.Assign(prog);
+        light.diffuse.Assign(prog);
+        light.specular.Assign(prog);
+        light.attenuation.constant.Assign(prog);
+        light.attenuation.linear.Assign(prog);
+        light.attenuation.quadratic.Assign(prog);
+        light.position.BindTo("pointLight[" + index + "].position");
+        light.ambient.BindTo("pointLight[" + index + "].ambient");
+        light.diffuse.BindTo("pointLight[" + index + "].diffuse");
+        light.specular.BindTo("pointLight[" + index + "].specular");
+        light.attenuation.constant.BindTo("pointLight[" + index +
+                                          "].attenuation.constant");
+        light.attenuation.linear.BindTo("pointLight[" + index +
+                                        "].attenuation.linear");
+        light.attenuation.quadratic.BindTo("pointLight[" + index +
+                                           "].attenuation.quadratic");
     }
 }
 

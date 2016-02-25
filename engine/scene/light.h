@@ -50,7 +50,7 @@ class Light : public SceneObject
         const glm::vec3 &Diffuse() const;
         const glm::vec3 &Specular() const;
         const glm::vec3 &Intensity() const;
-        glm::vec3 Direction() const;
+        const glm::vec3 &Direction() const;
 
         Attenuation attenuation;
 

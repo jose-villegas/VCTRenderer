@@ -93,8 +93,10 @@ void DeferredRenderer::SetLightPassUniforms() const
     auto &directionals = Light::Directionals();
     auto &points = Light::Points();
     auto &spots = Light::Spots();
-    // uniform arrya of lights
+    // uniform arrays of lights
     auto &uDirectionals = lightingProgram->directionalLight;
+    auto &uPoints = lightingProgram->pointLight;
+    auto &uspots = lightingProgram->spotLight;
 
     for (int i = 0; i < directionals.size(); i++)
     {
@@ -104,6 +106,19 @@ void DeferredRenderer::SetLightPassUniforms() const
         uDirectionals[i].ambient.Set(light->Ambient() * intensity.x);
         uDirectionals[i].diffuse.Set(light->Diffuse() * intensity.y);
         uDirectionals[i].specular.Set(light->Specular() * intensity.z);
+    }
+
+    for (int i = 0; i < points.size(); i++)
+    {
+        auto &light = points[i];
+        auto &intensity = light->Intensity();
+        uPoints[i].position.Set(light->transform.Position());
+        uPoints[i].ambient.Set(light->Ambient() * intensity.x);
+        uPoints[i].diffuse.Set(light->Diffuse() * intensity.y);
+        uPoints[i].specular.Set(light->Specular() * intensity.z);
+        uPoints[i].attenuation.constant.Set(light->attenuation.Constant());
+        uPoints[i].attenuation.linear.Set(light->attenuation.Linear());
+        uPoints[i].attenuation.quadratic.Set(light->attenuation.Quadratic());
     }
 
     // pass number of lights per type

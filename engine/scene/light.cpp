@@ -73,7 +73,7 @@ void Light::Intensity(const glm::vec3 &val)
     intensity = max(val, glm::vec3(0.0f));
 }
 
-glm::vec3 Light::Direction() const
+const glm::vec3 &Light::Direction() const
 {
     return transform.Forward();
 }

@@ -21,6 +21,7 @@ void UISceneLights::Draw()
     static glm::vec3 position;
     static glm::vec3 angles;
     static glm::vec3 color[3];
+    static glm::vec3 attenuation;
     static glm::vec3 intensities;
     static glm::vec2 cone;
     static Light::LightType type;
@@ -67,6 +68,9 @@ void UISceneLights::Draw()
             type = light->Type();
             cone[0] = light->AngleInnerCone();
             cone[1] = light->AngleOuterCone();
+            attenuation[0] = light->attenuation.Constant();
+            attenuation[1] = light->attenuation.Linear();
+            attenuation[2] = light->attenuation.Quadratic();
             // copy name to a standard vector
             name.clear();
             copy(light->name.begin(), light->name.end(), back_inserter(name));
@@ -112,7 +116,7 @@ void UISceneLights::Draw()
             Text("Cone Angle");
             Indent();
 
-            if (SliderFloat("Oute", &cone[1], 1.0f, 179.0f))
+            if (SliderFloat("Outer", &cone[1], 1.0f, 179.0f))
             {
                 light->AngleOuterCone(cone[1]);
                 cone[0] = glm::min(cone[0], cone[1]);
@@ -121,6 +125,30 @@ void UISceneLights::Draw()
             if (SliderFloat("Inner", &cone[0], 1.0f, cone[1]))
             {
                 light->AngleInnerCone(cone[0]);
+            }
+
+            Unindent();
+        }
+
+        // attenuation controls
+        if (type != Light::Directional)
+        {
+            Text("Attenuation");
+            Indent();
+
+            if (InputFloat("Constant", &attenuation[0], 0.01f, 0.1f))
+            {
+                light->attenuation.Constant(attenuation[0]);
+            }
+
+            if (InputFloat("Linear", &attenuation[1], 0.01f, 0.1f))
+            {
+                light->attenuation.Linear(attenuation[1]);
+            }
+
+            if (InputFloat("Quadratic", &attenuation[2], 0.01f, 0.1f))
+            {
+                light->attenuation.Quadratic(attenuation[2]);
             }
 
             Unindent();
