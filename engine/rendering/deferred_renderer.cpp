@@ -20,7 +20,7 @@ DeferredRenderer::~DeferredRenderer()
 {
 }
 
-void DeferredRenderer::Render() const
+void DeferredRenderer::Render()
 {
     static oglplus::Context gl;
     static auto &gbuffer = GBuffer();
@@ -40,6 +40,8 @@ void DeferredRenderer::Render() const
     gl.Enable(oglplus::Capability::CullFace);
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
+    // camera position or forward has changed
+    viewMatrixChanged = camera->transform.changed;
     // draw whole scene tree from root node
     scene->rootNode->DrawList();
     // start light pass
@@ -96,29 +98,69 @@ void DeferredRenderer::SetLightPassUniforms() const
     // uniform arrays of lights
     auto &uDirectionals = lightingProgram->directionalLight;
     auto &uPoints = lightingProgram->pointLight;
-    auto &uspots = lightingProgram->spotLight;
+    auto &uSpots = lightingProgram->spotLight;
 
     for (int i = 0; i < directionals.size(); i++)
     {
         auto &light = directionals[i];
+        auto &uLight = uDirectionals[i];
         auto &intensity = light->Intensity();
-        uDirectionals[i].direction.Set(light->Direction());
-        uDirectionals[i].ambient.Set(light->Ambient() * intensity.x);
-        uDirectionals[i].diffuse.Set(light->Diffuse() * intensity.y);
-        uDirectionals[i].specular.Set(light->Specular() * intensity.z);
+
+        // update view space direction-position
+        if (light->transform.changed || viewMatrixChanged)
+        {
+            light->UpdateViewRelative(false, true);
+        }
+
+        uLight.direction.Set(light->Direction(true));
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
     }
 
     for (int i = 0; i < points.size(); i++)
     {
         auto &light = points[i];
+        auto &uLight = uPoints[i];
         auto &intensity = light->Intensity();
-        uPoints[i].position.Set(light->transform.Position());
-        uPoints[i].ambient.Set(light->Ambient() * intensity.x);
-        uPoints[i].diffuse.Set(light->Diffuse() * intensity.y);
-        uPoints[i].specular.Set(light->Specular() * intensity.z);
-        uPoints[i].attenuation.constant.Set(light->attenuation.Constant());
-        uPoints[i].attenuation.linear.Set(light->attenuation.Linear());
-        uPoints[i].attenuation.quadratic.Set(light->attenuation.Quadratic());
+
+        // update view space direction-position
+        if (light->transform.changed || viewMatrixChanged)
+        {
+            light->UpdateViewRelative(true, false);
+        }
+
+        uLight.position.Set(light->Position(true));
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
+        uLight.attenuation.constant.Set(light->attenuation.Constant());
+        uLight.attenuation.linear.Set(light->attenuation.Linear());
+        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
+    }
+
+    for (int i = 0; i < spots.size(); i++)
+    {
+        auto &light = spots[i];
+        auto &uLight = uSpots[i];
+        auto &intensity = light->Intensity();
+
+        // update view space direction-position
+        if (light->transform.changed || viewMatrixChanged)
+        {
+            light->UpdateViewRelative(true, true);
+        }
+
+        uLight.position.Set(light->Position(true));
+        uLight.direction.Set(light->Direction(true));
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
+        uLight.attenuation.constant.Set(light->attenuation.Constant());
+        uLight.attenuation.linear.Set(light->attenuation.Linear());
+        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
+        uLight.angleInnerCone.Set(cos(light->AngleInnerCone()));
+        uLight.angleOuterCone.Set(cos(light->AngleOuterCone()));
     }
 
     // pass number of lights per type

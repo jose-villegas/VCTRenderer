@@ -3,14 +3,16 @@
 #include <glm/detail/type_vec3.hpp>
 #include <glm/detail/func_common.hpp>
 #include "../util/const_definitions.h"
+#include "camera.h"
 
 const unsigned int Light::DirectionalsLimit = 8;
 const unsigned int Light::PointsLimit = 256;
 const unsigned int Light::SpotsLimit = 256;
 
-std::vector<const Light *> Light::directionals;
-std::vector<const Light *> Light::points;
-std::vector<const Light *> Light::spots;
+std::vector<Light *> Light::directionals;
+std::vector<Light *> Light::points;
+std::vector<Light *> Light::spots;
+
 
 float Light::AngleInnerCone() const
 {
@@ -19,7 +21,7 @@ float Light::AngleInnerCone() const
 
 void Light::AngleInnerCone(float val)
 {
-    angleInnerCone = glm::clamp(val, 1.0f, angleOuterCone);
+    angleInnerCone = glm::clamp(val, 0.0f, glm::pi<float>());
 }
 
 float Light::AngleOuterCone() const
@@ -29,7 +31,7 @@ float Light::AngleOuterCone() const
 
 void Light::AngleOuterCone(float val)
 {
-    angleOuterCone = glm::clamp(val, 1.0f, 179.0f);;
+    angleOuterCone = glm::clamp(val, 0.0f, glm::pi<float>());;
     angleInnerCone = glm::min(angleInnerCone, angleOuterCone);
 }
 
@@ -63,6 +65,44 @@ const glm::vec3 &Light::Intensity() const
     return intensity;
 }
 
+const glm::vec3 &Light::Direction(bool viewSpace) const
+{
+    if (!viewSpace) { return transform.Forward(); }
+
+    return viewRelative.Forward();
+}
+
+const glm::vec3 &Light::Position(bool viewSpace) const
+{
+    if (!viewSpace) { return transform.Position(); }
+
+    return viewRelative.Position();
+}
+
+void Light::UpdateViewRelative(bool position, bool direction)
+{
+    static auto &camera = Camera::Active();
+    auto &matrix = camera->ViewMatrix();
+
+    if (position)
+    {
+        viewRelative.Position
+        (
+            glm::vec3(matrix * glm::vec4(transform.Position(), 1.0f))
+        );
+    }
+
+    if (direction)
+    {
+        viewRelative.Forward
+        (
+            glm::vec3(matrix * glm::vec4(transform.Forward(), 0.0f))
+        );
+    }
+
+    transform.changed = false;
+}
+
 void Light::Specular(const glm::vec3 &val)
 {
     specular = max(val, glm::vec3(0.0f));
@@ -71,11 +111,6 @@ void Light::Specular(const glm::vec3 &val)
 void Light::Intensity(const glm::vec3 &val)
 {
     intensity = max(val, glm::vec3(0.0f));
-}
-
-const glm::vec3 &Light::Direction() const
-{
-    return transform.Forward();
 }
 
 Light::LightType Light::Type() const
@@ -155,8 +190,8 @@ void Light::TypeCollection(LightType val, bool force)
 Light::Light() : lightType(Directional)
 {
     name = "Default Light";
-    angleInnerCone = 30.0f;
-    angleOuterCone = 30.0f;
+    angleInnerCone = glm::radians(30.0f);
+    angleOuterCone = glm::radians(30.0f);
     ambient = Vector3::zero;
     diffuse = specular = intensity =  Vector3::one;
     transform.Rotation(radians(glm::vec3(50, -30, 0)));
@@ -177,17 +212,17 @@ void Light::CleanCollections()
     spots.clear();
 }
 
-const std::vector<const Light *> &Light::Directionals()
+const std::vector<Light *> &Light::Directionals()
 {
     return directionals;
 }
 
-const std::vector<const Light *> &Light::Points()
+const std::vector<Light *> &Light::Points()
 {
     return points;
 }
 
-const std::vector<const Light *> &Light::Spots()
+const std::vector<Light *> &Light::Spots()
 {
     return spots;
 }

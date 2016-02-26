@@ -38,8 +38,23 @@ class Transform
         const glm::quat &Rotation() const;
         const glm::vec3 &Scale() const;
 
+        /// <summary>
+        /// Sets the forward direction vector. Warning this does not update the
+        /// rest of the direction vectors.
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Forward(const glm::vec3 &val);
+        /// <summary>
+        /// Sets the right direction vector. Warning this does not update the
+        /// rest of the direction vectors.
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Right(const glm::vec3 &val);
+        /// <summary>
+        /// Sets the up direction vector. Warning this does not update the
+        /// rest of the direction vectors.
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Up(const glm::vec3 &val);
 
         const glm::vec3 &Forward() const;

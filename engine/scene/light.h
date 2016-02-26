@@ -50,7 +50,11 @@ class Light : public SceneObject
         const glm::vec3 &Diffuse() const;
         const glm::vec3 &Specular() const;
         const glm::vec3 &Intensity() const;
-        const glm::vec3 &Direction() const;
+
+        const glm::vec3 &Direction(bool viewSpace = false) const;
+        const glm::vec3 &Position(bool viewSpace = false) const;
+
+        void UpdateViewRelative(bool position, bool direction);
 
         Attenuation attenuation;
 
@@ -70,15 +74,17 @@ class Light : public SceneObject
         virtual ~Light();
 
         static void CleanCollections();
-        static const std::vector<const Light *> &Directionals();
-        static const std::vector<const Light *> &Points();
-        static const std::vector<const Light *> &Spots();
+        static const std::vector<Light *> &Directionals();
+        static const std::vector<Light *> &Points();
+        static const std::vector<Light *> &Spots();
     private:
-        static std::vector<const Light *> directionals;
-        static std::vector<const Light *> points;
-        static std::vector<const Light *> spots;
+        static std::vector<Light *> directionals;
+        static std::vector<Light *> points;
+        static std::vector<Light *> spots;
 
         int collectionIndex;
+
+        Transform viewRelative;
 
         float angleInnerCone;
         float angleOuterCone;

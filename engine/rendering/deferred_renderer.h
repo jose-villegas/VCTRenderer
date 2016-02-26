@@ -23,7 +23,7 @@ class DeferredRenderer : public DeferredHandler
         /// <summary>
         /// Renders a frame using deferred rendering
         /// </summary>
-        void Render() const;
+        void Render();
         /// <summary>
         /// Sets the matrices uniforms during geometry pass.
         /// </summary>
@@ -37,4 +37,6 @@ class DeferredRenderer : public DeferredHandler
         /// Sets the light pass uniforms.
         /// </summary>
         void SetLightPassUniforms() const;
+    private:
+        bool viewMatrixChanged;
 };

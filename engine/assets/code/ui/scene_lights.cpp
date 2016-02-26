@@ -66,8 +66,8 @@ void UISceneLights::Draw()
             color[2] = light->Specular();
             intensities = light->Intensity();
             type = light->Type();
-            cone[0] = light->AngleInnerCone();
-            cone[1] = light->AngleOuterCone();
+            cone[0] = glm::degrees(light->AngleInnerCone());
+            cone[1] = glm::degrees(light->AngleOuterCone());
             attenuation[0] = light->attenuation.Constant();
             attenuation[1] = light->attenuation.Linear();
             attenuation[2] = light->attenuation.Quadratic();
@@ -118,13 +118,13 @@ void UISceneLights::Draw()
 
             if (SliderFloat("Outer", &cone[1], 1.0f, 179.0f))
             {
-                light->AngleOuterCone(cone[1]);
+                light->AngleOuterCone(glm::radians(cone[1]));
                 cone[0] = glm::min(cone[0], cone[1]);
             }
 
             if (SliderFloat("Inner", &cone[0], 1.0f, cone[1]))
             {
-                light->AngleInnerCone(cone[0]);
+                light->AngleInnerCone(glm::radians(cone[0]));
             }
 
             Unindent();
@@ -136,18 +136,21 @@ void UISceneLights::Draw()
             Text("Attenuation");
             Indent();
 
-            if (InputFloat("Constant", &attenuation[0], 0.01f, 0.1f))
+            if (DragFloat("Constant", &attenuation[0], 0.01f))
             {
+                attenuation[0] = glm::max(0.0f, attenuation[0]);
                 light->attenuation.Constant(attenuation[0]);
             }
 
-            if (InputFloat("Linear", &attenuation[1], 0.01f, 0.1f))
+            if (DragFloat("Linear", &attenuation[1], 0.01f))
             {
+                attenuation[1] = glm::max(0.0f, attenuation[1]);
                 light->attenuation.Linear(attenuation[1]);
             }
 
-            if (InputFloat("Quadratic", &attenuation[2], 0.01f, 0.1f))
+            if (DragFloat("Quadratic", &attenuation[2], 0.01f))
             {
+                attenuation[2] = glm::max(0.0f, attenuation[2]);
                 light->attenuation.Quadratic(attenuation[2]);
             }
 
@@ -172,7 +175,7 @@ void UISceneLights::Draw()
             light->Specular(color[2]);
         }
 
-        if (SliderFloat3("Intensities", value_ptr(intensities), 0.0f, 8.0f))
+        if (SliderFloat3("Intensities", value_ptr(intensities), 0.0f, 16.0f))
         {
             light->Intensity(intensities);
         }

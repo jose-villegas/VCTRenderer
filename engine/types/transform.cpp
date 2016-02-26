@@ -106,23 +106,17 @@ const glm::vec3 &Transform::Up() const
 
 void Transform::Forward(const glm::vec3 &val)
 {
-    auto w = cross(Vector3::forward, val);
-    auto q = glm::quat(1.f + dot(Vector3::forward, val), w.x, w.y, w.z);
-    Rotation(normalize(q));
+    forward = val;
 }
 
 void Transform::Right(const glm::vec3 &val)
 {
-    auto w = cross(Vector3::right, val);
-    auto q = glm::quat(1.f + dot(Vector3::right, val), w.x, w.y, w.z);
-    Rotation(normalize(q));
+    right = val;
 }
 
 void Transform::Up(const glm::vec3 &val)
 {
-    auto w = cross(Vector3::up, val);
-    auto q = glm::quat(1.f + dot(Vector3::up, val), w.x, w.y, w.z);
-    Rotation(normalize(q));
+    up = val;
 }
 
 const glm::vec3 &Transform::Angles() const
