@@ -1,9 +1,7 @@
 <map id="DeferredHandler" name="DeferredHandler">
-<area shape="rect" id="node2" href="$class_geometry_program.html" title="GeometryProgram" alt="" coords="913,292,1041,319"/>
-<area shape="rect" id="node3" href="$class_program_shader.html" title="Base class for each program shader used in deferred rendering " alt="" coords="593,371,705,397"/>
-<area shape="rect" id="node13" href="$class_lighting_program.html" title="LightingProgram" alt="" coords="919,539,1035,565"/>
-<area shape="rect" id="node7" href="$struct_geometry_program_1_1_uniform_material.html" title="GeometryProgram::Uniform\lMaterial" alt="" coords="559,209,739,250"/>
-<area shape="rect" id="node15" href="$struct_lighting_program_1_1_uniform_light.html" title="LightingProgram::Uniform\lLight" alt="" coords="565,642,733,683"/>
-<area shape="rect" id="node16" href="$struct_lighting_program_1_1_uniform_light_1_1_uniform_attenuation.html" title="LightingProgram::Uniform\lLight::UniformAttenuation" alt="" coords="221,698,389,739"/>
-<area shape="rect" id="node11" href="$struct_geometry_program_1_1_uniform_matrices.html" title="GeometryProgram::Uniform\lMatrices" alt="" coords="559,102,739,143"/>
+<area shape="rect" id="node2" href="$class_geometry_program.html" title="Contains all necessary uniforms for the DeferredHandler&#39;s geometry program for geometry pass..." alt="" coords="699,333,827,359"/>
+<area shape="rect" id="node3" href="$class_program_shader.html" title="Base class for each program shader used in deferred rendering " alt="" coords="369,387,481,414"/>
+<area shape="rect" id="node13" href="$class_lighting_program.html" title="Contains all necessary uniforms for the DeferredHandler&#39;s lighting program for light pass..." alt="" coords="705,578,821,605"/>
+<area shape="rect" id="node7" href="$struct_geometry_program_1_1_uniform_material.html" title="GeometryProgram::Uniform\lMaterial" alt="" coords="335,151,515,192"/>
+<area shape="rect" id="node11" href="$struct_geometry_program_1_1_uniform_matrices.html" title="GeometryProgram::Uniform\lMatrices" alt="" coords="335,312,515,353"/>
 </map>

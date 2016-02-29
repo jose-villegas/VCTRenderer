@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -111,19 +110,20 @@ $(document).ready(function(){initNavTree('node_8h.html','');});
 <div class="title">node.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="scene__object_8h_source.html">scene_object.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="scene__object_8h_source.html">../types/scene_object.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="bounding__box_8h_source.html">../types/bounding_box.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="single__active_8h_source.html">../util/single_active.h</a>&quot;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;glm/gtc/quaternion.hpp&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for node.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="node_8h__incl.png" border="0" usemap="#_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2node_8h" alt=""/></div>
 <map name="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2node_8h" id="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2node_8h">
-<area shape="rect" id="node2" href="scene__object_8h.html" title="scene_object.h" alt="" coords="5,109,116,136"/>
-<area shape="rect" id="node4" href="bounding__box_8h.html" title="../types/bounding_box.h" alt="" coords="304,109,465,136"/>
-<area shape="rect" id="node9" href="single__active_8h.html" title="../util/single_active.h" alt="" coords="140,109,280,136"/>
+<area shape="rect" id="node2" href="scene__object_8h.html" title="../types/scene_object.h" alt="" coords="113,109,272,136"/>
+<area shape="rect" id="node8" href="bounding__box_8h.html" title="../types/bounding_box.h" alt="" coords="312,109,473,136"/>
+<area shape="rect" id="node12" href="single__active_8h.html" title="../util/single_active.h" alt="" coords="497,109,637,136"/>
+<area shape="rect" id="node3" href="transform_8h.html" title="transform.h" alt="" coords="149,184,236,211"/>
+<area shape="rect" id="node6" href="base__object_8h.html" title="base_object.h" alt="" coords="17,184,120,211"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -131,14 +131,15 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="node_8h__dep__incl.png" border="0" usemap="#_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2node_8hdep" alt=""/></div>
 <map name="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2node_8hdep" id="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2node_8hdep">
-<area shape="rect" id="node2" href="scene_8h.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.h" alt="" coords="533,109,717,165"/>
-<area shape="rect" id="node9" href="node_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/node.cpp" alt="" coords="741,109,925,165"/>
+<area shape="rect" id="node2" href="scene_8h.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.h" alt="" coords="639,109,823,165"/>
+<area shape="rect" id="node10" href="node_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/node.cpp" alt="" coords="847,109,1031,165"/>
 <area shape="rect" id="node3" href="scene__cameras_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_cameras.cpp" alt="" coords="5,213,195,269"/>
-<area shape="rect" id="node4" href="scene__loader_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_loader.cpp" alt="" coords="219,213,407,269"/>
-<area shape="rect" id="node5" href="engine__assets_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/core\l/engine_assets.cpp" alt="" coords="431,213,606,269"/>
-<area shape="rect" id="node6" href="deferred__renderer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/rendering\l/deferred_renderer.cpp" alt="" coords="631,213,833,269"/>
-<area shape="rect" id="node7" href="scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="857,213,1041,269"/>
-<area shape="rect" id="node8" href="scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1066,213,1233,269"/>
+<area shape="rect" id="node4" href="scene__lights_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_lights.cpp" alt="" coords="219,213,407,269"/>
+<area shape="rect" id="node5" href="scene__loader_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_loader.cpp" alt="" coords="431,213,619,269"/>
+<area shape="rect" id="node6" href="engine__assets_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/core\l/engine_assets.cpp" alt="" coords="643,213,818,269"/>
+<area shape="rect" id="node7" href="deferred__renderer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/rendering\l/deferred_renderer.cpp" alt="" coords="843,213,1045,269"/>
+<area shape="rect" id="node8" href="scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="1069,213,1253,269"/>
+<area shape="rect" id="node9" href="scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1278,213,1445,269"/>
 </map>
 </div>
 </div>

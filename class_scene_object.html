@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -122,36 +121,45 @@ Inheritance diagram for SceneObject:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_scene_object__inherit__graph.png" border="0" usemap="#_scene_object_inherit__map" alt="Inheritance graph"/></div>
 <map name="_scene_object_inherit__map" id="_scene_object_inherit__map">
-<area shape="rect" id="node2" href="class_camera.html" title="Holds parameters and settings for scene cameras. " alt="" coords="5,80,72,107"/>
-<area shape="rect" id="node3" href="class_light.html" title="Light" alt="" coords="96,80,147,107"/>
-<area shape="rect" id="node4" href="class_material.html" title="Material" alt="" coords="171,80,239,107"/>
-<area shape="rect" id="node5" href="class_mesh.html" title="Mesh" alt="" coords="263,80,318,107"/>
-<area shape="rect" id="node7" href="class_node.html" title="Node" alt="" coords="342,80,394,107"/>
-<area shape="rect" id="node8" href="class_scene.html" title="Scene" alt="" coords="419,80,477,107"/>
-<area shape="rect" id="node6" href="class_mesh_drawer.html" title="MeshDrawer" alt="" coords="243,155,338,181"/>
+<area shape="rect" id="node3" href="class_camera.html" title="Holds parameters and settings for scene cameras. Viewing parameters and projection setup for the came..." alt="" coords="5,155,72,181"/>
+<area shape="rect" id="node4" href="class_light.html" title="Holds the parameters that describe a scene light source. Supports for three different types of light ..." alt="" coords="96,155,147,181"/>
+<area shape="rect" id="node5" href="class_node.html" title="Node" alt="" coords="171,155,223,181"/>
+<area shape="rect" id="node2" href="class_base_object.html" title="BaseObject" alt="" coords="76,5,167,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for SceneObject:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_scene_object__coll__graph.png" border="0" usemap="#_scene_object_coll__map" alt="Collaboration graph"/></div>
+<map name="_scene_object_coll__map" id="_scene_object_coll__map">
+<area shape="rect" id="node2" href="class_base_object.html" title="BaseObject" alt="" coords="10,168,101,195"/>
+<area shape="rect" id="node4" href="class_transform.html" title="Handles all transformation operations such as scaling, rotating and translating " alt="" coords="147,168,225,195"/>
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a0d268d96d77dbeb45b07a6442e2f4d0d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_scene_object.html#a0d268d96d77dbeb45b07a6442e2f4d0d">SceneObject</a> ()</td></tr>
 <tr class="separator:a0d268d96d77dbeb45b07a6442e2f4d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab258d6b94e982d5ae71ad4d7652381f4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_scene_object.html#ab258d6b94e982d5ae71ad4d7652381f4">~SceneObject</a> ()</td></tr>
+<tr class="memitem:ab258d6b94e982d5ae71ad4d7652381f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_scene_object.html#ab258d6b94e982d5ae71ad4d7652381f4">~SceneObject</a> ()</td></tr>
 <tr class="separator:ab258d6b94e982d5ae71ad4d7652381f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_base_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_base_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_base_object.html">BaseObject</a></td></tr>
+<tr class="memitem:ac9e64a371856dc974183c1b04bfdd0c9 inherit pub_methods_class_base_object"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_base_object.html#ac9e64a371856dc974183c1b04bfdd0c9">BaseObject</a> ()</td></tr>
+<tr class="separator:ac9e64a371856dc974183c1b04bfdd0c9 inherit pub_methods_class_base_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83eecfd3bdaffda4e6c7d0fb98747f96 inherit pub_methods_class_base_object"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_base_object.html#a83eecfd3bdaffda4e6c7d0fb98747f96">~BaseObject</a> ()</td></tr>
+<tr class="separator:a83eecfd3bdaffda4e6c7d0fb98747f96 inherit pub_methods_class_base_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a6c5ece15b6c7fe5b4d41ebcf4b13e9fc"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_scene_object.html#a6c5ece15b6c7fe5b4d41ebcf4b13e9fc">name</a></td></tr>
-<tr class="separator:a6c5ece15b6c7fe5b4d41ebcf4b13e9fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc41820565467dc4384d5717b5ef5a65"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_transform.html">Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_scene_object.html#acc41820565467dc4384d5717b5ef5a65">transform</a></td></tr>
+<tr class="separator:acc41820565467dc4384d5717b5ef5a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_class_base_object"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_base_object')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_base_object.html">BaseObject</a></td></tr>
+<tr class="memitem:a376c9d0b298dc0185ec9440af04df187 inherit pub_attribs_class_base_object"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_base_object.html#a376c9d0b298dc0185ec9440af04df187">name</a></td></tr>
+<tr class="separator:a376c9d0b298dc0185ec9440af04df187 inherit pub_attribs_class_base_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="scene__object_8h_source.html#l00004">4</a> of file <a class="el" href="scene__object_8h_source.html">scene_object.h</a>.</p>
+<p>Definition at line <a class="el" href="scene__object_8h_source.html#l00006">6</a> of file <a class="el" href="scene__object_8h_source.html">scene_object.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0d268d96d77dbeb45b07a6442e2f4d0d"></a>
 <div class="memitem">
@@ -166,16 +174,13 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="scene__object_8cpp_source.html#l00005">5</a> of file <a class="el" href="scene__object_8cpp_source.html">scene_object.cpp</a>.</p>
+<p>Definition at line <a class="el" href="scene__object_8cpp_source.html#l00003">3</a> of file <a class="el" href="scene__object_8cpp_source.html">scene_object.cpp</a>.</p>
 
 </div>
 </div>
 <a class="anchor" id="ab258d6b94e982d5ae71ad4d7652381f4"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">SceneObject::~SceneObject </td>
@@ -184,35 +189,30 @@ Public Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="scene__object_8cpp_source.html#l00010">10</a> of file <a class="el" href="scene__object_8cpp_source.html">scene_object.cpp</a>.</p>
+<p>Definition at line <a class="el" href="scene__object_8cpp_source.html#l00007">7</a> of file <a class="el" href="scene__object_8cpp_source.html">scene_object.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a6c5ece15b6c7fe5b4d41ebcf4b13e9fc"></a>
+<a class="anchor" id="acc41820565467dc4384d5717b5ef5a65"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string SceneObject::name</td>
+          <td class="memname"><a class="el" href="class_transform.html">Transform</a> SceneObject::transform</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="scene__object_8h_source.html#l00007">7</a> of file <a class="el" href="scene__object_8h_source.html">scene_object.h</a>.</p>
+<p>Definition at line <a class="el" href="scene__object_8h_source.html#l00009">9</a> of file <a class="el" href="scene__object_8h_source.html">scene_object.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>D:/Documents/Projects/VCTRenderer/engine/scene/<a class="el" href="scene__object_8h_source.html">scene_object.h</a></li>
-<li>D:/Documents/Projects/VCTRenderer/engine/scene/<a class="el" href="scene__object_8cpp_source.html">scene_object.cpp</a></li>
+<li>D:/Documents/Projects/VCTRenderer/engine/types/<a class="el" href="scene__object_8h_source.html">scene_object.h</a></li>
+<li>D:/Documents/Projects/VCTRenderer/engine/types/<a class="el" href="scene__object_8cpp_source.html">scene_object.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

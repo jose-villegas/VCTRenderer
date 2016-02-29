@@ -1,2 +1,4 @@
 <map id="SceneObject" name="SceneObject">
+<area shape="rect" id="node2" href="$class_base_object.html" title="BaseObject" alt="" coords="10,168,101,195"/>
+<area shape="rect" id="node4" href="$class_transform.html" title="Handles all transformation operations such as scaling, rotating and translating " alt="" coords="147,168,225,195"/>
 </map>

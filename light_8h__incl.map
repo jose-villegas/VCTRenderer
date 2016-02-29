@@ -1,3 +1,6 @@
 <map id="D:/Documents/Projects/VCTRenderer/engine/scene/light.h" name="D:/Documents/Projects/VCTRenderer/engine/scene/light.h">
-<area shape="rect" id="node2" href="$scene__object_8h.html" title="scene_object.h" alt="" coords="5,109,116,136"/>
+<area shape="rect" id="node2" href="$scene__object_8h.html" title="../types/scene_object.h" alt="" coords="117,109,276,136"/>
+<area shape="rect" id="node8" href="$instance__pool_8h.html" title="../types/instance_pool.h" alt="" coords="385,109,547,136"/>
+<area shape="rect" id="node3" href="$transform_8h.html" title="transform.h" alt="" coords="153,184,240,211"/>
+<area shape="rect" id="node6" href="$base__object_8h.html" title="base_object.h" alt="" coords="5,184,108,211"/>
 </map>

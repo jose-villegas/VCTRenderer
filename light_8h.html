@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -111,14 +110,19 @@ $(document).ready(function(){initNavTree('light_8h.html','');});
 <div class="title">light.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="scene__object_8h_source.html">scene_object.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="scene__object_8h_source.html">../types/scene_object.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="instance__pool_8h_source.html">../types/instance_pool.h</a>&quot;</code><br />
 <code>#include &lt;glm/detail/type_vec3.hpp&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for light.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="light_8h__incl.png" border="0" usemap="#_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2light_8h" alt=""/></div>
 <map name="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2light_8h" id="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2light_8h">
-<area shape="rect" id="node2" href="scene__object_8h.html" title="scene_object.h" alt="" coords="5,109,116,136"/>
+<area shape="rect" id="node2" href="scene__object_8h.html" title="../types/scene_object.h" alt="" coords="117,109,276,136"/>
+<area shape="rect" id="node8" href="instance__pool_8h.html" title="../types/instance_pool.h" alt="" coords="385,109,547,136"/>
+<area shape="rect" id="node3" href="transform_8h.html" title="transform.h" alt="" coords="153,184,240,211"/>
+<area shape="rect" id="node6" href="base__object_8h.html" title="base_object.h" alt="" coords="5,184,108,211"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -126,10 +130,12 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="light_8h__dep__incl.png" border="0" usemap="#_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2light_8hdep" alt=""/></div>
 <map name="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2light_8hdep" id="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2light_8hdep">
-<area shape="rect" id="node2" href="deferred__renderer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/rendering\l/deferred_renderer.cpp" alt="" coords="5,109,208,165"/>
-<area shape="rect" id="node3" href="light_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/light.cpp" alt="" coords="232,109,416,165"/>
-<area shape="rect" id="node4" href="scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="440,109,624,165"/>
-<area shape="rect" id="node5" href="scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="649,109,815,165"/>
+<area shape="rect" id="node2" href="scene__lights_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_lights.cpp" alt="" coords="5,109,193,165"/>
+<area shape="rect" id="node3" href="lighting__program_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/programs\l/lighting_program.cpp" alt="" coords="218,109,421,165"/>
+<area shape="rect" id="node4" href="deferred__renderer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/rendering\l/deferred_renderer.cpp" alt="" coords="445,109,647,165"/>
+<area shape="rect" id="node5" href="light_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/light.cpp" alt="" coords="671,109,855,165"/>
+<area shape="rect" id="node6" href="scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="879,109,1063,165"/>
+<area shape="rect" id="node7" href="scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1088,109,1255,165"/>
 </map>
 </div>
 </div>
@@ -138,8 +144,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light.html">Light</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the parameters that describe a scene light source. Supports for three different types of light sources: point, directional and spot.  <a href="class_light.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html">Light::Attenuation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes the light falloff behavior. Meaning its intensity depending on the distance of the lighten fragment and the light source. This being </p><div class="fragment"><div class="line">f = 1 / (1 + <a class="code" href="jquery_8js.html#abce695e0af988ece0826d9ad59b8160d">c</a> + (l * d) + (q * d * d))</div></div><!-- fragment --><p> where f is the falloff, c the <a class="el" href="class_light_1_1_attenuation.html#a2e0e7de3950d41daf1c5d3c4a0a35abe">Constant</a> value, l the <a class="el" href="class_light_1_1_attenuation.html#a58a3cfdb38ad90804508a4a27de7ca05">Linear</a> value, q the <a class="el" href="class_light_1_1_attenuation.html#a941843fb46237fe934f17c782cf22a36">Quadratic</a> value and d the distance.  <a href="class_light_1_1_attenuation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

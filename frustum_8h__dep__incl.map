@@ -1,11 +1,12 @@
 <map id="D:/Documents/Projects/VCTRenderer/engine/types/frustum.h" name="D:/Documents/Projects/VCTRenderer/engine/types/frustum.h">
-<area shape="rect" id="node2" href="$camera_8h.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/camera.h" alt="" coords="659,109,843,165"/>
-<area shape="rect" id="node10" href="$frustum_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/types\l/frustum.cpp" alt="" coords="867,109,1048,165"/>
+<area shape="rect" id="node2" href="$camera_8h.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/camera.h" alt="" coords="763,109,947,165"/>
+<area shape="rect" id="node11" href="$frustum_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/types\l/frustum.cpp" alt="" coords="971,109,1152,165"/>
 <area shape="rect" id="node3" href="$scene__cameras_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_cameras.cpp" alt="" coords="5,213,195,269"/>
 <area shape="rect" id="node4" href="$scene__loader_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_loader.cpp" alt="" coords="219,213,407,269"/>
 <area shape="rect" id="node5" href="$deferred__renderer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/rendering\l/deferred_renderer.cpp" alt="" coords="432,213,635,269"/>
 <area shape="rect" id="node6" href="$camera_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/camera.cpp" alt="" coords="659,213,843,269"/>
-<area shape="rect" id="node7" href="$node_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/node.cpp" alt="" coords="867,213,1051,269"/>
-<area shape="rect" id="node8" href="$scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="1075,213,1259,269"/>
-<area shape="rect" id="node9" href="$scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1283,213,1450,269"/>
+<area shape="rect" id="node7" href="$light_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/light.cpp" alt="" coords="867,213,1051,269"/>
+<area shape="rect" id="node8" href="$node_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/node.cpp" alt="" coords="1075,213,1259,269"/>
+<area shape="rect" id="node9" href="$scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="1283,213,1467,269"/>
+<area shape="rect" id="node10" href="$scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1491,213,1658,269"/>
 </map>

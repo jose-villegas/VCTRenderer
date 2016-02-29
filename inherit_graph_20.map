@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_render_window.html" title="RenderWindow" alt="" coords="5,5,115,32"/>
+<area shape="rect" id="node1" href="$class_raw_texture.html" title="RawTexture" alt="" coords="5,5,96,32"/>
+<area shape="rect" id="node2" href="$class_texture2_d.html" title="Texture2D" alt="" coords="144,5,225,32"/>
 </map>

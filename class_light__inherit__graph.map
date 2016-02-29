@@ -1,3 +1,6 @@
 <map id="Light" name="Light">
-<area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="5,5,103,32"/>
+<area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="5,95,103,121"/>
+<area shape="rect" id="node3" href="$class_base_object.html" title="BaseObject" alt="" coords="9,5,99,32"/>
+<area shape="rect" id="node4" href="$class_instance_pool.html" title="InstancePool\&lt; Light \&gt;" alt="" coords="127,95,277,121"/>
+<area shape="rect" id="node5" href="$class_instance_pool.html" title="Stores all instaces of the inheriting class " alt="" coords="138,5,266,32"/>
 </map>

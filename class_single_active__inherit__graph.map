@@ -3,6 +3,6 @@
 <area shape="rect" id="node4" href="$class_single_active.html" title="SingleActive\&lt; Scene \&gt;" alt="" coords="176,95,331,121"/>
 <area shape="rect" id="node6" href="$class_single_active.html" title="SingleActive\&lt; Camera \&gt;" alt="" coords="355,95,517,121"/>
 <area shape="rect" id="node3" href="$class_node.html" title="Node" alt="" coords="53,171,105,197"/>
-<area shape="rect" id="node5" href="$class_scene.html" title="Scene" alt="" coords="224,171,283,197"/>
-<area shape="rect" id="node7" href="$class_camera.html" title="Holds parameters and settings for scene cameras. " alt="" coords="403,171,469,197"/>
+<area shape="rect" id="node5" href="$class_scene.html" title="Represents a scene composed of many cameras, meshes, lights, textures and materials. Handles importing, loading and changing scenes. " alt="" coords="224,171,283,197"/>
+<area shape="rect" id="node7" href="$class_camera.html" title="Holds parameters and settings for scene cameras. Viewing parameters and projection setup for the came..." alt="" coords="403,171,469,197"/>
 </map>

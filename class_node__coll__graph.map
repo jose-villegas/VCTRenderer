@@ -1,7 +1,9 @@
 <map id="Node" name="Node">
-<area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="539,7,637,33"/>
-<area shape="rect" id="node4" href="$class_single_active.html" title="SingleActive\&lt; Node \&gt;" alt="" coords="515,57,661,84"/>
-<area shape="rect" id="node5" href="$classstatic_01std_1_1unique__ptr_3_01_node_01_4.html" title="unique_ptr\&lt; Node \&gt;" alt="" coords="236,57,372,84"/>
-<area shape="rect" id="node6" href="$class_single_active.html" title="Template class for set up a single instance of certain class as active, differentiating it from the r..." alt="" coords="242,108,366,135"/>
-<area shape="rect" id="node12" href="$class_bounding_box.html" title="Describes a volume box which contains anything inside be it a node or a mesh. " alt="" coords="539,343,637,369"/>
+<area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="735,188,833,215"/>
+<area shape="rect" id="node3" href="$class_base_object.html" title="BaseObject" alt="" coords="385,65,476,92"/>
+<area shape="rect" id="node5" href="$class_transform.html" title="Handles all transformation operations such as scaling, rotating and translating " alt="" coords="391,188,470,215"/>
+<area shape="rect" id="node16" href="$class_bounding_box.html" title="Describes a volume box which contains anything inside be it a node or a mesh. " alt="" coords="381,389,480,416"/>
+<area shape="rect" id="node10" href="$class_single_active.html" title="SingleActive\&lt; Node \&gt;" alt="" coords="711,381,857,408"/>
+<area shape="rect" id="node11" href="$classstatic_01std_1_1unique__ptr_3_01_node_01_4.html" title="unique_ptr\&lt; Node \&gt;" alt="" coords="363,440,499,467"/>
+<area shape="rect" id="node12" href="$class_single_active.html" title="Template class for set up a single instance of certain class as active, differentiating it from the r..." alt="" coords="369,523,493,549"/>
 </map>

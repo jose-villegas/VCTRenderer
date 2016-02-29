@@ -1,5 +1,10 @@
 var dir_e3ae55271edb648fb32b969ad2836458 =
 [
+    [ "const_definitions.cpp", "const__definitions_8cpp.html", null ],
+    [ "const_definitions.h", "const__definitions_8h.html", [
+      [ "Vector3", "class_vector3.html", "class_vector3" ],
+      [ "Matrix", "class_matrix.html", "class_matrix" ]
+    ] ],
     [ "data_segment.h", "data__segment_8h.html", [
       [ "DataSegment", "class_raw_format_1_1_data_segment.html", "class_raw_format_1_1_data_segment" ]
     ] ],
@@ -8,7 +13,7 @@ var dir_e3ae55271edb648fb32b969ad2836458 =
       [ "RawFormat", "class_raw_format.html", "class_raw_format" ],
       [ "DataSegment", "class_raw_format_1_1_data_segment.html", "class_raw_format_1_1_data_segment" ]
     ] ],
-    [ "scene_importer.cpp", "scene__importer_8cpp.html", null ],
+    [ "scene_importer.cpp", "scene__importer_8cpp.html", "scene__importer_8cpp" ],
     [ "scene_importer.h", "scene__importer_8h.html", [
       [ "SceneImporter", "class_scene_importer.html", "class_scene_importer" ]
     ] ],

@@ -1,10 +1,6 @@
 <map id="Scene" name="Scene">
-<area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="541,669,638,696"/>
-<area shape="rect" id="node8" href="$class_node.html" title="Node" alt="" coords="915,396,967,423"/>
-<area shape="rect" id="node4" href="$class_single_active.html" title="SingleActive\&lt; Scene \&gt;" alt="" coords="512,48,667,75"/>
-<area shape="rect" id="node5" href="$classstatic_01std_1_1unique__ptr_3_01_scene_01_4.html" title="unique_ptr\&lt; Scene \&gt;" alt="" coords="233,5,375,32"/>
-<area shape="rect" id="node6" href="$class_single_active.html" title="Template class for set up a single instance of certain class as active, differentiating it from the r..." alt="" coords="242,73,366,100"/>
-<area shape="rect" id="node9" href="$class_single_active.html" title="SingleActive\&lt; Node \&gt;" alt="" coords="516,99,663,125"/>
-<area shape="rect" id="node10" href="$classstatic_01std_1_1unique__ptr_3_01_node_01_4.html" title="unique_ptr\&lt; Node \&gt;" alt="" coords="236,141,372,168"/>
-<area shape="rect" id="node15" href="$class_bounding_box.html" title="Describes a volume box which contains anything inside be it a node or a mesh. " alt="" coords="540,373,639,400"/>
+<area shape="rect" id="node2" href="$class_base_object.html" title="BaseObject" alt="" coords="500,84,591,111"/>
+<area shape="rect" id="node4" href="$class_single_active.html" title="SingleActive\&lt; Scene \&gt;" alt="" coords="468,135,623,161"/>
+<area shape="rect" id="node5" href="$classstatic_01std_1_1unique__ptr_3_01_scene_01_4.html" title="unique_ptr\&lt; Scene \&gt;" alt="" coords="212,119,355,145"/>
+<area shape="rect" id="node6" href="$class_single_active.html" title="Template class for set up a single instance of certain class as active, differentiating it from the r..." alt="" coords="221,169,345,196"/>
 </map>

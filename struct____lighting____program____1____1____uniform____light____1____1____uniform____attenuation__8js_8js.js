@@ -1,0 +1,4 @@
+var struct____lighting____program____1____1____uniform____light____1____1____uniform____attenuation__8js_8js =
+[
+    [ "struct__lighting__program__1__1__uniform__light__1__1__uniform__attenuation_8js", "struct____lighting____program____1____1____uniform____light____1____1____uniform____attenuation__8js_8js.html#a6496930b765dc7386ff17c76dc082ddf", null ]
+];

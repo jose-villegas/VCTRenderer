@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -113,6 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_z.html#index_z"><span>z</span></a></li>
       <li><a href="functions_0x7e.html#index_0x7e"><span>~</span></a></li>
     </ul>
   </div>
@@ -155,11 +155,14 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>Active()
 : <a class="el" href="class_single_active.html#a31667c909def617120b39854538ab09b">SingleActive&lt; T &gt;</a>
 </li>
-<li>Actives()
-: <a class="el" href="class_uniform_collection.html#add12a39146c4833c70b9186915995a91">UniformCollection&lt; T1, T2 &gt;</a>
+<li>activeCamera
+: <a class="el" href="class_scene.html#aca07007938ff5d659f72744f803200bd">Scene</a>
 </li>
 <li>actives
 : <a class="el" href="class_uniform_collection.html#aee592f4285d5a6f150ce066e0cda7053">UniformCollection&lt; T1, T2 &gt;</a>
+</li>
+<li>Actives()
+: <a class="el" href="class_uniform_collection.html#add12a39146c4833c70b9186915995a91">UniformCollection&lt; T1, T2 &gt;</a>
 </li>
 <li>Additive
 : <a class="el" href="class_material.html#a20eb0118e4ce0a3d43979e740426ae8aaf333b503ce92de401b8b731ce55ee5b8">Material</a>
@@ -175,46 +178,60 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </li>
 <li>ambient
 : <a class="el" href="struct_geometry_program_1_1_uniform_material.html#aede27e098c5c14acdd425753b404a539">GeometryProgram::UniformMaterial</a>
-, <a class="el" href="class_light.html#afaa34bb2efc167adcb2055359fd08a49">Light</a>
 </li>
 <li>Ambient()
 : <a class="el" href="class_light.html#a96a5eea1eeb63eef8855ad4b4ca25de0">Light</a>
 </li>
 <li>ambient
+: <a class="el" href="class_light.html#afaa34bb2efc167adcb2055359fd08a49">Light</a>
+</li>
+<li>Ambient()
+: <a class="el" href="class_light.html#a159081fd0757596b5e5af4d5de17b409">Light</a>
+</li>
+<li>ambient
 : <a class="el" href="struct_lighting_program_1_1_uniform_light.html#a75c70d467082ac0de61b8e8cc5a1a5f6">LightingProgram::UniformLight</a>
-, <a class="el" href="class_material.html#af99c823542e497c98a35d1aac5fc9012">Material</a>
 </li>
 <li>Ambient()
 : <a class="el" href="class_material.html#a39316577a4dcfaa537e499de7b1ea9a0">Material</a>
-, <a class="el" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d">RawTexture</a>
 </li>
-<li>ambientFactor
-: <a class="el" href="class_lighting_program.html#a3e7911e6e2c024235f59ec8d1ee4f6c0">LightingProgram</a>
+<li>ambient
+: <a class="el" href="class_material.html#af99c823542e497c98a35d1aac5fc9012">Material</a>
+</li>
+<li>Ambient
+: <a class="el" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6dae40768618fb98d5bf8f8b508beee978d">RawTexture</a>
 </li>
 <li>angleInnerCone
 : <a class="el" href="class_light.html#aaa42e1c80406d2703241bdda88819c7c">Light</a>
 </li>
 <li>AngleInnerCone()
-: <a class="el" href="class_light.html#ac48ab26d85ed3936a1e2153bb31fdd29">Light</a>
+: <a class="el" href="class_light.html#a3814435e5c1a089866277ccd1554d968">Light</a>
 </li>
 <li>angleInnerCone
 : <a class="el" href="struct_lighting_program_1_1_uniform_light.html#a7f99865fb55a85f266ece1fe765be5b4">LightingProgram::UniformLight</a>
 </li>
-<li>AngleOuterCone()
-: <a class="el" href="class_light.html#ace720c1b1331d9ac77cffbe2cce3f44a">Light</a>
-</li>
 <li>angleOuterCone
 : <a class="el" href="class_light.html#a5bdec5d32c256ded1b7977b48c351ff3">Light</a>
-, <a class="el" href="struct_lighting_program_1_1_uniform_light.html#a711c51f1bca7687cdc59448f46087434">LightingProgram::UniformLight</a>
 </li>
-<li>AspectRatio()
-: <a class="el" href="class_camera.html#a6f3b750caf472399cf88f255d69c1801">Camera</a>
+<li>AngleOuterCone()
+: <a class="el" href="class_light.html#a14ec5b3bf58b0336fd24204f6e8cc3b8">Light</a>
+</li>
+<li>angleOuterCone
+: <a class="el" href="struct_lighting_program_1_1_uniform_light.html#a711c51f1bca7687cdc59448f46087434">LightingProgram::UniformLight</a>
+</li>
+<li>angles
+: <a class="el" href="class_transform.html#a64687f8d6caf4bad822cfb2bba36ca7b">Transform</a>
+</li>
+<li>Angles()
+: <a class="el" href="class_transform.html#a5ca2b093efd2137f9d8c1790e354d102">Transform</a>
 </li>
 <li>aspectRatio
 : <a class="el" href="class_camera.html#aa6f013fdb4560daaa5ca6ace1a846ca7">Camera</a>
 </li>
+<li>AspectRatio()
+: <a class="el" href="class_camera.html#a6f3b750caf472399cf88f255d69c1801">Camera</a>
+</li>
 <li>AssetsManager()
-: <a class="el" href="class_assets_manager.html#a04b603ba0f5398921d0a2d13c8535acf">AssetsManager</a>
+: <a class="el" href="class_assets_manager.html#a67024fe20ad74617536725f325841513">AssetsManager</a>
 </li>
 <li>AttachTexture()
 : <a class="el" href="class_geometry_buffer.html#a058793b5c5eba17580a48551501f6905">GeometryBuffer</a>

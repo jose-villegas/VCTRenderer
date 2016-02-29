@@ -3,7 +3,8 @@
 <area shape="rect" id="node3" href="$scene__loader_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_loader.cpp" alt="" coords="219,109,407,165"/>
 <area shape="rect" id="node4" href="$deferred__renderer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/rendering\l/deferred_renderer.cpp" alt="" coords="432,109,635,165"/>
 <area shape="rect" id="node5" href="$camera_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/camera.cpp" alt="" coords="659,109,843,165"/>
-<area shape="rect" id="node6" href="$node_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/node.cpp" alt="" coords="867,109,1051,165"/>
-<area shape="rect" id="node7" href="$scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="1075,109,1259,165"/>
-<area shape="rect" id="node8" href="$scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1283,109,1450,165"/>
+<area shape="rect" id="node6" href="$light_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/light.cpp" alt="" coords="867,109,1051,165"/>
+<area shape="rect" id="node7" href="$node_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/node.cpp" alt="" coords="1075,109,1259,165"/>
+<area shape="rect" id="node8" href="$scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="1283,109,1467,165"/>
+<area shape="rect" id="node9" href="$scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1491,109,1658,165"/>
 </map>

@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -125,19 +124,16 @@ $(document).ready(function(){initNavTree('class_geometry_buffer.html','');});
 Collaboration diagram for GeometryBuffer:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_geometry_buffer__coll__graph.png" border="0" usemap="#_geometry_buffer_coll__map" alt="Collaboration graph"/></div>
+<map name="_geometry_buffer_coll__map" id="_geometry_buffer_coll__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a542aa771f5c1c331aaa8aa4141969e41"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41">RenderTargets</a> { <br />
-&#160;&#160;<a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41a63709ae996b3c27bc270681bb530a35e">Position</a>, 
-<a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41a57df63f777015602c1d28f7172f05499">Normal</a>, 
+<tr class="memitem:a542aa771f5c1c331aaa8aa4141969e41"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41">RenderTargets</a> { <a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41a57df63f777015602c1d28f7172f05499">Normal</a>, 
 <a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41a5b157acaf07153c41ea93c37ddef83cc">Albedo</a>, 
 <a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41a1f1a62a669b55e58b4df1ac905fb7aea">Specular</a>, 
-<br />
-&#160;&#160;<a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41a4f5a67e2170a1c45ab0adde2df7d2d5f">Depth</a>, 
-<a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41aaeb3f756378d3aef19572dbd021d56c3">TARGETS_MAX</a>
-<br />
+<a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41a4f5a67e2170a1c45ab0adde2df7d2d5f">Depth</a>
  }<tr class="memdesc:a542aa771f5c1c331aaa8aa4141969e41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the geometry buffer texture target  <a href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a542aa771f5c1c331aaa8aa4141969e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,11 +141,13 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3a5334305358e9bdfd28bba053de08c"><td class="memItemLeft" align="right" valign="top">const oglplus::Texture &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#ac3a5334305358e9bdfd28bba053de08c">RenderTarget</a> (<a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41">RenderTargets</a> renderTarget) const </td></tr>
+<tr class="memdesc:ac3a5334305358e9bdfd28bba053de08c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the specified geometry buffer render texture.  <a href="#ac3a5334305358e9bdfd28bba053de08c">More...</a><br /></td></tr>
 <tr class="separator:ac3a5334305358e9bdfd28bba053de08c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a058793b5c5eba17580a48551501f6905"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#a058793b5c5eba17580a48551501f6905">AttachTexture</a> (<a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41">RenderTargets</a> renderTarget, oglplus::FramebufferTarget target, int level=0)</td></tr>
+<tr class="memdesc:a058793b5c5eba17580a48551501f6905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attaches the specified render texture to the geometry buffer framebuffer.  <a href="#a058793b5c5eba17580a48551501f6905">More...</a><br /></td></tr>
+<tr class="separator:a058793b5c5eba17580a48551501f6905"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc271551927d8ae517b7fd6a77cc3337"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#adc271551927d8ae517b7fd6a77cc3337">Bind</a> (oglplus::FramebufferTarget target) const </td></tr>
 <tr class="separator:adc271551927d8ae517b7fd6a77cc3337"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a058793b5c5eba17580a48551501f6905"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#a058793b5c5eba17580a48551501f6905">AttachTexture</a> (<a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41">RenderTargets</a> renderTarget, oglplus::FramebufferTarget target, int level=0)</td></tr>
-<tr class="separator:a058793b5c5eba17580a48551501f6905"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53ff5f0e00cca12b716600d8b0c82209"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#a53ff5f0e00cca12b716600d8b0c82209">DrawBuffers</a> ()</td></tr>
 <tr class="separator:a53ff5f0e00cca12b716600d8b0c82209"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06922d0cf0a990dc1aef8c75e78c64b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#a06922d0cf0a990dc1aef8c75e78c64b2">ActivateTextures</a> ()</td></tr>
@@ -163,15 +161,17 @@ Public Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:aef866141de27972c786d87a52ce06663"><td class="memItemLeft" align="right" valign="top">oglplus::Framebuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#aef866141de27972c786d87a52ce06663">geometryBuffer</a></td></tr>
 <tr class="separator:aef866141de27972c786d87a52ce06663"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab572e58b3b777d03a35e15b9a1b64152"><td class="memItemLeft" align="right" valign="top">std::array&lt; oglplus::Texture, <a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41aaeb3f756378d3aef19572dbd021d56c3">TARGETS_MAX</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#ab572e58b3b777d03a35e15b9a1b64152">bufferTextures</a></td></tr>
-<tr class="separator:ab572e58b3b777d03a35e15b9a1b64152"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee2afc9c306c4bb583838afa9f6fa7fa"><td class="memItemLeft" align="right" valign="top">oglplus::Renderbuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#aee2afc9c306c4bb583838afa9f6fa7fa">depthBuffer</a></td></tr>
+<tr class="separator:aee2afc9c306c4bb583838afa9f6fa7fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bbe86fe6419e735c3412677f0f45c95"><td class="memItemLeft" align="right" valign="top">std::array&lt; oglplus::Texture, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#a2bbe86fe6419e735c3412677f0f45c95">bufferTextures</a></td></tr>
+<tr class="separator:a2bbe86fe6419e735c3412677f0f45c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23e0885b5ae33eb0f356551725ba7008"><td class="memItemLeft" align="right" valign="top">std::vector&lt; oglplus::Context::ColorBuffer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_geometry_buffer.html#a23e0885b5ae33eb0f356551725ba7008">colorBuffers</a></td></tr>
 <tr class="separator:a23e0885b5ae33eb0f356551725ba7008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Describes the geometry buffer used in deferred rendering. Holds all the render target textures and the associated framebuffer. </p>
 
-<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00012">12</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
+<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00013">13</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a542aa771f5c1c331aaa8aa4141969e41"></a>
 <div class="memitem">
@@ -185,9 +185,7 @@ Private Attributes</h2></td></tr>
 
 <p>Identifies the geometry buffer texture target </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a542aa771f5c1c331aaa8aa4141969e41a63709ae996b3c27bc270681bb530a35e"></a>Position&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a542aa771f5c1c331aaa8aa4141969e41a57df63f777015602c1d28f7172f05499"></a>Normal&#160;</td><td class="fielddoc">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a542aa771f5c1c331aaa8aa4141969e41a57df63f777015602c1d28f7172f05499"></a>Normal&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a542aa771f5c1c331aaa8aa4141969e41a5b157acaf07153c41ea93c37ddef83cc"></a>Albedo&#160;</td><td class="fielddoc">
 </td></tr>
@@ -195,11 +193,9 @@ Private Attributes</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a542aa771f5c1c331aaa8aa4141969e41a4f5a67e2170a1c45ab0adde2df7d2d5f"></a>Depth&#160;</td><td class="fielddoc">
 </td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a542aa771f5c1c331aaa8aa4141969e41aaeb3f756378d3aef19572dbd021d56c3"></a>TARGETS_MAX&#160;</td><td class="fielddoc">
-</td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00018">18</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
+<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00019">19</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
 
 </div>
 </div>
@@ -286,7 +282,17 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="geometry__buffer_8cpp_source.html#l00011">11</a> of file <a class="el" href="geometry__buffer_8cpp_source.html">geometry_buffer.cpp</a>.</p>
+<p>Attaches the specified render texture to the geometry buffer framebuffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderTarget</td><td>The render target.</td></tr>
+    <tr><td class="paramname">target</td><td>The target.</td></tr>
+    <tr><td class="paramname">level</td><td>The level.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="geometry__buffer_8cpp_source.html#l00017">17</a> of file <a class="el" href="geometry__buffer_8cpp_source.html">geometry_buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -304,7 +310,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="geometry__buffer_8cpp_source.html#l00006">6</a> of file <a class="el" href="geometry__buffer_8cpp_source.html">geometry_buffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="geometry__buffer_8cpp_source.html#l00012">12</a> of file <a class="el" href="geometry__buffer_8cpp_source.html">geometry_buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -339,12 +345,21 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="geometry__buffer_8cpp_source.html#l00033">33</a> of file <a class="el" href="geometry__buffer_8cpp_source.html">geometry_buffer.cpp</a>.</p>
+<p>Returns the specified geometry buffer render texture. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderTarget</td><td>The render target.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Definition at line <a class="el" href="geometry__buffer_8cpp_source.html#l00006">6</a> of file <a class="el" href="geometry__buffer_8cpp_source.html">geometry_buffer.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ab572e58b3b777d03a35e15b9a1b64152"></a>
+<a class="anchor" id="a2bbe86fe6419e735c3412677f0f45c95"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -352,7 +367,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::array&lt;oglplus::Texture, <a class="el" href="class_geometry_buffer.html#a542aa771f5c1c331aaa8aa4141969e41aaeb3f756378d3aef19572dbd021d56c3">TARGETS_MAX</a>&gt; GeometryBuffer::bufferTextures</td>
+          <td class="memname">std::array&lt;oglplus::Texture, 4&gt; GeometryBuffer::bufferTextures</td>
         </tr>
       </table>
   </td>
@@ -362,7 +377,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00039">39</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
+<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00051">51</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
 
 </div>
 </div>
@@ -384,7 +399,29 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00040">40</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
+<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00052">52</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee2afc9c306c4bb583838afa9f6fa7fa"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">oglplus::Renderbuffer GeometryBuffer::depthBuffer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00050">50</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
 
 </div>
 </div>
@@ -406,7 +443,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00038">38</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
+<p>Definition at line <a class="el" href="geometry__buffer_8h_source.html#l00049">49</a> of file <a class="el" href="geometry__buffer_8h_source.html">geometry_buffer.h</a>.</p>
 
 </div>
 </div>

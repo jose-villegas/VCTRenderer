@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -117,6 +116,9 @@ $(document).ready(function(){initNavTree('class_lighting_program.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Contains all necessary uniforms for the <a class="el" href="class_deferred_handler.html" title="DeferredHandler holds the deferred rendering programs and the geometry buffer object. It also handles rendering the full screen quad during the light pass stage. ">DeferredHandler</a>'s lighting program for light pass.  
+ <a href="class_lighting_program.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for LightingProgram:</div>
@@ -131,9 +133,7 @@ Collaboration diagram for LightingProgram:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_lighting_program__coll__graph.png" border="0" usemap="#_lighting_program_coll__map" alt="Collaboration graph"/></div>
 <map name="_lighting_program_coll__map" id="_lighting_program_coll__map">
-<area shape="rect" id="node2" href="class_program_shader.html" title="Base class for each program shader used in deferred rendering " alt="" coords="561,43,673,70"/>
-<area shape="rect" id="node9" href="struct_lighting_program_1_1_uniform_light.html" title="LightingProgram::Uniform\lLight" alt="" coords="533,245,701,287"/>
-<area shape="rect" id="node10" href="struct_lighting_program_1_1_uniform_light_1_1_uniform_attenuation.html" title="LightingProgram::Uniform\lLight::UniformAttenuation" alt="" coords="221,297,389,339"/>
+<area shape="rect" id="node2" href="class_program_shader.html" title="Base class for each program shader used in deferred rendering " alt="" coords="309,46,421,73"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -166,22 +166,24 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ac903785b04e9860be6c3195f59b9cb71"><td class="memItemLeft" align="right" valign="top">oglplus::UniformSampler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#ac903785b04e9860be6c3195f59b9cb71">gPosition</a></td></tr>
-<tr class="separator:ac903785b04e9860be6c3195f59b9cb71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3671e10005655e1cd91b55a84cce8d2"><td class="memItemLeft" align="right" valign="top">oglplus::Uniform&lt; glm::mat4x4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#aa3671e10005655e1cd91b55a84cce8d2">inverseProjection</a></td></tr>
+<tr class="separator:aa3671e10005655e1cd91b55a84cce8d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabf0fc4993a79084625f7a3909cbbf37"><td class="memItemLeft" align="right" valign="top">oglplus::UniformSampler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#aabf0fc4993a79084625f7a3909cbbf37">gDepth</a></td></tr>
+<tr class="separator:aabf0fc4993a79084625f7a3909cbbf37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd154557badaed840739b760107da563"><td class="memItemLeft" align="right" valign="top">oglplus::UniformSampler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#acd154557badaed840739b760107da563">gNormal</a></td></tr>
 <tr class="separator:acd154557badaed840739b760107da563"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89ce371d544edee52226bf9fcf7bdd8b"><td class="memItemLeft" align="right" valign="top">oglplus::UniformSampler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#a89ce371d544edee52226bf9fcf7bdd8b">gAlbedo</a></td></tr>
 <tr class="separator:a89ce371d544edee52226bf9fcf7bdd8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8cb82d2f71cd5536f2b1c5b8e47e63b"><td class="memItemLeft" align="right" valign="top">oglplus::UniformSampler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#ae8cb82d2f71cd5536f2b1c5b8e47e63b">gSpecular</a></td></tr>
 <tr class="separator:ae8cb82d2f71cd5536f2b1c5b8e47e63b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cdfe1d8e63456a19d3ceaa83ef8e6b4"><td class="memItemLeft" align="right" valign="top">oglplus::Uniform&lt; glm::vec2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#a5cdfe1d8e63456a19d3ceaa83ef8e6b4">screenSize</a></td></tr>
-<tr class="separator:a5cdfe1d8e63456a19d3ceaa83ef8e6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a084ccaf76c842f6d8ab8ca9d6b4fe180"><td class="memItemLeft" align="right" valign="top">oglplus::Uniform&lt; glm::vec3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#a084ccaf76c842f6d8ab8ca9d6b4fe180">viewPosition</a></td></tr>
-<tr class="separator:a084ccaf76c842f6d8ab8ca9d6b4fe180"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fe3de1ff221ac3b40be68aba15f6bf0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_lighting_program_1_1_uniform_light.html">UniformLight</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#a6fe3de1ff221ac3b40be68aba15f6bf0">directionalLight</a></td></tr>
-<tr class="separator:a6fe3de1ff221ac3b40be68aba15f6bf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e7911e6e2c024235f59ec8d1ee4f6c0"><td class="memItemLeft" align="right" valign="top">oglplus::Uniform&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#a3e7911e6e2c024235f59ec8d1ee4f6c0">ambientFactor</a></td></tr>
-<tr class="separator:a3e7911e6e2c024235f59ec8d1ee4f6c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3584e58990c5179680902e29432e8b5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="struct_lighting_program_1_1_uniform_light.html">UniformLight</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#af3584e58990c5179680902e29432e8b5">directionalLight</a></td></tr>
+<tr class="separator:af3584e58990c5179680902e29432e8b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15513a9abd6b9f19475eb833f89ecf2a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="struct_lighting_program_1_1_uniform_light.html">UniformLight</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#a15513a9abd6b9f19475eb833f89ecf2a">pointLight</a></td></tr>
+<tr class="separator:a15513a9abd6b9f19475eb833f89ecf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a859231421717cd17a3860a4412d55388"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="struct_lighting_program_1_1_uniform_light.html">UniformLight</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#a859231421717cd17a3860a4412d55388">spotLight</a></td></tr>
+<tr class="separator:a859231421717cd17a3860a4412d55388"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe595cb4f706cdd0ae7abe3f748c320f"><td class="memItemLeft" align="right" valign="top">std::array&lt; oglplus::Uniform&lt; unsigned int &gt;, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lighting_program.html#afe595cb4f706cdd0ae7abe3f748c320f">lightTypeCount</a></td></tr>
+<tr class="separator:afe595cb4f706cdd0ae7abe3f748c320f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_class_program_shader"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_program_shader')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_program_shader.html">ProgramShader</a></td></tr>
 <tr class="memitem:a6c7729f9aa8953fcf888ca91a21f2e1b inherit pub_attribs_class_program_shader"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; oglplus::Shader &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_program_shader.html#a6c7729f9aa8953fcf888ca91a21f2e1b">fragmentShader</a></td></tr>
 <tr class="memdesc:a6c7729f9aa8953fcf888ca91a21f2e1b inherit pub_attribs_class_program_shader"><td class="mdescLeft">&#160;</td><td class="mdescRight">The fragment shader  <a href="#a6c7729f9aa8953fcf888ca91a21f2e1b">More...</a><br /></td></tr>
@@ -194,8 +196,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a50e1acd95982d7dd294091480ef3f3ec inherit pub_attribs_class_program_shader"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00008">8</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+<div class="textblock"><p>Contains all necessary uniforms for the <a class="el" href="class_deferred_handler.html" title="DeferredHandler holds the deferred rendering programs and the geometry buffer object. It also handles rendering the full screen quad during the light pass stage. ">DeferredHandler</a>'s lighting program for light pass. </p>
+<p>&lt;seealso cref="ProgramShader" / </p>
+
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00013">13</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a420d9779f1d234009670161338e47a3b"></a>
 <div class="memitem">
@@ -218,7 +222,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="lighting__program_8cpp_source.html#l00030">30</a> of file <a class="el" href="lighting__program_8cpp_source.html">lighting_program.cpp</a>.</p>
+<p>Definition at line <a class="el" href="lighting__program_8cpp_source.html#l00101">101</a> of file <a class="el" href="lighting__program_8cpp_source.html">lighting_program.cpp</a>.</p>
 
 </div>
 </div>
@@ -270,7 +274,7 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_program_shader.html#a0a69023405b62d7f1d11e7ac4862c932">ProgramShader</a>.</p>
 
-<p>Definition at line <a class="el" href="lighting__program_8cpp_source.html#l00006">6</a> of file <a class="el" href="lighting__program_8cpp_source.html">lighting_program.cpp</a>.</p>
+<p>Definition at line <a class="el" href="lighting__program_8cpp_source.html#l00007">7</a> of file <a class="el" href="lighting__program_8cpp_source.html">lighting_program.cpp</a>.</p>
 
 </div>
 </div>
@@ -299,31 +303,17 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a3e7911e6e2c024235f59ec8d1ee4f6c0"></a>
+<a class="anchor" id="af3584e58990c5179680902e29432e8b5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">oglplus::Uniform&lt;float&gt; LightingProgram::ambientFactor</td>
+          <td class="memname">std::vector&lt;<a class="el" href="struct_lighting_program_1_1_uniform_light.html">UniformLight</a>&gt; LightingProgram::directionalLight</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00044">44</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6fe3de1ff221ac3b40be68aba15f6bf0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_lighting_program_1_1_uniform_light.html">UniformLight</a> LightingProgram::directionalLight</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00042">42</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00047">47</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
 
 </div>
 </div>
@@ -337,7 +327,21 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00037">37</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00044">44</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aabf0fc4993a79084625f7a3909cbbf37"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">oglplus::UniformSampler LightingProgram::gDepth</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00042">42</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
 
 </div>
 </div>
@@ -351,21 +355,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00036">36</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac903785b04e9860be6c3195f59b9cb71"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">oglplus::UniformSampler LightingProgram::gPosition</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00035">35</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00043">43</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
 
 </div>
 </div>
@@ -379,16 +369,16 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00038">38</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00045">45</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5cdfe1d8e63456a19d3ceaa83ef8e6b4"></a>
+<a class="anchor" id="aa3671e10005655e1cd91b55a84cce8d2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">oglplus::Uniform&lt;glm::vec2&gt; LightingProgram::screenSize</td>
+          <td class="memname">oglplus::Uniform&lt;glm::mat4x4&gt; LightingProgram::inverseProjection</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -397,17 +387,45 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a084ccaf76c842f6d8ab8ca9d6b4fe180"></a>
+<a class="anchor" id="afe595cb4f706cdd0ae7abe3f748c320f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">oglplus::Uniform&lt;glm::vec3&gt; LightingProgram::viewPosition</td>
+          <td class="memname">std::array&lt;oglplus::Uniform&lt;unsigned int&gt;, 3&gt; LightingProgram::lightTypeCount</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00041">41</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00050">50</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a15513a9abd6b9f19475eb833f89ecf2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="struct_lighting_program_1_1_uniform_light.html">UniformLight</a>&gt; LightingProgram::pointLight</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00048">48</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a859231421717cd17a3860a4412d55388"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="struct_lighting_program_1_1_uniform_light.html">UniformLight</a>&gt; LightingProgram::spotLight</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="lighting__program_8h_source.html#l00049">49</a> of file <a class="el" href="lighting__program_8h_source.html">lighting_program.h</a>.</p>
 
 </div>
 </div>

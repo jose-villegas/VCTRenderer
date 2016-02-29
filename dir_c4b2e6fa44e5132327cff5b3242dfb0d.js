@@ -22,13 +22,9 @@ var dir_c4b2e6fa44e5132327cff5b3242dfb0d =
     [ "node.h", "node_8h.html", [
       [ "Node", "class_node.html", "class_node" ]
     ] ],
-    [ "scene.cpp", "scene_8cpp.html", null ],
+    [ "scene.cpp", "scene_8cpp.html", "scene_8cpp" ],
     [ "scene.h", "scene_8h.html", [
       [ "Scene", "class_scene.html", "class_scene" ]
-    ] ],
-    [ "scene_object.cpp", "scene__object_8cpp.html", null ],
-    [ "scene_object.h", "scene__object_8h.html", [
-      [ "SceneObject", "class_scene_object.html", "class_scene_object" ]
     ] ],
     [ "texture.cpp", "texture_8cpp.html", null ],
     [ "texture.h", "texture_8h.html", [

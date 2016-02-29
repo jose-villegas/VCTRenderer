@@ -1,4 +1,4 @@
 <map id="Mesh" name="Mesh">
-<area shape="rect" id="node3" href="$class_mesh_drawer.html" title="MeshDrawer" alt="" coords="7,155,101,181"/>
-<area shape="rect" id="node2" href="$class_scene_object.html" title="SceneObject" alt="" coords="5,5,103,32"/>
+<area shape="rect" id="node3" href="$class_mesh_drawer.html" title="MeshDrawer" alt="" coords="5,155,100,181"/>
+<area shape="rect" id="node2" href="$class_base_object.html" title="BaseObject" alt="" coords="7,5,98,32"/>
 </map>

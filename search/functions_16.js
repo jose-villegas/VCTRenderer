@@ -2,6 +2,7 @@ var searchData=
 [
   ['_7eassetsmanager',['~AssetsManager',['../class_assets_manager.html#aa3edb24b073adecfb1281d9caa5896d2',1,'AssetsManager']]],
   ['_7eattenuation',['~Attenuation',['../class_light_1_1_attenuation.html#afb0f66feee74b4e5b074adb9d40c4e03',1,'Light::Attenuation']]],
+  ['_7ebaseobject',['~BaseObject',['../class_base_object.html#a83eecfd3bdaffda4e6c7d0fb98747f96',1,'BaseObject']]],
   ['_7ebehavior',['~Behavior',['../class_behavior.html#a428a3d31a5711e5b46f2adcc02b10a52',1,'Behavior']]],
   ['_7eboundingbox',['~BoundingBox',['../class_bounding_box.html#a587de78331711c6eb6d15de867b73991',1,'BoundingBox']]],
   ['_7ecamera',['~Camera',['../class_camera.html#ad1897942d0ccf91052386388a497349f',1,'Camera']]],
@@ -30,9 +31,12 @@ var searchData=
   ['_7esceneobject',['~SceneObject',['../class_scene_object.html#ab258d6b94e982d5ae71ad4d7652381f4',1,'SceneObject']]],
   ['_7esingleactive',['~SingleActive',['../class_single_active.html#ae68d32bcb208b87358786a09f041c966',1,'SingleActive']]],
   ['_7etexture2d',['~Texture2D',['../class_texture2_d.html#a84210f27b55799a096b8abc36380a077',1,'Texture2D']]],
+  ['_7etransform',['~Transform',['../class_transform.html#aa72e286c069850db80927b0e6554cd3e',1,'Transform']]],
   ['_7euiframerate',['~UIFramerate',['../class_u_i_framerate.html#a9e86de8b4482de42560e689f1d139fe2',1,'UIFramerate']]],
+  ['_7euigeometrybuffer',['~UIGeometryBuffer',['../class_u_i_geometry_buffer.html#a1dde08c857aaad3f12bd67652bcf1971',1,'UIGeometryBuffer']]],
   ['_7euimainmenu',['~UIMainMenu',['../class_u_i_main_menu.html#a32f69a60408f8e32c7b62fa00cc32a58',1,'UIMainMenu']]],
   ['_7euiscenecameras',['~UISceneCameras',['../class_u_i_scene_cameras.html#a51e930fe07857f3e3a54d40886f92b91',1,'UISceneCameras']]],
+  ['_7euiscenelights',['~UISceneLights',['../class_u_i_scene_lights.html#a98b0cc75a67e3489cd55eb2568a71786',1,'UISceneLights']]],
   ['_7euisceneloader',['~UISceneLoader',['../class_u_i_scene_loader.html#a54419f3095d9f5a8804fc0c978d1abf1',1,'UISceneLoader']]],
   ['_7ewindowinfo',['~WindowInfo',['../struct_window_info.html#a1389b3b188ba082c510a8e3cad842820',1,'WindowInfo']]]
 ];

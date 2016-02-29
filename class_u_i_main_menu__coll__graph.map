@@ -1,5 +1,5 @@
 <map id="UIMainMenu" name="UIMainMenu">
-<area shape="rect" id="node2" href="$class_interface.html" title="Holds interfaces code it the Draw method to be executed by all inheriting classes during rendering..." alt="" coords="783,105,853,131"/>
+<area shape="rect" id="node2" href="$class_interface.html" title="Interface code in the Draw method is meant to be implemented by all inheriting classes. DrawAll will call all implementations of Draw from instances of classes inheriting from Interface " alt="" coords="783,105,853,131"/>
 <area shape="rect" id="node3" href="$class_interface_renderer.html" title="Main class to implement custom interfaces setups IMGUI to render in the current context ..." alt="" coords="555,17,677,43"/>
 <area shape="rect" id="node5" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="531,71,701,98"/>
 <area shape="rect" id="node6" href="$classstatic_01std_1_1vector_3_01_interface_01_5_01_4.html" title="vector\&lt; Interface * \&gt;" alt="" coords="239,71,377,98"/>

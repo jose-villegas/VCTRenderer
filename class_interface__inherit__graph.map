@@ -1,9 +1,11 @@
 <map id="Interface" name="Interface">
 <area shape="rect" id="node5" href="$class_u_i_framerate.html" title="UIFramerate" alt="" coords="5,247,99,273"/>
-<area shape="rect" id="node6" href="$class_u_i_main_menu.html" title="UIMainMenu" alt="" coords="123,247,218,273"/>
-<area shape="rect" id="node7" href="$class_u_i_scene_cameras.html" title="UISceneCameras" alt="" coords="243,247,365,273"/>
-<area shape="rect" id="node8" href="$class_u_i_scene_loader.html" title="UISceneLoader" alt="" coords="390,247,501,273"/>
-<area shape="rect" id="node2" href="$class_interface_renderer.html" title="Main class to implement custom interfaces setups IMGUI to render in the current context ..." alt="" coords="125,95,248,121"/>
-<area shape="rect" id="node3" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="272,95,443,121"/>
-<area shape="rect" id="node4" href="$class_instance_pool.html" title="Stores all instaces of the inheriting class " alt="" coords="293,5,421,32"/>
+<area shape="rect" id="node6" href="$class_u_i_geometry_buffer.html" title="UIGeometryBuffer" alt="" coords="123,247,247,273"/>
+<area shape="rect" id="node7" href="$class_u_i_main_menu.html" title="UIMainMenu" alt="" coords="271,247,366,273"/>
+<area shape="rect" id="node8" href="$class_u_i_scene_cameras.html" title="UISceneCameras" alt="" coords="391,247,513,273"/>
+<area shape="rect" id="node9" href="$class_u_i_scene_lights.html" title="UISceneLights" alt="" coords="537,247,644,273"/>
+<area shape="rect" id="node10" href="$class_u_i_scene_loader.html" title="UISceneLoader" alt="" coords="669,247,779,273"/>
+<area shape="rect" id="node2" href="$class_interface_renderer.html" title="Main class to implement custom interfaces setups IMGUI to render in the current context ..." alt="" coords="273,95,396,121"/>
+<area shape="rect" id="node3" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="420,95,591,121"/>
+<area shape="rect" id="node4" href="$class_instance_pool.html" title="Stores all instaces of the inheriting class " alt="" coords="441,5,569,32"/>
 </map>

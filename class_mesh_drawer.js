@@ -10,10 +10,10 @@ var class_mesh_drawer =
     [ "IsLoaded", "class_mesh_drawer.html#a73832cc4d2a55cdcb0f6f59f2bdf4972", null ],
     [ "Load", "class_mesh_drawer.html#ac1970173c88709e67b368c80011d9ca4", null ],
     [ "operator=", "class_mesh_drawer.html#aa181f688e6b1ace481e34bdc5efb2cab", null ],
+    [ "elementBuffer", "class_mesh_drawer.html#a564942e50e32411e20fb1b7580f958fe", null ],
     [ "indicesCount", "class_mesh_drawer.html#a1b7bbd85f0593e7fdbfb8caa3e2c3448", null ],
     [ "loaded", "class_mesh_drawer.html#a9f751d6c59b1ff093e0f882c4391c7ab", null ],
-    [ "oglArrayBuffer", "class_mesh_drawer.html#a5e7cf59a052aca509f7f26fe8e5b6150", null ],
-    [ "oglElementArrayBuffer", "class_mesh_drawer.html#a7c647bc500a94f3dc939a3d198589fdb", null ],
-    [ "oglVertexArray", "class_mesh_drawer.html#a00ee5141710febd8c45369bb571fba0f", null ],
+    [ "vertexArray", "class_mesh_drawer.html#a5913ff041e2da52cec5952719fce6be1", null ],
+    [ "vertexBuffer", "class_mesh_drawer.html#a410bb8d49857420150e4a59e637a011c", null ],
     [ "vertexCount", "class_mesh_drawer.html#af28f9340da9ce45572747fd759961f2c", null ]
 ];

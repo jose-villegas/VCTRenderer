@@ -6,7 +6,6 @@ var searchData=
   ['depthbits',['DepthBits',['../class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a43d83af9dcb31d71b0991d1cd0026867',1,'RenderWindow']]],
   ['diffuse',['Diffuse',['../class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da103010e71865c656628def4a68509078',1,'RawTexture']]],
   ['directional',['Directional',['../class_light.html#a661d9480e01af8b1612860b9630ef5f8ae1a0035e4acfd2e430ed27b591db4433',1,'Light']]],
-  ['disabled',['Disabled',['../class_light.html#a661d9480e01af8b1612860b9630ef5f8a65021ca49102cf10ed4bd541e828ab6f',1,'Light']]],
   ['displacement',['Displacement',['../class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da18c524764d6c9260aa6d2e140219c303',1,'RawTexture']]],
   ['dontcare',['DontCare',['../class_render_window.html#ad1fe41ad06931274d10323e898c61fc8a60a3629ef6a8f991f45d7a85f2458544',1,'RenderWindow']]],
   ['doublebuffer',['DoubleBuffer',['../class_render_window.html#a9a06aa14ba77e4b6dfa7eaa4c1f411d4a6283478f5b60807028cd4a5bd5b86f8c',1,'RenderWindow']]]

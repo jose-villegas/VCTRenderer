@@ -1,7 +1,9 @@
 <map id="InterfaceRenderer" name="InterfaceRenderer">
-<area shape="rect" id="node2" href="$class_interface.html" title="Holds interfaces code it the Draw method to be executed by all inheriting classes during rendering..." alt="" coords="202,80,273,107"/>
+<area shape="rect" id="node2" href="$class_interface.html" title="Interface code in the Draw method is meant to be implemented by all inheriting classes. DrawAll will call all implementations of Draw from instances of classes inheriting from Interface " alt="" coords="350,80,421,107"/>
 <area shape="rect" id="node3" href="$class_u_i_framerate.html" title="UIFramerate" alt="" coords="5,155,99,181"/>
-<area shape="rect" id="node4" href="$class_u_i_main_menu.html" title="UIMainMenu" alt="" coords="123,155,218,181"/>
-<area shape="rect" id="node5" href="$class_u_i_scene_cameras.html" title="UISceneCameras" alt="" coords="243,155,365,181"/>
-<area shape="rect" id="node6" href="$class_u_i_scene_loader.html" title="UISceneLoader" alt="" coords="390,155,501,181"/>
+<area shape="rect" id="node4" href="$class_u_i_geometry_buffer.html" title="UIGeometryBuffer" alt="" coords="123,155,247,181"/>
+<area shape="rect" id="node5" href="$class_u_i_main_menu.html" title="UIMainMenu" alt="" coords="271,155,366,181"/>
+<area shape="rect" id="node6" href="$class_u_i_scene_cameras.html" title="UISceneCameras" alt="" coords="391,155,513,181"/>
+<area shape="rect" id="node7" href="$class_u_i_scene_lights.html" title="UISceneLights" alt="" coords="537,155,644,181"/>
+<area shape="rect" id="node8" href="$class_u_i_scene_loader.html" title="UISceneLoader" alt="" coords="669,155,779,181"/>
 </map>

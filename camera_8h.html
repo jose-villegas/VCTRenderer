@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -111,18 +110,19 @@ $(document).ready(function(){initNavTree('camera_8h.html','');});
 <div class="title">camera.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="scene__object_8h_source.html">scene_object.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="single__active_8h_source.html">../util/single_active.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="single__active_8h_source.html">../util/single_active.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="frustum_8h_source.html">../types/frustum.h</a>&quot;</code><br />
-<code>#include &lt;glm/detail/type_vec3.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="scene__object_8h_source.html">../types/scene_object.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for camera.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="camera_8h__incl.png" border="0" usemap="#_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2camera_8h" alt=""/></div>
 <map name="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2camera_8h" id="_d_1_2_documents_2_projects_2_v_c_t_renderer_2engine_2scene_2camera_8h">
-<area shape="rect" id="node2" href="scene__object_8h.html" title="scene_object.h" alt="" coords="5,109,116,136"/>
-<area shape="rect" id="node4" href="single__active_8h.html" title="../util/single_active.h" alt="" coords="140,109,280,136"/>
-<area shape="rect" id="node6" href="frustum_8h.html" title="../types/frustum.h" alt="" coords="304,109,428,136"/>
+<area shape="rect" id="node2" href="single__active_8h.html" title="../util/single_active.h" alt="" coords="5,109,145,136"/>
+<area shape="rect" id="node4" href="frustum_8h.html" title="../types/frustum.h" alt="" coords="204,109,328,136"/>
+<area shape="rect" id="node8" href="scene__object_8h.html" title="../types/scene_object.h" alt="" coords="536,109,695,136"/>
+<area shape="rect" id="node9" href="transform_8h.html" title="transform.h" alt="" coords="572,184,659,211"/>
+<area shape="rect" id="node12" href="base__object_8h.html" title="base_object.h" alt="" coords="688,184,791,211"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -134,9 +134,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="rect" id="node3" href="scene__loader_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/assets\l/code/ui/scene_loader.cpp" alt="" coords="219,109,407,165"/>
 <area shape="rect" id="node4" href="deferred__renderer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/rendering\l/deferred_renderer.cpp" alt="" coords="432,109,635,165"/>
 <area shape="rect" id="node5" href="camera_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/camera.cpp" alt="" coords="659,109,843,165"/>
-<area shape="rect" id="node6" href="node_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/node.cpp" alt="" coords="867,109,1051,165"/>
-<area shape="rect" id="node7" href="scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="1075,109,1259,165"/>
-<area shape="rect" id="node8" href="scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1283,109,1450,165"/>
+<area shape="rect" id="node6" href="light_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/light.cpp" alt="" coords="867,109,1051,165"/>
+<area shape="rect" id="node7" href="node_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/node.cpp" alt="" coords="1075,109,1259,165"/>
+<area shape="rect" id="node8" href="scene_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/scene\l/scene.cpp" alt="" coords="1283,109,1467,165"/>
+<area shape="rect" id="node9" href="scene__importer_8cpp.html" title="D:/Documents/Projects\l/VCTRenderer/engine/util\l/scene_importer.cpp" alt="" coords="1491,109,1658,165"/>
 </map>
 </div>
 </div>
@@ -145,7 +146,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_camera.html">Camera</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds parameters and settings for scene cameras.  <a href="class_camera.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds parameters and settings for scene cameras. Viewing parameters and projection setup for the camera instance can be all modified here.  <a href="class_camera.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

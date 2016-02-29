@@ -1,9 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="5,56,176,83"/>
-<area shape="rect" id="node2" href="$class_interface.html" title="Holds interfaces code it the Draw method to be executed by all inheriting classes during rendering..." alt="" coords="224,81,295,108"/>
-<area shape="rect" id="node3" href="$class_u_i_framerate.html" title="UIFramerate" alt="" coords="357,5,451,32"/>
-<area shape="rect" id="node4" href="$class_u_i_main_menu.html" title="UIMainMenu" alt="" coords="357,56,451,83"/>
-<area shape="rect" id="node5" href="$class_u_i_scene_cameras.html" title="UISceneCameras" alt="" coords="343,107,465,133"/>
-<area shape="rect" id="node6" href="$class_u_i_scene_loader.html" title="UISceneLoader" alt="" coords="349,157,459,184"/>
-<area shape="rect" id="node7" href="$class_interface_renderer.html" title="Main class to implement custom interfaces setups IMGUI to render in the current context ..." alt="" coords="29,107,152,133"/>
+<area shape="rect" id="node1" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="5,107,176,133"/>
+<area shape="rect" id="node2" href="$class_interface.html" title="Interface code in the Draw method is meant to be implemented by all inheriting classes. DrawAll will call all implementations of Draw from instances of classes inheriting from Interface " alt="" coords="224,132,295,159"/>
+<area shape="rect" id="node3" href="$class_u_i_framerate.html" title="UIFramerate" alt="" coords="358,5,451,32"/>
+<area shape="rect" id="node4" href="$class_u_i_geometry_buffer.html" title="UIGeometryBuffer" alt="" coords="343,56,467,83"/>
+<area shape="rect" id="node5" href="$class_u_i_main_menu.html" title="UIMainMenu" alt="" coords="357,107,452,133"/>
+<area shape="rect" id="node6" href="$class_u_i_scene_cameras.html" title="UISceneCameras" alt="" coords="343,157,466,184"/>
+<area shape="rect" id="node7" href="$class_u_i_scene_lights.html" title="UISceneLights" alt="" coords="351,208,458,235"/>
+<area shape="rect" id="node8" href="$class_u_i_scene_loader.html" title="UISceneLoader" alt="" coords="349,259,460,285"/>
+<area shape="rect" id="node9" href="$class_interface_renderer.html" title="Main class to implement custom interfaces setups IMGUI to render in the current context ..." alt="" coords="29,157,152,184"/>
 </map>

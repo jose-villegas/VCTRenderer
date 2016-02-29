@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -116,6 +115,9 @@ $(document).ready(function(){initNavTree('class_light_1_1_attenuation.html','');
 </div><!--header-->
 <div class="contents">
 
+<p>Describes the light falloff behavior. Meaning its intensity depending on the distance of the lighten fragment and the light source. This being </p><div class="fragment"><div class="line">f = 1 / (1 + <a class="code" href="jquery_8js.html#abce695e0af988ece0826d9ad59b8160d">c</a> + (l * d) + (q * d * d))</div></div><!-- fragment --><p> where f is the falloff, c the <a class="el" href="class_light_1_1_attenuation.html#a2e0e7de3950d41daf1c5d3c4a0a35abe">Constant</a> value, l the <a class="el" href="class_light_1_1_attenuation.html#a58a3cfdb38ad90804508a4a27de7ca05">Linear</a> value, q the <a class="el" href="class_light_1_1_attenuation.html#a941843fb46237fe934f17c782cf22a36">Quadratic</a> value and d the distance.  
+ <a href="class_light_1_1_attenuation.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="light_8h_source.html">light.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for Light::Attenuation:</div>
@@ -125,18 +127,18 @@ Collaboration diagram for Light::Attenuation:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a57e3f8b4db0fe0983b8cc3466db29694"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#a57e3f8b4db0fe0983b8cc3466db29694">Linear</a> () const </td></tr>
-<tr class="separator:a57e3f8b4db0fe0983b8cc3466db29694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58a3cfdb38ad90804508a4a27de7ca05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#a58a3cfdb38ad90804508a4a27de7ca05">Linear</a> (float val)</td></tr>
 <tr class="separator:a58a3cfdb38ad90804508a4a27de7ca05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4193d71d748eb4dc7259b780fcb155e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#aa4193d71d748eb4dc7259b780fcb155e">Quadratic</a> () const </td></tr>
-<tr class="separator:aa4193d71d748eb4dc7259b780fcb155e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a941843fb46237fe934f17c782cf22a36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#a941843fb46237fe934f17c782cf22a36">Quadratic</a> (float val)</td></tr>
 <tr class="separator:a941843fb46237fe934f17c782cf22a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8af59b5b9a871351d5f04bd16e896b6d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#a8af59b5b9a871351d5f04bd16e896b6d">Constant</a> () const </td></tr>
-<tr class="separator:a8af59b5b9a871351d5f04bd16e896b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e0e7de3950d41daf1c5d3c4a0a35abe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#a2e0e7de3950d41daf1c5d3c4a0a35abe">Constant</a> (float val)</td></tr>
 <tr class="separator:a2e0e7de3950d41daf1c5d3c4a0a35abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57e3f8b4db0fe0983b8cc3466db29694"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#a57e3f8b4db0fe0983b8cc3466db29694">Linear</a> () const </td></tr>
+<tr class="separator:a57e3f8b4db0fe0983b8cc3466db29694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4193d71d748eb4dc7259b780fcb155e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#aa4193d71d748eb4dc7259b780fcb155e">Quadratic</a> () const </td></tr>
+<tr class="separator:aa4193d71d748eb4dc7259b780fcb155e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8af59b5b9a871351d5f04bd16e896b6d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#a8af59b5b9a871351d5f04bd16e896b6d">Constant</a> () const </td></tr>
+<tr class="separator:a8af59b5b9a871351d5f04bd16e896b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8088251f7762f4832a49468599ccca4c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#a8088251f7762f4832a49468599ccca4c">Attenuation</a> ()</td></tr>
 <tr class="separator:a8088251f7762f4832a49468599ccca4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb0f66feee74b4e5b074adb9d40c4e03"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_light_1_1_attenuation.html#afb0f66feee74b4e5b074adb9d40c4e03">~Attenuation</a> ()</td></tr>
@@ -152,8 +154,9 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a2a11965a25e0fd826c14dc9790fff810"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="light_8h_source.html#l00010">10</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<div class="textblock"><p>Describes the light falloff behavior. Meaning its intensity depending on the distance of the lighten fragment and the light source. This being </p><div class="fragment"><div class="line">f = 1 / (1 + <a class="code" href="jquery_8js.html#abce695e0af988ece0826d9ad59b8160d">c</a> + (l * d) + (q * d * d))</div></div><!-- fragment --><p> where f is the falloff, c the <a class="el" href="class_light_1_1_attenuation.html#a2e0e7de3950d41daf1c5d3c4a0a35abe">Constant</a> value, l the <a class="el" href="class_light_1_1_attenuation.html#a58a3cfdb38ad90804508a4a27de7ca05">Linear</a> value, q the <a class="el" href="class_light_1_1_attenuation.html#a941843fb46237fe934f17c782cf22a36">Quadratic</a> value and d the distance. </p>
+
+<p>Definition at line <a class="el" href="light_8h_source.html#l00029">29</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a8088251f7762f4832a49468599ccca4c"></a>
 <div class="memitem">
@@ -176,7 +179,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00020">20</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00040">40</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
@@ -201,36 +204,11 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00021">21</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00041">41</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a8af59b5b9a871351d5f04bd16e896b6d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float Light::Attenuation::Constant </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="light_8h_source.html#l00017">17</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a2e0e7de3950d41daf1c5d3c4a0a35abe"></a>
 <div class="memitem">
 <div class="memproto">
@@ -253,11 +231,11 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00018">18</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00034">34</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a57e3f8b4db0fe0983b8cc3466db29694"></a>
+<a class="anchor" id="a8af59b5b9a871351d5f04bd16e896b6d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -265,7 +243,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float Light::Attenuation::Linear </td>
+          <td class="memname">float Light::Attenuation::Constant </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -278,7 +256,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00013">13</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00038">38</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
@@ -304,11 +282,11 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00014">14</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00032">32</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa4193d71d748eb4dc7259b780fcb155e"></a>
+<a class="anchor" id="a57e3f8b4db0fe0983b8cc3466db29694"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -316,7 +294,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float Light::Attenuation::Quadratic </td>
+          <td class="memname">float Light::Attenuation::Linear </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -329,7 +307,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00015">15</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00036">36</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
@@ -355,7 +333,32 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00016">16</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00033">33</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa4193d71d748eb4dc7259b780fcb155e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Light::Attenuation::Quadratic </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="light_8h_source.html#l00037">37</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
@@ -378,7 +381,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00021">21</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00041">41</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
@@ -400,7 +403,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00024">24</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00044">44</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>
@@ -422,7 +425,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="light_8h_source.html#l00025">25</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
+<p>Definition at line <a class="el" href="light_8h_source.html#l00045">45</a> of file <a class="el" href="light_8h_source.html">light.h</a>.</p>
 
 </div>
 </div>

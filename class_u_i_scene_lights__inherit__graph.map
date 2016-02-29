@@ -1,0 +1,6 @@
+<map id="UISceneLights" name="UISceneLights">
+<area shape="rect" id="node2" href="$class_interface.html" title="Interface code in the Draw method is meant to be implemented by all inheriting classes. DrawAll will call all implementations of Draw from instances of classes inheriting from Interface " alt="" coords="82,171,153,197"/>
+<area shape="rect" id="node3" href="$class_interface_renderer.html" title="Main class to implement custom interfaces setups IMGUI to render in the current context ..." alt="" coords="5,95,128,121"/>
+<area shape="rect" id="node4" href="$class_instance_pool.html" title="InstancePool\&lt; Interface \&gt;" alt="" coords="152,95,323,121"/>
+<area shape="rect" id="node5" href="$class_instance_pool.html" title="Stores all instaces of the inheriting class " alt="" coords="173,5,301,32"/>
+</map>

@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -118,7 +117,7 @@ $(document).ready(function(){initNavTree('class_engine_base.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>This is the entry point of the rendering engine where the main rendering loop resides.  
+<p>This is the entry point of the rendering engine where the main rendering loop resides and the rendering context is properly set up.  
  <a href="class_engine_base.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="engine__base_8h_source.html">engine_base.h</a>&gt;</code></p>
@@ -145,7 +144,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a9952e1fb6b19b411bc8a60f37597a20e"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="class_engine_base.html">EngineBase</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_base.html#a9952e1fb6b19b411bc8a60f37597a20e">Instance</a> ()</td></tr>
-<tr class="memdesc:a9952e1fb6b19b411bc8a60f37597a20e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="class_engine_base.html" title="This is the entry point of the rendering engine where the main rendering loop resides. ">EngineBase</a> singleton instance.  <a href="#a9952e1fb6b19b411bc8a60f37597a20e">More...</a><br /></td></tr>
+<tr class="memdesc:a9952e1fb6b19b411bc8a60f37597a20e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="class_engine_base.html" title="This is the entry point of the rendering engine where the main rendering loop resides and the renderi...">EngineBase</a> singleton instance.  <a href="#a9952e1fb6b19b411bc8a60f37597a20e">More...</a><br /></td></tr>
 <tr class="separator:a9952e1fb6b19b411bc8a60f37597a20e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5338eee52238a3a47463755402b478b1"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="class_deferred_renderer.html">DeferredRenderer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_engine_base.html#a5338eee52238a3a47463755402b478b1">Renderer</a> ()</td></tr>
 <tr class="separator:a5338eee52238a3a47463755402b478b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,9 +169,9 @@ Private Attributes</h2></td></tr>
 <tr class="separator:afa8f79bd2797fe2c625ad0b705035c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This is the entry point of the rendering engine where the main rendering loop resides. </p>
+<div class="textblock"><p>This is the entry point of the rendering engine where the main rendering loop resides and the rendering context is properly set up. </p>
 
-<p>Definition at line <a class="el" href="engine__base_8h_source.html#l00013">13</a> of file <a class="el" href="engine__base_8h_source.html">engine_base.h</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8h_source.html#l00014">14</a> of file <a class="el" href="engine__base_8h_source.html">engine_base.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7ff76df0b36e49c52f5f9b3d902f2ed8"></a>
 <div class="memitem">
@@ -195,7 +194,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00020">20</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00024">24</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
 
 </div>
 </div>
@@ -268,7 +267,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00015">15</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00019">19</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
 
 </div>
 </div>
@@ -296,7 +295,7 @@ Private Attributes</h2></td></tr>
 
 <p>Setups all the engine components, imports assets and initializes libraries. </p>
 
-<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00079">79</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00096">96</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
 
 </div>
 </div>
@@ -321,10 +320,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the <a class="el" href="class_engine_base.html" title="This is the entry point of the rendering engine where the main rendering loop resides. ">EngineBase</a> singleton instance. </p>
+<p>Returns the <a class="el" href="class_engine_base.html" title="This is the entry point of the rendering engine where the main rendering loop resides and the renderi...">EngineBase</a> singleton instance. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00028">28</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00032">32</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
 
 </div>
 </div>
@@ -343,7 +342,7 @@ Private Attributes</h2></td></tr>
 
 <p>Main rendering loop </p>
 
-<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00050">50</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00054">54</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
 
 </div>
 </div>
@@ -392,7 +391,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00040">40</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00044">44</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
 
 </div>
 </div>
@@ -417,7 +416,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00045">45</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8cpp_source.html#l00049">49</a> of file <a class="el" href="engine__base_8cpp_source.html">engine_base.cpp</a>.</p>
 
 </div>
 </div>
@@ -442,7 +441,7 @@ Private Attributes</h2></td></tr>
 
 <p>The engine renderer, uses deferred rendering path. </p>
 
-<p>Definition at line <a class="el" href="engine__base_8h_source.html#l00041">41</a> of file <a class="el" href="engine__base_8h_source.html">engine_base.h</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8h_source.html#l00042">42</a> of file <a class="el" href="engine__base_8h_source.html">engine_base.h</a>.</p>
 
 </div>
 </div>
@@ -466,7 +465,7 @@ Private Attributes</h2></td></tr>
 
 <p>The rendering window. </p>
 
-<p>Definition at line <a class="el" href="engine__base_8h_source.html#l00037">37</a> of file <a class="el" href="engine__base_8h_source.html">engine_base.h</a>.</p>
+<p>Definition at line <a class="el" href="engine__base_8h_source.html#l00038">38</a> of file <a class="el" href="engine__base_8h_source.html">engine_base.h</a>.</p>
 
 </div>
 </div>

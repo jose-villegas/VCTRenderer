@@ -1,6 +1,7 @@
 var annotated_dup =
 [
     [ "AssetsManager", "class_assets_manager.html", "class_assets_manager" ],
+    [ "BaseObject", "class_base_object.html", "class_base_object" ],
     [ "Behavior", "class_behavior.html", "class_behavior" ],
     [ "BoundingBox", "class_bounding_box.html", "class_bounding_box" ],
     [ "Camera", "class_camera.html", "class_camera" ],
@@ -18,6 +19,7 @@ var annotated_dup =
     [ "Light", "class_light.html", "class_light" ],
     [ "LightingProgram", "class_lighting_program.html", "class_lighting_program" ],
     [ "Material", "class_material.html", "class_material" ],
+    [ "Matrix", "class_matrix.html", "class_matrix" ],
     [ "Mesh", "class_mesh.html", "class_mesh" ],
     [ "MeshDrawer", "class_mesh_drawer.html", "class_mesh_drawer" ],
     [ "Node", "class_node.html", "class_node" ],
@@ -31,11 +33,15 @@ var annotated_dup =
     [ "SingleActive", "class_single_active.html", "class_single_active" ],
     [ "Texture2D", "class_texture2_d.html", "class_texture2_d" ],
     [ "TextureImporter", "class_texture_importer.html", "class_texture_importer" ],
+    [ "Transform", "class_transform.html", "class_transform" ],
     [ "UIFramerate", "class_u_i_framerate.html", "class_u_i_framerate" ],
+    [ "UIGeometryBuffer", "class_u_i_geometry_buffer.html", "class_u_i_geometry_buffer" ],
     [ "UIMainMenu", "class_u_i_main_menu.html", "class_u_i_main_menu" ],
     [ "UISceneCameras", "class_u_i_scene_cameras.html", "class_u_i_scene_cameras" ],
+    [ "UISceneLights", "class_u_i_scene_lights.html", "class_u_i_scene_lights" ],
     [ "UISceneLoader", "class_u_i_scene_loader.html", "class_u_i_scene_loader" ],
     [ "UniformCollection", "class_uniform_collection.html", "class_uniform_collection" ],
+    [ "Vector3", "class_vector3.html", "class_vector3" ],
     [ "Vertex", "struct_vertex.html", "struct_vertex" ],
     [ "WindowInfo", "struct_window_info.html", "struct_window_info" ]
 ];

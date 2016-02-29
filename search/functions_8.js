@@ -17,8 +17,13 @@ var searchData=
   ['initresizable',['initResizable',['../resize_8js.html#a4d56aa7aa73d0ddf385565075fdfe271',1,'resize.js']]],
   ['instance',['Instance',['../class_assets_manager.html#a45d99d517c928b49b115ac9e77070702',1,'AssetsManager::Instance()'],['../class_engine_base.html#a9952e1fb6b19b411bc8a60f37597a20e',1,'EngineBase::Instance()']]],
   ['instancepool',['InstancePool',['../class_instance_pool.html#a4bfde8e884cd6c4dde4dd74e8e8a2b8c',1,'InstancePool']]],
+  ['intensity',['Intensity',['../class_light.html#a2f676e1d0aa278e16cb0084aa508a3b6',1,'Light::Intensity(const glm::vec3 &amp;val)'],['../class_light.html#ab29becb91c6b2bb433f672c03b1a3c56',1,'Light::Intensity() const ']]],
   ['interface',['Interface',['../class_interface.html#a4406d74c75bdfe150bf72be1f1cda8b1',1,'Interface']]],
   ['interfacerenderer',['InterfaceRenderer',['../class_interface_renderer.html#ae95ef4df13c15385b002ce58694fc440',1,'InterfaceRenderer']]],
   ['invalidatedeviceobjects',['InvalidateDeviceObjects',['../class_interface_renderer.html#af71003dc2a463040876d281207798e9f',1,'InterfaceRenderer']]],
+  ['inversematrix',['InverseMatrix',['../class_transform.html#a84231d83cec8fc61bc1ae56cbca2b862',1,'Transform']]],
+  ['inverseprojectionmatrix',['InverseProjectionMatrix',['../class_camera.html#a047964fd5ba0a7a540719294a9fe268b',1,'Camera']]],
+  ['inverseviewmatrix',['InverseViewMatrix',['../class_camera.html#a8f45287a3f890332b54bfc7b77c08285',1,'Camera']]],
+  ['isactive',['IsActive',['../class_single_active.html#a7c1ab867ef7e912ca387eb5a7950be9f',1,'SingleActive']]],
   ['isloaded',['IsLoaded',['../class_mesh_drawer.html#a73832cc4d2a55cdcb0f6f59f2bdf4972',1,'MeshDrawer::IsLoaded()'],['../class_scene.html#a531da4d03650d5774ac23fcf1cc9053a',1,'Scene::IsLoaded()']]]
 ];

@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -136,13 +135,11 @@ Collaboration diagram for DeferredHandler:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_deferred_handler__coll__graph.png" border="0" usemap="#_deferred_handler_coll__map" alt="Collaboration graph"/></div>
 <map name="_deferred_handler_coll__map" id="_deferred_handler_coll__map">
-<area shape="rect" id="node2" href="class_geometry_program.html" title="GeometryProgram" alt="" coords="913,292,1041,319"/>
-<area shape="rect" id="node3" href="class_program_shader.html" title="Base class for each program shader used in deferred rendering " alt="" coords="593,371,705,397"/>
-<area shape="rect" id="node13" href="class_lighting_program.html" title="LightingProgram" alt="" coords="919,539,1035,565"/>
-<area shape="rect" id="node7" href="struct_geometry_program_1_1_uniform_material.html" title="GeometryProgram::Uniform\lMaterial" alt="" coords="559,209,739,250"/>
-<area shape="rect" id="node15" href="struct_lighting_program_1_1_uniform_light.html" title="LightingProgram::Uniform\lLight" alt="" coords="565,642,733,683"/>
-<area shape="rect" id="node16" href="struct_lighting_program_1_1_uniform_light_1_1_uniform_attenuation.html" title="LightingProgram::Uniform\lLight::UniformAttenuation" alt="" coords="221,698,389,739"/>
-<area shape="rect" id="node11" href="struct_geometry_program_1_1_uniform_matrices.html" title="GeometryProgram::Uniform\lMatrices" alt="" coords="559,102,739,143"/>
+<area shape="rect" id="node2" href="class_geometry_program.html" title="Contains all necessary uniforms for the DeferredHandler&#39;s geometry program for geometry pass..." alt="" coords="699,333,827,359"/>
+<area shape="rect" id="node3" href="class_program_shader.html" title="Base class for each program shader used in deferred rendering " alt="" coords="369,387,481,414"/>
+<area shape="rect" id="node13" href="class_lighting_program.html" title="Contains all necessary uniforms for the DeferredHandler&#39;s lighting program for light pass..." alt="" coords="705,578,821,605"/>
+<area shape="rect" id="node7" href="struct_geometry_program_1_1_uniform_material.html" title="GeometryProgram::Uniform\lMaterial" alt="" coords="335,151,515,192"/>
+<area shape="rect" id="node11" href="struct_geometry_program_1_1_uniform_matrices.html" title="GeometryProgram::Uniform\lMatrices" alt="" coords="335,312,515,353"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -187,12 +184,12 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a1cb0831ec549d7f291d0c4591d767273"><td class="memItemLeft" align="right" valign="top">oglplus::VertexArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#a1cb0831ec549d7f291d0c4591d767273">fullscreenQuadVertexArray</a></td></tr>
-<tr class="separator:a1cb0831ec549d7f291d0c4591d767273"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a518c37ce5a2f4f9da95dd460d04dba8d"><td class="memItemLeft" align="right" valign="top">oglplus::Buffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#a518c37ce5a2f4f9da95dd460d04dba8d">fullscreenQuadVertexBuffer</a></td></tr>
-<tr class="separator:a518c37ce5a2f4f9da95dd460d04dba8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97a87c95e9892477d1c270987030bf52"><td class="memItemLeft" align="right" valign="top">oglplus::Buffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#a97a87c95e9892477d1c270987030bf52">fullscreenQuadElementBuffer</a></td></tr>
-<tr class="separator:a97a87c95e9892477d1c270987030bf52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa06feaaa8b6b87d9584e35da9362747"><td class="memItemLeft" align="right" valign="top">oglplus::VertexArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#aaa06feaaa8b6b87d9584e35da9362747">fsQuadVertexArray</a></td></tr>
+<tr class="separator:aaa06feaaa8b6b87d9584e35da9362747"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe26b406e6cd5d3b37479c5e75f2b81a"><td class="memItemLeft" align="right" valign="top">oglplus::Buffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#abe26b406e6cd5d3b37479c5e75f2b81a">fsQuadVertexBuffer</a></td></tr>
+<tr class="separator:abe26b406e6cd5d3b37479c5e75f2b81a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac23aa169a08832e056908f9540451fc"><td class="memItemLeft" align="right" valign="top">oglplus::Buffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#aac23aa169a08832e056908f9540451fc">fsQuadElementBuffer</a></td></tr>
+<tr class="separator:aac23aa169a08832e056908f9540451fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03e1c985bdc283017d1410986ee9ca7c"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_geometry_buffer.html">GeometryBuffer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_deferred_handler.html#a03e1c985bdc283017d1410986ee9ca7c">geometryBuffer</a></td></tr>
 <tr class="memdesc:a03e1c985bdc283017d1410986ee9ca7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The geometry buffer which holds all the framebuffer with all the render target texture attachments  <a href="#a03e1c985bdc283017d1410986ee9ca7c">More...</a><br /></td></tr>
 <tr class="separator:a03e1c985bdc283017d1410986ee9ca7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -268,7 +265,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00149">149</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00143">143</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
 
 </div>
 </div>
@@ -311,7 +308,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00056">56</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00059">59</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
 
 </div>
 </div>
@@ -338,7 +335,7 @@ Private Attributes</h2></td></tr>
 
 <p>Loads the deferred rendering required shaders </p>
 
-<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00071">71</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00074">74</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
 
 </div>
 </div>
@@ -365,7 +362,7 @@ Private Attributes</h2></td></tr>
 
 <p>Renders a full screen quad, used in the light pass stage </p>
 
-<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00061">61</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00064">64</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
 
 </div>
 </div>
@@ -410,12 +407,12 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00085">85</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="deferred__handler_8cpp_source.html#l00088">88</a> of file <a class="el" href="deferred__handler_8cpp_source.html">deferred_handler.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a97a87c95e9892477d1c270987030bf52"></a>
+<a class="anchor" id="aac23aa169a08832e056908f9540451fc"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -423,7 +420,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">oglplus::Buffer DeferredHandler::fullscreenQuadElementBuffer</td>
+          <td class="memname">oglplus::Buffer DeferredHandler::fsQuadElementBuffer</td>
         </tr>
       </table>
   </td>
@@ -437,7 +434,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1cb0831ec549d7f291d0c4591d767273"></a>
+<a class="anchor" id="aaa06feaaa8b6b87d9584e35da9362747"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -445,7 +442,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">oglplus::VertexArray DeferredHandler::fullscreenQuadVertexArray</td>
+          <td class="memname">oglplus::VertexArray DeferredHandler::fsQuadVertexArray</td>
         </tr>
       </table>
   </td>
@@ -459,7 +456,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a518c37ce5a2f4f9da95dd460d04dba8d"></a>
+<a class="anchor" id="abe26b406e6cd5d3b37479c5e75f2b81a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -467,7 +464,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">oglplus::Buffer DeferredHandler::fullscreenQuadVertexBuffer</td>
+          <td class="memname">oglplus::Buffer DeferredHandler::fsQuadVertexBuffer</td>
         </tr>
       </table>
   </td>

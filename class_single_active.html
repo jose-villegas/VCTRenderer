@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -131,8 +130,8 @@ Inheritance diagram for SingleActive&lt; T &gt;:</div>
 <area shape="rect" id="node4" href="class_single_active.html" title="SingleActive\&lt; Scene \&gt;" alt="" coords="176,95,331,121"/>
 <area shape="rect" id="node6" href="class_single_active.html" title="SingleActive\&lt; Camera \&gt;" alt="" coords="355,95,517,121"/>
 <area shape="rect" id="node3" href="class_node.html" title="Node" alt="" coords="53,171,105,197"/>
-<area shape="rect" id="node5" href="class_scene.html" title="Scene" alt="" coords="224,171,283,197"/>
-<area shape="rect" id="node7" href="class_camera.html" title="Holds parameters and settings for scene cameras. " alt="" coords="403,171,469,197"/>
+<area shape="rect" id="node5" href="class_scene.html" title="Represents a scene composed of many cameras, meshes, lights, textures and materials. Handles importing, loading and changing scenes. " alt="" coords="224,171,283,197"/>
+<area shape="rect" id="node7" href="class_camera.html" title="Holds parameters and settings for scene cameras. Viewing parameters and projection setup for the came..." alt="" coords="403,171,469,197"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -146,9 +145,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad823059b07a728784751fff15248b804"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_single_active.html#ad823059b07a728784751fff15248b804">SetAsActive</a> ()</td></tr>
 <tr class="memdesc:ad823059b07a728784751fff15248b804"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets this instance as active.  <a href="#ad823059b07a728784751fff15248b804">More...</a><br /></td></tr>
 <tr class="separator:ad823059b07a728784751fff15248b804"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c1ab867ef7e912ca387eb5a7950be9f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_single_active.html#a7c1ab867ef7e912ca387eb5a7950be9f">IsActive</a> ()</td></tr>
+<tr class="memdesc:a7c1ab867ef7e912ca387eb5a7950be9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether this instance is the one marked as active.  <a href="#a7c1ab867ef7e912ca387eb5a7950be9f">More...</a><br /></td></tr>
+<tr class="separator:a7c1ab867ef7e912ca387eb5a7950be9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a1279c35a470fa0e2cdd8a63634c57492"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_single_active.html#a1279c35a470fa0e2cdd8a63634c57492">ResetActive</a> ()</td></tr>
+<tr class="separator:a1279c35a470fa0e2cdd8a63634c57492"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31667c909def617120b39854538ab09b"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; T &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_single_active.html#a31667c909def617120b39854538ab09b">Active</a> ()</td></tr>
 <tr class="memdesc:a31667c909def617120b39854538ab09b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the active instance;  <a href="#a31667c909def617120b39854538ab09b">More...</a><br /></td></tr>
 <tr class="separator:a31667c909def617120b39854538ab09b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,7 +165,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
 <tr class="memitem:a7478dca7fb8de966def7dbcf8b740dc6"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_single_active.html#a7478dca7fb8de966def7dbcf8b740dc6">current</a> = nullptr</td></tr>
-<tr class="memdesc:a7478dca7fb8de966def7dbcf8b740dc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current active instance  <a href="#a7478dca7fb8de966def7dbcf8b740dc6">More...</a><br /></td></tr>
+<tr class="memdesc:a7478dca7fb8de966def7dbcf8b740dc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current instance marked as active  <a href="#a7478dca7fb8de966def7dbcf8b740dc6">More...</a><br /></td></tr>
 <tr class="separator:a7478dca7fb8de966def7dbcf8b740dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -195,7 +199,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="single__active_8h_source.html#l00034">34</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
+<p>Definition at line <a class="el" href="single__active_8h_source.html#l00039">39</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
 
 </div>
 </div>
@@ -226,7 +230,56 @@ template&lt;class T &gt; </div>
 <p>Returns the active instance; </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Definition at line <a class="el" href="single__active_8h_source.html#l00051">51</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
+<p>Definition at line <a class="el" href="single__active_8h_source.html#l00069">69</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c1ab867ef7e912ca387eb5a7950be9f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_single_active.html">SingleActive</a>&lt; T &gt;::IsActive </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return whether this instance is the one marked as active. </p>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Definition at line <a class="el" href="single__active_8h_source.html#l00063">63</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1279c35a470fa0e2cdd8a63634c57492"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_single_active.html">SingleActive</a>&lt; T &gt;::ResetActive </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="single__active_8h_source.html#l00049">49</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
 
 </div>
 </div>
@@ -255,7 +308,9 @@ template&lt;class T &gt; </div>
 
 <p>Sets this instance as active. </p>
 
-<p>Definition at line <a class="el" href="single__active_8h_source.html#l00044">44</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
+<p>Reimplemented in <a class="el" href="class_scene.html#adcc367de7e42a5717f8cddbc2aa013e6">Scene</a>, and <a class="el" href="class_camera.html#ab587e70720d7e03361d4ab1c7320e956">Camera</a>.</p>
+
+<p>Definition at line <a class="el" href="single__active_8h_source.html#l00056">56</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
 
 </div>
 </div>
@@ -280,9 +335,9 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The current active instance </p>
+<p>The current instance marked as active </p>
 
-<p>Definition at line <a class="el" href="single__active_8h_source.html#l00024">24</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
+<p>Definition at line <a class="el" href="single__active_8h_source.html#l00031">31</a> of file <a class="el" href="single__active_8h_source.html">single_active.h</a>.</p>
 
 </div>
 </div>

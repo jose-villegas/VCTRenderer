@@ -48,7 +48,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -113,6 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_z.html#index_z"><span>z</span></a></li>
       <li><a href="functions_0x7e.html#index_0x7e"><span>~</span></a></li>
     </ul>
   </div>
@@ -152,11 +152,14 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>Save()
 : <a class="el" href="class_uniform_collection.html#a85de301b4ecd706ae7d0522ce4259c81">UniformCollection&lt; T1, T2 &gt;</a>
 </li>
-<li>scaling
-: <a class="el" href="class_node.html#a769b3392e53ba02cb520fb3242d6114c">Node</a>
+<li>Scale()
+: <a class="el" href="class_transform.html#ac8478732a8a039675cb3efd4b1b2af2a">Transform</a>
 </li>
-<li>Scaling()
-: <a class="el" href="class_node.html#af830cf6546989912a102da44bb1533d1">Node</a>
+<li>scale
+: <a class="el" href="class_transform.html#acf6ab53778448fd2f2d8a367c14e7f95">Transform</a>
+</li>
+<li>Scale()
+: <a class="el" href="class_transform.html#a7ccf9e2fabb0bfb68af9f9d1ac707308">Transform</a>
 </li>
 <li>Scene()
 : <a class="el" href="class_scene.html#afe7c6d5a833e456843155721825e6975">Scene</a>
@@ -171,9 +174,6 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>scenes
 : <a class="el" href="class_assets_manager.html#aa0d31a426686e041e4cf56bc25715856">AssetsManager</a>
 </li>
-<li>screenSize
-: <a class="el" href="class_lighting_program.html#a5cdfe1d8e63456a19d3ceaa83ef8e6b4">LightingProgram</a>
-</li>
 <li>ScrollCallback()
 : <a class="el" href="class_interface_renderer.html#a14081c06496e44e5ff397f6834656a17">InterfaceRenderer</a>
 </li>
@@ -184,7 +184,9 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_raw_format.html#a7316a77844a25dbaa2f7ba0a3c983426">RawFormat</a>
 </li>
 <li>SetAsActive()
-: <a class="el" href="class_single_active.html#ad823059b07a728784751fff15248b804">SingleActive&lt; T &gt;</a>
+: <a class="el" href="class_camera.html#ab587e70720d7e03361d4ab1c7320e956">Camera</a>
+, <a class="el" href="class_scene.html#adcc367de7e42a5717f8cddbc2aa013e6">Scene</a>
+, <a class="el" href="class_single_active.html#ad823059b07a728784751fff15248b804">SingleActive&lt; T &gt;</a>
 </li>
 <li>SetAsCurrentContext()
 : <a class="el" href="class_render_window.html#ab1cdc772f4e16b9c90843124c4b16944">RenderWindow</a>
@@ -223,20 +225,19 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="struct_geometry_program_1_1_uniform_material.html#a97cedd29360ba74f0e53dae7e4f947e5">GeometryProgram::UniformMaterial</a>
 </li>
 <li>Shininess()
-: <a class="el" href="class_material.html#a02d2bd311b30cb93a33bfa43ae9abf3c">Material</a>
+: <a class="el" href="class_material.html#abb3bf3fd13ca22608795ea96ae87d665">Material</a>
 </li>
 <li>shininess
 : <a class="el" href="class_material.html#a9dc184c883ec135ace28c1917af3fe84">Material</a>
 </li>
-<li>Shininess()
-: <a class="el" href="class_material.html#abb3bf3fd13ca22608795ea96ae87d665">Material</a>
-, <a class="el" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f">RawTexture</a>
-</li>
-<li>shininessStrenght
-: <a class="el" href="class_material.html#a39204190f2a9ff5e1d3ff8f109c97d67">Material</a>
+<li>Shininess
+: <a class="el" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da22852ea63e2e64bdcda0650e6226bc8f">RawTexture</a>
 </li>
 <li>ShininessStrenght()
 : <a class="el" href="class_material.html#ab37f71eaaf30900e0bc6ffc1652b8b56">Material</a>
+</li>
+<li>shininessStrenght
+: <a class="el" href="class_material.html#a39204190f2a9ff5e1d3ff8f109c97d67">Material</a>
 </li>
 <li>shininessStrength
 : <a class="el" href="struct_geometry_program_1_1_uniform_material.html#a160ef8c0cf41489b73ac00609c5ee5a0">GeometryProgram::UniformMaterial</a>
@@ -258,28 +259,36 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 </li>
 <li>specular
 : <a class="el" href="struct_geometry_program_1_1_uniform_material.html#a4157bb87444444ceeed8f05e900a28d2">GeometryProgram::UniformMaterial</a>
+, <a class="el" href="class_light.html#aefcfb83a0540ddb885c2622061b28d7e">Light</a>
 </li>
 <li>Specular()
 : <a class="el" href="class_light.html#a8a899ef9ad715d9f11956c5546d41078">Light</a>
 </li>
 <li>specular
-: <a class="el" href="class_light.html#aefcfb83a0540ddb885c2622061b28d7e">Light</a>
-, <a class="el" href="struct_lighting_program_1_1_uniform_light.html#a2c18c75ce8d73eb40105cbb9d6d56538">LightingProgram::UniformLight</a>
+: <a class="el" href="struct_lighting_program_1_1_uniform_light.html#a2c18c75ce8d73eb40105cbb9d6d56538">LightingProgram::UniformLight</a>
+, <a class="el" href="class_material.html#aac1c499923ff99564cdd97a4b5e504a9">Material</a>
 </li>
 <li>Specular()
-: <a class="el" href="class_material.html#ab383f4a24770438b8cb0df0e5194e220">Material</a>
-</li>
-<li>specular
-: <a class="el" href="class_material.html#aac1c499923ff99564cdd97a4b5e504a9">Material</a>
-</li>
-<li>Specular
-: <a class="el" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0">RawTexture</a>
+: <a class="el" href="class_material.html#a2f5ea83b5e8bbea522ce43063a0e913c">Material</a>
+, <a class="el" href="class_raw_texture.html#ac0eafe7206f7f38aeb4e8e5631480f6da376419225ba86ef2cef8deaf4b5d2cc0">RawTexture</a>
 </li>
 <li>specularMap
 : <a class="el" href="class_geometry_program.html#ac5487fc4c6afe6a36591d55bd945c29b">GeometryProgram</a>
 </li>
 <li>Spot
 : <a class="el" href="class_light.html#a661d9480e01af8b1612860b9630ef5f8a909d110309169cdae833f32e84b297bf">Light</a>
+</li>
+<li>spotLight
+: <a class="el" href="class_lighting_program.html#a859231421717cd17a3860a4412d55388">LightingProgram</a>
+</li>
+<li>Spots()
+: <a class="el" href="class_light.html#ac9bd8f6e51d5163693e211e3ba8e3791">Light</a>
+</li>
+<li>spots
+: <a class="el" href="class_light.html#ad80e07b6840a4068cd90f5d166cf3219">Light</a>
+</li>
+<li>SpotsLimit
+: <a class="el" href="class_light.html#a27897ffdd198e01483e1b0fd04096af6">Light</a>
 </li>
 <li>style
 : <a class="el" href="class_interface.html#a1a63be07a075477ee34018b2f182cc34">Interface</a>
