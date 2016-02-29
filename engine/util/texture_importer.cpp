@@ -1,6 +1,6 @@
 #include "texture_importer.h"
 
-#include <FreeImage.h>
+#include <FreeImagePlus.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../scene/texture.h"
@@ -33,15 +33,14 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     }
 
     // get raw data
-    unsigned char * bits = FreeImage_GetBits(dib);
+    auto bits = FreeImage_GetBits(dib);
     // get image data
-    unsigned int width = FreeImage_GetWidth(dib);
-    unsigned int height = FreeImage_GetHeight(dib);
-    unsigned int lineWidth = FreeImage_GetPitch(dib);
-    unsigned int bitsPerPixel = FreeImage_GetBPP(dib);
+    auto width = FreeImage_GetWidth(dib);
+    auto height = FreeImage_GetHeight(dib);
+    auto lineWidth = FreeImage_GetPitch(dib);
+    auto bitsPerPixel = FreeImage_GetBPP(dib);
 
     // If this somehow one of these failed (they shouldn't), return failure
-
     if ((bitsPerPixel == 0) || (height == 0) || (width == 0) || !bits)
     {
         FreeImage_Unload(dib);
@@ -49,7 +48,7 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     }
 
     // copy data before unload
-    size_t buffer_size = height * lineWidth * sizeof(unsigned char);
+    auto buffer_size = height * lineWidth * sizeof(unsigned char);
     auto data = reinterpret_cast<unsigned char *>(malloc(buffer_size));
 
     // couldn't allocate memory
@@ -70,6 +69,6 @@ bool TextureImporter::ImportTexture2D(const std::string &sFilepath,
     outTexture.rawData.reset(data);
     // unload free image struct handler
     FreeImage_Unload(dib);
-    // successful image data extraction
+    //// successful image data extraction
     return true;
 }

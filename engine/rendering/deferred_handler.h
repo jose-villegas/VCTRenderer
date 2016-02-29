@@ -47,9 +47,9 @@ class DeferredHandler
         virtual ~DeferredHandler();
     private:
         // full screen quad
-        oglplus::VertexArray fullscreenQuadVertexArray;
-        oglplus::Buffer fullscreenQuadVertexBuffer;
-        oglplus::Buffer fullscreenQuadElementBuffer;
+        oglplus::VertexArray fsQuadVertexArray;
+        oglplus::Buffer fsQuadVertexBuffer;
+        oglplus::Buffer fsQuadElementBuffer;
         /// <summary>
         /// The geometry buffer which holds all the framebuffer
         /// with all the render target texture attachments

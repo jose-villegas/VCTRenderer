@@ -3,7 +3,6 @@
 #include "engine_base.h"
 
 #include "engine_assets.h"
-#include "../misc/utils.h"
 #include "../behavior/behavior.h"
 #include "../interface/interface.h"
 #include "../rendering/render_window.h"
@@ -11,6 +10,11 @@
 
 #include <oglplus/gl.hpp>
 #include <oglplus/context.hpp>
+#include <iostream>
+
+#include <FreeImagePlus.h>
+#include <assimp/Importer.hpp>
+#include <assimp/version.h>
 
 EngineBase::EngineBase()
 {
@@ -62,10 +66,11 @@ void EngineBase::MainLoop()
         gl.Clear().ColorBuffer().DepthBuffer();
         // poll window inputs
         RenderWindow::Events();
+        // setup interface renderer for a new frame
+        InterfaceRenderer::NewFrame();
         // behaviors update
         Behavior::UpdateAll();
-        // draw custom engine uis
-        InterfaceRenderer::NewFrame();
+        // interfaces update
         Interface::DrawAll();
         // render main scene
         renderer->Render();
@@ -74,6 +79,18 @@ void EngineBase::MainLoop()
         // finally swap current frame
         renderWindow->SwapBuffers();
     }
+}
+
+inline void PrintDependenciesVersions()
+{
+    std::cout << "GLFW " << glfwGetVersionString() << std::endl;
+    std::cout << "Assimp " << aiGetVersionMajor() << "." << aiGetVersionMinor()
+              << "." << aiGetVersionRevision() << std::endl;
+    std::cout << "FreeImage " << FreeImage_GetVersion() << std::endl;
+    std::cout << "OpenGL " << glGetString(GL_VERSION) << "s, GLSL "
+              << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+    std::cout << "GLEW " << glewGetString(GLEW_VERSION) << std::endl;
+    std::cout << "Ocornut's IMGUI " << ImGui::GetVersion() << std::endl;
 }
 
 void EngineBase::Initialize()
@@ -87,7 +104,7 @@ void EngineBase::Initialize()
     // set interface to current renderwindow
     InterfaceRenderer::Initialize(*renderWindow);
     // print libs version info
-    Utils::PrintDependenciesVersions();
+    PrintDependenciesVersions();
     // deferred shading renderer / manager
     renderer = std::make_unique<DeferredRenderer>(*renderWindow);
     // initialize assets manager, holds all engine assets

@@ -9,7 +9,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "texture_importer.h"
-#include "../misc/utils.h"
 #include "../scene/scene.h"
 #include "../scene/material.h"
 #include "../scene/mesh.h"
@@ -76,7 +75,7 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene)
 
     if (mScene->mRootNode != nullptr)
     {
-        ProcessNodes(scene, mScene->mRootNode, scene->rootNode);
+        ProcessNodes(scene, mScene->mRootNode, *scene->rootNode);
     }
 
     // if these objects don't exist in scene, they are created by default
@@ -126,20 +125,24 @@ void SceneImporter::ImportLight(aiLight * mLight, Light &light)
                        mLight->mColorSpecular.g,
                        mLight->mColorSpecular.b
                    ));
-    light.Direction(glm::vec3(
-                        mLight->mDirection.x,
-                        mLight->mDirection.y,
-                        mLight->mDirection.z
-                    ));
-    light.Position(glm::vec3(
-                       mLight->mPosition.x,
-                       mLight->mPosition.y,
-                       mLight->mPosition.z
-                   ));
-    light.Type(mLight->mType == aiLightSource_POINT ?
-               Light::Point : mLight->mType == aiLightSource_DIRECTIONAL ?
-               Light::Directional : mLight->mType == aiLightSource_SPOT ?
-               Light::Spot : Light::Point);
+    light.transform.Forward(glm::vec3(
+                                mLight->mDirection.x,
+                                mLight->mDirection.y,
+                                mLight->mDirection.z
+                            ));
+    light.transform.Position(glm::vec3(
+                                 mLight->mPosition.x,
+                                 mLight->mPosition.y,
+                                 mLight->mPosition.z
+                             ));
+    light.TypeCollection(mLight->mType == aiLightSource_POINT
+                         ? Light::Point
+                         : mLight->mType == aiLightSource_DIRECTIONAL
+                         ? Light::Directional
+                         : mLight->mType == aiLightSource_SPOT
+                         ? Light::Spot
+                         : Light::Point
+                        );
     light.AngleInnerCone(mLight->mAngleInnerCone);
     light.AngleOuterCone(mLight->mAngleOuterCone);
     light.attenuation.Constant(mLight->mAttenuationConstant);
@@ -154,21 +157,13 @@ void SceneImporter::ImportCamera(aiCamera * mCam, Camera &camera)
     camera.ClipPlaneFar(mCam->mClipPlaneFar);
     camera.ClipPlaneNear(mCam->mClipPlaneNear);
     camera.HorizontalFoV(mCam->mHorizontalFOV);
-    camera.Position(glm::vec3(
-                        mCam->mPosition.x,
-                        mCam->mPosition.y,
-                        mCam->mPosition.z
-                    ));
-    camera.LookAt(glm::vec3(
-                      mCam->mLookAt.x,
-                      mCam->mLookAt.y,
-                      mCam->mLookAt.z
-                  ));
-    camera.Up(glm::vec3(
-                  mCam->mUp.x,
-                  mCam->mUp.y,
-                  mCam->mUp.z
-              ));
+    auto lookat = glm::vec3(mCam->mLookAt.x, mCam->mLookAt.y, mCam->mLookAt.z);
+    auto pos = glm::vec3(mCam->mPosition.x, mCam->mPosition.y, mCam->mPosition.z);
+    auto up = glm::vec3(mCam->mUp.x, mCam->mUp.y, mCam->mUp.z);
+    camera.transform.Position(pos);
+    camera.transform.LookAt(lookat, up);
+    // latest created always as active
+    camera.SetAsActive();
 }
 
 void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
@@ -287,6 +282,7 @@ void SceneImporter::ProcessNodes(Scene * scene, aiNode * mNode, Node &node)
     // push childrens in hierachy
     for (unsigned int i = 0; i < mNode->mNumChildren; i++)
     {
+        // create children
         node.nodes.push_back(std::make_shared<Node>());
         ProcessNodes(scene, mNode->mChildren[i], *node.nodes.back());
         // node boundaries based on children node boundaries
@@ -301,14 +297,20 @@ void SceneImporter::ProcessNodes(Scene * scene, aiNode * mNode, Node &node)
     }
 
     // transformation matrix decomposition using assimp implementation
-    aiVector3D position; aiVector3D scaling; aiQuaternion rotation;
-    mNode->mTransformation.Decompose(scaling, rotation, position);
-    node.Position(glm::vec3(position.x, position.y, position.z));
-    node.Scaling(glm::vec3(scaling.x, scaling.y, scaling.z));
-    node.Rotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
+    aiVector3D pos; aiVector3D sca; aiQuaternion rot;
+    mNode->mTransformation.Decompose(sca, rot, pos);
+    node.transform.Position(glm::vec3(pos.x, pos.y, pos.z));
+    node.transform.Scale(glm::vec3(sca.x, sca.y, sca.z));
+    node.transform.Rotation(glm::quat(rot.w, rot.x, rot.y, rot.z));
     // build per node draw lists from recursive draw
     // useful for easier batching
     node.BuildDrawList();
+}
+
+inline std::string GetFileExtension(const std::string &sFilepath)
+{
+    auto result = sFilepath.substr(sFilepath.find_last_of(".") + 1);
+    return result == sFilepath ? "" : result;
 }
 
 void SceneImporter::ImportMaterialTextures(Scene * scene,
@@ -336,7 +338,7 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
             int savedTextureIndex = 0;
 
             // for wavefront obj we assimp bump = normal map
-            if (Utils::GetFileExtension(scene->filepath) == "obj" &&
+            if (GetFileExtension(scene->filepath) == "obj" &&
                     texType == aiTextureType_HEIGHT)
             { texType = aiTextureType_NORMALS; }
 

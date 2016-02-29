@@ -2,6 +2,12 @@
 
 out vec4 fragColor;
 
+in vec2 texCoord;
+
+const uint MAX_DIRECTIONAL_LIGHTS = 8;
+const uint MAX_POINT_LIGHTS = 256;
+const uint MAX_SPOT_LIGHTS = 256;
+
 struct Attenuation
 {
     float constant;
@@ -23,51 +29,111 @@ struct Light {
     Attenuation attenuation;
 };
 
-uniform sampler2D gPosition;
+uniform mat4 inverseProjection;
+
+uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
 
-uniform vec2 screenSize;
-uniform vec3 viewPosition;
-uniform	Light directionalLight;
+uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
+uniform Light pointLight[MAX_POINT_LIGHTS];
+uniform Light spotLight[MAX_SPOT_LIGHTS];
 
-uniform float ambientFactor = 0.01;
+uniform uint lightTypeCount[3];
 
+vec3 Ambient(Light light, vec3 albedo)
+{
+    return albedo * light.ambient;
+}
+
+vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
+{
+    float lambertian = max(dot(normal, lightDirection), 0.0f);
+    return light.diffuse * albedo * lambertian;
+}
+
+vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec3 specular)
+{
+    vec3 lightReflect = normalize(reflect(-lightDirection, normal));
+    float specularFactor = max(dot(normalize(-position), lightReflect), 0.0f);
+    return light.specular * specular * specularFactor;
+}
+
+vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
+{
+    return Ambient(light, albedo) + 
+           Diffuse(light, light.direction, normal, albedo) + 
+           Specular(light, light.direction, normal, position, specular);
+}
+
+vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
+{
+    light.direction = normalize(light.position - position);
+    float distance = distance(light.position, position);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * distance
+                    + light.attenuation.quadratic * distance * distance + 1.0f);
+
+    if(falloff <= 0.0f) { return Ambient(light, albedo); }             
+
+    return CalculateDirectional(light, normal, position, albedo, specular) * falloff;
+}
+
+vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
+{
+    vec3 spotDirection = light.direction;
+    vec3 lightDirection = normalize(light.position - position);
+    float cosAngle = dot(-lightDirection, spotDirection);
+
+    if(cosAngle <= light.angleOuterCone) { return Ambient(light, albedo); }
+
+    // assuming they are passed as cos(angle)
+    float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
+    // spot light factor for smooth transition
+    float spotFalloff = smoothstep(0.0f, 1.0f, (cosAngle - light.angleOuterCone) / innerMinusOuter);
+    // final result
+    return CalculatePoint(light, normal, position, albedo, specular) * spotFalloff;
+}
+
+vec3 PositionFromDepth()
+{
+    float z = texture(gDepth, texCoord).z;
+    vec4 projected = vec4(texCoord * 2.0f - 1.0f, z, 1.0f);
+    projected = inverseProjection * projected;
+    return projected.xyz / projected.w;
+}
 
 void main()
 {
-    vec2 texCoord = gl_FragCoord.xy / screenSize;
     // retrieve gbuffer data
-    vec3 position = texture(gPosition, texCoord).xyz;
+    vec3 position = PositionFromDepth();
     vec3 normal = texture(gNormal, texCoord).xyz;
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     vec3 specular = texture(gSpecular, texCoord).rgb;
 
-    // calculate lighting
-    vec3 lighting = albedo * ambientFactor; // ambient;
-    // specular color factor
-    vec3 viewDir = normalize(viewPosition - position);
-    vec3 lightDir = -normalize(directionalLight.direction);
+    // calculate lighting for directional lights
+    vec3 lighting = vec3(0.0f);
 
-    for(int i = 0; i < 1; i++)
+    for(int i = 0; i < lightTypeCount[0]; i++)
     {
-        // diffuse color factor
-        float diffuseFactor = dot(normal, -lightDir);
-
-        if(diffuseFactor > 0.0f)
-        {
-            lighting += albedo * diffuseFactor;
-
-            vec3 lightReflect = normalize(reflect(lightDir, normal));
-            float specularFactor = dot(viewDir, lightReflect);
-
-            if(specularFactor > 0.0)
-            {
-                lighting += specular * specularFactor;
-            }
-        }
+        lighting += CalculateDirectional(directionalLight[i], normal, position, 
+                                         albedo, specular);
     }
+
+    // calculate lighting for point lights
+    for(int i = 0; i < lightTypeCount[1]; i++)
+    {
+        lighting += CalculatePoint(pointLight[i], normal, position, 
+                                   albedo, specular);
+    }
+
+    // calculate lighting for spot lights
+    for(int i = 0; i < lightTypeCount[2]; i++) 
+    {
+        lighting += CalculateSpot(spotLight[i], normal, position, 
+                                  albedo, specular);
+    }
+
     // final color
     fragColor = vec4(lighting, 1.0);
 }

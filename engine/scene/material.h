@@ -1,13 +1,18 @@
 #pragma once
 
-#include "scene_object.h"
 #include "texture.h"
+#include "../types/base_object.h"
 
 #include <array>
 #include <memory>
 #include <glm/detail/type_vec3.hpp>
 
-class Material : public SceneObject
+/// <summary>
+/// Contains parameters that describe a material properties.
+/// Its usually bound to a <see cref="Mesh"/> for rendering.
+/// </summary>
+/// <seealso cref="BaseObject" />
+class Material : public BaseObject
 {
     public:
         enum ShadingMode

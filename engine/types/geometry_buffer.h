@@ -2,6 +2,7 @@
 
 #include <oglplus/texture.hpp>
 #include <oglplus/framebuffer.hpp>
+#include <oglplus/renderbuffer.hpp>
 #include <oglplus/context.hpp>
 
 /// <summary>
@@ -17,18 +18,28 @@ class GeometryBuffer
         /// </summary>
         enum RenderTargets
         {
-            Position, // texture with half float rgb precision storing positions
             Normal, // texture with half float rgb precision storing normals
             Albedo, // texture with unsigned byte rgb precision storing albedo
             Specular, // texture with unsigned byte r precision storing specular
-            Depth, // depth buffer for completeness
-            TARGETS_MAX
+            Depth, // depth texture for completeness
         };
-
+        /// <summary>
+        /// Returns the specified geometry buffer render texture.
+        /// </summary>
+        /// <param name="renderTarget">The render target.</param>
+        /// <returns></returns>
         const oglplus::Texture &RenderTarget(RenderTargets renderTarget) const;
-        void Bind(oglplus::FramebufferTarget target) const;
+        /// <summary>
+        /// Attaches the specified render texture to the geometry buffer
+        /// framebuffer.
+        /// </summary>
+        /// <param name="renderTarget">The render target.</param>
+        /// <param name="target">The target.</param>
+        /// <param name="level">The level.</param>
         void AttachTexture(RenderTargets renderTarget,
                            oglplus::FramebufferTarget target, int level = 0);
+
+        void Bind(oglplus::FramebufferTarget target) const;
         void DrawBuffers();
         void ActivateTextures();
 
@@ -36,6 +47,7 @@ class GeometryBuffer
         ~GeometryBuffer();
     private:
         oglplus::Framebuffer geometryBuffer;
-        std::array<oglplus::Texture, TARGETS_MAX> bufferTextures;
+        oglplus::Renderbuffer depthBuffer;
+        std::array<oglplus::Texture, 4> bufferTextures;
         std::vector<oglplus::Context::ColorBuffer> colorBuffers;
 };

@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 
-class SceneObject
+class BaseObject
 {
     public:
         std::string name;
-        SceneObject();
-        virtual ~SceneObject();
+        BaseObject();
+        virtual ~BaseObject();
 };
 

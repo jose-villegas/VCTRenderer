@@ -1,11 +1,10 @@
 #pragma once
 
-#include "scene_object.h"
+#include "../types/scene_object.h"
 #include "../types/bounding_box.h"
 #include "../util/single_active.h"
 
 #include <vector>
-#include <glm/gtc/quaternion.hpp>
 
 class Camera;
 class MeshDrawer;
@@ -13,54 +12,40 @@ class MeshDrawer;
 class Node : public SceneObject, public SingleActive<Node>
 {
     public:
-        // node boundaries
+        /// <summary>
+        /// Node world space boundaries
+        /// </summary>
         BoundingBox boundaries;
-        // meshes associated and children
+        /// <summary>
+        /// All the node meshes
+        /// </summary>
         std::vector<std::shared_ptr<MeshDrawer>> meshes;
+        /// <summary>
+        /// All the subnodes to this node
+        /// </summary>
         std::vector<std::shared_ptr<Node>> nodes;
+
         Node();
         virtual ~Node();
-
-        glm::mat4x4 GetModelMatrix() const;
-        // draws only the meshes associated to the node
-        void Draw();
-        // draws the meshes associated to the parents and all descendants
-        void DrawRecursive();
-        // draws using the built drawList
         void DrawList();
-        // transformations
-        void Transform(const glm::vec3 &position,
-                       const glm::vec3 &scaling,
-                       const glm::quat &rotation);
-        void Position(const glm::vec3 &position);
-        void Scaling(const glm::vec3 &scaling);
-        void Rotation(const glm::quat &rotation);
+
         void BuildDrawList();
 
-        const glm::mat4x4 &NormalMatrix() const;
-        const glm::mat4x4 &ModelViewMatrix() const;
-        const glm::mat4x4 &ModelViewProjectionMatrix() const;
+        const glm::mat4x4 &ModeView() const;
+        const glm::mat4x4 &ModelViewProjection() const;
     private:
         std::vector<Node *> drawList;
 
-        glm::mat4x4 modelMatrix;
         glm::mat4x4 modelViewMatrix;
         glm::mat4x4 modelViewProjectionMatrix;
-        glm::mat4x4 normalMatrix;
-
-        glm::vec3 position;
-        glm::vec3 scaling;
-        glm::quat rotation;
 
         bool outsideFrustum;
+        static bool loopCameraModified;
 
-        void ComputeModelMatrix();
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
         void DrawMeshes();
         void ComputeMatrices();
         void UpdateBoundaries();
-        // updates all nodes in the drawlist
-        void PoolDrawList();
 };
 

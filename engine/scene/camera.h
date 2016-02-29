@@ -1,24 +1,32 @@
 #pragma once
 
-#include "scene_object.h"
 #include "../util/single_active.h"
 #include "../types/frustum.h"
-
-#include <glm/detail/type_vec3.hpp>
+#include "../types/scene_object.h"
 
 /// <summary>
 /// Holds parameters and settings for scene cameras.
+/// Viewing parameters and projection setup for the camera instance
+/// can be all modified here.
 /// </summary>
+/// <seealso cref="BaseObject" />
 /// <seealso cref="SingleActive{Camera}" />
-class Camera :  public SceneObject, public SingleActive<Camera>
+class Camera : public SceneObject, public SingleActive<Camera>
 {
     public:
         Camera();
         virtual ~Camera();
 
+        /// <summary>
+        /// Calls base method and also resets proper camera states so
+        /// calculations dependant on viewMatrix or projectionMatrix
+        /// are redone.
+        /// </summary>
+        void SetAsActive() override;
+
         float ClipPlaneFar() const;
         /// <summary>
-        /// Sets the <see cref="clipPlaneFar"/> value.
+        /// Sets the <see cref="clipPlaneFar"> value.
         /// Value is in the range [0.01, inf]
         /// </summary>
         /// <param name="val">The value.</param>
@@ -26,7 +34,7 @@ class Camera :  public SceneObject, public SingleActive<Camera>
 
         float ClipPlaneNear() const;
         /// <summary>
-        /// Sets the <see cref="clipPlaneNear"/> value.
+        /// Sets the <see cref="clipPlaneNear"> value.
         /// Value is in the range [0.01, inf]
         /// </summary>
         /// <param name="val">The value.</param>
@@ -34,7 +42,7 @@ class Camera :  public SceneObject, public SingleActive<Camera>
 
         float HorizontalFoV() const;
         /// <summary>
-        /// Sets the <see cref="horizontalFoV"/> value.
+        /// Sets the <see cref="horizontalFoV"> value.
         /// Value is in the range [1, 179]
         /// </summary>
         /// <param name="val">The value.</param>
@@ -43,22 +51,17 @@ class Camera :  public SceneObject, public SingleActive<Camera>
         float AspectRatio() const;
         void AspectRatio(float val);
 
-        const glm::vec3 &LookAt() const;
-        void LookAt(const glm::vec3 &val);
-
-        const glm::vec3 &Position() const;
-        void Position(const glm::vec3 &val);
-
-        const glm::vec3 &Up() const;
-        void Up(const glm::vec3 &val);
+        glm::vec3 LookAt() const;
 
         const glm::mat4x4 &ViewMatrix();
         const glm::mat4x4 &ProjectionMatrix();
+        const glm::mat4x4 &InverseViewMatrix();
+        const glm::mat4x4 &InverseProjectionMatrix();
 
         bool ParametersChanged() const;
         /// <summary>
         /// Checks if the bounding volume is inside the
-        /// camera frustum <see cref="CullingFrustum"/>
+        /// camera frustum <see cref="frustum">
         /// </summary>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>
@@ -68,19 +71,19 @@ class Camera :  public SceneObject, public SingleActive<Camera>
         float clipPlaneNear;
         float horizontalFoV;
         float aspectRatio;
-        glm::vec3 lookAt;
-        glm::vec3 position;
-        glm::vec3 up;
 
         void ComputeViewMatrix();
         void ComputeProjectionMatrix();
 
-        bool viewValuesChanged;
-        bool projectionValuesChanged;
-        bool frustumValuesChanged;
+        bool projectionChanged;
+        bool inverseProjectionChanged;
+        bool inverseViewChanged;
+        bool frustumChanged;
 
         glm::mat4x4 viewMatrix;
         glm::mat4x4 projectionMatrix;
+        glm::mat4x4 inverseViewMatrix;
+        glm::mat4x4 inverseProjectionMatrix;
         CullingFrustum frustum;
 };
 

@@ -2,9 +2,11 @@
 #include <GLFW/glfw3.h>
 #include "main_menu.h"
 
-bool UIMainMenu::drawSceneLoader = false;
+bool UIMainMenu::drawSceneLoader = true;
 bool UIMainMenu::drawFramerate = false;
 bool UIMainMenu::drawSceneCameras = false;
+bool UIMainMenu::drawSceneLights = false;
+bool UIMainMenu::drawGeometryBuffer = false;
 
 using namespace ImGui;
 
@@ -15,14 +17,14 @@ void UIMainMenu::Draw()
         if (BeginMenu("View"))
         {
             MenuItem("Show Framerate", nullptr, &drawFramerate);
+            MenuItem("View Geometry Buffer", nullptr, &drawGeometryBuffer);
             EndMenu();
         }
 
         if (BeginMenu("Scene"))
         {
-            MenuItem("Cameras");
-            MenuItem("Lights");
-            MenuItem("Hierachy");
+            MenuItem("Cameras", nullptr, &drawSceneCameras);
+            MenuItem("Lights", nullptr, &drawSceneLights);
             EndMenu();
         }
 

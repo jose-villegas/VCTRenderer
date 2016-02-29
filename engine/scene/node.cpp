@@ -3,35 +3,24 @@
 #include <tbb/tbb.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/gtx/transform.hpp>
 
 #include "mesh.h"
 #include "camera.h"
 #include "../core/engine_base.h"
 #include "../rendering/deferred_renderer.h"
 
-Node::Node() : outsideFrustum(true)
+bool Node::loopCameraModified = true;
+
+Node::Node() : outsideFrustum(false)
 {
     name = "Default Node";
-    position = glm::vec3(0.0f, 0.0f, 0.0f);
-    scaling = glm::vec3(1.0f, 1.0f, 1.0f);
-    rotation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
-    GetModelMatrix(); // initially as invalid
+    ComputeMatrices();
+    UpdateBoundaries();
 }
 
 
 Node::~Node()
 {
-}
-
-glm::mat4x4 Node::GetModelMatrix() const
-{
-    return modelMatrix;
-}
-
-void Node::ComputeModelMatrix()
-{
-    modelMatrix = translate(position) * mat4_cast(rotation) * scale(scaling);
 }
 
 void Node::BuildDrawList(std::vector<Node *> &base)
@@ -52,64 +41,37 @@ void Node::DrawMeshes()
     {
         if (!mesh->IsLoaded()) { return; }
 
-        if (meshes.size() > 1 && !Camera::Active()->InFrustum(mesh->boundaries))
-        {
-            continue;
-        }
-
         renderer.SetMaterialUniforms(mesh->material);
         mesh->BindVertexArrayObject();
         mesh->DrawElements();
     }
 }
 
-void Node::Draw()
-{
-    static const auto &camera = Camera::Active();
-    static const auto &renderer = EngineBase::Renderer();
-
-    if (!camera->InFrustum(boundaries))
-    {
-        return;
-    }
-
-    // set this node as rendering active
-    SetAsActive();
-    // recalculate model-dependent transform matrices
-    ComputeMatrices();
-    // set matrices uniform with updated matrices
-    renderer.SetMatricesUniforms();
-    // draw elements per mesh
-    DrawMeshes();
-}
-
-void Node::DrawRecursive()
-{
-    Draw();
-
-    for (auto &node : nodes)
-    {
-        node->DrawRecursive();
-    }
-}
-
 void Node::DrawList()
 {
     static const auto &renderer = EngineBase::Renderer();
-    // refresh all nodes with proper data
-    PoolDrawList();
-
-    // we can conclude that if the root node
-    // is culled all of its childs are also
-    if (drawList[0]->outsideFrustum) { return; }
+    static const auto &camera = Camera::Active();
+    // checks if we need to redo InFrustum checks per nodes
+    loopCameraModified = camera->ParametersChanged();
 
     // draw elements using draw list
-    for (auto node : drawList)
+    for (auto &node : drawList)
     {
+        if (node->transform.changed) { node->UpdateBoundaries(); }
+
+        // only two scenarios require updating outsideFrustum both when
+        // either the camera or the node's transform have been modified
+        if (loopCameraModified || node->transform.changed)
+        {
+            node->outsideFrustum = !camera->InFrustum(node->boundaries);
+        }
+
         if (node->outsideFrustum) { continue; }
 
         // set this node as rendering active
         node->SetAsActive();
+        // calculate model dependant matrices
+        node->ComputeMatrices();
         // set matrices uniform with updated matrices
         renderer.SetMatricesUniforms();
         // draw node meshes
@@ -120,95 +82,28 @@ void Node::DrawList()
 void Node::ComputeMatrices()
 {
     static const auto &camera = Camera::Active();
-    modelViewMatrix = camera->ViewMatrix() * modelMatrix;
-    normalMatrix = modelViewMatrix;
+
+    // no need to update the model dependant matrices if the node's
+    // transform or the camera matrices haven't been modified
+    if (!loopCameraModified && !transform.changed) { return; }
+
+    // if changed was true the transformation matrix has been already
+    // updated in UpdateBoundaries. We set it to false to avoid
+    // recalculating the transformation matrix.
+    if (transform.changed) { transform.changed = false; }
+
+    modelViewMatrix = camera->ViewMatrix() * transform.Matrix();
     modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
-}
-
-void Node::Transform(const glm::vec3 &position, const glm::vec3 &scaling,
-                     const glm::quat &rotation)
-{
-    this->position = position;
-    this->scaling = scaling;
-    this->rotation = rotation;
-    ComputeModelMatrix();
-}
-
-void Node::Position(const glm::vec3 &position)
-{
-    if (position != this->position)
-    {
-        this->position = position;
-        ComputeModelMatrix();
-    }
-}
-
-void Node::Scaling(const glm::vec3 &scaling)
-{
-    if (scaling != this->scaling)
-    {
-        this->scaling = scaling;
-        ComputeModelMatrix();
-        UpdateBoundaries();
-    }
 }
 
 void Node::UpdateBoundaries()
 {
-    boundaries.Transform(modelMatrix);
+    auto &model = transform.Matrix();
+    boundaries.Transform(model);
 
     for (auto &mesh : meshes)
     {
-        mesh->boundaries.Transform(modelMatrix);
-    }
-}
-
-void Node::PoolDrawList()
-{
-    static const auto &camera = Camera::Active();
-
-    if (!camera->ParametersChanged()) { return; }
-
-    // cull root node to compute frustum planes and
-    // avoid thread collisions on frustum planes
-    if (camera->InFrustum(boundaries))
-    {
-        outsideFrustum = false;
-        ComputeMatrices();
-    }
-    // we can conclude that if the root node
-    // is culled all of its childs are also
-    else
-    {
-        outsideFrustum = true;
-        return;
-    }
-
-    // update all frustum culling statuses and model-depedent matrices
-    // starts from 1 since first node is root already checked.
-    tbb::parallel_for(size_t(1), drawList.size(), [ = ](size_t i)
-    {
-        auto &node = drawList[i];
-
-        if (camera->InFrustum(node->boundaries))
-        {
-            node->outsideFrustum = false;
-            node->ComputeMatrices();
-        }
-        else
-        {
-            node->outsideFrustum = true;
-        }
-    });
-}
-
-void Node::Rotation(const glm::quat &rotation)
-{
-    if (rotation != this->rotation)
-    {
-        this->rotation = rotation;
-        ComputeModelMatrix();
-        boundaries.Transform(modelMatrix);
+        mesh->boundaries.Transform(model);
     }
 }
 
@@ -218,17 +113,12 @@ void Node::BuildDrawList()
     BuildDrawList(drawList);
 }
 
-const glm::mat4x4 &Node::NormalMatrix() const
-{
-    return normalMatrix;
-}
-
-const glm::mat4x4 &Node::ModelViewMatrix() const
+const glm::mat4x4 &Node::ModeView() const
 {
     return modelViewMatrix;
 }
 
-const glm::mat4x4 &Node::ModelViewProjectionMatrix() const
+const glm::mat4x4 &Node::ModelViewProjection() const
 {
     return modelViewProjectionMatrix;
 }

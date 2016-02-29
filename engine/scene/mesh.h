@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scene_object.h"
+#include "../types/base_object.h"
 #include "../types/bounding_box.h"
 
 #include <vector>
@@ -10,7 +10,7 @@
 class Material;
 struct Vertex;
 
-class Mesh : public SceneObject
+class Mesh : public BaseObject
 {
     public:
         // node boundaries
@@ -30,9 +30,9 @@ class Mesh : public SceneObject
 class MeshDrawer : public Mesh
 {
     protected:
-        std::unique_ptr<oglplus::Buffer> oglArrayBuffer;
-        std::unique_ptr<oglplus::Buffer> oglElementArrayBuffer;
-        std::unique_ptr<oglplus::VertexArray> oglVertexArray;
+        std::unique_ptr<oglplus::Buffer> vertexBuffer;
+        std::unique_ptr<oglplus::Buffer> elementBuffer;
+        std::unique_ptr<oglplus::VertexArray> vertexArray;
 
         bool loaded;
         unsigned int indicesCount;

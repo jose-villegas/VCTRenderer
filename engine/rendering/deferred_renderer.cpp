@@ -7,7 +7,7 @@
 #include "../scene/material.h"
 #include "../scene/light.h"
 #include "../types/geometry_buffer.h"
-#include "../rendering/render_window.h"\n
+#include "../rendering/render_window.h"
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
 
@@ -20,7 +20,7 @@ DeferredRenderer::~DeferredRenderer()
 {
 }
 
-void DeferredRenderer::Render() const
+void DeferredRenderer::Render()
 {
     static oglplus::Context gl;
     static auto &gbuffer = GBuffer();
@@ -40,8 +40,10 @@ void DeferredRenderer::Render() const
     gl.Enable(oglplus::Capability::CullFace);
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
+    // camera position or forward has changed
+    viewMatrixChanged = camera->transform.changed;
     // draw whole scene tree from root node
-    scene->rootNode.DrawRecursive();
+    scene->rootNode->DrawList();
     // start light pass
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
@@ -55,10 +57,10 @@ void DeferredRenderer::Render() const
 void DeferredRenderer::SetMatricesUniforms() const
 {
     static const auto &node = Node::Active();
-    geometryProgram->matrices.normal.Set(node->NormalMatrix());
-    geometryProgram->matrices.modelView.Set(node->ModelViewMatrix());
-    geometryProgram->matrices.modelViewProjection.Set(
-        node->ModelViewProjectionMatrix());
+    geometryProgram->matrices.modelView
+    .Set(node->ModeView());
+    geometryProgram->matrices.modelViewProjection
+    .Set(node->ModelViewProjection());
 }
 
 void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<Material> &mat)
@@ -85,12 +87,86 @@ const
 
 void DeferredRenderer::SetLightPassUniforms() const
 {
-    auto dirLight = Scene::Active()->lights[0];
-    lightingProgram->viewPosition.Set(Camera::Active()->Position());
-    lightingProgram->gPosition.Set(GeometryBuffer::Position);
+    static auto &camera = Camera::Active();
+    lightingProgram->inverseProjection.Set(camera->InverseProjectionMatrix());
+    lightingProgram->gDepth.Set(GeometryBuffer::Depth);
     lightingProgram->gNormal.Set(GeometryBuffer::Normal);
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);
     lightingProgram->gSpecular.Set(GeometryBuffer::Specular);
-    lightingProgram->directionalLight.direction.Set(dirLight->Direction());
-    lightingProgram->screenSize.Set(renderingSize);
+    // set directional lights uniforms
+    auto &directionals = Light::Directionals();
+    auto &points = Light::Points();
+    auto &spots = Light::Spots();
+    // uniform arrays of lights
+    auto &uDirectionals = lightingProgram->directionalLight;
+    auto &uPoints = lightingProgram->pointLight;
+    auto &uSpots = lightingProgram->spotLight;
+
+    for (int i = 0; i < directionals.size(); i++)
+    {
+        auto &light = directionals[i];
+        auto &uLight = uDirectionals[i];
+        auto &intensity = light->Intensity();
+
+        // update view space direction-position
+        if (light->transform.changed || viewMatrixChanged)
+        {
+            light->UpdateViewRelative(false, true);
+        }
+
+        uLight.direction.Set(light->Direction(true));
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
+    }
+
+    for (int i = 0; i < points.size(); i++)
+    {
+        auto &light = points[i];
+        auto &uLight = uPoints[i];
+        auto &intensity = light->Intensity();
+
+        // update view space direction-position
+        if (light->transform.changed || viewMatrixChanged)
+        {
+            light->UpdateViewRelative(true, false);
+        }
+
+        uLight.position.Set(light->Position(true));
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
+        uLight.attenuation.constant.Set(light->attenuation.Constant());
+        uLight.attenuation.linear.Set(light->attenuation.Linear());
+        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
+    }
+
+    for (int i = 0; i < spots.size(); i++)
+    {
+        auto &light = spots[i];
+        auto &uLight = uSpots[i];
+        auto &intensity = light->Intensity();
+
+        // update view space direction-position
+        if (light->transform.changed || viewMatrixChanged)
+        {
+            light->UpdateViewRelative(true, true);
+        }
+
+        uLight.position.Set(light->Position(true));
+        uLight.direction.Set(light->Direction(true));
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
+        uLight.attenuation.constant.Set(light->attenuation.Constant());
+        uLight.attenuation.linear.Set(light->attenuation.Linear());
+        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
+        uLight.angleInnerCone.Set(cos(light->AngleInnerCone()));
+        uLight.angleOuterCone.Set(cos(light->AngleOuterCone()));
+    }
+
+    // pass number of lights per type
+    lightingProgram->lightTypeCount[0].Set(directionals.size());
+    lightingProgram->lightTypeCount[1].Set(points.size());
+    lightingProgram->lightTypeCount[2].Set(spots.size());
 }

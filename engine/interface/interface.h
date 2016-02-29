@@ -5,9 +5,10 @@
 #include "../types/instance_pool.h"
 
 /// <summary>
-/// Holds interfaces code it the <see cref="Draw"/>
-/// method to be executed by all inheriting classes
-/// during rendering.
+/// Interface code in the <see cref="Draw"/>
+/// method is meant to be implemented by all inheriting classes.
+/// <see cref="DrawAll"/> will call all implementations of <see cref="Draw"/>
+/// from instances of classes inheriting from <see cref="Interface"/>
 /// </summary>
 /// <seealso cref="InterfaceRenderer" />
 /// <seealso cref="InstancePool{Interface}" />

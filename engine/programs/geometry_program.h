@@ -5,6 +5,11 @@
 #include <oglplus/uniform.hpp>
 #include <oglplus/interop/glm.hpp>
 
+/// <summary>
+/// Contains all necessary uniforms for the <see cref="DeferredHandler"/>'s
+/// geometry program for geometry pass.
+/// </summary>
+/// <seealso cref="ProgramShader" />
 class GeometryProgram : public ProgramShader
 {
     protected:
