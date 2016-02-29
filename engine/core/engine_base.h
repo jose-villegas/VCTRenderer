@@ -8,7 +8,8 @@ class AssetsManager;
 
 /// <summary>
 /// This is the entry point of the rendering engine
-/// where the main rendering loop resides.
+/// where the main rendering loop resides and the
+/// rendering context is properly set up.
 /// </summary>
 class EngineBase
 {

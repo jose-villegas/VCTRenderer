@@ -4,10 +4,10 @@
 #include "../types/frustum.h"
 #include "../types/scene_object.h"
 
-#include <glm/detail/type_vec3.hpp>
-
 /// <summary>
 /// Holds parameters and settings for scene cameras.
+/// Viewing parameters and projection setup for the camera instance
+/// can be all modified here.
 /// </summary>
 /// <seealso cref="BaseObject" />
 /// <seealso cref="SingleActive{Camera}" />
@@ -16,6 +16,13 @@ class Camera : public SceneObject, public SingleActive<Camera>
     public:
         Camera();
         virtual ~Camera();
+
+        /// <summary>
+        /// Calls base method and also resets proper camera states so
+        /// calculations dependant on viewMatrix or projectionMatrix
+        /// are redone.
+        /// </summary>
+        void SetAsActive() override;
 
         float ClipPlaneFar() const;
         /// <summary>

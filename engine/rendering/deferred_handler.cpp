@@ -23,7 +23,7 @@ void DeferredHandler::CreateFullscreenQuad() const
 {
     using namespace oglplus;
     // bind vao for full screen quad
-    fullscreenQuadVertexArray.Bind();
+    fsQuadVertexArray.Bind();
     // data for fs quad
     static const std::array<float, 20> fsQuadVertexBufferData =
     {
@@ -34,7 +34,7 @@ void DeferredHandler::CreateFullscreenQuad() const
         -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, // vertex 3
     };
     // bind vertex buffer and fill
-    fullscreenQuadVertexBuffer.Bind(Buffer::Target::Array);
+    fsQuadVertexBuffer.Bind(Buffer::Target::Array);
     Buffer::Data(Buffer::Target::Array, fsQuadVertexBufferData);
     // set up attrib points
     VertexArrayAttrib(VertexAttribSlot(0)).Enable() // position
@@ -50,7 +50,7 @@ void DeferredHandler::CreateFullscreenQuad() const
         2, 1, 3, // second triangle
     };
     // bind and fill element array
-    fullscreenQuadElementBuffer.Bind(Buffer::Target::ElementArray);
+    fsQuadElementBuffer.Bind(Buffer::Target::ElementArray);
     Buffer::Data(Buffer::Target::ElementArray, indexData);
     // unbind vao
     NoVertexArray().Bind();
@@ -64,7 +64,7 @@ const std::unique_ptr<GeometryBuffer> &DeferredHandler::GBuffer() const
 void DeferredHandler::RenderFullscreenQuad() const
 {
     static oglplus::Context gl;
-    fullscreenQuadVertexArray.Bind();
+    fsQuadVertexArray.Bind();
     gl.DrawElements(
         oglplus::PrimitiveType::Triangles, 6,
         oglplus::DataType::UnsignedInt
@@ -93,15 +93,6 @@ void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,
     renderingSize = glm::vec2(windowWidth, windowHeight);
     // initialize geometry buffer
     geometryBuffer->Bind(FramebufferTarget::Draw);
-    // build textures -- position
-    gl.Bound(TextureTarget::_2D,
-             geometryBuffer->RenderTarget(GeometryBuffer::Position))
-    .Image2D(0, PixelDataInternalFormat::RGB16F, windowWidth, windowHeight,
-             0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
-    .MinFilter(TextureMinFilter::Nearest)
-    .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer->AttachTexture(GeometryBuffer::Position,
-                                  FramebufferTarget::Draw);
     // build textures -- normal
     gl.Bound(TextureTarget::_2D,
              geometryBuffer->RenderTarget(GeometryBuffer::Normal))

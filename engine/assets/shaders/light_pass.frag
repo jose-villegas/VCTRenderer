@@ -29,7 +29,9 @@ struct Light {
     Attenuation attenuation;
 };
 
-uniform sampler2D gPosition;
+uniform mat4 inverseProjection;
+
+uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
@@ -93,10 +95,18 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 sp
     return CalculatePoint(light, normal, position, albedo, specular) * spotFalloff;
 }
 
+vec3 PositionFromDepth()
+{
+    float z = texture(gDepth, texCoord).z;
+    vec4 projected = vec4(texCoord * 2.0f - 1.0f, z, 1.0f);
+    projected = inverseProjection * projected;
+    return projected.xyz / projected.w;
+}
+
 void main()
 {
     // retrieve gbuffer data
-    vec3 position = texture(gPosition, texCoord).xyz;
+    vec3 position = PositionFromDepth();
     vec3 normal = texture(gNormal, texCoord).xyz;
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     vec3 specular = texture(gSpecular, texCoord).rgb;

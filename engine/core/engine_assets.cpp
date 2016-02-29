@@ -13,6 +13,7 @@
 #include "../assets/code/ui/main_menu.h"
 #include "../assets/code/ui/scene_cameras.h"
 #include "../assets/code/ui/scene_lights.h"
+#include "../assets/code/ui/geometrybuffer_textures.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -51,6 +52,7 @@ AssetsManager::AssetsManager()
         std::make_shared<UIMainMenu>(),
         std::make_shared<UISceneCameras>(),
         std::make_shared<UISceneLights>(),
+        std::make_shared<UIGeometryBuffer>(),
     };
     // load shaders sources
     programs =

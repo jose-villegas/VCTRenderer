@@ -224,6 +224,7 @@
     <ClCompile Include="assets\code\ui\scene_lights.cpp" />
     <ClCompile Include="behavior\behavior.cpp" />
     <ClCompile Include="assets\code\ui\framerate.cpp" />
+    <ClCompile Include="assets\code\ui\geometrybuffer_textures.cpp" />
     <ClCompile Include="types\transform.cpp" />
     <ClCompile Include="types\scene_object.cpp" />
     <ClCompile Include="types\base_object.cpp" />
@@ -296,6 +297,7 @@
     <ClInclude Include="assets\code\ui\scene_cameras.h" />
     <ClInclude Include="assets\code\ui\scene_lights.h" />
     <ClInclude Include="behavior\behavior.h" />
+    <ClInclude Include="assets\code\ui\geometrybuffer_textures.h" />
     <ClInclude Include="types\transform.h" />
     <ClInclude Include="types\scene_object.h" />
     <ClInclude Include="types\base_object.h" />

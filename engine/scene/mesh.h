@@ -30,9 +30,9 @@ class Mesh : public BaseObject
 class MeshDrawer : public Mesh
 {
     protected:
-        std::unique_ptr<oglplus::Buffer> oglArrayBuffer;
-        std::unique_ptr<oglplus::Buffer> oglElementArrayBuffer;
-        std::unique_ptr<oglplus::VertexArray> oglVertexArray;
+        std::unique_ptr<oglplus::Buffer> vertexBuffer;
+        std::unique_ptr<oglplus::Buffer> elementBuffer;
+        std::unique_ptr<oglplus::VertexArray> vertexArray;
 
         bool loaded;
         unsigned int indicesCount;

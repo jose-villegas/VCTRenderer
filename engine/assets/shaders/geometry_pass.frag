@@ -1,9 +1,8 @@
 #version 330
 
-layout(location = 0) out vec3 gPosition;
-layout(location = 1) out vec3 gNormal;
-layout(location = 2) out vec3 gAlbedo;
-layout(location = 3) out vec3 gSpecular;
+layout(location = 0) out vec3 gNormal;
+layout(location = 1) out vec3 gAlbedo;
+layout(location = 2) out vec3 gSpecular;
 
 in vec3 position;
 in vec3 texCoord;
@@ -63,8 +62,6 @@ void main()
     vec4 specularColor = texture(specularMap, texCoord.xy);
     gSpecular = specularColor.rgb * material.specular;
 
-    // store fragment position in gbuffer texture
-    gPosition = position;
     // store per fragment normal
     gNormal = material.useNormalsMap == 1 ? normalMapping() : normalize(normal);
 }

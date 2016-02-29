@@ -17,6 +17,11 @@ struct WindowInfo
     virtual ~WindowInfo() {};
 };
 
+/// <summary>
+/// Handles the instancing for the rendering context using GLFW.
+/// The rendering window settings such as size, position and hints
+/// can be set up with this class.
+/// </summary>
 class RenderWindow
 {
     public:

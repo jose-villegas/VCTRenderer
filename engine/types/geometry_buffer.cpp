@@ -3,7 +3,8 @@
 
 #include "geometry_buffer.h"
 
-oglplus::Texture &GeometryBuffer::RenderTarget(RenderTargets renderTarget)
+const oglplus::Texture &GeometryBuffer::RenderTarget(RenderTargets renderTarget)
+const
 {
     return bufferTextures[renderTarget];
 }
@@ -44,9 +45,9 @@ void GeometryBuffer::DrawBuffers()
 void GeometryBuffer::ActivateTextures()
 {
     using namespace oglplus;
-    // bind and active position buffer texture
-    Texture::Active(static_cast<int>(Position));
-    bufferTextures[static_cast<int>(Position)]
+    // depth texture active to reconstruct position
+    Texture::Active(static_cast<int>(Depth));
+    bufferTextures[static_cast<int>(Depth)]
     .Bind(TextureTarget::_2D);
     // bind and active normal buffer texture
     Texture::Active(static_cast<int>(Normal));

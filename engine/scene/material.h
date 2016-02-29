@@ -7,6 +7,11 @@
 #include <memory>
 #include <glm/detail/type_vec3.hpp>
 
+/// <summary>
+/// Contains parameters that describe a material properties.
+/// Its usually bound to a <see cref="Mesh"/> for rendering.
+/// </summary>
+/// <seealso cref="BaseObject" />
 class Material : public BaseObject
 {
     public:

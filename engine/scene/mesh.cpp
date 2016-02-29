@@ -31,14 +31,14 @@ MeshDrawer::~MeshDrawer()
 
 void MeshDrawer::Load()
 {
-    if (oglElementArrayBuffer || oglArrayBuffer) { return; }
+    if (elementBuffer || vertexBuffer) { return; }
 
     using namespace oglplus;
-    this->oglVertexArray = std::make_unique<VertexArray>();
-    oglVertexArray->Bind();
+    this->vertexArray = std::make_unique<VertexArray>();
+    vertexArray->Bind();
     // create vertex buffer object and upload vertex data
-    oglArrayBuffer = std::make_unique<Buffer>();
-    oglArrayBuffer->Bind(Buffer::Target::Array);
+    vertexBuffer = std::make_unique<Buffer>();
+    vertexBuffer->Bind(Buffer::Target::Array);
     Buffer::Data(Buffer::Target::Array, this->vertices);
     // setup vertex data interleaving
     VertexArrayAttrib(VertexAttribSlot(0)).Enable() // position
@@ -57,8 +57,8 @@ void MeshDrawer::Load()
     .Pointer(3, DataType::Float, false, sizeof(Vertex),
              reinterpret_cast<const GLvoid *>(48));
     // create element (indices) buffer object and upload data
-    oglElementArrayBuffer = std::make_unique<Buffer>();
-    oglElementArrayBuffer->Bind(Buffer::Target::ElementArray);
+    elementBuffer = std::make_unique<Buffer>();
+    elementBuffer->Bind(Buffer::Target::ElementArray);
     Buffer::Data(Buffer::Target::ElementArray, this->indices);
     // save number of faces and vertices for rendering
     this->indicesCount = static_cast<unsigned int>(this->indices.size());
@@ -72,17 +72,17 @@ void MeshDrawer::Load()
 
 void MeshDrawer::BindArrayBuffer() const
 {
-    this->oglArrayBuffer->Bind(oglplus::Buffer::Target::Array);
+    this->vertexBuffer->Bind(oglplus::Buffer::Target::Array);
 }
 
 void MeshDrawer::BindElementArrayBuffer() const
 {
-    this->oglElementArrayBuffer->Bind(oglplus::Buffer::Target::ElementArray);
+    this->elementBuffer->Bind(oglplus::Buffer::Target::ElementArray);
 }
 
 void MeshDrawer::BindVertexArrayObject() const
 {
-    this->oglVertexArray->Bind();
+    this->vertexArray->Bind();
 }
 
 void MeshDrawer::DrawElements() const

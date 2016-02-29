@@ -87,7 +87,9 @@ const
 
 void DeferredRenderer::SetLightPassUniforms() const
 {
-    lightingProgram->gPosition.Set(GeometryBuffer::Position);
+    static auto &camera = Camera::Active();
+    lightingProgram->inverseProjection.Set(camera->InverseProjectionMatrix());
+    lightingProgram->gDepth.Set(GeometryBuffer::Depth);
     lightingProgram->gNormal.Set(GeometryBuffer::Normal);
     lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);
     lightingProgram->gSpecular.Set(GeometryBuffer::Specular);

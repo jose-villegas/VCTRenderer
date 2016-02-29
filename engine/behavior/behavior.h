@@ -4,9 +4,11 @@
 #include "../types/instance_pool.h"
 
 /// <summary>
-/// Holds logic code in the <see cref="Update"/>
-/// method to be executed by all inheriting classes
-/// during rendering.
+/// Logic implemented in the <see cref="Update"/>
+/// method is meant to be implemented by all inheriting classes.
+/// <see cref="UpdateAll"/> will call all implementations of
+/// <see cref="Update"/> from instances of classes inheriting
+/// from <see cref="Behavior"/>
 /// </summary>
 /// <seealso cref="InstancePool{Behavior}" />
 class Behavior : InstancePool<Behavior>

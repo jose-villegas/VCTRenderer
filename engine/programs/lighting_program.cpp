@@ -9,7 +9,8 @@ void LightingProgram::ExtractUniforms()
     using namespace oglplus;
     auto &prog = *program;
     // assign program
-    gPosition.Assign(prog);
+    inverseProjection.Assign(prog);
+    gDepth.Assign(prog);
     gNormal.Assign(prog);
     gAlbedo.Assign(prog);
     gSpecular.Assign(prog);
@@ -17,7 +18,8 @@ void LightingProgram::ExtractUniforms()
     lightTypeCount[1].Assign(prog);
     lightTypeCount[2].Assign(prog);
     // bind to uniform name
-    gPosition.BindTo("gPosition");
+    inverseProjection.BindTo("inverseProjection");
+    gDepth.BindTo("gDepth");
     gNormal.BindTo("gNormal");
     gAlbedo.BindTo("gAlbedo");
     gSpecular.BindTo("gSpecular");

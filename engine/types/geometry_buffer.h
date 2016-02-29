@@ -18,7 +18,6 @@ class GeometryBuffer
         /// </summary>
         enum RenderTargets
         {
-            Position, // texture with half float rgb precision storing positions
             Normal, // texture with half float rgb precision storing normals
             Albedo, // texture with unsigned byte rgb precision storing albedo
             Specular, // texture with unsigned byte r precision storing specular
@@ -29,7 +28,7 @@ class GeometryBuffer
         /// </summary>
         /// <param name="renderTarget">The render target.</param>
         /// <returns></returns>
-        oglplus::Texture &RenderTarget(RenderTargets renderTarget);
+        const oglplus::Texture &RenderTarget(RenderTargets renderTarget) const;
         /// <summary>
         /// Attaches the specified render texture to the geometry buffer
         /// framebuffer.
@@ -49,6 +48,6 @@ class GeometryBuffer
     private:
         oglplus::Framebuffer geometryBuffer;
         oglplus::Renderbuffer depthBuffer;
-        std::array<oglplus::Texture, 5> bufferTextures;
+        std::array<oglplus::Texture, 4> bufferTextures;
         std::vector<oglplus::Context::ColorBuffer> colorBuffers;
 };

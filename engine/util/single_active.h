@@ -29,16 +29,9 @@ template<class T> class SingleActive
         /// The current instance marked as active
         /// </summary>
         static std::unique_ptr<T> current;
-        /// <summary>
-        /// This control boolean determines if SetAsActive has been called.
-        /// Its value has to be changed by inheriting classes logic.
-        /// </summary>
-        static bool changedActive;
         ~SingleActive();
 };
 
-template<class T>
-bool SingleActive<T>::changedActive = true;
 template<class T>
 std::unique_ptr<T> SingleActive<T>::current = nullptr;
 
@@ -57,7 +50,6 @@ void SingleActive<T>::ResetActive()
 {
     current.release();
     current.reset(static_cast<T *>(nullptr));
-    changedActive = true;;
 }
 
 template<class T>
@@ -65,7 +57,6 @@ void SingleActive<T>::SetAsActive()
 {
     current.release();
     current.reset(static_cast<T *>(this));
-    changedActive = true;
 }
 
 template <class T>

@@ -194,7 +194,7 @@ Light::Light() : lightType(Directional)
     angleOuterCone = glm::radians(30.0f);
     ambient = Vector3::zero;
     diffuse = specular = intensity =  Vector3::one;
-    transform.Rotation(radians(glm::vec3(50, -30, 0)));
+    transform.Rotation(radians(glm::vec3(130.0f, -30.0f, 0.0f)));
     // indicates this light hasn't been added to any collection
     collectionIndex = -1;
     // add to type collection

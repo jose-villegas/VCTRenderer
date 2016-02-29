@@ -9,14 +9,29 @@ Camera::~Camera()
 {
 }
 
+void Camera::SetAsActive()
+{
+    SingleActive::SetAsActive();
+    // force all "changed" flags as true so logic dependant on
+    // these matrices is redone once the current active camera
+    // is changed
+    auto &camera = Active();
+    camera->transform.changed =
+        camera->projectionChanged =
+            camera->frustumChanged =
+                camera->inverseViewChanged =
+                    camera->inverseProjectionChanged = true;
+}
+
 Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
 {
     name = "Default Camera";
-    projectionChanged = frustumChanged = inverseProjectionChanged = false;
+    projectionChanged = frustumChanged = false;
     ComputeViewMatrix();
     ComputeProjectionMatrix();
     frustum.ExtractPlanes(projectionMatrix * viewMatrix);
+    inverseProjectionChanged = inverseViewChanged = true;
 }
 
 float Camera::ClipPlaneFar() const
@@ -118,12 +133,6 @@ const glm::mat4x4 &Camera::InverseProjectionMatrix()
 
 bool Camera::ParametersChanged() const
 {
-    if (changedActive)
-    {
-        changedActive = false;
-        return true;
-    }
-
     return projectionChanged || transform.changed || frustumChanged;
 }
 

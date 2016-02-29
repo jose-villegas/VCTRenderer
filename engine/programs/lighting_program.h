@@ -5,6 +5,11 @@
 #include <oglplus/uniform.hpp>
 #include <oglplus/interop/glm.hpp>
 
+/// <summary>
+/// Contains all necessary uniforms for the <see cref="DeferredHandler"/>'s
+/// lighting program for light pass.
+/// </summary>
+/// <seealso cref="ProgramShader" /
 class LightingProgram : public ProgramShader
 {
     protected:
@@ -32,7 +37,9 @@ class LightingProgram : public ProgramShader
         };
     public:
         // fragment shader uniforms
-        oglplus::UniformSampler gPosition;
+        oglplus::Uniform<glm::mat4x4> inverseProjection;
+
+        oglplus::UniformSampler gDepth;
         oglplus::UniformSampler gNormal;
         oglplus::UniformSampler gAlbedo;
         oglplus::UniformSampler gSpecular;
