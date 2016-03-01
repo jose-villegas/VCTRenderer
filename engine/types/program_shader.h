@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include <oglplus/program.hpp>
 
 /// <summary>
@@ -9,27 +8,45 @@
 class ProgramShader
 {
     public:
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ProgramShader"/> class.
+        /// </summary>
         virtual ~ProgramShader() {}
-        friend class DeferredHandler;
         /// <summary>
-        /// The fragment shader
+        /// Uses this program.
         /// </summary>
-        std::unique_ptr<oglplus::Shader> fragmentShader;
+        void Use() const;
         /// <summary>
-        /// The vertex shader
+        /// Links the shader program given all the attached shaders.
         /// </summary>
-        std::unique_ptr<oglplus::Shader> vertexShader;
+        void Link();
+        /// <summary>
+        /// Attaches a new shader with the given type and source code.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="filepath">The filepath.</param>
+        void AttachShader(oglplus::ShaderType type, const std::string &filepath);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProgramShader"/> class.
+        /// </summary>
+        ProgramShader() = default;
+        // non copyable
+        ProgramShader(ProgramShader const &r) = delete;
+        ProgramShader &operator=(ProgramShader const &r) = delete;
+        /// <summary>
+        /// Extracts the uniforms associated with this program.
+        /// The method is meant to be implemented by inheriting classes
+        /// which represent different shaders.
+        /// </summary>
+        virtual void ExtractUniforms() = 0;
+    protected:
         /// <summary>
         /// The program shader
         /// </summary>
-        std::unique_ptr<oglplus::Program> program;
-        virtual void ExtractUniforms() = 0;
-        void Use() const;
-        // non copyable
-        ProgramShader(const std::string &vsFilePath,
-                      const std::string &fsFilePath);
-        ProgramShader(ProgramShader const &r) = delete;
-        ProgramShader &operator=(ProgramShader const &r) = delete;
+        oglplus::Program program;
     private:
-        static std::string ProgramShader::SourceFromFile(const std::string &filePath);
+        /// <summary>
+        /// The fragment shader
+        /// </summary>
+        std::vector<std::unique_ptr<oglplus::Shader>> shaders;
 };

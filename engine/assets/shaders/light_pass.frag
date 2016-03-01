@@ -1,4 +1,4 @@
-#version 330
+#version 420
 
 out vec4 fragColor;
 
@@ -114,21 +114,21 @@ void main()
     // calculate lighting for directional lights
     vec3 lighting = vec3(0.0f);
 
-    for(int i = 0; i < lightTypeCount[0]; i++)
+    for(int i = 0; i < lightTypeCount[0]; ++i)
     {
         lighting += CalculateDirectional(directionalLight[i], normal, position, 
                                          albedo, specular);
     }
 
     // calculate lighting for point lights
-    for(int i = 0; i < lightTypeCount[1]; i++)
+    for(int i = 0; i < lightTypeCount[1]; ++i)
     {
         lighting += CalculatePoint(pointLight[i], normal, position, 
                                    albedo, specular);
     }
 
     // calculate lighting for spot lights
-    for(int i = 0; i < lightTypeCount[2]; i++) 
+    for(int i = 0; i < lightTypeCount[2]; ++i) 
     {
         lighting += CalculateSpot(spotLight[i], normal, position, 
                                   albedo, specular);

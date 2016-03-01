@@ -5,7 +5,7 @@
 #include <oglplus/vertex_attrib.hpp>
 #include <oglplus/bound/texture.hpp>
 
-#include "../core/engine_assets.h"
+#include "../core/assets_manager.h"
 #include "../types/geometry_buffer.h"
 #include "../programs/lighting_program.h"
 #include "../programs/geometry_program.h"
@@ -79,6 +79,8 @@ void DeferredHandler::LoadShaders()
                       (assets->programs[AssetsManager::GeometryPass].get());
     lightingProgram = static_cast<LightingProgram *>
                       (assets->programs[AssetsManager::LightPass].get());
+    geometryProgram->Link();
+    lightingProgram->Link();
     // geometry pass shader source code and compile
     geometryProgram->ExtractUniforms();
     //// light pass shader source code and compile

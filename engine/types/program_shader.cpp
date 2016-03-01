@@ -5,40 +5,29 @@
 
 void ProgramShader::Use() const
 {
-    program->Use();
+    program.Use();
 }
 
-ProgramShader::ProgramShader(const std::string &vsFilePath,
-                             const std::string &fsFilePath)
+void ProgramShader::Link()
 {
-    using namespace oglplus;
-
-    if (!vertexShader)
-    {
-        vertexShader = std::make_unique<Shader>(ShaderType::Vertex);
-    }
-
-    if (!fragmentShader)
-    {
-        fragmentShader = std::make_unique<Shader>(ShaderType::Fragment);
-    }
-
-    if (!program) { program = std::make_unique<Program>(); }
-
-    vertexShader->Source(SourceFromFile(vsFilePath));
-    vertexShader->Compile();
-    fragmentShader->Source(SourceFromFile(fsFilePath));
-    fragmentShader->Compile();
-    program->AttachShader(*vertexShader);
-    program->AttachShader(*fragmentShader);
-    program->Link();
+    program.Link();
 }
 
-std::string ProgramShader::SourceFromFile(const std::string &filePath)
+inline std::string SourceFromFile(const std::string &filepath)
 {
-    std::ifstream file(filePath);
+    std::ifstream file(filepath);
     std::string result((std::istreambuf_iterator<char>(file)),
                        std::istreambuf_iterator<char>());
     file.close();
     return result;
+}
+
+void ProgramShader::AttachShader(oglplus::ShaderType type,
+                                 const std::string &filepath)
+{
+    const auto &source = SourceFromFile(filepath);
+    auto shader = std::make_unique<oglplus::Shader>(type, source);
+    shader->Compile();
+    program.AttachShader(*shader);
+    shaders.push_back(move(shader));
 }

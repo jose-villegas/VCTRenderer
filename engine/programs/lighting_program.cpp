@@ -7,7 +7,7 @@
 void LightingProgram::ExtractUniforms()
 {
     using namespace oglplus;
-    auto &prog = *program;
+    auto &prog = program;
     // assign program
     inverseProjection.Assign(prog);
     gDepth.Assign(prog);

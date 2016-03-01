@@ -1,6 +1,6 @@
 #pragma once
 
-#include "interface_renderer.h"
+#include "../rendering/interface_renderer.h"
 #include "../core/engine_base.h"
 #include "../types/instance_pool.h"
 

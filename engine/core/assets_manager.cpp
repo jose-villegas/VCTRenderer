@@ -1,19 +1,20 @@
-#include "engine_assets.h"
+#include "assets_manager.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "../programs/lighting_program.h"
-#include "../programs/geometry_program.h"
 #include "../scene/texture.h"
 #include "../scene/scene.h"
 
-#include "../assets/code/ui/scene_loader.h"
-#include "../assets/code/ui/framerate.h"
-#include "../assets/code/ui/main_menu.h"
-#include "../assets/code/ui/scene_cameras.h"
-#include "../assets/code/ui/scene_lights.h"
-#include "../assets/code/ui/geometrybuffer_textures.h"
+#include "../programs/lighting_program.h"
+#include "../programs/geometry_program.h"
+
+#include "../assets/code/interfaces/scene_loader.h"
+#include "../assets/code/interfaces/framerate.h"
+#include "../assets/code/interfaces/main_menu.h"
+#include "../assets/code/interfaces/scene_cameras.h"
+#include "../assets/code/interfaces/scene_lights.h"
+#include "../assets/code/interfaces/geometrybuffer_textures.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -54,16 +55,24 @@ AssetsManager::AssetsManager()
         std::make_shared<UISceneLights>(),
         std::make_shared<UIGeometryBuffer>(),
     };
+    // resize programs holder
+    programs.resize(CorePrograms::Size);
     // load shaders sources
     programs =
     {
-        std::make_shared<GeometryProgram>
-        ("assets\\shaders\\geometry_pass.vert",
-        "assets\\shaders\\geometry_pass.frag"),
-        std::make_shared<LightingProgram>
-        ("assets\\shaders\\light_pass.vert",
-        "assets\\shaders\\light_pass.frag")
+        std::make_shared<GeometryProgram>(),
+        std::make_shared<LightingProgram>()
     };
+    // attach shader source paths
+    programs[0]->AttachShader(oglplus::ShaderType::Vertex,
+                              "assets\\shaders\\geometry_pass.vert");
+    programs[0]->AttachShader(oglplus::ShaderType::Fragment,
+                              "assets\\shaders\\geometry_pass.frag");
+    programs[1]->AttachShader(oglplus::ShaderType::Vertex,
+                              "assets\\shaders\\light_pass.vert");
+    programs[1]->AttachShader(oglplus::ShaderType::Fragment,
+                              "assets\\shaders\\light_pass.frag");
+    // utility default assets
     Texture2D::GetDefaultTexture();
 }
 

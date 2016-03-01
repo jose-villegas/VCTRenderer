@@ -51,10 +51,9 @@ class LightingProgram : public ProgramShader
 
         void ExtractUniforms() override;
 
-        using ProgramShader::ProgramShader;
+        LightingProgram() = default;
         ~LightingProgram() override;
         LightingProgram(LightingProgram const &r) = delete;
         LightingProgram &operator=(LightingProgram const &r) = delete;
-
 };
 

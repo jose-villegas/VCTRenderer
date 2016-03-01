@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../interface/interface.h"
+#include "../../../core/interface.h"
 
 class EngineBase;
 

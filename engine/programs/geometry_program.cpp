@@ -6,7 +6,7 @@
 void GeometryProgram::ExtractUniforms()
 {
     using namespace oglplus;
-    auto &prog = *program;
+    auto &prog = program;
     // assign program
     material.diffuse.Assign(prog);
     material.specular.Assign(prog);

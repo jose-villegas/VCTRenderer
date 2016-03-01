@@ -5,7 +5,7 @@
 #include "main_menu.h"
 #include "../../../scene/camera.h"
 #include "../../../scene/scene.h"
-#include "../../../core/engine_assets.h"
+#include "../../../core/assets_manager.h"
 
 using namespace ImGui;
 

@@ -49,7 +49,7 @@ class GeometryProgram : public ProgramShader
 
         void ExtractUniforms() override;
 
-        using ProgramShader::ProgramShader;
+        GeometryProgram() = default;
         ~GeometryProgram() override;
         GeometryProgram(GeometryProgram const &r) = delete;
         GeometryProgram &operator=(GeometryProgram const &r) = delete;

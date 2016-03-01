@@ -2,9 +2,9 @@
 #include <GLFW/glfw3.h>
 #include "engine_base.h"
 
-#include "engine_assets.h"
-#include "../behavior/behavior.h"
-#include "../interface/interface.h"
+#include "behavior.h"
+#include "interface.h"
+#include "assets_manager.h"
 #include "../rendering/render_window.h"
 #include "../rendering/deferred_renderer.h"
 
