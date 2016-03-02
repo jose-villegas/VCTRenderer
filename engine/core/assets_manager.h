@@ -18,6 +18,7 @@ class AssetsManager
         {
             GeometryPass = 0,
             LightPass,
+            Voxelization,
             Size,
         };
 

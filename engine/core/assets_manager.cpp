@@ -61,17 +61,26 @@ AssetsManager::AssetsManager()
     programs =
     {
         std::make_shared<GeometryProgram>(),
+        std::make_shared<LightingProgram>(),
         std::make_shared<LightingProgram>()
     };
-    // attach shader source paths
+    // deferred renderer geometry pass shader
     programs[0]->AttachShader(oglplus::ShaderType::Vertex,
                               "assets\\shaders\\geometry_pass.vert");
     programs[0]->AttachShader(oglplus::ShaderType::Fragment,
                               "assets\\shaders\\geometry_pass.frag");
+    // deferred renderer light pass shader
     programs[1]->AttachShader(oglplus::ShaderType::Vertex,
                               "assets\\shaders\\light_pass.vert");
     programs[1]->AttachShader(oglplus::ShaderType::Fragment,
                               "assets\\shaders\\light_pass.frag");
+    // voxelization pass for global illumination
+    programs[2]->AttachShader(oglplus::ShaderType::Vertex,
+                              "assets\\shaders\\voxelization.vert");
+    programs[2]->AttachShader(oglplus::ShaderType::Fragment,
+                              "assets\\shaders\\voxelization.frag");
+    programs[2]->AttachShader(oglplus::ShaderType::Geometry,
+                              "assets\\shaders\\voxelization.geom");
     // utility default assets
     Texture2D::GetDefaultTexture();
 }

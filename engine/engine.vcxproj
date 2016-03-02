@@ -350,6 +350,9 @@
     <None Include="assets\shaders\geometry_pass.vert" />
     <None Include="assets\shaders\light_pass.frag" />
     <None Include="assets\shaders\light_pass.vert" />
+    <None Include="assets\shaders\voxelization.frag" />
+    <None Include="assets\shaders\voxelization.geom" />
+    <None Include="assets\shaders\voxelization.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
