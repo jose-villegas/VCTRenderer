@@ -41,7 +41,7 @@ void Node::DrawMeshes()
     {
         if (!mesh->IsLoaded()) { return; }
 
-        renderer.SetMaterialUniforms(mesh->material);
+        renderer.SetMaterialUniforms(*mesh->material);
         mesh->BindVertexArrayObject();
         mesh->DrawElements();
     }
@@ -68,12 +68,10 @@ void Node::DrawList()
 
         if (node->outsideFrustum) { continue; }
 
-        // set this node as rendering active
-        node->SetAsActive();
         // calculate model dependant matrices
         node->ComputeMatrices();
         // set matrices uniform with updated matrices
-        renderer.SetMatricesUniforms();
+        renderer.SetMatricesUniforms(*node);
         // draw node meshes
         node->DrawMeshes();
     }

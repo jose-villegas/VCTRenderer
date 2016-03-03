@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "deferred_renderer.h"
 
+#include "deferred_handler.h"
 #include "../scene/camera.h"
 #include "../scene/scene.h"
 #include "../scene/material.h"
@@ -11,9 +12,11 @@
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
 
-DeferredRenderer::DeferredRenderer(const RenderWindow &rWindow) :
-    DeferredHandler(rWindow.Info().width, rWindow.Info().height)
+DeferredRenderer::DeferredRenderer(const RenderWindow &rWindow):
+    viewMatrixChanged(false)
 {
+    handler = std::make_unique<DeferredHandler>();
+    handler->SetupGeometryBuffer(rWindow.Info().width, rWindow.Info().height);
 }
 
 DeferredRenderer::~DeferredRenderer()
@@ -23,17 +26,17 @@ DeferredRenderer::~DeferredRenderer()
 void DeferredRenderer::Render()
 {
     static oglplus::Context gl;
-    static auto &gbuffer = GBuffer();
+    static auto &gbuffer = DeferredHandler::GBuffer();
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
 
     if (!camera || !scene || !scene->IsLoaded()) { return; }
 
     // bind g buffer for writing
-    gbuffer->Bind(oglplus::FramebufferTarget::Draw);
+    gbuffer.Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
-    geometryProgram->Use();
+    CurrentProgram<GeometryProgram>(handler->GeometryPass());
     // Open GL flags
     gl.ClearDepth(1.0f);
     gl.Enable(oglplus::Capability::DepthTest);
@@ -47,60 +50,57 @@ void DeferredRenderer::Render()
     // start light pass
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
+    CurrentProgram<LightingProgram>(handler->LightingPass());
     // bind g buffer for reading
-    lightingProgram->Use();
-    gbuffer->ActivateTextures();
+    gbuffer.ActivateTextures();
     SetLightPassUniforms();
-    RenderFullscreenQuad();
+    handler->DrawFullscreenQuad();
 }
 
-void DeferredRenderer::SetMatricesUniforms() const
+void DeferredRenderer::SetMatricesUniforms(const Node &node) const
 {
-    static const auto &node = Node::Active();
-    geometryProgram->matrices.modelView
-    .Set(node->ModeView());
-    geometryProgram->matrices.modelViewProjection
-    .Set(node->ModelViewProjection());
+    auto &prog = CurrentProgram<GeometryProgram>();
+    prog.matrices.modelView.Set(node.ModeView());
+    prog.matrices.modelViewProjection.Set(node.ModelViewProjection());
 }
 
-void DeferredRenderer::SetMaterialUniforms(std::shared_ptr<Material> &mat)
+void DeferredRenderer::SetMaterialUniforms(const Material &material)
 const
 {
     using namespace oglplus;
-    geometryProgram->material.diffuse.Set(mat->Diffuse());
-    geometryProgram->material.specular.Set(mat->Specular());
-    geometryProgram->material.useNormalsMap.Set
-    (
-        mat->HasTexture(RawTexture::Normals)
-    );
+    auto &prog = CurrentProgram<GeometryProgram>();
+    prog.material.diffuse.Set(material.Diffuse());
+    prog.material.specular.Set(material.Specular());
+    prog.material.useNormalsMap.Set(material.HasTexture(RawTexture::Normals));
     // set textures
     Texture::Active(RawTexture::Diffuse);
-    mat->BindTexture(RawTexture::Diffuse);
-    geometryProgram->diffuseMap.Set(RawTexture::Diffuse);
+    material.BindTexture(RawTexture::Diffuse);
+    prog.diffuseMap.Set(RawTexture::Diffuse);
     Texture::Active(RawTexture::Specular);
-    mat->BindTexture(RawTexture::Specular);
-    geometryProgram->specularMap.Set(RawTexture::Specular);
+    material.BindTexture(RawTexture::Specular);
+    prog.specularMap.Set(RawTexture::Specular);
     Texture::Active(RawTexture::Normals);
-    mat->BindTexture(RawTexture::Normals);
-    geometryProgram->normalsMap.Set(RawTexture::Normals);
+    material.BindTexture(RawTexture::Normals);
+    prog.normalsMap.Set(RawTexture::Normals);
 }
 
 void DeferredRenderer::SetLightPassUniforms() const
 {
     static auto &camera = Camera::Active();
-    lightingProgram->inverseProjection.Set(camera->InverseProjectionMatrix());
-    lightingProgram->gDepth.Set(GeometryBuffer::Depth);
-    lightingProgram->gNormal.Set(GeometryBuffer::Normal);
-    lightingProgram->gAlbedo.Set(GeometryBuffer::Albedo);
-    lightingProgram->gSpecular.Set(GeometryBuffer::Specular);
+    auto &prog = CurrentProgram<LightingProgram>();;
+    prog.inverseProjection.Set(camera->InverseProjectionMatrix());
+    prog.gDepth.Set(GeometryBuffer::Depth);
+    prog.gNormal.Set(GeometryBuffer::Normal);
+    prog.gAlbedo.Set(GeometryBuffer::Albedo);
+    prog.gSpecular.Set(GeometryBuffer::Specular);
     // set directional lights uniforms
     auto &directionals = Light::Directionals();
     auto &points = Light::Points();
     auto &spots = Light::Spots();
     // uniform arrays of lights
-    auto &uDirectionals = lightingProgram->directionalLight;
-    auto &uPoints = lightingProgram->pointLight;
-    auto &uSpots = lightingProgram->spotLight;
+    auto &uDirectionals = prog.directionalLight;
+    auto &uPoints = prog.pointLight;
+    auto &uSpots = prog.spotLight;
 
     for (int i = 0; i < directionals.size(); i++)
     {
@@ -166,7 +166,7 @@ void DeferredRenderer::SetLightPassUniforms() const
     }
 
     // pass number of lights per type
-    lightingProgram->lightTypeCount[0].Set(directionals.size());
-    lightingProgram->lightTypeCount[1].Set(points.size());
-    lightingProgram->lightTypeCount[2].Set(spots.size());
+    prog.lightTypeCount[0].Set(directionals.size());
+    prog.lightTypeCount[1].Set(points.size());
+    prog.lightTypeCount[2].Set(spots.size());
 }

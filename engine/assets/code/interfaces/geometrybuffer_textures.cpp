@@ -3,7 +3,7 @@
 
 #include "geometrybuffer_textures.h"
 #include "main_menu.h"
-#include "../../../rendering/deferred_renderer.h"
+#include "../../../rendering/deferred_handler.h"
 #include "../../../types/geometry_buffer.h"
 
 #include <oglplus/texture.hpp>
@@ -38,17 +38,17 @@ void UIGeometryBuffer::Draw()
 {
     if (!UIMainMenu::drawGeometryBuffer) { return; }
 
-    auto &gbuffer = EngineBase::Renderer().GBuffer();
+    auto &gbuffer = DeferredHandler::GBuffer();
     // begin editor
     Begin("Geometry Buffer", &UIMainMenu::drawGeometryBuffer,
           ImGuiWindowFlags_AlwaysAutoResize);
-    DrawBufferTexture(gbuffer->RenderTarget(GeometryBuffer::Normal), "Normal");
+    DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Normal), "Normal");
     SameLine();
-    DrawBufferTexture(gbuffer->RenderTarget(GeometryBuffer::Albedo), "Albedo");
+    DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Albedo), "Albedo");
     SameLine();
-    DrawBufferTexture(gbuffer->RenderTarget(GeometryBuffer::Specular), "Specular");
+    DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Specular), "Specular");
     SameLine();
-    DrawBufferTexture(gbuffer->RenderTarget(GeometryBuffer::Depth), "Depth");
+    DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Depth), "Depth");
     End();
 }
 

@@ -10,12 +10,11 @@
 #include "../programs/lighting_program.h"
 #include "../programs/geometry_program.h"
 
-DeferredHandler::DeferredHandler(unsigned int windowWith,
-                                 unsigned int windowHeight)
+std::unique_ptr<GeometryBuffer> DeferredHandler::geometryBuffer = nullptr;
+
+DeferredHandler::DeferredHandler()
 {
-    geometryBuffer = std::make_unique<GeometryBuffer>();
     LoadShaders();
-    SetupGeometryBuffer(windowWith, windowHeight);
     CreateFullscreenQuad();
 }
 
@@ -56,12 +55,17 @@ void DeferredHandler::CreateFullscreenQuad() const
     NoVertexArray().Bind();
 }
 
-const std::unique_ptr<GeometryBuffer> &DeferredHandler::GBuffer() const
+GeometryProgram &DeferredHandler::GeometryPass() const
 {
-    return geometryBuffer;
+    return *geometryProgram;
 }
 
-void DeferredHandler::RenderFullscreenQuad() const
+LightingProgram &DeferredHandler::LightingPass() const
+{
+    return *lightingProgram;
+}
+
+void DeferredHandler::DrawFullscreenQuad() const
 {
     static oglplus::Context gl;
     fsQuadVertexArray.Bind();
@@ -92,7 +96,14 @@ void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,
 {
     using namespace oglplus;
     static Context gl;
-    renderingSize = glm::vec2(windowWidth, windowHeight);
+
+    if (!geometryBuffer)
+    {
+        geometryBuffer = std::make_unique<GeometryBuffer>();
+    }
+    // already setup the geometry buffer, need to delete previous to resetup
+    else { return; }
+
     // initialize geometry buffer
     geometryBuffer->Bind(FramebufferTarget::Draw);
     // build textures -- normal
@@ -142,4 +153,15 @@ void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,
     Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));
 }
 
-DeferredHandler::~DeferredHandler() {}
+const GeometryBuffer &DeferredHandler::GBuffer()
+{
+    return *geometryBuffer;
+}
+
+DeferredHandler::~DeferredHandler()
+{
+    // geometry buffer has context dependant components
+    // its deletion needs to be included with the destructor
+    // so it can be called before the context ceases to exist.
+    delete geometryBuffer.release();
+}

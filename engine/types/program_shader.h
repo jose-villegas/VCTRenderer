@@ -27,6 +27,11 @@ class ProgramShader
         /// <param name="filepath">The filepath.</param>
         void AttachShader(oglplus::ShaderType type, const std::string &filepath);
         /// <summary>
+        /// Returns the class shader program.
+        /// </summary>
+        /// <returns></returns>
+        const oglplus::Program &Program() const;
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProgramShader"/> class.
         /// </summary>
         ProgramShader() = default;

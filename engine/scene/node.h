@@ -9,7 +9,7 @@
 class Camera;
 class MeshDrawer;
 
-class Node : public SceneObject, public SingleActive<Node>
+class Node : public SceneObject
 {
     public:
         /// <summary>

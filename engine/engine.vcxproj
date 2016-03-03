@@ -225,6 +225,9 @@
     <ClCompile Include="core\behavior.cpp" />
     <ClCompile Include="assets\code\interfaces\framerate.cpp" />
     <ClCompile Include="assets\code\interfaces\geometrybuffer_textures.cpp" />
+    <ClCompile Include="core\renderer.cpp" />
+    <ClCompile Include="assets\code\interfaces\metrics_drawer.cpp" />
+    <ClCompile Include="util\metrics_report.cpp" />
     <ClCompile Include="types\transform.cpp" />
     <ClCompile Include="types\scene_object.cpp" />
     <ClCompile Include="types\base_object.cpp" />
@@ -298,6 +301,9 @@
     <ClInclude Include="assets\code\interfaces\scene_lights.h" />
     <ClInclude Include="core\behavior.h" />
     <ClInclude Include="assets\code\interfaces\geometrybuffer_textures.h" />
+    <ClInclude Include="core\renderer.h" />
+    <ClInclude Include="assets\code\interfaces\metrics_drawer.h" />
+    <ClInclude Include="util\metrics_report.h" />
     <ClInclude Include="types\transform.h" />
     <ClInclude Include="types\scene_object.h" />
     <ClInclude Include="types\base_object.h" />

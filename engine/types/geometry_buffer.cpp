@@ -42,7 +42,7 @@ void GeometryBuffer::DrawBuffers()
     colorBuffers.clear();
 }
 
-void GeometryBuffer::ActivateTextures()
+void GeometryBuffer::ActivateTextures() const
 {
     using namespace oglplus;
     // depth texture active to reconstruct position

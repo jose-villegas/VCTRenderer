@@ -23,6 +23,8 @@ class GeometryBuffer
             Specular, // texture with unsigned byte r precision storing specular
             Depth, // depth texture for completeness
         };
+        void Bind(oglplus::FramebufferTarget target) const;
+        void ActivateTextures() const;
         /// <summary>
         /// Returns the specified geometry buffer render texture.
         /// </summary>
@@ -38,10 +40,7 @@ class GeometryBuffer
         /// <param name="level">The level.</param>
         void AttachTexture(RenderTargets renderTarget,
                            oglplus::FramebufferTarget target, int level = 0);
-
-        void Bind(oglplus::FramebufferTarget target) const;
         void DrawBuffers();
-        void ActivateTextures();
 
         GeometryBuffer();
         ~GeometryBuffer();

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "deferred_handler.h"
+#include <memory>
+#include "../core/renderer.h"
 
+class DeferredHandler;
 class Material;
 class RenderWindow;
 
@@ -10,7 +12,7 @@ class RenderWindow;
 /// Uses a deferred rendering path.
 /// </summary>
 /// <seealso cref="DeferredHandler" />
-class DeferredRenderer : public DeferredHandler
+class DeferredRenderer : Renderer
 {
     public:
         /// <summary>
@@ -23,20 +25,21 @@ class DeferredRenderer : public DeferredHandler
         /// <summary>
         /// Renders a frame using deferred rendering
         /// </summary>
-        void Render();
+        void Render() override;
         /// <summary>
         /// Sets the matrices uniforms during geometry pass.
         /// </summary>
-        void SetMatricesUniforms() const;
+        void SetMatricesUniforms(const Node &node) const override;
         /// <summary>
         /// Sets the material uniforms during geometry pass.
         /// </summary>
         /// <param name="mat">The mat.</param>
-        void SetMaterialUniforms(std::shared_ptr<Material> &mat) const;
+        void SetMaterialUniforms(const Material &material) const override;
         /// <summary>
         /// Sets the light pass uniforms.
         /// </summary>
         void SetLightPassUniforms() const;
     private:
+        std::unique_ptr<DeferredHandler> handler;
         bool viewMatrixChanged;
 };

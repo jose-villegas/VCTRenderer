@@ -34,30 +34,54 @@ uint convVec4ToRGBA8(vec4 val)
            | (uint(val.x) & 0x000000FF);
 }
 
-void imageAtomicRGBA8Avg(layout(r32ui) coherent volatile uimage3D imgUI, ivec3 coords, vec4 val)
+uint vec3ToUintXYZ10(uvec3 val)
 {
-    val.rgb *= 255.0f; //Optimise following calculations
+    return (uint(val.z) & 0x000003FF)   << 20U
+           | (uint(val.y) & 0x000003FF) << 10U
+           | (uint(val.x) & 0x000003FF);
+}
+
+uint imageAtomicRGBA8Avg(layout(r32ui) volatile uimage3D img,
+                         ivec3 coords,
+                         vec4 val)
+{
+    val.rgb *= 255.0f; // Optimise following calculations
     uint newVal = convVec4ToRGBA8(val);
     uint prevStoredVal = 0;
     uint curStoredVal;
+    vec4 currVal;
 
-    //Loop as long as destination value gets changed by other threads
-    while ( (curStoredVal = imageAtomicCompSwap(imgUI , coords, prevStoredVal ,
-                            newVal)) != prevStoredVal)
+    // Loop as long as destination value gets changed by other threads
+    while ((curStoredVal = imageAtomicCompSwap(img, coords, prevStoredVal, newVal)) !=
+            prevStoredVal)
     {
         prevStoredVal = curStoredVal;
         vec4 rval = convRGBA8ToVec4(curStoredVal);
-        rval.xyz = (rval.xyz * rval.w);
-        //Denormalize
-        vec4 curValF = rval + val;
-        //Add new value
-        curValF.xyz /= (curValF.w);
-        //Renormalize
+        rval.xyz *= currVal.w; 		// Denormalize
+        vec4 curValF = rval + val; 	// Add new value
+        curValF.xyz /= curValF.w; 	// Renormalize
         newVal = convVec4ToRGBA8(curValF);
     }
+
+    // currVal now contains the calculated color: now convert it to a
+    // proper alpha-premultiplied version
+    val = convRGBA8ToVec4(newVal);
+    val.a = 255.0;
+    newVal = convVec4ToRGBA8(val);
+    imageStore(img, coords, uvec4(newVal));
+    return newVal;
 }
 
 void main()
 {
-	
+    uvec3 voxel = uvec3(floor(In.position * voxelTextureSize));
+    vec4 diffuseColor = texture(diffuseMap, In.texCoord.xy);
+    vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
+    uint voxelIndex = atomicCounterIncrement(voxel_index);
+    memoryBarrier();
+    // store voxel position
+    imageStore(voxelPosition, int(voxelIndex), uvec4(vec3ToUintXYZ10(voxel)));
+    // average voxel properties
+    imageAtomicRGBA8Avg(voxelAlbedo, ivec3(voxel), diffuseColor);
+    imageAtomicRGBA8Avg(voxelNormal, ivec3(voxel), normal);
 }

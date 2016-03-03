@@ -31,3 +31,8 @@ void ProgramShader::AttachShader(oglplus::ShaderType type,
     program.AttachShader(*shader);
     shaders.push_back(move(shader));
 }
+
+const oglplus::Program &ProgramShader::Program() const
+{
+    return program;
+}

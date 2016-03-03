@@ -4,7 +4,6 @@
 
 #include <oglplus/vertex_array.hpp>
 #include <oglplus/buffer.hpp>
-#include <glm/detail/type_vec2.hpp>
 
 class GeometryBuffer;
 class LightingProgram;
@@ -18,8 +17,30 @@ class GeometryProgram;
 class DeferredHandler
 {
     public:
-        const std::unique_ptr<GeometryBuffer> &GBuffer() const;
-    protected:
+        GeometryProgram &GeometryPass() const;
+        LightingProgram &LightingPass() const;
+        /// <summary>
+        /// Renders a full screen quad, used in the light pass stage
+        /// </summary>
+        void DrawFullscreenQuad() const;
+        /// <summary>
+        /// Returns <see cref="geometryBuffer"/> which is the associated
+        /// geometry buffer to this deferred path implementation.
+        /// </summary>
+        /// <returns></returns>
+        static const GeometryBuffer &GBuffer();
+        /// <summary>
+        /// Setups the geometry buffer, initializes the render target
+        /// textures and attaches these textures to the
+        /// <see cref="GeometryBuffer.geometryBuffer"/>
+        /// </summary>
+        /// <param name="windowWith">The rendering window width.</param>
+        /// <param name="windowHeight">The rendering window height.</param>
+        static void SetupGeometryBuffer(unsigned int windowWith,
+                                        unsigned int windowHeight);
+        DeferredHandler();
+        virtual ~DeferredHandler();
+    private:
         /// <summary>
         /// The deferred rendering geometry pass program
         /// </summary>
@@ -28,24 +49,6 @@ class DeferredHandler
         /// The deferred rendering lighting pass program
         /// </summary>
         LightingProgram * lightingProgram;
-        /// <summary>
-        /// Geometry buffer resolution.
-        /// </summary>
-        glm::vec2 renderingSize;
-        /// <summary>
-        /// Renders a full screen quad, used in the light pass stage
-        /// </summary>
-        void RenderFullscreenQuad() const;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DeferredHandler"/> class.
-        /// At construction the geometry buffer is set up with the window height
-        /// and width for the texture's resolution.
-        /// </summary>
-        /// <param name="windowWith">The rendering window with.</param>
-        /// <param name="windowHeight">The rendering window height.</param>
-        DeferredHandler(unsigned int windowWith, unsigned int windowHeight);
-        virtual ~DeferredHandler();
-    private:
         // full screen quad
         oglplus::VertexArray fsQuadVertexArray;
         oglplus::Buffer fsQuadVertexBuffer;
@@ -54,18 +57,10 @@ class DeferredHandler
         /// The geometry buffer which holds all the framebuffer
         /// with all the render target texture attachments
         /// </summary>
-        std::unique_ptr<GeometryBuffer> geometryBuffer;
+        static std::unique_ptr<GeometryBuffer> geometryBuffer;
         /// <summary>
         /// Loads the deferred rendering required shaders
         /// </summary>
         void LoadShaders();
-        /// <summary>
-        /// Setups the geometry buffer, initializes the render target
-        /// textures and attaches these textures to the
-        /// <see cref="GeometryBuffer.geometryBuffer"/>
-        /// </summary>
-        /// <param name="windowWith">The rendering window width.</param>
-        /// <param name="windowHeight">The rendering window height.</param>
-        void SetupGeometryBuffer(unsigned int windowWith, unsigned int windowHeight);
         void CreateFullscreenQuad() const;
 };
