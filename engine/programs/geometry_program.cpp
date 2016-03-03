@@ -10,6 +10,7 @@ void GeometryProgram::ExtractUniforms()
     // assign program
     material.diffuse.Assign(prog);
     material.specular.Assign(prog);
+    material.shininess.Assign(prog);
     material.useNormalsMap.Assign(prog);
     diffuseMap.Assign(prog);
     specularMap.Assign(prog);
@@ -20,6 +21,7 @@ void GeometryProgram::ExtractUniforms()
     // bind to uniform name
     material.diffuse.BindTo("material.diffuse");
     material.specular.BindTo("material.specular");
+    material.shininess.BindTo("material.shininess");
     material.useNormalsMap.BindTo("material.useNormalsMap");
     diffuseMap.BindTo("diffuseMap");
     specularMap.BindTo("specularMap");
@@ -28,7 +30,6 @@ void GeometryProgram::ExtractUniforms()
     matrices.modelView.BindTo("matrices.modelView");
     matrices.modelViewProjection.BindTo("matrices.modelViewProjection");
 }
-
 GeometryProgram::~GeometryProgram()
 {
 }

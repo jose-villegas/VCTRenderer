@@ -24,7 +24,9 @@ class EngineBase
         /// </summary>
         /// <returns></returns>
         static std::unique_ptr<EngineBase> &Instance();
-        static const DeferredRenderer &Renderer();
+        /// <summary>
+        /// Terminates this instance.
+        /// </summary>
         static void Terminate();
         // No copying, copy, move assignment allowed of this class
         // or any derived class
@@ -37,7 +39,7 @@ class EngineBase
         /// </summary>
         std::unique_ptr<RenderWindow> renderWindow;
         /// <summary>
-        /// The engine renderer, uses deferred rendering path.
+        /// The engine main renderer, uses deferred rendering path.
         /// </summary>
         std::unique_ptr<DeferredRenderer> renderer;
         /// <summary>

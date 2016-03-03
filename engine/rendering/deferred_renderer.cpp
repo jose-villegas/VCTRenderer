@@ -12,11 +12,11 @@
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
 
-DeferredRenderer::DeferredRenderer(const RenderWindow &rWindow):
+DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window),
     viewMatrixChanged(false)
 {
-    handler = std::make_unique<DeferredHandler>();
-    handler->SetupGeometryBuffer(rWindow.Info().width, rWindow.Info().height);
+    // create textures and attachments for framebuffer in deferredhandler
+    SetupGeometryBuffer(window.Info().width, window.Info().height);
 }
 
 DeferredRenderer::~DeferredRenderer()
@@ -26,7 +26,7 @@ DeferredRenderer::~DeferredRenderer()
 void DeferredRenderer::Render()
 {
     static oglplus::Context gl;
-    static auto &gbuffer = DeferredHandler::GBuffer();
+    static auto &gbuffer = GBuffer();
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
 
@@ -36,7 +36,7 @@ void DeferredRenderer::Render()
     gbuffer.Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
-    CurrentProgram<GeometryProgram>(handler->GeometryPass());
+    CurrentProgram<GeometryProgram>(GeometryPass());
     // Open GL flags
     gl.ClearDepth(1.0f);
     gl.Enable(oglplus::Capability::DepthTest);
@@ -50,11 +50,13 @@ void DeferredRenderer::Render()
     // start light pass
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
-    CurrentProgram<LightingProgram>(handler->LightingPass());
-    // bind g buffer for reading
+    CurrentProgram<LightingProgram>(LightingPass());
+    // bind g buffer textures for reading
     gbuffer.ActivateTextures();
+    // pass light info and texture locations for final light pass
     SetLightPassUniforms();
-    handler->DrawFullscreenQuad();
+    // draw the result onto a fullscreen quad
+    DrawFullscreenQuad();
 }
 
 void DeferredRenderer::SetMatricesUniforms(const Node &node) const
@@ -71,6 +73,7 @@ const
     auto &prog = CurrentProgram<GeometryProgram>();
     prog.material.diffuse.Set(material.Diffuse());
     prog.material.specular.Set(material.Specular());
+    prog.material.shininess.Set(material.Shininess());
     prog.material.useNormalsMap.Set(material.HasTexture(RawTexture::Normals));
     // set textures
     Texture::Active(RawTexture::Diffuse);

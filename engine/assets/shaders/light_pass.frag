@@ -15,8 +15,7 @@ struct Attenuation
     float quadratic;
 };
 
-struct Light
-{
+struct Light {
     float angleInnerCone;
     float angleOuterCone;
 
@@ -37,7 +36,7 @@ uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
 
-uniform Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
+uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 uniform Light pointLight[MAX_POINT_LIGHTS];
 uniform Light spotLight[MAX_SPOT_LIGHTS];
 
@@ -54,51 +53,44 @@ vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
     return light.diffuse * albedo * lambertian;
 }
 
-vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position,
-              vec3 specular)
+vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec3 specular)
 {
     vec3 lightReflect = normalize(reflect(-lightDirection, normal));
     float specularFactor = max(dot(normalize(-position), lightReflect), 0.0f);
     return light.specular * specular * specularFactor;
 }
 
-vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo,
-                          vec3 specular)
+vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
 {
-    return Ambient(light, albedo) +
-           Diffuse(light, light.direction, normal, albedo) +
+    return Ambient(light, albedo) + 
+           Diffuse(light, light.direction, normal, albedo) + 
            Specular(light, light.direction, normal, position, specular);
 }
 
-vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo,
-                    vec3 specular)
+vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
 {
     light.direction = normalize(light.position - position);
     float distance = distance(light.position, position);
-    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear *
-                            distance
-                            + light.attenuation.quadratic * distance * distance + 1.0f);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * distance
+                    + light.attenuation.quadratic * distance * distance + 1.0f);
 
-    if (falloff <= 0.0f) { return Ambient(light, albedo); }
+    if(falloff <= 0.0f) { return Ambient(light, albedo); }             
 
-    return CalculateDirectional(light, normal, position, albedo,
-                                specular) * falloff;
+    return CalculateDirectional(light, normal, position, albedo, specular) * falloff;
 }
 
-vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo,
-                   vec3 specular)
+vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
 {
     vec3 spotDirection = light.direction;
     vec3 lightDirection = normalize(light.position - position);
     float cosAngle = dot(-lightDirection, spotDirection);
 
-    if (cosAngle <= light.angleOuterCone) { return Ambient(light, albedo); }
+    if(cosAngle <= light.angleOuterCone) { return Ambient(light, albedo); }
 
     // assuming they are passed as cos(angle)
     float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
     // spot light factor for smooth transition
-    float spotFalloff = smoothstep(0.0f, 1.0f,
-                                   (cosAngle - light.angleOuterCone) / innerMinusOuter);
+    float spotFalloff = smoothstep(0.0f, 1.0f, (cosAngle - light.angleOuterCone) / innerMinusOuter);
     // final result
     return CalculatePoint(light, normal, position, albedo, specular) * spotFalloff;
 }
@@ -118,26 +110,27 @@ void main()
     vec3 normal = texture(gNormal, texCoord).xyz;
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     vec3 specular = texture(gSpecular, texCoord).rgb;
+
     // calculate lighting for directional lights
     vec3 lighting = vec3(0.0f);
 
-    for (int i = 0; i < lightTypeCount[0]; ++i)
+    for(int i = 0; i < lightTypeCount[0]; ++i)
     {
-        lighting += CalculateDirectional(directionalLight[i], normal, position,
+        lighting += CalculateDirectional(directionalLight[i], normal, position, 
                                          albedo, specular);
     }
 
     // calculate lighting for point lights
-    for (int i = 0; i < lightTypeCount[1]; ++i)
+    for(int i = 0; i < lightTypeCount[1]; ++i)
     {
-        lighting += CalculatePoint(pointLight[i], normal, position,
+        lighting += CalculatePoint(pointLight[i], normal, position, 
                                    albedo, specular);
     }
 
     // calculate lighting for spot lights
-    for (int i = 0; i < lightTypeCount[2]; ++i)
+    for(int i = 0; i < lightTypeCount[2]; ++i) 
     {
-        lighting += CalculateSpot(spotLight[i], normal, position,
+        lighting += CalculateSpot(spotLight[i], normal, position, 
                                   albedo, specular);
     }
 

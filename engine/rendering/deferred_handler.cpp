@@ -85,9 +85,7 @@ void DeferredHandler::LoadShaders()
                       (assets->programs[AssetsManager::LightPass].get());
     geometryProgram->Link();
     lightingProgram->Link();
-    // geometry pass shader source code and compile
     geometryProgram->ExtractUniforms();
-    //// light pass shader source code and compile
     lightingProgram->ExtractUniforms();
 }
 
@@ -122,11 +120,11 @@ void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
     geometryBuffer->AttachTexture(GeometryBuffer::Albedo, FramebufferTarget::Draw);
-    // build textures -- specular
+    // build textures -- specular color and power
     gl.Bound(TextureTarget::_2D,
              geometryBuffer->RenderTarget(GeometryBuffer::Specular))
-    .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
-             0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
+    .Image2D(0, PixelDataInternalFormat::RGBA8, windowWidth, windowHeight,
+             0, PixelDataFormat::RGBA, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
     geometryBuffer->AttachTexture(GeometryBuffer::Specular,

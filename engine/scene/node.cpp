@@ -35,13 +35,13 @@ void Node::BuildDrawList(std::vector<Node *> &base)
 
 void Node::DrawMeshes()
 {
-    static const auto &renderer = EngineBase::Renderer();
+    static const auto &renderer = Renderer::Active();
 
     for (auto &mesh : meshes)
     {
         if (!mesh->IsLoaded()) { return; }
 
-        renderer.SetMaterialUniforms(*mesh->material);
+        renderer->SetMaterialUniforms(*mesh->material);
         mesh->BindVertexArrayObject();
         mesh->DrawElements();
     }
@@ -49,7 +49,7 @@ void Node::DrawMeshes()
 
 void Node::DrawList()
 {
-    static const auto &renderer = EngineBase::Renderer();
+    static const auto &renderer = Renderer::Active();;
     static const auto &camera = Camera::Active();
     // checks if we need to redo InFrustum checks per nodes
     loopCameraModified = camera->ParametersChanged();
@@ -57,21 +57,25 @@ void Node::DrawList()
     // draw elements using draw list
     for (auto &node : drawList)
     {
-        if (node->transform.changed) { node->UpdateBoundaries(); }
-
-        // only two scenarios require updating outsideFrustum both when
-        // either the camera or the node's transform have been modified
-        if (loopCameraModified || node->transform.changed)
+        // no need to check or update boundaries and frustum planes.
+        if (Renderer::UseFrustumCulling)
         {
-            node->outsideFrustum = !camera->InFrustum(node->boundaries);
-        }
+            if (node->transform.changed) { node->UpdateBoundaries(); }
 
-        if (node->outsideFrustum) { continue; }
+            // only two scenarios require updating outsideFrustum both when
+            // either the camera or the node's transform have been modified
+            if (loopCameraModified || node->transform.changed)
+            {
+                node->outsideFrustum = !camera->InFrustum(node->boundaries);
+            }
+
+            if (node->outsideFrustum) { continue; }
+        }
 
         // calculate model dependant matrices
         node->ComputeMatrices();
         // set matrices uniform with updated matrices
-        renderer.SetMatricesUniforms(*node);
+        renderer->SetMatricesUniforms(*node);
         // draw node meshes
         node->DrawMeshes();
     }
@@ -88,10 +92,23 @@ void Node::ComputeMatrices()
     // if changed was true the transformation matrix has been already
     // updated in UpdateBoundaries. We set it to false to avoid
     // recalculating the transformation matrix.
-    if (transform.changed) { transform.changed = false; }
+    // if frustum culling is disabled, UpdateBoundaries isn't called
+    // thus it is not updating the transform matrix
+    if (transform.changed && Renderer::UseFrustumCulling)
+    {
+        transform.changed = false;
+    }
 
     modelViewMatrix = camera->ViewMatrix() * transform.Matrix();
     modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
+
+    // without frustum culling UpdateBoundaries didn't update the
+    // transformation matrix,  it happens here instead, after use set
+    // changed to true to avoid recalculating it unless it changes again.
+    if (!Renderer::UseFrustumCulling && transform.changed)
+    {
+        transform.changed = false;
+    }
 }
 
 void Node::UpdateBoundaries()

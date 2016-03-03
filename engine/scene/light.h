@@ -12,7 +12,7 @@
 /// directional and spot.
 /// </summary>
 /// <seealso cref="SceneObject" />
-class Light : public SceneObject, protected InstancePool<Light>
+class Light : public SceneObject
 {
     public:
         /// <summary>

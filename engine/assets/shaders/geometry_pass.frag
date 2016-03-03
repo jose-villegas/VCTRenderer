@@ -2,7 +2,7 @@
 
 layout(location = 0) out vec3 gNormal;
 layout(location = 1) out vec3 gAlbedo;
-layout(location = 2) out vec3 gSpecular;
+layout(location = 2) out vec4 gSpecular;
 
 in Vertex
 {
@@ -57,7 +57,7 @@ void main()
     gAlbedo = diffuseColor.rgb * material.diffuse;
     // store specular intensity
     vec4 specularColor = texture(specularMap, texCoord.xy);
-    gSpecular = specularColor.rgb * material.specular;
+    gSpecular = vec4(specularColor.rgb * material.specular, material.shininess);
     // store per fragment normal
     gNormal = material.useNormalsMap == 1 ? normalMapping() : normalize(normal);
 }

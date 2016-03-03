@@ -41,11 +41,6 @@ std::unique_ptr<EngineBase> &EngineBase::Instance()
     return instance;
 }
 
-const DeferredRenderer &EngineBase::Renderer()
-{
-    return *Instance()->renderer;
-}
-
 void EngineBase::Terminate()
 {
     delete Instance().release();
@@ -58,6 +53,8 @@ void EngineBase::MainLoop()
     this->Initialize();
     // set rendering view port
     gl.Viewport(renderWindow->Info().width, renderWindow->Info().height);
+    // deferred renderer as current active to it can be accessed by nodes
+    renderer->SetAsActive();
 
     // render loop
     while (!renderWindow->ShouldClose())

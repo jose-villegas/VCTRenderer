@@ -2,8 +2,8 @@
 
 #include <memory>
 #include "../core/renderer.h"
+#include "deferred_handler.h"
 
-class DeferredHandler;
 class Material;
 class RenderWindow;
 
@@ -12,15 +12,15 @@ class RenderWindow;
 /// Uses a deferred rendering path.
 /// </summary>
 /// <seealso cref="DeferredHandler" />
-class DeferredRenderer : Renderer
+class DeferredRenderer : public Renderer, public DeferredHandler
 {
     public:
         /// <summary>
         /// Initializes a new instance of the <see cref="DeferredRenderer"/> class.
         /// </summary>
         /// <param name="rWindow">The rendering window.</param>
-        explicit DeferredRenderer(const RenderWindow &rWindow);
-        virtual ~DeferredRenderer();
+        explicit DeferredRenderer(RenderWindow &window);
+        ~DeferredRenderer();
 
         /// <summary>
         /// Renders a frame using deferred rendering
@@ -40,6 +40,5 @@ class DeferredRenderer : Renderer
         /// </summary>
         void SetLightPassUniforms() const;
     private:
-        std::unique_ptr<DeferredHandler> handler;
         bool viewMatrixChanged;
 };
