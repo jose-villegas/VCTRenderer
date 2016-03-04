@@ -17,8 +17,8 @@ class GeometryProgram;
 class DeferredHandler
 {
     public:
-        GeometryProgram &GeometryPass() const;
-        LightingProgram &LightingPass() const;
+        static GeometryProgram &GeometryPass();
+        static LightingProgram &LightingPass();
         /// <summary>
         /// Renders a full screen quad, used in the light pass stage
         /// </summary>
@@ -41,14 +41,6 @@ class DeferredHandler
         DeferredHandler();
         virtual ~DeferredHandler();
     private:
-        /// <summary>
-        /// The deferred rendering geometry pass program
-        /// </summary>
-        GeometryProgram * geometryProgram;
-        /// <summary>
-        /// The deferred rendering lighting pass program
-        /// </summary>
-        LightingProgram * lightingProgram;
         // full screen quad
         oglplus::VertexArray fsQuadVertexArray;
         oglplus::Buffer fsQuadVertexBuffer;
@@ -58,9 +50,5 @@ class DeferredHandler
         /// with all the render target texture attachments
         /// </summary>
         static std::unique_ptr<GeometryBuffer> geometryBuffer;
-        /// <summary>
-        /// Loads the deferred rendering required shaders
-        /// </summary>
-        void LoadShaders();
         void CreateFullscreenQuad() const;
 };

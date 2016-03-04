@@ -1,4 +1,4 @@
-#version 420
+#version 430
 
 out Vertex
 {
@@ -19,10 +19,6 @@ uniform struct Matrices
 {
     mat4 modelView;
     mat4 modelViewProjection;
-    mat4 model;
-    mat4 view;
-    mat4 projection;
-    mat4 normal;
 } matrices;
 
 void main()

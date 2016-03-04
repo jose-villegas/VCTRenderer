@@ -1,87 +1,61 @@
-#version 420
+# version 430
 
-layout(r32ui) uniform coherent uimageBuffer voxelPosition;
-layout(r32ui) uniform volatile uimage3D voxelAlbedo;
-layout(r32ui) uniform volatile uimage3D voxelNormal;
-
-layout(binding = 0) uniform atomic_uint voxel_index;
-
-uniform sampler2D diffuseMap;
-uniform uint voxelTextureSize;
-
-in Voxel
+in GeometryOut
 {
     vec3 position;
     vec3 normal;
     vec3 texCoord;
+    flat vec4 triangleAABB;
+    flat int selectedAxis;
 } In;
 
-out vec4 fragColor;
+layout (location = 0) out vec4 fragColor;
+layout (pixel_center_integer) in vec4 gl_FragCoord;
 
-vec4 convRGBA8ToVec4(uint val)
-{
-    return vec4( float((val & 0x000000FF)),
-                 float((val & 0x0000FF00) >> 8U),
-                 float((val & 0x00FF0000) >> 16U),
-                 float((val & 0xFF000000) >> 24U));
-}
+// atomic counter 
+layout ( binding = 0, offset = 0 ) uniform atomic_uint voxelFragCount;
 
-uint convVec4ToRGBA8(vec4 val)
-{
-    return (uint(val.w) & 0x000000FF)   << 24U
-           | (uint(val.z) & 0x000000FF) << 16U
-           | (uint(val.y) & 0x000000FF) << 8U
-           | (uint(val.x) & 0x000000FF);
-}
+uniform layout(binding = 0, rgb10_a2ui) uimageBuffer voxelPosition;
+uniform layout(binding = 1, rgba8 ) imageBuffer voxelAlbedo;
+uniform layout(binding = 2, rgba16f) imageBuffer voxelNormal;
 
-uint vec3ToUintXYZ10(uvec3 val)
-{
-    return (uint(val.z) & 0x000003FF)   << 20U
-           | (uint(val.y) & 0x000003FF) << 10U
-           | (uint(val.x) & 0x000003FF);
-}
-
-uint imageAtomicRGBA8Avg(layout(r32ui) volatile uimage3D img,
-                         ivec3 coords,
-                         vec4 val)
-{
-    val.rgb *= 255.0f; // Optimise following calculations
-    uint newVal = convVec4ToRGBA8(val);
-    uint prevStoredVal = 0;
-    uint curStoredVal;
-    vec4 currVal;
-
-    // Loop as long as destination value gets changed by other threads
-    while ((curStoredVal = imageAtomicCompSwap(img, coords, prevStoredVal, newVal)) !=
-            prevStoredVal)
-    {
-        prevStoredVal = curStoredVal;
-        vec4 rval = convRGBA8ToVec4(curStoredVal);
-        rval.xyz *= currVal.w; 		// Denormalize
-        vec4 curValF = rval + val; 	// Add new value
-        curValF.xyz /= curValF.w; 	// Renormalize
-        newVal = convVec4ToRGBA8(curValF);
-    }
-
-    // currVal now contains the calculated color: now convert it to a
-    // proper alpha-premultiplied version
-    val = convRGBA8ToVec4(newVal);
-    val.a = 255.0;
-    newVal = convVec4ToRGBA8(val);
-    imageStore(img, coords, uvec4(newVal));
-    return newVal;
-}
+uniform sampler2D diffuseMap;
+uniform uint cellSize[2];
 
 void main()
 {
-    uvec3 voxel = uvec3(floor(In.position * voxelTextureSize));
-    vec4 diffuseColor = texture(diffuseMap, In.texCoord.xy);
-    vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
-    uint voxelIndex = atomicCounterIncrement(voxel_index);
-    memoryBarrier();
-    // store voxel position
-    imageStore(voxelPosition, int(voxelIndex), uvec4(vec3ToUintXYZ10(voxel)));
-    // average voxel properties
-    imageAtomicRGBA8Avg(voxelAlbedo, ivec3(voxel), diffuseColor);
-    imageAtomicRGBA8Avg(voxelNormal, ivec3(voxel), normal);
+    if( In.position.x < In.triangleAABB.x || In.position.y < In.triangleAABB.y || 
+    	In.position.x > In.triangleAABB.z || In.position.y > In.triangleAABB.w )
+	{
+		discard;
+	}
+
+	uvec4 temp = uvec4( gl_FragCoord.x, gl_FragCoord.y, cellSize[0] * gl_FragCoord.z, 0 ) ;
+	uvec4 texcoord;
+
+	if( In.selectedAxis == 0 )
+	{
+	    texcoord.x = cellSize[0] - temp.z;
+		texcoord.z = temp.x;
+		texcoord.y = temp.y;
+	}
+	else if( In.selectedAxis == 1 )
+    {
+	    texcoord.z = temp.y;
+		texcoord.y = cellSize[0] - temp.z;
+		texcoord.x = temp.x;
+	}
+	else
+	    texcoord = temp;
+
+	uint idx = atomicCounterIncrement( voxelFragCount );
+
+	vec3 N, C;
+
+	N = In.normal;
+	C = texture( diffuseMap, In.texCoord.xy ).rgb;
+
+	imageStore( voxelPosition, int(idx), texcoord );
+	imageStore( voxelNormal, int(idx), vec4(N, 0.0f) );
+	imageStore( voxelAlbedo, int(idx), vec4(C, 0.0f) );
 }

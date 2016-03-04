@@ -14,7 +14,6 @@ std::unique_ptr<GeometryBuffer> DeferredHandler::geometryBuffer = nullptr;
 
 DeferredHandler::DeferredHandler()
 {
-    LoadShaders();
     CreateFullscreenQuad();
 }
 
@@ -55,14 +54,20 @@ void DeferredHandler::CreateFullscreenQuad() const
     NoVertexArray().Bind();
 }
 
-GeometryProgram &DeferredHandler::GeometryPass() const
+GeometryProgram &DeferredHandler::GeometryPass()
 {
-    return *geometryProgram;
+    static auto &assets = AssetsManager::Instance();
+    static auto &prog = *static_cast<GeometryProgram *>
+                        (assets->programs[AssetsManager::GeometryPass].get());
+    return prog;
 }
 
-LightingProgram &DeferredHandler::LightingPass() const
+LightingProgram &DeferredHandler::LightingPass()
 {
-    return *lightingProgram;
+    static auto &assets = AssetsManager::Instance();
+    static auto &prog = *static_cast<LightingProgram *>
+                        (assets->programs[AssetsManager::LightPass].get());
+    return prog;
 }
 
 void DeferredHandler::DrawFullscreenQuad() const
@@ -73,20 +78,6 @@ void DeferredHandler::DrawFullscreenQuad() const
         oglplus::PrimitiveType::Triangles, 6,
         oglplus::DataType::UnsignedInt
     );
-}
-
-void DeferredHandler::LoadShaders()
-{
-    static auto &assets = AssetsManager::Instance();
-    // get program shaders from assets manager
-    geometryProgram = static_cast<GeometryProgram *>
-                      (assets->programs[AssetsManager::GeometryPass].get());
-    lightingProgram = static_cast<LightingProgram *>
-                      (assets->programs[AssetsManager::LightPass].get());
-    geometryProgram->Link();
-    lightingProgram->Link();
-    geometryProgram->ExtractUniforms();
-    lightingProgram->ExtractUniforms();
 }
 
 void DeferredHandler::SetupGeometryBuffer(unsigned int windowWidth,

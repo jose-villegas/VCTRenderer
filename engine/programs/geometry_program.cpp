@@ -6,18 +6,17 @@
 void GeometryProgram::ExtractUniforms()
 {
     using namespace oglplus;
-    auto &prog = program;
     // assign program
-    material.diffuse.Assign(prog);
-    material.specular.Assign(prog);
-    material.shininess.Assign(prog);
-    material.useNormalsMap.Assign(prog);
-    diffuseMap.Assign(prog);
-    specularMap.Assign(prog);
-    normalsMap.Assign(prog);
-    alphaCutoff.Assign(prog);
-    matrices.modelView.Assign(prog);
-    matrices.modelViewProjection.Assign(prog);
+    material.diffuse.Assign(program);
+    material.specular.Assign(program);
+    material.shininess.Assign(program);
+    material.useNormalsMap.Assign(program);
+    diffuseMap.Assign(program);
+    specularMap.Assign(program);
+    normalsMap.Assign(program);
+    alphaCutoff.Assign(program);
+    matrices.modelView.Assign(program);
+    matrices.modelViewProjection.Assign(program);
     // bind to uniform name
     material.diffuse.BindTo("material.diffuse");
     material.specular.BindTo("material.specular");

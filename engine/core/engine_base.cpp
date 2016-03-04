@@ -7,6 +7,7 @@
 #include "assets_manager.h"
 #include "../rendering/render_window.h"
 #include "../rendering/deferred_renderer.h"
+#include "../rendering/voxel_renderer.h"
 
 #include <oglplus/gl.hpp>
 #include <oglplus/context.hpp>
@@ -26,7 +27,6 @@ EngineBase::~EngineBase()
     // release reserved data early (context dependent)
     InterfaceRenderer::Terminate();
     AssetsManager::Terminate();
-    delete renderer.release();
 }
 
 std::unique_ptr<EngineBase> &EngineBase::Instance()
@@ -53,8 +53,11 @@ void EngineBase::MainLoop()
     this->Initialize();
     // set rendering view port
     gl.Viewport(renderWindow->Info().width, renderWindow->Info().height);
+    // deferred shading renderer / manager
+    DeferredRenderer deferred(renderWindow.get());
+    VoxelRenderer voxelizer(renderWindow.get());
     // deferred renderer as current active to it can be accessed by nodes
-    renderer->SetAsActive();
+    deferred.SetAsActive();
 
     // render loop
     while (!renderWindow->ShouldClose())
@@ -70,7 +73,7 @@ void EngineBase::MainLoop()
         // interfaces update
         Interface::DrawAll();
         // render main scene
-        renderer->Render();
+        deferred.Render();
         // ui render over scene
         InterfaceRenderer::Render();
         // finally swap current frame
@@ -102,8 +105,6 @@ void EngineBase::Initialize()
     InterfaceRenderer::Initialize(*renderWindow);
     // print libs version info
     PrintDependenciesVersions();
-    // deferred shading renderer / manager
-    renderer = std::make_unique<DeferredRenderer>(*renderWindow);
     // initialize assets manager, holds all engine assets
     AssetsManager::Instance();
 }

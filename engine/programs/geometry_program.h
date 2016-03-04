@@ -18,24 +18,13 @@ class GeometryProgram : public ProgramShader
             oglplus::Uniform<glm::vec3> ambient;
             oglplus::Uniform<glm::vec3> diffuse;
             oglplus::Uniform<glm::vec3> specular;
-            oglplus::Uniform<glm::vec3> emissive;
-            oglplus::Uniform<glm::vec3> transparent;
-
-            oglplus::Uniform<float> opacity;
             oglplus::Uniform<float> shininess;
-            oglplus::Uniform<float> shininessStrength;
-            oglplus::Uniform<float> refractionIndex;
-
             oglplus::Uniform<unsigned int> useNormalsMap;
         };
         struct UniformMatrices
         {
             oglplus::Uniform<glm::mat4> modelView;
             oglplus::Uniform<glm::mat4> modelViewProjection;
-            oglplus::Uniform<glm::mat4> model;
-            oglplus::Uniform<glm::mat4> view;
-            oglplus::Uniform<glm::mat4> projection;
-            oglplus::Uniform<glm::mat4> normal;
         };
     public:
         // fragment shader uniforms
@@ -50,7 +39,7 @@ class GeometryProgram : public ProgramShader
         void ExtractUniforms() override;
 
         GeometryProgram() = default;
-        ~GeometryProgram() override;
+        virtual ~GeometryProgram();
         GeometryProgram(GeometryProgram const &r) = delete;
         GeometryProgram &operator=(GeometryProgram const &r) = delete;
 };

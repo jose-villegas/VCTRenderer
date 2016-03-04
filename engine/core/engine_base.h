@@ -39,10 +39,6 @@ class EngineBase
         /// </summary>
         std::unique_ptr<RenderWindow> renderWindow;
         /// <summary>
-        /// The engine main renderer, uses deferred rendering path.
-        /// </summary>
-        std::unique_ptr<DeferredRenderer> renderer;
-        /// <summary>
         /// Setups all the engine components, imports assets
         /// and initializes libraries.
         /// </summary>

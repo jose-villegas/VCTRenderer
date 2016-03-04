@@ -6,6 +6,11 @@
 
 const bool Renderer::UseFrustumCulling = true;
 
+RenderWindow &Renderer::Window() const
+{
+    return *window;
+}
+
 void Renderer::SetMatricesUniforms(const Node &node) const
 {
 }
@@ -18,9 +23,9 @@ Renderer::Renderer(): window(nullptr), program(nullptr)
 {
 }
 
-Renderer::Renderer(RenderWindow &window): program(nullptr)
+Renderer::Renderer(RenderWindow * window): program(nullptr)
 {
-    this->window = &window;
+    this->window = window;
 }
 
 Renderer::~Renderer()

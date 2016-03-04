@@ -12,11 +12,11 @@
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
 
-DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window),
+DeferredRenderer::DeferredRenderer(RenderWindow * window) : Renderer(window),
     viewMatrixChanged(false)
 {
     // create textures and attachments for framebuffer in deferredhandler
-    SetupGeometryBuffer(window.Info().width, window.Info().height);
+    SetupGeometryBuffer(Window().Info().width, Window().Info().height);
 }
 
 DeferredRenderer::~DeferredRenderer()

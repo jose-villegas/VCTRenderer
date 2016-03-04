@@ -16,6 +16,12 @@ class Renderer : public SingleActive <Renderer>
 {
     protected:
         /// <summary>
+        /// Returns the rendering window associated to this renderer. Usually
+        /// the main window where the context was created.
+        /// </summary>
+        /// <returns></returns>
+        RenderWindow &Window() const;
+        /// <summary>
         /// Sets this program as the current active program in this renderer.
         /// </summary>
         /// <param name="program">The program.</param>
@@ -53,7 +59,7 @@ class Renderer : public SingleActive <Renderer>
         /// Initializes a new instance of the <see cref="Renderer"/> class.
         /// </summary>
         Renderer();
-        explicit Renderer(RenderWindow &window);
+        explicit Renderer(RenderWindow * window);
         /// <summary>
         /// Finalizes an instance of the <see cref="Renderer"/> class.
         /// </summary>

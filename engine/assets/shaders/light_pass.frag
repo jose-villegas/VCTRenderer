@@ -1,4 +1,4 @@
-#version 420
+#version 430
 
 out vec4 fragColor;
 
@@ -53,21 +53,23 @@ vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
     return light.diffuse * albedo * lambertian;
 }
 
-vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec3 specular)
+vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4 specular)
 {
-    vec3 lightReflect = normalize(reflect(-lightDirection, normal));
-    float specularFactor = max(dot(normalize(-position), lightReflect), 0.0f);
-    return light.specular * specular * specularFactor;
+    vec3 halfDirection = normalize(lightDirection + normalize(-position));
+    float specularFactor = max(dot(halfDirection, normal), 0.0f);
+    specularFactor = pow(specularFactor, specular.a * 128.0f);
+
+    return light.specular * specular.rgb * specularFactor;
 }
 
-vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
+vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
     return Ambient(light, albedo) + 
            Diffuse(light, light.direction, normal, albedo) + 
            Specular(light, light.direction, normal, position, specular);
 }
 
-vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
+vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
     light.direction = normalize(light.position - position);
     float distance = distance(light.position, position);
@@ -79,7 +81,7 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 s
     return CalculateDirectional(light, normal, position, albedo, specular) * falloff;
 }
 
-vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 specular)
+vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
     vec3 spotDirection = light.direction;
     vec3 lightDirection = normalize(light.position - position);
@@ -97,7 +99,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec3 sp
 
 vec3 PositionFromDepth()
 {
-    float z = texture(gDepth, texCoord).z;
+    float z = texture(gDepth, texCoord).x * 2.0f - 1.0f;
     vec4 projected = vec4(texCoord * 2.0f - 1.0f, z, 1.0f);
     projected = inverseProjection * projected;
     return projected.xyz / projected.w;
@@ -109,7 +111,7 @@ void main()
     vec3 position = PositionFromDepth();
     vec3 normal = texture(gNormal, texCoord).xyz;
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
-    vec3 specular = texture(gSpecular, texCoord).rgb;
+    vec4 specular = texture(gSpecular, texCoord);
 
     // calculate lighting for directional lights
     vec3 lighting = vec3(0.0f);

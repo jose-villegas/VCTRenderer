@@ -8,6 +8,7 @@
 
 #include "../programs/lighting_program.h"
 #include "../programs/geometry_program.h"
+#include "../programs/voxelization_program.h"
 
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
@@ -62,7 +63,7 @@ AssetsManager::AssetsManager()
     {
         std::make_shared<GeometryProgram>(),
         std::make_shared<LightingProgram>(),
-        std::make_shared<LightingProgram>()
+        std::make_shared<VoxelizationProgram>()
     };
     // deferred renderer geometry pass shader
     programs[0]->AttachShader(oglplus::ShaderType::Vertex,
@@ -81,6 +82,13 @@ AssetsManager::AssetsManager()
                               "assets\\shaders\\voxelization.frag");
     programs[2]->AttachShader(oglplus::ShaderType::Geometry,
                               "assets\\shaders\\voxelization.geom");
+
+    for (auto &prog : programs)
+    {
+        prog->Link();
+        prog->ExtractUniforms();
+    }
+
     // utility default assets
     Texture2D::GetDefaultTexture();
 }

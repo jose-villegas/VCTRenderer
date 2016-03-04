@@ -7,16 +7,15 @@
 void LightingProgram::ExtractUniforms()
 {
     using namespace oglplus;
-    auto &prog = program;
     // assign program
-    inverseProjection.Assign(prog);
-    gDepth.Assign(prog);
-    gNormal.Assign(prog);
-    gAlbedo.Assign(prog);
-    gSpecular.Assign(prog);
-    lightTypeCount[0].Assign(prog);
-    lightTypeCount[1].Assign(prog);
-    lightTypeCount[2].Assign(prog);
+    inverseProjection.Assign(program);
+    gDepth.Assign(program);
+    gNormal.Assign(program);
+    gAlbedo.Assign(program);
+    gSpecular.Assign(program);
+    lightTypeCount[0].Assign(program);
+    lightTypeCount[1].Assign(program);
+    lightTypeCount[2].Assign(program);
     // bind to uniform name
     inverseProjection.BindTo("inverseProjection");
     gDepth.BindTo("gDepth");
@@ -35,10 +34,10 @@ void LightingProgram::ExtractUniforms()
     {
         auto &light = directionalLight[i];
         auto index = std::to_string(i);
-        light.direction.Assign(prog);
-        light.ambient.Assign(prog);
-        light.diffuse.Assign(prog);
-        light.specular.Assign(prog);
+        light.direction.Assign(program);
+        light.ambient.Assign(program);
+        light.diffuse.Assign(program);
+        light.specular.Assign(program);
         light.direction.BindTo("directionalLight[" + index + "].direction");
         light.ambient.BindTo("directionalLight[" + index + "].ambient");
         light.diffuse.BindTo("directionalLight[" + index + "].diffuse");
@@ -49,13 +48,13 @@ void LightingProgram::ExtractUniforms()
     {
         auto &light = pointLight[i];
         auto index = std::to_string(i);
-        light.position.Assign(prog);
-        light.ambient.Assign(prog);
-        light.diffuse.Assign(prog);
-        light.specular.Assign(prog);
-        light.attenuation.constant.Assign(prog);
-        light.attenuation.linear.Assign(prog);
-        light.attenuation.quadratic.Assign(prog);
+        light.position.Assign(program);
+        light.ambient.Assign(program);
+        light.diffuse.Assign(program);
+        light.specular.Assign(program);
+        light.attenuation.constant.Assign(program);
+        light.attenuation.linear.Assign(program);
+        light.attenuation.quadratic.Assign(program);
         light.position.BindTo("pointLight[" + index + "].position");
         light.ambient.BindTo("pointLight[" + index + "].ambient");
         light.diffuse.BindTo("pointLight[" + index + "].diffuse");
@@ -72,16 +71,16 @@ void LightingProgram::ExtractUniforms()
     {
         auto &light = spotLight[i];
         auto index = std::to_string(i);
-        light.position.Assign(prog);
-        light.direction.Assign(prog);
-        light.ambient.Assign(prog);
-        light.diffuse.Assign(prog);
-        light.specular.Assign(prog);
-        light.attenuation.constant.Assign(prog);
-        light.attenuation.linear.Assign(prog);
-        light.attenuation.quadratic.Assign(prog);
-        light.angleInnerCone.Assign(prog);
-        light.angleOuterCone.Assign(prog);
+        light.position.Assign(program);
+        light.direction.Assign(program);
+        light.ambient.Assign(program);
+        light.diffuse.Assign(program);
+        light.specular.Assign(program);
+        light.attenuation.constant.Assign(program);
+        light.attenuation.linear.Assign(program);
+        light.attenuation.quadratic.Assign(program);
+        light.angleInnerCone.Assign(program);
+        light.angleOuterCone.Assign(program);
         light.position.BindTo("spotLight[" + index + "].position");
         light.direction.BindTo("spotLight[" + index + "].direction");
         light.ambient.BindTo("spotLight[" + index + "].ambient");

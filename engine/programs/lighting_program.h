@@ -52,7 +52,7 @@ class LightingProgram : public ProgramShader
         void ExtractUniforms() override;
 
         LightingProgram() = default;
-        ~LightingProgram() override;
+        virtual ~LightingProgram();
         LightingProgram(LightingProgram const &r) = delete;
         LightingProgram &operator=(LightingProgram const &r) = delete;
 };
