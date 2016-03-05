@@ -2,10 +2,8 @@
 #include "../core/renderer.h"
 
 #include <oglplus/texture.hpp>
-#include <glm/detail/type_vec3.hpp>
-#include <glm/detail/type_vec2.hpp>
-#include <glm/mat4x4.hpp>
 #include <oglplus/buffer.hpp>
+#include <glm/mat4x4.hpp>
 
 class VoxelizationProgram;
 
@@ -17,7 +15,7 @@ class VoxelRenderer : public Renderer
         void SetDimension(const unsigned int size);
         void SetMatricesUniforms(const Node &node) const override;
         void SetMaterialUniforms(const Material &material) const override;
-
+        void SetUpdateFrequency(const unsigned int framestep);
         explicit VoxelRenderer(RenderWindow * window);
         ~VoxelRenderer();
     private:
@@ -25,6 +23,7 @@ class VoxelRenderer : public Renderer
         void ProjectionSetup();
         void BuildAtomicBuffer() const;
         void BuildVoxelList();
+        void RenderVoxel();
         static void BuildLinearBuffer
         (
             const oglplus::Buffer &buffer,
@@ -46,6 +45,10 @@ class VoxelRenderer : public Renderer
 
         std::array<glm::mat4x4, 3> viewProjectionMatrix;
         unsigned int voxelDimension;
+        unsigned int storeMode;
+        unsigned int voxelFragmentCount;
+        unsigned int framestep;
+        bool renderVoxel;
 
         void SetVoxelizationPassUniforms() const;
 };

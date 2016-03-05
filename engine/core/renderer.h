@@ -38,7 +38,7 @@ class Renderer : public SingleActive <Renderer>
         typename std::enable_if<std::is_base_of<ProgramShader, T>::value, T>::type
         &CurrentProgram() const;
     public:
-        static const bool UseFrustumCulling;
+        static bool UseFrustumCulling;
         /// <summary>
         /// Rendering logic
         /// </summary>

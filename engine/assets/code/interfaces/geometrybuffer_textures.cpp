@@ -3,7 +3,7 @@
 
 #include "geometrybuffer_textures.h"
 #include "main_menu.h"
-#include "../../../rendering/deferred_handler.h"
+#include "../../../rendering/deferred_renderer.h"
 #include "../../../types/geometry_buffer.h"
 
 #include <oglplus/texture.hpp>
@@ -38,7 +38,7 @@ void UIGeometryBuffer::Draw()
 {
     if (!UIMainMenu::drawGeometryBuffer) { return; }
 
-    auto &gbuffer = DeferredHandler::GBuffer();
+    auto &gbuffer = DeferredRenderer::GBuffer();
     // begin editor
     Begin("Geometry Buffer", &UIMainMenu::drawGeometryBuffer,
           ImGuiWindowFlags_AlwaysAutoResize);

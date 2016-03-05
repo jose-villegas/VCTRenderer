@@ -12,12 +12,50 @@
 #include "../programs/voxelization_program.h"
 
 #include <oglplus/context.hpp>
-#include <oglplus/framebuffer.hpp>
-#include <glm/gtc/matrix_transform.inl>
+#include <glm/gtc/matrix_transform.hpp>
 
 void VoxelRenderer::Render()
 {
-    VoxelizeScene();
+    static Scene * previous = nullptr;
+    static auto frameCount = 0;
+    static auto &scene = Scene::Active();
+
+    if (!scene || !scene->IsLoaded()) { return; }
+
+    // scene changed or loaded
+    if (previous != scene.get())
+    {
+        BuildVoxelList();
+    }
+
+    if (framestep != 0 && frameCount % framestep  == 0)
+    {
+        VoxelizeScene();
+    }
+
+    // store current for next call
+    previous = scene.get();
+    // another frame called on render
+    frameCount++;
+}
+
+void VoxelRenderer::SetMatricesUniforms(const Node &node) const
+{
+    // no space matrices for voxelization pass during node rendering
+}
+
+void VoxelRenderer::SetMaterialUniforms(const Material &material) const
+{
+    auto &prog = CurrentProgram<VoxelizationProgram>();
+    // set textures
+    oglplus::Texture::Active(RawTexture::Diffuse);
+    material.BindTexture(RawTexture::Diffuse);
+    prog.diffuseMap.Set(RawTexture::Diffuse);
+}
+
+void VoxelRenderer::SetUpdateFrequency(const unsigned int framestep)
+{
+    this->framestep = framestep;
 }
 
 void VoxelRenderer::VoxelizeScene()
@@ -27,35 +65,38 @@ void VoxelRenderer::VoxelizeScene()
 
     if (!scene || !scene->IsLoaded()) { return; }
 
-    oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
+    gl.Viewport(voxelDimension, voxelDimension);
     // active voxelization pass program
     CurrentProgram<VoxelizationProgram>(VoxelizationPass());
     // rendering flags
     gl.Disable(oglplus::Capability::CullFace);
     gl.Disable(oglplus::Capability::DepthTest);
     gl.ColorMask(false, false, false, false);
+    UseFrustumCulling = false;
     // pass voxelization pass uniforms
     SetVoxelizationPassUniforms();
     // bind atomic buffer with voxel count
     atomicBuffer.BindBase(oglplus::BufferIndexedTarget::AtomicCounter, 0);
+
     // bind target textures
-    oglplus::Texture::BindImage(0, voxelPosition, 0, false, 0,
-                                oglplus::AccessSpecifier::ReadWrite,
+    if (storeMode == 1)
+    {
+        voxelPosition.BindImage(0, 0, false, 0, oglplus::AccessSpecifier::ReadWrite,
                                 oglplus::ImageUnitFormat::RGB10_A2UI);
-    oglplus::Texture::BindImage(1, voxelAlbedo, 0, false, 0,
-                                oglplus::AccessSpecifier::ReadWrite,
-                                oglplus::ImageUnitFormat::RGBA8);
-    oglplus::Texture::BindImage(2, voxelNormal, 0, false, 0,
-                                oglplus::AccessSpecifier::ReadWrite,
-                                oglplus::ImageUnitFormat::RGBA16F);
-    // draw whole scene tree from root node
+        voxelAlbedo.BindImage(0, 0, false, 0, oglplus::AccessSpecifier::ReadWrite,
+                              oglplus::ImageUnitFormat::RGBA8);
+        voxelNormal.BindImage(0, 0, false, 0, oglplus::AccessSpecifier::ReadWrite,
+                              oglplus::ImageUnitFormat::RGBA16F);
+    }
+
     scene->rootNode->DrawList();
-    // recover gl state
+    // recover gl and rendering state
     gl.Enable(oglplus::Capability::CullFace);
     gl.Enable(oglplus::Capability::DepthTest);
     gl.ColorMask(true, true, true, true);
     gl.Viewport(Window().Info().width, Window().Info().height);
+    UseFrustumCulling = true;
 }
 
 void VoxelRenderer::SetDimension(const unsigned int size)
@@ -85,21 +126,42 @@ void VoxelRenderer::BuildAtomicBuffer() const
 
 void VoxelRenderer::BuildVoxelList()
 {
-    static oglplus::Context gl;
+    using namespace oglplus;
+    static Context gl;
     BuildAtomicBuffer();
-    // voxelize scene first
+    // voxelize scene first, counting mode
+    storeMode = 0;
     VoxelizeScene();
-    gl.MemoryBarrier(oglplus::MemoryBarrierBit::AtomicCounter);
+    gl.MemoryBarrier(MemoryBarrierBit::AtomicCounter);
     // lookup number of voxels
-    atomicBuffer.Bind(oglplus::BufferTarget::AtomicCounter);
-    auto voxelCount = voxelDimension * voxelDimension * voxelDimension;
+    atomicBuffer.Bind(BufferTarget::AtomicCounter);
+    auto access = Bitfield<BufferMapAccess>(BufferMapAccess::Read);
+    access = access | Bitfield<BufferMapAccess>(BufferMapAccess::Write);
+    auto count = BufferRawMap(BufferTarget::AtomicCounter, 0,
+                              sizeof(unsigned int), access);
+    voxelFragmentCount = *static_cast<unsigned int *>(count.RawData());
     // create buffer for the voxel fragment pass
     BuildLinearBuffer(voxelPositionTBuffer, voxelPosition,
-                      oglplus::PixelDataInternalFormat::R32UI,
-                      sizeof(unsigned int) * voxelCount);
+                      PixelDataInternalFormat::R32UI,
+                      sizeof(unsigned int) * voxelFragmentCount);
     BuildLinearBuffer(voxelAlbedoTBuffer, voxelAlbedo,
-                      oglplus::PixelDataInternalFormat::RGBA8,
-                      sizeof(unsigned int) * voxelCount);
+                      PixelDataInternalFormat::RGBA8,
+                      sizeof(unsigned int) * voxelFragmentCount);
+    BuildLinearBuffer(voxelNormalTBuffer, voxelNormal,
+                      PixelDataInternalFormat::RGBA16F,
+                      sizeof(unsigned int) * voxelFragmentCount);
+    // reset counter
+    memset(count.RawData(), 0, sizeof(unsigned int));
+    // unmap buffer range.
+    count.Unmap();
+    // voxelize again, store fragments
+    storeMode = 1;
+    VoxelizeScene();
+    gl.MemoryBarrier(MemoryBarrierBit::ShaderImageAccess);
+}
+
+void VoxelRenderer::RenderVoxel()
+{
 }
 
 void VoxelRenderer::BuildLinearBuffer(const oglplus::Buffer &buffer,
@@ -115,27 +177,14 @@ void VoxelRenderer::BuildLinearBuffer(const oglplus::Buffer &buffer,
 
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
+    renderVoxel = false;
+    framestep = 0; // no dynamic update
     voxelDimension = 128;
     ProjectionSetup();
-    BuildVoxelList();
 }
 
 VoxelRenderer::~VoxelRenderer()
 {
-}
-
-void VoxelRenderer::SetMatricesUniforms(const Node &node) const
-{
-    // no space matrices for voxelization pass during node rendering
-}
-
-void VoxelRenderer::SetMaterialUniforms(const Material &material) const
-{
-    auto &prog = CurrentProgram<VoxelizationProgram>();
-    // set textures
-    oglplus::Texture::Active(RawTexture::Diffuse);
-    material.BindTexture(RawTexture::Diffuse);
-    prog.diffuseMap.Set(RawTexture::Diffuse);
 }
 
 VoxelizationProgram &VoxelRenderer::VoxelizationPass()
@@ -154,4 +203,5 @@ void VoxelRenderer::SetVoxelizationPassUniforms() const
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
     prog.cellSize[0].Set(voxelDimension);
     prog.cellSize[1].Set(voxelDimension);
+    prog.storeMode.Set(storeMode);
 }

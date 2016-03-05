@@ -13,14 +13,15 @@ layout (location = 0) out vec4 fragColor;
 layout (pixel_center_integer) in vec4 gl_FragCoord;
 
 // atomic counter 
-layout ( binding = 0, offset = 0 ) uniform atomic_uint voxelFragCount;
+layout (binding = 0, offset = 0) uniform atomic_uint voxelFragCount;
 
 uniform layout(binding = 0, rgb10_a2ui) uimageBuffer voxelPosition;
-uniform layout(binding = 1, rgba8 ) imageBuffer voxelAlbedo;
+uniform layout(binding = 1, rgba8) imageBuffer voxelAlbedo;
 uniform layout(binding = 2, rgba16f) imageBuffer voxelNormal;
 
 uniform sampler2D diffuseMap;
 uniform uint cellSize[2];
+uniform uint storeMode = 1;
 
 void main()
 {
@@ -50,12 +51,15 @@ void main()
 
 	uint idx = atomicCounterIncrement( voxelFragCount );
 
-	vec3 N, C;
+	if(storeMode == 1)
+	{
+		vec3 N, C;
 
-	N = In.normal;
-	C = texture( diffuseMap, In.texCoord.xy ).rgb;
+		N = In.normal;
+		C = texture( diffuseMap, In.texCoord.xy ).rgb;
 
-	imageStore( voxelPosition, int(idx), texcoord );
-	imageStore( voxelNormal, int(idx), vec4(N, 0.0f) );
-	imageStore( voxelAlbedo, int(idx), vec4(C, 0.0f) );
+		imageStore( voxelPosition, int(idx), texcoord );
+		imageStore( voxelNormal, int(idx), vec4(N, 0.0f) );
+		imageStore( voxelAlbedo, int(idx), vec4(C, 0.0f) );
+	}
 }

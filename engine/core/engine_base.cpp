@@ -73,6 +73,9 @@ void EngineBase::MainLoop()
         // interfaces update
         Interface::DrawAll();
         // render main scene
+        voxelizer.SetAsActive();
+        voxelizer.Render();
+        deferred.SetAsActive();
         deferred.Render();
         // ui render over scene
         InterfaceRenderer::Render();

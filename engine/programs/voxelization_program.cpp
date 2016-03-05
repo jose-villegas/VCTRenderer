@@ -5,6 +5,7 @@
 void VoxelizationProgram::ExtractUniforms()
 {
     // program owner
+    storeMode.Assign(program);
     diffuseMap.Assign(program);
     cellSize[0].Assign(program);
     cellSize[1].Assign(program);
@@ -12,6 +13,7 @@ void VoxelizationProgram::ExtractUniforms()
     viewProjections[1].Assign(program);
     viewProjections[2].Assign(program);
     // binding point
+    storeMode.BindTo("storeMode");
     diffuseMap.BindTo("diffuseMap");
     cellSize[0].BindTo("cellSize[0]");
     cellSize[1].BindTo("cellSize[1]");
