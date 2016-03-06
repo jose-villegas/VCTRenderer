@@ -1,20 +1,12 @@
 #version 430
 
-out vec4 albedo;
+out vec3 texCoord;
 
-uniform int volumeDimension;
-uniform sampler3D voxelAlbedo;
+layout(location = 0) in vec3 vertexPosition;
+layout(location = 1) in vec3 vertexTexCoord;
 
 void main()
 {
-	// voxel center
-	vec3 position = vec3
-	(
-		gl_VertexID % volumeDimension,
-		gl_VertexID / ( volumeDimension * volumeDimension ),
-		( gl_VertexID / volumeDimension ) % volumeDimension
-	);
-
-	albedo = texture(voxelAlbedo, position / volumeDimension);
-	gl_Position = vec4(position - volumeDimension * 0.5f, 1.0f);
+	gl_Position = vec4(vertexPosition, 1.0f);
+	texCoord = vertexTexCoord;
 }

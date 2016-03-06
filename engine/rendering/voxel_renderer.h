@@ -4,6 +4,7 @@
 #include <oglplus/texture.hpp>
 #include <glm/mat4x4.hpp>
 #include <oglplus/vertex_array.hpp>
+#include <oglplus/buffer.hpp>
 
 class BoundingBox;
 class VoxelDrawerProgram;
@@ -59,6 +60,10 @@ class VoxelRenderer : public Renderer
         /// </summary>
         void UpdateProjectionMatrices(const BoundingBox &sceneBox);
         /// <summary>
+        /// Updates the visualization voxel grid.
+        /// </summary>
+        void UpdateVoxelGrid(const BoundingBox &sceneBox) const;
+        /// <summary>
         /// Creates the voxel volume, a 3D texture meant to contain the
         /// voxelization result.
         /// </summary>
@@ -84,6 +89,7 @@ class VoxelRenderer : public Renderer
         unsigned int framestep;
         float volumeGridSize;
         bool renderVoxel;
+        unsigned int voxelCount;
 
         void SetVoxelizationPassUniforms() const;
 };

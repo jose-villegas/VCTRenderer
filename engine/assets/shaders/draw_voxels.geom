@@ -3,133 +3,68 @@
 // receive voxels points position
 layout(points) in;
 // outputs voxels as cubes
-layout(triangle_strip, max_vertices = 36) out;
+layout(triangle_strip, max_vertices = 24) out;
 
 uniform struct Matrices
 {
-    mat4 modelViewProjection;
+    mat4 viewProjection;
 } matrices;
 
-in vec4 albedo[];
+layout(binding = 0) uniform sampler3D voxelAlbedo;
+uniform float halfVoxelSize;
+
+in vec3 texCoord[];
 
 out vec4 voxelColor;
-out vec3 worldNormal;
 
 void main()
 {
-	voxelColor = albedo[0];
-
-	vec4 cubeVertices[8] = vec4[8]
+	const vec4 cubeVertices[8] = vec4[8] 
 	(
-		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(-0.5, 0.5, 0.5, 0)),
-		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(0.5, 0.5, 0.5, 0)),
-		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(-0.5, -0.5, 0.5, 0)),
-		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(0.5, -0.5, 0.5, 0)),
-		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(-0.5, 0.5, -0.5, 0)),
-		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(0.5, 0.5, -0.5, 0)),
-		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(-0.5, -0.5, -0.5, 0)),
-		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(0.5, -0.5, -0.5, 0))
+		vec4( 1.0,  1.0,  1.0, 1.0),
+		vec4( 1.0,  1.0, -1.0, 1.0),
+		vec4( 1.0, -1.0,  1.0, 1.0),
+		vec4( 1.0, -1.0, -1.0, 1.0),
+		vec4(-1.0,  1.0,  1.0, 1.0),
+		vec4(-1.0,  1.0, -1.0, 1.0),
+		vec4(-1.0, -1.0,  1.0, 1.0),
+		vec4(-1.0, -1.0, -1.0, 1.0)
 	);
 
-	// front face
-    worldNormal = vec3(0, 0, 1);
-    gl_Position = cubeVertices[0];
-    EmitVertex();
-    gl_Position = cubeVertices[2];
-    EmitVertex();
-	gl_Position = cubeVertices[3];
-    EmitVertex();
-    EndPrimitive();
-    gl_Position = cubeVertices[0];
-    EmitVertex();
-    gl_Position = cubeVertices[3];
-    EmitVertex();
-	gl_Position = cubeVertices[1];
-    EmitVertex();
-    EndPrimitive();
+	const int cubeIndices[24]  = int[24] 
+	(
+		0, 2, 1, 3, // right
+		6, 4, 7, 5, // left
+		5, 4, 1, 0, // up
+		6, 7, 2, 3, // down
+		4, 6, 0, 2, // front
+		1, 3, 5, 7  // back
+	);
 
-    // back face
-    worldNormal = vec3(0, 0, -1);
-    gl_Position = cubeVertices[5];
-    EmitVertex();
-    gl_Position = cubeVertices[7];
-    EmitVertex();
-	gl_Position = cubeVertices[6];
-    EmitVertex();
-    EndPrimitive();
-    gl_Position = cubeVertices[5];
-    EmitVertex();
-    gl_Position = cubeVertices[6];
-    EmitVertex();
-	gl_Position = cubeVertices[4];
-    EmitVertex();
-    EndPrimitive();
+	vec4 projectedVertices[8];
 
-    // right face
-    worldNormal = vec3(1, 0, 0);
-    gl_Position = cubeVertices[1];
-    EmitVertex();
-    gl_Position = cubeVertices[3];
-    EmitVertex();
-	gl_Position = cubeVertices[7];
-    EmitVertex();
-    EndPrimitive();
-    gl_Position = cubeVertices[1];
-    EmitVertex();
-    gl_Position = cubeVertices[7];
-    EmitVertex();
-	gl_Position = cubeVertices[5];
-    EmitVertex();
-    EndPrimitive();
+	for(int i = 0; i < 8; ++i)
+	{
+		projectedVertices[i] = matrices.viewProjection * (gl_in[0].gl_Position 
+							   + (halfVoxelSize * cubeVertices[i]));
+	}
 
-    // left face
-    worldNormal = vec3(-1, 0, 0);
-    gl_Position = cubeVertices[4];
-    EmitVertex();
-    gl_Position = cubeVertices[6];
-    EmitVertex();
-	gl_Position = cubeVertices[2];
-    EmitVertex();
-    EndPrimitive();
-    gl_Position = cubeVertices[4];
-    EmitVertex();
-    gl_Position = cubeVertices[2];
-    EmitVertex();
-	gl_Position = cubeVertices[0];
-    EmitVertex();
-    EndPrimitive();
+	for(int face = 0; face < 6; ++face)
+	{
+		vec4 albedo = texture(voxelAlbedo, texCoord[0].xyz);
 
-    // top face
-    worldNormal = vec3(0, 1, 0);
-    gl_Position = cubeVertices[4];
-    EmitVertex();
-    gl_Position = cubeVertices[0];
-    EmitVertex();
-	gl_Position = cubeVertices[1];
-    EmitVertex();
-    EndPrimitive();
-    gl_Position = cubeVertices[4];
-    EmitVertex();
-    gl_Position = cubeVertices[1];
-    EmitVertex();
-	gl_Position = cubeVertices[5];
-    EmitVertex();
-    EndPrimitive();
+		if(albedo.a < 0.1f)
+		{
+			continue;
+		}
+	
+		for(int vertex = 0; vertex < 4; ++vertex)
+		{
+			gl_Position = projectedVertices[cubeIndices[face * 4 + vertex]];
+			voxelColor = albedo;
+			EmitVertex();
+		}
 
-    // bottom face
-    worldNormal = vec3(0, -1, 0);
-    gl_Position = cubeVertices[2];
-    EmitVertex();
-    gl_Position = cubeVertices[6];
-    EmitVertex();
-	gl_Position = cubeVertices[7];
-    EmitVertex();
-    EndPrimitive();
-    gl_Position = cubeVertices[2];
-    EmitVertex();
-    gl_Position = cubeVertices[7];
-    EmitVertex();
-	gl_Position = cubeVertices[3];
-    EmitVertex();
-    EndPrimitive();
+		EndPrimitive();
+	}
 }

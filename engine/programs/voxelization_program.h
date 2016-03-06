@@ -6,7 +6,14 @@
 
 class VoxelizationProgram : public ProgramShader
 {
+    protected:
+        struct UniformMaterial
+        {
+            oglplus::Uniform<glm::vec3> diffuse;
+        };
+
     public:
+        UniformMaterial material;
         oglplus::UniformSampler diffuseMap;
         oglplus::Uniform<unsigned int> volumeDimension;
         std::array<oglplus::Uniform<glm::mat4>, 3> viewProjections;

@@ -5,12 +5,14 @@
 void VoxelizationProgram::ExtractUniforms()
 {
     // program owner
+    material.diffuse.Assign(program);
     diffuseMap.Assign(program);
     volumeDimension.Assign(program);
     viewProjections[0].Assign(program);
     viewProjections[1].Assign(program);
     viewProjections[2].Assign(program);
     // binding point
+    material.diffuse.BindTo("material.diffuse");
     diffuseMap.BindTo("diffuseMap");
     volumeDimension.BindTo("volumeDimension");
     viewProjections[0].BindTo("viewProjections[0]");

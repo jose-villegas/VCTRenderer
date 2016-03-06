@@ -3,6 +3,7 @@
 #include "voxel_renderer.h"
 
 #include "render_window.h"
+#include "../types/vertex.h"
 #include "../scene/scene.h"
 #include "../core/assets_manager.h"
 #include "../scene/camera.h"
@@ -13,6 +14,7 @@
 #include "../programs/voxel_drawer_program.h"
 
 #include <oglplus/context.hpp>
+#include <oglplus/vertex_attrib.hpp>
 #include <glm/gtx/transform.hpp>
 
 void VoxelRenderer::Render()
@@ -27,6 +29,7 @@ void VoxelRenderer::Render()
     if (previous != scene.get())
     {
         UpdateProjectionMatrices(scene->rootNode->boundaries);
+        UpdateVoxelGrid(scene->rootNode->boundaries);
         // update voxelization
         VoxelizeScene();
     }
@@ -41,7 +44,8 @@ void VoxelRenderer::Render()
     }
 
     // update voxelization
-    VoxelizeScene();
+    //VoxelizeScene();
+    DrawVoxels();
 }
 
 void VoxelRenderer::SetMatricesUniforms(const Node &node) const
@@ -52,6 +56,7 @@ void VoxelRenderer::SetMatricesUniforms(const Node &node) const
 void VoxelRenderer::SetMaterialUniforms(const Material &material) const
 {
     auto &prog = CurrentProgram<VoxelizationProgram>();
+    prog.material.diffuse.Set(material.Diffuse());
     // set textures
     oglplus::Texture::Active(RawTexture::Diffuse);
     material.BindTexture(RawTexture::Diffuse);
@@ -102,29 +107,23 @@ void VoxelRenderer::DrawVoxels()
     if (!camera || !scene || !scene->IsLoaded()) { return; }
 
     static oglplus::Context gl;
-    gl.ClearColor(0, 0, 0, 1);
+    gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Clear().ColorBuffer().DepthBuffer();
     // Open GL flags
     gl.Enable(oglplus::Capability::DepthTest);
-    gl.Enable(oglplus::Capability::CullFace);
-    // voxel volume info
-    auto voxelCount = volumeDimension * volumeDimension * volumeDimension;
-    auto voxelSize = volumeGridSize / volumeDimension;
+    //gl.Enable(oglplus::Capability::CullFace);
     auto &prog = VoxelDrawerShader();
     CurrentProgram<VoxelDrawerProgram>(prog);
     // activate voxel albedo texture for reading
     voxelAlbedo.Active(0);
     voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
-    // whole voxel space
-    auto voxelModel = translate(glm::vec3(0)) * glm::mat4(1.0f)
-                      * scale(glm::vec3(voxelSize));
+    // voxel grid projection matrices
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
     // pass voxel drawer uniforms
     prog.voxelAlbedo.Set(0);
-    prog.volumeDimension.Set(volumeDimension);
-    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix *
-                                          voxelModel);
+    prog.halfVoxelSize.Set((volumeGridSize / volumeDimension) / 2.0f);
+    prog.matrices.viewProjection.Set(projectionMatrix * viewMatrix);
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
     voxelDrawerArray.Bind();
@@ -133,12 +132,12 @@ void VoxelRenderer::DrawVoxels()
 
 void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 {
-    auto &center = sceneBox.Center();
     auto diagonal = sceneBox.MaxPoint() - sceneBox.MinPoint();
-    auto maxSize = glm::max(diagonal.x, glm::max(diagonal.y, diagonal.z));
-    auto halfSize = maxSize / 2.0f;
+    auto &center = sceneBox.Center();
+    volumeGridSize = glm::max(diagonal.x, glm::max(diagonal.y, diagonal.z));
+    auto halfSize = volumeGridSize / 2.0f;
     auto projection = glm::ortho(-halfSize, halfSize, -halfSize, halfSize, 0.0f,
-                                 maxSize);
+                                 volumeGridSize);
     viewProjectionMatrix[0] = lookAt(center + glm::vec3(halfSize, 0.0f, 0.0f),
                                      center, glm::vec3(0.0f, 1.0f, 0.0f));
     viewProjectionMatrix[1] = lookAt(center + glm::vec3(0.0f, halfSize, 0.0f),
@@ -152,10 +151,59 @@ void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     }
 }
 
+void VoxelRenderer::UpdateVoxelGrid(const BoundingBox &sceneBox) const
+{
+    auto voxelSize = volumeGridSize / volumeDimension;
+    auto voxelGridData = std::vector<Vertex>();
+    auto &center = sceneBox.Center();
+    auto vRes = static_cast<float>(volumeDimension);
+    auto halfRes = vRes / 2.0f;
+
+    for (auto x = 0; x < volumeDimension; ++x)
+    {
+        for (auto y = 0; y < volumeDimension; ++y)
+        {
+            for (auto z = 0; z < volumeDimension; ++z)
+            {
+                Vertex point;
+                point.position = glm::vec3
+                                 (
+                                     (x - halfRes) * voxelSize,
+                                     (y - halfRes) * voxelSize,
+                                     (z - halfRes) * voxelSize
+                                 ) + glm::vec3(voxelSize / 2) + center;
+                point.uv = glm::vec3
+                           (
+                               x / vRes + 1.0f / (2.0f * vRes),
+                               y / vRes + 1.0f / (2.0f * vRes),
+                               z / vRes + 1.0f / (2.0f * vRes)
+                           );
+                voxelGridData.push_back(std::move(point));
+            }
+        }
+    }
+
+    using namespace oglplus;
+    voxelDrawerArray.Bind();
+    // created here so it goes out of scope and deletes
+    // itself, buffer array not needed
+    Buffer voxelGridPoints;
+    voxelGridPoints.Bind(BufferTarget::Array);
+    voxelGridPoints.Data(BufferTarget::Array, voxelGridData);
+    VertexArrayAttrib(VertexAttribSlot(0)).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), // position
+             reinterpret_cast<const GLvoid *>(0));
+    VertexArrayAttrib(VertexAttribSlot(1)).Enable()
+    .Pointer(3, DataType::Float, false, sizeof(Vertex), // uvs
+             reinterpret_cast<const GLvoid *>(12));
+    voxelGridData.clear();
+    NoVertexArray().Bind();
+}
+
 void VoxelRenderer::GenerateVolumes() const
 {
     using namespace oglplus;
-    auto voxelData = new float[volumeDimension * volumeDimension * volumeDimension];
+    auto voxelData = new float[volumeDimension * volumeDimension * volumeDimension] {0};
     voxelAlbedo.Bind(TextureTarget::_3D);
     voxelAlbedo.BaseLevel(TextureTarget::_3D, 0);
     voxelAlbedo.MaxLevel(TextureTarget::_3D, 0);
@@ -173,9 +221,9 @@ void VoxelRenderer::GenerateVolumes() const
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
     renderVoxel = false;
-    framestep = 0;
+    framestep = 1;
     volumeDimension = 128;
-    volumeGridSize = 2;
+    voxelCount = volumeDimension * volumeDimension * volumeDimension;
     GenerateVolumes();
 }
 

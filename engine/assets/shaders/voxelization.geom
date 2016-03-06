@@ -69,15 +69,15 @@ vec4 EnlargedAxisAlignedBoundingBox(vec4 pos[3])
 void main()
 {
 	int selectedIndex = CalculateAxis();
-	mat4 projection = viewProjections[selectedIndex];
+	mat4 viewProjection = viewProjections[selectedIndex];
 	Out.selectedAxis = selectedIndex;
 
 	//transform vertices to clip space
 	vec4 pos[3] = vec4[3]
 	(
-		projection * gl_in[0].gl_Position,
-		projection * gl_in[1].gl_Position,
-		projection * gl_in[2].gl_Position
+		viewProjection * gl_in[0].gl_Position,
+		viewProjection * gl_in[1].gl_Position,
+		viewProjection * gl_in[2].gl_Position
 	);
 
 	Out.triangleAABB = EnlargedAxisAlignedBoundingBox(pos);

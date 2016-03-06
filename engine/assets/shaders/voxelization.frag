@@ -14,6 +14,11 @@ layout (pixel_center_integer) in vec4 gl_FragCoord;
 
 uniform layout(binding = 0, rgba8) image3D voxelAlbedo;
 
+uniform struct Material
+{
+    vec3 diffuse;
+} material;
+
 uniform sampler2D diffuseMap;
 uniform uint volumeDimension;
 
@@ -47,6 +52,7 @@ void main()
 
 	vec3 normal = In.normal;
 	vec4 albedo = texture( diffuseMap, In.texCoord.xy );
+	albedo = vec4(albedo.rgb * material.diffuse, albedo.a);
 
 	imageStore(voxelAlbedo, ivec3(texcoord.xyz), albedo);
 }
