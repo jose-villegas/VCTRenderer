@@ -7,7 +7,6 @@
 #include "../core/assets_manager.h"
 #include "../scene/texture.h"
 #include "../scene/material.h"
-#include "../util/const_definitions.h"
 
 #include "../programs/voxelization_program.h"
 
@@ -25,18 +24,21 @@ void VoxelRenderer::Render()
     // scene changed or loaded
     if (previous != scene.get())
     {
-        BuildVoxelList();
-    }
-
-    if (framestep != 0 && frameCount % framestep  == 0)
-    {
-        VoxelizeScene();
+        // update voxelization
+        VoxelizeScene();;
     }
 
     // store current for next call
     previous = scene.get();
+
     // another frame called on render
-    frameCount++;
+    if (framestep == 0 || frameCount++ % framestep != 0)
+    {
+        return;
+    }
+
+    // update voxelization
+    VoxelizeScene();
 }
 
 void VoxelRenderer::SetMatricesUniforms(const Node &node) const
@@ -66,7 +68,7 @@ void VoxelRenderer::VoxelizeScene()
     if (!scene || !scene->IsLoaded()) { return; }
 
     gl.Clear().ColorBuffer().DepthBuffer();
-    gl.Viewport(voxelDimension, voxelDimension);
+    gl.Viewport(volumeDimension, volumeDimension);
     // active voxelization pass program
     CurrentProgram<VoxelizationProgram>(VoxelizationPass());
     // rendering flags
@@ -76,20 +78,10 @@ void VoxelRenderer::VoxelizeScene()
     UseFrustumCulling = false;
     // pass voxelization pass uniforms
     SetVoxelizationPassUniforms();
-    // bind atomic buffer with voxel count
-    atomicBuffer.BindBase(oglplus::BufferIndexedTarget::AtomicCounter, 0);
-
-    // bind target textures
-    if (storeMode == 1)
-    {
-        voxelPosition.BindImage(0, 0, false, 0, oglplus::AccessSpecifier::ReadWrite,
-                                oglplus::ImageUnitFormat::RGB10_A2UI);
-        voxelAlbedo.BindImage(0, 0, false, 0, oglplus::AccessSpecifier::ReadWrite,
-                              oglplus::ImageUnitFormat::RGBA8);
-        voxelNormal.BindImage(0, 0, false, 0, oglplus::AccessSpecifier::ReadWrite,
-                              oglplus::ImageUnitFormat::RGBA16F);
-    }
-
+    // bind the volume texture to be writen in shaders
+    voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                          oglplus::ImageUnitFormat::RGBA8);
+    // draw scene triangles
     scene->rootNode->DrawList();
     // recover gl and rendering state
     gl.Enable(oglplus::Capability::CullFace);
@@ -99,88 +91,45 @@ void VoxelRenderer::VoxelizeScene()
     UseFrustumCulling = true;
 }
 
-void VoxelRenderer::SetDimension(const unsigned int size)
-{
-    voxelDimension = size;
-}
-
 void VoxelRenderer::ProjectionSetup()
 {
-    auto ortho = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 3.0f);
-    viewProjectionMatrix[0] = ortho * lookAt(Vector3::right, Vector3::zero,
-                              Vector3::up);
-    viewProjectionMatrix[1] = ortho * lookAt(Vector3::up, Vector3::zero,
-                              -Vector3::forward);
-    viewProjectionMatrix[2] = ortho * lookAt(Vector3::forward, Vector3::zero,
-                              Vector3::up);
+    auto size = volumeGridSize;
+    auto ortho = glm::ortho(-(size * 0.5f), size * 0.5f, -(size * 0.5f),
+                            size * 0.5f, size * 0.5f, size * 1.5f);
+    viewProjectionMatrix[0] = ortho * lookAt(glm::vec3(size, 0, 0), glm::vec3(0, 0,
+                              0), glm::vec3(0, 1, 0));
+    viewProjectionMatrix[1] = ortho * lookAt(glm::vec3(0, size, 0), glm::vec3(0, 0,
+                              0), glm::vec3(0, 0, -1));
+    viewProjectionMatrix[2] = ortho * lookAt(glm::vec3(0, 0, size), glm::vec3(0, 0,
+                              0), glm::vec3(0, 1, 0));
 }
 
-void VoxelRenderer::BuildAtomicBuffer() const
-{
-    unsigned int initialValue = 0;
-    atomicBuffer.Bind(oglplus::BufferTarget::AtomicCounter);
-    atomicBuffer.Data(oglplus::BufferTarget::AtomicCounter, sizeof(unsigned int),
-                      &initialValue);
-    oglplus::Buffer().Bind(oglplus::BufferIndexedTarget::AtomicCounter, 0);
-}
-
-void VoxelRenderer::BuildVoxelList()
+void VoxelRenderer::GenerateVolumes() const
 {
     using namespace oglplus;
-    static Context gl;
-    BuildAtomicBuffer();
-    // voxelize scene first, counting mode
-    storeMode = 0;
-    VoxelizeScene();
-    gl.MemoryBarrier(MemoryBarrierBit::AtomicCounter);
-    // lookup number of voxels
-    atomicBuffer.Bind(BufferTarget::AtomicCounter);
-    auto access = Bitfield<BufferMapAccess>(BufferMapAccess::Read);
-    access = access | Bitfield<BufferMapAccess>(BufferMapAccess::Write);
-    auto count = BufferRawMap(BufferTarget::AtomicCounter, 0,
-                              sizeof(unsigned int), access);
-    voxelFragmentCount = *static_cast<unsigned int *>(count.RawData());
-    // create buffer for the voxel fragment pass
-    BuildLinearBuffer(voxelPositionTBuffer, voxelPosition,
-                      PixelDataInternalFormat::R32UI,
-                      sizeof(unsigned int) * voxelFragmentCount);
-    BuildLinearBuffer(voxelAlbedoTBuffer, voxelAlbedo,
-                      PixelDataInternalFormat::RGBA8,
-                      sizeof(unsigned int) * voxelFragmentCount);
-    BuildLinearBuffer(voxelNormalTBuffer, voxelNormal,
-                      PixelDataInternalFormat::RGBA16F,
-                      sizeof(unsigned int) * voxelFragmentCount);
-    // reset counter
-    memset(count.RawData(), 0, sizeof(unsigned int));
-    // unmap buffer range.
-    count.Unmap();
-    // voxelize again, store fragments
-    storeMode = 1;
-    VoxelizeScene();
-    gl.MemoryBarrier(MemoryBarrierBit::ShaderImageAccess);
-}
-
-void VoxelRenderer::RenderVoxel()
-{
-}
-
-void VoxelRenderer::BuildLinearBuffer(const oglplus::Buffer &buffer,
-                                      const oglplus::Texture &texture, const oglplus::PixelDataInternalFormat &format,
-                                      size_t size)
-{
-    auto empty = 0;
-    buffer.Bind(oglplus::BufferTarget::Texture);
-    buffer.Data(oglplus::BufferTarget::Texture, oglplus::BufferData(size, nullptr));
-    texture.Bind(oglplus::TextureTarget::Buffer);
-    texture.Buffer(oglplus::TextureTarget::Buffer, format, buffer);
+    auto voxelData = new float[volumeDimension * volumeDimension * volumeDimension];
+    voxelAlbedo.Bind(TextureTarget::_3D);
+    voxelAlbedo.BaseLevel(TextureTarget::_3D, 0);
+    voxelAlbedo.MaxLevel(TextureTarget::_3D, 0);
+    voxelAlbedo.MinFilter(TextureTarget::_3D, TextureMinFilter::Nearest);
+    voxelAlbedo.MagFilter(TextureTarget::_3D, TextureMagFilter::Nearest);
+    voxelAlbedo.Image3D(TextureTarget::_3D, 0,
+                        PixelDataInternalFormat::RGBA8,
+                        volumeDimension, volumeDimension, volumeDimension, 0,
+                        PixelDataFormat::RGBA, PixelDataType::UnsignedByte,
+                        voxelData);
+    voxelAlbedo.GenerateMipmap(TextureTarget::_3D);
+    delete[] voxelData;
 }
 
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
     renderVoxel = false;
     framestep = 0; // no dynamic update
-    voxelDimension = 128;
+    volumeDimension = 128;
+    volumeGridSize = 2.0f;
     ProjectionSetup();
+    GenerateVolumes();
 }
 
 VoxelRenderer::~VoxelRenderer()
@@ -201,7 +150,5 @@ void VoxelRenderer::SetVoxelizationPassUniforms() const
     prog.viewProjections[0].Set(viewProjectionMatrix[0]);
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
-    prog.cellSize[0].Set(voxelDimension);
-    prog.cellSize[1].Set(voxelDimension);
-    prog.storeMode.Set(storeMode);
+    prog.volumeDimension.Set(volumeDimension);
 }

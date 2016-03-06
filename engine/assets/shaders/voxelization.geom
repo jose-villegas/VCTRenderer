@@ -15,12 +15,12 @@ out GeometryOut
     vec3 position;
     vec3 normal;
     vec3 texCoord;
-    flat vec4 triangleAABB;
     flat int selectedAxis;
+    flat vec4 triangleAABB;
 } Out;
 
 uniform mat4 viewProjections[3];
-uniform uint cellSize[2];
+uniform uint volumeDimension;
 
 int CalculateAxis()
 {
@@ -59,7 +59,7 @@ vec4 EnlargedAxisAlignedBoundingBox(vec4 pos[3])
 	axisAlignedBoundingBox.zw = max(pos[2].xy, axisAlignedBoundingBox.zw);
 
 	//Enlarge half-pixel
-	vec2 hPixel = vec2(1.0f / cellSize[0], 1.0f / cellSize[1]);
+	vec2 hPixel = vec2(1.0f / volumeDimension, 1.0f / volumeDimension);
 	axisAlignedBoundingBox.xy -= hPixel;
 	axisAlignedBoundingBox.zw += hPixel;
 
@@ -80,8 +80,8 @@ void main()
 		projection * gl_in[2].gl_Position
 	);
 
-	// enlarge triangle for conservative voxelization
 	Out.triangleAABB = EnlargedAxisAlignedBoundingBox(pos);
+	float pl = 1.4142135637309 / volumeDimension;
 	// find 3 triangle edge plane
     vec3 e0 = vec3( pos[1].xy - pos[0].xy, 0 );
 	vec3 e1 = vec3( pos[2].xy - pos[1].xy, 0 );
@@ -89,8 +89,7 @@ void main()
 	vec3 n0 = cross( e0, vec3(0,0,1) );
 	vec3 n1 = cross( e1, vec3(0,0,1) );
 	vec3 n2 = cross( e2, vec3(0,0,1) );
-	// dilate the triangle
-	float pl = 1.4142135637309 / cellSize[0];
+	// dilate/enlarge triangle for conservative voxelization
 	pos[0].xy = pos[0].xy + pl * ( (e2.xy/dot(e2.xy,n0.xy)) + (e0.xy/dot(e0.xy,n2.xy)) );
 	pos[1].xy = pos[1].xy + pl * ( (e0.xy/dot(e0.xy,n1.xy)) + (e1.xy/dot(e1.xy,n0.xy)) );
 	pos[2].xy = pos[2].xy + pl * ( (e1.xy/dot(e1.xy,n2.xy)) + (e2.xy/dot(e2.xy,n1.xy)) );

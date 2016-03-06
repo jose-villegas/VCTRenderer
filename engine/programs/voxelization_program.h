@@ -8,8 +8,7 @@ class VoxelizationProgram : public ProgramShader
 {
     public:
         oglplus::UniformSampler diffuseMap;
-        oglplus::Uniform<unsigned int> storeMode;
-        std::array<oglplus::Uniform<unsigned int>, 2> cellSize;
+        oglplus::Uniform<unsigned int> volumeDimension;
         std::array<oglplus::Uniform<glm::mat4>, 3> viewProjections;
 
         void ExtractUniforms() override;

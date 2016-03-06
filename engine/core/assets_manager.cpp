@@ -9,6 +9,7 @@
 #include "../programs/lighting_program.h"
 #include "../programs/geometry_program.h"
 #include "../programs/voxelization_program.h"
+#include "../programs/voxel_drawer_program.h"
 
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
@@ -63,25 +64,33 @@ AssetsManager::AssetsManager()
     {
         std::make_shared<GeometryProgram>(),
         std::make_shared<LightingProgram>(),
-        std::make_shared<VoxelizationProgram>()
+        std::make_shared<VoxelizationProgram>(),
+        std::make_shared<VoxelDrawerProgram>(),
     };
     // deferred renderer geometry pass shader
-    programs[0]->AttachShader(oglplus::ShaderType::Vertex,
-                              "assets\\shaders\\geometry_pass.vert");
-    programs[0]->AttachShader(oglplus::ShaderType::Fragment,
-                              "assets\\shaders\\geometry_pass.frag");
+    programs[GeometryPass]->AttachShader(oglplus::ShaderType::Vertex,
+                                         "assets\\shaders\\geometry_pass.vert");
+    programs[GeometryPass]->AttachShader(oglplus::ShaderType::Fragment,
+                                         "assets\\shaders\\geometry_pass.frag");
     // deferred renderer light pass shader
-    programs[1]->AttachShader(oglplus::ShaderType::Vertex,
-                              "assets\\shaders\\light_pass.vert");
-    programs[1]->AttachShader(oglplus::ShaderType::Fragment,
-                              "assets\\shaders\\light_pass.frag");
+    programs[LightPass]->AttachShader(oglplus::ShaderType::Vertex,
+                                      "assets\\shaders\\light_pass.vert");
+    programs[LightPass]->AttachShader(oglplus::ShaderType::Fragment,
+                                      "assets\\shaders\\light_pass.frag");
     // voxelization pass for global illumination
-    programs[2]->AttachShader(oglplus::ShaderType::Vertex,
-                              "assets\\shaders\\voxelization.vert");
-    programs[2]->AttachShader(oglplus::ShaderType::Fragment,
-                              "assets\\shaders\\voxelization.frag");
-    programs[2]->AttachShader(oglplus::ShaderType::Geometry,
-                              "assets\\shaders\\voxelization.geom");
+    programs[Voxelization]->AttachShader(oglplus::ShaderType::Vertex,
+                                         "assets\\shaders\\voxelization.vert");
+    programs[Voxelization]->AttachShader(oglplus::ShaderType::Geometry,
+                                         "assets\\shaders\\voxelization.geom");
+    programs[Voxelization]->AttachShader(oglplus::ShaderType::Fragment,
+                                         "assets\\shaders\\voxelization.frag");
+    // voxelization result drawer
+    programs[VoxelDrawer]->AttachShader(oglplus::ShaderType::Vertex,
+                                        "assets\\shaders\\draw_voxels.vert");
+    programs[VoxelDrawer]->AttachShader(oglplus::ShaderType::Geometry,
+                                        "assets\\shaders\\draw_voxels.geom");
+    programs[VoxelDrawer]->AttachShader(oglplus::ShaderType::Fragment,
+                                        "assets\\shaders\\draw_voxels.frag");
 
     for (auto &prog : programs)
     {

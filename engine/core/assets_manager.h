@@ -19,6 +19,7 @@ class AssetsManager
             GeometryPass = 0,
             LightPass,
             Voxelization,
+            VoxelDrawer,
             Size,
         };
 
