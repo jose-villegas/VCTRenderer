@@ -356,6 +356,9 @@
     <ClInclude Include="programs\voxelization_program.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\draw_voxels.frag" />
+    <None Include="assets\shaders\draw_voxels.geom" />
+    <None Include="assets\shaders\draw_voxels.vert" />
     <None Include="assets\shaders\geometry_pass.frag" />
     <None Include="assets\shaders\geometry_pass.vert" />
     <None Include="assets\shaders\light_pass.frag" />

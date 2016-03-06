@@ -6,7 +6,16 @@
 
 class VoxelDrawerProgram : public ProgramShader
 {
+    protected:
+        struct UniformMatrices
+        {
+            oglplus::Uniform<glm::mat4> modelViewProjection;
+        };
     public:
+        UniformMatrices matrices;
+        oglplus::Uniform<int> volumeDimension;
+        oglplus::UniformSampler voxelAlbedo;
+
         void ExtractUniforms() override;
 
         VoxelDrawerProgram() = default;

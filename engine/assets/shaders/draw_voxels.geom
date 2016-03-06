@@ -17,6 +17,8 @@ out vec3 worldNormal;
 
 void main()
 {
+	voxelColor = albedo[0];
+
 	vec4 cubeVertices[8] = vec4[8]
 	(
 		matrices.modelViewProjection * (gl_in[0].gl_Position + vec4(-0.5, 0.5, 0.5, 0)),

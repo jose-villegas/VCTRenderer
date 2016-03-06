@@ -3,7 +3,10 @@
 
 #include <oglplus/texture.hpp>
 #include <glm/mat4x4.hpp>
+#include <oglplus/vertex_array.hpp>
 
+class BoundingBox;
+class VoxelDrawerProgram;
 class VoxelizationProgram;
 
 class VoxelRenderer : public Renderer
@@ -46,10 +49,15 @@ class VoxelRenderer : public Renderer
         /// <returns></returns>
         static VoxelizationProgram &VoxelizationPass();
         /// <summary>
+        /// Returns the voxelization program shader.
+        /// </summary>
+        /// <returns></returns>
+        static VoxelDrawerProgram &VoxelDrawerShader();
+        /// <summary>
         /// Creates the view projection matrices per x, y and z axis.
         /// depending on the voxel volume grid size.
         /// </summary>
-        void ProjectionSetup();
+        void UpdateProjectionMatrices(const BoundingBox &sceneBox);
         /// <summary>
         /// Creates the voxel volume, a 3D texture meant to contain the
         /// voxelization result.
@@ -59,10 +67,17 @@ class VoxelRenderer : public Renderer
         /// Voxelizes the scene.
         /// </summary>
         void VoxelizeScene();
+        /// <summary>
+        /// Draws the resulting voxels.
+        /// </summary>
+        void DrawVoxels();
 
         // output textures
         oglplus::Texture voxelAlbedo;
         oglplus::Texture voxelNormal;
+
+        // vertex buffer object for 3d texture visualization
+        oglplus::VertexArray voxelDrawerArray;
 
         std::array<glm::mat4x4, 3> viewProjectionMatrix;
         unsigned int volumeDimension;

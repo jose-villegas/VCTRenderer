@@ -75,8 +75,8 @@ void EngineBase::MainLoop()
         // render main scene
         voxelizer.SetAsActive();
         voxelizer.Render();
-        deferred.SetAsActive();
-        deferred.Render();
+        //deferred.SetAsActive();
+        //deferred.Render();
         // ui render over scene
         InterfaceRenderer::Render();
         // finally swap current frame

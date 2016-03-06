@@ -5,13 +5,15 @@
 #include "render_window.h"
 #include "../scene/scene.h"
 #include "../core/assets_manager.h"
+#include "../scene/camera.h"
 #include "../scene/texture.h"
 #include "../scene/material.h"
 
 #include "../programs/voxelization_program.h"
+#include "../programs/voxel_drawer_program.h"
 
 #include <oglplus/context.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 
 void VoxelRenderer::Render()
 {
@@ -24,8 +26,9 @@ void VoxelRenderer::Render()
     // scene changed or loaded
     if (previous != scene.get())
     {
+        UpdateProjectionMatrices(scene->rootNode->boundaries);
         // update voxelization
-        VoxelizeScene();;
+        VoxelizeScene();
     }
 
     // store current for next call
@@ -91,17 +94,62 @@ void VoxelRenderer::VoxelizeScene()
     UseFrustumCulling = true;
 }
 
-void VoxelRenderer::ProjectionSetup()
+void VoxelRenderer::DrawVoxels()
 {
-    auto size = volumeGridSize;
-    auto ortho = glm::ortho(-(size * 0.5f), size * 0.5f, -(size * 0.5f),
-                            size * 0.5f, size * 0.5f, size * 1.5f);
-    viewProjectionMatrix[0] = ortho * lookAt(glm::vec3(size, 0, 0), glm::vec3(0, 0,
-                              0), glm::vec3(0, 1, 0));
-    viewProjectionMatrix[1] = ortho * lookAt(glm::vec3(0, size, 0), glm::vec3(0, 0,
-                              0), glm::vec3(0, 0, -1));
-    viewProjectionMatrix[2] = ortho * lookAt(glm::vec3(0, 0, size), glm::vec3(0, 0,
-                              0), glm::vec3(0, 1, 0));
+    static auto &camera = Camera::Active();
+    static auto &scene = Scene::Active();
+
+    if (!camera || !scene || !scene->IsLoaded()) { return; }
+
+    static oglplus::Context gl;
+    gl.ClearColor(0, 0, 0, 1);
+    gl.Clear().ColorBuffer().DepthBuffer();
+    // Open GL flags
+    gl.Enable(oglplus::Capability::DepthTest);
+    gl.Enable(oglplus::Capability::CullFace);
+    // voxel volume info
+    auto voxelCount = volumeDimension * volumeDimension * volumeDimension;
+    auto voxelSize = volumeGridSize / volumeDimension;
+    auto &prog = VoxelDrawerShader();
+    CurrentProgram<VoxelDrawerProgram>(prog);
+    // activate voxel albedo texture for reading
+    voxelAlbedo.Active(0);
+    voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
+    // whole voxel space
+    auto voxelModel = translate(glm::vec3(0)) * glm::mat4(1.0f)
+                      * scale(glm::vec3(voxelSize));
+    auto &viewMatrix = camera->ViewMatrix();
+    auto &projectionMatrix = camera->ProjectionMatrix();
+    // pass voxel drawer uniforms
+    prog.voxelAlbedo.Set(0);
+    prog.volumeDimension.Set(volumeDimension);
+    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix *
+                                          voxelModel);
+    // bind vertex buffer array to draw, needed but all geometry is generated
+    // in the geometry shader
+    voxelDrawerArray.Bind();
+    gl.DrawArrays(oglplus::PrimitiveType::Points, 0, voxelCount);
+}
+
+void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
+{
+    auto &center = sceneBox.Center();
+    auto diagonal = sceneBox.MaxPoint() - sceneBox.MinPoint();
+    auto maxSize = glm::max(diagonal.x, glm::max(diagonal.y, diagonal.z));
+    auto halfSize = maxSize / 2.0f;
+    auto projection = glm::ortho(-halfSize, halfSize, -halfSize, halfSize, 0.0f,
+                                 maxSize);
+    viewProjectionMatrix[0] = lookAt(center + glm::vec3(halfSize, 0.0f, 0.0f),
+                                     center, glm::vec3(0.0f, 1.0f, 0.0f));
+    viewProjectionMatrix[1] = lookAt(center + glm::vec3(0.0f, halfSize, 0.0f),
+                                     center, glm::vec3(0.0f, 0.0f, -1.0f));
+    viewProjectionMatrix[2] = lookAt(center + glm::vec3(0.0f, 0.0f, halfSize),
+                                     center, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    for (auto &matrix : viewProjectionMatrix)
+    {
+        matrix = projection * matrix;
+    }
 }
 
 void VoxelRenderer::GenerateVolumes() const
@@ -125,10 +173,9 @@ void VoxelRenderer::GenerateVolumes() const
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
     renderVoxel = false;
-    framestep = 0; // no dynamic update
+    framestep = 0;
     volumeDimension = 128;
-    volumeGridSize = 2.0f;
-    ProjectionSetup();
+    volumeGridSize = 2;
     GenerateVolumes();
 }
 
@@ -141,6 +188,14 @@ VoxelizationProgram &VoxelRenderer::VoxelizationPass()
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<VoxelizationProgram *>
                         (assets->programs[AssetsManager::Voxelization].get());
+    return prog;
+}
+
+VoxelDrawerProgram &VoxelRenderer::VoxelDrawerShader()
+{
+    static auto &assets = AssetsManager::Instance();
+    static auto &prog = *static_cast<VoxelDrawerProgram *>
+                        (assets->programs[AssetsManager::VoxelDrawer].get());
     return prog;
 }
 
