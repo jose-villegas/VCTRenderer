@@ -10,12 +10,19 @@ uniform struct Matrices
     mat4 viewProjection;
 } matrices;
 
-layout(binding = 0) uniform sampler3D voxelAlbedo;
+layout(binding = 0) uniform usampler3D voxelAlbedo;
 uniform float halfVoxelSize;
 
 in vec3 texCoord[];
 
 out vec4 voxelColor;
+
+vec4 convRGBA8ToVec4(uint val) {
+    return vec4( float((val & 0x000000FF)), 
+                 float((val & 0x0000FF00) >> 8U), 
+                 float((val & 0x00FF0000) >> 16U), 
+                 float((val & 0xFF000000) >> 24U));
+}
 
 void main()
 {
@@ -51,7 +58,8 @@ void main()
 
 	for(int face = 0; face < 6; ++face)
 	{
-		vec4 albedo = texture(voxelAlbedo, texCoord[0].xyz);
+		uvec4 albedoU = texture(voxelAlbedo, texCoord[0].xyz);
+		vec4 albedo = convRGBA8ToVec4(albedoU.x) / vec4(255);
 
 		if(albedo.a < 0.1f)
 		{

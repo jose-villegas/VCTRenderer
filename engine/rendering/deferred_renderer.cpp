@@ -5,6 +5,7 @@
 #include <oglplus/vertex_attrib.hpp>
 #include <oglplus/bound/texture.hpp>
 
+#include "voxel_renderer.h"
 #include "../scene/camera.h"
 #include "../scene/scene.h"
 #include "../scene/material.h"
@@ -56,8 +57,12 @@ void DeferredRenderer::Render()
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
 
-    if (!camera || !scene || !scene->IsLoaded()) { return; }
+    if (!camera || !scene || !scene->IsLoaded() || VoxelRenderer::ShowVoxels)
+    {
+        return;
+    }
 
+    SetAsActive();
     // bind g buffer for writing
     gbuffer.Bind(oglplus::FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();

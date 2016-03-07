@@ -3,7 +3,6 @@
 #include "voxel_renderer.h"
 
 #include "render_window.h"
-#include "../types/vertex.h"
 #include "../scene/scene.h"
 #include "../core/assets_manager.h"
 #include "../scene/camera.h"
@@ -16,6 +15,9 @@
 #include <oglplus/context.hpp>
 #include <oglplus/vertex_attrib.hpp>
 #include <glm/gtx/transform.hpp>
+#include <tbb/parallel_for.h>
+
+bool VoxelRenderer::ShowVoxels = false;
 
 void VoxelRenderer::Render()
 {
@@ -25,27 +27,40 @@ void VoxelRenderer::Render()
 
     if (!scene || !scene->IsLoaded()) { return; }
 
+    SetAsActive();
+
     // scene changed or loaded
     if (previous != scene.get())
     {
         UpdateProjectionMatrices(scene->rootNode->boundaries);
-        UpdateVoxelGrid(scene->rootNode->boundaries);
+        updateVoxelGrid = true;
         // update voxelization
         VoxelizeScene();
+    }
+
+    if (ShowVoxels)
+    {
+        if (updateVoxelGrid)
+        {
+            UpdateVoxelGrid(scene->rootNode->boundaries);
+            updateVoxelGrid = false;
+        }
+
+        DrawVoxels();
     }
 
     // store current for next call
     previous = scene.get();
 
-    // another frame called on render
+    // another frame called on render, if framestep is > 0
+    // Voxelization will happen every framestep frame
     if (framestep == 0 || frameCount++ % framestep != 0)
     {
         return;
     }
 
     // update voxelization
-    //VoxelizeScene();
-    DrawVoxels();
+    VoxelizeScene();
 }
 
 void VoxelRenderer::SetMatricesUniforms(const Node &node) const
@@ -72,6 +87,7 @@ void VoxelRenderer::VoxelizeScene()
 {
     static oglplus::Context gl;
     static auto &scene = Scene::Active();
+    static auto zero = 0;
 
     if (!scene || !scene->IsLoaded()) { return; }
 
@@ -87,8 +103,10 @@ void VoxelRenderer::VoxelizeScene()
     // pass voxelization pass uniforms
     SetVoxelizationPassUniforms();
     // bind the volume texture to be writen in shaders
+    voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RedInteger, &zero);
+    atomicCounter.BindBase(oglplus::BufferIndexedTarget::AtomicCounter, 0);
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
-                          oglplus::ImageUnitFormat::RGBA8);
+                          oglplus::ImageUnitFormat::R32UI);
     // draw scene triangles
     scene->rootNode->DrawList();
     // recover gl and rendering state
@@ -110,8 +128,11 @@ void VoxelRenderer::DrawVoxels()
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Clear().ColorBuffer().DepthBuffer();
     // Open GL flags
+    gl.ClearDepth(1.0f);
     gl.Enable(oglplus::Capability::DepthTest);
-    //gl.Enable(oglplus::Capability::CullFace);
+    gl.Enable(oglplus::Capability::CullFace);
+    gl.FrontFace(oglplus::FaceOrientation::CCW);
+    gl.CullFace(oglplus::Face::Back);
     auto &prog = VoxelDrawerShader();
     CurrentProgram<VoxelDrawerProgram>(prog);
     // activate voxel albedo texture for reading
@@ -153,19 +174,27 @@ void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 
 void VoxelRenderer::UpdateVoxelGrid(const BoundingBox &sceneBox) const
 {
+    // not using vertex class because it has unnecesary data
+    // we need to reserve a big chunk of memory
+    struct Point
+    {
+        glm::vec3 position;
+        glm::vec3 uv;
+    };
     auto voxelSize = volumeGridSize / volumeDimension;
-    auto voxelGridData = std::vector<Vertex>();
+    auto voxelGridData = std::vector<Point>();
     auto &center = sceneBox.Center();
     auto vRes = static_cast<float>(volumeDimension);
     auto halfRes = vRes / 2.0f;
-
-    for (auto x = 0; x < volumeDimension; ++x)
+    voxelGridData.resize(volumeDimension * volumeDimension *
+                         volumeDimension);
+    tbb::parallel_for(0, int(volumeDimension), [&](int x)
     {
         for (auto y = 0; y < volumeDimension; ++y)
         {
             for (auto z = 0; z < volumeDimension; ++z)
             {
-                Vertex point;
+                Point point;
                 point.position = glm::vec3
                                  (
                                      (x - halfRes) * voxelSize,
@@ -178,11 +207,12 @@ void VoxelRenderer::UpdateVoxelGrid(const BoundingBox &sceneBox) const
                                y / vRes + 1.0f / (2.0f * vRes),
                                z / vRes + 1.0f / (2.0f * vRes)
                            );
-                voxelGridData.push_back(std::move(point));
+                auto index = z + y * volumeDimension + x * volumeDimension *
+                             volumeDimension;
+                voxelGridData[index] = std::move(point);
             }
         }
-    }
-
+    });
     using namespace oglplus;
     voxelDrawerArray.Bind();
     // created here so it goes out of scope and deletes
@@ -191,10 +221,10 @@ void VoxelRenderer::UpdateVoxelGrid(const BoundingBox &sceneBox) const
     voxelGridPoints.Bind(BufferTarget::Array);
     voxelGridPoints.Data(BufferTarget::Array, voxelGridData);
     VertexArrayAttrib(VertexAttribSlot(0)).Enable()
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), // position
+    .Pointer(3, DataType::Float, false, sizeof(Point), // position
              reinterpret_cast<const GLvoid *>(0));
     VertexArrayAttrib(VertexAttribSlot(1)).Enable()
-    .Pointer(3, DataType::Float, false, sizeof(Vertex), // uvs
+    .Pointer(3, DataType::Float, false, sizeof(Point), // uvs
              reinterpret_cast<const GLvoid *>(12));
     voxelGridData.clear();
     NoVertexArray().Bind();
@@ -205,26 +235,39 @@ void VoxelRenderer::GenerateVolumes() const
     using namespace oglplus;
     auto voxelData = new float[volumeDimension * volumeDimension * volumeDimension] {0};
     voxelAlbedo.Bind(TextureTarget::_3D);
+    voxelAlbedo.Image3D(TextureTarget::_3D, 0,
+                        PixelDataInternalFormat::R32UI,
+                        volumeDimension, volumeDimension, volumeDimension, 0,
+                        PixelDataFormat::RedInteger, PixelDataType::UnsignedInt,
+                        voxelData);
     voxelAlbedo.BaseLevel(TextureTarget::_3D, 0);
     voxelAlbedo.MaxLevel(TextureTarget::_3D, 0);
-    voxelAlbedo.MinFilter(TextureTarget::_3D, TextureMinFilter::Nearest);
-    voxelAlbedo.MagFilter(TextureTarget::_3D, TextureMagFilter::Nearest);
-    voxelAlbedo.Image3D(TextureTarget::_3D, 0,
-                        PixelDataInternalFormat::RGBA8,
-                        volumeDimension, volumeDimension, volumeDimension, 0,
-                        PixelDataFormat::RGBA, PixelDataType::UnsignedByte,
-                        voxelData);
+    voxelAlbedo.SwizzleRGBA(TextureTarget::_3D,
+                            TextureSwizzle::Red,
+                            TextureSwizzle::Green,
+                            TextureSwizzle::Blue,
+                            TextureSwizzle::Alpha);
+    voxelAlbedo.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
+    voxelAlbedo.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
     voxelAlbedo.GenerateMipmap(TextureTarget::_3D);
     delete[] voxelData;
 }
 
+void VoxelRenderer::GenerateAtomicBuffer()
+{
+    unsigned int initVal = 0;
+    atomicCounter.Bind(oglplus::BufferTarget::AtomicCounter);
+    atomicCounter.Data(oglplus::BufferTarget::AtomicCounter, sizeof(unsigned int),
+                       &initVal);
+}
+
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
-    renderVoxel = false;
-    framestep = 1;
-    volumeDimension = 128;
+    framestep = 0; // only on scene change
+    volumeDimension = 256;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
     GenerateVolumes();
+    GenerateAtomicBuffer();
 }
 
 VoxelRenderer::~VoxelRenderer()

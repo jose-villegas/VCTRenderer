@@ -13,6 +13,7 @@ class VoxelizationProgram;
 class VoxelRenderer : public Renderer
 {
     public:
+        static bool ShowVoxels;
         /// <summary>
         /// Voxelizes the current scene. It can also be used to show the
         /// result volume.
@@ -68,6 +69,8 @@ class VoxelRenderer : public Renderer
         /// voxelization result.
         /// </summary>
         void GenerateVolumes() const;
+
+        void GenerateAtomicBuffer();
         /// <summary>
         /// Voxelizes the scene.
         /// </summary>
@@ -77,9 +80,11 @@ class VoxelRenderer : public Renderer
         /// </summary>
         void DrawVoxels();
 
+        // atomic buffer for average atomic in fragment voxelizer
+        oglplus::Buffer atomicCounter;
+
         // output textures
         oglplus::Texture voxelAlbedo;
-        oglplus::Texture voxelNormal;
 
         // vertex buffer object for 3d texture visualization
         oglplus::VertexArray voxelDrawerArray;
@@ -88,7 +93,7 @@ class VoxelRenderer : public Renderer
         unsigned int volumeDimension;
         unsigned int framestep;
         float volumeGridSize;
-        bool renderVoxel;
+        bool updateVoxelGrid;
         unsigned int voxelCount;
 
         void SetVoxelizationPassUniforms() const;
