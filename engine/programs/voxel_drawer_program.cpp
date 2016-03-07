@@ -5,13 +5,17 @@
 void VoxelDrawerProgram::ExtractUniforms()
 {
     // program owner
+    volumeDimension.Assign(program);
     matrices.viewProjection.Assign(program);
-    halfVoxelSize.Assign(program);
+    voxelSize.Assign(program);
     voxelAlbedo.Assign(program);
+    voxelGridMove.Assign(program);
     // binding point
+    volumeDimension.BindTo("volumeDimension");
     matrices.viewProjection.BindTo("matrices.viewProjection");
-    halfVoxelSize.BindTo("halfVoxelSize");
+    voxelSize.BindTo("voxelSize");
     voxelAlbedo.BindTo("voxelAlbedo");
+    voxelGridMove.BindTo("voxelGridMove");
 }
 
 VoxelDrawerProgram::~VoxelDrawerProgram()

@@ -13,7 +13,9 @@ class VoxelDrawerProgram : public ProgramShader
         };
     public:
         UniformMatrices matrices;
-        oglplus::Uniform<float> halfVoxelSize;
+        oglplus::Uniform<unsigned int> volumeDimension;
+        oglplus::Uniform<float> voxelSize;
+        oglplus::Uniform<glm::vec3> voxelGridMove;
         oglplus::UniformSampler voxelAlbedo;
 
         void ExtractUniforms() override;

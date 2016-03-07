@@ -61,15 +61,14 @@ class VoxelRenderer : public Renderer
         /// </summary>
         void UpdateProjectionMatrices(const BoundingBox &sceneBox);
         /// <summary>
-        /// Updates the visualization voxel grid.
-        /// </summary>
-        void UpdateVoxelGrid(const BoundingBox &sceneBox) const;
-        /// <summary>
         /// Creates the voxel volume, a 3D texture meant to contain the
         /// voxelization result.
         /// </summary>
         void GenerateVolumes() const;
-
+        /// <summary>
+        /// Generates the atomic buffer. Used for average atomic operations
+        /// during voxelization fragment shader.
+        /// </summary>
         void GenerateAtomicBuffer() const;
         /// <summary>
         /// Voxelizes the scene.
@@ -93,7 +92,6 @@ class VoxelRenderer : public Renderer
         unsigned int volumeDimension;
         unsigned int framestep;
         float volumeGridSize;
-        bool updateVoxelGrid;
         unsigned int voxelCount;
 
         void SetVoxelizationPassUniforms() const;

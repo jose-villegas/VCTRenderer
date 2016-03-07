@@ -11,7 +11,7 @@ uniform struct Matrices
 } matrices;
 
 layout(binding = 0) uniform usampler3D voxelAlbedo;
-uniform float halfVoxelSize;
+uniform float voxelSize;
 
 in vec3 texCoord[];
 
@@ -53,7 +53,7 @@ void main()
 	for(int i = 0; i < 8; ++i)
 	{
 		projectedVertices[i] = matrices.viewProjection * (gl_in[0].gl_Position 
-							   + (halfVoxelSize * cubeVertices[i]));
+							   + ((voxelSize / 2.0f) * cubeVertices[i]));
 	}
 
 	for(int face = 0; face < 6; ++face)

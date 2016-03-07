@@ -33,19 +33,12 @@ void VoxelRenderer::Render()
     if (previous != scene.get())
     {
         UpdateProjectionMatrices(scene->rootNode->boundaries);
-        updateVoxelGrid = true;
         // update voxelization
         VoxelizeScene();
     }
 
     if (ShowVoxels)
     {
-        if (updateVoxelGrid)
-        {
-            UpdateVoxelGrid(scene->rootNode->boundaries);
-            updateVoxelGrid = false;
-        }
-
         DrawVoxels();
     }
 
@@ -142,8 +135,13 @@ void VoxelRenderer::DrawVoxels()
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
     // pass voxel drawer uniforms
+    auto voxelSize = volumeGridSize / volumeDimension;
+    auto voxelGridMove = glm::vec3(voxelSize / 2) +
+                         scene->rootNode->boundaries.MinPoint();
     prog.voxelAlbedo.Set(0);
-    prog.halfVoxelSize.Set((volumeGridSize / volumeDimension) / 2.0f);
+    prog.volumeDimension.Set(volumeDimension);
+    prog.voxelSize.Set(voxelSize);
+    prog.voxelGridMove.Set(voxelGridMove);
     prog.matrices.viewProjection.Set(projectionMatrix * viewMatrix);
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
@@ -170,64 +168,6 @@ void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     {
         matrix = projection * matrix;
     }
-}
-
-void VoxelRenderer::UpdateVoxelGrid(const BoundingBox &sceneBox) const
-{
-    // not using vertex class because it has unnecesary data
-    // we need to reserve a big chunk of memory
-    struct Point
-    {
-        glm::vec3 position;
-        glm::vec3 uv;
-    };
-    auto voxelSize = volumeGridSize / volumeDimension;
-    auto voxelGridData = std::vector<Point>();
-    auto &center = sceneBox.Center();
-    auto vRes = static_cast<float>(volumeDimension);
-    auto halfRes = vRes / 2.0f;
-    voxelGridData.resize(volumeDimension * volumeDimension *
-                         volumeDimension);
-    tbb::parallel_for(0, int(volumeDimension), [&](int x)
-    {
-        for (auto y = 0; y < volumeDimension; ++y)
-        {
-            for (auto z = 0; z < volumeDimension; ++z)
-            {
-                Point point;
-                point.position = glm::vec3
-                                 (
-                                     (x - halfRes) * voxelSize,
-                                     (y - halfRes) * voxelSize,
-                                     (z - halfRes) * voxelSize
-                                 ) + glm::vec3(voxelSize / 2) + center;
-                point.uv = glm::vec3
-                           (
-                               x / vRes + 1.0f / (2.0f * vRes),
-                               y / vRes + 1.0f / (2.0f * vRes),
-                               z / vRes + 1.0f / (2.0f * vRes)
-                           );
-                auto index = z + y * volumeDimension + x * volumeDimension *
-                             volumeDimension;
-                voxelGridData[index] = std::move(point);
-            }
-        }
-    });
-    using namespace oglplus;
-    voxelDrawerArray.Bind();
-    // created here so it goes out of scope and deletes
-    // itself, buffer array not needed
-    Buffer voxelGridPoints;
-    voxelGridPoints.Bind(BufferTarget::Array);
-    voxelGridPoints.Data(BufferTarget::Array, voxelGridData);
-    VertexArrayAttrib(VertexAttribSlot(0)).Enable()
-    .Pointer(3, DataType::Float, false, sizeof(Point), // position
-             reinterpret_cast<const GLvoid *>(0));
-    VertexArrayAttrib(VertexAttribSlot(1)).Enable()
-    .Pointer(3, DataType::Float, false, sizeof(Point), // uvs
-             reinterpret_cast<const GLvoid *>(12));
-    voxelGridData.clear();
-    NoVertexArray().Bind();
 }
 
 void VoxelRenderer::GenerateVolumes() const
