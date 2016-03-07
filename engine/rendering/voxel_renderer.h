@@ -70,7 +70,7 @@ class VoxelRenderer : public Renderer
         /// </summary>
         void GenerateVolumes() const;
 
-        void GenerateAtomicBuffer();
+        void GenerateAtomicBuffer() const;
         /// <summary>
         /// Voxelizes the scene.
         /// </summary>

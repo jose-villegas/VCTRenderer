@@ -41,38 +41,33 @@ uint convVec4ToRGBA8(vec4 val) {
 
 uint imageAtomicRGBA8Avg(layout(r32ui) volatile uimage3D img, 
                          ivec3 coords,
-                         vec4 newVal) {
-    newVal.xyz *= 255.0; // Optimise following calculations
-    uint newValU = convVec4ToRGBA8(newVal);
-    uint lastValU = 0; 
-    uint currValU;
-    vec4 currVal;
-    uint numIterations = 0;
+                         vec4 val) {
+    val.xyz *= 255.0; // Optimise following calculations
+    uint newVal = convVec4ToRGBA8(val);
+    uint prevStoredVal = 0; 
+    uint curStoredVal;
+    vec4 rval;
     // Loop as long as destination value gets changed by other threads
-    while((currValU = imageAtomicCompSwap(img, coords, lastValU, newValU))
-          != lastValU
-          && numIterations < 100) {
-        lastValU = currValU;
+    while((curStoredVal = imageAtomicCompSwap(img, coords, prevStoredVal, newVal)) != prevStoredVal) {
+        prevStoredVal = curStoredVal;
 
-        currVal = convRGBA8ToVec4(currValU);
-        currVal.xyz *= currVal.a; // Denormalize
+        rval = convRGBA8ToVec4(curStoredVal);
+        rval.xyz *= rval.a; // Denormalize
 
-        currVal += newVal; // Add new value
-        currVal.xyz /= currVal.a; // Renormalize
+        rval += val; // Add new value
+        rval.xyz /= rval.a; // Renormalize
 
-        newValU = convVec4ToRGBA8(currVal);
-
-        ++numIterations;
+        newVal = convVec4ToRGBA8(rval);
     }
 
-    // currVal now contains the calculated color: now convert it to a proper alpha-premultiplied version
-    newVal = convRGBA8ToVec4(newValU);
-    newVal.a = 255.0;
-    newValU = convVec4ToRGBA8(newVal);
+    // rval now contains the calculated color: now convert it to a proper alpha-premultiplied version
+    val = convRGBA8ToVec4(newVal);
+    val.a = 255.0;
+    newVal = convVec4ToRGBA8(val);
 
-    imageStore(img, coords, uvec4(newValU));
+    imageStore(img, coords, uvec4(newVal));
 
-    return newValU;
+    return newVal;
 }
 
 void main()

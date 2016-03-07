@@ -253,7 +253,7 @@ void VoxelRenderer::GenerateVolumes() const
     delete[] voxelData;
 }
 
-void VoxelRenderer::GenerateAtomicBuffer()
+void VoxelRenderer::GenerateAtomicBuffer() const
 {
     unsigned int initVal = 0;
     atomicCounter.Bind(oglplus::BufferTarget::AtomicCounter);
@@ -264,7 +264,7 @@ void VoxelRenderer::GenerateAtomicBuffer()
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
     framestep = 0; // only on scene change
-    volumeDimension = 256;
+    volumeDimension = 128;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
     GenerateVolumes();
     GenerateAtomicBuffer();
