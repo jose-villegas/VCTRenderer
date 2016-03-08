@@ -17,12 +17,14 @@ void main()
 		gl_VertexID % volumeDimension
 	);
 
+	float halfDimension = float(volumeDimension) / 2.0f;
+
 	vec3 worldPosition = vec3
 	(
 		position.x * voxelSize,
 		position.y * voxelSize,
 		position.z * voxelSize
-	) + voxelGridMove;
+	) + vec3(voxelSize / 2.0f) + voxelGridMove;
 
 	gl_Position = vec4(worldPosition, 1.0f);
 	float volumeDimensionF = float(volumeDimension);

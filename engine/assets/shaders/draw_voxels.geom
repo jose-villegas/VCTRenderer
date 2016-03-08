@@ -7,7 +7,7 @@ layout(triangle_strip, max_vertices = 24) out;
 
 uniform struct Matrices
 {
-    mat4 viewProjection;
+    mat4 modelViewProjection;
 } matrices;
 
 layout(binding = 0) uniform usampler3D voxelAlbedo;
@@ -26,6 +26,8 @@ vec4 convRGBA8ToVec4(uint val) {
 
 void main()
 {
+	float halfSize = voxelSize / 2.0f;
+
 	const vec4 cubeVertices[8] = vec4[8] 
 	(
 		vec4( 1.0,  1.0,  1.0, 1.0),
@@ -52,8 +54,8 @@ void main()
 
 	for(int i = 0; i < 8; ++i)
 	{
-		projectedVertices[i] = matrices.viewProjection * (gl_in[0].gl_Position 
-							   + ((voxelSize / 2.0f) * cubeVertices[i]));
+		vec4 vertex = gl_in[0].gl_Position + (halfSize * cubeVertices[i]);
+		projectedVertices[i] = matrices.modelViewProjection * vertex;
 	}
 
 	for(int face = 0; face < 6; ++face)
@@ -61,7 +63,7 @@ void main()
 		uvec4 albedoU = texture(voxelAlbedo, texCoord[0].xyz);
 		vec4 albedo = convRGBA8ToVec4(albedoU.x) / vec4(255);
 
-		if(albedo.a < 0.1f)
+		if(albedo.a < 0.5f)
 		{
 			continue;
 		}

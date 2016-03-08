@@ -9,7 +9,7 @@ class VoxelDrawerProgram : public ProgramShader
     protected:
         struct UniformMatrices
         {
-            oglplus::Uniform<glm::mat4> viewProjection;
+            oglplus::Uniform<glm::mat4> modelViewProjection;
         };
     public:
         UniformMatrices matrices;

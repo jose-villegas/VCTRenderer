@@ -68,12 +68,15 @@ void DeferredRenderer::Render()
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
     CurrentProgram<GeometryProgram>(GeometryPass());
-    // Open GL flags
+    // rendering and GL flags
+    gl.Viewport(Window().Info().width, Window().Info().height);
+    gl.ColorMask(true, true, true, true);
     gl.ClearDepth(1.0f);
     gl.Enable(oglplus::Capability::DepthTest);
     gl.Enable(oglplus::Capability::CullFace);
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
+    UseFrustumCulling = true;
     // camera position or forward has changed
     viewMatrixChanged = camera->transform.changed;
     // draw whole scene tree from root node

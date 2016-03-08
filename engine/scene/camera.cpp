@@ -147,6 +147,17 @@ bool Camera::InFrustum(const BoundingBox &volume)
     return frustum.InFrustum(volume);
 }
 
+const CullingFrustum &Camera::Frustum()
+{
+    if (frustumChanged || projectionChanged || transform.changed)
+    {
+        frustum.ExtractPlanes(ProjectionMatrix() * ViewMatrix());
+        frustumChanged = false;
+    }
+
+    return frustum;
+}
+
 void Camera::ComputeViewMatrix()
 {
     viewMatrix = lookAt

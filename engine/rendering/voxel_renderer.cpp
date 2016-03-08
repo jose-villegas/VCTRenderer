@@ -4,6 +4,7 @@
 
 #include "render_window.h"
 #include "../scene/scene.h"
+#include "../types/frustum.h"
 #include "../core/assets_manager.h"
 #include "../scene/camera.h"
 #include "../scene/texture.h"
@@ -13,9 +14,7 @@
 #include "../programs/voxel_drawer_program.h"
 
 #include <oglplus/context.hpp>
-#include <oglplus/vertex_attrib.hpp>
 #include <glm/gtx/transform.hpp>
-#include <tbb/parallel_for.h>
 
 bool VoxelRenderer::ShowVoxels = false;
 
@@ -102,12 +101,6 @@ void VoxelRenderer::VoxelizeScene()
                           oglplus::ImageUnitFormat::R32UI);
     // draw scene triangles
     scene->rootNode->DrawList();
-    // recover gl and rendering state
-    gl.Enable(oglplus::Capability::CullFace);
-    gl.Enable(oglplus::Capability::DepthTest);
-    gl.ColorMask(true, true, true, true);
-    gl.Viewport(Window().Info().width, Window().Info().height);
-    UseFrustumCulling = true;
 }
 
 void VoxelRenderer::DrawVoxels()
@@ -135,14 +128,13 @@ void VoxelRenderer::DrawVoxels()
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
     // pass voxel drawer uniforms
+    auto sceneBox = scene->rootNode->boundaries;
     auto voxelSize = volumeGridSize / volumeDimension;
-    auto voxelGridMove = glm::vec3(voxelSize / 2) +
-                         scene->rootNode->boundaries.MinPoint();
     prog.voxelAlbedo.Set(0);
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelSize.Set(voxelSize);
-    prog.voxelGridMove.Set(voxelGridMove);
-    prog.matrices.viewProjection.Set(projectionMatrix * viewMatrix);
+    prog.voxelGridMove.Set(sceneBox.MinPoint());
+    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix);
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
     voxelDrawerArray.Bind();
@@ -151,9 +143,9 @@ void VoxelRenderer::DrawVoxels()
 
 void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 {
-    auto diagonal = sceneBox.MaxPoint() - sceneBox.MinPoint();
+    auto axisSize = sceneBox.Extent() * 2.0f;
     auto &center = sceneBox.Center();
-    volumeGridSize = glm::max(diagonal.x, glm::max(diagonal.y, diagonal.z));
+    volumeGridSize = glm::max(axisSize.x, glm::max(axisSize.y, axisSize.z));
     auto halfSize = volumeGridSize / 2.0f;
     auto projection = glm::ortho(-halfSize, halfSize, -halfSize, halfSize, 0.0f,
                                  volumeGridSize);
