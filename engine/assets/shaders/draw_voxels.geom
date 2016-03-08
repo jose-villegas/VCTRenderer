@@ -10,7 +10,7 @@ uniform struct Matrices
     mat4 modelViewProjection;
 } matrices;
 
-layout(binding = 0) uniform usampler3D voxelAlbedo;
+layout(r32ui) uniform volatile uimage3D voxelAlbedo;
 uniform float voxelSize;
 
 in vec3 texCoord[];
@@ -27,6 +27,7 @@ vec4 convRGBA8ToVec4(uint val) {
 void main()
 {
 	float halfSize = voxelSize / 2.0f;
+  	const ivec3 voxelTexSize = imageSize(voxelAlbedo);
 
 	const vec4 cubeVertices[8] = vec4[8] 
 	(
@@ -60,7 +61,7 @@ void main()
 
 	for(int face = 0; face < 6; ++face)
 	{
-		uvec4 albedoU = texture(voxelAlbedo, texCoord[0].xyz);
+		uvec4 albedoU = imageLoad(voxelAlbedo, ivec3(floor(texCoord[0].xyz * voxelTexSize)));
 		vec4 albedo = convRGBA8ToVec4(albedoU.x) / vec4(255);
 
 		if(albedo.a < 0.5f)

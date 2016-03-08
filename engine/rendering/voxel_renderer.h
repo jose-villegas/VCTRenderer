@@ -79,6 +79,8 @@ class VoxelRenderer : public Renderer
         /// </summary>
         void DrawVoxels();
 
+        void ResetAtomicBuffer() const;
+
         // atomic buffer for average atomic in fragment voxelizer
         oglplus::Buffer atomicCounter;
 

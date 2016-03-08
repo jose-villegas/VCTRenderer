@@ -36,23 +36,21 @@ void VoxelRenderer::Render()
         VoxelizeScene();
     }
 
-    if (ShowVoxels)
-    {
-        DrawVoxels();
-    }
-
     // store current for next call
     previous = scene.get();
 
     // another frame called on render, if framestep is > 0
     // Voxelization will happen every framestep frame
-    if (framestep == 0 || frameCount++ % framestep != 0)
+    if (framestep != 0 && frameCount++ % framestep == 0)
     {
-        return;
+        // update voxelization
+        VoxelizeScene();
     }
 
-    // update voxelization
-    VoxelizeScene();
+    if (ShowVoxels)
+    {
+        DrawVoxels();
+    }
 }
 
 void VoxelRenderer::SetMatricesUniforms(const Node &node) const
@@ -83,6 +81,7 @@ void VoxelRenderer::VoxelizeScene()
 
     if (!scene || !scene->IsLoaded()) { return; }
 
+    ResetAtomicBuffer();
     gl.Clear().ColorBuffer().DepthBuffer();
     gl.Viewport(volumeDimension, volumeDimension);
     // active voxelization pass program
@@ -107,12 +106,15 @@ void VoxelRenderer::DrawVoxels()
 {
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
+    static auto &info = Window().Info();
 
     if (!camera || !scene || !scene->IsLoaded()) { return; }
 
     static oglplus::Context gl;
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    gl.Viewport(info.width, info.height);
     gl.Clear().ColorBuffer().DepthBuffer();
+    gl.ColorMask(true, true, true, true);
     // Open GL flags
     gl.ClearDepth(1.0f);
     gl.Enable(oglplus::Capability::DepthTest);
@@ -121,16 +123,14 @@ void VoxelRenderer::DrawVoxels()
     gl.CullFace(oglplus::Face::Back);
     auto &prog = VoxelDrawerShader();
     CurrentProgram<VoxelDrawerProgram>(prog);
-    // activate voxel albedo texture for reading
-    voxelAlbedo.Active(0);
-    voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
     // voxel grid projection matrices
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
     // pass voxel drawer uniforms
     auto sceneBox = scene->rootNode->boundaries;
     auto voxelSize = volumeGridSize / volumeDimension;
-    prog.voxelAlbedo.Set(0);
+    voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                          oglplus::ImageUnitFormat::R32UI);
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelSize.Set(voxelSize);
     prog.voxelGridMove.Set(sceneBox.MinPoint());
@@ -139,6 +139,21 @@ void VoxelRenderer::DrawVoxels()
     // in the geometry shader
     voxelDrawerArray.Bind();
     gl.DrawArrays(oglplus::PrimitiveType::Points, 0, voxelCount);
+}
+
+void VoxelRenderer::ResetAtomicBuffer() const
+{
+    // writing raw gl here, can be easily be done with oglplus
+    // but safe it works properly
+    atomicCounter.Bind(oglplus::BufferTarget::AtomicCounter);
+    auto ptr = static_cast<GLuint *>(glMapBufferRange(
+                                         GL_ATOMIC_COUNTER_BUFFER, 0,
+                                         sizeof(GLuint), GL_MAP_WRITE_BIT |
+                                         GL_MAP_INVALIDATE_BUFFER_BIT |
+                                         GL_MAP_UNSYNCHRONIZED_BIT));
+    ptr[0] = 0;
+    glUnmapBuffer(GL_ATOMIC_COUNTER_BUFFER);
+    glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
 }
 
 void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
@@ -195,7 +210,7 @@ void VoxelRenderer::GenerateAtomicBuffer() const
 
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
-    framestep = 0; // only on scene change
+    framestep = 5; // only on scene change
     volumeDimension = 128;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
     GenerateVolumes();
