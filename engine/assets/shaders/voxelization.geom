@@ -26,7 +26,7 @@ int CalculateAxis()
 {
 	vec3 oneToZero = In[1].position - In[0].position;
 	vec3 twoToZero = In[2].position - In[0].position;
-	vec3 faceNormal = normalize(cross(oneToZero, twoToZero));
+	vec3 faceNormal = cross(oneToZero, twoToZero);
 
 	float NdotXAxis = abs( faceNormal.x );
 	float NdotYAxis = abs( faceNormal.y );
@@ -46,22 +46,16 @@ int CalculateAxis()
 	}
 }
 
-vec4 EnlargedAxisAlignedBoundingBox(vec4 pos[3])
+vec4 EnlargedAxisAlignedBoundingBox(vec4 pos[3], vec2 pixelDiagonal)
 {
 	vec4 axisAlignedBoundingBox;
-	axisAlignedBoundingBox.xy = pos[0].xy;
-	axisAlignedBoundingBox.zw = pos[0].xy;
 
-	axisAlignedBoundingBox.xy = min(pos[1].xy, axisAlignedBoundingBox.xy);
-	axisAlignedBoundingBox.zw = max(pos[1].xy, axisAlignedBoundingBox.zw);
-	
-	axisAlignedBoundingBox.xy = min(pos[2].xy, axisAlignedBoundingBox.xy);
-	axisAlignedBoundingBox.zw = max(pos[2].xy, axisAlignedBoundingBox.zw);
+	axisAlignedBoundingBox.xy = min(pos[2].xy, min(pos[1].xy, pos[0].xy));
+	axisAlignedBoundingBox.zw = max(pos[2].xy, max(pos[1].xy, pos[0].xy));
 
-	//Enlarge half-pixel
-	vec2 hPixel = vec2(1.0f / volumeDimension, 1.0f / volumeDimension);
-	axisAlignedBoundingBox.xy -= hPixel;
-	axisAlignedBoundingBox.zw += hPixel;
+	// enlarge half-pixel
+	axisAlignedBoundingBox.xy -= pixelDiagonal;
+	axisAlignedBoundingBox.zw += pixelDiagonal;
 
 	return axisAlignedBoundingBox;
 }
@@ -80,19 +74,16 @@ void main()
 		viewProjection * gl_in[2].gl_Position
 	);
 
-	Out.triangleAABB = EnlargedAxisAlignedBoundingBox(pos);
-	float pl = 1.4142135637309 / volumeDimension;
+	vec2 pl = vec2(1.4142135637309 / volumeDimension);
+	Out.triangleAABB = EnlargedAxisAlignedBoundingBox(pos, pl);
 	// find 3 triangle edge plane
-    vec3 e0 = vec3( pos[1].xy - pos[0].xy, 0 );
-	vec3 e1 = vec3( pos[2].xy - pos[1].xy, 0 );
-	vec3 e2 = vec3( pos[0].xy - pos[2].xy, 0 );
-	vec3 n0 = cross( e0, vec3(0,0,1) );
-	vec3 n1 = cross( e1, vec3(0,0,1) );
-	vec3 n2 = cross( e2, vec3(0,0,1) );
+    vec2 e0 = normalize( pos[1].xy - pos[0].xy );
+	vec2 e1 = normalize( pos[2].xy - pos[1].xy );
+	vec2 e2 = normalize( pos[0].xy - pos[2].xy );
 	// dilate/enlarge triangle for conservative voxelization
-	pos[0].xy = pos[0].xy + pl * ( (e2.xy/dot(e2.xy,n0.xy)) + (e0.xy/dot(e0.xy,n2.xy)) );
-	pos[1].xy = pos[1].xy + pl * ( (e0.xy/dot(e0.xy,n1.xy)) + (e1.xy/dot(e1.xy,n0.xy)) );
-	pos[2].xy = pos[2].xy + pl * ( (e1.xy/dot(e1.xy,n2.xy)) + (e2.xy/dot(e2.xy,n1.xy)) );
+	pos[0].xy = pos[0].xy + normalize(-e0+e2) * pl;
+	pos[1].xy = pos[1].xy + normalize(e0-e1) * pl;
+	pos[2].xy = pos[2].xy + normalize(e1-e2) * pl;
 
 	for(int i = 0; i < 3; ++i)
 	{

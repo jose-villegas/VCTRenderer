@@ -81,7 +81,6 @@ void VoxelRenderer::VoxelizeScene()
 
     if (!scene || !scene->IsLoaded()) { return; }
 
-    ResetAtomicBuffer();
     gl.Clear().ColorBuffer().DepthBuffer();
     gl.Viewport(volumeDimension, volumeDimension);
     // active voxelization pass program
@@ -95,7 +94,6 @@ void VoxelRenderer::VoxelizeScene()
     SetVoxelizationPassUniforms();
     // bind the volume texture to be writen in shaders
     voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RedInteger, &zero);
-    atomicCounter.BindBase(oglplus::BufferIndexedTarget::AtomicCounter, 0);
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                           oglplus::ImageUnitFormat::R32UI);
     // draw scene triangles
@@ -180,6 +178,7 @@ void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 void VoxelRenderer::GenerateVolumes() const
 {
     using namespace oglplus;
+    int depth = log2(volumeDimension);
     auto voxelData = new float[volumeDimension * volumeDimension * volumeDimension] {0};
     voxelAlbedo.Bind(TextureTarget::_3D);
     voxelAlbedo.Image3D(TextureTarget::_3D, 0,
@@ -211,7 +210,7 @@ void VoxelRenderer::GenerateAtomicBuffer() const
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
     framestep = 5; // only on scene change
-    volumeDimension = 128;
+    volumeDimension = 256;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
     GenerateVolumes();
     GenerateAtomicBuffer();

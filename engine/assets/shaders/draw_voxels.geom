@@ -17,11 +17,12 @@ in vec3 texCoord[];
 
 out vec4 voxelColor;
 
-vec4 convRGBA8ToVec4(uint val) {
-    return vec4( float((val & 0x000000FF)), 
-                 float((val & 0x0000FF00) >> 8U), 
-                 float((val & 0x00FF0000) >> 16U), 
-                 float((val & 0xFF000000) >> 24U));
+vec4 convRGBA8ToVec4(uint val)
+{
+    return vec4(float((val & 0x000000FF)), 
+    float((val & 0x0000FF00) >> 8U), 
+    float((val & 0x00FF0000) >> 16U), 
+    float((val & 0xFF000000) >> 24U));
 }
 
 void main()
@@ -62,7 +63,7 @@ void main()
 	for(int face = 0; face < 6; ++face)
 	{
 		uvec4 albedoU = imageLoad(voxelAlbedo, ivec3(floor(texCoord[0].xyz * voxelTexSize)));
-		vec4 albedo = convRGBA8ToVec4(albedoU.x) / vec4(255);
+		vec4 albedo = convRGBA8ToVec4(albedoU.x) / vec4(vec3(255), 1.0f);
 
 		if(albedo.a < 0.5f)
 		{

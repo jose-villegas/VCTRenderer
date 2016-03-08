@@ -12,10 +12,7 @@ in GeometryOut
 layout (location = 0) out vec4 fragColor;
 layout (pixel_center_integer) in vec4 gl_FragCoord;
 
-
-layout(r32ui) uniform volatile uimage3D voxelAlbedo;
-
-layout(binding = 0) uniform atomic_uint voxelIndex;
+layout(r32ui) uniform coherent volatile uimage3D voxelAlbedo;
 
 uniform struct Material
 {
@@ -25,49 +22,38 @@ uniform struct Material
 uniform sampler2D diffuseMap;
 uniform uint volumeDimension;
 
-vec4 convRGBA8ToVec4(uint val) {
-    return vec4( float((val & 0x000000FF)), 
-                 float((val & 0x0000FF00) >> 8U), 
-                 float((val & 0x00FF0000) >> 16U), 
-                 float((val & 0xFF000000) >> 24U));
+vec4 convRGBA8ToVec4(uint val)
+{
+    return vec4(float((val & 0x000000FF)), 
+    float((val & 0x0000FF00) >> 8U), 
+    float((val & 0x00FF0000) >> 16U), 
+    float((val & 0xFF000000) >> 24U));
 }
 
-uint convVec4ToRGBA8(vec4 val) {
-    return (uint(val.w) & 0x000000FF)   << 24U
-            | (uint(val.z) & 0x000000FF) << 16U
-            | (uint(val.y) & 0x000000FF) << 8U 
-            | (uint(val.x) & 0x000000FF);
+uint convVec4ToRGBA8(vec4 val)
+{
+    return (uint(val.w) & 0x000000FF) << 24U | 
+    (uint(val.z) & 0x000000FF) << 16U | 
+    (uint(val.y) & 0x000000FF) << 8U | 
+    (uint(val.x) & 0x000000FF);
 }
 
-uint imageAtomicRGBA8Avg(layout(r32ui) volatile uimage3D img, 
-                         ivec3 coords,
-                         vec4 val) {
-    val.xyz *= 255.0; // Optimise following calculations
-    uint newVal = convVec4ToRGBA8(val);
-    uint prevStoredVal = 0; 
+void imageAtomicRGBA8Avg(layout(r32ui) coherent volatile uimage3D grid, ivec3 coords, vec4 value)
+{
+    value.rgb *= 255.0;
+    uint newVal = convVec4ToRGBA8(value);
+    uint prevStoredVal = 0;
     uint curStoredVal;
-    vec4 rval;
-    // Loop as long as destination value gets changed by other threads
-    while((curStoredVal = imageAtomicCompSwap(img, coords, prevStoredVal, newVal)) != prevStoredVal) {
+
+    while((curStoredVal = imageAtomicCompSwap(grid, coords, prevStoredVal, newVal)) != prevStoredVal)
+    {
         prevStoredVal = curStoredVal;
-
-        rval = convRGBA8ToVec4(curStoredVal);
-        rval.xyz *= rval.a; // Denormalize
-
-        rval += val; // Add new value
-        rval.xyz /= rval.a; // Renormalize
-
-        newVal = convVec4ToRGBA8(rval);
+        vec4 rval = convRGBA8ToVec4(curStoredVal);
+        rval.rgb = (rval.rgb * rval.a); // Denormalize
+        vec4 curValF = rval + value;    // Add
+        curValF.rgb /= curValF.a;   // Renormalize
+        newVal = convVec4ToRGBA8(curValF);
     }
-
-    // rval now contains the calculated color: now convert it to a proper alpha-premultiplied version
-    val = convRGBA8ToVec4(newVal);
-    val.a = 255.0;
-    newVal = convVec4ToRGBA8(val);
-
-    imageStore(img, coords, uvec4(newVal));
-
-    return newVal;
 }
 
 void main()
@@ -100,10 +86,9 @@ void main()
 
 	vec3 normal = In.normal;
 	vec4 albedo = texture( diffuseMap, In.texCoord.xy );
-	albedo = vec4(albedo.rgb * material.diffuse, albedo.a);
+	albedo.rgb = albedo.rgb * material.diffuse * albedo.a;
 
-	uint voxel = atomicCounterIncrement(voxelIndex);
-	memoryBarrier();
+    if(albedo.a < 0.1f) { discard; }
 
 	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(texcoord.xyz), albedo);
 }
