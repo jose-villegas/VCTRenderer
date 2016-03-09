@@ -89,7 +89,7 @@ void EngineBase::Initialize() const
 {
     // open window and set rendering context
     renderWindow->WindowHint(RenderWindow::WindowHints::Resizable, false);
-    renderWindow->Open(WindowInfo(1280, 720, 0, 0, "VCTRenderer"), false);
+    renderWindow->Open(WindowInfo(1280, 720, 0, 0, "SimpleEngine"), false);
     renderWindow->SetAsCurrentContext();
     // initialize OpenGL API
     oglplus::GLAPIInitializer();
