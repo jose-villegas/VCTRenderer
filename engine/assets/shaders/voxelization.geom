@@ -74,16 +74,18 @@ void main()
 		viewProjection * gl_in[2].gl_Position
 	);
 
-	vec2 pl = vec2(1.4142135637309 / volumeDimension);
-	Out.triangleAABB = EnlargedAxisAlignedBoundingBox(pos, pl);
+	vec2 halfPixel = vec2(1.0f / volumeDimension);
+	float pl = 1.57079632679 / volumeDimension;
+	// calculate triangle aabb
+	Out.triangleAABB = EnlargedAxisAlignedBoundingBox(pos, halfPixel);
 	// find 3 triangle edge plane
     vec2 e0 = normalize( pos[1].xy - pos[0].xy );
 	vec2 e1 = normalize( pos[2].xy - pos[1].xy );
 	vec2 e2 = normalize( pos[0].xy - pos[2].xy );
-	// dilate/enlarge triangle for conservative voxelization
-	pos[0].xy = pos[0].xy + normalize(-e0+e2) * pl;
-	pos[1].xy = pos[1].xy + normalize(e0-e1) * pl;
-	pos[2].xy = pos[2].xy + normalize(e1-e2) * pl;
+	// dilate triangle for conservative voxelization
+	pos[0].xy = pos[0].xy + normalize(-e0 + e2 ) * pl;
+	pos[1].xy = pos[1].xy + normalize( e0 - e1 ) * pl;
+	pos[2].xy = pos[2].xy + normalize( e1 - e2 ) * pl;
 
 	for(int i = 0; i < 3; ++i)
 	{
