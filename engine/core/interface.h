@@ -23,6 +23,6 @@ class Interface : InterfaceRenderer, InstancePool<Interface>
         // application specific UI code
         virtual void Draw() = 0;
     private:
-        friend void EngineBase::MainLoop();
+        friend void EngineBase::MainLoop() const;
         static void DrawAll();
 };

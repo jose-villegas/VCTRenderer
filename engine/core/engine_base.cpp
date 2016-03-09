@@ -6,8 +6,7 @@
 #include "interface.h"
 #include "assets_manager.h"
 #include "../rendering/render_window.h"
-#include "../rendering/deferred_renderer.h"
-#include "../rendering/voxelizer_renderer.h"
+#include "../rendering/renderer.h"
 
 #include <oglplus/gl.hpp>
 #include <oglplus/context.hpp>
@@ -46,15 +45,11 @@ void EngineBase::Terminate()
     delete Instance().release();
 }
 
-void EngineBase::MainLoop()
+void EngineBase::MainLoop() const
 {
     static oglplus::Context gl;
     // import assets and initialize ext libraries
     this->Initialize();
-    // voxelizer and voxel drawer
-    VoxelizerRenderer voxelizer(renderWindow.get());
-    // deferred shading renderer / manager, default
-    DeferredRenderer deferred(renderWindow.get());
 
     // render loop
     while (!renderWindow->ShouldClose())
@@ -69,10 +64,8 @@ void EngineBase::MainLoop()
         Behavior::UpdateAll();
         // interfaces update
         Interface::DrawAll();
-        // voxelize
-        voxelizer.Render();
-        // render main scene
-        deferred.Render();
+        // call all renderers
+        Renderer::RenderAll();
         // ui render over scene
         InterfaceRenderer::Render();
         // finally swap current frame
@@ -92,7 +85,7 @@ inline void PrintDependenciesVersions()
     std::cout << "Ocornut's IMGUI " << ImGui::GetVersion() << std::endl;
 }
 
-void EngineBase::Initialize()
+void EngineBase::Initialize() const
 {
     // open window and set rendering context
     renderWindow->WindowHint(RenderWindow::WindowHints::Resizable, false);

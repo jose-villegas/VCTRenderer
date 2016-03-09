@@ -1,13 +1,11 @@
 #include "node.h"
 
-#include <tbb/tbb.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "mesh.h"
 #include "camera.h"
-#include "../core/engine_base.h"
-#include "../rendering/deferred_renderer.h"
+#include "../rendering/renderer.h"
 
 bool Node::loopCameraModified = true;
 

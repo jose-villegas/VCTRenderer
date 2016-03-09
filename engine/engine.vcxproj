@@ -219,24 +219,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="assets\code\interfaces\main_menu.cpp" />
-    <ClCompile Include="assets\code\interfaces\scene_cameras.cpp" />
-    <ClCompile Include="assets\code\interfaces\scene_lights.cpp" />
     <ClCompile Include="core\behavior.cpp" />
-    <ClCompile Include="assets\code\interfaces\framerate.cpp" />
-    <ClCompile Include="assets\code\interfaces\geometrybuffer_textures.cpp" />
-    <ClCompile Include="core\renderer.cpp" />
-    <ClCompile Include="assets\code\interfaces\metrics_drawer.cpp" />
-    <ClCompile Include="programs\voxel_drawer_program.cpp" />
-    <ClCompile Include="rendering\shadow_map_renderer.cpp" />
+    <ClCompile Include="rendering\renderer.cpp" />
     <ClCompile Include="util\metrics_report.cpp" />
     <ClCompile Include="types\transform.cpp" />
     <ClCompile Include="types\scene_object.cpp" />
     <ClCompile Include="types\base_object.cpp" />
     <ClCompile Include="types\geometry_buffer.cpp" />
-    <ClCompile Include="programs\lighting_program.cpp" />
     <ClCompile Include="rendering\interface_renderer.cpp" />
-    <ClCompile Include="assets\code\interfaces\scene_loader.cpp" />
     <ClCompile Include="util\const_definitions.cpp" />
     <ClCompile Include="util\raw_format.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -244,12 +234,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="programs\geometry_program.cpp" />
     <ClCompile Include="types\frustum.cpp" />
     <ClCompile Include="types\bounding_box.cpp" />
     <ClCompile Include="core\assets_manager.cpp" />
     <ClCompile Include="core\engine_base.cpp" />
-    <ClCompile Include="rendering\deferred_renderer.cpp" />
     <ClCompile Include="core\interface.cpp" />
     <ClCompile Include="rendering\render_window.cpp" />
     <ClCompile Include="main.cpp" />
@@ -264,8 +252,6 @@
     <ClCompile Include="types\vertex.cpp" />
     <ClCompile Include="util\scene_importer.cpp" />
     <ClCompile Include="util\texture_importer.cpp" />
-    <ClCompile Include="rendering\voxelizer_renderer.cpp" />
-    <ClCompile Include="programs\voxelization_program.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rdparty\imgui\imconfig.h" />
@@ -299,26 +285,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="assets\code\interfaces\main_menu.h" />
-    <ClInclude Include="assets\code\interfaces\scene_cameras.h" />
-    <ClInclude Include="assets\code\interfaces\scene_lights.h" />
     <ClInclude Include="core\behavior.h" />
-    <ClInclude Include="assets\code\interfaces\geometrybuffer_textures.h" />
-    <ClInclude Include="core\renderer.h" />
-    <ClInclude Include="assets\code\interfaces\metrics_drawer.h" />
-    <ClInclude Include="programs\voxel_drawer_program.h" />
-    <ClInclude Include="rendering\shadow_map_renderer.h" />
+    <ClInclude Include="rendering\renderer.h" />
     <ClInclude Include="util\metrics_report.h" />
     <ClInclude Include="types\transform.h" />
     <ClInclude Include="types\scene_object.h" />
     <ClInclude Include="types\base_object.h" />
     <ClInclude Include="types\geometry_buffer.h" />
-    <ClInclude Include="programs\geometry_program.h" />
-    <ClInclude Include="programs\lighting_program.h" />
     <ClInclude Include="rendering\interface_renderer.h" />
-    <ClInclude Include="assets\code\interfaces\scene_loader.h" />
     <ClInclude Include="types\instance_pool.h" />
-    <ClInclude Include="assets\code\interfaces\framerate.h" />
     <ClInclude Include="util\data_segment.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -339,7 +314,6 @@
     <ClInclude Include="types\bounding_box.h" />
     <ClInclude Include="core\assets_manager.h" />
     <ClInclude Include="core\engine_base.h" />
-    <ClInclude Include="rendering\deferred_renderer.h" />
     <ClInclude Include="types\face.h" />
     <ClInclude Include="core\interface.h" />
     <ClInclude Include="rendering\render_window.h" />
@@ -354,20 +328,6 @@
     <ClInclude Include="util\scene_importer.h" />
     <ClInclude Include="util\texture_importer.h" />
     <ClInclude Include="util\const_definitions.h" />
-    <ClInclude Include="rendering\voxelizer_renderer.h" />
-    <ClInclude Include="programs\voxelization_program.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\draw_voxels.frag" />
-    <None Include="assets\shaders\draw_voxels.geom" />
-    <None Include="assets\shaders\draw_voxels.vert" />
-    <None Include="assets\shaders\geometry_pass.frag" />
-    <None Include="assets\shaders\geometry_pass.vert" />
-    <None Include="assets\shaders\light_pass.frag" />
-    <None Include="assets\shaders\light_pass.vert" />
-    <None Include="assets\shaders\voxelization.frag" />
-    <None Include="assets\shaders\voxelization.geom" />
-    <None Include="assets\shaders\voxelization.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
