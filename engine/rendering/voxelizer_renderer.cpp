@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "voxel_renderer.h"
+#include "voxelizer_renderer.h"
 
 #include "render_window.h"
 #include "../scene/scene.h"
@@ -16,10 +16,13 @@
 #include <oglplus/context.hpp>
 #include <glm/gtx/transform.hpp>
 
-bool VoxelRenderer::ShowVoxels = false;
+bool VoxelizerRenderer::ShowVoxels = false;
 
-void VoxelRenderer::Render()
+void VoxelizerRenderer::Render()
 {
+    // negative framestep means this is disabled
+    if (framestep < 0) { return; }
+
     static Scene * previous = nullptr;
     static auto frameCount = 1;
     static auto &scene = Scene::Active();
@@ -54,12 +57,12 @@ void VoxelRenderer::Render()
     }
 }
 
-void VoxelRenderer::SetMatricesUniforms(const Node &node) const
+void VoxelizerRenderer::SetMatricesUniforms(const Node &node) const
 {
     // no space matrices for voxelization pass during node rendering
 }
 
-void VoxelRenderer::SetMaterialUniforms(const Material &material) const
+void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
 {
     auto &prog = CurrentProgram<VoxelizationProgram>();
     prog.material.diffuse.Set(material.Diffuse());
@@ -69,12 +72,12 @@ void VoxelRenderer::SetMaterialUniforms(const Material &material) const
     prog.diffuseMap.Set(RawTexture::Diffuse);
 }
 
-void VoxelRenderer::SetUpdateFrequency(const unsigned int framestep)
+void VoxelizerRenderer::SetUpdateFrequency(const unsigned int framestep)
 {
     this->framestep = framestep;
 }
 
-void VoxelRenderer::VoxelizeScene()
+void VoxelizerRenderer::VoxelizeScene()
 {
     static oglplus::Context gl;
     static auto &scene = Scene::Active();
@@ -101,7 +104,7 @@ void VoxelRenderer::VoxelizeScene()
     scene->rootNode->DrawList();
 }
 
-void VoxelRenderer::DrawVoxels()
+void VoxelizerRenderer::DrawVoxels()
 {
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
@@ -140,7 +143,7 @@ void VoxelRenderer::DrawVoxels()
     gl.DrawArrays(oglplus::PrimitiveType::Points, 0, voxelCount);
 }
 
-void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
+void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 {
     auto axisSize = sceneBox.Extent() * 2.0f;
     auto &center = sceneBox.Center();
@@ -161,7 +164,7 @@ void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     }
 }
 
-void VoxelRenderer::GenerateVolume(oglplus::Texture &texture) const
+void VoxelizerRenderer::CreateVolume(oglplus::Texture &texture) const
 {
     using namespace oglplus;
     static auto zero = 0;
@@ -183,19 +186,19 @@ void VoxelRenderer::GenerateVolume(oglplus::Texture &texture) const
     texture.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
 }
 
-VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
+VoxelizerRenderer::VoxelizerRenderer(RenderWindow * window) : Renderer(window)
 {
     framestep = 5; // only on scene change
     volumeDimension = 128;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
-    GenerateVolume(voxelAlbedo);
+    CreateVolume(voxelAlbedo);
 }
 
-VoxelRenderer::~VoxelRenderer()
+VoxelizerRenderer::~VoxelizerRenderer()
 {
 }
 
-VoxelizationProgram &VoxelRenderer::VoxelizationPass()
+VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()
 {
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<VoxelizationProgram *>
@@ -203,7 +206,7 @@ VoxelizationProgram &VoxelRenderer::VoxelizationPass()
     return prog;
 }
 
-VoxelDrawerProgram &VoxelRenderer::VoxelDrawerShader()
+VoxelDrawerProgram &VoxelizerRenderer::VoxelDrawerShader()
 {
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<VoxelDrawerProgram *>
@@ -211,7 +214,7 @@ VoxelDrawerProgram &VoxelRenderer::VoxelDrawerShader()
     return prog;
 }
 
-void VoxelRenderer::SetVoxelizationPassUniforms() const
+void VoxelizerRenderer::SetVoxelizationPassUniforms() const
 {
     auto &prog = CurrentProgram<VoxelizationProgram>();
     prog.viewProjections[0].Set(viewProjectionMatrix[0]);

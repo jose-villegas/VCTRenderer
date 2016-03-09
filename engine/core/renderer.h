@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../util/single_active.h"
+#include "../types/instance_pool.h"
 
 class RenderWindow;
 class ProgramShader;
@@ -12,7 +13,7 @@ class Node;
 /// abstract method <see cref="Render">
 /// </summary>
 /// <seealso cref="SingleActive{Renderer}" />
-class Renderer : public SingleActive <Renderer>
+class Renderer : public SingleActive <Renderer>, InstancePool<Renderer>
 {
     protected:
         /// <summary>
@@ -39,6 +40,8 @@ class Renderer : public SingleActive <Renderer>
         &CurrentProgram() const;
     public:
         static bool UseFrustumCulling;
+
+        static void RenderAll();
         /// <summary>
         /// Rendering logic
         /// </summary>

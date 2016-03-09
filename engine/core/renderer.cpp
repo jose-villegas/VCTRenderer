@@ -11,6 +11,14 @@ RenderWindow &Renderer::Window() const
     return *window;
 }
 
+void Renderer::RenderAll()
+{
+    for (auto &renderer : instances)
+    {
+        renderer->Render();
+    }
+}
+
 void Renderer::SetMatricesUniforms(const Node &node) const
 {
 }

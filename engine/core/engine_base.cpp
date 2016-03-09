@@ -7,7 +7,7 @@
 #include "assets_manager.h"
 #include "../rendering/render_window.h"
 #include "../rendering/deferred_renderer.h"
-#include "../rendering/voxel_renderer.h"
+#include "../rendering/voxelizer_renderer.h"
 
 #include <oglplus/gl.hpp>
 #include <oglplus/context.hpp>
@@ -51,13 +51,10 @@ void EngineBase::MainLoop()
     static oglplus::Context gl;
     // import assets and initialize ext libraries
     this->Initialize();
-    // set rendering view port
-    gl.Viewport(renderWindow->Info().width, renderWindow->Info().height);
-    // deferred shading renderer / manager
+    // voxelizer and voxel drawer
+    VoxelizerRenderer voxelizer(renderWindow.get());
+    // deferred shading renderer / manager, default
     DeferredRenderer deferred(renderWindow.get());
-    VoxelRenderer voxelizer(renderWindow.get());
-    // deferred renderer as current active to it can be accessed by nodes
-    deferred.SetAsActive();
 
     // render loop
     while (!renderWindow->ShouldClose())
@@ -72,8 +69,9 @@ void EngineBase::MainLoop()
         Behavior::UpdateAll();
         // interfaces update
         Interface::DrawAll();
-        // render main scene
+        // voxelize
         voxelizer.Render();
+        // render main scene
         deferred.Render();
         // ui render over scene
         InterfaceRenderer::Render();

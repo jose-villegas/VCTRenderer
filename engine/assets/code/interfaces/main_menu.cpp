@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "main_menu.h"
-#include "../../../rendering/voxel_renderer.h"
+#include "../../../rendering/voxelizer_renderer.h"
 
 bool UIMainMenu::drawSceneLoader = true;
 bool UIMainMenu::drawFramerate = false;
@@ -18,7 +18,7 @@ void UIMainMenu::Draw()
         if (BeginMenu("View"))
         {
             MenuItem("Show Framerate", nullptr, &drawFramerate);
-            MenuItem("View Voxels", nullptr, &VoxelRenderer::ShowVoxels);
+            MenuItem("View Voxels", nullptr, &VoxelizerRenderer::ShowVoxels);
             MenuItem("View Geometry Buffer", nullptr, &drawGeometryBuffer);
             EndMenu();
         }

@@ -10,7 +10,7 @@ class BoundingBox;
 class VoxelDrawerProgram;
 class VoxelizationProgram;
 
-class VoxelRenderer : public Renderer
+class VoxelizerRenderer : public Renderer
 {
     public:
         static bool ShowVoxels;
@@ -39,11 +39,11 @@ class VoxelRenderer : public Renderer
         /// Initializes a new instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
         /// <param name="window">The window.</param>
-        explicit VoxelRenderer(RenderWindow * window);
+        explicit VoxelizerRenderer(RenderWindow * window);
         /// <summary>
         /// Finalizes an instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
-        ~VoxelRenderer();
+        ~VoxelizerRenderer();
     private:
         /// <summary>
         /// Returns the voxelization program shader.
@@ -64,7 +64,7 @@ class VoxelRenderer : public Renderer
         /// Creates the voxel volumes which store a simplified representacion
         /// of the scene color components into a volume.
         /// </summary>
-        void GenerateVolume(oglplus::Texture &texture) const;
+        void CreateVolume(oglplus::Texture &texture) const;
         /// <summary>
         /// Voxelizes the scene.
         /// </summary>
@@ -81,7 +81,7 @@ class VoxelRenderer : public Renderer
 
         std::array<glm::mat4x4, 3> viewProjectionMatrix;
         unsigned int volumeDimension;
-        unsigned int framestep;
+        int framestep;
         float volumeGridSize;
         unsigned int voxelCount;
 

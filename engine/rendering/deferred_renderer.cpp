@@ -5,7 +5,7 @@
 #include <oglplus/vertex_attrib.hpp>
 #include <oglplus/bound/texture.hpp>
 
-#include "voxel_renderer.h"
+#include "voxelizer_renderer.h"
 #include "../scene/camera.h"
 #include "../scene/scene.h"
 #include "../scene/material.h"
@@ -57,7 +57,7 @@ void DeferredRenderer::Render()
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
 
-    if (!camera || !scene || !scene->IsLoaded() || VoxelRenderer::ShowVoxels)
+    if (!camera || !scene || !scene->IsLoaded() || VoxelizerRenderer::ShowVoxels)
     {
         return;
     }

@@ -228,6 +228,7 @@
     <ClCompile Include="core\renderer.cpp" />
     <ClCompile Include="assets\code\interfaces\metrics_drawer.cpp" />
     <ClCompile Include="programs\voxel_drawer_program.cpp" />
+    <ClCompile Include="rendering\shadow_map_renderer.cpp" />
     <ClCompile Include="util\metrics_report.cpp" />
     <ClCompile Include="types\transform.cpp" />
     <ClCompile Include="types\scene_object.cpp" />
@@ -263,7 +264,7 @@
     <ClCompile Include="types\vertex.cpp" />
     <ClCompile Include="util\scene_importer.cpp" />
     <ClCompile Include="util\texture_importer.cpp" />
-    <ClCompile Include="rendering\voxel_renderer.cpp" />
+    <ClCompile Include="rendering\voxelizer_renderer.cpp" />
     <ClCompile Include="programs\voxelization_program.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +307,7 @@
     <ClInclude Include="core\renderer.h" />
     <ClInclude Include="assets\code\interfaces\metrics_drawer.h" />
     <ClInclude Include="programs\voxel_drawer_program.h" />
+    <ClInclude Include="rendering\shadow_map_renderer.h" />
     <ClInclude Include="util\metrics_report.h" />
     <ClInclude Include="types\transform.h" />
     <ClInclude Include="types\scene_object.h" />
@@ -352,7 +354,7 @@
     <ClInclude Include="util\scene_importer.h" />
     <ClInclude Include="util\texture_importer.h" />
     <ClInclude Include="util\const_definitions.h" />
-    <ClInclude Include="rendering\voxel_renderer.h" />
+    <ClInclude Include="rendering\voxelizer_renderer.h" />
     <ClInclude Include="programs\voxelization_program.h" />
   </ItemGroup>
   <ItemGroup>
