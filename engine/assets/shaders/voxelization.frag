@@ -40,7 +40,7 @@ uint convVec4ToRGBA8(vec4 val)
 
 void imageAtomicRGBA8Avg(layout(r32ui) coherent volatile uimage3D grid, ivec3 coords, vec4 value)
 {
-    value.rgb *= 255.0;
+    value.rgb *= 255.0;                 // optimize following calculations
     uint newVal = convVec4ToRGBA8(value);
     uint prevStoredVal = 0;
     uint curStoredVal;
@@ -51,7 +51,7 @@ void imageAtomicRGBA8Avg(layout(r32ui) coherent volatile uimage3D grid, ivec3 co
         vec4 rval = convRGBA8ToVec4(curStoredVal);
         rval.rgb = (rval.rgb * rval.a); // Denormalize
         vec4 curValF = rval + value;    // Add
-        curValF.rgb /= curValF.a;   // Renormalize
+        curValF.rgb /= curValF.a;       // Renormalize
         newVal = convVec4ToRGBA8(curValF);
     }
 }

@@ -21,7 +21,7 @@ bool VoxelRenderer::ShowVoxels = false;
 void VoxelRenderer::Render()
 {
     static Scene * previous = nullptr;
-    static auto frameCount = 0;
+    static auto frameCount = 1;
     static auto &scene = Scene::Active();
 
     if (!scene || !scene->IsLoaded()) { return; }
@@ -43,6 +43,7 @@ void VoxelRenderer::Render()
     // Voxelization will happen every framestep frame
     if (framestep != 0 && frameCount++ % framestep == 0)
     {
+        frameCount = 1;
         // update voxelization
         VoxelizeScene();
     }
@@ -139,21 +140,6 @@ void VoxelRenderer::DrawVoxels()
     gl.DrawArrays(oglplus::PrimitiveType::Points, 0, voxelCount);
 }
 
-void VoxelRenderer::ResetAtomicBuffer() const
-{
-    // writing raw gl here, can be easily be done with oglplus
-    // but safe it works properly
-    atomicCounter.Bind(oglplus::BufferTarget::AtomicCounter);
-    auto ptr = static_cast<GLuint *>(glMapBufferRange(
-                                         GL_ATOMIC_COUNTER_BUFFER, 0,
-                                         sizeof(GLuint), GL_MAP_WRITE_BIT |
-                                         GL_MAP_INVALIDATE_BUFFER_BIT |
-                                         GL_MAP_UNSYNCHRONIZED_BIT));
-    ptr[0] = 0;
-    glUnmapBuffer(GL_ATOMIC_COUNTER_BUFFER);
-    glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
-}
-
 void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 {
     auto axisSize = sceneBox.Extent() * 2.0f;
@@ -175,45 +161,34 @@ void VoxelRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     }
 }
 
-void VoxelRenderer::GenerateVolumes() const
+void VoxelRenderer::GenerateVolume(oglplus::Texture &texture) const
 {
     using namespace oglplus;
-    int depth = log2(volumeDimension);
-    auto voxelData = new float[volumeDimension * volumeDimension * volumeDimension] {0};
-    voxelAlbedo.Bind(TextureTarget::_3D);
-    voxelAlbedo.Image3D(TextureTarget::_3D, 0,
-                        PixelDataInternalFormat::R32UI,
-                        volumeDimension, volumeDimension, volumeDimension, 0,
-                        PixelDataFormat::RedInteger, PixelDataType::UnsignedInt,
-                        voxelData);
-    voxelAlbedo.BaseLevel(TextureTarget::_3D, 0);
-    voxelAlbedo.MaxLevel(TextureTarget::_3D, 0);
-    voxelAlbedo.SwizzleRGBA(TextureTarget::_3D,
-                            TextureSwizzle::Red,
-                            TextureSwizzle::Green,
-                            TextureSwizzle::Blue,
-                            TextureSwizzle::Alpha);
-    voxelAlbedo.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
-    voxelAlbedo.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
-    voxelAlbedo.GenerateMipmap(TextureTarget::_3D);
-    delete[] voxelData;
-}
-
-void VoxelRenderer::GenerateAtomicBuffer() const
-{
-    unsigned int initVal = 0;
-    atomicCounter.Bind(oglplus::BufferTarget::AtomicCounter);
-    atomicCounter.Data(oglplus::BufferTarget::AtomicCounter, sizeof(unsigned int),
-                       &initVal);
+    static auto zero = 0;
+    texture.Bind(TextureTarget::_3D);
+    texture.Image3D(TextureTarget::_3D, 0,
+                    PixelDataInternalFormat::R32UI,
+                    volumeDimension, volumeDimension, volumeDimension, 0,
+                    PixelDataFormat::RedInteger, PixelDataType::UnsignedInt,
+                    nullptr);
+    texture.ClearImage(0, PixelDataFormat::RedInteger, &zero);
+    texture.BaseLevel(TextureTarget::_3D, 0);
+    texture.MaxLevel(TextureTarget::_3D, 0);
+    texture.SwizzleRGBA(TextureTarget::_3D,
+                        TextureSwizzle::Red,
+                        TextureSwizzle::Green,
+                        TextureSwizzle::Blue,
+                        TextureSwizzle::Alpha);
+    texture.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
+    texture.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
 }
 
 VoxelRenderer::VoxelRenderer(RenderWindow * window) : Renderer(window)
 {
     framestep = 5; // only on scene change
-    volumeDimension = 256;
+    volumeDimension = 128;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
-    GenerateVolumes();
-    GenerateAtomicBuffer();
+    GenerateVolume(voxelAlbedo);
 }
 
 VoxelRenderer::~VoxelRenderer()

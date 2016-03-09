@@ -61,15 +61,10 @@ class VoxelRenderer : public Renderer
         /// </summary>
         void UpdateProjectionMatrices(const BoundingBox &sceneBox);
         /// <summary>
-        /// Creates the voxel volume, a 3D texture meant to contain the
-        /// voxelization result.
+        /// Creates the voxel volumes which store a simplified representacion
+        /// of the scene color components into a volume.
         /// </summary>
-        void GenerateVolumes() const;
-        /// <summary>
-        /// Generates the atomic buffer. Used for average atomic operations
-        /// during voxelization fragment shader.
-        /// </summary>
-        void GenerateAtomicBuffer() const;
+        void GenerateVolume(oglplus::Texture &texture) const;
         /// <summary>
         /// Voxelizes the scene.
         /// </summary>
@@ -78,12 +73,6 @@ class VoxelRenderer : public Renderer
         /// Draws the resulting voxels.
         /// </summary>
         void DrawVoxels();
-
-        void ResetAtomicBuffer() const;
-
-        // atomic buffer for average atomic in fragment voxelizer
-        oglplus::Buffer atomicCounter;
-
         // output textures
         oglplus::Texture voxelAlbedo;
 

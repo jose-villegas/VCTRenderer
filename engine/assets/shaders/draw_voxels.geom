@@ -53,6 +53,7 @@ void main()
 	);
 
 	vec4 projectedVertices[8];
+	vec3 tolerance = vec3(0.1);
 
 	for(int i = 0; i < 8; ++i)
 	{
@@ -63,9 +64,10 @@ void main()
 	for(int face = 0; face < 6; ++face)
 	{
 		uvec4 albedoU = imageLoad(voxelAlbedo, ivec3(floor(texCoord[0].xyz * voxelTexSize)));
-		vec4 albedo = convRGBA8ToVec4(albedoU.x) / vec4(vec3(255), 1.0f);
+		vec4 albedo = convRGBA8ToVec4(albedoU.x) / 255.0f;
+		albedo.a = 1.0f;
 
-		if(albedo.a < 0.5f)
+		if(albedoU.x == 0 || all(lessThan(albedo.rgb, tolerance)))
 		{
 			continue;
 		}
