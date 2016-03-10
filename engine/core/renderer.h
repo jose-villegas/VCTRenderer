@@ -62,7 +62,7 @@ class Renderer : public SingleActive <Renderer>, InstancePool<Renderer>
         /// Initializes a new instance of the <see cref="Renderer"/> class.
         /// </summary>
         Renderer();
-        explicit Renderer(RenderWindow * window);
+        explicit Renderer(RenderWindow &window);
         /// <summary>
         /// Finalizes an instance of the <see cref="Renderer"/> class.
         /// </summary>
@@ -72,7 +72,7 @@ class Renderer : public SingleActive <Renderer>, InstancePool<Renderer>
         /// The rendering window associated to this renderer. Usually the main
         /// window where the context was created.
         /// </summary>
-        RenderWindow * window;
+        std::unique_ptr<std::reference_wrapper<RenderWindow>> window;
         /// <summary>
         /// A direct reference to an active program shader so it can be
         /// easily used in any inheriting class's logic.

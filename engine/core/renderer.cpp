@@ -31,9 +31,10 @@ Renderer::Renderer(): window(nullptr), program(nullptr)
 {
 }
 
-Renderer::Renderer(RenderWindow * window): program(nullptr)
+Renderer::Renderer(RenderWindow &window): program(nullptr)
 {
-    this->window = window;
+    this->window = std::make_unique<std::reference_wrapper
+                   <RenderWindow>>(window);
 }
 
 Renderer::~Renderer()

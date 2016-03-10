@@ -26,7 +26,7 @@ class DeferredRenderer : public Renderer
         /// class.
         /// </summary>
         /// <param name="rWindow">The rendering window.</param>
-        explicit DeferredRenderer(RenderWindow * window);
+        explicit DeferredRenderer(RenderWindow &window);
         /// <summary>
         /// Finalizes an instance of the <see cref="DeferredRenderer"/> class.
         /// </summary>

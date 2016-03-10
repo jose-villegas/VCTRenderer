@@ -3,8 +3,9 @@
 
 #include "geometrybuffer_textures.h"
 #include "main_menu.h"
-#include "../../../rendering/deferred_renderer.h"
-#include "../../../types/geometry_buffer.h"
+
+#include "../misc/geometry_buffer.h"
+#include "../renderers/deferred_renderer.h"
 
 #include <oglplus/texture.hpp>
 

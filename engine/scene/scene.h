@@ -2,6 +2,7 @@
 
 #include "node.h"
 #include "../util/single_active.h"
+#include "../types/instance_pool.h"
 
 class Camera;
 class MeshDrawer;

@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 
+class Renderer;
+class Behavior;
 class ProgramShader;
 class Scene;
 class Interface;
@@ -29,7 +31,9 @@ class AssetsManager
 
         std::vector<std::shared_ptr<Scene>> scenes;
         std::vector<std::shared_ptr<Interface>> interfaces;
+        std::vector<std::shared_ptr<Behavior>> behaviors;
         std::vector<std::shared_ptr<ProgramShader>> programs;
+        std::vector<std::shared_ptr<Renderer>> renderers;
 
         // No copying, copy, move assignment allowed of this class
         // or any derived class

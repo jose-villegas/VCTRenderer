@@ -13,12 +13,28 @@ class AssetsManager;
 /// </summary>
 class EngineBase
 {
+    protected:
+        /// <summary>
+        /// The rendering window.
+        /// </summary>
+        std::unique_ptr<RenderWindow> renderWindow;
+        /// <summary>
+        /// Setups all the engine components, imports assets
+        /// and initializes libraries.
+        /// </summary>
+        void Initialize();
+        EngineBase();
     public:
         virtual ~EngineBase();
         /// <summary>
         /// Main rendering loop
         /// </summary>
         void MainLoop();
+        /// <summary>
+        /// The active context window.
+        /// </summary>
+        /// <returns></returns>
+        RenderWindow &Window() const;
         /// <summary>
         /// Returns the EngineBase singleton instance.
         /// </summary>
@@ -33,15 +49,4 @@ class EngineBase
         EngineBase(EngineBase const &r) = delete;
         EngineBase(EngineBase const &&r) = delete;
         EngineBase &operator=(EngineBase const &r) = delete;
-    private:
-        /// <summary>
-        /// The rendering window.
-        /// </summary>
-        std::unique_ptr<RenderWindow> renderWindow;
-        /// <summary>
-        /// Setups all the engine components, imports assets
-        /// and initializes libraries.
-        /// </summary>
-        void Initialize();
-        EngineBase();
 };

@@ -4,10 +4,9 @@
 
 #include "behavior.h"
 #include "interface.h"
+#include "renderer.h"
 #include "assets_manager.h"
 #include "../rendering/render_window.h"
-#include "../rendering/deferred_renderer.h"
-#include "../rendering/voxelizer_renderer.h"
 
 #include <oglplus/gl.hpp>
 #include <oglplus/context.hpp>
@@ -51,10 +50,6 @@ void EngineBase::MainLoop()
     static oglplus::Context gl;
     // import assets and initialize ext libraries
     this->Initialize();
-    // voxelizer and voxel drawer
-    VoxelizerRenderer voxelizer(renderWindow.get());
-    // deferred shading renderer / manager, default
-    DeferredRenderer deferred(renderWindow.get());
 
     // render loop
     while (!renderWindow->ShouldClose())
@@ -69,10 +64,8 @@ void EngineBase::MainLoop()
         Behavior::UpdateAll();
         // interfaces update
         Interface::DrawAll();
-        // voxelize
-        voxelizer.Render();
-        // render main scene
-        deferred.Render();
+        // call renderers
+        Renderer::RenderAll();
         // ui render over scene
         InterfaceRenderer::Render();
         // finally swap current frame
@@ -90,6 +83,11 @@ inline void PrintDependenciesVersions()
               << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
     std::cout << "GLEW " << glewGetString(GLEW_VERSION) << std::endl;
     std::cout << "Ocornut's IMGUI " << ImGui::GetVersion() << std::endl;
+}
+
+RenderWindow &EngineBase::Window() const
+{
+    return *renderWindow;
 }
 
 void EngineBase::Initialize()

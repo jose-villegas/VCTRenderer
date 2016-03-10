@@ -39,7 +39,7 @@ class VoxelizerRenderer : public Renderer
         /// Initializes a new instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
         /// <param name="window">The window.</param>
-        explicit VoxelizerRenderer(RenderWindow * window);
+        explicit VoxelizerRenderer(RenderWindow &window);
         /// <summary>
         /// Finalizes an instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>

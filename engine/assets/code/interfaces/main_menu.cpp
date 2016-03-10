@@ -1,7 +1,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "main_menu.h"
-#include "../../../rendering/voxelizer_renderer.h"
+
+#include "../renderers/voxelizer_renderer.h"
 
 bool UIMainMenu::drawSceneLoader = true;
 bool UIMainMenu::drawFramerate = false;

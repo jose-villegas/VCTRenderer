@@ -2,13 +2,12 @@
 #include <GLFW/glfw3.h>
 #include "voxelizer_renderer.h"
 
-#include "render_window.h"
 #include "../scene/scene.h"
-#include "../types/frustum.h"
 #include "../core/assets_manager.h"
 #include "../scene/camera.h"
 #include "../scene/texture.h"
 #include "../scene/material.h"
+#include "../../../rendering/render_window.h"
 
 #include "../programs/voxelization_program.h"
 #include "../programs/voxel_drawer_program.h"
@@ -186,7 +185,7 @@ void VoxelizerRenderer::CreateVolume(oglplus::Texture &texture) const
     texture.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
 }
 
-VoxelizerRenderer::VoxelizerRenderer(RenderWindow * window) : Renderer(window)
+VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
     framestep = 5; // only on scene change
     volumeDimension = 128;

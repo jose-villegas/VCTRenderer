@@ -6,19 +6,19 @@
 #include <oglplus/bound/texture.hpp>
 
 #include "voxelizer_renderer.h"
+#include "../misc/geometry_buffer.h"
 #include "../scene/camera.h"
 #include "../scene/scene.h"
 #include "../scene/material.h"
 #include "../scene/light.h"
-#include "../types/geometry_buffer.h"
 #include "../rendering/render_window.h"
+#include "../core/assets_manager.h"
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
-#include "../core/assets_manager.h"
 
 std::unique_ptr<GeometryBuffer> DeferredRenderer::geometryBuffer = nullptr;
 
-DeferredRenderer::DeferredRenderer(RenderWindow * window) : Renderer(window),
+DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window),
     viewMatrixChanged(false)
 {
     // create textures and attachments for framebuffer in deferredhandler

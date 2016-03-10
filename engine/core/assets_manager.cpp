@@ -6,17 +6,22 @@
 #include "../scene/texture.h"
 #include "../scene/scene.h"
 
-#include "../programs/lighting_program.h"
-#include "../programs/geometry_program.h"
-#include "../programs/voxelization_program.h"
-#include "../programs/voxel_drawer_program.h"
-
+// include program shaders
+#include "../assets/code/programs/lighting_program.h"
+#include "../assets/code/programs/geometry_program.h"
+#include "../assets/code/programs/voxelization_program.h"
+#include "../assets/code/programs/voxel_drawer_program.h"
+// include interfaces
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
 #include "../assets/code/interfaces/main_menu.h"
 #include "../assets/code/interfaces/scene_cameras.h"
 #include "../assets/code/interfaces/scene_lights.h"
 #include "../assets/code/interfaces/geometrybuffer_textures.h"
+// include behaviors
+// include renderers
+#include "../assets/code/renderers/voxelizer_renderer.h"
+#include "../assets/code/renderers/deferred_renderer.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -37,7 +42,8 @@ void AssetsManager::Terminate()
 
 AssetsManager::AssetsManager()
 {
-    // associate scene paths
+    auto &window = EngineBase::Instance()->Window();
+    // instantiate scenes with their paths
     scenes =
     {
         std::make_shared<Scene>
@@ -57,9 +63,11 @@ AssetsManager::AssetsManager()
         std::make_shared<UISceneLights>(),
         std::make_shared<UIGeometryBuffer>(),
     };
-    // resize programs holder
-    programs.resize(CorePrograms::Size);
-    // load shaders sources
+    // instantiate implemented behaviors
+    behaviors =
+    {
+    };
+    // instantiate implemented programs
     programs =
     {
         std::make_shared<GeometryProgram>(),
@@ -67,24 +75,27 @@ AssetsManager::AssetsManager()
         std::make_shared<VoxelizationProgram>(),
         std::make_shared<VoxelDrawerProgram>(),
     };
-    // deferred renderer geometry pass shader
+    // instantiate impleted renderers
+    renderers =
+    {
+        std::make_shared<VoxelizerRenderer>(window),
+        std::make_shared<DeferredRenderer>(window)
+    };
+    // attach shaders, ej: programs[index]->AttachShader();
     programs[GeometryPass]->AttachShader(oglplus::ShaderType::Vertex,
                                          "assets\\shaders\\geometry_pass.vert");
     programs[GeometryPass]->AttachShader(oglplus::ShaderType::Fragment,
                                          "assets\\shaders\\geometry_pass.frag");
-    // deferred renderer light pass shader
     programs[LightPass]->AttachShader(oglplus::ShaderType::Vertex,
                                       "assets\\shaders\\light_pass.vert");
     programs[LightPass]->AttachShader(oglplus::ShaderType::Fragment,
                                       "assets\\shaders\\light_pass.frag");
-    // voxelization pass for global illumination
     programs[Voxelization]->AttachShader(oglplus::ShaderType::Vertex,
                                          "assets\\shaders\\voxelization.vert");
     programs[Voxelization]->AttachShader(oglplus::ShaderType::Geometry,
                                          "assets\\shaders\\voxelization.geom");
     programs[Voxelization]->AttachShader(oglplus::ShaderType::Fragment,
                                          "assets\\shaders\\voxelization.frag");
-    // voxelization result drawer
     programs[VoxelDrawer]->AttachShader(oglplus::ShaderType::Vertex,
                                         "assets\\shaders\\draw_voxels.vert");
     programs[VoxelDrawer]->AttachShader(oglplus::ShaderType::Geometry,
@@ -92,6 +103,7 @@ AssetsManager::AssetsManager()
     programs[VoxelDrawer]->AttachShader(oglplus::ShaderType::Fragment,
                                         "assets\\shaders\\draw_voxels.frag");
 
+    // link and extract uniforms from shaders
     for (auto &prog : programs)
     {
         prog->Link();
