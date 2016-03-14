@@ -71,15 +71,6 @@ class Transform
         /// <returns></returns>
         const glm::mat4x4 &Matrix();
         /// <summary>
-        /// Returns the inverse transformation matrix. If changed is true
-        /// InverseMatrix will keep calculating the inverse transformation
-        /// matrix otherwise it will just return a reference to
-        /// <see cref="inverseTransformation" />
-        /// </summary>
-        /// <returns></returns>
-        const glm::mat4x4 &InverseMatrix();
-
-        /// <summary>
         /// Makes the transform forward point at the specified position
         /// </summary>
         /// <param name="pos">The position.</param>
@@ -89,15 +80,10 @@ class Transform
         glm::vec3 position;
         glm::quat rotation;
         glm::vec3 scale;
-
         glm::vec3 forward;
         glm::vec3 right;
         glm::vec3 up;
-
         glm::vec3 angles;
-
         glm::mat4x4 transformation;
-        glm::mat4x4 inverseTransformation;
-
         void UpdateCoordinates();
 };

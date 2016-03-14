@@ -10,8 +10,7 @@
 Node::Node()
 {
     name = "Default Node";
-    ComputeMatrices();
-    UpdateBoundaries();
+    TransformBoundaries();
 }
 
 Node::~Node()
@@ -53,16 +52,18 @@ void Node::DrawList()
         // no need to check or update boundaries and frustum planes.
         if (Renderer::UseFrustumCulling)
         {
-            node->UpdateBoundaries();
+            node->TransformBoundaries();
 
             if (!camera->InFrustum(node->boundaries))
             {
                 continue;
             }
         }
+        else // update model matrix
+        {
+            modelMatrix = transform.Matrix();
+        }
 
-        // calculate model dependant matrices
-        node->ComputeMatrices();
         // set matrices uniform with updated matrices
         renderer->SetMatricesUniforms(*node);
         // draw node meshes
@@ -70,21 +71,14 @@ void Node::DrawList()
     }
 }
 
-void Node::ComputeMatrices()
+void Node::TransformBoundaries()
 {
-    static const auto &camera = Camera::Active();
-    modelViewMatrix = camera->ViewMatrix() * transform.Matrix();
-    modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
-}
-
-void Node::UpdateBoundaries()
-{
-    auto &model = transform.Matrix();
-    boundaries.Transform(model);
+    modelMatrix = transform.Matrix();
+    boundaries.Transform(modelMatrix);
 
     for (auto &mesh : meshes)
     {
-        mesh->boundaries.Transform(model);
+        mesh->boundaries.Transform(modelMatrix);
     }
 }
 
@@ -94,12 +88,7 @@ void Node::BuildDrawList()
     BuildDrawList(drawList);
 }
 
-const glm::mat4x4 &Node::ModeView() const
+const glm::mat4x4 &Node::ModelMatrix() const
 {
-    return modelViewMatrix;
-}
-
-const glm::mat4x4 &Node::ModelViewProjection() const
-{
-    return modelViewProjectionMatrix;
+    return modelMatrix;
 }

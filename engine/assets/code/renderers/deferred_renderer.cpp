@@ -93,8 +93,11 @@ void DeferredRenderer::Render()
 void DeferredRenderer::SetMatricesUniforms(const Node &node) const
 {
     auto &prog = CurrentProgram<GeometryProgram>();
-    prog.matrices.modelView.Set(node.ModeView());
-    prog.matrices.modelViewProjection.Set(node.ModelViewProjection());
+    static auto &camera = Camera::Active();
+    prog.matrices.modelView.Set(camera->ViewMatrix() * node.ModelMatrix());
+    prog.matrices.modelViewProjection.Set(camera->ProjectionMatrix() *
+                                          camera->ViewMatrix() *
+                                          node.ModelMatrix());
 }
 
 void DeferredRenderer::SetMaterialUniforms(const Material &material)

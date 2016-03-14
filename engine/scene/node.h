@@ -24,25 +24,17 @@ class Node : public SceneObject
         /// All the subnodes to this node
         /// </summary>
         std::vector<std::shared_ptr<Node>> nodes;
-
         Node();
         virtual ~Node();
         void DrawList();
-
         void BuildDrawList();
-
-        const glm::mat4x4 &ModeView() const;
-        const glm::mat4x4 &ModelViewProjection() const;
+        const glm::mat4x4 &ModelMatrix() const;
     private:
         std::vector<Node *> drawList;
-
-        glm::mat4x4 modelViewMatrix;
-        glm::mat4x4 modelViewProjectionMatrix;
-
+        glm::mat4x4 modelMatrix;
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
         void DrawMeshes();
-        void ComputeMatrices();
-        void UpdateBoundaries();
+        void TransformBoundaries();
 };
 

@@ -71,8 +71,8 @@ class Light : public SceneObject
 
         const glm::vec3 &Direction() const;
         const glm::vec3 &Position() const;
-        const glm::vec3 &Direction(const glm::mat4x4 &mat);
-        const glm::vec3 &Position(const glm::mat4x4 &mat);
+        glm::vec3 Direction(const glm::mat4x4 &mat) const;
+        glm::vec3 Position(const glm::mat4x4 &mat) const;
 
         Attenuation attenuation;
 
@@ -104,12 +104,7 @@ class Light : public SceneObject
         static std::vector<Light *> directionals;
         static std::vector<Light *> points;
         static std::vector<Light *> spots;
-
         int collectionIndex;
-
-        glm::vec3 relativePosition;
-        glm::vec3 relativeDirection;
-
         float angleInnerCone;
         float angleOuterCone;
         glm::vec3 ambient;

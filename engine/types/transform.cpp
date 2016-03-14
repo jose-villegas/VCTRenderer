@@ -109,16 +109,9 @@ const glm::vec3 &Transform::Angles() const
 
 const glm::mat4x4 &Transform::Matrix()
 {
-    transformation = translate(position) *
-                     mat4_cast(rotation) *
-                     glm::scale(scale);
-    return transformation;
-}
-
-const glm::mat4x4 &Transform::InverseMatrix()
-{
-    inverseTransformation = inverse(transformation);
-    return inverseTransformation;
+    return transformation = translate(position) *
+                            mat4_cast(rotation) *
+                            glm::scale(scale);
 }
 
 void Transform::LookAt(const glm::vec3 &pos, const glm::vec3 &up)

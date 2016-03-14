@@ -4,7 +4,12 @@
 
 #include "../scene/light.h"
 
-ShadowMapRenderer::ShadowMapRenderer(): shadowCaster(nullptr)
+void ShadowMapRenderer::Render()
+{
+}
+
+ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
+    shadowCaster(nullptr)
 {
 }
 

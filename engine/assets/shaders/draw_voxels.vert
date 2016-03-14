@@ -6,7 +6,6 @@ layout(location = 0) in vec3 vertexTexCoord;
 
 uniform uint volumeDimension;
 uniform float voxelSize;
-uniform vec3 voxelGridMove;
 
 void main()
 {
@@ -21,10 +20,10 @@ void main()
 
 	vec3 worldPosition = vec3
 	(
-		position.x * voxelSize,
-		position.y * voxelSize,
-		position.z * voxelSize
-	) + vec3(voxelSize / 2.0f) + voxelGridMove;
+		(position.x - halfDimension + 0.5f) * voxelSize,
+		(position.y - halfDimension + 0.5f) * voxelSize,
+		(position.z - halfDimension + 0.5f) * voxelSize
+	);
 
 	gl_Position = vec4(worldPosition, 1.0f);
 	float volumeDimensionF = float(volumeDimension);

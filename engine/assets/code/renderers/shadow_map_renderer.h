@@ -10,7 +10,8 @@ class Light;
 class ShadowMapRenderer : public Renderer
 {
     public:
-        ShadowMapRenderer();
+        void Render() override;
+        ShadowMapRenderer(RenderWindow &window);
         ~ShadowMapRenderer();
     private:
         void CreateFramebuffer(const unsigned int size) const;

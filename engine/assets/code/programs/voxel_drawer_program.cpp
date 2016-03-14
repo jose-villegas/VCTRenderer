@@ -8,12 +8,10 @@ void VoxelDrawerProgram::ExtractUniforms()
     volumeDimension.Assign(program);
     matrices.modelViewProjection.Assign(program);
     voxelSize.Assign(program);
-    voxelGridMove.Assign(program);
     // binding point
     volumeDimension.BindTo("volumeDimension");
     matrices.modelViewProjection.BindTo("matrices.modelViewProjection");
     voxelSize.BindTo("voxelSize");
-    voxelGridMove.BindTo("voxelGridMove");
 }
 
 VoxelDrawerProgram::~VoxelDrawerProgram()

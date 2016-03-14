@@ -124,18 +124,20 @@ void VoxelizerRenderer::DrawVoxels()
     gl.CullFace(oglplus::Face::Back);
     auto &prog = VoxelDrawerShader();
     CurrentProgram<VoxelDrawerProgram>(prog);
+    // control vars
+    auto sceneBox = scene->rootNode->boundaries;
+    auto voxelSize = volumeGridSize / volumeDimension;
     // voxel grid projection matrices
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
+    auto modelMatrix = translate(sceneBox.Center());
     // pass voxel drawer uniforms
-    auto sceneBox = scene->rootNode->boundaries;
-    auto voxelSize = volumeGridSize / volumeDimension;
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                           oglplus::ImageUnitFormat::R32UI);
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelSize.Set(voxelSize);
-    prog.voxelGridMove.Set(sceneBox.MinPoint());
-    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix);
+    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix *
+                                          modelMatrix);
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
     voxelDrawerArray.Bind();

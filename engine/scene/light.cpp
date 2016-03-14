@@ -75,14 +75,14 @@ const glm::vec3 &Light::Position() const
     return transform.Position();
 }
 
-const glm::vec3 &Light::Direction(const glm::mat4x4 &mat)
+glm::vec3 Light::Direction(const glm::mat4x4 &mat) const
 {
-    return relativeDirection = glm::vec3(mat * glm::vec4(Direction(), 0.0f));
+    return glm::vec3(mat * glm::vec4(Direction(), 0.0f));
 }
 
-const glm::vec3 &Light::Position(const glm::mat4x4 &mat)
+glm::vec3 Light::Position(const glm::mat4x4 &mat) const
 {
-    return relativePosition = glm::vec3(mat * glm::vec4(Position(), 1.0f));
+    return glm::vec3(mat * glm::vec4(Position(), 1.0f));
 }
 
 void Light::Specular(const glm::vec3 &val)

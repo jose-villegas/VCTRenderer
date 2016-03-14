@@ -22,6 +22,7 @@
 // include renderers
 #include "../assets/code/renderers/voxelizer_renderer.h"
 #include "../assets/code/renderers/deferred_renderer.h"
+#include "../assets/code/renderers/shadow_map_renderer.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -79,7 +80,8 @@ AssetsManager::AssetsManager()
     renderers =
     {
         std::make_shared<VoxelizerRenderer>(window),
-        std::make_shared<DeferredRenderer>(window)
+        std::make_shared<ShadowMapRenderer>(window),
+        std::make_shared<DeferredRenderer>(window),
     };
     // attach shaders, ej: programs[index]->AttachShader();
     programs[GeometryPass]->AttachShader(oglplus::ShaderType::Vertex,
