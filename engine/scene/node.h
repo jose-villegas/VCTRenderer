@@ -39,9 +39,6 @@ class Node : public SceneObject
         glm::mat4x4 modelViewMatrix;
         glm::mat4x4 modelViewProjectionMatrix;
 
-        bool outsideFrustum;
-        static bool loopCameraModified;
-
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
         void DrawMeshes();

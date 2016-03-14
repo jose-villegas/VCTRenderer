@@ -97,9 +97,4 @@ class DeferredRenderer : public Renderer
         oglplus::Buffer fsQuadElementBuffer;
 
         void CreateFullscreenQuad() const;
-        /// <summary>
-        /// The view matrix changed, used to check during rendering
-        /// so light pass uniforms position and directions get updated.
-        /// </summary>
-        bool viewMatrixChanged;
 };

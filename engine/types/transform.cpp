@@ -6,7 +6,7 @@
 #include <glm/gtx/orthonormalize.inl>
 #include <glm/gtx/euler_angles.hpp>
 
-Transform::Transform() : changed(true)
+Transform::Transform()
 {
     position = Vector3::zero;
     scale = Vector3::one;
@@ -15,7 +15,6 @@ Transform::Transform() : changed(true)
     up = Vector3::up;
     right = Vector3::right;
     transformation = Matrix();
-    changed = false;
 }
 
 Transform::~Transform()
@@ -24,19 +23,11 @@ Transform::~Transform()
 
 void Transform::Position(const glm::vec3 &val)
 {
-    changed |= position != val;
-
-    if (!changed) { return; }
-
     position = val;
 }
 
 void Transform::Rotation(const glm::quat &val)
 {
-    changed |= rotation != val;
-
-    if (!changed) { return; }
-
     this->angles = eulerAngles(val);
     rotation = val;
     UpdateCoordinates();
@@ -44,10 +35,6 @@ void Transform::Rotation(const glm::quat &val)
 
 void Transform::Rotation(const glm::vec3 &angles)
 {
-    changed |= this->angles != angles;
-
-    if (!changed) { return; }
-
     this->angles = angles;
     auto rotationX = angleAxis(angles.x, Vector3::right);
     auto rotationY = angleAxis(angles.y, Vector3::up);
@@ -60,10 +47,6 @@ void Transform::Rotation(const glm::vec3 &angles)
 
 void Transform::Scale(const glm::vec3 &val)
 {
-    changed |= scale != val;
-
-    if (!changed) { return; }
-
     scale = val;
 }
 
@@ -126,23 +109,15 @@ const glm::vec3 &Transform::Angles() const
 
 const glm::mat4x4 &Transform::Matrix()
 {
-    if (changed)
-    {
-        transformation = translate(position) *
-                         mat4_cast(rotation) *
-                         glm::scale(scale);
-    }
-
+    transformation = translate(position) *
+                     mat4_cast(rotation) *
+                     glm::scale(scale);
     return transformation;
 }
 
 const glm::mat4x4 &Transform::InverseMatrix()
 {
-    if (changed)
-    {
-        inverseTransformation = inverse(transformation);
-    }
-
+    inverseTransformation = inverse(transformation);
     return inverseTransformation;
 }
 
@@ -156,5 +131,4 @@ void Transform::LookAt(const glm::vec3 &pos, const glm::vec3 &up)
     rotation.x = (up.z - forward.y) * recip;
     rotation.y = (forward.x - right.z) * recip;
     rotation.z = (right.y - up.x) * recip;
-    changed = true;
 }

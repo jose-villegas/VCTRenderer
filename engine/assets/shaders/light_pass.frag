@@ -64,8 +64,7 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 
 vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
-    return Ambient(light, albedo) + 
-           Diffuse(light, light.direction, normal, albedo) + 
+    return Ambient(light, albedo) + Diffuse(light, light.direction, normal, albedo) + 
            Specular(light, light.direction, normal, position, specular);
 }
 
@@ -78,7 +77,8 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 
     if(falloff <= 0.0f) { return Ambient(light, albedo); }             
 
-    return CalculateDirectional(light, normal, position, albedo, specular) * falloff;
+    return Ambient(light, albedo) + (Diffuse(light, light.direction, normal, albedo) + 
+           Specular(light, light.direction, normal, position, specular)) * falloff;
 }
 
 vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -92,9 +92,18 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
     // assuming they are passed as cos(angle)
     float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
     // spot light factor for smooth transition
-    float spotFalloff = smoothstep(0.0f, 1.0f, (cosAngle - light.angleOuterCone) / innerMinusOuter);
-    // final result
-    return CalculatePoint(light, normal, position, albedo, specular) * spotFalloff;
+    float spotMark = (cosAngle - light.angleOuterCone) / innerMinusOuter;
+    float spotFalloff = smoothstep(0.0f, 1.0f, spotMark);
+
+    light.direction = normalize(light.position - position);
+    float distance = distance(light.position, position);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * distance
+                    + light.attenuation.quadratic * distance * distance + 1.0f);
+
+    if(falloff <= 0.0f) { return Ambient(light, albedo); }             
+
+    return Ambient(light, albedo) + (Diffuse(light, light.direction, normal, albedo) + 
+           Specular(light, light.direction, normal, position, specular)) * falloff * spotFalloff;
 }
 
 vec3 PositionFromDepth()

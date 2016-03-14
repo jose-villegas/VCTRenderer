@@ -7,9 +7,7 @@
 #include "camera.h"
 #include "../core/renderer.h"
 
-bool Node::loopCameraModified = true;
-
-Node::Node() : outsideFrustum(false)
+Node::Node()
 {
     name = "Default Node";
     ComputeMatrices();
@@ -48,8 +46,6 @@ void Node::DrawList()
 {
     static const auto &renderer = Renderer::Active();;
     static const auto &camera = Camera::Active();
-    // checks if we need to redo InFrustum checks per nodes
-    loopCameraModified = camera->ParametersChanged();
 
     // draw elements using draw list
     for (auto &node : drawList)
@@ -57,16 +53,12 @@ void Node::DrawList()
         // no need to check or update boundaries and frustum planes.
         if (Renderer::UseFrustumCulling)
         {
-            if (node->transform.changed) { node->UpdateBoundaries(); }
+            node->UpdateBoundaries();
 
-            // only two scenarios require updating outsideFrustum both when
-            // either the camera or the node's transform have been modified
-            if (loopCameraModified || node->transform.changed)
+            if (!camera->InFrustum(node->boundaries))
             {
-                node->outsideFrustum = !camera->InFrustum(node->boundaries);
+                continue;
             }
-
-            if (node->outsideFrustum) { continue; }
         }
 
         // calculate model dependant matrices
@@ -81,31 +73,8 @@ void Node::DrawList()
 void Node::ComputeMatrices()
 {
     static const auto &camera = Camera::Active();
-
-    // no need to update the model dependant matrices if the node's
-    // transform or the camera matrices haven't been modified
-    if (!loopCameraModified && !transform.changed) { return; }
-
-    // if changed was true the transformation matrix has been already
-    // updated in UpdateBoundaries. We set it to false to avoid
-    // recalculating the transformation matrix.
-    // if frustum culling is disabled, UpdateBoundaries isn't called
-    // thus it is not updating the transform matrix
-    if (transform.changed && Renderer::UseFrustumCulling)
-    {
-        transform.changed = false;
-    }
-
     modelViewMatrix = camera->ViewMatrix() * transform.Matrix();
     modelViewProjectionMatrix = camera->ProjectionMatrix() * modelViewMatrix;
-
-    // without frustum culling UpdateBoundaries didn't update the
-    // transformation matrix,  it happens here instead, after use set
-    // changed to true to avoid recalculating it unless it changes again.
-    if (!Renderer::UseFrustumCulling && transform.changed)
-    {
-        transform.changed = false;
-    }
 }
 
 void Node::UpdateBoundaries()

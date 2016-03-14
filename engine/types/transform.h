@@ -85,13 +85,6 @@ class Transform
         /// <param name="pos">The position.</param>
         /// <param name="up">Up.</param>
         void LookAt(const glm::vec3 &pos, const glm::vec3 &up);
-        /// <summary>
-        /// Indicates if the current transform has been in any way modifed
-        /// the value has to be reset externally by any other component using
-        /// the transform class. If changed is true ToMatrix will compute the
-        /// the transformation matrix everytime its called.
-        /// </summary>
-        bool changed;
     private:
         glm::vec3 position;
         glm::quat rotation;

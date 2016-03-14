@@ -65,42 +65,24 @@ const glm::vec3 &Light::Intensity() const
     return intensity;
 }
 
-const glm::vec3 &Light::Direction(bool viewSpace) const
+const glm::vec3 &Light::Direction() const
 {
-    if (!viewSpace) { return transform.Forward(); }
-
-    return viewRelative.Forward();
+    return transform.Forward();
 }
 
-const glm::vec3 &Light::Position(bool viewSpace) const
+const glm::vec3 &Light::Position() const
 {
-    if (!viewSpace) { return transform.Position(); }
-
-    return viewRelative.Position();
+    return transform.Position();
 }
 
-void Light::UpdateViewRelative(bool position, bool direction)
+const glm::vec3 &Light::Direction(const glm::mat4x4 &mat)
 {
-    static auto &camera = Camera::Active();
-    auto &matrix = camera->ViewMatrix();
+    return relativeDirection = glm::vec3(mat * glm::vec4(Direction(), 0.0f));
+}
 
-    if (position)
-    {
-        viewRelative.Position
-        (
-            glm::vec3(matrix * glm::vec4(transform.Position(), 1.0f))
-        );
-    }
-
-    if (direction)
-    {
-        viewRelative.Forward
-        (
-            glm::vec3(matrix * glm::vec4(transform.Forward(), 0.0f))
-        );
-    }
-
-    transform.changed = false;
+const glm::vec3 &Light::Position(const glm::mat4x4 &mat)
+{
+    return relativePosition = glm::vec3(mat * glm::vec4(Position(), 1.0f));
 }
 
 void Light::Specular(const glm::vec3 &val)

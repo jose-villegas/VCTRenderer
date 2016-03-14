@@ -18,8 +18,7 @@
 
 std::unique_ptr<GeometryBuffer> DeferredRenderer::geometryBuffer = nullptr;
 
-DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window),
-    viewMatrixChanged(false)
+DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
 {
     // create textures and attachments for framebuffer in deferredhandler
     SetupGeometryBuffer(Window().Info().width, Window().Info().height);
@@ -77,8 +76,6 @@ void DeferredRenderer::Render()
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     gl.CullFace(oglplus::Face::Back);
     UseFrustumCulling = true;
-    // camera position or forward has changed
-    viewMatrixChanged = camera->transform.changed;
     // draw whole scene tree from root node
     scene->rootNode->DrawList();
     // start light pass
@@ -144,14 +141,8 @@ void DeferredRenderer::SetLightPassUniforms() const
         auto &light = directionals[i];
         auto &uLight = uDirectionals[i];
         auto &intensity = light->Intensity();
-
         // update view space direction-position
-        if (light->transform.changed || viewMatrixChanged)
-        {
-            light->UpdateViewRelative(false, true);
-        }
-
-        uLight.direction.Set(light->Direction(true));
+        uLight.direction.Set(light->Direction(camera->ViewMatrix()));
         uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
         uLight.specular.Set(light->Specular() * intensity.z);
@@ -162,14 +153,8 @@ void DeferredRenderer::SetLightPassUniforms() const
         auto &light = points[i];
         auto &uLight = uPoints[i];
         auto &intensity = light->Intensity();
-
         // update view space direction-position
-        if (light->transform.changed || viewMatrixChanged)
-        {
-            light->UpdateViewRelative(true, false);
-        }
-
-        uLight.position.Set(light->Position(true));
+        uLight.position.Set(light->Position(camera->ViewMatrix()));
         uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
         uLight.specular.Set(light->Specular() * intensity.z);
@@ -183,15 +168,9 @@ void DeferredRenderer::SetLightPassUniforms() const
         auto &light = spots[i];
         auto &uLight = uSpots[i];
         auto &intensity = light->Intensity();
-
         // update view space direction-position
-        if (light->transform.changed || viewMatrixChanged)
-        {
-            light->UpdateViewRelative(true, true);
-        }
-
-        uLight.position.Set(light->Position(true));
-        uLight.direction.Set(light->Direction(true));
+        uLight.position.Set(light->Position(camera->ViewMatrix()));
+        uLight.direction.Set(light->Direction(camera->ViewMatrix()));
         uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
         uLight.specular.Set(light->Specular() * intensity.z);

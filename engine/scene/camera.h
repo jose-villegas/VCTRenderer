@@ -17,13 +17,6 @@ class Camera : public SceneObject, public SingleActive<Camera>
         Camera();
         virtual ~Camera();
 
-        /// <summary>
-        /// Calls base method and also resets proper camera states so
-        /// calculations dependant on viewMatrix or projectionMatrix
-        /// are redone.
-        /// </summary>
-        void SetAsActive() override;
-
         float ClipPlaneFar() const;
         /// <summary>
         /// Sets the <see cref="clipPlaneFar"> value.
@@ -58,7 +51,6 @@ class Camera : public SceneObject, public SingleActive<Camera>
         const glm::mat4x4 &InverseViewMatrix();
         const glm::mat4x4 &InverseProjectionMatrix();
 
-        bool ParametersChanged() const;
         /// <summary>
         /// Checks if the bounding volume is inside the
         /// camera frustum <see cref="frustum">
@@ -66,19 +58,10 @@ class Camera : public SceneObject, public SingleActive<Camera>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>
         bool InFrustum(const BoundingBox &volume);
-        const CullingFrustum &Frustum();
         float clipPlaneFar;
         float clipPlaneNear;
         float horizontalFoV;
         float aspectRatio;
-
-        void ComputeViewMatrix();
-        void ComputeProjectionMatrix();
-
-        bool projectionChanged;
-        bool inverseProjectionChanged;
-        bool inverseViewChanged;
-        bool frustumChanged;
 
         glm::mat4x4 viewMatrix;
         glm::mat4x4 projectionMatrix;

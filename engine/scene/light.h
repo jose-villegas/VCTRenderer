@@ -69,10 +69,10 @@ class Light : public SceneObject
         const glm::vec3 &Specular() const;
         const glm::vec3 &Intensity() const;
 
-        const glm::vec3 &Direction(bool viewSpace = false) const;
-        const glm::vec3 &Position(bool viewSpace = false) const;
-
-        void UpdateViewRelative(bool position, bool direction);
+        const glm::vec3 &Direction() const;
+        const glm::vec3 &Position() const;
+        const glm::vec3 &Direction(const glm::mat4x4 &mat);
+        const glm::vec3 &Position(const glm::mat4x4 &mat);
 
         Attenuation attenuation;
 
@@ -107,7 +107,8 @@ class Light : public SceneObject
 
         int collectionIndex;
 
-        Transform viewRelative;
+        glm::vec3 relativePosition;
+        glm::vec3 relativeDirection;
 
         float angleInnerCone;
         float angleOuterCone;
