@@ -3,27 +3,45 @@
 #include "shadow_map_renderer.h"
 
 #include "../scene/light.h"
+#include "../../../scene/scene.h"
+
+#include <oglplus/context.hpp>
 
 void ShadowMapRenderer::Render()
 {
+    //static oglplus::Context gl;
+    //static auto &scene = Scene::Active();
+    //auto camera = Camera::Active().get();
+    //if (!camera || !scene || !scene->IsLoaded())
+    //{
+    //    return;
+    //}
+    //SetAsActive();
+    //lightView.SetAsActive();
+    //// draw whole scene tree from root node
+    //scene->rootNode->DrawList();
+    //// recover original render camera
+    //camera->SetAsActive();
 }
 
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     shadowCaster(nullptr)
 {
+    CreateFramebuffer(512, 512);
 }
 
 ShadowMapRenderer::~ShadowMapRenderer()
 {
 }
 
-void ShadowMapRenderer::CreateFramebuffer(const unsigned size) const
+void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
+        const unsigned &h) const
 {
     using namespace oglplus;
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
     renderDepth.Bind(TextureTarget::_2D);
     renderDepth.Image2D(TextureTarget::_2D, 0,
-                        PixelDataInternalFormat::DepthComponent24, size, size, 0,
+                        PixelDataInternalFormat::DepthComponent24, w, w, 0,
                         PixelDataFormat::DepthComponent,
                         PixelDataType::Float,
                         nullptr);

@@ -194,7 +194,7 @@ GeometryProgram &DeferredRenderer::GeometryPass()
 {
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<GeometryProgram *>
-                        (assets->programs[AssetsManager::GeometryPass].get());
+                        (assets->programs["Geometry"].get());
     return prog;
 }
 
@@ -202,7 +202,7 @@ LightingProgram &DeferredRenderer::LightingPass()
 {
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<LightingProgram *>
-                        (assets->programs[AssetsManager::LightPass].get());
+                        (assets->programs["Lighting"].get());
     return prog;
 }
 

@@ -53,7 +53,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
 
         /// <summary>
         /// Checks if the bounding volume is inside the
-        /// camera frustum <see cref="frustum">
+        /// camera frustum <see cref="frustum"/>
         /// </summary>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>

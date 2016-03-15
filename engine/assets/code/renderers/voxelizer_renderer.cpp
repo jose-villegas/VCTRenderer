@@ -130,14 +130,12 @@ void VoxelizerRenderer::DrawVoxels()
     // voxel grid projection matrices
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
-    auto modelMatrix = translate(sceneBox.Center());
     // pass voxel drawer uniforms
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                           oglplus::ImageUnitFormat::R32UI);
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelSize.Set(voxelSize);
-    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix *
-                                          modelMatrix);
+    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix);
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
     voxelDrawerArray.Bind();
@@ -203,7 +201,7 @@ VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()
 {
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<VoxelizationProgram *>
-                        (assets->programs[AssetsManager::Voxelization].get());
+                        (assets->programs["Voxelization"].get());
     return prog;
 }
 
@@ -211,7 +209,7 @@ VoxelDrawerProgram &VoxelizerRenderer::VoxelDrawerShader()
 {
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<VoxelDrawerProgram *>
-                        (assets->programs[AssetsManager::VoxelDrawer].get());
+                        (assets->programs["VoxelDrawer"].get());
     return prog;
 }
 

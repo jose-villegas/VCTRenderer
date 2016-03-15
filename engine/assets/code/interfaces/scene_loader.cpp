@@ -11,11 +11,14 @@ using namespace ImGui;
 
 bool SceneName(void * data, int idx, const char ** out_text)
 {
-    auto items = static_cast<std::shared_ptr<Scene> *>(data);
+    auto items = static_cast<std::map<std::string,
+         std::shared_ptr<Scene>> *>(data);
 
     if (out_text)
     {
-        *out_text = items[idx]->GetFilepath().c_str();
+        auto begin = items->begin();
+        advance(begin, idx);
+        *out_text = begin->first.c_str();
     }
 
     return true;
@@ -36,10 +39,12 @@ void UISceneLoader::Draw()
         // active scene selector
         PushItemWidth(350);
 
-        if (Combo("Path", &activeScene, SceneName, assets->scenes.data(),
+        if (Combo("Path", &activeScene, SceneName, &assets->scenes,
                   static_cast<int>(assets->scenes.size())))
         {
-            assets->scenes[activeScene]->SetAsActive();
+            auto begin = assets->scenes.begin();
+            advance(begin, activeScene);
+            begin->second->SetAsActive();
         }
 
         SameLine();

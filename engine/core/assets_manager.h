@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <map>
 
 class Renderer;
 class Behavior;
@@ -16,24 +16,15 @@ class Interface;
 class AssetsManager
 {
     public:
-        enum CorePrograms
-        {
-            GeometryPass = 0,
-            LightPass,
-            Voxelization,
-            VoxelDrawer,
-            Size,
-        };
-
         ~AssetsManager();
         static std::unique_ptr<AssetsManager> &Instance();
         static void Terminate();
 
-        std::vector<std::shared_ptr<Scene>> scenes;
-        std::vector<std::shared_ptr<Interface>> interfaces;
-        std::vector<std::shared_ptr<Behavior>> behaviors;
-        std::vector<std::shared_ptr<ProgramShader>> programs;
-        std::vector<std::shared_ptr<Renderer>> renderers;
+        std::map<std::string, std::shared_ptr<Scene>> scenes;
+        std::map<std::string, std::shared_ptr<Interface>> interfaces;
+        std::map<std::string, std::shared_ptr<Behavior>> behaviors;
+        std::map<std::string, std::shared_ptr<ProgramShader>> programs;
+        std::map<std::string, std::shared_ptr<Renderer>> renderers;
 
         // No copying, copy, move assignment allowed of this class
         // or any derived class
