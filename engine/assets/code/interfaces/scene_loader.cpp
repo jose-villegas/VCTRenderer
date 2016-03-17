@@ -6,6 +6,7 @@
 #include "../../../scene/camera.h"
 #include "../../../scene/scene.h"
 #include "../../../core/assets_manager.h"
+#include "../renderers/shadow_map_renderer.h"
 
 using namespace ImGui;
 
@@ -37,7 +38,7 @@ void UISceneLoader::Draw()
               ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings))
     {
         // active scene selector
-        PushItemWidth(350);
+        PushItemWidth(100);
 
         if (Combo("Path", &activeScene, SceneName, &assets->scenes,
                   static_cast<int>(assets->scenes.size())))
@@ -53,6 +54,13 @@ void UISceneLoader::Draw()
         {
             scene->Import();
             scene->Load();
+            static auto shadowing = static_cast<ShadowMapRenderer *>
+                                    (assets->renderers["Shadowmapping"].get());
+
+            if (scene->lights.size() > 0)
+            {
+                shadowing->Caster(scene->lights[0].get());
+            }
         }
 
         PopItemWidth();

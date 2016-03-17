@@ -64,12 +64,13 @@ void DeferredRenderer::Render()
     SetAsActive();
     // bind g buffer for writing
     gbuffer.Bind(oglplus::FramebufferTarget::Draw);
+    gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    gl.Viewport(Window().Info().width, Window().Info().height);
     gl.Clear().ColorBuffer().DepthBuffer();
+    gl.ColorMask(true, true, true, true);
     // activate geometry pass shader program
     CurrentProgram<GeometryProgram>(GeometryPass());
     // rendering and GL flags
-    gl.Viewport(Window().Info().width, Window().Info().height);
-    gl.ColorMask(true, true, true, true);
     gl.ClearDepth(1.0f);
     gl.Enable(oglplus::Capability::DepthTest);
     gl.Enable(oglplus::Capability::CullFace);

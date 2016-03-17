@@ -11,6 +11,7 @@
 #include "../assets/code/programs/geometry_program.h"
 #include "../assets/code/programs/voxelization_program.h"
 #include "../assets/code/programs/voxel_drawer_program.h"
+#include "../assets/code/programs/depth_program.h"
 // include interfaces
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
@@ -66,9 +67,10 @@ AssetsManager::AssetsManager()
     programs["Lighting"] = std::make_shared<LightingProgram>();
     programs["Voxelization"] = std::make_shared<VoxelizationProgram>();
     programs["VoxelDrawer"] = std::make_shared<VoxelDrawerProgram>();
+    programs["Depth"] = std::make_shared<DepthProgram>();
     // instantiate impleted renderers
-    renderers["Voxelizer"] = std::make_shared<VoxelizerRenderer>(window);
     renderers["Shadowmapping"] = std::make_shared<ShadowMapRenderer>(window);
+    renderers["Voxelizer"] = std::make_shared<VoxelizerRenderer>(window);
     renderers["Deferred"] = std::make_shared<DeferredRenderer>(window);
     // attach shaders, ej: programs[index]->AttachShader();
     programs["Geometry"]->AttachShader(oglplus::ShaderType::Vertex,
@@ -91,6 +93,10 @@ AssetsManager::AssetsManager()
                                           "assets\\shaders\\draw_voxels.geom");
     programs["VoxelDrawer"]->AttachShader(oglplus::ShaderType::Fragment,
                                           "assets\\shaders\\draw_voxels.frag");
+    programs["Depth"]->AttachShader(oglplus::ShaderType::Vertex,
+                                    "assets\\shaders\\depth_texture.vert");
+    programs["Depth"]->AttachShader(oglplus::ShaderType::Fragment,
+                                    "assets\\shaders\\depth_texture.frag");
 
     // link and extract uniforms from shaders
     for (auto &prog : programs)

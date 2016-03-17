@@ -229,6 +229,7 @@
     <ClCompile Include="assets\code\interfaces\metrics_drawer.cpp" />
     <ClCompile Include="assets\code\programs\voxel_drawer_program.cpp" />
     <ClCompile Include="assets\code\renderers\shadow_map_renderer.cpp" />
+    <ClCompile Include="assets\code\programs\depth_program.cpp" />
     <ClCompile Include="util\metrics_report.cpp" />
     <ClCompile Include="types\transform.cpp" />
     <ClCompile Include="types\scene_object.cpp" />
@@ -308,6 +309,7 @@
     <ClInclude Include="assets\code\interfaces\metrics_drawer.h" />
     <ClInclude Include="assets\code\programs\voxel_drawer_program.h" />
     <ClInclude Include="assets\code\renderers\shadow_map_renderer.h" />
+    <ClInclude Include="assets\code\programs\depth_program.h" />
     <ClInclude Include="util\metrics_report.h" />
     <ClInclude Include="types\transform.h" />
     <ClInclude Include="types\scene_object.h" />
