@@ -8,7 +8,7 @@
 #include "../../../core/assets_manager.h"
 
 #include <oglplus/context.hpp>
-#include "../../../3rdparty/imgui/imgui.h"
+#include <oglplus/bound/texture.hpp>
 
 void ShadowMapRenderer::SetMatricesUniforms(const Node &node) const
 {
@@ -26,8 +26,7 @@ void ShadowMapRenderer::Render()
     static auto &scene = Scene::Active();
     auto camera = Camera::Active().get();
 
-    if (!camera || !scene || !scene->IsLoaded() || !shadowCaster)
-    {
+    if (!camera || !scene || !scene->IsLoaded() || !shadowCaster) {
         return;
     }
 
@@ -39,6 +38,9 @@ void ShadowMapRenderer::Render()
     gl.Viewport(shadowMapSize.x, shadowMapSize.y);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Clear().DepthBuffer();
+    // scene spatial cues
+    auto &center = scene->rootNode->boundaries.Center();
+    auto &extent = scene->rootNode->boundaries.Extent();
     // fix light camera with light shadow caster
     lightView.transform.Position(shadowCaster->Position());
     lightView.transform.Forward(shadowCaster->Direction());
@@ -47,18 +49,16 @@ void ShadowMapRenderer::Render()
     // recover original render camera
     camera->SetAsActive();
     DefaultFramebuffer().Bind(FramebufferTarget::Draw);
-    //test
-    static auto size = ImVec2(258, 258);
-    static auto uv1 = ImVec2(-1, 0);
-    static auto uv2 = ImVec2(0, -1);
-    auto texName = reinterpret_cast<void *>
-                   (static_cast<intptr_t>(GetName(renderDepth)));
-    ImGui::Image(texName, size, uv1, uv2);
 }
 
 void ShadowMapRenderer::Caster(const Light * caster)
 {
     shadowCaster = caster;
+}
+
+const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
+{
+    return renderDepth;
 }
 
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
@@ -83,28 +83,20 @@ void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
         const unsigned &h)
 {
     using namespace oglplus;
+    static Context gl;
     shadowMapSize = glm::uvec2(w, h);
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
-    renderDepth.Bind(TextureTarget::_2D);
-    renderDepth.Image2D(TextureTarget::_2D, 0,
-                        PixelDataInternalFormat::DepthComponent24, w, w, 0,
-                        PixelDataFormat::DepthComponent,
-                        PixelDataType::Float,
-                        nullptr);
-    renderDepth.MagFilter(TextureTarget::_2D, TextureMagFilter::Nearest);
-    renderDepth.MinFilter(TextureTarget::_2D, TextureMinFilter::Nearest);
-    renderDepth.WrapS(TextureTarget::_2D, TextureWrap::ClampToEdge);
-    renderDepth.WrapT(TextureTarget::_2D, TextureWrap::ClampToEdge);
-    renderDepth.CompareFunc(TextureTarget::_2D, CompareFunction::Equal);
-    renderDepth.CompareMode(TextureTarget::_2D,
-                            TextureCompareMode::CompareRefToTexture);
+    gl.Bound(TextureTarget::_2D, renderDepth)
+    .Image2D(0, PixelDataInternalFormat::DepthComponent24, w, h, 0,
+             PixelDataFormat::DepthComponent, PixelDataType::Float, nullptr)
+    .MinFilter(TextureMinFilter::Nearest).MagFilter(TextureMagFilter::Nearest);
     shadowFramebuffer.AttachTexture(FramebufferTarget::Draw,
                                     FramebufferAttachment::Depth,
                                     renderDepth, 0);
+    gl.DrawBuffer(ColorBuffer::None);
 
     // check if success building frame buffer
-    if (!Framebuffer::IsComplete(FramebufferTarget::Draw))
-    {
+    if (!Framebuffer::IsComplete(FramebufferTarget::Draw)) {
         auto status = Framebuffer::Status(FramebufferTarget::Draw);
         Framebuffer::HandleIncompleteError(FramebufferTarget::Draw, status);
     }

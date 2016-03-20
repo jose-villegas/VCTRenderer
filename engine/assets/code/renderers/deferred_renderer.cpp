@@ -16,7 +16,6 @@
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
 
-std::unique_ptr<GeometryBuffer> DeferredRenderer::geometryBuffer = nullptr;
 
 DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
 {
@@ -28,10 +27,6 @@ DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
 
 DeferredRenderer::~DeferredRenderer()
 {
-    // geometry buffer has context dependant components
-    // its deletion needs to be included with the destructor
-    // so it can be called before the context ceases to exist.
-    delete geometryBuffer.release();
 }
 
 void DeferredRenderer::DrawFullscreenQuad() const
@@ -44,7 +39,7 @@ void DeferredRenderer::DrawFullscreenQuad() const
     );
 }
 
-const GeometryBuffer &DeferredRenderer::GBuffer()
+const GeometryBuffer &DeferredRenderer::GBuffer() const
 {
     return *geometryBuffer;
 }

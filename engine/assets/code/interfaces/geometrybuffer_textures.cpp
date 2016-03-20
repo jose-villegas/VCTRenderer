@@ -5,9 +5,12 @@
 #include "main_menu.h"
 
 #include "../misc/geometry_buffer.h"
-#include "../renderers/deferred_renderer.h"
+#include "../renderers/deferred_renderer.h"\
+
+#include "../../../core/assets_manager.h"
 
 #include <oglplus/texture.hpp>
+#include "../renderers/shadow_map_renderer.h"
 
 using namespace ImGui;
 
@@ -23,8 +26,7 @@ void DrawBufferTexture(const oglplus::Texture &tex, const std::string &name)
     Text(name.c_str());
     Image(texName, size, uv1, uv2);
 
-    if (IsItemHovered())
-    {
+    if (IsItemHovered()) {
         auto width = tex.Width(TextureTarget::_2D, 0);
         auto height = tex.Height(TextureTarget::_2D, 0);
         BeginTooltip();
@@ -39,7 +41,12 @@ void UIGeometryBuffer::Draw()
 {
     if (!UIMainMenu::drawGeometryBuffer) { return; }
 
-    auto &gbuffer = DeferredRenderer::GBuffer();
+    static auto &gbuffer = static_cast<DeferredRenderer *>
+                           (AssetsManager::Instance()->renderers
+                            ["Deferred"].get())->GBuffer();
+    static auto &shadow = static_cast<ShadowMapRenderer *>
+                          (AssetsManager::Instance()->renderers
+                           ["Shadowmapping"].get())->ShadowMap();
     // begin editor
     Begin("Geometry Buffer", &UIMainMenu::drawGeometryBuffer,
           ImGuiWindowFlags_AlwaysAutoResize);
@@ -50,6 +57,8 @@ void UIGeometryBuffer::Draw()
     DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Specular), "Specular");
     SameLine();
     DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Depth), "Depth");
+    SameLine();
+    DrawBufferTexture(shadow, "Shadowmap");
     End();
 }
 

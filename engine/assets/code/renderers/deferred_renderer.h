@@ -40,7 +40,7 @@ class DeferredRenderer : public Renderer
         /// geometry buffer to this deferred path implementation.
         /// </summary>
         /// <returns></returns>
-        static const GeometryBuffer &GBuffer();
+        const GeometryBuffer &GBuffer() const;
         /// <summary>
         /// Renders a frame using deferred rendering
         /// </summary>
@@ -76,13 +76,12 @@ class DeferredRenderer : public Renderer
         /// </summary>
         /// <param name="windowWith">The rendering window width.</param>
         /// <param name="windowHeight">The rendering window height.</param>
-        static void SetupGeometryBuffer(unsigned int windowWidth,
-                                        unsigned int windowHeight);
+        void SetupGeometryBuffer(unsigned int windowWidth, unsigned int windowHeight);
         /// <summary>
         /// The geometry buffer which holds all the framebuffer
         /// with all the render target texture attachments
         /// </summary>
-        static std::unique_ptr<GeometryBuffer> geometryBuffer;
+        std::unique_ptr<GeometryBuffer> geometryBuffer;
         /// <summary>
         /// The full screen quad vertex array object
         /// </summary>

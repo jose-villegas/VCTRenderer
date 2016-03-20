@@ -172,7 +172,7 @@ void Light::TypeCollection(LightType val, bool force)
 Light::Light() : lightType(Directional)
 {
     name = "Default Light";
-    angleInnerCone = glm::radians(30.0f);
+    angleInnerCone = glm::radians(25.0f);
     angleOuterCone = glm::radians(30.0f);
     ambient = Vector3::zero;
     diffuse = specular = intensity =  Vector3::one;

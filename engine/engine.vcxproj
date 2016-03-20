@@ -360,6 +360,8 @@
     <ClInclude Include="assets\code\programs\voxelization_program.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\depth_texture.frag" />
+    <None Include="assets\shaders\depth_texture.vert" />
     <None Include="assets\shaders\draw_voxels.frag" />
     <None Include="assets\shaders\draw_voxels.geom" />
     <None Include="assets\shaders\draw_voxels.vert" />

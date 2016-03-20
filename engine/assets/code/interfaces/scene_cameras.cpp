@@ -65,7 +65,7 @@ void UISceneCameras::Draw()
             camera = current.get();
             position = camera->transform.Position();
             angles = degrees(camera->transform.Angles());
-            proj[0] = camera->HorizontalFoV();
+            proj[0] = glm::degrees(camera->FieldOfView());
             proj[1] = camera->ClipPlaneNear();
             proj[2] = camera->ClipPlaneFar();
             // copy name to a standard vector
@@ -105,7 +105,7 @@ void UISceneCameras::Draw()
 
         if (SliderFloat("Field of View", &proj[0], 1.0f, 179.0f))
         {
-            camera->HorizontalFoV(proj[0]);
+            camera->FieldOfView(glm::radians(proj[0]));
         }
 
         Text("Clipping Planes");

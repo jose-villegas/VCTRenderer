@@ -10,7 +10,8 @@ Camera::~Camera()
 }
 
 Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
-    horizontalFoV(60.0f), aspectRatio(16.0f / 9.0f)
+    fieldOfView(glm::radians(60.0f)), aspectRatio(16.0f / 9.0f),
+    mode(ProjectionMode::Perspective)
 {
     name = "Default Camera";
 }
@@ -35,14 +36,14 @@ void Camera::ClipPlaneNear(float val)
     clipPlaneNear = glm::max(val, 0.01f);
 }
 
-float Camera::HorizontalFoV() const
+const float &Camera::FieldOfView() const
 {
-    return horizontalFoV;
+    return fieldOfView;
 }
 
-void Camera::HorizontalFoV(float val)
+void Camera::FieldOfView(const float &val)
 {
-    horizontalFoV = glm::clamp(val, 1.0f, 179.0f);
+    fieldOfView = glm::clamp(val, 0.0f, glm::pi<float>());
 }
 
 float Camera::AspectRatio() const
@@ -55,6 +56,16 @@ void Camera::AspectRatio(float val)
     aspectRatio = val;
 }
 
+void Camera::OrthoRect(const glm::vec4 &rect)
+{
+    orthoRect = rect;
+}
+
+const glm::vec4 &Camera::OrthoRect() const
+{
+    return orthoRect;
+}
+
 glm::vec3 Camera::LookAt() const
 {
     return transform.Position() + transform.Forward();
@@ -62,22 +73,19 @@ glm::vec3 Camera::LookAt() const
 
 const glm::mat4x4 &Camera::ViewMatrix()
 {
-    return viewMatrix = lookAt
-                        (
-                            transform.Position(),
-                            LookAt(),
-                            transform.Up()
-                        );;
+    return viewMatrix = lookAt(transform.Position(), LookAt(), transform.Up());
 }
 
 const glm::mat4x4 &Camera::ProjectionMatrix()
 {
-    return projectionMatrix = glm::perspective
-                              (
-                                  glm::radians(horizontalFoV),
-                                  aspectRatio,
-                                  clipPlaneNear, clipPlaneFar
-                              );;
+    if (mode == ProjectionMode::Perspective)
+    {
+        return projectionMatrix = glm::perspective(fieldOfView, aspectRatio,
+                                  clipPlaneNear, clipPlaneFar);
+    }
+
+    return projectionMatrix = glm::ortho(orthoRect.x, orthoRect.y, orthoRect.z,
+                                         orthoRect.w, clipPlaneNear, clipPlaneFar);
 }
 
 const glm::mat4x4 &Camera::InverseViewMatrix()

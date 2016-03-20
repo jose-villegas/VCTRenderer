@@ -14,6 +14,12 @@
 class Camera : public SceneObject, public SingleActive<Camera>
 {
     public:
+        enum class ProjectionMode
+        {
+            Perspective,
+            Orthographic
+        };
+
         Camera();
         virtual ~Camera();
 
@@ -33,16 +39,19 @@ class Camera : public SceneObject, public SingleActive<Camera>
         /// <param name="val">The value.</param>
         void ClipPlaneNear(float val);
 
-        float HorizontalFoV() const;
+        const float &FieldOfView() const;
         /// <summary>
-        /// Sets the <see cref="horizontalFoV"> value.
+        /// Sets the <see cref="fieldOfView"> value.
         /// Value is in the range [1, 179]
         /// </summary>
         /// <param name="val">The value.</param>
-        void HorizontalFoV(float val);
+        void FieldOfView(const float &val);
 
         float AspectRatio() const;
         void AspectRatio(float val);
+
+        void OrthoRect(const glm::vec4 &rect);
+        const glm::vec4 &OrthoRect() const;
 
         glm::vec3 LookAt() const;
 
@@ -58,10 +67,14 @@ class Camera : public SceneObject, public SingleActive<Camera>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>
         bool InFrustum(const BoundingBox &volume);
+
+    private:
         float clipPlaneFar;
         float clipPlaneNear;
-        float horizontalFoV;
+        float fieldOfView;
         float aspectRatio;
+        glm::vec4 orthoRect;
+        ProjectionMode mode;
 
         glm::mat4x4 viewMatrix;
         glm::mat4x4 projectionMatrix;

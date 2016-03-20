@@ -157,7 +157,7 @@ void SceneImporter::ImportCamera(aiCamera * mCam, Camera &camera)
     camera.AspectRatio(mCam->mAspect);
     camera.ClipPlaneFar(mCam->mClipPlaneFar);
     camera.ClipPlaneNear(mCam->mClipPlaneNear);
-    camera.HorizontalFoV(mCam->mHorizontalFOV);
+    camera.FieldOfView(mCam->mHorizontalFOV);
     auto lookat = glm::vec3(mCam->mLookAt.x, mCam->mLookAt.y, mCam->mLookAt.z);
     auto pos = glm::vec3(mCam->mPosition.x, mCam->mPosition.y, mCam->mPosition.z);
     auto up = glm::vec3(mCam->mUp.x, mCam->mUp.y, mCam->mUp.z);
