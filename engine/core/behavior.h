@@ -11,7 +11,7 @@
 /// from <see cref="Behavior"/>
 /// </summary>
 /// <seealso cref="InstancePool{Behavior}" />
-class Behavior : InstancePool<Behavior>
+class Behavior : public InstancePool<Behavior>
 {
     public:
         Behavior();

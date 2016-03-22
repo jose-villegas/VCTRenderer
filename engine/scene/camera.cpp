@@ -9,6 +9,11 @@ Camera::~Camera()
 {
 }
 
+void Camera::Projection(enum class ProjectionMode mode)
+{
+    this->mode = mode;
+}
+
 Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     fieldOfView(glm::radians(60.0f)), aspectRatio(16.0f / 9.0f),
     mode(ProjectionMode::Perspective)
@@ -78,8 +83,7 @@ const glm::mat4x4 &Camera::ViewMatrix()
 
 const glm::mat4x4 &Camera::ProjectionMatrix()
 {
-    if (mode == ProjectionMode::Perspective)
-    {
+    if (mode == ProjectionMode::Perspective) {
         return projectionMatrix = glm::perspective(fieldOfView, aspectRatio,
                                   clipPlaneNear, clipPlaneFar);
     }

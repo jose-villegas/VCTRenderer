@@ -18,8 +18,7 @@ void Frustum::ExtractPlanes(const glm::mat4x4 &matrix, bool normalize)
 {
     // extract frustum planes from matrix
     // planes are in format: normal(xyz), offset(w)
-    const glm::vec4 mRow[4] =
-    {
+    const glm::vec4 mRow[4] = {
         row(matrix, 0), row(matrix, 1),
         row(matrix, 2), row(matrix, 3)
     };
@@ -33,8 +32,7 @@ void Frustum::ExtractPlanes(const glm::mat4x4 &matrix, bool normalize)
     if (!normalize) { return; }
 
     // Normalize them
-    for (auto &p : planes)
-    {
+    for (auto &p : planes) {
         p /= length(p);
     }
 }
@@ -44,23 +42,16 @@ const glm::vec4 &Frustum::Plane(const PlaneFace face) const
     return planes[face];
 }
 
-const glm::vec4 &Frustum::Plane(const unsigned face) const
-{
-    return planes[face];
-}
-
 bool CullingFrustum::InFrustum(const BoundingBox &volume) const
 {
     glm::vec3 normal;
 
-    for (auto &plane : planes)
-    {
+    for (auto &plane : planes) {
         normal = glm::vec3(plane);
         auto d = dot(volume.Extent(), abs(normal));
         auto r = dot(volume.Center(), normal) + plane.w;
 
-        if (d + r > 0.0f == false)
-        {
+        if (d + r > 0.0f == false) {
             return false;
         }
     }

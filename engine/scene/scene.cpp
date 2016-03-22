@@ -30,12 +30,12 @@ void Scene::SetAsActive()
     // call base method, now this instace is marked as active
     SingleActive::SetAsActive();
     // clean current light per type collections
-    Light::CleanCollections();
+    Light::ResetCollections();
 
     // add all the current scene lights to type collection
     for (auto &light : lights)
     {
-        light->TypeCollection(light->Type(), true);
+        light->TypeCollection(light->Type());
     }
 
     // once changing scene previous active cameras

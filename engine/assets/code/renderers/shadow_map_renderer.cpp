@@ -26,7 +26,8 @@ void ShadowMapRenderer::Render()
     static auto &scene = Scene::Active();
     auto camera = Camera::Active().get();
 
-    if (!camera || !scene || !scene->IsLoaded() || !shadowCaster) {
+    if (!camera || !scene || !scene->IsLoaded() || !shadowCaster)
+    {
         return;
     }
 
@@ -39,11 +40,17 @@ void ShadowMapRenderer::Render()
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Clear().DepthBuffer();
     // scene spatial cues
-    auto &center = scene->rootNode->boundaries.Center();
-    auto &extent = scene->rootNode->boundaries.Extent();
-    // fix light camera with light shadow caster
-    lightView.transform.Position(shadowCaster->Position());
-    lightView.transform.Forward(shadowCaster->Direction());
+    auto sceneBB = scene->rootNode->boundaries;
+    auto &center = sceneBB.Center();
+    auto radius = distance(center, sceneBB.MaxPoint());
+    auto direction = -shadowCaster->Direction();
+    // fix light frustum to fit scene bounding sphere
+    lightView.OrthoRect(glm::vec4(-radius, radius, -radius, radius));
+    lightView.ClipPlaneNear(-radius);
+    lightView.ClipPlaneFar(2.0f * radius);
+    lightView.Projection(Camera::ProjectionMode::Orthographic);
+    lightView.transform.Position(center - direction * radius);
+    lightView.transform.Forward(direction);
     // draw whole scene tree from root node
     scene->rootNode->DrawList();
     // recover original render camera
@@ -96,7 +103,8 @@ void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
     gl.DrawBuffer(ColorBuffer::None);
 
     // check if success building frame buffer
-    if (!Framebuffer::IsComplete(FramebufferTarget::Draw)) {
+    if (!Framebuffer::IsComplete(FramebufferTarget::Draw))
+    {
         auto status = Framebuffer::Status(FramebufferTarget::Draw);
         Framebuffer::HandleIncompleteError(FramebufferTarget::Draw, status);
     }

@@ -224,7 +224,7 @@
     <ClCompile Include="assets\code\interfaces\scene_lights.cpp" />
     <ClCompile Include="core\behavior.cpp" />
     <ClCompile Include="assets\code\interfaces\framerate.cpp" />
-    <ClCompile Include="assets\code\interfaces\geometrybuffer_textures.cpp" />
+    <ClCompile Include="assets\code\interfaces\framebuffer_textures.cpp" />
     <ClCompile Include="core\renderer.cpp" />
     <ClCompile Include="assets\code\interfaces\metrics_drawer.cpp" />
     <ClCompile Include="assets\code\programs\voxel_drawer_program.cpp" />
@@ -304,7 +304,7 @@
     <ClInclude Include="assets\code\interfaces\scene_cameras.h" />
     <ClInclude Include="assets\code\interfaces\scene_lights.h" />
     <ClInclude Include="core\behavior.h" />
-    <ClInclude Include="assets\code\interfaces\geometrybuffer_textures.h" />
+    <ClInclude Include="assets\code\interfaces\framebuffer_textures.h" />
     <ClInclude Include="core\renderer.h" />
     <ClInclude Include="assets\code\interfaces\metrics_drawer.h" />
     <ClInclude Include="assets\code\programs\voxel_drawer_program.h" />

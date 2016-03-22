@@ -10,6 +10,7 @@ class InstancePool
 {
     public:
         InstancePool();
+        virtual ~InstancePool();
         void Priority(const int priority);
         T &GetInstance(const int id);
     protected:
@@ -33,6 +34,21 @@ InstancePool<T>::InstancePool()
     priorityIndex = instanceId;
     instances.push_back(static_cast<T *>(this));
     location[instanceId] = priorityIndex;
+}
+
+template <typename T>
+InstancePool<T>::~InstancePool()
+{
+    // delete self from collections
+    auto index = location[instanceId];
+    location.erase(instanceId);
+    instances.erase(instances.begin() + index);
+
+    // update locations
+    for (auto i = 0; i < instances.size(); ++i)
+    {
+        location[instances[i]->instanceId] = i;
+    }
 }
 
 template <typename T>

@@ -12,7 +12,7 @@
 /// directional and spot.
 /// </summary>
 /// <seealso cref="SceneObject" />
-class Light : public SceneObject
+class Light : public SceneObject, public InstancePool<Light>
 {
     public:
         /// <summary>
@@ -85,15 +85,15 @@ class Light : public SceneObject
         /// <param name="force">
         /// if set to <c>true</c> it will add the light to
         /// a collection vector without checking for previous addition.
-        /// This is useful if <see cref="CleanCollections"/> has been called
+        /// This is useful if <see cref="ResetCollections"/> has been called
         /// previously and there is a need to re-add light's to their type
         /// static collection.
         /// </param>
-        void TypeCollection(LightType val, bool force = false);
+        void TypeCollection(LightType val);
         /// <summary>
         /// Cleans the light type static collection vectors.
         /// </summary>
-        static void CleanCollections();
+        static void ResetCollections();
         static const std::vector<Light *> &Directionals();
         static const std::vector<Light *> &Points();
         static const std::vector<Light *> &Spots();

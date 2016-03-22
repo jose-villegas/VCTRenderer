@@ -2,12 +2,12 @@
 
 #include "../../../core/interface.h"
 
-class UIGeometryBuffer : public Interface
+class UIFramebuffers : public Interface
 {
     protected:
         void Draw() override;
     public:
-        UIGeometryBuffer();
-        ~UIGeometryBuffer();
+        UIFramebuffers();
+        ~UIFramebuffers();
 };
 

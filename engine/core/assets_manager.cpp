@@ -18,7 +18,7 @@
 #include "../assets/code/interfaces/main_menu.h"
 #include "../assets/code/interfaces/scene_cameras.h"
 #include "../assets/code/interfaces/scene_lights.h"
-#include "../assets/code/interfaces/geometrybuffer_textures.h"
+#include "../assets/code/interfaces/framebuffer_textures.h"
 // include behaviors
 // include renderers
 #include "../assets/code/renderers/voxelizer_renderer.h"
@@ -29,8 +29,7 @@ std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
     static std::unique_ptr<AssetsManager> instance = nullptr;
 
-    if (!instance)
-    {
+    if (!instance) {
         instance.reset(new AssetsManager());
     }
 
@@ -58,7 +57,7 @@ AssetsManager::AssetsManager()
     interfaces["MainMenu"] = std::make_shared<UIMainMenu>();
     interfaces["Cameras"] = std::make_shared<UISceneCameras>();
     interfaces["Lights"] = std::make_shared<UISceneLights>();
-    interfaces["GBuffer"] = std::make_shared<UIGeometryBuffer>();
+    interfaces["Framebuffers"] = std::make_shared<UIFramebuffers>();
     // instantiate implemented behaviors
     {
     };
@@ -99,8 +98,7 @@ AssetsManager::AssetsManager()
                                     "assets\\shaders\\depth_texture.frag");
 
     // link and extract uniforms from shaders
-    for (auto &prog : programs)
-    {
+    for (auto &prog : programs) {
         prog.second->Link();
         prog.second->ExtractUniforms();
     }

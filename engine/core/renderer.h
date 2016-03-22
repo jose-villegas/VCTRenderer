@@ -13,7 +13,7 @@ class Node;
 /// abstract method <see cref="Render">
 /// </summary>
 /// <seealso cref="SingleActive{Renderer}" />
-class Renderer : public SingleActive <Renderer>, InstancePool<Renderer>
+class Renderer : public SingleActive <Renderer>, public InstancePool<Renderer>
 {
     protected:
         /// <summary>

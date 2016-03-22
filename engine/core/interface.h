@@ -12,7 +12,7 @@
 /// </summary>
 /// <seealso cref="InterfaceRenderer" />
 /// <seealso cref="InstancePool{Interface}" />
-class Interface : InterfaceRenderer, InstancePool<Interface>
+class Interface : InterfaceRenderer, public InstancePool<Interface>
 {
     public:
         Interface();

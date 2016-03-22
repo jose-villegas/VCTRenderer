@@ -181,6 +181,12 @@ void UISceneLights::Draw()
         }
 
         Unindent();
+
+        if (Button("Delete"))
+        {
+            // delete ref in scene lights
+            scene->lights.erase(scene->lights.begin() + selected);
+        }
     }
     else
     {

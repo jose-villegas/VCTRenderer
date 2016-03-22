@@ -101,14 +101,8 @@ Light::LightType Light::Type() const
 }
 
 
-void Light::TypeCollection(LightType val, bool force)
+void Light::TypeCollection(LightType val)
 {
-    // will be added without check for previous addition
-    if (force)
-    {
-        collectionIndex = -1;
-    }
-
     // no change
     if (val == lightType && collectionIndex >= 0) { return; }
 
@@ -185,10 +179,44 @@ Light::Light() : lightType(Directional)
 
 Light::~Light()
 {
+    if (collectionIndex < 0) return;
+
+    auto UpdateIndex = [ = ](std::vector<Light *> &lights)
+    {
+        lights.erase(lights.begin() + this->collectionIndex);
+
+        for (auto i = 0; i < lights.size(); ++i)
+        {
+            lights[i]->collectionIndex = i;
+        }
+    };
+
+    // delete self from type collection
+    switch(lightType)
+    {
+        case Directional:
+            UpdateIndex(directionals);
+            break;
+
+        case Point:
+            UpdateIndex(points);;
+            break;
+
+        case Spot:
+            UpdateIndex(spots);
+            break;
+
+        default: break;
+    }
+
+    // update indexes
 }
 
-void Light::CleanCollections()
+void Light::ResetCollections()
 {
+    // reset collection index so type collections get properly filled
+    for (auto &l : instances) { l->collectionIndex = -1; }
+
     directionals.clear();
     points.clear();
     spots.clear();

@@ -13,7 +13,7 @@ class UIMainMenu : public Interface
         static bool drawFramerate;
         static bool drawSceneCameras;
         static bool drawSceneLights;
-        static bool drawGeometryBuffer;
+        static bool drawFramebuffers;
         UIMainMenu();
         ~UIMainMenu() override;
 };

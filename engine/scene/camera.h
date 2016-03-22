@@ -14,8 +14,7 @@
 class Camera : public SceneObject, public SingleActive<Camera>
 {
     public:
-        enum class ProjectionMode
-        {
+        enum class ProjectionMode {
             Perspective,
             Orthographic
         };
@@ -23,6 +22,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
         Camera();
         virtual ~Camera();
 
+        void Projection(ProjectionMode mode);
         float ClipPlaneFar() const;
         /// <summary>
         /// Sets the <see cref="clipPlaneFar"> value.
@@ -50,6 +50,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
         float AspectRatio() const;
         void AspectRatio(float val);
 
+        // left right bottom top
         void OrthoRect(const glm::vec4 &rect);
         const glm::vec4 &OrthoRect() const;
 
@@ -67,7 +68,6 @@ class Camera : public SceneObject, public SingleActive<Camera>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>
         bool InFrustum(const BoundingBox &volume);
-
     private:
         float clipPlaneFar;
         float clipPlaneNear;

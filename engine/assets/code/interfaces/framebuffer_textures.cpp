@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "geometrybuffer_textures.h"
+#include "framebuffer_textures.h"
 #include "main_menu.h"
 
 #include "../misc/geometry_buffer.h"
@@ -37,9 +37,9 @@ void DrawBufferTexture(const oglplus::Texture &tex, const std::string &name)
     EndGroup();
 }
 
-void UIGeometryBuffer::Draw()
+void UIFramebuffers::Draw()
 {
-    if (!UIMainMenu::drawGeometryBuffer) { return; }
+    if (!UIMainMenu::drawFramebuffers) { return; }
 
     static auto &gbuffer = static_cast<DeferredRenderer *>
                            (AssetsManager::Instance()->renderers
@@ -48,8 +48,10 @@ void UIGeometryBuffer::Draw()
                           (AssetsManager::Instance()->renderers
                            ["Shadowmapping"].get())->ShadowMap();
     // begin editor
-    Begin("Geometry Buffer", &UIMainMenu::drawGeometryBuffer,
+    Begin("Geometry Buffer", &UIMainMenu::drawFramebuffers,
           ImGuiWindowFlags_AlwaysAutoResize);
+    BeginGroup();
+    Text("Geometry Buffer");
     DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Normal), "Normal");
     SameLine();
     DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Albedo), "Albedo");
@@ -57,16 +59,19 @@ void UIGeometryBuffer::Draw()
     DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Specular), "Specular");
     SameLine();
     DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Depth), "Depth");
-    SameLine();
-    DrawBufferTexture(shadow, "Shadowmap");
+    EndGroup();
+    BeginGroup();
+    Text("Shadow Mapping");
+    DrawBufferTexture(shadow, "Depth");
+    EndGroup();
     End();
 }
 
-UIGeometryBuffer::UIGeometryBuffer()
+UIFramebuffers::UIFramebuffers()
 {
 }
 
 
-UIGeometryBuffer::~UIGeometryBuffer()
+UIFramebuffers::~UIFramebuffers()
 {
 }
