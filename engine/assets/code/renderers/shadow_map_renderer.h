@@ -16,7 +16,9 @@ class ShadowMapRenderer : public Renderer
         void SetMatricesUniforms(const Node &node) const override;
         void Render() override;
         void Caster(const Light * caster);
-		const oglplus::Texture &ShadowMap() const;
+        void BindReading(unsigned int unit) const;
+        const Camera &LightCamera() const;
+        const oglplus::Texture &ShadowMap() const;
         explicit ShadowMapRenderer(RenderWindow &window);
         ~ShadowMapRenderer();
     private:

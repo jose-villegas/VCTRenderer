@@ -15,6 +15,7 @@
 #include "../core/assets_manager.h"
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
+#include "shadow_map_renderer.h"
 
 
 DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
@@ -184,6 +185,16 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.lightTypeCount[0].Set(directionals.size());
     prog.lightTypeCount[1].Set(points.size());
     prog.lightTypeCount[2].Set(spots.size());
+    // pass shadowing parameters
+    auto &shadowing = *static_cast<ShadowMapRenderer *>(AssetsManager::Instance()
+                      ->renderers["Shadowmapping"].get());
+    auto lightView = shadowing.LightCamera();
+    auto lightViewProjection = lightView.ProjectionMatrix() *
+                               lightView.ViewMatrix();
+    prog.inverseView.Set(camera->InverseViewMatrix());
+    prog.lightViewProjection.Set(lightViewProjection);
+    shadowing.BindReading(6);
+    prog.shadowMap.Set(6);
 }
 
 GeometryProgram &DeferredRenderer::GeometryPass()

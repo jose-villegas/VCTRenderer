@@ -39,6 +39,9 @@ void ShadowMapRenderer::Render()
     gl.Viewport(shadowMapSize.x, shadowMapSize.y);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Clear().DepthBuffer();
+    gl.Enable(Capability::DepthTest);
+    gl.Enable(Capability::CullFace);
+    gl.CullFace(Face::Front);
     // scene spatial cues
     auto sceneBB = scene->rootNode->boundaries;
     auto &center = sceneBB.Center();
@@ -63,6 +66,17 @@ void ShadowMapRenderer::Caster(const Light * caster)
     shadowCaster = caster;
 }
 
+void ShadowMapRenderer::BindReading(unsigned unit) const
+{
+    renderDepth.Active(unit);
+    renderDepth.Bind(oglplus::TextureTarget::_2D);
+}
+
+const Camera &ShadowMapRenderer::LightCamera() const
+{
+    return lightView;
+}
+
 const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 {
     return renderDepth;
@@ -71,7 +85,7 @@ const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     shadowCaster(nullptr)
 {
-    CreateFramebuffer(512, 512);
+    CreateFramebuffer(4096, 4096);
 }
 
 ShadowMapRenderer::~ShadowMapRenderer()

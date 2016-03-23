@@ -30,17 +30,40 @@ struct Light {
 };
 
 uniform mat4 inverseProjection;
+uniform mat4 inverseView;
+uniform mat4 lightViewProjection;
 
 uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
+uniform sampler2D shadowMap;
 
 uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 uniform Light pointLight[MAX_POINT_LIGHTS];
 uniform Light spotLight[MAX_SPOT_LIGHTS];
 
 uniform uint lightTypeCount[3];
+
+float Visibility(vec3 position)
+{
+    vec4 wsPos = inverseView * vec4(position, 1.0f);
+    vec4 lsPos = lightViewProjection * wsPos;
+    // transform to ndc-space
+    lsPos /= lsPos.w;
+    // return to 0, 1 range
+    lsPos = lsPos * vec4(0.5) + vec4(0.5);
+    float sDepth = texture(shadowMap, lsPos.xy).x;
+
+    if(sDepth < lsPos.z)
+    {
+        return 0.2f;
+    }
+    else
+    {
+        return 1.0f;
+    }
+}
 
 vec3 Ambient(Light light, vec3 albedo)
 {
@@ -64,8 +87,8 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 
 vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
-    return Ambient(light, albedo) + Diffuse(light, light.direction, normal, albedo) + 
-           Specular(light, light.direction, normal, position, specular);
+    return Ambient(light, albedo) + (Diffuse(light, light.direction, normal, albedo) + 
+           Specular(light, light.direction, normal, position, specular)) * Visibility(position);
 }
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
