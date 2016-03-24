@@ -9,6 +9,7 @@
 
 #include <oglplus/context.hpp>
 #include <oglplus/bound/texture.hpp>
+#include <oglplus/renderbuffer.hpp>
 
 void ShadowMapRenderer::SetMatricesUniforms(const Node &node) const
 {
@@ -38,7 +39,8 @@ void ShadowMapRenderer::Render()
     CurrentProgram<DepthProgram>(DepthShader());
     gl.Viewport(shadowMapSize.x, shadowMapSize.y);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    gl.Clear().DepthBuffer();
+    gl.Clear().DepthBuffer().ColorBuffer();
+    gl.Disable(Capability::Blend);
     gl.Enable(Capability::DepthTest);
     gl.Enable(Capability::CullFace);
     gl.CullFace(Face::Front);
@@ -105,16 +107,26 @@ void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
 {
     using namespace oglplus;
     static Context gl;
+    // save size
     shadowMapSize = glm::uvec2(w, h);
+    // create render buffer for depth testing
+    Renderbuffer enableDepthTest;
+    enableDepthTest.Bind(RenderbufferTarget::Renderbuffer);
+    enableDepthTest.Storage(RenderbufferTarget::Renderbuffer,
+                            PixelDataInternalFormat::DepthComponent24, w, h);
+    // setup framebuffer
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
     gl.Bound(TextureTarget::_2D, renderDepth)
-    .Image2D(0, PixelDataInternalFormat::DepthComponent24, w, h, 0,
-             PixelDataFormat::DepthComponent, PixelDataType::Float, nullptr)
+    .Image2D(0, PixelDataInternalFormat::RG32F, w, h, 0,
+             PixelDataFormat::RG, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest).MagFilter(TextureMagFilter::Nearest);
     shadowFramebuffer.AttachTexture(FramebufferTarget::Draw,
-                                    FramebufferAttachment::Depth,
+                                    FramebufferColorAttachment::_0,
                                     renderDepth, 0);
-    gl.DrawBuffer(ColorBuffer::None);
+    shadowFramebuffer.AttachRenderbuffer(FramebufferTarget::Draw,
+                                         FramebufferAttachment::Depth,
+                                         enableDepthTest);
+    gl.DrawBuffer(FramebufferColorAttachment::_0);
 
     // check if success building frame buffer
     if (!Framebuffer::IsComplete(FramebufferTarget::Draw))

@@ -26,11 +26,10 @@ void DrawBufferTexture(const oglplus::Texture &tex, const std::string &name)
     Text(name.c_str());
     Image(texName, size, uv1, uv2);
 
-    if (IsItemHovered()) {
-        auto width = tex.Width(TextureTarget::_2D, 0);
-        auto height = tex.Height(TextureTarget::_2D, 0);
+    if (IsItemHovered())
+    {
         BeginTooltip();
-        Image(texName, ImVec2(width / 2, height / 2), uv1, uv2);
+        Image(texName, ImVec2(160 * 4, 90 * 4), uv1, uv2);
         EndTooltip();
     }
 

@@ -53,16 +53,18 @@ float Visibility(vec3 position)
     lsPos /= lsPos.w;
     // return to 0, 1 range
     lsPos = lsPos * vec4(0.5) + vec4(0.5);
-    float sDepth = texture(shadowMap, lsPos.xy).x;
+    vec2 sDepth = texture(shadowMap, lsPos.xy).rg;
 
-    if(sDepth < lsPos.z)
-    {
-        return 0.2f;
-    }
-    else
-    {
+    if(lsPos.z <= sDepth.x)
         return 1.0f;
-    }
+
+    float variance = sDepth.y - (sDepth.x * sDepth.x);
+    variance = max(variance, 0.00002f);
+
+    float d = lsPos.z - sDepth.x;
+    float pMax = variance / (variance + d * d);
+
+    return pMax;
 }
 
 vec3 Ambient(Light light, vec3 albedo)
