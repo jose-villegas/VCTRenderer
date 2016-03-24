@@ -1,5 +1,5 @@
 # Blender MTL File: 'sibenik.blend'
-# Material Count: 15
+# Material Count: 16
 
 newmtl kamen_zid
 Ns 7.843137
@@ -158,6 +158,18 @@ d 1.000000
 illum 2
 map_Kd KAMEN-stup.png
 map_Ka KAMEN-stup.png
+
+newmtl stupovi_NONE
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.734118 0.730588 0.674118
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Ka KAMEN-stup.png
+map_Kd KAMEN-stup.png
 
 newmtl zid_vani
 Ns 7.843137
