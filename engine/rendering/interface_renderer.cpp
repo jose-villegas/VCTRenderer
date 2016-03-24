@@ -167,9 +167,9 @@ void InterfaceRenderer::Initialize(const RenderWindow &activeWindow,
     io.RenderDrawListsFn = RenderDrawList;
     io.SetClipboardTextFn = SetClipboardText;
     io.GetClipboardTextFn = GetClipboardText;
-#ifdef _WIN32
+    #ifdef _WIN32
     io.ImeWindowHandle = glfwGetWin32Window(renderer->window);
-#endif
+    #endif
 
     if (instantCallbacks)
     {

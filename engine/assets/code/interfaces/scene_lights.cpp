@@ -186,6 +186,7 @@ void UISceneLights::Draw()
         {
             // delete ref in scene lights
             scene->lights.erase(scene->lights.begin() + selected);
+            light = nullptr;
         }
     }
     else

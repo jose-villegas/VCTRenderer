@@ -29,7 +29,8 @@ std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
     static std::unique_ptr<AssetsManager> instance = nullptr;
 
-    if (!instance) {
+    if (!instance)
+    {
         instance.reset(new AssetsManager());
     }
 
@@ -52,25 +53,25 @@ AssetsManager::AssetsManager()
     scenes["Cornellbox"] = std::make_shared<Scene>
                            ("assets\\models\\cornell-box\\cornellbox-original.obj");
     // instantiate implemented interfaces
-    interfaces["SceneLoader"] = std::make_shared<UISceneLoader>();
-    interfaces["Framerate"] = std::make_shared<UIFramerate>();
-    interfaces["MainMenu"] = std::make_shared<UIMainMenu>();
-    interfaces["Cameras"] = std::make_shared<UISceneCameras>();
-    interfaces["Lights"] = std::make_shared<UISceneLights>();
+    interfaces["SceneLoader"]  = std::make_shared<UISceneLoader>();
+    interfaces["Framerate"]    = std::make_shared<UIFramerate>();
+    interfaces["MainMenu"]     = std::make_shared<UIMainMenu>();
+    interfaces["Cameras"]      = std::make_shared<UISceneCameras>();
+    interfaces["Lights"]       = std::make_shared<UISceneLights>();
     interfaces["Framebuffers"] = std::make_shared<UIFramebuffers>();
     // instantiate implemented behaviors
     {
     };
     // instantiate implemented programs
-    programs["Geometry"] = std::make_shared<GeometryProgram>();
-    programs["Lighting"] = std::make_shared<LightingProgram>();
+    programs["Geometry"]     = std::make_shared<GeometryProgram>();
+    programs["Lighting"]     = std::make_shared<LightingProgram>();
     programs["Voxelization"] = std::make_shared<VoxelizationProgram>();
-    programs["VoxelDrawer"] = std::make_shared<VoxelDrawerProgram>();
-    programs["Depth"] = std::make_shared<DepthProgram>();
+    programs["VoxelDrawer"]  = std::make_shared<VoxelDrawerProgram>();
+    programs["Depth"]        = std::make_shared<DepthProgram>();
     // instantiate impleted renderers
     renderers["Shadowmapping"] = std::make_shared<ShadowMapRenderer>(window);
-    renderers["Voxelizer"] = std::make_shared<VoxelizerRenderer>(window);
-    renderers["Deferred"] = std::make_shared<DeferredRenderer>(window);
+    renderers["Voxelizer"]     = std::make_shared<VoxelizerRenderer>(window);
+    renderers["Deferred"]      = std::make_shared<DeferredRenderer>(window);
     // attach shaders, ej: programs[index]->AttachShader();
     programs["Geometry"]->AttachShader(oglplus::ShaderType::Vertex,
                                        "assets\\shaders\\geometry_pass.vert");
@@ -98,7 +99,8 @@ AssetsManager::AssetsManager()
                                     "assets\\shaders\\depth_texture.frag");
 
     // link and extract uniforms from shaders
-    for (auto &prog : programs) {
+    for (auto &prog : programs)
+    {
         prog.second->Link();
         prog.second->ExtractUniforms();
     }

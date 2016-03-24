@@ -85,7 +85,7 @@ const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     shadowCaster(nullptr)
 {
-    CreateFramebuffer(4096, 4096);
+    CreateFramebuffer(2048, 2048);
 }
 
 ShadowMapRenderer::~ShadowMapRenderer()

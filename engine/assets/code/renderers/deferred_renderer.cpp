@@ -47,7 +47,8 @@ const GeometryBuffer &DeferredRenderer::GBuffer() const
 
 void DeferredRenderer::Render()
 {
-    static oglplus::Context gl;
+    using namespace oglplus;
+    static Context gl;
     static auto &gbuffer = GBuffer();
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
@@ -59,7 +60,7 @@ void DeferredRenderer::Render()
 
     SetAsActive();
     // bind g buffer for writing
-    gbuffer.Bind(oglplus::FramebufferTarget::Draw);
+    gbuffer.Bind(FramebufferTarget::Draw);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Viewport(Window().Info().width, Window().Info().height);
     gl.Clear().ColorBuffer().DepthBuffer();
@@ -68,15 +69,18 @@ void DeferredRenderer::Render()
     CurrentProgram<GeometryProgram>(GeometryPass());
     // rendering and GL flags
     gl.ClearDepth(1.0f);
-    gl.Enable(oglplus::Capability::DepthTest);
-    gl.Enable(oglplus::Capability::CullFace);
-    gl.FrontFace(oglplus::FaceOrientation::CCW);
-    gl.CullFace(oglplus::Face::Back);
+    gl.Enable(Capability::DepthTest);
+    gl.Enable(Capability::Blend);
+    gl.BlendFunc(BlendFunction::SrcAlpha,
+                 BlendFunction::OneMinusSrcAlpha);
+    gl.Enable(Capability::CullFace);
+    gl.FrontFace(FaceOrientation::CCW);
+    gl.CullFace(Face::Back);
     UseFrustumCulling = true;
     // draw whole scene tree from root node
     scene->rootNode->DrawList();
     // start light pass
-    oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
+    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
     gl.Clear().ColorBuffer().DepthBuffer();
     CurrentProgram<LightingProgram>(LightingPass());
     // bind g buffer textures for reading

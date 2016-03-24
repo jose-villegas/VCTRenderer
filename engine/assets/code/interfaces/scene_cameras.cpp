@@ -135,9 +135,10 @@ void UISceneCameras::Draw()
         if (Button("Delete"))
         {
             // temporal shared ptr ref
-            auto toDelete = scene->cameras[selected];
-            // delete ref in scene cameras
+            auto &toDelete = scene->cameras[selected];
+            // delete camera in scene cameras
             scene->cameras.erase(scene->cameras.begin() + selected);
+            camera = nullptr;
 
             // in case the camera deleted was marked
             // as active, set another camera as active
