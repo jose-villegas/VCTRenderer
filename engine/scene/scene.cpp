@@ -65,8 +65,11 @@ Scene::Scene(std::string filepath): isLoaded(false), isImported(false),
     // scenes have by default at least one camera
     // they will be removed if camera or light info
     // is found during scene extraction
+    auto ambientLight = std::make_shared<Light>();
+    ambientLight->Ambient(glm::vec3(0.125));
+    // insert defaults
     this->cameras.push_back(std::make_shared<Camera>());
-    this->lights.push_back(std::make_shared<Light>());
+    this->lights.push_back(move(ambientLight));
     // default camera created always as active
     this->cameras.back()->SetAsActive();
     // create scene root node

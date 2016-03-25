@@ -192,8 +192,12 @@ void DeferredRenderer::SetLightPassUniforms() const
     // pass shadowing parameters
     auto &shadowing = *static_cast<ShadowMapRenderer *>(AssetsManager::Instance()
                       ->renderers["Shadowmapping"].get());
+    static glm::mat4 biasMatrix(0.5, 0.0, 0.0, 0.0,
+                                0.0, 0.5, 0.0, 0.0,
+                                0.0, 0.0, 0.5, 0.0,
+                                0.5, 0.5, 0.5, 1.0);
     auto lightView = shadowing.LightCamera();
-    auto lightViewProjection = lightView.ProjectionMatrix() *
+    auto lightViewProjection = biasMatrix * lightView.ProjectionMatrix() *
                                lightView.ViewMatrix();
     prog.inverseView.Set(camera->InverseViewMatrix());
     prog.lightViewProjection.Set(lightViewProjection);

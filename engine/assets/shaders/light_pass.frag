@@ -37,7 +37,7 @@ uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
-uniform sampler2D shadowMap;
+uniform sampler2DShadow shadowMap;
 
 uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 uniform Light pointLight[MAX_POINT_LIGHTS];
@@ -45,24 +45,14 @@ uniform Light spotLight[MAX_SPOT_LIGHTS];
 
 uniform uint lightTypeCount[3];
 
-float Visibility(vec3 position)
+float Visibility(vec3 position, vec3 lightDirection, vec3 normal)
 {
     vec4 wsPos = inverseView * vec4(position, 1.0f);
     vec4 lsPos = lightViewProjection * wsPos;
     // transform to ndc-space
     lsPos /= lsPos.w;
-    // return to 0, 1 range
-    lsPos = lsPos * vec4(0.5) + vec4(0.5);
-    float sDepth = texture(shadowMap, lsPos.xy).x;
-
-    if(sDepth < lsPos.z)
-    {
-        return 0.2f;
-    }
-    else
-    {
-        return 1.0f;
-    }
+    // querry visibility
+    return texture(shadowMap, lsPos.xyz);
 }
 
 vec3 Ambient(Light light, vec3 albedo)
@@ -87,8 +77,10 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 
 vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
-    return Ambient(light, albedo) + (Diffuse(light, light.direction, normal, albedo) + 
-           Specular(light, light.direction, normal, position, specular)) * Visibility(position);
+    return Ambient(light, albedo) 
+           + (Diffuse(light, light.direction, normal, albedo) 
+           + Specular(light, light.direction, normal, position, specular)) 
+           * Visibility(position, light.direction, normal);
 }
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -100,8 +92,9 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 
     if(falloff <= 0.0f) { return Ambient(light, albedo); }             
 
-    return Ambient(light, albedo) + (Diffuse(light, light.direction, normal, albedo) + 
-           Specular(light, light.direction, normal, position, specular)) * falloff;
+    return Ambient(light, albedo) 
+           + (Diffuse(light, light.direction, normal, albedo) 
+           + Specular(light, light.direction, normal, position, specular)) * falloff;
 }
 
 vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -125,8 +118,10 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
     if(falloff <= 0.0f) { return Ambient(light, albedo); }             
 
-    return Ambient(light, albedo) + (Diffuse(light, light.direction, normal, albedo) + 
-           Specular(light, light.direction, normal, position, specular)) * falloff * spotFalloff;
+    return Ambient(light, albedo) 
+           + (Diffuse(light, light.direction, normal, albedo) 
+           + Specular(light, light.direction, normal, position, specular)) 
+           * falloff * spotFalloff;
 }
 
 vec3 PositionFromDepth()

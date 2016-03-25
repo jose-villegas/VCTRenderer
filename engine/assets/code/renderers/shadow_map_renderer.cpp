@@ -66,6 +66,11 @@ void ShadowMapRenderer::Caster(const Light * caster)
     shadowCaster = caster;
 }
 
+const Light * ShadowMapRenderer::Caster() const
+{
+    return shadowCaster;
+}
+
 void ShadowMapRenderer::BindReading(unsigned unit) const
 {
     renderDepth.Active(unit);
@@ -110,7 +115,10 @@ void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
     gl.Bound(TextureTarget::_2D, renderDepth)
     .Image2D(0, PixelDataInternalFormat::DepthComponent24, w, h, 0,
              PixelDataFormat::DepthComponent, PixelDataType::Float, nullptr)
-    .MinFilter(TextureMinFilter::Nearest).MagFilter(TextureMagFilter::Nearest);
+    .MinFilter(TextureMinFilter::Linear).MagFilter(TextureMagFilter::Linear)
+    .WrapS(TextureWrap::ClampToEdge).WrapT(TextureWrap::ClampToEdge)
+    .CompareMode(TextureCompareMode::CompareRefToTexture)
+    .CompareFunc(CompareFunction::LEqual);
     shadowFramebuffer.AttachTexture(FramebufferTarget::Draw,
                                     FramebufferAttachment::Depth,
                                     renderDepth, 0);
