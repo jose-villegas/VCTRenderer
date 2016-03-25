@@ -2,6 +2,7 @@
 
 in GeometryOut
 {
+    vec4 wsPosition;
     vec3 position;
     vec3 normal;
     vec3 texCoord;
@@ -20,6 +21,7 @@ uniform struct Material
 } material;
 
 uniform sampler2D diffuseMap;
+uniform sampler2D shadowMap;
 uniform uint volumeDimension;
 
 vec4 convRGBA8ToVec4(uint val)

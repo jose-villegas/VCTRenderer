@@ -5,6 +5,7 @@ layout(triangle_strip, max_vertices = 3) out;
 
 in Vertex
 {
+	vec4 wsPosition;
     vec3 position;
     vec3 texCoord;
     vec3 normal;
@@ -12,6 +13,7 @@ in Vertex
 
 out GeometryOut
 {
+	vec4 wsPosition;
     vec3 position;
     vec3 normal;
     vec3 texCoord;
@@ -91,6 +93,7 @@ void main()
 	{
 		gl_Position = pos[i];
 		Out.position = pos[i].xyz;
+		Out.wsPosition = In[i].wsPosition;
 		Out.normal = In[i].normal;
 		Out.texCoord = In[i].texCoord;
 

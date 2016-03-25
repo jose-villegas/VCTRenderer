@@ -59,6 +59,8 @@ void VoxelizerRenderer::Render()
 void VoxelizerRenderer::SetMatricesUniforms(const Node &node) const
 {
     // no space matrices for voxelization pass during node rendering
+    auto &prog = CurrentProgram<VoxelizationProgram>();
+    prog.matrices.model.Set(node.ModelMatrix());
 }
 
 void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
@@ -183,6 +185,7 @@ void VoxelizerRenderer::CreateVolume(oglplus::Texture &texture) const
                         TextureSwizzle::Alpha);
     texture.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
     texture.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
+    texture.GenerateMipmap(TextureTarget::_3D);
 }
 
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)

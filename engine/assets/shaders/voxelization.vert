@@ -2,10 +2,16 @@
 
 out Vertex
 {
+	vec4 wsPosition;
     vec3 position;
     vec3 texCoord;
     vec3 normal;
 };
+
+uniform struct Matrices
+{
+    mat4 model;
+} matrices;
 
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec3 vertexTexCoord;
@@ -13,8 +19,11 @@ layout(location = 2) in vec3 vertexNormal;
 
 void main()
 {
-    position = vertexPosition;
-    normal = vertexNormal;
+	wsPosition = matrices.model * vec4(vertexPosition, 1.0f);
+
+    position = wsPosition.xyz;
+    // ~ calculate this on cpu later
+    normal = (inverse(transpose(matrices.model)) * vec4(vertexNormal, 0.0f)).xyz;
     texCoord = vertexTexCoord;
-    gl_Position = vec4(position, 1.0f);
+    gl_Position = wsPosition;
 }
