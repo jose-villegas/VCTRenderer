@@ -5,6 +5,8 @@
 #include "main_menu.h"
 #include "../../../scene/scene.h"
 #include "../../../scene/light.h"
+#include "../../../core/assets_manager.h"
+#include "../renderers/shadow_map_renderer.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -12,10 +14,12 @@ using namespace ImGui;
 
 void UISceneLights::Draw()
 {
-    if (!UIMainMenu::drawSceneLights) { return; }
-
+    static auto &assets = AssetsManager::Instance();
+    static auto shadowing = static_cast<ShadowMapRenderer *>
+                            (assets->renderers["Shadowmapping"].get());
     static auto scene = static_cast<Scene *>(nullptr);
     static auto light = static_cast<Light *>(nullptr);
+    static auto casters = std::map<Scene *, Light *>();
     // control variables
     static auto selected = -1;
     static glm::vec3 position;
@@ -33,9 +37,31 @@ void UISceneLights::Draw()
         scene = Scene::Active().get();
         light = nullptr;
         selected = -1;
+
+        // no shadow caster assigned
+        if(casters.find(scene) == casters.end())
+        {
+            for (auto &l : scene->lights)
+            {
+                if (l->Type() == Light::Directional)
+                {
+                    // store shadow caster
+                    casters[scene] = l.get();
+                    // assign to shadow renderer
+                    shadowing->Caster(casters[scene]);
+                    break;
+                }
+            }
+        }
+        else if(casters[scene] != nullptr)
+        {
+            shadowing->Caster(casters[scene]);
+        }
     }
 
     if (!scene) { return; }
+
+    if (!UIMainMenu::drawSceneLights) { return; }
 
     // begin editor
     Begin("Lights", &UIMainMenu::drawSceneLights,
@@ -184,9 +210,23 @@ void UISceneLights::Draw()
 
         if (Button("Delete"))
         {
+            // stored as shadow caster also
+            if (light == casters[scene]) casters[scene] = nullptr;
+
             // delete ref in scene lights
             scene->lights.erase(scene->lights.begin() + selected);
             light = nullptr;
+        }
+
+        if (type == Light::Directional)
+        {
+            SameLine();
+
+            if (Button("Cast Shadow"))
+            {
+                casters[scene] = light;
+                shadowing->Caster(light);
+            }
         }
     }
     else
