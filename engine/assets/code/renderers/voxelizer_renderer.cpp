@@ -13,6 +13,7 @@
 #include "../programs/voxel_drawer_program.h"
 
 #include <oglplus/context.hpp>
+#include <oglplus/framebuffer.hpp>
 #include <glm/gtx/transform.hpp>
 
 bool VoxelizerRenderer::ShowVoxels = false;
@@ -27,8 +28,6 @@ void VoxelizerRenderer::Render()
     static auto &scene = Scene::Active();
 
     if (!scene || !scene->IsLoaded()) { return; }
-
-    SetAsActive();
 
     // scene changed or loaded
     if (previous != scene.get())
@@ -86,14 +85,16 @@ void VoxelizerRenderer::VoxelizeScene()
 
     if (!scene || !scene->IsLoaded()) { return; }
 
-    gl.Clear().ColorBuffer().DepthBuffer();
+    SetAsActive();
+    oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
+    gl.ColorMask(false, false, false, false);
     gl.Viewport(volumeDimension, volumeDimension);
+    gl.Clear().ColorBuffer().DepthBuffer();
     // active voxelization pass program
     CurrentProgram<VoxelizationProgram>(VoxelizationPass());
     // rendering flags
     gl.Disable(oglplus::Capability::CullFace);
     gl.Disable(oglplus::Capability::DepthTest);
-    gl.ColorMask(false, false, false, false);
     UseFrustumCulling = false;
     // pass voxelization pass uniforms
     SetVoxelizationPassUniforms();

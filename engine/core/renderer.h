@@ -74,8 +74,7 @@ class Renderer : public SingleActive <Renderer>, public InstancePool<Renderer>
         /// </summary>
         std::unique_ptr<std::reference_wrapper<RenderWindow>> window;
         /// <summary>
-        /// A direct reference to an active program shader so it can be
-        /// easily used in any inheriting class's logic.
+        /// A direct reference to an active program shader
         /// </summary>
         ProgramShader * program;
 };

@@ -34,11 +34,13 @@ void ShadowMapRenderer::Render()
     SetAsActive();
     lightView.SetAsActive();
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
-    // activate geometry pass shader program
-    CurrentProgram<DepthProgram>(DepthShader());
+    gl.ColorMask(false, false, false, false);
     gl.Viewport(shadowMapSize.x, shadowMapSize.y);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Clear().DepthBuffer();
+    // activate geometry pass shader program
+    CurrentProgram<DepthProgram>(DepthShader());
+    // rendering flags
     gl.Enable(Capability::DepthTest);
     gl.Enable(Capability::CullFace);
     gl.CullFace(Face::Front);

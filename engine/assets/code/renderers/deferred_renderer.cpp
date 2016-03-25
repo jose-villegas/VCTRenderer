@@ -61,10 +61,10 @@ void DeferredRenderer::Render()
     SetAsActive();
     // bind g buffer for writing
     gbuffer.Bind(FramebufferTarget::Draw);
+    gl.ColorMask(true, true, true, true);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Viewport(Window().Info().width, Window().Info().height);
     gl.Clear().ColorBuffer().DepthBuffer();
-    gl.ColorMask(true, true, true, true);
     // activate geometry pass shader program
     CurrentProgram<GeometryProgram>(GeometryPass());
     // rendering and GL flags
@@ -81,6 +81,8 @@ void DeferredRenderer::Render()
     scene->rootNode->DrawList();
     // start light pass
     DefaultFramebuffer().Bind(FramebufferTarget::Draw);
+    gl.ColorMask(true, true, true, true);
+    gl.Viewport(Window().Info().width, Window().Info().height);
     gl.Clear().ColorBuffer().DepthBuffer();
     CurrentProgram<LightingProgram>(LightingPass());
     // bind g buffer textures for reading
