@@ -129,6 +129,7 @@ void DeferredRenderer::SetLightPassUniforms() const
     static auto &camera = Camera::Active();
     auto &prog = CurrentProgram<LightingProgram>();;
     prog.inverseProjection.Set(camera->InverseProjectionMatrix());
+    prog.inverseView.Set(camera->InverseViewMatrix());
     prog.gDepth.Set(GeometryBuffer::Depth);
     prog.gNormal.Set(GeometryBuffer::Normal);
     prog.gAlbedo.Set(GeometryBuffer::Albedo);
@@ -201,7 +202,6 @@ void DeferredRenderer::SetLightPassUniforms() const
     auto lightView = shadowing.LightCamera();
     auto lightViewProjection = biasMatrix * lightView.ProjectionMatrix() *
                                lightView.ViewMatrix();
-    prog.inverseView.Set(camera->InverseViewMatrix());
     prog.lightViewProjection.Set(lightViewProjection);
     shadowing.BindReading(6);
     prog.shadowMap.Set(6);

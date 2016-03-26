@@ -100,8 +100,8 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
     vec3 spotDirection = light.direction;
-    vec3 lightDirection = normalize(light.position - position);
-    float cosAngle = dot(-lightDirection, spotDirection);
+    light.direction = normalize(light.position - position);
+    float cosAngle = dot(-light.direction, spotDirection);
 
     if(cosAngle <= light.angleOuterCone) { return Ambient(light, albedo); }
 
@@ -111,10 +111,9 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
     float spotMark = (cosAngle - light.angleOuterCone) / innerMinusOuter;
     float spotFalloff = smoothstep(0.0f, 1.0f, spotMark);
 
-    light.direction = normalize(light.position - position);
-    float distance = distance(light.position, position);
-    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * distance
-                    + light.attenuation.quadratic * distance * distance + 1.0f);
+    float dst = distance(light.position, position);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * dst
+                    + light.attenuation.quadratic * dst * dst + 1.0f);
 
     if(falloff <= 0.0f) { return Ambient(light, albedo); }             
 
