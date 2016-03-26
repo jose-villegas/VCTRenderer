@@ -6,7 +6,6 @@ layout(location = 2) out vec4 gSpecular;
 
 in Vertex
 {
-    vec3 position;
     vec3 texCoord;
     vec3 normal;
     vec3 tangent;

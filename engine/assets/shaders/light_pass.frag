@@ -29,8 +29,7 @@ struct Light {
     Attenuation attenuation;
 };
 
-uniform mat4 inverseProjection;
-uniform mat4 inverseView;
+uniform mat4 inverseProjectionView;
 uniform mat4 lightViewProjection;
 
 uniform sampler2D gDepth;
@@ -47,8 +46,7 @@ uniform uint lightTypeCount[3];
 
 float Visibility(vec3 position, vec3 lightDirection, vec3 normal)
 {
-    vec4 wsPos = inverseView * vec4(position, 1.0f);
-    vec4 lsPos = lightViewProjection * wsPos;
+    vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
     // transform to ndc-space
     lsPos /= lsPos.w;
     // querry visibility
@@ -127,16 +125,19 @@ vec3 PositionFromDepth()
 {
     float z = texture(gDepth, texCoord).x * 2.0f - 1.0f;
     vec4 projected = vec4(texCoord * 2.0f - 1.0f, z, 1.0f);
-    projected = inverseProjection * projected;
+    projected = inverseProjectionView * projected;
     return projected.xyz / projected.w;
 }
 
 void main()
 {
-    // retrieve gbuffer data
+    // world-space position
     vec3 position = PositionFromDepth();
+    // world-space normal
     vec3 normal = texture(gNormal, texCoord).xyz;
+    // fragment albedo
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
+    // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
 
     // calculate lighting for directional lights

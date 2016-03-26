@@ -2,10 +2,8 @@
 #include <GLFW/glfw3.h>
 #include "deferred_renderer.h"
 
-#include <oglplus/vertex_attrib.hpp>
-#include <oglplus/bound/texture.hpp>
-
 #include "voxelizer_renderer.h"
+#include "shadow_map_renderer.h"
 #include "../misc/geometry_buffer.h"
 #include "../scene/camera.h"
 #include "../scene/scene.h"
@@ -15,8 +13,10 @@
 #include "../core/assets_manager.h"
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
-#include "shadow_map_renderer.h"
 
+#include <oglplus/vertex_attrib.hpp>
+#include <oglplus/bound/texture.hpp>
+#include <glm/detail/func_matrix.hpp>
 
 DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
 {
@@ -97,7 +97,7 @@ void DeferredRenderer::SetMatricesUniforms(const Node &node) const
 {
     auto &prog = CurrentProgram<GeometryProgram>();
     static auto &camera = Camera::Active();
-    prog.matrices.modelView.Set(camera->ViewMatrix() * node.ModelMatrix());
+    prog.matrices.normal.Set(inverse(transpose(node.ModelMatrix())));
     prog.matrices.modelViewProjection.Set(camera->ProjectionMatrix() *
                                           camera->ViewMatrix() *
                                           node.ModelMatrix());
@@ -128,8 +128,8 @@ void DeferredRenderer::SetLightPassUniforms() const
 {
     static auto &camera = Camera::Active();
     auto &prog = CurrentProgram<LightingProgram>();;
-    prog.inverseProjection.Set(camera->InverseProjectionMatrix());
-    prog.inverseView.Set(camera->InverseViewMatrix());
+    prog.inverseProjectionView.Set(camera->InverseViewMatrix() *
+                                   camera->InverseProjectionMatrix());
     prog.gDepth.Set(GeometryBuffer::Depth);
     prog.gNormal.Set(GeometryBuffer::Normal);
     prog.gAlbedo.Set(GeometryBuffer::Albedo);
@@ -149,7 +149,7 @@ void DeferredRenderer::SetLightPassUniforms() const
         auto &uLight = uDirectionals[i];
         auto &intensity = light->Intensity();
         // update view space direction-position
-        uLight.direction.Set(light->Direction(camera->ViewMatrix()));
+        uLight.direction.Set(light->Direction());
         uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
         uLight.specular.Set(light->Specular() * intensity.z);
@@ -161,7 +161,7 @@ void DeferredRenderer::SetLightPassUniforms() const
         auto &uLight = uPoints[i];
         auto &intensity = light->Intensity();
         // update view space direction-position
-        uLight.position.Set(light->Position(camera->ViewMatrix()));
+        uLight.position.Set(light->Position());
         uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
         uLight.specular.Set(light->Specular() * intensity.z);
@@ -176,8 +176,8 @@ void DeferredRenderer::SetLightPassUniforms() const
         auto &uLight = uSpots[i];
         auto &intensity = light->Intensity();
         // update view space direction-position
-        uLight.position.Set(light->Position(camera->ViewMatrix()));
-        uLight.direction.Set(light->Direction(camera->ViewMatrix()));
+        uLight.position.Set(light->Position());
+        uLight.direction.Set(light->Direction());
         uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
         uLight.specular.Set(light->Specular() * intensity.z);

@@ -75,16 +75,6 @@ const glm::vec3 &Light::Position() const
     return transform.Position();
 }
 
-glm::vec3 Light::Direction(const glm::mat4x4 &mat) const
-{
-    return glm::vec3(mat * glm::vec4(Direction(), 0.0f));
-}
-
-glm::vec3 Light::Position(const glm::mat4x4 &mat) const
-{
-    return glm::vec3(mat * glm::vec4(Position(), 1.0f));
-}
-
 void Light::Specular(const glm::vec3 &val)
 {
     specular = max(val, glm::vec3(0.0f));

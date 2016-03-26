@@ -60,6 +60,7 @@ void VoxelizerRenderer::SetMatricesUniforms(const Node &node) const
     // no space matrices for voxelization pass during node rendering
     auto &prog = CurrentProgram<VoxelizationProgram>();
     prog.matrices.model.Set(node.ModelMatrix());
+    prog.matrices.normal.Set(inverse(transpose(node.ModelMatrix())));
 }
 
 void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const

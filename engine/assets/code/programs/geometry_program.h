@@ -23,7 +23,7 @@ class GeometryProgram : public ProgramShader
         };
         struct UniformMatrices
         {
-            oglplus::Uniform<glm::mat4> modelView;
+            oglplus::Uniform<glm::mat4> normal;
             oglplus::Uniform<glm::mat4> modelViewProjection;
         };
     public:

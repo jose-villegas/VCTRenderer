@@ -15,7 +15,7 @@ void GeometryProgram::ExtractUniforms()
     specularMap.Assign(program);
     normalsMap.Assign(program);
     alphaCutoff.Assign(program);
-    matrices.modelView.Assign(program);
+    matrices.normal.Assign(program);
     matrices.modelViewProjection.Assign(program);
     // bind to uniform name
     material.diffuse.BindTo("material.diffuse");
@@ -26,7 +26,7 @@ void GeometryProgram::ExtractUniforms()
     specularMap.BindTo("specularMap");
     normalsMap.BindTo("normalsMap");
     alphaCutoff.BindTo("alphaCutoff");
-    matrices.modelView.BindTo("matrices.modelView");
+    matrices.normal.BindTo("matrices.normal");
     matrices.modelViewProjection.BindTo("matrices.modelViewProjection");
 }
 GeometryProgram::~GeometryProgram()

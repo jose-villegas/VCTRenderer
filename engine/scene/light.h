@@ -71,8 +71,6 @@ class Light : public SceneObject, public InstancePool<Light>
 
         const glm::vec3 &Direction() const;
         const glm::vec3 &Position() const;
-        glm::vec3 Direction(const glm::mat4x4 &mat) const;
-        glm::vec3 Position(const glm::mat4x4 &mat) const;
 
         Attenuation attenuation;
 

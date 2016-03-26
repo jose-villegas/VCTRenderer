@@ -37,8 +37,7 @@ class LightingProgram : public ProgramShader
         };
     public:
         // fragment shader uniforms
-        oglplus::Uniform<glm::mat4x4> inverseProjection;
-        oglplus::Uniform<glm::mat4x4> inverseView;
+        oglplus::Uniform<glm::mat4x4> inverseProjectionView;
         oglplus::Uniform<glm::mat4x4> lightViewProjection;
 
         oglplus::UniformSampler gDepth;

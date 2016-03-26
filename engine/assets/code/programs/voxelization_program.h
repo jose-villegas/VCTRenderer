@@ -14,6 +14,7 @@ class VoxelizationProgram : public ProgramShader
         struct UniformMatrices
         {
             oglplus::Uniform<glm::mat4> model;
+            oglplus::Uniform<glm::mat4> normal;
         };
     public:
         UniformMatrices matrices;
