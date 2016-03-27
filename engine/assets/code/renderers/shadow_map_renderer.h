@@ -16,6 +16,7 @@ class ShadowMapRenderer : public Renderer
         void SetMatricesUniforms(const Node &node) const override;
         void Render() override;
         void Caster(const Light * caster);
+        const glm::mat4x4 &LightSpaceMatrix();
         const Light * Caster() const;
         void BindReading(unsigned int unit) const;
         const Camera &LightCamera() const;
@@ -31,5 +32,6 @@ class ShadowMapRenderer : public Renderer
         glm::uvec2 shadowMapSize;
         Camera lightView;
         const Light * shadowCaster;
+        glm::mat4x4 lightSpaceMatrix;
 };
 

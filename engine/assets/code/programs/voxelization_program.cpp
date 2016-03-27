@@ -5,6 +5,8 @@
 void VoxelizationProgram::ExtractUniforms()
 {
     // program owner
+    shadowMap.Assign(program);
+    lightViewProjection.Assign(program);
     matrices.model.Assign(program);
     matrices.normal.Assign(program);
     material.diffuse.Assign(program);
@@ -14,6 +16,8 @@ void VoxelizationProgram::ExtractUniforms()
     viewProjections[1].Assign(program);
     viewProjections[2].Assign(program);
     // binding point
+    shadowMap.BindTo("shadowMap");
+    lightViewProjection.BindTo("lightViewProjection");
     matrices.model.BindTo("matrices.model");
     matrices.normal.BindTo("matrices.normal");
     material.diffuse.BindTo("material.diffuse");

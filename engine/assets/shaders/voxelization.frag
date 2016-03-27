@@ -18,11 +18,33 @@ layout(r32ui) uniform coherent volatile uimage3D voxelAlbedo;
 uniform struct Material
 {
     vec3 diffuse;
+    vec3 specular;
+    float shininess;
 } material;
 
 uniform sampler2D diffuseMap;
+uniform sampler2D specularMap;
 uniform sampler2D shadowMap;
+
 uniform uint volumeDimension;
+
+uniform mat4 lightViewProjection;
+
+float Visibility(vec3 position)
+{
+    vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
+    // transform to ndc-space
+    lsPos /= lsPos.w;
+    // move bias z to avoid acne
+    lsPos.z -= 0.005f;
+    // querry visibility
+    float sDepth = texture(shadowMap, lsPos.xy).x;
+
+    if(sDepth < lsPos.z)
+        return 0.0;
+    else 
+        return 1.0f;
+}
 
 vec4 convRGBA8ToVec4(uint val)
 {
@@ -87,10 +109,11 @@ void main()
 	}
 
 	vec3 normal = In.normal;
-	vec4 albedo = texture( diffuseMap, In.texCoord.xy );
+	vec4 albedo = texture(diffuseMap, In.texCoord.xy);
 	albedo.rgb = albedo.rgb * material.diffuse * albedo.a;
+    albedo.rgb *= Visibility(In.wsPosition.xyz);
 
-    if(albedo.a < 0.5f) { discard; }
+    if(dot(albedo, vec4(1.0f)) <= 0.01f) { discard; }
 
 	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(texcoord.xyz), albedo);
 }

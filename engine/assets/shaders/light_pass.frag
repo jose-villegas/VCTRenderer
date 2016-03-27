@@ -44,7 +44,7 @@ uniform Light spotLight[MAX_SPOT_LIGHTS];
 
 uniform uint lightTypeCount[3];
 
-float Visibility(vec3 position, vec3 lightDirection, vec3 normal)
+float Visibility(vec3 position)
 {
     vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
     // transform to ndc-space
@@ -78,7 +78,7 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
     return Ambient(light, albedo) 
            + (Diffuse(light, light.direction, normal, albedo) 
            + Specular(light, light.direction, normal, position, specular)) 
-           * Visibility(position, light.direction, normal);
+           * Visibility(position);
 }
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)

@@ -23,7 +23,6 @@ void main()
 	wsPosition = matrices.model * vec4(vertexPosition, 1.0f);
 
     position = wsPosition.xyz;
-    // ~ calculate this on cpu later
     normal = (matrices.normal * vec4(vertexNormal, 0.0f)).xyz;
     texCoord = vertexTexCoord;
     gl_Position = wsPosition;

@@ -1,7 +1,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "voxelizer_renderer.h"
 
+#include "voxelizer_renderer.h"
+#include "shadow_map_renderer.h"
 #include "../scene/scene.h"
 #include "../core/assets_manager.h"
 #include "../scene/camera.h"
@@ -97,7 +98,7 @@ void VoxelizerRenderer::VoxelizeScene()
     gl.Disable(oglplus::Capability::CullFace);
     gl.Disable(oglplus::Capability::DepthTest);
     UseFrustumCulling = false;
-    // pass voxelization pass uniforms
+    // voxelization pass uniforms
     SetVoxelizationPassUniforms();
     // bind the volume texture to be writen in shaders
     voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RedInteger, &zero);
@@ -116,10 +117,11 @@ void VoxelizerRenderer::DrawVoxels()
     if (!camera || !scene || !scene->IsLoaded()) { return; }
 
     static oglplus::Context gl;
+    oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
+    gl.ColorMask(true, true, true, true);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Viewport(info.width, info.height);
     gl.Clear().ColorBuffer().DepthBuffer();
-    gl.ColorMask(true, true, true, true);
     // Open GL flags
     gl.ClearDepth(1.0f);
     gl.Enable(oglplus::Capability::DepthTest);
@@ -220,9 +222,14 @@ VoxelDrawerProgram &VoxelizerRenderer::VoxelDrawerShader()
 
 void VoxelizerRenderer::SetVoxelizationPassUniforms() const
 {
+    auto &shadowing = *static_cast<ShadowMapRenderer *>(AssetsManager::Instance()
+                      ->renderers["Shadowmapping"].get());
     auto &prog = CurrentProgram<VoxelizationProgram>();
     prog.viewProjections[0].Set(viewProjectionMatrix[0]);
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
     prog.volumeDimension.Set(volumeDimension);
+    prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
+    shadowing.BindReading(6);
+    prog.shadowMap.Set(6);
 }

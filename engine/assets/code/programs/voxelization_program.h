@@ -21,7 +21,10 @@ class VoxelizationProgram : public ProgramShader
         UniformMaterial material;
         oglplus::UniformSampler diffuseMap;
         oglplus::Uniform<unsigned int> volumeDimension;
+
         std::array<oglplus::Uniform<glm::mat4>, 3> viewProjections;
+        oglplus::Uniform<glm::mat4x4> lightViewProjection;
+        oglplus::UniformSampler shadowMap;
 
         void ExtractUniforms() override;
 

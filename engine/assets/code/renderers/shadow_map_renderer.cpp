@@ -68,6 +68,16 @@ void ShadowMapRenderer::Caster(const Light * caster)
     shadowCaster = caster;
 }
 
+const glm::mat4x4 &ShadowMapRenderer::LightSpaceMatrix()
+{
+    static glm::mat4 biasMatrix(0.5, 0.0, 0.0, 0.0,
+                                0.0, 0.5, 0.0, 0.0,
+                                0.0, 0.0, 0.5, 0.0,
+                                0.5, 0.5, 0.5, 1.0);
+    return lightSpaceMatrix = biasMatrix * lightView.ProjectionMatrix()
+                              * lightView.ViewMatrix();
+}
+
 const Light * ShadowMapRenderer::Caster() const
 {
     return shadowCaster;

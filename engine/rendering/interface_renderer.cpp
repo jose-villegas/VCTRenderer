@@ -272,7 +272,7 @@ void InterfaceRenderer::CreateFontsTexture()
     int width, height;
     // Load as RGBA 32-bits for OpenGL3 demo because it is more
     // likely to be compatible with user's existing shader.
-    io.Fonts->AddFontFromFileTTF("3rdparty\\imgui\\extra_fonts\\DroidSans.ttf", 13);
+    io.Fonts->AddFontFromFileTTF("assets\\fonts\\DroidSans.ttf", 13);
     io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
     // Create OpenGL texture
     glGenTextures(1, &renderer->fontTexture);
