@@ -75,10 +75,8 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 
 vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
-    return Ambient(light, albedo) 
-           + (Diffuse(light, light.direction, normal, albedo) 
-           + Specular(light, light.direction, normal, position, specular)) 
-           * Visibility(position);
+    return Diffuse(light, light.direction, normal, albedo) 
+           + Specular(light, light.direction, normal, position, specular);
 }
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -90,8 +88,7 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 
     if(falloff <= 0.0f) { return Ambient(light, albedo); }             
 
-    return Ambient(light, albedo) 
-           + (Diffuse(light, light.direction, normal, albedo) 
+    return (Diffuse(light, light.direction, normal, albedo) 
            + Specular(light, light.direction, normal, position, specular)) * falloff;
 }
 
@@ -115,8 +112,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
     if(falloff <= 0.0f) { return Ambient(light, albedo); }             
 
-    return Ambient(light, albedo) 
-           + (Diffuse(light, light.direction, normal, albedo) 
+    return (Diffuse(light, light.direction, normal, albedo) 
            + Specular(light, light.direction, normal, position, specular)) 
            * falloff * spotFalloff;
 }
@@ -140,13 +136,17 @@ void main()
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
 
-    // calculate lighting for directional lights
     vec3 lighting = vec3(0.0f);
 
+    // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
     {
         lighting += CalculateDirectional(directionalLight[i], normal, position, 
                                          albedo, specular);
+        // only directionals casts shadows (in this app), thus we can check here
+        if(i == 0) { lighting *= Visibility(position); }
+
+        lighting += Ambient(directionalLight[i], albedo);
     }
 
     // calculate lighting for point lights
@@ -154,6 +154,7 @@ void main()
     {
         lighting += CalculatePoint(pointLight[i], normal, position, 
                                    albedo, specular);
+        lighting += Ambient(pointLight[i], albedo);
     }
 
     // calculate lighting for spot lights
@@ -161,6 +162,7 @@ void main()
     {
         lighting += CalculateSpot(spotLight[i], normal, position, 
                                   albedo, specular);
+        lighting += Ambient(spotLight[i], albedo);
     }
 
     // final color

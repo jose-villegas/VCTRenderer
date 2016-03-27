@@ -16,6 +16,7 @@
 #include <oglplus/context.hpp>
 #include <oglplus/framebuffer.hpp>
 #include <glm/gtx/transform.hpp>
+#include "../../../scene/light.h"
 
 bool VoxelizerRenderer::ShowVoxels = false;
 
@@ -66,12 +67,18 @@ void VoxelizerRenderer::SetMatricesUniforms(const Node &node) const
 
 void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
 {
+    using namespace oglplus;
     auto &prog = CurrentProgram<VoxelizationProgram>();
     prog.material.diffuse.Set(material.Diffuse());
+    prog.material.specular.Set(material.Specular());
+    prog.material.shininess.Set(material.Shininess());
     // set textures
-    oglplus::Texture::Active(RawTexture::Diffuse);
+    Texture::Active(RawTexture::Diffuse);
     material.BindTexture(RawTexture::Diffuse);
     prog.diffuseMap.Set(RawTexture::Diffuse);
+    Texture::Active(RawTexture::Specular);
+    material.BindTexture(RawTexture::Specular);
+    prog.specularMap.Set(RawTexture::Specular);
 }
 
 void VoxelizerRenderer::SetUpdateFrequency(const unsigned int framestep)
@@ -229,6 +236,65 @@ void VoxelizerRenderer::SetVoxelizationPassUniforms() const
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
     prog.volumeDimension.Set(volumeDimension);
+    // set directional lights uniforms
+    auto &directionals = Light::Directionals();
+    auto &points = Light::Points();
+    auto &spots = Light::Spots();
+    // uniform arrays of lights
+    auto &uDirectionals = prog.directionalLight;
+    auto &uPoints = prog.pointLight;
+    auto &uSpots = prog.spotLight;
+
+    for (int i = 0; i < directionals.size(); i++)
+    {
+        auto &light = directionals[i];
+        auto &uLight = uDirectionals[i];
+        auto &intensity = light->Intensity();
+        // update view space direction-position
+        uLight.direction.Set(light->Direction());
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
+    }
+
+    for (int i = 0; i < points.size(); i++)
+    {
+        auto &light = points[i];
+        auto &uLight = uPoints[i];
+        auto &intensity = light->Intensity();
+        // update view space direction-position
+        uLight.position.Set(light->Position());
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
+        uLight.attenuation.constant.Set(light->attenuation.Constant());
+        uLight.attenuation.linear.Set(light->attenuation.Linear());
+        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
+    }
+
+    for (int i = 0; i < spots.size(); i++)
+    {
+        auto &light = spots[i];
+        auto &uLight = uSpots[i];
+        auto &intensity = light->Intensity();
+        // update view space direction-position
+        uLight.position.Set(light->Position());
+        uLight.direction.Set(light->Direction());
+        uLight.ambient.Set(light->Ambient() * intensity.x);
+        uLight.diffuse.Set(light->Diffuse() * intensity.y);
+        uLight.specular.Set(light->Specular() * intensity.z);
+        uLight.attenuation.constant.Set(light->attenuation.Constant());
+        uLight.attenuation.linear.Set(light->attenuation.Linear());
+        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
+        uLight.angleInnerCone.Set(cos(light->AngleInnerCone()));
+        uLight.angleOuterCone.Set(cos(light->AngleOuterCone()));
+    }
+
+    // pass number of lights per type
+    prog.lightTypeCount[0].Set(directionals.size());
+    prog.lightTypeCount[1].Set(points.size());
+    prog.lightTypeCount[2].Set(spots.size());
+    // pass shadowing setup
     prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
     shadowing.BindReading(6);
     prog.shadowMap.Set(6);

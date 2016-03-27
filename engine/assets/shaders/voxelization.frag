@@ -22,13 +22,43 @@ uniform struct Material
     float shininess;
 } material;
 
+const uint MAX_DIRECTIONAL_LIGHTS = 8;
+const uint MAX_POINT_LIGHTS = 256;
+const uint MAX_SPOT_LIGHTS = 256;
+
+struct Attenuation
+{
+    float constant;
+    float linear;
+    float quadratic;
+};
+
+struct Light {
+    float angleInnerCone;
+    float angleOuterCone;
+
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+
+    vec3 position;
+    vec3 direction;
+
+    Attenuation attenuation;
+};
+
 uniform sampler2D diffuseMap;
 uniform sampler2D specularMap;
 uniform sampler2D shadowMap;
 
-uniform uint volumeDimension;
-
 uniform mat4 lightViewProjection;
+uniform Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
+uniform Light pointLight[MAX_POINT_LIGHTS];
+uniform Light spotLight[MAX_SPOT_LIGHTS];
+
+uniform uint lightTypeCount[3];
+
+uniform uint volumeDimension;
 
 float Visibility(vec3 position)
 {
@@ -80,6 +110,113 @@ void imageAtomicRGBA8Avg(layout(r32ui) coherent volatile uimage3D grid, ivec3 co
     }
 }
 
+vec3 Ambient(Light light, vec3 albedo)
+{
+    return albedo * light.ambient;
+}
+
+vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
+{
+    float lambertian = max(dot(normal, lightDirection), 0.0f);
+    return light.diffuse * albedo * lambertian;
+}
+
+vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4 specular)
+{
+    vec3 halfDirection = normalize(lightDirection + normalize(-position));
+    float specularFactor = max(dot(halfDirection, normal), 0.0f);
+    specularFactor = pow(specularFactor, specular.a * 128.0f);
+
+    return light.specular * specular.rgb * specularFactor;
+}
+
+vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
+{
+    return Ambient(light, albedo) 
+           + (Diffuse(light, light.direction, normal, albedo) 
+           + Specular(light, light.direction, normal, position, specular)) 
+           * Visibility(position);
+}
+
+vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
+{
+    light.direction = normalize(light.position - position);
+    float distance = distance(light.position, position);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * distance
+                    + light.attenuation.quadratic * distance * distance + 1.0f);
+
+    if(falloff <= 0.0f) { return Ambient(light, albedo); }             
+
+    return Ambient(light, albedo) 
+           + (Diffuse(light, light.direction, normal, albedo) 
+           + Specular(light, light.direction, normal, position, specular)) * falloff;
+}
+
+vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
+{
+    vec3 spotDirection = light.direction;
+    light.direction = normalize(light.position - position);
+    float cosAngle = dot(-light.direction, spotDirection);
+
+    if(cosAngle <= light.angleOuterCone) { return Ambient(light, albedo); }
+
+    // assuming they are passed as cos(angle)
+    float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
+    // spot light factor for smooth transition
+    float spotMark = (cosAngle - light.angleOuterCone) / innerMinusOuter;
+    float spotFalloff = smoothstep(0.0f, 1.0f, spotMark);
+
+    float dst = distance(light.position, position);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * dst
+                    + light.attenuation.quadratic * dst * dst + 1.0f);
+
+    if(falloff <= 0.0f) { return Ambient(light, albedo); }             
+
+    return Ambient(light, albedo) 
+           + (Diffuse(light, light.direction, normal, albedo) 
+           + Specular(light, light.direction, normal, position, specular)) 
+           * falloff * spotFalloff;
+}
+
+vec4 CalculateRadiance()
+{
+    vec4 albedo = texture(diffuseMap, In.texCoord.xy);
+    vec4 specular = texture(specularMap, In.texCoord.xy);
+    vec3 position = In.wsPosition.xyz;
+    vec3 normal = normalize(In.normal);
+    // material color and pre-multiply alpha
+    vec3 albedo3 = albedo.rgb * material.diffuse;
+    specular.rgb *= material.specular;
+    specular.a = material.shininess;
+
+    // similar to light_pass.frag but no ambient light.
+
+    vec3 radiance = vec3(0.0f);
+    // calculate radiance for directional lights
+    for(int i = 0; i < lightTypeCount[0]; ++i)
+    {
+        radiance += CalculateDirectional(directionalLight[i], normal, position, 
+                                         albedo3, specular);
+        radiance *= Visibility(position);
+    }
+
+    // calculate radiance for point lights
+    for(int i = 0; i < lightTypeCount[1]; ++i)
+    {
+        radiance += CalculatePoint(pointLight[i], normal, position, 
+                                   albedo3, specular);
+    }
+
+    // calculate radiance for spot lights
+    for(int i = 0; i < lightTypeCount[2]; ++i) 
+    {
+        radiance += CalculateSpot(spotLight[i], normal, position, 
+                                  albedo3, specular);
+    }
+
+    return clamp(vec4(radiance * albedo.a, albedo.a), vec4(0.0f), vec4(1.0f));
+}
+
 void main()
 {
     if( In.position.x < In.triangleAABB.x || In.position.y < In.triangleAABB.y || 
@@ -108,12 +245,9 @@ void main()
 		texcoord = temp;
 	}
 
-	vec3 normal = In.normal;
-	vec4 albedo = texture(diffuseMap, In.texCoord.xy);
-	albedo.rgb = albedo.rgb * material.diffuse * albedo.a;
-    albedo.rgb *= Visibility(In.wsPosition.xyz);
+    vec4 radiance = CalculateRadiance();
 
-    if(dot(albedo, vec4(1.0f)) <= 0.01f) { discard; }
+    if(dot(radiance, vec4(1.0f)) <= 0.0f) discard;
 
-	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(texcoord.xyz), albedo);
+	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(texcoord.xyz), radiance);
 }
