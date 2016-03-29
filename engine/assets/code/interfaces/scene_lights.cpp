@@ -109,7 +109,7 @@ void UISceneLights::Draw()
 
     NextColumn();
 
-    if (selected >= 0)
+    if (selected >= 0 && light != nullptr)
     {
         if (InputText("Name", name.data(), name.size()))
         {

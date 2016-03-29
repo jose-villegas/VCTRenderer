@@ -12,10 +12,7 @@ void VoxelizationProgram::ExtractUniforms()
     matrices.model.Assign(program);
     matrices.normal.Assign(program);
     material.diffuse.Assign(program);
-    material.specular.Assign(program);
-    material.shininess.Assign(program);
     diffuseMap.Assign(program);
-    specularMap.Assign(program);
     lightTypeCount[0].Assign(program);
     lightTypeCount[1].Assign(program);
     lightTypeCount[2].Assign(program);
@@ -29,10 +26,7 @@ void VoxelizationProgram::ExtractUniforms()
     matrices.model.BindTo("matrices.model");
     matrices.normal.BindTo("matrices.normal");
     material.diffuse.BindTo("material.diffuse");
-    material.specular.BindTo("material.specular");
-    material.shininess.BindTo("material.shininess");
     diffuseMap.BindTo("diffuseMap");
-    specularMap.BindTo("specularMap");
     volumeDimension.BindTo("volumeDimension");
     viewProjections[0].BindTo("viewProjections[0]");
     viewProjections[1].BindTo("viewProjections[1]");
@@ -51,13 +45,9 @@ void VoxelizationProgram::ExtractUniforms()
         auto &light = directionalLight[i];
         auto index = std::to_string(i);
         light.direction.Assign(program);
-        light.ambient.Assign(program);
         light.diffuse.Assign(program);
-        light.specular.Assign(program);
         light.direction.BindTo("directionalLight[" + index + "].direction");
-        light.ambient.BindTo("directionalLight[" + index + "].ambient");
         light.diffuse.BindTo("directionalLight[" + index + "].diffuse");
-        light.specular.BindTo("directionalLight[" + index + "].specular");
     }
 
     for (auto i = 0; i < pointLight.size(); i++)
@@ -65,16 +55,12 @@ void VoxelizationProgram::ExtractUniforms()
         auto &light = pointLight[i];
         auto index = std::to_string(i);
         light.position.Assign(program);
-        light.ambient.Assign(program);
         light.diffuse.Assign(program);
-        light.specular.Assign(program);
         light.attenuation.constant.Assign(program);
         light.attenuation.linear.Assign(program);
         light.attenuation.quadratic.Assign(program);
         light.position.BindTo("pointLight[" + index + "].position");
-        light.ambient.BindTo("pointLight[" + index + "].ambient");
         light.diffuse.BindTo("pointLight[" + index + "].diffuse");
-        light.specular.BindTo("pointLight[" + index + "].specular");
         light.attenuation.constant.BindTo("pointLight[" + index +
                                           "].attenuation.constant");
         light.attenuation.linear.BindTo("pointLight[" + index +
@@ -89,9 +75,7 @@ void VoxelizationProgram::ExtractUniforms()
         auto index = std::to_string(i);
         light.position.Assign(program);
         light.direction.Assign(program);
-        light.ambient.Assign(program);
         light.diffuse.Assign(program);
-        light.specular.Assign(program);
         light.attenuation.constant.Assign(program);
         light.attenuation.linear.Assign(program);
         light.attenuation.quadratic.Assign(program);
@@ -99,9 +83,7 @@ void VoxelizationProgram::ExtractUniforms()
         light.angleOuterCone.Assign(program);
         light.position.BindTo("spotLight[" + index + "].position");
         light.direction.BindTo("spotLight[" + index + "].direction");
-        light.ambient.BindTo("spotLight[" + index + "].ambient");
         light.diffuse.BindTo("spotLight[" + index + "].diffuse");
-        light.specular.BindTo("spotLight[" + index + "].specular");
         light.attenuation.constant.BindTo("spotLight[" + index +
                                           "].attenuation.constant");
         light.attenuation.linear.BindTo("spotLight[" + index +

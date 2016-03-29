@@ -53,7 +53,7 @@ void main()
 	);
 
 	vec4 projectedVertices[8];
-	vec3 tolerance = vec3(0.1);
+	vec3 tolerance = vec3(0.001f);
 
 	for(int i = 0; i < 8; ++i)
 	{

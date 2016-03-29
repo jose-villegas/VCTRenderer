@@ -70,15 +70,12 @@ void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
     using namespace oglplus;
     auto &prog = CurrentProgram<VoxelizationProgram>();
     prog.material.diffuse.Set(material.Diffuse());
-    prog.material.specular.Set(material.Specular());
-    prog.material.shininess.Set(material.Shininess());
     // set textures
     Texture::Active(RawTexture::Diffuse);
     material.BindTexture(RawTexture::Diffuse);
     prog.diffuseMap.Set(RawTexture::Diffuse);
     Texture::Active(RawTexture::Specular);
     material.BindTexture(RawTexture::Specular);
-    prog.specularMap.Set(RawTexture::Specular);
 }
 
 void VoxelizerRenderer::SetUpdateFrequency(const unsigned int framestep)
@@ -252,9 +249,7 @@ void VoxelizerRenderer::SetVoxelizationPassUniforms() const
         auto &intensity = light->Intensity();
         // update view space direction-position
         uLight.direction.Set(light->Direction());
-        uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
-        uLight.specular.Set(light->Specular() * intensity.z);
     }
 
     for (int i = 0; i < points.size(); i++)
@@ -264,9 +259,7 @@ void VoxelizerRenderer::SetVoxelizationPassUniforms() const
         auto &intensity = light->Intensity();
         // update view space direction-position
         uLight.position.Set(light->Position());
-        uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
-        uLight.specular.Set(light->Specular() * intensity.z);
         uLight.attenuation.constant.Set(light->attenuation.Constant());
         uLight.attenuation.linear.Set(light->attenuation.Linear());
         uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
@@ -280,9 +273,7 @@ void VoxelizerRenderer::SetVoxelizationPassUniforms() const
         // update view space direction-position
         uLight.position.Set(light->Position());
         uLight.direction.Set(light->Direction());
-        uLight.ambient.Set(light->Ambient() * intensity.x);
         uLight.diffuse.Set(light->Diffuse() * intensity.y);
-        uLight.specular.Set(light->Specular() * intensity.z);
         uLight.attenuation.constant.Set(light->attenuation.Constant());
         uLight.attenuation.linear.Set(light->attenuation.Linear());
         uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());

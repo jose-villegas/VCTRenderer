@@ -10,8 +10,6 @@ class VoxelizationProgram : public ProgramShader
         struct UniformMaterial
         {
             oglplus::Uniform<glm::vec3> diffuse;
-            oglplus::Uniform<glm::vec3> specular;
-            oglplus::Uniform<float> shininess;
         };
         struct UniformMatrices
         {
@@ -23,9 +21,7 @@ class VoxelizationProgram : public ProgramShader
             oglplus::Uniform<float> angleInnerCone;
             oglplus::Uniform<float> angleOuterCone;
 
-            oglplus::Uniform<glm::vec3> ambient;
             oglplus::Uniform<glm::vec3> diffuse;
-            oglplus::Uniform<glm::vec3> specular;
 
             oglplus::Uniform<glm::vec3> position;
             oglplus::Uniform<glm::vec3> direction;
@@ -43,7 +39,6 @@ class VoxelizationProgram : public ProgramShader
         UniformMatrices matrices;
         UniformMaterial material;
         oglplus::UniformSampler diffuseMap;
-        oglplus::UniformSampler specularMap;
         oglplus::Uniform<unsigned int> volumeDimension;
 
         std::array<oglplus::Uniform<glm::mat4>, 3> viewProjections;

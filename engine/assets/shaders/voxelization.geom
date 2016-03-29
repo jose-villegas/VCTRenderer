@@ -55,7 +55,7 @@ vec4 EnlargedAxisAlignedBoundingBox(vec4 pos[3], vec2 pixelDiagonal)
 	axisAlignedBoundingBox.xy = min(pos[2].xy, min(pos[1].xy, pos[0].xy));
 	axisAlignedBoundingBox.zw = max(pos[2].xy, max(pos[1].xy, pos[0].xy));
 
-	// enlarge half-pixel
+	// enlarge by half-pixel
 	axisAlignedBoundingBox.xy -= pixelDiagonal;
 	axisAlignedBoundingBox.zw += pixelDiagonal;
 
@@ -76,8 +76,7 @@ void main()
 		viewProjection * gl_in[2].gl_Position
 	);
 
-	vec2 halfPixel = vec2(1.0f / volumeDimension);
-	float pl = 1.57079632679 / volumeDimension;
+	vec2 halfPixel = vec2(1.0f / volumeDimension) * 0.5f;
 	// calculate triangle aabb
 	Out.triangleAABB = EnlargedAxisAlignedBoundingBox(pos, halfPixel);
 	// find 3 triangle edge plane
@@ -85,9 +84,9 @@ void main()
 	vec2 e1 = normalize( pos[2].xy - pos[1].xy );
 	vec2 e2 = normalize( pos[0].xy - pos[2].xy );
 	// dilate triangle for conservative voxelization
-	pos[0].xy = pos[0].xy + normalize(-e0 + e2 ) * pl;
-	pos[1].xy = pos[1].xy + normalize( e0 - e1 ) * pl;
-	pos[2].xy = pos[2].xy + normalize( e1 - e2 ) * pl;
+	pos[0].xy = pos[0].xy + normalize(-e0 + e2 ) * halfPixel;
+	pos[1].xy = pos[1].xy + normalize( e0 - e1 ) * halfPixel;
+	pos[2].xy = pos[2].xy + normalize( e1 - e2 ) * halfPixel;
 
 	for(int i = 0; i < 3; ++i)
 	{
