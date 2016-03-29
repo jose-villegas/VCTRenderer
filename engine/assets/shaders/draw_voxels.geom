@@ -11,7 +11,8 @@ uniform struct Matrices
 } matrices;
 
 layout(r32ui) uniform volatile uimage3D voxelAlbedo;
-uniform float voxelSize;
+uniform vec3 voxelSize;
+uniform uint volumeDimension;
 
 in vec3 texCoord[];
 
@@ -27,8 +28,7 @@ vec4 convRGBA8ToVec4(uint val)
 
 void main()
 {
-	float halfSize = voxelSize / 2.0f;
-  	const ivec3 voxelTexSize = imageSize(voxelAlbedo);
+	vec4 halfSize = vec4(voxelSize / 2.0f, 1.0f);
 
 	const vec4 cubeVertices[8] = vec4[8] 
 	(
@@ -63,7 +63,7 @@ void main()
 
 	for(int face = 0; face < 6; ++face)
 	{
-		uvec4 albedoU = imageLoad(voxelAlbedo, ivec3(floor(texCoord[0].xyz * voxelTexSize)));
+		uvec4 albedoU = imageLoad(voxelAlbedo, ivec3(floor(texCoord[0].xyz * volumeDimension)));
 		vec4 albedo = convRGBA8ToVec4(albedoU.x) / 255.0f;
 		albedo.a = 1.0f;
 

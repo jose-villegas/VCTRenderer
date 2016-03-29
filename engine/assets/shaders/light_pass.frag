@@ -36,7 +36,11 @@ uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
+
 uniform sampler2DShadow shadowMap;
+uniform bool traceShadows = false;
+
+uniform sampler3D voxelVolume;
 
 uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 uniform Light pointLight[MAX_POINT_LIGHTS];
@@ -44,13 +48,56 @@ uniform Light spotLight[MAX_SPOT_LIGHTS];
 
 uniform uint lightTypeCount[3];
 
+float TraceCone(vec3 pos, vec3 dir, float aperture, float maxTracingDistance) 
+{
+  ivec3 voxelDimensions = textureSize(voxelVolume, 0);
+  float voxelRes = float(voxelDimensions.x);
+  vec3 weight = abs(dir);
+  float voxelSize = 1.0 / voxelRes;
+  float dst = voxelSize * 2;
+  float diameter = aperture * dst;
+  vec3 samplePos = dir * dst + pos;
+  float shadowSample = 0.0;
+
+  while (shadowSample <= 1.0 && dst <= maxTracingDistance) {
+
+    if (aperture < 0.3 && (samplePos.x < 0 || samplePos.y < 0 || samplePos.z < 0
+                       || samplePos.x > 1 || samplePos.y > 1 || samplePos.z > 1)) {
+
+      break;
+    }
+
+    float mipLevel = max(log2(diameter * voxelRes), 0);
+
+    vec4 interpolatedSample = weight.x * textureLod(voxelVolume, samplePos, mipLevel)
+                            + weight.y * textureLod(voxelVolume, samplePos, mipLevel)
+                            + weight.z * textureLod(voxelVolume, samplePos, mipLevel);
+
+    shadowSample += (1 - shadowSample) * interpolatedSample.a;
+    dst += max(diameter, voxelSize);
+    diameter = dst * aperture;
+    samplePos = dir * dst + pos;
+  }
+
+  return shadowSample;
+
+  return 1.0f;
+}
+
 float Visibility(vec3 position)
 {
-    vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
-    // transform to ndc-space
-    lsPos /= lsPos.w;
-    // querry visibility
-    return texture(shadowMap, lsPos.xyz);
+    if(traceShadows)
+    {
+        return 1.0f;
+    }
+    else
+    {
+        vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
+        // transform to ndc-space
+        lsPos /= lsPos.w;
+        // querry visibility
+        return texture(shadowMap, lsPos.xyz);
+    }
 }
 
 vec3 Ambient(Light light, vec3 albedo)
