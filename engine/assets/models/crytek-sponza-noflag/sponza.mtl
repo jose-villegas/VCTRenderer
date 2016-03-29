@@ -1,0 +1,342 @@
+# Blender MTL File: 'sponza.blend'
+# Material Count: 25
+
+newmtl Material__25
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\lion.tga
+map_Bump textures\\lion_ddn.tga
+map_Ka textures\\lion.tga
+
+newmtl Material__298
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\background.tga
+map_Bump textures\\background_ddn.tga
+map_Ka textures\\background.tga
+
+newmtl Material__47
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Material__57
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\vase_plant.tga
+map_Bump textures\\VasePlant_normal.tga
+map_Ka textures\\vase_plant.tga
+map_Ks textures\\vase_plant_spec.tga
+map_d textures\\vase_plant_mask.tga
+
+newmtl arch
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_arch_diff.tga
+map_Bump textures\\sponza_arch_ddn.tga
+map_Ka textures\\sponza_arch_diff.tga
+map_Ks textures\\sponza_arch_spec.tga
+
+newmtl bricks
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\spnza_bricks_a_diff.tga
+map_Bump textures\\spnza_bricks_a_ddn.tga
+map_Ka textures\\spnza_bricks_a_diff.tga
+map_Ks textures\\spnza_bricks_a_spec.tga
+
+newmtl ceiling
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_ceiling_a_diff.tga
+map_Bump textures\\Sponza_Ceiling_normal.tga
+map_Ka textures\\sponza_ceiling_a_diff.tga
+map_Ks textures\\sponza_ceiling_a_spec.tga
+
+newmtl chain
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\chain_texture.tga
+map_Bump textures\\chain_texture_ddn.tga
+map_Ka textures\\chain_texture.tga
+map_d textures\\chain_texture_mask.tga
+
+newmtl column_a
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_column_a_diff.tga
+map_Bump textures\\sponza_column_a_ddn.tga
+map_Ka textures\\sponza_column_a_diff.tga
+map_Ks textures\\sponza_column_a_spec.tga
+
+newmtl column_b
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_column_b_diff.tga
+map_Bump textures\\sponza_column_b_ddn.tga
+map_Ka textures\\sponza_column_b_diff.tga
+map_Ks textures\\sponza_column_b_spec.tga
+
+newmtl column_c
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_column_c_diff.tga
+map_Bump textures\\sponza_column_c_ddn.tga
+map_Ka textures\\sponza_column_c_diff.tga
+map_Ks textures\\sponza_column_c_spec.tga
+
+newmtl details
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_details_diff.tga
+map_Bump textures\\Sponza_Details_normal.tga
+map_Ka textures\\sponza_details_diff.tga
+map_Ks textures\\sponza_details_spec.tga
+
+newmtl fabric_a
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_fabric_diff.tga
+map_Bump textures\\Sponza_Fabric_Red_normal.tga
+map_Ka textures\\sponza_fabric_diff.tga
+map_Ks textures\\sponza_fabric_spec.tga
+
+newmtl fabric_c
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_curtain_diff.tga
+map_Bump textures\\Sponza_Curtain_Red_normal.tga
+map_Ka textures\\sponza_curtain_diff.tga
+
+newmtl fabric_d
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_fabric_blue_diff.tga
+map_Bump textures\\Sponza_Fabric_Blue_normal.tga
+map_Ka textures\\sponza_fabric_blue_diff.tga
+map_Ks textures\\sponza_fabric_spec.tga
+
+newmtl fabric_e
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_fabric_green_diff.tga
+map_Bump textures\\Sponza_Fabric_Green_normal.tga
+map_Ka textures\\sponza_fabric_green_diff.tga
+map_Ks textures\\sponza_fabric_spec.tga
+
+newmtl fabric_f
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_curtain_green_diff.tga
+map_Bump textures\\Sponza_Curtain_Green_normal.tga
+map_Ka textures\\sponza_curtain_green_diff.tga
+
+newmtl fabric_g
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_curtain_blue_diff.tga
+map_Bump textures\\Sponza_Curtain_Blue_normal.tga
+map_Ka textures\\sponza_curtain_blue_diff.tga
+
+newmtl flagpole
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_flagpole_diff.tga
+map_Bump textures\\Sponza_FlagPole_normal.tga
+map_Ka textures\\sponza_flagpole_diff.tga
+map_Ks textures\\sponza_flagpole_spec.tga
+
+newmtl floor
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_floor_a_diff.tga
+map_Bump textures\\Sponza_Floor_normal.tga
+map_Ka textures\\sponza_floor_a_diff.tga
+map_Ks textures\\sponza_floor_a_spec.tga
+
+newmtl leaf
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_thorn_diff.tga
+map_Bump textures\\sponza_thorn_ddn.tga
+map_Ka textures\\sponza_thorn_diff.tga
+map_Ks textures\\sponza_thorn_spec.tga
+map_d textures\\sponza_thorn_mask.tga
+
+newmtl roof
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\sponza_roof_diff.tga
+map_Bump textures\\Sponza_Roof_normal.tga
+map_Ka textures\\sponza_roof_diff.tga
+
+newmtl vase
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\vase_dif.tga
+map_Bump textures\\vase_ddn.tga
+map_Ka textures\\vase_dif.tga
+
+newmtl vase_hanging
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\vase_hanging.tga
+map_Bump textures\\VaseHanging_normal.tga
+map_Ka textures\\vase_hanging.tga
+
+newmtl vase_round
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures\vase_round.tga
+map_Bump textures\\vase_round_ddn.tga
+map_Ka textures\\vase_round.tga
+map_Ks textures\\vase_round_spec.tga

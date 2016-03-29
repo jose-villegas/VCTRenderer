@@ -48,25 +48,31 @@ int CalculateAxis()
 	}
 }
 
-vec4 EnlargedAxisAlignedBoundingBox(vec4 pos[3], vec2 pixelDiagonal)
+vec4 AxisAlignedBoundingBox(vec4 pos[3], vec2 pixelDiagonal)
 {
-	vec4 axisAlignedBoundingBox;
+	vec4 aabb;
 
-	axisAlignedBoundingBox.xy = min(pos[2].xy, min(pos[1].xy, pos[0].xy));
-	axisAlignedBoundingBox.zw = max(pos[2].xy, max(pos[1].xy, pos[0].xy));
+	aabb.xy = min(pos[2].xy, min(pos[1].xy, pos[0].xy));
+	aabb.zw = max(pos[2].xy, max(pos[1].xy, pos[0].xy));
 
 	// enlarge by half-pixel
-	axisAlignedBoundingBox.xy -= pixelDiagonal;
-	axisAlignedBoundingBox.zw += pixelDiagonal;
+	aabb.xy -= pixelDiagonal;
+	aabb.zw += pixelDiagonal;
 
-	return axisAlignedBoundingBox;
+	return aabb;
 }
 
 void main()
 {
+	vec3 texCoord[3];
 	int selectedIndex = CalculateAxis();
 	mat4 viewProjection = viewProjections[selectedIndex];
 	Out.selectedAxis = selectedIndex;
+
+    for (int i = 0; i < gl_in.length(); i++)
+    {
+        texCoord[i] = In[i].texCoord; 
+    }
 
 	//transform vertices to clip space
 	vec4 pos[3] = vec4[3]
@@ -76,17 +82,54 @@ void main()
 		viewProjection * gl_in[2].gl_Position
 	);
 
-	vec2 halfPixel = vec2(1.0f / volumeDimension) * 0.5f;
-	// calculate triangle aabb
-	Out.triangleAABB = EnlargedAxisAlignedBoundingBox(pos, halfPixel);
-	// find 3 triangle edge plane
-    vec2 e0 = normalize( pos[1].xy - pos[0].xy );
-	vec2 e1 = normalize( pos[2].xy - pos[1].xy );
-	vec2 e2 = normalize( pos[0].xy - pos[2].xy );
-	// dilate triangle for conservative voxelization
-	pos[0].xy = pos[0].xy + normalize(-e0 + e2 ) * halfPixel;
-	pos[1].xy = pos[1].xy + normalize( e0 - e1 ) * halfPixel;
-	pos[2].xy = pos[2].xy + normalize( e1 - e2 ) * halfPixel;
+    // change winding, otherwise there are artifacts for the back faces.
+    vec3 triangleNormal = normalize(cross(pos[1].xyz - pos[0].xyz, pos[2].xyz - pos[0].xyz));
+    
+    if (dot(triangleNormal, vec3(0.0, 0.0, 1.0)) < 0.0)
+    {
+        vec4 vertexTemp = pos[2];
+        vec3 texCoordTemp = texCoord[2];
+        
+        pos[2] = pos[1];
+        texCoord[2] = texCoord[1];
+    
+        pos[1] = vertexTemp;
+        texCoord[1] = texCoordTemp;
+    }
+
+	vec2 halfPixel = vec2(1.0f / volumeDimension) * 0.666f;
+	vec4 trianglePlane;
+	trianglePlane.xyz = cross(pos[1].xyz - pos[0].xyz, pos[2].xyz - pos[0].xyz);
+	trianglePlane.xyz = normalize(trianglePlane.xyz);
+	trianglePlane.w = -dot(pos[0].xyz, trianglePlane.xyz);
+
+	if(trianglePlane.z == 0.0f) return;
+	// expanded aabb for triangle
+	Out.triangleAABB = AxisAlignedBoundingBox(pos, halfPixel);
+	// calculate the plane through each edge of the triangle
+	vec3 planes[3];
+	planes[0] = cross(pos[0].xyw - pos[2].xyw, pos[2].xyw);
+	planes[1] = cross(pos[1].xyw - pos[0].xyw, pos[0].xyw);
+	planes[2] = cross(pos[2].xyw - pos[1].xyw, pos[1].xyw);
+	planes[0].z -= dot(halfPixel, abs(planes[0].xy));
+	planes[1].z -= dot(halfPixel, abs(planes[1].xy));
+	planes[2].z -= dot(halfPixel, abs(planes[2].xy));
+	// create dilated triangle
+	vec3 intersection[3];
+	intersection[0] = cross(planes[0], planes[1]);
+	intersection[1] = cross(planes[1], planes[2]);
+	intersection[2] = cross(planes[2], planes[0]);
+	intersection[0] /= intersection[0].z;
+	intersection[1] /= intersection[1].z;
+	intersection[2] /= intersection[2].z;
+	// dilated triangle vertices
+	float z[3];
+	z[0] = -(intersection[0].x * trianglePlane.x + intersection[0].y * trianglePlane.y + trianglePlane.w) / trianglePlane.z;
+	z[1] = -(intersection[1].x * trianglePlane.x + intersection[1].y * trianglePlane.y + trianglePlane.w) / trianglePlane.z;
+	z[2] = -(intersection[2].x * trianglePlane.x + intersection[2].y * trianglePlane.y + trianglePlane.w) / trianglePlane.z;
+	pos[0].xyz = vec3(intersection[0].xy, z[0]);
+	pos[1].xyz = vec3(intersection[1].xy, z[1]);
+	pos[2].xyz = vec3(intersection[2].xy, z[2]);
 
 	for(int i = 0; i < 3; ++i)
 	{
@@ -94,7 +137,7 @@ void main()
 		Out.position = pos[i].xyz;
 		Out.wsPosition = In[i].wsPosition;
 		Out.normal = In[i].normal;
-		Out.texCoord = In[i].texCoord;
+		Out.texCoord = texCoord[i];
 
 		EmitVertex();
 	}

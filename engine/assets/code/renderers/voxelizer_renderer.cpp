@@ -199,7 +199,7 @@ void VoxelizerRenderer::CreateVolume(oglplus::Texture &texture) const
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
     framestep = 5; // only on scene change
-    volumeDimension = 128;
+    volumeDimension = 256;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
     CreateVolume(voxelAlbedo);
 }

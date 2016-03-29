@@ -54,7 +54,6 @@ uniform Light spotLight[MAX_SPOT_LIGHTS];
 uniform uint lightTypeCount[3];
 
 uniform uint volumeDimension;
-uniform bool onlyDiffuse = true;
 
 float Visibility(vec3 position)
 {
@@ -155,15 +154,11 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 vec4 CalculateRadiance()
 {
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
-
-    if(onlyDiffuse) return albedo;
-
     vec3 position = In.wsPosition.xyz;
     vec3 normal = normalize(In.normal);
     // material color and pre-multiply alpha
     vec3 albedo3 = albedo.rgb * material.diffuse;
     // similar to light_pass.frag but no ambient light.
-
     vec3 radiance = vec3(0.0f);
     // calculate radiance for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
@@ -184,7 +179,7 @@ vec4 CalculateRadiance()
         radiance += CalculateSpot(spotLight[i], normal, position, albedo3);
     }
 
-    return vec4(radiance * albedo.a, albedo.a);
+    return clamp(vec4(radiance * albedo.a, albedo.a), vec4(0.0f), vec4(1.0f));
 }
 
 void main()
@@ -217,7 +212,7 @@ void main()
 
     vec4 radiance = CalculateRadiance();
 
-    if(radiance.a <= 0.5f) discard;
+    if(radiance.a <= 0.1f) discard;
 
 	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(texcoord.xyz), radiance);
 }

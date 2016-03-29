@@ -68,7 +68,7 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 {
     vec3 halfDirection = normalize(lightDirection + normalize(-position));
     float specularFactor = clamp(dot(halfDirection, normal), 0.0f, 1.0f);
-    specularFactor = pow(specularFactor, specular.a * 2000.0f);
+    specularFactor = pow(specularFactor, specular.a);
 
     return light.specular * specular.rgb * specularFactor;
 }

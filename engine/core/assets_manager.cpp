@@ -46,8 +46,10 @@ AssetsManager::AssetsManager()
 {
     auto &window = EngineBase::Instance()->Window();
     // instantiate scenes with their paths
-    scenes["Sponza"] = std::make_shared<Scene>
-                       ("assets\\models\\crytek-sponza\\sponza.obj");
+    scenes["Crytek Sponza"] = std::make_shared<Scene>
+                              ("assets\\models\\crytek-sponza\\sponza.obj");
+    scenes["Crytek Sponza (No Flag)"] = std::make_shared<Scene>
+                                        ("assets\\models\\crytek-sponza-noflag\\sponza.obj");
     scenes["Sibenik"] = std::make_shared<Scene>
                         ("assets\\models\\sibenik\\sibenik.obj");
     scenes["Cornellbox"] = std::make_shared<Scene>

@@ -37,7 +37,7 @@ void UISceneLoader::Draw()
               ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings))
     {
         // active scene selector
-        PushItemWidth(100);
+        PushItemWidth(200);
 
         if (Combo("Path", &activeScene, SceneName, &assets->scenes,
                   static_cast<int>(assets->scenes.size())))
