@@ -17,6 +17,7 @@
 #include <oglplus/framebuffer.hpp>
 #include <glm/gtx/transform.hpp>
 #include "../../../scene/light.h"
+#include "../programs/radiance_program.h"
 
 bool VoxelizerRenderer::ShowVoxels = false;
 
@@ -115,6 +116,19 @@ void VoxelizerRenderer::VoxelizeScene()
     static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                            (oglplus::MemoryBarrierBit::TextureFetch);
     gl.MemoryBarrier(shImage | texFetch);
+    // inject radiance into voxel texture and also mip-map
+    CurrentProgram<InjectRadianceProgram>(InjectRadianceShader());
+    voxelTex.Active(0);
+    voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                       oglplus::ImageUnitFormat::R32UI);
+    voxelTex.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+                       oglplus::ImageUnitFormat::RGBA8);
+    auto workGroups = glm::ceil(volumeDimension /  4.0f);
+    // inject radiance at level 0 of texture
+    gl.DispatchCompute(workGroups, workGroups, workGroups);
+    // advantage of using 3d texture is easy mip-mapping
+    voxelTex.GenerateMipmap(oglplus::TextureTarget::_3D);
+    gl.MemoryBarrier(shImage | texFetch);
 }
 
 void VoxelizerRenderer::DrawVoxels()
@@ -146,8 +160,8 @@ void VoxelizerRenderer::DrawVoxels()
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
     // pass voxel drawer uniforms
-    voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                       oglplus::ImageUnitFormat::RGBA8);
+    voxelTex.Active(0);
+    voxelTex.Bind(oglplus::TextureTarget::_3D);
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelSize.Set(voxelSize);
     prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix);
@@ -198,7 +212,7 @@ void VoxelizerRenderer::CreateVolume(oglplus::Texture &texture) const
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
     framestep = 5; // only on scene change
-    volumeDimension = 256;
+    volumeDimension = 128;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
     CreateVolume(voxelTex);
 }
@@ -220,6 +234,14 @@ VoxelDrawerProgram &VoxelizerRenderer::VoxelDrawerShader()
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<VoxelDrawerProgram *>
                         (assets->programs["VoxelDrawer"].get());
+    return prog;
+}
+
+InjectRadianceProgram &VoxelizerRenderer::InjectRadianceShader()
+{
+    static auto &assets = AssetsManager::Instance();
+    static auto &prog = *static_cast<InjectRadianceProgram *>
+                        (assets->programs["InjectRadiance"].get());
     return prog;
 }
 
