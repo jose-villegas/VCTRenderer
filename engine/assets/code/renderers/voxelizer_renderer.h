@@ -74,7 +74,7 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         void DrawVoxels();
         // output textures
-        oglplus::Texture voxelAlbedo;
+        oglplus::Texture voxelTex;
 
         // vertex buffer object for 3d texture visualization
         oglplus::VertexArray voxelDrawerArray;

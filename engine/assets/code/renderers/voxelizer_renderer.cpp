@@ -87,7 +87,7 @@ void VoxelizerRenderer::VoxelizeScene()
 {
     static oglplus::Context gl;
     static auto &scene = Scene::Active();
-    static auto zero = 0;
+    static float zero[] = { 0, 0, 0, 0 };
 
     if (!scene || !scene->IsLoaded()) { return; }
 
@@ -105,11 +105,16 @@ void VoxelizerRenderer::VoxelizeScene()
     // voxelization pass uniforms
     SetVoxelizationPassUniforms();
     // bind the volume texture to be writen in shaders
-    voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RedInteger, &zero);
-    voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
-                          oglplus::ImageUnitFormat::R32UI);
+    voxelTex.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+                       oglplus::ImageUnitFormat::R32UI);
     // draw scene triangles
     scene->rootNode->DrawList();
+    static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                          (oglplus::MemoryBarrierBit::ShaderImageAccess);
+    static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                           (oglplus::MemoryBarrierBit::TextureFetch);
+    gl.MemoryBarrier(shImage | texFetch);
 }
 
 void VoxelizerRenderer::DrawVoxels()
@@ -141,8 +146,8 @@ void VoxelizerRenderer::DrawVoxels()
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
     // pass voxel drawer uniforms
-    voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                          oglplus::ImageUnitFormat::R32UI);
+    voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                       oglplus::ImageUnitFormat::RGBA8);
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelSize.Set(voxelSize);
     prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix);
@@ -176,23 +181,17 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 void VoxelizerRenderer::CreateVolume(oglplus::Texture &texture) const
 {
     using namespace oglplus;
-    static auto zero = 0;
+    static float zero[] = {0, 0, 0, 0};
+    auto maxLevel = static_cast<unsigned int>(log2(volumeDimension));
     texture.Bind(TextureTarget::_3D);
-    texture.Image3D(TextureTarget::_3D, 0,
-                    PixelDataInternalFormat::R32UI,
-                    volumeDimension, volumeDimension, volumeDimension, 0,
-                    PixelDataFormat::RedInteger, PixelDataType::UnsignedInt,
-                    nullptr);
-    texture.ClearImage(0, PixelDataFormat::RedInteger, &zero);
-    texture.BaseLevel(TextureTarget::_3D, 0);
-    texture.MaxLevel(TextureTarget::_3D, 0);
-    texture.SwizzleRGBA(TextureTarget::_3D,
-                        TextureSwizzle::Red,
-                        TextureSwizzle::Green,
-                        TextureSwizzle::Blue,
-                        TextureSwizzle::Alpha);
-    texture.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
+    texture.MinFilter(TextureTarget::_3D, TextureMinFilter::LinearMipmapLinear);
     texture.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
+    texture.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    texture.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    texture.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    texture.Storage3D(TextureTarget::_3D, maxLevel, PixelDataInternalFormat::RGBA8,
+                      volumeDimension, volumeDimension, volumeDimension);
+    texture.ClearImage(0, PixelDataFormat::RGBA, zero);
     texture.GenerateMipmap(TextureTarget::_3D);
 }
 
@@ -201,7 +200,7 @@ VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
     framestep = 5; // only on scene change
     volumeDimension = 256;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
-    CreateVolume(voxelAlbedo);
+    CreateVolume(voxelTex);
 }
 
 VoxelizerRenderer::~VoxelizerRenderer()
@@ -233,60 +232,4 @@ void VoxelizerRenderer::SetVoxelizationPassUniforms() const
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
     prog.volumeDimension.Set(volumeDimension);
-    // set directional lights uniforms
-    auto &directionals = Light::Directionals();
-    auto &points = Light::Points();
-    auto &spots = Light::Spots();
-    // uniform arrays of lights
-    auto &uDirectionals = prog.directionalLight;
-    auto &uPoints = prog.pointLight;
-    auto &uSpots = prog.spotLight;
-
-    for (int i = 0; i < directionals.size(); i++)
-    {
-        auto &light = directionals[i];
-        auto &uLight = uDirectionals[i];
-        auto &intensity = light->Intensity();
-        // update view space direction-position
-        uLight.direction.Set(light->Direction());
-        uLight.diffuse.Set(light->Diffuse() * intensity.y);
-    }
-
-    for (int i = 0; i < points.size(); i++)
-    {
-        auto &light = points[i];
-        auto &uLight = uPoints[i];
-        auto &intensity = light->Intensity();
-        // update view space direction-position
-        uLight.position.Set(light->Position());
-        uLight.diffuse.Set(light->Diffuse() * intensity.y);
-        uLight.attenuation.constant.Set(light->attenuation.Constant());
-        uLight.attenuation.linear.Set(light->attenuation.Linear());
-        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
-    }
-
-    for (int i = 0; i < spots.size(); i++)
-    {
-        auto &light = spots[i];
-        auto &uLight = uSpots[i];
-        auto &intensity = light->Intensity();
-        // update view space direction-position
-        uLight.position.Set(light->Position());
-        uLight.direction.Set(light->Direction());
-        uLight.diffuse.Set(light->Diffuse() * intensity.y);
-        uLight.attenuation.constant.Set(light->attenuation.Constant());
-        uLight.attenuation.linear.Set(light->attenuation.Linear());
-        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
-        uLight.angleInnerCone.Set(cos(light->AngleInnerCone()));
-        uLight.angleOuterCone.Set(cos(light->AngleOuterCone()));
-    }
-
-    // pass number of lights per type
-    prog.lightTypeCount[0].Set(directionals.size());
-    prog.lightTypeCount[1].Set(points.size());
-    prog.lightTypeCount[2].Set(spots.size());
-    // pass shadowing setup
-    prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
-    shadowing.BindReading(6);
-    prog.shadowMap.Set(6);
 }
