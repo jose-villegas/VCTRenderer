@@ -10,21 +10,13 @@ uniform struct Matrices
     mat4 modelViewProjection;
 } matrices;
 
-layout(r32ui) uniform volatile uimage3D voxelAlbedo;
+layout(binding = 0, rgba8) uniform sampler3D voxelRadiance;
 uniform float voxelSize;
 uniform uint volumeDimension;
 
 in vec3 texCoord[];
 
 out vec4 voxelColor;
-
-vec4 convRGBA8ToVec4(uint val)
-{
-    return vec4(float((val & 0x000000FF)), 
-    float((val & 0x0000FF00) >> 8U), 
-    float((val & 0x00FF0000) >> 16U), 
-    float((val & 0xFF000000) >> 24U));
-}
 
 void main()
 {
@@ -63,15 +55,13 @@ void main()
 
 	for(int face = 0; face < 6; ++face)
 	{
-		uvec4 albedoU = imageLoad(voxelAlbedo, ivec3(floor(texCoord[0].xyz * volumeDimension)));
-		vec4 albedo = convRGBA8ToVec4(albedoU.x) / 255.0f;
-		albedo.a = 1.0f;
-
-		if(albedoU.x == 0 || all(lessThan(albedo.rgb, tolerance)))
+		vec4 albedo = texture(voxelRadiance, texCoord[0].xyz);
+	
+		if(all(lessThan(albedo.rgb, tolerance)))
 		{
 			continue;
 		}
-	
+
 		for(int vertex = 0; vertex < 4; ++vertex)
 		{
 			gl_Position = projectedVertices[cubeIndices[face * 4 + vertex]];

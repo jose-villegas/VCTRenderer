@@ -24,6 +24,7 @@
 #include "../assets/code/renderers/voxelizer_renderer.h"
 #include "../assets/code/renderers/deferred_renderer.h"
 #include "../assets/code/renderers/shadow_map_renderer.h"
+#include "../assets/code/programs/radiance_program.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -65,11 +66,12 @@ AssetsManager::AssetsManager()
     {
     };
     // instantiate implemented programs
-    programs["Geometry"]     = std::make_shared<GeometryProgram>();
-    programs["Lighting"]     = std::make_shared<LightingProgram>();
+    programs["Geometry"] = std::make_shared<GeometryProgram>();
+    programs["Lighting"] = std::make_shared<LightingProgram>();
     programs["Voxelization"] = std::make_shared<VoxelizationProgram>();
-    programs["VoxelDrawer"]  = std::make_shared<VoxelDrawerProgram>();
-    programs["Depth"]        = std::make_shared<DepthProgram>();
+    programs["VoxelDrawer"] = std::make_shared<VoxelDrawerProgram>();
+    programs["Depth"] = std::make_shared<DepthProgram>();
+    programs["InjectRadiance"] = std::make_shared<InjectRadianceProgram>();
     // instantiate impleted renderers
     renderers["Shadowmapping"] = std::make_shared<ShadowMapRenderer>(window);
     renderers["Voxelizer"]     = std::make_shared<VoxelizerRenderer>(window);
@@ -99,6 +101,8 @@ AssetsManager::AssetsManager()
                                     "assets\\shaders\\depth_texture.vert");
     programs["Depth"]->AttachShader(oglplus::ShaderType::Fragment,
                                     "assets\\shaders\\depth_texture.frag");
+    programs["InjectRadiance"]->AttachShader(oglplus::ShaderType::Compute,
+            "assets\\shaders\\inject_radiance.comp");
 
     // link and extract uniforms from shaders
     for (auto &prog : programs)

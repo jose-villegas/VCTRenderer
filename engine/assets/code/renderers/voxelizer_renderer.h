@@ -6,6 +6,7 @@
 #include <oglplus/vertex_array.hpp>
 #include <oglplus/buffer.hpp>
 
+class InjectRadianceProgram;
 class BoundingBox;
 class VoxelDrawerProgram;
 class VoxelizationProgram;
@@ -55,6 +56,7 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         /// <returns></returns>
         static VoxelDrawerProgram &VoxelDrawerShader();
+        static InjectRadianceProgram &InjectRadianceShader();
         /// <summary>
         /// Creates the view projection matrices per x, y and z axis.
         /// depending on the voxel volume grid size.
