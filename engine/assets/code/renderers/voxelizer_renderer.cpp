@@ -150,7 +150,6 @@ void VoxelizerRenderer::DrawVoxels()
     gl.Enable(oglplus::Capability::DepthTest);
     gl.Enable(oglplus::Capability::CullFace);
     gl.FrontFace(oglplus::FaceOrientation::CCW);
-    gl.CullFace(oglplus::Face::Back);
     auto &prog = VoxelDrawerShader();
     CurrentProgram<VoxelDrawerProgram>(prog);
     // control vars

@@ -6,6 +6,7 @@
 
 #include <oglplus/texture.hpp>
 #include <oglplus/framebuffer.hpp>
+#include <oglplus/renderbuffer.hpp>
 
 class DepthProgram;
 class Light;
@@ -27,7 +28,8 @@ class ShadowMapRenderer : public Renderer
         static DepthProgram &DepthShader();
         void CreateFramebuffer(const unsigned &w, const unsigned &h);
         oglplus::Framebuffer shadowFramebuffer;
-        oglplus::Texture renderDepth;
+        oglplus::Renderbuffer depthRender;
+        oglplus::Texture shadowMap;
 
         glm::uvec2 shadowMapSize;
         Camera lightView;

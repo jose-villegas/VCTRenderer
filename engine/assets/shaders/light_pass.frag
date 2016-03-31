@@ -36,7 +36,7 @@ uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
-uniform sampler2DShadow shadowMap;
+uniform sampler2D shadowMap;
 
 uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 uniform Light pointLight[MAX_POINT_LIGHTS];
@@ -50,7 +50,22 @@ float Visibility(vec3 position)
     // transform to ndc-space
     lsPos /= lsPos.w;
     // querry visibility
-    return texture(shadowMap, lsPos.xyz);
+    vec2 moments = texture(shadowMap, lsPos.xy).xy;
+
+    // Surface is fully lit. as the current fragment is before the light occluder
+    if (lsPos.z <= moments.x)
+        return 1.0;
+
+    // The fragment is either in shadow or penumbra. We now use chebyshev's upperBound to check
+    // How likely this pixel is to be lit (pMax)
+    float variance = moments.y - (moments.x * moments.x);
+    //variance = max(variance, 0.000002);
+    variance = max(variance, 0.00002);
+
+    float d = lsPos.z - moments.x;
+    float pMax = variance / (variance + d * d);
+
+    return pMax;
 }
 
 vec3 Ambient(Light light, vec3 albedo)

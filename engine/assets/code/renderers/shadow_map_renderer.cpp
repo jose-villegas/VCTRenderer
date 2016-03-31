@@ -34,16 +34,14 @@ void ShadowMapRenderer::Render()
     SetAsActive();
     lightView.SetAsActive();
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
-    gl.ColorMask(false, false, false, false);
     gl.Viewport(shadowMapSize.x, shadowMapSize.y);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    gl.Clear().DepthBuffer();
+    gl.Clear().DepthBuffer().ColorBuffer();
     // activate geometry pass shader program
     CurrentProgram<DepthProgram>(DepthShader());
     // rendering flags
+    gl.Disable(Capability::Blend);
     gl.Enable(Capability::DepthTest);
-    gl.Enable(Capability::CullFace);
-    gl.CullFace(Face::Front);
     // scene spatial cues
     auto sceneBB = scene->rootNode->boundaries;
     auto &center = sceneBB.Center();
@@ -85,8 +83,8 @@ const Light * ShadowMapRenderer::Caster() const
 
 void ShadowMapRenderer::BindReading(unsigned unit) const
 {
-    renderDepth.Active(unit);
-    renderDepth.Bind(oglplus::TextureTarget::_2D);
+    shadowMap.Active(unit);
+    shadowMap.Bind(oglplus::TextureTarget::_2D);
 }
 
 const Camera &ShadowMapRenderer::LightCamera() const
@@ -96,7 +94,7 @@ const Camera &ShadowMapRenderer::LightCamera() const
 
 const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 {
-    return renderDepth;
+    return shadowMap;
 }
 
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
@@ -122,19 +120,25 @@ void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
 {
     using namespace oglplus;
     static Context gl;
+    // save size
     shadowMapSize = glm::uvec2(w, h);
+    // create render buffer for depth testing
+    depthRender.Bind(RenderbufferTarget::Renderbuffer);
+    depthRender.Storage(RenderbufferTarget::Renderbuffer,
+                        PixelDataInternalFormat::DepthComponent24, w, h);
+    // setup framebuffer
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
-    gl.Bound(TextureTarget::_2D, renderDepth)
-    .Image2D(0, PixelDataInternalFormat::DepthComponent24, w, h, 0,
-             PixelDataFormat::DepthComponent, PixelDataType::Float, nullptr)
-    .MinFilter(TextureMinFilter::Linear).MagFilter(TextureMagFilter::Linear)
-    .WrapS(TextureWrap::ClampToEdge).WrapT(TextureWrap::ClampToEdge)
-    .CompareMode(TextureCompareMode::CompareRefToTexture)
-    .CompareFunc(CompareFunction::LEqual);
+    gl.Bound(TextureTarget::_2D, shadowMap)
+    .Image2D(0, PixelDataInternalFormat::RG32F, w, h, 0,
+             PixelDataFormat::RG, PixelDataType::Float, nullptr)
+    .MinFilter(TextureMinFilter::Linear).MagFilter(TextureMagFilter::Linear);
     shadowFramebuffer.AttachTexture(FramebufferTarget::Draw,
-                                    FramebufferAttachment::Depth,
-                                    renderDepth, 0);
-    gl.DrawBuffer(ColorBuffer::None);
+                                    FramebufferColorAttachment::_0,
+                                    shadowMap, 0);
+    shadowFramebuffer.AttachRenderbuffer(FramebufferTarget::Draw,
+                                         FramebufferAttachment::Depth,
+                                         depthRender);
+    gl.DrawBuffer(FramebufferColorAttachment::_0);
 
     // check if success building frame buffer
     if (!Framebuffer::IsComplete(FramebufferTarget::Draw))
