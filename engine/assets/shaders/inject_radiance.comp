@@ -4,6 +4,88 @@ layout (local_size_x = 4, local_size_y = 4, local_size_z = 4) in;
 layout(binding = 0, r32ui) uniform uimage3D voxelAlbedo;
 layout(binding = 1, rgba8) uniform writeonly image3D voxelRadiance;
 
+struct Attenuation
+{
+    float constant;
+    float linear;
+    float quadratic;
+};
+
+struct Light {
+    float angleInnerCone;
+    float angleOuterCone;
+
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+
+    vec3 position;
+    vec3 direction;
+
+    Attenuation attenuation;
+};
+
+uniform vec2 exponents;
+uniform float lightBleedingTolerance;
+uniform mat4 lightViewProjection;
+
+uniform sampler2D shadowMap;
+
+float linstep(float low, float high, float value)
+{
+    return clamp((value - low) / (high - low), 0.0f, 1.0f);
+}  
+
+float ReduceLightBleeding(float pMax, float Amount)  
+{  
+    return linstep(Amount, 1, pMax);  
+} 
+
+vec2 WarpDepth(float depth)
+{
+    depth = 2.0f * depth - 1.0f;
+    float pos = exp(exponents.x * depth);
+    float neg = -exp(-exponents.y * depth);
+    return vec2(pos, neg);
+}
+
+float Chebyshev(vec2 moments, float mean, float minVariance)
+{
+    if(mean <= moments.x)
+    {
+        return 1.0f;
+    }
+    else
+    {
+        float variance = moments.y - (moments.x * moments.x);
+        variance = max(variance, minVariance);
+        float d = mean - moments.x;
+        float lit = variance / (variance + (d * d));
+        return ReduceLightBleeding(lit, 1.0f - lightBleedingTolerance);
+    }
+}
+
+float Visibility(vec3 position)
+{
+    vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
+    // avoid arithmetic error
+    if(lsPos.w == 0.0f) return 1.0f;
+    // transform to ndc-space
+    lsPos /= lsPos.w;
+    // querry visibility
+    vec4 moments = texture(shadowMap, lsPos.xy).xyzw;
+    // move to avoid acne
+    vec2 wDepth = WarpDepth(lsPos.z - 0.0001f);
+    // derivative of warping at depth
+    vec2 depthScale = 0.0002f * exponents * wDepth;
+    vec2 minVariance = depthScale * depthScale;
+    // evsm mode 4 compares negative and positive
+    float positive = Chebyshev(moments.xz, wDepth.x, minVariance.x);
+    float negative = Chebyshev(moments.yw, wDepth.y, minVariance.y);
+    // shadowing value
+    return min(positive, negative);
+}
+
 vec4 convRGBA8ToVec4(uint val)
 {
     return vec4(float((val & 0x000000FF)), 

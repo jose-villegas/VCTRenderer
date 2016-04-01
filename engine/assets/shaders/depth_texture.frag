@@ -4,7 +4,7 @@ layout(location = 0) out vec4 outColor;
 
 in vec4 position;
 
-uniform vec2 exponents = vec2(40.0f, 20.0f);
+uniform vec2 exponents;
 
 vec2 WarpDepth(float depth)
 {

@@ -44,8 +44,18 @@ uniform Light spotLight[MAX_SPOT_LIGHTS];
 
 uniform uint lightTypeCount[3];
 
-uniform vec2 exponents = vec2(40.0f, 20.0f);
-uniform float lightBleedingTolerance = 0.7f;
+uniform vec2 exponents;
+uniform float lightBleedingTolerance;
+
+float linstep(float low, float high, float value)
+{
+    return clamp((value - low) / (high - low), 0.0f, 1.0f);
+}  
+
+float ReduceLightBleeding(float pMax, float Amount)  
+{  
+    return linstep(Amount, 1, pMax);  
+} 
 
 vec2 WarpDepth(float depth)
 {
@@ -66,8 +76,8 @@ float Chebyshev(vec2 moments, float mean, float minVariance)
         float variance = moments.y - (moments.x * moments.x);
         variance = max(variance, minVariance);
         float d = mean - moments.x;
-        float pMax = variance / (variance + (d * d));
-        return smoothstep(1.0f - lightBleedingTolerance, 1.0f, pMax);
+        float lit = variance / (variance + (d * d));
+        return ReduceLightBleeding(lit, lightBleedingTolerance);
     }
 }
 
