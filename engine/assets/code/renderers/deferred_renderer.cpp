@@ -22,22 +22,10 @@ DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
 {
     // create textures and attachments for framebuffer in deferredhandler
     SetupGeometryBuffer(Window().Info().width, Window().Info().height);
-    // rendering quad plane
-    CreateFullscreenQuad();
 }
 
 DeferredRenderer::~DeferredRenderer()
 {
-}
-
-void DeferredRenderer::DrawFullscreenQuad() const
-{
-    static oglplus::Context gl;
-    fsQuadVertexArray.Bind();
-    gl.DrawElements(
-        oglplus::PrimitiveType::Triangles, 6,
-        oglplus::DataType::UnsignedInt
-    );
 }
 
 const GeometryBuffer &DeferredRenderer::GBuffer() const
@@ -90,7 +78,7 @@ void DeferredRenderer::Render()
     // pass light info and texture locations for final light pass
     SetLightPassUniforms();
     // draw the result onto a fullscreen quad
-    DrawFullscreenQuad();
+    fsQuad.Draw();
 }
 
 void DeferredRenderer::SetMatricesUniforms(const Node &node) const
@@ -276,41 +264,4 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
     }
 
     Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));
-}
-
-void DeferredRenderer::CreateFullscreenQuad() const
-{
-    using namespace oglplus;
-    // bind vao for full screen quad
-    fsQuadVertexArray.Bind();
-    // data for fs quad
-    static const std::array<float, 20> fsQuadVertexBufferData =
-    {
-        // X    Y    Z     U     V
-        1.0f, 1.0f, 0.0f, 1.0f, 1.0f, // vertex 0
-        -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, // vertex 1
-        1.0f, -1.0f, 0.0f, 1.0f, 0.0f, // vertex 2
-        -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, // vertex 3
-    };
-    // bind vertex buffer and fill
-    fsQuadVertexBuffer.Bind(Buffer::Target::Array);
-    Buffer::Data(Buffer::Target::Array, fsQuadVertexBufferData);
-    // set up attrib points
-    VertexArrayAttrib(VertexAttribSlot(0)).Enable() // position
-    .Pointer(3, DataType::Float, false, 5 * sizeof(float),
-             reinterpret_cast<const GLvoid *>(0));
-    VertexArrayAttrib(VertexAttribSlot(1)).Enable() // uvs
-    .Pointer(2, DataType::Float, false, 5 * sizeof(float),
-             reinterpret_cast<const GLvoid *>(12));
-    // data for element buffer array
-    static const std::array<unsigned int, 6> indexData =
-    {
-        0, 1, 2, // first triangle
-        2, 1, 3, // second triangle
-    };
-    // bind and fill element array
-    fsQuadElementBuffer.Bind(Buffer::Target::ElementArray);
-    Buffer::Data(Buffer::Target::ElementArray, indexData);
-    // unbind vao
-    NoVertexArray().Bind();
 }

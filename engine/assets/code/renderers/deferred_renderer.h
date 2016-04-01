@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../core/renderer.h"
+#include "../rendering/primitives/fullscreen_quad.h"
 
 #include <memory>
 #include <oglplus/vertex_array.hpp>
@@ -32,10 +33,6 @@ class DeferredRenderer : public Renderer
         /// </summary>
         ~DeferredRenderer();
         /// <summary>
-        /// Renders a full screen quad, used in the light pass stage
-        /// </summary>
-        void DrawFullscreenQuad() const;
-        /// <summary>
         /// Returns <see cref="geometryBuffer"/> which is the associated
         /// geometry buffer to this deferred path implementation.
         /// </summary>
@@ -55,6 +52,7 @@ class DeferredRenderer : public Renderer
         /// <param name="mat">The mat.</param>
         void SetMaterialUniforms(const Material &material) const override;
     private:
+        FullscreenQuad fsQuad;
         /// <summary>
         /// The geometry program shader.
         /// </summary>
@@ -82,18 +80,4 @@ class DeferredRenderer : public Renderer
         /// with all the render target texture attachments
         /// </summary>
         std::unique_ptr<GeometryBuffer> geometryBuffer;
-        /// <summary>
-        /// The full screen quad vertex array object
-        /// </summary>
-        oglplus::VertexArray fsQuadVertexArray;
-        /// <summary>
-        /// The full screen quad vertex buffer
-        /// </summary>
-        oglplus::Buffer fsQuadVertexBuffer;
-        /// <summary>
-        /// The full screen quad element index buffer
-        /// </summary>
-        oglplus::Buffer fsQuadElementBuffer;
-
-        void CreateFullscreenQuad() const;
 };

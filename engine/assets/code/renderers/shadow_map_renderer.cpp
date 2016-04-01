@@ -4,6 +4,7 @@
 
 #include "../scene/light.h"
 #include "../programs/depth_program.h"
+#include "../programs/blur_program.h"
 #include "../../../scene/scene.h"
 #include "../../../core/assets_manager.h"
 
@@ -59,9 +60,8 @@ void ShadowMapRenderer::Render()
     scene->rootNode->DrawList();
     // recover original render camera
     camera->SetAsActive();
-    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
-    // generate mipmaps for filtered values in shadow map
-    shadowMap.GenerateMipmap(TextureTarget::_2D);
+    // blur the result evsm map
+    BlurShadowMap();
 }
 
 void ShadowMapRenderer::Caster(const Light * caster)
@@ -103,7 +103,9 @@ const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     shadowCaster(nullptr)
 {
-    CreateFramebuffer(2048, 2048);
+    SetupFramebuffers(2048, 2048);
+    blurScale = 2.0f;
+    blurQuality = 1;
 }
 
 ShadowMapRenderer::~ShadowMapRenderer()
@@ -118,14 +120,22 @@ DepthProgram &ShadowMapRenderer::DepthShader()
     return prog;
 }
 
-void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
+BlurProgram &ShadowMapRenderer::BlurShader()
+{
+    static auto &assets = AssetsManager::Instance();
+    static auto &prog = *static_cast<BlurProgram *>
+                        (assets->programs["Blur"].get());
+    return prog;
+}
+
+void ShadowMapRenderer::SetupFramebuffers(const unsigned &w,
         const unsigned &h)
 {
     using namespace oglplus;
     static Context gl;
     // save size
     shadowMapSize = glm::uvec2(w, h);
-    // setup framebuffer
+    // setup shadow framebuffer
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
     // create render buffer for depth testing
     depthRender.Bind(RenderbufferTarget::Renderbuffer);
@@ -134,10 +144,9 @@ void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
     // create variance shadow mapping texture, z and z * z
     gl.Bound(TextureTarget::_2D, shadowMap)
     .Image2D(0, PixelDataInternalFormat::RGBA32F, w, h, 0,
-             PixelDataFormat::RG, PixelDataType::Float, nullptr)
+             PixelDataFormat::RGBA, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::LinearMipmapLinear)
-    .MagFilter(TextureMagFilter::Linear)
-    .GenerateMipmap();
+    .MagFilter(TextureMagFilter::Linear).GenerateMipmap().Anisotropy(8);
     shadowFramebuffer.AttachColorTexture(FramebufferTarget::Draw, 0, shadowMap, 0);
     shadowFramebuffer.AttachRenderbuffer(FramebufferTarget::Draw,
                                          FramebufferAttachment::Depth,
@@ -152,4 +161,77 @@ void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
     }
 
     Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));
+    // setup shadow framebuffer
+    blurFramebuffer.Bind(FramebufferTarget::Draw);
+    // create variance shadow mapping texture, z and z * z
+    gl.Bound(TextureTarget::_2D, blurShadow)
+    .Image2D(0, PixelDataInternalFormat::RGBA32F, w, h, 0,
+             PixelDataFormat::RGBA, PixelDataType::Float, nullptr)
+    .MinFilter(TextureMinFilter::Linear).MagFilter(TextureMagFilter::Linear)
+    .WrapS(TextureWrap::ClampToEdge).WrapT(TextureWrap::ClampToEdge).Anisotropy(8);
+    blurFramebuffer.AttachColorTexture(FramebufferTarget::Draw, 0, blurShadow, 0);
+    gl.DrawBuffer(FramebufferColorAttachment::_0);
+
+    // check if success building frame buffer
+    if (!Framebuffer::IsComplete(FramebufferTarget::Draw))
+    {
+        auto status = Framebuffer::Status(FramebufferTarget::Draw);
+        Framebuffer::HandleIncompleteError(FramebufferTarget::Draw, status);
+    }
+
+    Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));
+}
+
+void ShadowMapRenderer::BlurScale(const float &val)
+{
+    blurScale = val;
+}
+
+void ShadowMapRenderer::BlurQuality(const int &val)
+{
+    blurQuality = glm::clamp(val, 1, 3);
+}
+
+void ShadowMapRenderer::Anisotropy(const int &val) const
+{
+    using namespace oglplus;
+    static Context gl;
+    gl.Bound(TextureTarget::_2D, blurShadow).Anisotropy(val);
+    using namespace oglplus;
+    gl.Bound(TextureTarget::_2D, shadowMap).Anisotropy(val);;
+}
+
+void ShadowMapRenderer::BlurShadowMap()
+{
+    using namespace oglplus;
+    static Context gl;
+    auto &prog = BlurShader();
+    CurrentProgram<BlurProgram>(prog);
+    // horizontal blur
+    blurFramebuffer.Bind(FramebufferTarget::Draw);
+    gl.Disable(Capability::DepthTest);
+    // active shadow to be read
+    shadowMap.Active(0);
+    shadowMap.Bind(TextureTarget::_2D);
+    // update uniform
+    prog.source.Set(0);
+    prog.blurDirection.Set(glm::vec2(1.0f / shadowMapSize.x * blurScale, 0.0f));
+    prog.blurType.Set(blurQuality);
+    gl.Clear().DepthBuffer().ColorBuffer();
+    fsQuad.Draw();
+    // blur vertically
+    shadowFramebuffer.Bind(FramebufferTarget::Draw);
+    // active shadow to be read
+    blurShadow.Bind(TextureTarget::_2D);
+    // update uniform
+    prog.source.Set(0);
+    prog.blurDirection.Set(glm::vec2(0.0f, 1.0f / shadowMapSize.y * blurScale));
+    prog.blurType.Set(blurQuality);
+    gl.Clear().DepthBuffer().ColorBuffer();
+    fsQuad.Draw();
+    // recover
+    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
+    shadowMap.Bind(TextureTarget::_2D);
+    shadowMap.GenerateMipmap(TextureTarget::_2D);
+    gl.Enable(Capability::DepthTest);
 }

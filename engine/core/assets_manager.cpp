@@ -12,6 +12,8 @@
 #include "../assets/code/programs/voxelization_program.h"
 #include "../assets/code/programs/voxel_drawer_program.h"
 #include "../assets/code/programs/depth_program.h"
+#include "../assets/code/programs/radiance_program.h"
+#include "../assets/code/programs/blur_program.h"
 // include interfaces
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
@@ -19,12 +21,12 @@
 #include "../assets/code/interfaces/scene_cameras.h"
 #include "../assets/code/interfaces/scene_lights.h"
 #include "../assets/code/interfaces/framebuffer_textures.h"
+#include "../assets/code/interfaces/shadowing_options.h"
 // include behaviors
 // include renderers
 #include "../assets/code/renderers/voxelizer_renderer.h"
 #include "../assets/code/renderers/deferred_renderer.h"
 #include "../assets/code/renderers/shadow_map_renderer.h"
-#include "../assets/code/programs/radiance_program.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -56,12 +58,13 @@ AssetsManager::AssetsManager()
     scenes["Cornellbox"] = std::make_shared<Scene>
                            ("assets\\models\\cornell-box\\cornellbox-original.obj");
     // instantiate implemented interfaces
-    interfaces["SceneLoader"]  = std::make_shared<UISceneLoader>();
-    interfaces["Framerate"]    = std::make_shared<UIFramerate>();
-    interfaces["MainMenu"]     = std::make_shared<UIMainMenu>();
-    interfaces["Cameras"]      = std::make_shared<UISceneCameras>();
-    interfaces["Lights"]       = std::make_shared<UISceneLights>();
+    interfaces["SceneLoader"] = std::make_shared<UISceneLoader>();
+    interfaces["Framerate"] = std::make_shared<UIFramerate>();
+    interfaces["MainMenu"] = std::make_shared<UIMainMenu>();
+    interfaces["Cameras"] = std::make_shared<UISceneCameras>();
+    interfaces["Lights"] = std::make_shared<UISceneLights>();
     interfaces["Framebuffers"] = std::make_shared<UIFramebuffers>();
+    interfaces["Shadowing"] = std::make_shared<UIShadowingOptions>();
     // instantiate implemented behaviors
     {
     };
@@ -72,6 +75,7 @@ AssetsManager::AssetsManager()
     programs["VoxelDrawer"] = std::make_shared<VoxelDrawerProgram>();
     programs["Depth"] = std::make_shared<DepthProgram>();
     programs["InjectRadiance"] = std::make_shared<InjectRadianceProgram>();
+    programs["Blur"] = std::make_shared<BlurProgram>();
     // instantiate impleted renderers
     renderers["Shadowmapping"] = std::make_shared<ShadowMapRenderer>(window);
     renderers["Voxelizer"]     = std::make_shared<VoxelizerRenderer>(window);
@@ -103,6 +107,10 @@ AssetsManager::AssetsManager()
                                     "assets\\shaders\\depth_texture.frag");
     programs["InjectRadiance"]->AttachShader(oglplus::ShaderType::Compute,
             "assets\\shaders\\inject_radiance.comp");
+    programs["Blur"]->AttachShader(oglplus::ShaderType::Vertex,
+                                   "assets\\shaders\\blur.vert");
+    programs["Blur"]->AttachShader(oglplus::ShaderType::Fragment,
+                                   "assets\\shaders\\blur.frag");
 
     // link and extract uniforms from shaders
     for (auto &prog : programs)

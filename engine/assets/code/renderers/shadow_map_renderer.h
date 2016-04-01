@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../core/renderer.h"
+#include "../rendering/primitives/fullscreen_quad.h"
 
 #include "../../../scene/camera.h"
 
@@ -8,6 +9,7 @@
 #include <oglplus/framebuffer.hpp>
 #include <oglplus/renderbuffer.hpp>
 
+class BlurProgram;
 class DepthProgram;
 class Light;
 
@@ -20,20 +22,30 @@ class ShadowMapRenderer : public Renderer
         const glm::mat4x4 &LightSpaceMatrix();
         const Light * Caster() const;
         void BindReading(unsigned int unit) const;
+        void SetupFramebuffers(const unsigned &w, const unsigned &h);
+        void BlurScale(const float &val);
+        void BlurQuality(const int &val);
+        void Anisotropy(const int &val) const;
         const Camera &LightCamera() const;
         const oglplus::Texture &ShadowMap() const;
         explicit ShadowMapRenderer(RenderWindow &window);
         ~ShadowMapRenderer();
     private:
         static DepthProgram &DepthShader();
-        void CreateFramebuffer(const unsigned &w, const unsigned &h);
+        static BlurProgram &BlurShader();
+        void BlurShadowMap();
+        FullscreenQuad fsQuad;
         oglplus::Framebuffer shadowFramebuffer;
+        oglplus::Framebuffer blurFramebuffer;
         oglplus::Renderbuffer depthRender;
         oglplus::Texture shadowMap;
+        oglplus::Texture blurShadow;
 
         glm::uvec2 shadowMapSize;
         Camera lightView;
         const Light * shadowCaster;
         glm::mat4x4 lightSpaceMatrix;
+        float blurScale;
+        int blurQuality;
 };
 

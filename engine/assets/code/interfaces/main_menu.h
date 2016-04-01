@@ -14,6 +14,7 @@ class UIMainMenu : public Interface
         static bool drawSceneCameras;
         static bool drawSceneLights;
         static bool drawFramebuffers;
+        static bool drawShadowOptions;
         UIMainMenu();
         ~UIMainMenu() override;
 };

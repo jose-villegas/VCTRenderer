@@ -222,6 +222,8 @@
     <ClCompile Include="assets\code\interfaces\main_menu.cpp" />
     <ClCompile Include="assets\code\interfaces\scene_cameras.cpp" />
     <ClCompile Include="assets\code\interfaces\scene_lights.cpp" />
+    <ClCompile Include="assets\code\interfaces\shadowing_options.cpp" />
+    <ClCompile Include="assets\code\programs\blur_program.cpp" />
     <ClCompile Include="assets\code\programs\radiance_program.cpp" />
     <ClCompile Include="core\behavior.cpp" />
     <ClCompile Include="assets\code\interfaces\framerate.cpp" />
@@ -231,6 +233,7 @@
     <ClCompile Include="assets\code\programs\voxel_drawer_program.cpp" />
     <ClCompile Include="assets\code\renderers\shadow_map_renderer.cpp" />
     <ClCompile Include="assets\code\programs\depth_program.cpp" />
+    <ClCompile Include="rendering\primitives\fullscreen_quad.cpp" />
     <ClCompile Include="util\metrics_report.cpp" />
     <ClCompile Include="types\transform.cpp" />
     <ClCompile Include="types\scene_object.cpp" />
@@ -304,6 +307,8 @@
     <ClInclude Include="assets\code\interfaces\main_menu.h" />
     <ClInclude Include="assets\code\interfaces\scene_cameras.h" />
     <ClInclude Include="assets\code\interfaces\scene_lights.h" />
+    <ClInclude Include="assets\code\interfaces\shadowing_options.h" />
+    <ClInclude Include="assets\code\programs\blur_program.h" />
     <ClInclude Include="assets\code\programs\radiance_program.h" />
     <ClInclude Include="core\behavior.h" />
     <ClInclude Include="assets\code\interfaces\framebuffer_textures.h" />
@@ -312,6 +317,7 @@
     <ClInclude Include="assets\code\programs\voxel_drawer_program.h" />
     <ClInclude Include="assets\code\renderers\shadow_map_renderer.h" />
     <ClInclude Include="assets\code\programs\depth_program.h" />
+    <ClInclude Include="rendering\primitives\fullscreen_quad.h" />
     <ClInclude Include="util\metrics_report.h" />
     <ClInclude Include="types\transform.h" />
     <ClInclude Include="types\scene_object.h" />
