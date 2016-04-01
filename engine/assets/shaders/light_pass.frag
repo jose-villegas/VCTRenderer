@@ -44,28 +44,50 @@ uniform Light spotLight[MAX_SPOT_LIGHTS];
 
 uniform uint lightTypeCount[3];
 
+uniform vec2 exponents = vec2(40.0f, 20.0f);
+
+vec2 WarpDepth(float depth)
+{
+    depth = 2.0f * depth - 1.0f;
+    float pos = exp(exponents.x * depth);
+    float neg = -exp(-exponents.y * depth);
+    return vec2(pos, neg);
+}
+
+float Chebyshev(vec2 moments, float mean, float minVariance)
+{
+    if(mean <= moments.x)
+    {
+        return 1.0f;
+    }
+    else
+    {
+        float variance = moments.y - (moments.x * moments.x);
+        variance = max(variance, minVariance);
+        float d = mean - moments.x;
+        return variance / (variance + (d * d));
+    }
+}
+
 float Visibility(vec3 position)
 {
     vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
+    // avoid arithmetic error
+    if(lsPos.w == 0.0f) return 1.0f;
     // transform to ndc-space
     lsPos /= lsPos.w;
     // querry visibility
-    vec2 moments = texture(shadowMap, lsPos.xy).xy;
-
-    // Surface is fully lit. as the current fragment is before the light occluder
-    if (lsPos.z <= moments.x)
-        return 1.0;
-
-    // The fragment is either in shadow or penumbra. We now use chebyshev's upperBound to check
-    // How likely this pixel is to be lit (pMax)
-    float variance = moments.y - (moments.x * moments.x);
-    //variance = max(variance, 0.000002);
-    variance = max(variance, 0.00002);
-
-    float d = lsPos.z - moments.x;
-    float pMax = variance / (variance + d * d);
-
-    return pMax;
+    vec4 moments = texture(shadowMap, lsPos.xy).xyzw;
+    // move to avoid acne
+    vec2 wDepth = WarpDepth(lsPos.z - 0.0001f);
+    // derivative of warping at depth
+    vec2 depthScale = 0.0002f * exponents * wDepth;
+    vec2 minVariance = depthScale * depthScale;
+    // evsm mode 4 compares negative and positive
+    float positive = Chebyshev(moments.xz, wDepth.x, minVariance.x);
+    float negative = Chebyshev(moments.yw, wDepth.y, minVariance.y);
+    // shadowing value
+    return min(positive, negative);
 }
 
 vec3 Ambient(Light light, vec3 albedo)

@@ -48,7 +48,7 @@ void main()
     gAlbedo = diffuseColor.rgb * material.diffuse;
     // store specular intensity
     vec4 specularColor = texture(specularMap, texCoord.xy);
-    gSpecular = vec4(specularColor.rgb * material.specular, material.shininess);
+    gSpecular = vec4(specularColor.rgb * material.specular, material.shininess / 2000.0f);
     // store per fragment normal
     gNormal = material.useNormalsMap == 1 ? normalMapping() : normalize(normal);
 }

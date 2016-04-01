@@ -4,6 +4,70 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+enum class WindowHints
+{
+    Resizable = GLFW_RESIZABLE,
+    Visible = GLFW_VISIBLE,
+    Decorated = GLFW_DECORATED,
+    Focused = GLFW_FOCUSED,
+    AutoIconify = GLFW_AUTO_ICONIFY,
+    Floating = GLFW_FLOATING
+};
+enum class FramebufferHints
+{
+    RedBits = GLFW_RED_BITS,
+    GreenBits = GLFW_GREEN_BITS,
+    BlueBits = GLFW_BLUE_BITS,
+    AlphaBits = GLFW_ALPHA_BITS,
+    DepthBits = GLFW_DEPTH_BITS,
+    StencilBits = GLFW_STENCIL_BITS,
+    AccumRedBits = GLFW_ACCUM_RED_BITS,
+    AccumGreenBits = GLFW_ACCUM_GREEN_BITS,
+    AccumBlueBits = GLFW_ACCUM_BLUE_BITS,
+    AccumAlphaBits = GLFW_ACCUM_ALPHA_BITS,
+    AuxBuffers = GLFW_AUX_BUFFERS,
+    Samples = GLFW_SAMPLES,
+    RefreshRate = GLFW_REFRESH_RATE,
+    Stereo = GLFW_STEREO,
+    SRGBCapable = GLFW_SRGB_CAPABLE,
+    DoubleBuffer = GLFW_DOUBLEBUFFER
+};
+enum class ContextHints
+{
+    ClientAPI = GLFW_CLIENT_API,
+    ContextVersionMajor = GLFW_CONTEXT_VERSION_MAJOR,
+    ContextVersionMinor = GLFW_CONTEXT_VERSION_MINOR,
+    ContextRevision = GLFW_CONTEXT_REVISION,
+    ContextRobustness = GLFW_CONTEXT_ROBUSTNESS,
+    OpenGLForwardCompatibility = GLFW_OPENGL_FORWARD_COMPAT,
+    OpenGLDebugContext = GLFW_OPENGL_DEBUG_CONTEXT,
+    OpenGLProfile = GLFW_OPENGL_PROFILE,
+    ContextReleaseBehavior = GLFW_CONTEXT_RELEASE_BEHAVIOR
+};
+enum class Hint
+{
+    True = GL_TRUE,
+    False = GL_FALSE,
+    DontCare = GLFW_DONT_CARE,
+    OpenGLAPI = GLFW_OPENGL_API,
+    OpenGLESAPI = GLFW_OPENGL_ES_API,
+    NoRobustness = GLFW_NO_ROBUSTNESS,
+    NoResetNotification = GLFW_NO_RESET_NOTIFICATION,
+    LoseContextOnReset = GLFW_LOSE_CONTEXT_ON_RESET,
+    OpenGLAnyProfile = GLFW_OPENGL_ANY_PROFILE,
+    OpenGLCoreProfile = GLFW_OPENGL_CORE_PROFILE,
+    OpenGLCompatibilityProfile = GLFW_OPENGL_COMPAT_PROFILE,
+    AnyReleaseBehavior = GLFW_ANY_RELEASE_BEHAVIOR,
+    FlushReleaseBehavior = GLFW_RELEASE_BEHAVIOR_FLUSH,
+    NoneReleaseBehavior = GLFW_RELEASE_BEHAVIOR_NONE,
+};
+
+enum class EventMode
+{
+    Poll,
+    Wait
+};
+
 struct WindowInfo
 {
     unsigned int width;
@@ -25,70 +89,6 @@ struct WindowInfo
 class RenderWindow
 {
     public:
-        enum class WindowHints
-        {
-            Resizable = GLFW_RESIZABLE,
-            Visible = GLFW_VISIBLE,
-            Decorated = GLFW_DECORATED,
-            Focused = GLFW_FOCUSED,
-            AutoIconify = GLFW_AUTO_ICONIFY,
-            Floating = GLFW_FLOATING
-        };
-        enum class FramebufferHints
-        {
-            RedBits = GLFW_RED_BITS,
-            GreenBits = GLFW_GREEN_BITS,
-            BlueBits = GLFW_BLUE_BITS,
-            AlphaBits = GLFW_ALPHA_BITS,
-            DepthBits = GLFW_DEPTH_BITS,
-            StencilBits = GLFW_STENCIL_BITS,
-            AccumRedBits = GLFW_ACCUM_RED_BITS,
-            AccumGreenBits = GLFW_ACCUM_GREEN_BITS,
-            AccumBlueBits = GLFW_ACCUM_BLUE_BITS,
-            AccumAlphaBits = GLFW_ACCUM_ALPHA_BITS,
-            AuxBuffers = GLFW_AUX_BUFFERS,
-            Samples = GLFW_SAMPLES,
-            RefreshRate = GLFW_REFRESH_RATE,
-            Stereo = GLFW_STEREO,
-            SRGBCapable = GLFW_SRGB_CAPABLE,
-            DoubleBuffer = GLFW_DOUBLEBUFFER
-        };
-        enum class ContextHints
-        {
-            ClientAPI = GLFW_CLIENT_API,
-            ContextVersionMajor = GLFW_CONTEXT_VERSION_MAJOR,
-            ContextVersionMinor = GLFW_CONTEXT_VERSION_MINOR,
-            ContextRevision = GLFW_CONTEXT_REVISION,
-            ContextRobustness = GLFW_CONTEXT_ROBUSTNESS,
-            OpenGLForwardCompatibility = GLFW_OPENGL_FORWARD_COMPAT,
-            OpenGLDebugContext = GLFW_OPENGL_DEBUG_CONTEXT,
-            OpenGLProfile = GLFW_OPENGL_PROFILE,
-            ContextReleaseBehavior = GLFW_CONTEXT_RELEASE_BEHAVIOR
-        };
-        enum class Hint
-        {
-            True = GL_TRUE,
-            False = GL_FALSE,
-            DontCare = GLFW_DONT_CARE,
-            OpenGLAPI = GLFW_OPENGL_API,
-            OpenGLESAPI = GLFW_OPENGL_ES_API,
-            NoRobustness = GLFW_NO_ROBUSTNESS,
-            NoResetNotification = GLFW_NO_RESET_NOTIFICATION,
-            LoseContextOnReset = GLFW_LOSE_CONTEXT_ON_RESET,
-            OpenGLAnyProfile = GLFW_OPENGL_ANY_PROFILE,
-            OpenGLCoreProfile = GLFW_OPENGL_CORE_PROFILE,
-            OpenGLCompatibilityProfile = GLFW_OPENGL_COMPAT_PROFILE,
-            AnyReleaseBehavior = GLFW_ANY_RELEASE_BEHAVIOR,
-            FlushReleaseBehavior = GLFW_RELEASE_BEHAVIOR_FLUSH,
-            NoneReleaseBehavior = GLFW_RELEASE_BEHAVIOR_NONE,
-        };
-
-        enum class EventMode
-        {
-            Poll,
-            Wait
-        };
-
         static void WindowHint(const WindowHints &target, const int value);
         static void WindowHint(const FramebufferHints &target, const int value);
         static void WindowHint(const ContextHints &target, const int value);

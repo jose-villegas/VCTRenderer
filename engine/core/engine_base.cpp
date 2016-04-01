@@ -93,7 +93,10 @@ RenderWindow &EngineBase::Window() const
 void EngineBase::Initialize()
 {
     // open window and set rendering context
-    renderWindow->WindowHint(RenderWindow::WindowHints::Resizable, false);
+    renderWindow->WindowHint(WindowHints::Resizable, false);
+    renderWindow->WindowHint(ContextHints::ContextVersionMajor, 4);
+    renderWindow->WindowHint(ContextHints::ContextVersionMinor, 5);
+    renderWindow->WindowHint(ContextHints::OpenGLProfile, Hint::OpenGLCoreProfile);
     renderWindow->Open(WindowInfo(1280, 720, 0, 0, "VCTRenderer"), false);
     renderWindow->SetAsCurrentContext();
     // initialize OpenGL API

@@ -42,6 +42,7 @@ void ShadowMapRenderer::Render()
     // rendering flags
     gl.Disable(Capability::Blend);
     gl.Enable(Capability::DepthTest);
+    gl.Disable(Capability::CullFace);
     // scene spatial cues
     auto sceneBB = scene->rootNode->boundaries;
     auto &center = sceneBB.Center();
@@ -59,6 +60,8 @@ void ShadowMapRenderer::Render()
     // recover original render camera
     camera->SetAsActive();
     DefaultFramebuffer().Bind(FramebufferTarget::Draw);
+    // generate mipmaps for filtered values in shadow map
+    shadowMap.GenerateMipmap(TextureTarget::_2D);
 }
 
 void ShadowMapRenderer::Caster(const Light * caster)
@@ -122,19 +125,20 @@ void ShadowMapRenderer::CreateFramebuffer(const unsigned &w,
     static Context gl;
     // save size
     shadowMapSize = glm::uvec2(w, h);
+    // setup framebuffer
+    shadowFramebuffer.Bind(FramebufferTarget::Draw);
     // create render buffer for depth testing
     depthRender.Bind(RenderbufferTarget::Renderbuffer);
     depthRender.Storage(RenderbufferTarget::Renderbuffer,
                         PixelDataInternalFormat::DepthComponent24, w, h);
-    // setup framebuffer
-    shadowFramebuffer.Bind(FramebufferTarget::Draw);
+    // create variance shadow mapping texture, z and z * z
     gl.Bound(TextureTarget::_2D, shadowMap)
-    .Image2D(0, PixelDataInternalFormat::RG32F, w, h, 0,
+    .Image2D(0, PixelDataInternalFormat::RGBA32F, w, h, 0,
              PixelDataFormat::RG, PixelDataType::Float, nullptr)
-    .MinFilter(TextureMinFilter::Linear).MagFilter(TextureMagFilter::Linear);
-    shadowFramebuffer.AttachTexture(FramebufferTarget::Draw,
-                                    FramebufferColorAttachment::_0,
-                                    shadowMap, 0);
+    .MinFilter(TextureMinFilter::LinearMipmapLinear)
+    .MagFilter(TextureMagFilter::Linear)
+    .GenerateMipmap();
+    shadowFramebuffer.AttachColorTexture(FramebufferTarget::Draw, 0, shadowMap, 0);
     shadowFramebuffer.AttachRenderbuffer(FramebufferTarget::Draw,
                                          FramebufferAttachment::Depth,
                                          depthRender);

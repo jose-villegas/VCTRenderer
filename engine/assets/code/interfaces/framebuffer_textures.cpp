@@ -61,7 +61,7 @@ void UIFramebuffers::Draw()
     EndGroup();
     BeginGroup();
     Text("Shadow Mapping");
-    DrawBufferTexture(shadow, "Depth");
+    DrawBufferTexture(shadow, "EVSM4");
     EndGroup();
     End();
 }
