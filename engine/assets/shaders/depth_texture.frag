@@ -18,8 +18,14 @@ vec2 WarpDepth(float depth)
 
 vec4 ShadowDepthToEVSM(float depth)
 {
-	vec2 warpedDepth = WarpDepth(depth);
-	return vec4(warpedDepth.xy, warpedDepth.xy * warpedDepth.xy);
+	vec2 moment1 = WarpDepth(depth);
+	vec2 moment2 = moment1 * moment1;
+	// adjust moments using partial derivative
+	vec2 dx = dFdx(moment1);
+	vec2 dy = dFdy(moment1);
+	moment2 += 0.25f * (dx * dx + dy * dy);
+
+	return vec4(moment1, moment2);
 }
 
 void main()

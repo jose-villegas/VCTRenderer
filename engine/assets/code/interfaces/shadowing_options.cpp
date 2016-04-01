@@ -7,6 +7,7 @@
 #include "../renderers/shadow_map_renderer.h"
 
 #include <string>
+#include <glm/gtc/type_ptr.hpp>
 
 
 using namespace ImGui;
@@ -22,7 +23,7 @@ void UIShadowingOptions::Draw()
     if (Begin("Shadows", &UIMainMenu::drawShadowOptions,
               ImGuiWindowFlags_AlwaysAutoResize))
     {
-        static auto selectedH = 6, selectedW = 6;
+        static auto selectedH = 5, selectedW = 5;
         static std::vector<int> sizes =
         {
             32, 64, 128, 256, 512,
@@ -50,7 +51,7 @@ void UIShadowingOptions::Draw()
         EndGroup();
         // shadow map blurring / filtering
         BeginGroup();
-        static auto blurScale = 2.0f;
+        static auto blurScale = 0.5f;
         static auto blurQuality = 1;
         static auto aniso = 8;
 
@@ -67,6 +68,24 @@ void UIShadowingOptions::Draw()
         if (SliderInt("Anisotropic Filtering", &aniso, 0, 16))
         {
             shadowRender.Anisotropy(aniso);
+        }
+
+        EndGroup();
+        // vsm and evsm setup
+        BeginGroup();
+        static auto exponents = glm::vec2(0);
+        static auto tolerance = 0.0f;
+        exponents = shadowRender.Exponents();
+        tolerance = shadowRender.LightBleedingTolerance();
+
+        if(SliderFloat("Light Bleeding Tolerance", &tolerance, 0.0f, 1.0f))
+        {
+            shadowRender.LightBleedingTolerance(tolerance);
+        }
+
+        if(DragFloat2("Exponents", value_ptr(exponents)))
+        {
+            shadowRender.Exponents(exponents);
         }
 
         EndGroup();

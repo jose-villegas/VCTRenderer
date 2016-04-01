@@ -51,6 +51,9 @@ class LightingProgram : public ProgramShader
         std::vector<UniformLight> spotLight;
         std::array<oglplus::Uniform<unsigned int>, 3> lightTypeCount;
 
+        oglplus::Uniform<glm::vec2> exponents;
+        oglplus::Uniform<float> lightBleedingTolerance;
+
         void ExtractUniforms() override;
 
         LightingProgram() = default;

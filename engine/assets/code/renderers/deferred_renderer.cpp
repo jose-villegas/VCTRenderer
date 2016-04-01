@@ -186,6 +186,8 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
     shadowing.BindReading(6);
     prog.shadowMap.Set(6);
+    prog.exponents.Set(shadowing.Exponents());
+    prog.lightBleedingTolerance.Set(shadowing.LightBleedingTolerance());
 }
 
 GeometryProgram &DeferredRenderer::GeometryPass()

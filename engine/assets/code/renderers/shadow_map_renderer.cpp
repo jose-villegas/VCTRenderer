@@ -39,7 +39,8 @@ void ShadowMapRenderer::Render()
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Clear().DepthBuffer().ColorBuffer();
     // activate geometry pass shader program
-    CurrentProgram<DepthProgram>(DepthShader());
+    auto &prog = DepthShader();
+    CurrentProgram<DepthProgram>(prog);
     // rendering flags
     gl.Disable(Capability::Blend);
     gl.Enable(Capability::DepthTest);
@@ -56,6 +57,7 @@ void ShadowMapRenderer::Render()
     lightView.Projection(Camera::ProjectionMode::Orthographic);
     lightView.transform.Position(center - direction * radius);
     lightView.transform.Forward(direction);
+    prog.exponents.Set(exponents);
     // draw whole scene tree from root node
     scene->rootNode->DrawList();
     // recover original render camera
@@ -103,13 +105,35 @@ const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     shadowCaster(nullptr)
 {
-    SetupFramebuffers(2048, 2048);
-    blurScale = 2.0f;
+    SetupFramebuffers(1024, 1024);
+    blurScale = 0.5f;
     blurQuality = 1;
+    exponents = glm::vec2(40, 20);
+    lightBleedingTolerance = 0.7f;
 }
 
 ShadowMapRenderer::~ShadowMapRenderer()
 {
+}
+
+const glm::vec2 &ShadowMapRenderer::Exponents() const
+{
+    return exponents;
+}
+
+void ShadowMapRenderer::Exponents(const glm::vec2 &val)
+{
+    exponents = val;
+}
+
+const float &ShadowMapRenderer::LightBleedingTolerance() const
+{
+    return lightBleedingTolerance;
+}
+
+void ShadowMapRenderer::LightBleedingTolerance(const float &val)
+{
+    lightBleedingTolerance = val;
 }
 
 DepthProgram &ShadowMapRenderer::DepthShader()

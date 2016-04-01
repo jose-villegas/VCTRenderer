@@ -23,9 +23,15 @@ class ShadowMapRenderer : public Renderer
         const Light * Caster() const;
         void BindReading(unsigned int unit) const;
         void SetupFramebuffers(const unsigned &w, const unsigned &h);
+
         void BlurScale(const float &val);
         void BlurQuality(const int &val);
         void Anisotropy(const int &val) const;
+        const float &LightBleedingTolerance() const;
+        void LightBleedingTolerance(const float &val);
+        const glm::vec2 &Exponents() const;
+        void Exponents(const glm::vec2 &val);
+
         const Camera &LightCamera() const;
         const oglplus::Texture &ShadowMap() const;
         explicit ShadowMapRenderer(RenderWindow &window);
@@ -42,6 +48,8 @@ class ShadowMapRenderer : public Renderer
         oglplus::Texture blurShadow;
 
         glm::uvec2 shadowMapSize;
+        glm::vec2 exponents;
+        float lightBleedingTolerance;
         Camera lightView;
         const Light * shadowCaster;
         glm::mat4x4 lightSpaceMatrix;

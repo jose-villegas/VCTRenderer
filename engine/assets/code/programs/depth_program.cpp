@@ -7,6 +7,8 @@ void DepthProgram::ExtractUniforms()
 {
     matrices.modelViewProjection.Assign(program);
     matrices.modelViewProjection.BindTo("matrices.modelViewProjection");
+    exponents.Assign(program);
+    exponents.BindTo("exponents");
 }
 
 DepthProgram::DepthProgram()
