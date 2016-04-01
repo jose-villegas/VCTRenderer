@@ -88,7 +88,7 @@ void main()
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
     albedo.rgb *= material.diffuse;
 
-    if(albedo.a <= 0.1f) discard;
+    if(albedo.a <= 0.5f) discard;
 
 	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(texcoord.xyz), albedo);
 }
