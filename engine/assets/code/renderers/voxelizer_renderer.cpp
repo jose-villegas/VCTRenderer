@@ -156,14 +156,14 @@ void VoxelizerRenderer::DrawVoxels()
     auto sceneBox = scene->rootNode->boundaries;
     auto voxelSize = volumeGridSize / volumeDimension;
     // voxel grid projection matrices
+    auto model = translate(sceneBox.Center()) * scale(glm::vec3(voxelSize));
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
     // pass voxel drawer uniforms
     voxelTex.Active(0);
     voxelTex.Bind(oglplus::TextureTarget::_3D);
     prog.volumeDimension.Set(volumeDimension);
-    prog.voxelSize.Set(voxelSize);
-    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix);
+    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix * model);
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
     voxelDrawerArray.Bind();

@@ -109,7 +109,7 @@ ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     blurScale = 0.5f;
     blurQuality = 1;
     exponents = glm::vec2(4.0f, 5.0f);
-    lightBleedingTolerance = 0.0f;
+    lightBleedingReduction = 0.0f;
 }
 
 ShadowMapRenderer::~ShadowMapRenderer()
@@ -126,14 +126,14 @@ void ShadowMapRenderer::Exponents(const glm::vec2 &val)
     exponents = val;
 }
 
-const float &ShadowMapRenderer::LightBleedingTolerance() const
+const float &ShadowMapRenderer::LightBleedingReduction() const
 {
-    return lightBleedingTolerance;
+    return lightBleedingReduction;
 }
 
-void ShadowMapRenderer::LightBleedingTolerance(const float &val)
+void ShadowMapRenderer::LightBleedingReduction(const float &val)
 {
-    lightBleedingTolerance = val;
+    lightBleedingReduction = val;
 }
 
 DepthProgram &ShadowMapRenderer::DepthShader()

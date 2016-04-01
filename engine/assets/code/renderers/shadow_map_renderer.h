@@ -27,8 +27,8 @@ class ShadowMapRenderer : public Renderer
         void BlurScale(const float &val);
         void BlurQuality(const int &val);
         void Anisotropy(const int &val) const;
-        const float &LightBleedingTolerance() const;
-        void LightBleedingTolerance(const float &val);
+        const float &LightBleedingReduction() const;
+        void LightBleedingReduction(const float &val);
         const glm::vec2 &Exponents() const;
         void Exponents(const glm::vec2 &val);
 
@@ -49,7 +49,7 @@ class ShadowMapRenderer : public Renderer
 
         glm::uvec2 shadowMapSize;
         glm::vec2 exponents;
-        float lightBleedingTolerance;
+        float lightBleedingReduction;
         Camera lightView;
         const Light * shadowCaster;
         glm::mat4x4 lightSpaceMatrix;

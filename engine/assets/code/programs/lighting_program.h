@@ -52,7 +52,7 @@ class LightingProgram : public ProgramShader
         std::array<oglplus::Uniform<unsigned int>, 3> lightTypeCount;
 
         oglplus::Uniform<glm::vec2> exponents;
-        oglplus::Uniform<float> lightBleedingTolerance;
+        oglplus::Uniform<float> lightBleedingReduction;
 
         void ExtractUniforms() override;
 

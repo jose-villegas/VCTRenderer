@@ -10,28 +10,23 @@ uniform struct Matrices
     mat4 modelViewProjection;
 } matrices;
 
-layout(binding = 0, rgba8) uniform sampler3D voxelRadiance;
-uniform float voxelSize;
 uniform uint volumeDimension;
 
-in vec3 texCoord[];
-
+in vec4 albedo[];
 out vec4 voxelColor;
 
 void main()
 {
-	float halfSize = voxelSize / 2.0f;
-
 	const vec4 cubeVertices[8] = vec4[8] 
 	(
-		vec4( 1.0,  1.0,  1.0, 1.0),
-		vec4( 1.0,  1.0, -1.0, 1.0),
-		vec4( 1.0, -1.0,  1.0, 1.0),
-		vec4( 1.0, -1.0, -1.0, 1.0),
-		vec4(-1.0,  1.0,  1.0, 1.0),
-		vec4(-1.0,  1.0, -1.0, 1.0),
-		vec4(-1.0, -1.0,  1.0, 1.0),
-		vec4(-1.0, -1.0, -1.0, 1.0)
+		vec4( 0.5f,  0.5f,  0.5f, 0.0f),
+		vec4( 0.5f,  0.5f, -0.5f, 0.0f),
+		vec4( 0.5f, -0.5f,  0.5f, 0.0f),
+		vec4( 0.5f, -0.5f, -0.5f, 0.0f),
+		vec4(-0.5f,  0.5f,  0.5f, 0.0f),
+		vec4(-0.5f,  0.5f, -0.5f, 0.0f),
+		vec4(-0.5f, -0.5f,  0.5f, 0.0f),
+		vec4(-0.5f, -0.5f, -0.5f, 0.0f)
 	);
 
 	const int cubeIndices[24]  = int[24] 
@@ -47,25 +42,24 @@ void main()
 	vec4 projectedVertices[8];
 	vec3 tolerance = vec3(0.001f);
 
+	// voxel is almost 0,0,0
+	if(all(lessThan(albedo[0].rgb, tolerance)))
+	{
+		return;
+	}
+
 	for(int i = 0; i < 8; ++i)
 	{
-		vec4 vertex = gl_in[0].gl_Position + (halfSize * cubeVertices[i]);
+		vec4 vertex = gl_in[0].gl_Position + cubeVertices[i];
 		projectedVertices[i] = matrices.modelViewProjection * vertex;
 	}
 
 	for(int face = 0; face < 6; ++face)
 	{
-		vec4 albedo = texture(voxelRadiance, texCoord[0].xyz);
-	
-		if(all(lessThan(albedo.rgb, tolerance)))
-		{
-			continue;
-		}
-
 		for(int vertex = 0; vertex < 4; ++vertex)
 		{
 			gl_Position = projectedVertices[cubeIndices[face * 4 + vertex]];
-			voxelColor = albedo;
+			voxelColor = albedo[0];
 			EmitVertex();
 		}
 

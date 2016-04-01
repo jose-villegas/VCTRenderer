@@ -45,7 +45,7 @@ uniform Light spotLight[MAX_SPOT_LIGHTS];
 uniform uint lightTypeCount[3];
 
 uniform vec2 exponents;
-uniform float lightBleedingTolerance;
+uniform float lightBleedingReduction;
 
 float linstep(float low, float high, float value)
 {
@@ -77,7 +77,7 @@ float Chebyshev(vec2 moments, float mean, float minVariance)
         variance = max(variance, minVariance);
         float d = mean - moments.x;
         float lit = variance / (variance + (d * d));
-        return ReduceLightBleeding(lit, lightBleedingTolerance);
+        return ReduceLightBleeding(lit, lightBleedingReduction);
     }
 }
 

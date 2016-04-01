@@ -74,13 +74,13 @@ void UIShadowingOptions::Draw()
         // vsm and evsm setup
         BeginGroup();
         static auto exponents = glm::vec2(0);
-        static auto tolerance = 0.0f;
+        static auto reduction = 0.0f;
         exponents = shadowRender.Exponents();
-        tolerance = shadowRender.LightBleedingTolerance();
+        reduction = shadowRender.LightBleedingReduction();
 
-        if(SliderFloat("Light Bleeding Tolerance", &tolerance, 0.0f, 1.0f))
+        if(SliderFloat("Light Bleeding Reduction", &reduction, 0.0f, 1.0f))
         {
-            shadowRender.LightBleedingTolerance(tolerance);
+            shadowRender.LightBleedingReduction(reduction);
         }
 
         if(DragFloat2("Exponents", value_ptr(exponents)))

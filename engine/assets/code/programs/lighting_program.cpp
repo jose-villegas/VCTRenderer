@@ -19,7 +19,7 @@ void LightingProgram::ExtractUniforms()
     lightTypeCount[1].Assign(program);
     lightTypeCount[2].Assign(program);
     exponents.Assign(program);
-    lightBleedingTolerance.Assign(program);
+    lightBleedingReduction.Assign(program);
     // bind to uniform name
     inverseProjectionView.BindTo("inverseProjectionView");
     lightViewProjection.BindTo("lightViewProjection");
@@ -32,7 +32,7 @@ void LightingProgram::ExtractUniforms()
     lightTypeCount[1].BindTo("lightTypeCount[1]");
     lightTypeCount[2].BindTo("lightTypeCount[2]");
     exponents.BindTo("exponents");
-    lightBleedingTolerance.BindTo("lightBleedingTolerance");
+    lightBleedingReduction.BindTo("lightBleedingReduction");
     // collections
     directionalLight.resize(Light::DirectionalsLimit);
     pointLight.resize(Light::PointsLimit);
