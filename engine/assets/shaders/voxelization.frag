@@ -12,7 +12,8 @@ in GeometryOut
 layout (location = 0) out vec4 fragColor;
 layout (pixel_center_integer) in vec4 gl_FragCoord;
 
-layout(r32ui) uniform uimage3D voxelAlbedo;
+layout(binding = 0, r32ui) uniform uimage3D voxelAlbedo;
+layout(binding = 1, r32ui) uniform uimage3D voxelNormal;
 
 uniform struct Material
 {
@@ -92,9 +93,14 @@ void main()
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
     albedo.rgb *= material.diffuse;
 
+    // bring normal to 0 -> 1 range
+    vec4 normal = vec4(In.normal * 0.5f + 0.5f, 0.0f);
+
     // alpha cutoff
     if(albedo.a <= 0.5f) discard;
 
-    // atomic average per fragments sorrounding the voxel volume
+    // average albedo per fragments sorrounding the voxel volume
 	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(voxelPos), albedo);
+    // average normal per fragments sorrounding the voxel volume
+    imageAtomicRGBA8Avg(voxelNormal, ivec3(voxelPos), normal);
 }

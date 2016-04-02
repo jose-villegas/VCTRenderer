@@ -10,6 +10,7 @@ bool UIMainMenu::drawSceneCameras = false;
 bool UIMainMenu::drawSceneLights = false;
 bool UIMainMenu::drawFramebuffers = false;
 bool UIMainMenu::drawShadowOptions = false;
+bool UIMainMenu::drawVoxelizationOptions = false;
 
 using namespace ImGui;
 
@@ -36,6 +37,7 @@ void UIMainMenu::Draw()
         if (BeginMenu("Options"))
         {
             MenuItem("Shadows", nullptr, &drawShadowOptions);
+            MenuItem("Voxelization", nullptr, &drawVoxelizationOptions);
             EndMenu();
         }
 

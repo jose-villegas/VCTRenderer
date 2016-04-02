@@ -223,6 +223,7 @@
     <ClCompile Include="assets\code\interfaces\scene_cameras.cpp" />
     <ClCompile Include="assets\code\interfaces\scene_lights.cpp" />
     <ClCompile Include="assets\code\interfaces\shadowing_options.cpp" />
+    <ClCompile Include="assets\code\interfaces\voxelization_options.cpp" />
     <ClCompile Include="assets\code\programs\blur_program.cpp" />
     <ClCompile Include="assets\code\programs\radiance_program.cpp" />
     <ClCompile Include="core\behavior.cpp" />
@@ -308,6 +309,7 @@
     <ClInclude Include="assets\code\interfaces\scene_cameras.h" />
     <ClInclude Include="assets\code\interfaces\scene_lights.h" />
     <ClInclude Include="assets\code\interfaces\shadowing_options.h" />
+    <ClInclude Include="assets\code\interfaces\voxelization_options.h" />
     <ClInclude Include="assets\code\programs\blur_program.h" />
     <ClInclude Include="assets\code\programs\radiance_program.h" />
     <ClInclude Include="core\behavior.h" />

@@ -117,9 +117,12 @@ void VoxelizerRenderer::VoxelizeScene()
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
     prog.volumeDimension.Set(volumeDimension);
     // bind the volume texture to be writen in shaders
-    voxelTex.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                        oglplus::ImageUnitFormat::R32UI);
+    voxelTex.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+                          oglplus::ImageUnitFormat::R32UI);
+    voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // draw scene triangles
     scene->rootNode->DrawList();
     // sync barrier
@@ -163,7 +166,8 @@ void VoxelizerRenderer::InjectRadiance()
     auto workGroups = glm::ceil(volumeDimension / 4.0f);
     // inject radiance at level 0 of texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
-    // advantage of using 3d texture is easy mip-mapping
+    // mipmap radiance resulting volume
+    voxelTex.Bind(oglplus::TextureTarget::_3D);
     voxelTex.GenerateMipmap(oglplus::TextureTarget::_3D);
     gl.MemoryBarrier(shImage | texFetch);
 }
@@ -228,29 +232,54 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     }
 }
 
-void VoxelizerRenderer::CreateVolume(oglplus::Texture &texture) const
-{
-    using namespace oglplus;
-    static float zero[] = {0, 0, 0, 0};
-    auto maxLevel = static_cast<unsigned int>(log2(volumeDimension));
-    texture.Bind(TextureTarget::_3D);
-    texture.MinFilter(TextureTarget::_3D, TextureMinFilter::LinearMipmapLinear);
-    texture.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
-    texture.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    texture.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    texture.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    texture.Storage3D(TextureTarget::_3D, maxLevel, PixelDataInternalFormat::RGBA8,
-                      volumeDimension, volumeDimension, volumeDimension);
-    texture.ClearImage(0, PixelDataFormat::RGBA, zero);
-    texture.GenerateMipmap(TextureTarget::_3D);
-}
-
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
     framestep = 5; // only on scene change
-    volumeDimension = 256;
+    SetupVoxelVolumes(256);
+}
+
+void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
+{
+    using namespace oglplus;
+    static Context gl;
+    static float zero[] = { 0, 0, 0, 0 };
+    volumeDimension = dimension;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
-    CreateVolume(voxelTex);
+    auto maxLevel = static_cast<unsigned int>(log2(volumeDimension));
+    // generate albedo volume
+    voxelTex.Bind(TextureTarget::_3D);
+    voxelTex.MinFilter(TextureTarget::_3D, TextureMinFilter::LinearMipmapLinear);
+    voxelTex.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
+    voxelTex.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelTex.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelTex.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelTex.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
+                     dimension, dimension, dimension, 0, PixelDataFormat::RGBA,
+                     PixelDataType::UnsignedByte, nullptr);
+    voxelTex.ClearImage(0, PixelDataFormat::RGBA, zero);
+    voxelTex.GenerateMipmap(TextureTarget::_3D);
+    // generate normal volume for radiance
+    voxelNormal.Bind(TextureTarget::_3D);
+    voxelNormal.MinFilter(TextureTarget::_3D, TextureMinFilter::Nearest);
+    voxelNormal.MagFilter(TextureTarget::_3D, TextureMagFilter::Nearest);
+    voxelNormal.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelNormal.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelNormal.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelNormal.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
+                        dimension, dimension, dimension, 0, PixelDataFormat::RGBA,
+                        PixelDataType::UnsignedByte, nullptr);;
+    voxelNormal.ClearImage(0, PixelDataFormat::RGBA, zero);
+}
+
+void VoxelizerRenderer::RevoxelizeScene()
+{
+    static auto &scene = Scene::Active();
+
+    if (!scene || !scene->IsLoaded()) { return; }
+
+    UpdateProjectionMatrices(scene->rootNode->boundaries);
+    // update voxelization
+    VoxelizeScene();
 }
 
 VoxelizerRenderer::~VoxelizerRenderer()

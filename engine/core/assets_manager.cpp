@@ -22,6 +22,7 @@
 #include "../assets/code/interfaces/scene_lights.h"
 #include "../assets/code/interfaces/framebuffer_textures.h"
 #include "../assets/code/interfaces/shadowing_options.h"
+#include "../assets/code/interfaces/voxelization_options.h"
 // include behaviors
 // include renderers
 #include "../assets/code/renderers/voxelizer_renderer.h"
@@ -65,6 +66,7 @@ AssetsManager::AssetsManager()
     interfaces["Lights"] = std::make_shared<UISceneLights>();
     interfaces["Framebuffers"] = std::make_shared<UIFramebuffers>();
     interfaces["Shadowing"] = std::make_shared<UIShadowingOptions>();
+    interfaces["Voxelization"] = std::make_shared<UIVoxelizationOptions>();
     // instantiate implemented behaviors
     {
     };

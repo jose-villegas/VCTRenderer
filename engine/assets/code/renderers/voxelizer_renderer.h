@@ -41,6 +41,8 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         /// <param name="window">The window.</param>
         explicit VoxelizerRenderer(RenderWindow &window);
+        void SetupVoxelVolumes(const unsigned int &dimension);
+        void RevoxelizeScene();
         /// <summary>
         /// Finalizes an instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
@@ -63,11 +65,6 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         void UpdateProjectionMatrices(const BoundingBox &sceneBox);
         /// <summary>
-        /// Creates the voxel volumes which store a simplified representacion
-        /// of the scene color components into a volume.
-        /// </summary>
-        void CreateVolume(oglplus::Texture &texture) const;
-        /// <summary>
         /// Voxelizes the scene.
         /// </summary>
         void VoxelizeScene();
@@ -78,6 +75,7 @@ class VoxelizerRenderer : public Renderer
         void DrawVoxels();
         // output textures
         oglplus::Texture voxelTex;
+        oglplus::Texture voxelNormal;
 
         // vertex buffer object for 3d texture visualization
         oglplus::VertexArray voxelDrawerArray;
