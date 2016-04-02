@@ -96,6 +96,7 @@ void main()
     }
 
 	vec2 halfPixel = vec2(1.0f / volumeDimension) * 0.5;
+	vec2 halfPixel2 = vec2(1.5f / volumeDimension) * 0.5;
 	vec4 trianglePlane;
 	trianglePlane.xyz = cross(pos[1].xyz - pos[0].xyz, pos[2].xyz - pos[0].xyz);
 	trianglePlane.xyz = normalize(trianglePlane.xyz);
@@ -103,7 +104,7 @@ void main()
 
 	if(trianglePlane.z == 0.0f) return;
 	// expanded aabb for triangle
-	Out.triangleAABB = AxisAlignedBoundingBox(pos, halfPixel);
+	Out.triangleAABB = AxisAlignedBoundingBox(pos, halfPixel2);
 	// calculate the plane through each edge of the triangle
 	vec3 planes[3];
 	planes[0] = cross(pos[0].xyw - pos[2].xyw, pos[2].xyw);

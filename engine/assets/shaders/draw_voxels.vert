@@ -2,8 +2,7 @@
 
 out vec4 albedo;
 
-layout(location = 0) in vec3 vertexTexCoord;
-layout(binding = 0, rgba8) uniform sampler3D voxelRadiance;
+layout(binding = 0, rgba8) uniform readonly image3D voxelRadiance;
 
 uniform uint volumeDimension;
 
@@ -18,13 +17,6 @@ void main()
 		gl_VertexID / (volumeDimension * volumeDimension)
 	);
 
-	vec3 texCoord = vec3
-	(
-		position.x / volumeDimensionF + 1.0f / (2.0f * volumeDimensionF),
-		position.y / volumeDimensionF + 1.0f / (2.0f * volumeDimensionF),
-		position.z / volumeDimensionF + 1.0f / (2.0f * volumeDimensionF)
-	);
-
-	albedo = texture(voxelRadiance, texCoord.xyz);
-	gl_Position = vec4(position - volumeDimensionF * 0.5f, 1.0f);
+	albedo = imageLoad(voxelRadiance, ivec3(position));
+	gl_Position = vec4(position - volumeDimension * 0.5f, 1.0f);
 }

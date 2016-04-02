@@ -116,7 +116,6 @@ void VoxelizerRenderer::VoxelizeScene()
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
     prog.volumeDimension.Set(volumeDimension);
-    prog.worldVoxelSize.Set(1.0f / volumeGridSize);
     // bind the volume texture to be writen in shaders
     voxelTex.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
@@ -198,8 +197,8 @@ void VoxelizerRenderer::DrawVoxels()
     auto &viewMatrix = camera->ViewMatrix();
     auto &projectionMatrix = camera->ProjectionMatrix();
     // pass voxel drawer uniforms
-    voxelTex.Active(0);
-    voxelTex.Bind(oglplus::TextureTarget::_3D);
+    voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                       oglplus::ImageUnitFormat::RGBA8);;
     prog.volumeDimension.Set(volumeDimension);
     prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix * model);
     // bind vertex buffer array to draw, needed but all geometry is generated
@@ -249,7 +248,7 @@ void VoxelizerRenderer::CreateVolume(oglplus::Texture &texture) const
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
     framestep = 5; // only on scene change
-    volumeDimension = 128;
+    volumeDimension = 256;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
     CreateVolume(voxelTex);
 }

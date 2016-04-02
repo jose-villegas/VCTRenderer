@@ -22,7 +22,6 @@ uniform struct Material
 
 uniform sampler2D diffuseMap;
 uniform uint volumeDimension;
-uniform float worldVoxelSize;
 
 vec4 convRGBA8ToVec4(uint val)
 {
@@ -96,9 +95,6 @@ void main()
 
     // alpha cutoff
     if(albedo.a <= 0.5f) discard;
-
-    // compute texture space position
-    ivec3 voxelPosition = ivec3(In.wsPosition * worldVoxelSize * volumeDimension);
 
     // atomic average per fragments sorrounding the voxel volume
 	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(voxelPos), albedo);

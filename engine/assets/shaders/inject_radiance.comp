@@ -123,7 +123,7 @@ void main()
 	vec4 wsPosition = vec4(writePos - volumeDimension * 0.5f, 1.0f);
 	wsPosition = matrices.model * wsPosition;
 
-	albedo *= max(Visibility(wsPosition.xyz), 1.0f);
+	albedo *= Visibility(wsPosition.xyz);
 
 	imageStore(voxelRadiance, writePos, albedo);
 }
