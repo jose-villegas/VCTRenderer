@@ -60,14 +60,14 @@ class Light : public SceneObject, public InstancePool<Light>
         void Ambient(const glm::vec3 &val);
         void Diffuse(const glm::vec3 &val);
         void Specular(const glm::vec3 &val);
-        void Intensity(const glm::vec3 &val);
+        void Intensities(const glm::vec3 &val);
 
         float AngleInnerCone() const;
         float AngleOuterCone() const;
         const glm::vec3 &Ambient() const;
         const glm::vec3 &Diffuse() const;
         const glm::vec3 &Specular() const;
-        const glm::vec3 &Intensity() const;
+        const glm::vec3 &Intensities() const;
 
         const glm::vec3 &Direction() const;
         const glm::vec3 &Position() const;

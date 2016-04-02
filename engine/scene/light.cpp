@@ -60,7 +60,7 @@ const glm::vec3 &Light::Specular() const
     return specular;
 }
 
-const glm::vec3 &Light::Intensity() const
+const glm::vec3 &Light::Intensities() const
 {
     return intensity;
 }
@@ -80,7 +80,7 @@ void Light::Specular(const glm::vec3 &val)
     specular = max(val, glm::vec3(0.0f));
 }
 
-void Light::Intensity(const glm::vec3 &val)
+void Light::Intensities(const glm::vec3 &val)
 {
     intensity = max(val, glm::vec3(0.0f));
 }

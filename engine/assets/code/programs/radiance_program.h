@@ -11,10 +11,17 @@ class InjectRadianceProgram : public ProgramShader
         {
             oglplus::Uniform<glm::mat4> model;
         };
+
+        struct UniformLight
+        {
+            oglplus::Uniform<glm::vec3> diffuse;
+            oglplus::Uniform<glm::vec3> direction;
+        };
     public:
         oglplus::Uniform<glm::mat4x4> lightViewProjection;
         oglplus::UniformSampler shadowMap;
         UniformMatrices matrices;
+        UniformLight directionalLight;
         oglplus::Uniform<glm::vec2> exponents;
         oglplus::Uniform<float> lightBleedingReduction;
         void ExtractUniforms() override;

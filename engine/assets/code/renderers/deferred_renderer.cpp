@@ -135,7 +135,7 @@ void DeferredRenderer::SetLightPassUniforms() const
     {
         auto &light = directionals[i];
         auto &uLight = uDirectionals[i];
-        auto &intensity = light->Intensity();
+        auto &intensity = light->Intensities();
         // update view space direction-position
         uLight.direction.Set(light->Direction());
         uLight.ambient.Set(light->Ambient() * intensity.x);
@@ -147,7 +147,7 @@ void DeferredRenderer::SetLightPassUniforms() const
     {
         auto &light = points[i];
         auto &uLight = uPoints[i];
-        auto &intensity = light->Intensity();
+        auto &intensity = light->Intensities();
         // update view space direction-position
         uLight.position.Set(light->Position());
         uLight.ambient.Set(light->Ambient() * intensity.x);
@@ -162,7 +162,7 @@ void DeferredRenderer::SetLightPassUniforms() const
     {
         auto &light = spots[i];
         auto &uLight = uSpots[i];
-        auto &intensity = light->Intensity();
+        auto &intensity = light->Intensities();
         // update view space direction-position
         uLight.position.Set(light->Position());
         uLight.direction.Set(light->Direction());

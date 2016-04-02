@@ -10,11 +10,15 @@ void InjectRadianceProgram::ExtractUniforms()
     lightBleedingReduction.Assign(program);
     matrices.model.Assign(program);
     lightViewProjection.Assign(program);
+    directionalLight.diffuse.Assign(program);
+    directionalLight.direction.Assign(program);
     shadowMap.BindTo("shadowMap");
     exponents.BindTo("exponents");
     lightBleedingReduction.BindTo("lightBleedingReduction");
     matrices.model.BindTo("matrices.model");
     lightViewProjection.BindTo("lightViewProjection");
+    directionalLight.diffuse.BindTo("directionalLight.diffuse");
+    directionalLight.direction.BindTo("directionalLight.direction");
 }
 
 InjectRadianceProgram::InjectRadianceProgram()

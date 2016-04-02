@@ -40,7 +40,7 @@ void main()
 	);
 
 	vec4 projectedVertices[8];
-	vec3 tolerance = vec3(0.001f);
+	vec3 tolerance = vec3(0.0001f);
 
 	// voxel is almost 0,0,0
 	if(all(lessThan(albedo[0].rgb, tolerance)))

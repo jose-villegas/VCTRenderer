@@ -93,8 +93,8 @@ void main()
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
     albedo.rgb *= material.diffuse;
 
-    // bring normal to 0 -> 1 range
-    vec4 normal = vec4(In.normal * 0.5f + 0.5f, 0.0f);
+    // bring normal to 0-1 range
+    vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
 
     // alpha cutoff
     if(albedo.a <= 0.5f) discard;

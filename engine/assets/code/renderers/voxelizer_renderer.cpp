@@ -135,21 +135,22 @@ void VoxelizerRenderer::InjectRadiance()
 {
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
-    auto &shadowing = *static_cast<ShadowMapRenderer *>
-                      (AssetsManager::Instance()->renderers["Shadowmapping"].get());
     static oglplus::Context gl;
     static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                           (oglplus::MemoryBarrierBit::ShaderImageAccess);
     static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                            (oglplus::MemoryBarrierBit::TextureFetch);
     static auto &prog = InjectRadianceShader();
+    auto &shadowing = *static_cast<ShadowMapRenderer *>
+                      (AssetsManager::Instance()->renderers["Shadowmapping"].get());
+    auto &caster = *shadowing.Caster();
     // inject radiance into voxel texture and also mip-map
     CurrentProgram<InjectRadianceProgram>(prog);
     // control vars
     auto sceneBox = scene->rootNode->boundaries;
     auto voxelSize = volumeGridSize / volumeDimension;
     // voxel grid projection matrices
-    auto model = translate(sceneBox.Center()) * scale(glm::vec3(voxelSize));
+    auto model = translate(sceneBox.Center()) * scale(glm::vec3(voxelSize));;
     // pass compute shader uniform
     prog.matrices.model.Set(model);
     prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
@@ -157,13 +158,16 @@ void VoxelizerRenderer::InjectRadiance()
     prog.shadowMap.Set(6);
     prog.exponents.Set(shadowing.Exponents());
     prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
+    prog.directionalLight.diffuse.Set(caster.Diffuse() * caster.Intensities().y);
+    prog.directionalLight.direction.Set(caster.Direction());
     // voxel texture to read
-    voxelTex.Active(0);
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                        oglplus::ImageUnitFormat::R32UI);
-    voxelTex.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                          oglplus::ImageUnitFormat::R32UI);
+    voxelTex.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                        oglplus::ImageUnitFormat::RGBA8);
-    auto workGroups = glm::ceil(volumeDimension / 4.0f);
+    auto workGroups = glm::ceil(volumeDimension / 8.0f);
     // inject radiance at level 0 of texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // mipmap radiance resulting volume
@@ -260,8 +264,8 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
     voxelTex.GenerateMipmap(TextureTarget::_3D);
     // generate normal volume for radiance
     voxelNormal.Bind(TextureTarget::_3D);
-    voxelNormal.MinFilter(TextureTarget::_3D, TextureMinFilter::Nearest);
-    voxelNormal.MagFilter(TextureTarget::_3D, TextureMagFilter::Nearest);
+    voxelNormal.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
+    voxelNormal.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
     voxelNormal.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
     voxelNormal.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
     voxelNormal.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);

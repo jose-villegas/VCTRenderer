@@ -90,7 +90,7 @@ void UISceneLights::Draw()
             color[0] = light->Ambient();
             color[1] = light->Diffuse();
             color[2] = light->Specular();
-            intensities = light->Intensity();
+            intensities = light->Intensities();
             type = light->Type();
             cone[0] = glm::degrees(light->AngleInnerCone());
             cone[1] = glm::degrees(light->AngleOuterCone());
@@ -203,7 +203,7 @@ void UISceneLights::Draw()
 
         if (SliderFloat3("Intensities", value_ptr(intensities), 0.0f, 16.0f))
         {
-            light->Intensity(intensities);
+            light->Intensities(intensities);
         }
 
         Unindent();

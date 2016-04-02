@@ -20,7 +20,7 @@ void UIVoxelizationOptions::Draw()
     static auto &voxel = *static_cast<VoxelizerRenderer *>
                          (assets->renderers["Voxelizer"].get());
 
-    if (Begin("Voxelization", &UIMainMenu::drawShadowOptions,
+    if (Begin("Voxelization", &UIMainMenu::drawVoxelizationOptions,
               ImGuiWindowFlags_AlwaysAutoResize))
     {
         static auto texRes = 5;
