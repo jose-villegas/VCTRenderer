@@ -11,7 +11,11 @@ Camera::~Camera()
 
 void Camera::Projection(enum class ProjectionMode mode)
 {
-    this->mode = mode;
+    if(this->mode != mode)
+    {
+        this->mode = mode;
+        UpdateProjectionMatrix();
+    }
 }
 
 Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
@@ -19,6 +23,7 @@ Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     mode(ProjectionMode::Perspective)
 {
     name = "Default Camera";
+    UpdateProjectionMatrix();
 }
 
 float Camera::ClipPlaneFar() const
@@ -28,7 +33,13 @@ float Camera::ClipPlaneFar() const
 
 void Camera::ClipPlaneFar(float val)
 {
-    clipPlaneFar = glm::max(val, 0.01f);
+    auto res = glm::max(val, 0.01f);
+
+    if(res != clipPlaneFar)
+    {
+        clipPlaneFar = res;
+        UpdateProjectionMatrix();
+    }
 }
 
 float Camera::ClipPlaneNear() const
@@ -38,7 +49,13 @@ float Camera::ClipPlaneNear() const
 
 void Camera::ClipPlaneNear(float val)
 {
-    clipPlaneNear = glm::max(val, 0.01f);
+    auto res = glm::max(val, 0.01f);
+
+    if (res != clipPlaneNear)
+    {
+        clipPlaneNear = res;
+        UpdateProjectionMatrix();
+    }
 }
 
 const float &Camera::FieldOfView() const
@@ -48,7 +65,13 @@ const float &Camera::FieldOfView() const
 
 void Camera::FieldOfView(const float &val)
 {
-    fieldOfView = glm::clamp(val, 0.0f, glm::pi<float>());
+    auto res = glm::clamp(val, 0.0f, glm::pi<float>());
+
+    if (res != fieldOfView)
+    {
+        fieldOfView = res;
+        UpdateProjectionMatrix();
+    }
 }
 
 float Camera::AspectRatio() const
@@ -58,12 +81,20 @@ float Camera::AspectRatio() const
 
 void Camera::AspectRatio(float val)
 {
-    aspectRatio = val;
+    if (val != aspectRatio)
+    {
+        aspectRatio = val;
+        UpdateProjectionMatrix();
+    }
 }
 
 void Camera::OrthoRect(const glm::vec4 &rect)
 {
-    orthoRect = rect;
+    if (rect != orthoRect)
+    {
+        orthoRect = rect;
+        UpdateProjectionMatrix();
+    }
 }
 
 const glm::vec4 &Camera::OrthoRect() const
@@ -81,15 +112,9 @@ const glm::mat4x4 &Camera::ViewMatrix()
     return viewMatrix = lookAt(transform.Position(), LookAt(), transform.Up());
 }
 
-const glm::mat4x4 &Camera::ProjectionMatrix()
+const glm::mat4x4 &Camera::ProjectionMatrix() const
 {
-    if (mode == ProjectionMode::Perspective) {
-        return projectionMatrix = glm::perspective(fieldOfView, aspectRatio,
-                                  clipPlaneNear, clipPlaneFar);
-    }
-
-    return projectionMatrix = glm::ortho(orthoRect.x, orthoRect.y, orthoRect.z,
-                                         orthoRect.w, clipPlaneNear, clipPlaneFar);
+    return projectionMatrix;
 }
 
 const glm::mat4x4 &Camera::InverseViewMatrix()
@@ -106,4 +131,18 @@ bool Camera::InFrustum(const BoundingBox &volume)
 {
     frustum.ExtractPlanes(ProjectionMatrix() * ViewMatrix());
     return frustum.InFrustum(volume);
+}
+
+void Camera::UpdateProjectionMatrix()
+{
+    if (mode == ProjectionMode::Perspective)
+    {
+        projectionMatrix = glm::perspective(fieldOfView, aspectRatio,
+                                            clipPlaneNear, clipPlaneFar);
+    }
+    else
+    {
+        projectionMatrix = glm::ortho(orthoRect.x, orthoRect.y, orthoRect.z,
+                                      orthoRect.w, clipPlaneNear, clipPlaneFar);
+    }
 }

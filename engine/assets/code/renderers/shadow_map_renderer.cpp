@@ -17,7 +17,7 @@ void ShadowMapRenderer::SetMatricesUniforms(const Node &node) const
     static auto &camera = Camera::Active();
     prog.matrices.modelViewProjection.Set(camera->ProjectionMatrix() *
                                           camera->ViewMatrix() *
-                                          node.ModelMatrix());
+                                          node.transform.Matrix());
 }
 
 void ShadowMapRenderer::Render()

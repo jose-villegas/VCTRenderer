@@ -85,10 +85,10 @@ void DeferredRenderer::SetMatricesUniforms(const Node &node) const
 {
     auto &prog = CurrentProgram<GeometryProgram>();
     static auto &camera = Camera::Active();
-    prog.matrices.normal.Set(inverse(transpose(node.ModelMatrix())));
+    prog.matrices.normal.Set(inverse(transpose(node.transform.Matrix())));
     prog.matrices.modelViewProjection.Set(camera->ProjectionMatrix() *
                                           camera->ViewMatrix() *
-                                          node.ModelMatrix());
+                                          node.transform.Matrix());
 }
 
 void DeferredRenderer::SetMaterialUniforms(const Material &material)

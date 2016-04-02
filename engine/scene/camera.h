@@ -14,7 +14,8 @@
 class Camera : public SceneObject, public SingleActive<Camera>
 {
     public:
-        enum class ProjectionMode {
+        enum class ProjectionMode
+        {
             Perspective,
             Orthographic
         };
@@ -57,7 +58,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
         glm::vec3 LookAt() const;
 
         const glm::mat4x4 &ViewMatrix();
-        const glm::mat4x4 &ProjectionMatrix();
+        const glm::mat4x4 &ProjectionMatrix() const;
         const glm::mat4x4 &InverseViewMatrix();
         const glm::mat4x4 &InverseProjectionMatrix();
 
@@ -81,5 +82,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
         glm::mat4x4 inverseViewMatrix;
         glm::mat4x4 inverseProjectionMatrix;
         CullingFrustum frustum;
+
+        void UpdateProjectionMatrix();
 };
 

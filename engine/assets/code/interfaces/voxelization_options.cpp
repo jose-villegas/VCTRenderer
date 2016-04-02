@@ -45,7 +45,7 @@ void UIVoxelizationOptions::Draw()
 
         if(InputInt("Update Frequency", &updateFrequency))
         {
-            voxel.SetUpdateFrequency(updateFrequency);
+            voxel.SetUpdateFrequency(glm::max(updateFrequency, 0));
         }
 
         if(Button("Voxelize Now"))

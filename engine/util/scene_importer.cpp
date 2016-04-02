@@ -161,8 +161,10 @@ void SceneImporter::ImportCamera(aiCamera * mCam, Camera &camera)
     auto lookat = glm::vec3(mCam->mLookAt.x, mCam->mLookAt.y, mCam->mLookAt.z);
     auto pos = glm::vec3(mCam->mPosition.x, mCam->mPosition.y, mCam->mPosition.z);
     auto up = glm::vec3(mCam->mUp.x, mCam->mUp.y, mCam->mUp.z);
+    auto fwd = normalize(lookat - pos);
     camera.transform.Position(pos);
-    camera.transform.LookAt(lookat, up);
+    camera.transform.Forward(fwd);
+    camera.transform.Up(up);
     // latest created always as active
     camera.SetAsActive();
 }

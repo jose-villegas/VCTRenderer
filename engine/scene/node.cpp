@@ -59,10 +59,6 @@ void Node::DrawList()
                 continue;
             }
         }
-        else // update model matrix
-        {
-            modelMatrix = transform.Matrix();
-        }
 
         // set matrices uniform with updated matrices
         renderer->SetMatricesUniforms(*node);
@@ -73,12 +69,11 @@ void Node::DrawList()
 
 void Node::TransformBoundaries()
 {
-    modelMatrix = transform.Matrix();
-    boundaries.Transform(modelMatrix);
+    boundaries.Transform(transform.Matrix());
 
     for (auto &mesh : meshes)
     {
-        mesh->boundaries.Transform(modelMatrix);
+        mesh->boundaries.Transform(transform.Matrix());
     }
 }
 
@@ -86,9 +81,4 @@ void Node::BuildDrawList()
 {
     drawList.clear();
     BuildDrawList(drawList);
-}
-
-const glm::mat4x4 &Node::ModelMatrix() const
-{
-    return modelMatrix;
 }

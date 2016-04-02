@@ -23,31 +23,47 @@ Transform::~Transform()
 
 void Transform::Position(const glm::vec3 &val)
 {
-    position = val;
+    if(position != val)
+    {
+        position = val;
+        UpdateTransformMatrix();
+    }
 }
 
 void Transform::Rotation(const glm::quat &val)
 {
-    this->angles = eulerAngles(val);
-    rotation = val;
-    UpdateCoordinates();
+    if(rotation != val)
+    {
+        this->angles = eulerAngles(val);
+        rotation = val;
+        UpdateCoordinates();
+        UpdateTransformMatrix();
+    }
 }
 
 void Transform::Rotation(const glm::vec3 &angles)
 {
-    this->angles = angles;
-    auto rotationX = angleAxis(angles.x, Vector3::right);
-    auto rotationY = angleAxis(angles.y, Vector3::up);
-    auto rotationZ = angleAxis(angles.z, Vector3::forward);
-    // final composite rotation
-    rotation = normalize(rotationZ * rotationX * rotationY);
-    // rotate direction vectors
-    UpdateCoordinates();
+    if(this->angles != angles)
+    {
+        this->angles = angles;
+        auto rotationX = angleAxis(angles.x, Vector3::right);
+        auto rotationY = angleAxis(angles.y, Vector3::up);
+        auto rotationZ = angleAxis(angles.z, Vector3::forward);
+        // final composite rotation
+        rotation = normalize(rotationZ * rotationX * rotationY);
+        // rotate direction vectors
+        UpdateCoordinates();
+        UpdateTransformMatrix();
+    }
 }
 
 void Transform::Scale(const glm::vec3 &val)
 {
-    scale = val;
+    if(scale != val)
+    {
+        scale = val;
+        UpdateTransformMatrix();
+    }
 }
 
 const glm::vec3 &Transform::Position() const
@@ -65,6 +81,13 @@ void Transform::UpdateCoordinates()
     up = normalize(Vector3::up * rotation);
     right = normalize(Vector3::right * rotation);
     forward = normalize(Vector3::forward * rotation);
+}
+
+void Transform::UpdateTransformMatrix()
+{
+    transformation = translate(position) *
+                     mat4_cast(rotation) *
+                     glm::scale(scale);
 }
 
 const glm::vec3 &Transform::Scale() const
@@ -107,21 +130,7 @@ const glm::vec3 &Transform::Angles() const
     return angles;
 }
 
-const glm::mat4x4 &Transform::Matrix()
+const glm::mat4x4 &Transform::Matrix() const
 {
-    return transformation = translate(position) *
-                            mat4_cast(rotation) *
-                            glm::scale(scale);
-}
-
-void Transform::LookAt(const glm::vec3 &pos, const glm::vec3 &up)
-{
-    forward = normalize(pos);
-    forward = orthonormalize(forward, up);
-    right = cross(up, forward);
-    rotation.w = sqrt(1.0f + right.x + up.y + forward.z) * 0.5f;
-    auto recip = 1.0f / (4.0f * rotation.w);
-    rotation.x = (up.z - forward.y) * recip;
-    rotation.y = (forward.x - right.z) * recip;
-    rotation.z = (right.y - up.x) * recip;
+    return transformation;
 }

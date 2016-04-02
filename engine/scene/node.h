@@ -28,10 +28,8 @@ class Node : public SceneObject
         virtual ~Node();
         void DrawList();
         void BuildDrawList();
-        const glm::mat4x4 &ModelMatrix() const;
     private:
         std::vector<Node *> drawList;
-        glm::mat4x4 modelMatrix;
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
         void DrawMeshes();

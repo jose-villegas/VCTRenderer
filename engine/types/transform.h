@@ -2,6 +2,7 @@
 
 #include <glm/detail/type_vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <bitset>
 
 /// <summary>
 /// Handles all transformation operations such
@@ -69,13 +70,7 @@ class Transform
         /// <see cref="transformation" />
         /// </summary>
         /// <returns></returns>
-        const glm::mat4x4 &Matrix();
-        /// <summary>
-        /// Makes the transform forward point at the specified position
-        /// </summary>
-        /// <param name="pos">The position.</param>
-        /// <param name="up">Up.</param>
-        void LookAt(const glm::vec3 &pos, const glm::vec3 &up);
+        const glm::mat4x4 &Matrix() const;
     private:
         glm::vec3 position;
         glm::quat rotation;
@@ -86,4 +81,5 @@ class Transform
         glm::vec3 angles;
         glm::mat4x4 transformation;
         void UpdateCoordinates();
+        void UpdateTransformMatrix();
 };
