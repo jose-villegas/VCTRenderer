@@ -11,7 +11,6 @@ in Vertex
 
 out GeometryOut
 {
-	vec3 wsPosition;
     vec3 position;
     vec3 normal;
     vec3 texCoord;
@@ -135,7 +134,6 @@ void main()
 		Out.position = pos[i].xyz;
 		Out.normal = In[i].normal;
 		Out.texCoord = texCoord[i];
-		Out.wsPosition = gl_in[i].gl_Position.xyz / gl_in[i].gl_Position.w;
 
 		EmitVertex();
 	}

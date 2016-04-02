@@ -62,8 +62,19 @@ void ShadowMapRenderer::Render()
     scene->rootNode->DrawList();
     // recover original render camera
     camera->SetAsActive();
+
     // blur the result evsm map
-    BlurShadowMap();
+    if(blurScale > 0)
+    {
+        BlurShadowMap();
+    }
+
+    // recover
+    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
+    // mip map shadow map
+    shadowMap.Bind(TextureTarget::_2D);
+    shadowMap.GenerateMipmap(TextureTarget::_2D);
+    gl.Enable(Capability::DepthTest);
 }
 
 void ShadowMapRenderer::Caster(const Light * caster)
@@ -253,9 +264,4 @@ void ShadowMapRenderer::BlurShadowMap()
     prog.blurType.Set(blurQuality);
     gl.Clear().DepthBuffer().ColorBuffer();
     fsQuad.Draw();
-    // recover
-    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
-    shadowMap.Bind(TextureTarget::_2D);
-    shadowMap.GenerateMipmap(TextureTarget::_2D);
-    gl.Enable(Capability::DepthTest);
 }

@@ -15,7 +15,6 @@ void VoxelizationProgram::ExtractUniforms()
     viewProjections[0].Assign(program);
     viewProjections[1].Assign(program);
     viewProjections[2].Assign(program);
-    worldVoxelSize.Assign(program);
     // binding point
     matrices.model.BindTo("matrices.model");
     matrices.normal.BindTo("matrices.normal");
@@ -25,7 +24,6 @@ void VoxelizationProgram::ExtractUniforms()
     viewProjections[0].BindTo("viewProjections[0]");
     viewProjections[1].BindTo("viewProjections[1]");
     viewProjections[2].BindTo("viewProjections[2]");
-    worldVoxelSize.BindTo("worldVoxelSize");
 };
 
 VoxelizationProgram::~VoxelizationProgram()

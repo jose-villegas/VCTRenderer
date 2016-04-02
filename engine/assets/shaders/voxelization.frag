@@ -2,7 +2,6 @@
 
 in GeometryOut
 {
-    vec3 wsPosition;
     vec3 position;
     vec3 normal;
     vec3 texCoord;
@@ -22,7 +21,6 @@ uniform struct Material
 
 uniform sampler2D diffuseMap;
 uniform uint volumeDimension;
-uniform float worldVoxelSize;
 
 vec4 convRGBA8ToVec4(uint val)
 {
@@ -88,7 +86,7 @@ void main()
 
     // flip z tex coord
     voxelPos.z = volumeDimension - voxelPos.z;
-    voxelPos = voxelPos - 1;
+    voxelPos = min(max(voxelPos, uvec3(0)), uvec3(volumeDimension - 1));
 
     // fragment albedo
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
@@ -96,9 +94,6 @@ void main()
 
     // alpha cutoff
     if(albedo.a <= 0.5f) discard;
-
-    // compute texture space position
-    ivec3 voxelPosition = ivec3(In.wsPosition * worldVoxelSize * volumeDimension);
 
     // atomic average per fragments sorrounding the voxel volume
 	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(voxelPos), albedo);
