@@ -71,6 +71,7 @@ class VoxelizerRenderer : public Renderer
         /// Voxelizes the scene.
         /// </summary>
         void VoxelizeScene();
+        void InjectRadiance();
         /// <summary>
         /// Draws the resulting voxels.
         /// </summary>
@@ -86,6 +87,4 @@ class VoxelizerRenderer : public Renderer
         int framestep;
         float volumeGridSize;
         unsigned int voxelCount;
-
-        void SetVoxelizationPassUniforms() const;
 };

@@ -2,7 +2,7 @@
 
 in GeometryOut
 {
-    vec4 wsPosition;
+    vec3 wsPosition;
     vec3 position;
     vec3 normal;
     vec3 texCoord;
@@ -22,6 +22,7 @@ uniform struct Material
 
 uniform sampler2D diffuseMap;
 uniform uint volumeDimension;
+uniform float worldVoxelSize;
 
 vec4 convRGBA8ToVec4(uint val)
 {
@@ -65,30 +66,40 @@ void main()
 		discard;
 	}
 
-	uvec3 temp = uvec3( gl_FragCoord.x, gl_FragCoord.y, volumeDimension * gl_FragCoord.z ) ;
-	uvec3 texcoord;
+	uvec3 temp = uvec3( gl_FragCoord.xy, volumeDimension * gl_FragCoord.z ) ;
+	uvec3 voxelPos;
 
 	if( In.selectedAxis == 0 )
 	{
-	    texcoord.x = volumeDimension - temp.z;
-		texcoord.z = temp.x;
-		texcoord.y = temp.y;
+	    voxelPos.x = volumeDimension - temp.z;
+		voxelPos.z = temp.x;
+		voxelPos.y = temp.y;
 	}
 	else if( In.selectedAxis == 1 )
     {
-	    texcoord.z = temp.y;
-		texcoord.y = volumeDimension - temp.z;
-		texcoord.x = temp.x;
+	    voxelPos.z = temp.y;
+		voxelPos.y = volumeDimension - temp.z;
+		voxelPos.x = temp.x;
 	}
 	else
 	{
-		texcoord = temp;
+		voxelPos = temp;
 	}
 
+    // flip z tex coord
+    voxelPos.z = volumeDimension - voxelPos.z;
+    voxelPos = voxelPos - 1;
+
+    // fragment albedo
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
     albedo.rgb *= material.diffuse;
 
+    // alpha cutoff
     if(albedo.a <= 0.5f) discard;
 
-	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(texcoord.xyz), albedo);
+    // compute texture space position
+    ivec3 voxelPosition = ivec3(In.wsPosition * worldVoxelSize * volumeDimension);
+
+    // atomic average per fragments sorrounding the voxel volume
+	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(voxelPos), albedo);
 }

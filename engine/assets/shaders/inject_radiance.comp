@@ -26,7 +26,7 @@ struct Light {
 };
 
 uniform vec2 exponents;
-uniform float lightBleedingTolerance;
+uniform float lightBleedingReduction;
 uniform mat4 lightViewProjection;
 
 uniform sampler2D shadowMap;
@@ -61,7 +61,7 @@ float Chebyshev(vec2 moments, float mean, float minVariance)
         variance = max(variance, minVariance);
         float d = mean - moments.x;
         float lit = variance / (variance + (d * d));
-        return ReduceLightBleeding(lit, 1.0f - lightBleedingTolerance);
+        return ReduceLightBleeding(lit, lightBleedingReduction);
     }
 }
 
@@ -94,6 +94,11 @@ vec4 convRGBA8ToVec4(uint val)
     float((val & 0xFF000000) >> 24U));
 }
 
+uniform struct Matrices
+{
+    mat4 model;
+} matrices;
+
 void main()
 {
 	uvec3 volumeDimension = imageSize(voxelAlbedo);
@@ -104,9 +109,21 @@ void main()
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
 
+	// get r32ui encoded value
 	uvec4 albedoEnc = imageLoad(voxelAlbedo, writePos);
+
+	// empty voxel
+	if(albedoEnc.x == 0) { return; }
+
+	// convert to more manageable 0->1 float components
 	vec4 albedo = convRGBA8ToVec4(albedoEnc.x) / 255.0f;
 	albedo.a = 1.0f;
+
+	// obtain ws position of the current voxel
+	vec4 wsPosition = vec4(writePos - volumeDimension * 0.5f, 1.0f);
+	wsPosition = matrices.model * wsPosition;
+
+	albedo *= max(Visibility(wsPosition.xyz), 1.0f);
 
 	imageStore(voxelRadiance, writePos, albedo);
 }

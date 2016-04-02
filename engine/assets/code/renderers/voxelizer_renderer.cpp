@@ -89,41 +89,79 @@ void VoxelizerRenderer::VoxelizeScene()
     static oglplus::Context gl;
     static auto &scene = Scene::Active();
     static float zero[] = { 0, 0, 0, 0 };
+    static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                          (oglplus::MemoryBarrierBit::ShaderImageAccess);
+    static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                           (oglplus::MemoryBarrierBit::TextureFetch);
 
     if (!scene || !scene->IsLoaded()) { return; }
 
+    auto &prog = VoxelizationPass();
+    // current renderer as active
     SetAsActive();
+    // unbind fbos use default
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
+    // clear and setup viewport
     gl.ColorMask(false, false, false, false);
     gl.Viewport(volumeDimension, volumeDimension);
     gl.Clear().ColorBuffer().DepthBuffer();
     // active voxelization pass program
-    CurrentProgram<VoxelizationProgram>(VoxelizationPass());
+    CurrentProgram<VoxelizationProgram>(prog);
     // rendering flags
     gl.Disable(oglplus::Capability::CullFace);
     gl.Disable(oglplus::Capability::DepthTest);
     UseFrustumCulling = false;
     // voxelization pass uniforms
-    SetVoxelizationPassUniforms();
+    prog.viewProjections[0].Set(viewProjectionMatrix[0]);
+    prog.viewProjections[1].Set(viewProjectionMatrix[1]);
+    prog.viewProjections[2].Set(viewProjectionMatrix[2]);
+    prog.volumeDimension.Set(volumeDimension);
+    prog.worldVoxelSize.Set(1.0f / volumeGridSize);
     // bind the volume texture to be writen in shaders
     voxelTex.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                        oglplus::ImageUnitFormat::R32UI);
     // draw scene triangles
     scene->rootNode->DrawList();
+    // sync barrier
+    gl.MemoryBarrier(shImage | texFetch);
+    // compute shader injects diffuse lighting and shadowing
+    InjectRadiance();
+}
+
+void VoxelizerRenderer::InjectRadiance()
+{
+    static auto &camera = Camera::Active();
+    static auto &scene = Scene::Active();
+    auto &shadowing = *static_cast<ShadowMapRenderer *>
+                      (AssetsManager::Instance()->renderers["Shadowmapping"].get());
+    static oglplus::Context gl;
     static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                           (oglplus::MemoryBarrierBit::ShaderImageAccess);
     static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                            (oglplus::MemoryBarrierBit::TextureFetch);
-    gl.MemoryBarrier(shImage | texFetch);
+    static auto &prog = InjectRadianceShader();
     // inject radiance into voxel texture and also mip-map
-    CurrentProgram<InjectRadianceProgram>(InjectRadianceShader());
+    CurrentProgram<InjectRadianceProgram>(prog);
+    // control vars
+    auto sceneBox = scene->rootNode->boundaries;
+    auto voxelSize = volumeGridSize / volumeDimension;
+    // voxel grid projection matrices
+    auto model = translate(sceneBox.Center()) * scale(glm::vec3(voxelSize));
+    // pass compute shader uniform
+    prog.matrices.model.Set(model);
+    prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
+    shadowing.BindReading(6);
+    prog.shadowMap.Set(6);
+    prog.exponents.Set(shadowing.Exponents());
+    prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
+    // voxel texture to read
     voxelTex.Active(0);
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                        oglplus::ImageUnitFormat::R32UI);
     voxelTex.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                        oglplus::ImageUnitFormat::RGBA8);
-    auto workGroups = glm::ceil(volumeDimension /  4.0f);
+    auto workGroups = glm::ceil(volumeDimension / 4.0f);
     // inject radiance at level 0 of texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // advantage of using 3d texture is easy mip-mapping
@@ -242,15 +280,4 @@ InjectRadianceProgram &VoxelizerRenderer::InjectRadianceShader()
     static auto &prog = *static_cast<InjectRadianceProgram *>
                         (assets->programs["InjectRadiance"].get());
     return prog;
-}
-
-void VoxelizerRenderer::SetVoxelizationPassUniforms() const
-{
-    auto &shadowing = *static_cast<ShadowMapRenderer *>(AssetsManager::Instance()
-                      ->renderers["Shadowmapping"].get());
-    auto &prog = CurrentProgram<VoxelizationProgram>();
-    prog.viewProjections[0].Set(viewProjectionMatrix[0]);
-    prog.viewProjections[1].Set(viewProjectionMatrix[1]);
-    prog.viewProjections[2].Set(viewProjectionMatrix[2]);
-    prog.volumeDimension.Set(volumeDimension);
 }

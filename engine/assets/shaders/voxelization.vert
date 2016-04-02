@@ -2,8 +2,6 @@
 
 out Vertex
 {
-	vec4 wsPosition;
-    vec3 position;
     vec3 texCoord;
     vec3 normal;
 };
@@ -20,10 +18,8 @@ layout(location = 2) in vec3 vertexNormal;
 
 void main()
 {
-	wsPosition = matrices.model * vec4(vertexPosition, 1.0f);
+    gl_Position = matrices.model * vec4(vertexPosition, 1.0f);
 
-    position = wsPosition.xyz;
     normal = (matrices.normal * vec4(vertexNormal, 0.0f)).xyz;
     texCoord = vertexTexCoord;
-    gl_Position = wsPosition;
 }

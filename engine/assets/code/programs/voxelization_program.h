@@ -23,6 +23,7 @@ class VoxelizationProgram : public ProgramShader
         oglplus::Uniform<unsigned int> volumeDimension;
 
         std::array<oglplus::Uniform<glm::mat4>, 3> viewProjections;
+        oglplus::Uniform<float> worldVoxelSize;
 
 
         void ExtractUniforms() override;

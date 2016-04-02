@@ -5,15 +5,13 @@ layout(triangle_strip, max_vertices = 3) out;
 
 in Vertex
 {
-	vec4 wsPosition;
-    vec3 position;
     vec3 texCoord;
     vec3 normal;
 } In[3];
 
 out GeometryOut
 {
-	vec4 wsPosition;
+	vec3 wsPosition;
     vec3 position;
     vec3 normal;
     vec3 texCoord;
@@ -26,9 +24,9 @@ uniform uint volumeDimension;
 
 int CalculateAxis()
 {
-	vec3 oneToZero = In[1].position - In[0].position;
-	vec3 twoToZero = In[2].position - In[0].position;
-	vec3 faceNormal = cross(oneToZero, twoToZero);
+	vec3 p1 = gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz;
+	vec3 p2 = gl_in[2].gl_Position.xyz - gl_in[0].gl_Position.xyz;
+	vec3 faceNormal = cross(p1, p2);
 
 	float NdotXAxis = abs( faceNormal.x );
 	float NdotYAxis = abs( faceNormal.y );
@@ -97,7 +95,7 @@ void main()
         texCoord[1] = texCoordTemp;
     }
 
-	vec2 halfPixel = vec2(1.0f / volumeDimension) * 0.666f;
+	vec2 halfPixel = vec2(1.0f / volumeDimension) * 0.5;
 	vec4 trianglePlane;
 	trianglePlane.xyz = cross(pos[1].xyz - pos[0].xyz, pos[2].xyz - pos[0].xyz);
 	trianglePlane.xyz = normalize(trianglePlane.xyz);
@@ -135,9 +133,9 @@ void main()
 	{
 		gl_Position = pos[i];
 		Out.position = pos[i].xyz;
-		Out.wsPosition = In[i].wsPosition;
 		Out.normal = In[i].normal;
 		Out.texCoord = texCoord[i];
+		Out.wsPosition = gl_in[i].gl_Position.xyz / gl_in[i].gl_Position.w;
 
 		EmitVertex();
 	}

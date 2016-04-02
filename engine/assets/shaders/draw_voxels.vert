@@ -22,7 +22,7 @@ void main()
 	(
 		position.x / volumeDimensionF + 1.0f / (2.0f * volumeDimensionF),
 		position.y / volumeDimensionF + 1.0f / (2.0f * volumeDimensionF),
-		1.0f - (position.z / volumeDimensionF + 1.0f / (2.0f * volumeDimensionF))
+		position.z / volumeDimensionF + 1.0f / (2.0f * volumeDimensionF)
 	);
 
 	albedo = texture(voxelRadiance, texCoord.xyz);

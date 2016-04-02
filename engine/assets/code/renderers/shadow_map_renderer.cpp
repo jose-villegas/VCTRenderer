@@ -108,7 +108,7 @@ ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     SetupFramebuffers(1024, 1024);
     blurScale = 0.5f;
     blurQuality = 1;
-    exponents = glm::vec2(4.0f, 5.0f);
+    exponents = glm::vec2(40.0f, 5.0f);
     lightBleedingReduction = 0.0f;
 }
 
