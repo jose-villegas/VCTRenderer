@@ -15,6 +15,7 @@ uniform vec2 exponents;
 uniform float lightBleedingReduction;
 uniform mat4 lightViewProjection;
 uniform Light directionalLight;
+uniform float voxelSize;
 
 uniform sampler2D shadowMap;
 
@@ -118,11 +119,14 @@ void main()
 	normal = normalize(normal * 2.0f - 1.0f);
 
 	// obtain ws position of the current voxel
-	vec4 wsPosition = vec4(writePos - volumeDimension * 0.5f, 1.0f);
+	vec4 wsPosition = vec4(writePos, 1.0f);
 	wsPosition = matrices.model * wsPosition;
 
 	albedo.rgb = Diffuse(directionalLight, directionalLight.direction, normal, albedo.rgb);
-	albedo *= Visibility(wsPosition.xyz);
+
+	vec3 unitCubeDirection = vec3(clamp(2.0f * normal, vec3(-1.0f), vec3(1.0f)));
+	albedo *= Visibility(wsPosition.xyz + unitCubeDirection * voxelSize);
+	albedo.a = 1.0f;
 
 	imageStore(voxelRadiance, writePos, albedo);
 }

@@ -111,11 +111,27 @@ void VoxelizerRenderer::VoxelizeScene()
     gl.Disable(oglplus::Capability::CullFace);
     gl.Disable(oglplus::Capability::DepthTest);
     UseFrustumCulling = false;
-    // voxelization pass uniforms
+    // control vars
+    auto &sceneBox = scene->rootNode->boundaries;
+    static auto minP = glm::vec3(sceneBox.MinPoint());
+    static auto vSize = glm::vec3(voxelSize);
+
+    // model transform for voxel grid changed
+    if (sceneBox.MinPoint() != minP || voxelSize != vSize.x)
+    {
+        minP = glm::vec3(sceneBox.MinPoint());
+        vSize = glm::vec3(voxelSize);
+        voxelToWorldMatrix = translate(minP) *
+                             scale(glm::vec3(voxelSize));
+        worldToVoxelMatrix = scale(glm::vec3(1.0f / volumeGridSize)) *
+                             translate(-minP);;
+    }
+
     prog.viewProjections[0].Set(viewProjectionMatrix[0]);
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
     prog.volumeDimension.Set(volumeDimension);
+    prog.worldToVoxelTex.Set(worldToVoxelMatrix);
     // bind the volume texture to be writen in shaders
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                        oglplus::ImageUnitFormat::R32UI);
@@ -147,23 +163,8 @@ void VoxelizerRenderer::InjectRadiance()
     auto &caster = *shadowing.Caster();
     // inject radiance into voxel texture and also mip-map
     CurrentProgram<InjectRadianceProgram>(prog);
-    // control vars
-    auto &sceneBox = scene->rootNode->boundaries;
-    static glm::vec3 center = glm::vec3(sceneBox.Center());
-    static glm::vec3 vSize = glm::vec3(voxelSize);
-    // voxel grid projection matrices
-    static auto model = translate(center) * scale(vSize);
-
-    // model transform for voxel grid changed
-    if(sceneBox.Center() != center || voxelSize != vSize.x)
-    {
-        center = glm::vec3(sceneBox.Center());
-        vSize = glm::vec3(voxelSize);
-        model = translate(center) * scale(vSize);
-    }
-
     // pass compute shader uniform
-    prog.matrices.model.Set(model);
+    prog.matrices.model.Set(voxelToWorldMatrix);
     prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
     shadowing.BindReading(6);
     prog.shadowMap.Set(6);
@@ -171,6 +172,7 @@ void VoxelizerRenderer::InjectRadiance()
     prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
     prog.directionalLight.diffuse.Set(caster.Diffuse() * caster.Intensities().y);
     prog.directionalLight.direction.Set(caster.Direction());
+    prog.voxelSize.Set(voxelSize);
     // voxel texture to read
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                        oglplus::ImageUnitFormat::R32UI);
@@ -208,16 +210,13 @@ void VoxelizerRenderer::DrawVoxels()
     gl.FrontFace(oglplus::FaceOrientation::CCW);
     auto &prog = VoxelDrawerShader();
     CurrentProgram<VoxelDrawerProgram>(prog);
-    // control vars
-    auto &sceneBox = scene->rootNode->boundaries;
     // voxel grid projection matrices
-    auto model = translate(sceneBox.Center()) * scale(glm::vec3(voxelSize));
     auto &viewProjection = camera->ViewProjectionMatrix();
     // pass voxel drawer uniforms
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                        oglplus::ImageUnitFormat::RGBA8);;
     prog.volumeDimension.Set(volumeDimension);
-    prog.matrices.modelViewProjection.Set(viewProjection * model);
+    prog.matrices.modelViewProjection.Set(viewProjection * voxelToWorldMatrix);
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
     voxelDrawerArray.Bind();
@@ -244,6 +243,12 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     {
         matrix = projection * matrix;
     }
+
+    // update spatial matrices
+    voxelToWorldMatrix = translate(sceneBox.MinPoint()) *
+                         scale(glm::vec3(voxelSize));
+    worldToVoxelMatrix = scale(glm::vec3(1.0f / volumeGridSize)) *
+                         translate(-sceneBox.MinPoint());
 }
 
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
@@ -299,6 +304,26 @@ void VoxelizerRenderer::RevoxelizeScene()
 
 VoxelizerRenderer::~VoxelizerRenderer()
 {
+}
+
+const glm::mat4x4 &VoxelizerRenderer::VoxelToWorldMatrix() const
+{
+    return voxelToWorldMatrix;
+}
+
+const glm::mat4x4 &VoxelizerRenderer::WorldToVoxelMatrix() const
+{
+    return worldToVoxelMatrix;
+}
+
+const unsigned &VoxelizerRenderer::VolumeDimension() const
+{
+    return volumeDimension;
+}
+
+oglplus::Texture &VoxelizerRenderer::VoxelTexture()
+{
+    return voxelTex;
 }
 
 VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()

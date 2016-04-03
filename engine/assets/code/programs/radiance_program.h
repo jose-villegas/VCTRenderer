@@ -24,6 +24,7 @@ class InjectRadianceProgram : public ProgramShader
         UniformLight directionalLight;
         oglplus::Uniform<glm::vec2> exponents;
         oglplus::Uniform<float> lightBleedingReduction;
+        oglplus::Uniform<float> voxelSize;
         void ExtractUniforms() override;
         InjectRadianceProgram();
         ~InjectRadianceProgram();

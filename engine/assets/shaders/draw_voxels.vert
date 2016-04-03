@@ -18,5 +18,5 @@ void main()
 	);
 
 	albedo = imageLoad(voxelRadiance, ivec3(position));
-	gl_Position = vec4(position - volumeDimension * 0.5f, 1.0f);
+	gl_Position = vec4(position, 1.0f);
 }

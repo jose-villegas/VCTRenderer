@@ -12,6 +12,7 @@ void InjectRadianceProgram::ExtractUniforms()
     lightViewProjection.Assign(program);
     directionalLight.diffuse.Assign(program);
     directionalLight.direction.Assign(program);
+    voxelSize.Assign(program);
     shadowMap.BindTo("shadowMap");
     exponents.BindTo("exponents");
     lightBleedingReduction.BindTo("lightBleedingReduction");
@@ -19,6 +20,7 @@ void InjectRadianceProgram::ExtractUniforms()
     lightViewProjection.BindTo("lightViewProjection");
     directionalLight.diffuse.BindTo("directionalLight.diffuse");
     directionalLight.direction.BindTo("directionalLight.direction");
+    voxelSize.BindTo("voxelSize");
 }
 
 InjectRadianceProgram::InjectRadianceProgram()

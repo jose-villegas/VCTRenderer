@@ -47,6 +47,10 @@ class VoxelizerRenderer : public Renderer
         /// Finalizes an instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
         ~VoxelizerRenderer();
+        const glm::mat4x4 &VoxelToWorldMatrix() const;
+        const glm::mat4x4 &WorldToVoxelMatrix() const;
+        const unsigned int &VolumeDimension() const;
+        oglplus::Texture &VoxelTexture();
     private:
         /// <summary>
         /// Returns the voxelization program shader.
@@ -86,4 +90,6 @@ class VoxelizerRenderer : public Renderer
         float volumeGridSize;
         float voxelSize;
         unsigned int voxelCount;
+        glm::mat4x4 voxelToWorldMatrix;
+        glm::mat4x4 worldToVoxelMatrix;
 };

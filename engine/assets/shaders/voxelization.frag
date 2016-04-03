@@ -2,10 +2,10 @@
 
 in GeometryOut
 {
+    vec3 wsPosition;
     vec3 position;
     vec3 normal;
     vec3 texCoord;
-    flat int selectedAxis;
     flat vec4 triangleAABB;
 } In;
 
@@ -65,30 +65,6 @@ void main()
 		discard;
 	}
 
-	uvec3 temp = uvec3( gl_FragCoord.xy, volumeDimension * gl_FragCoord.z ) ;
-	uvec3 voxelPos;
-
-	if( In.selectedAxis == 0 )
-	{
-	    voxelPos.x = volumeDimension - temp.z;
-		voxelPos.z = temp.x;
-		voxelPos.y = temp.y;
-	}
-	else if( In.selectedAxis == 1 )
-    {
-	    voxelPos.z = temp.y;
-		voxelPos.y = volumeDimension - temp.z;
-		voxelPos.x = temp.x;
-	}
-	else
-	{
-		voxelPos = temp;
-	}
-
-    // flip z tex coord
-    voxelPos.z = volumeDimension - voxelPos.z;
-    voxelPos = min(max(voxelPos, uvec3(0)), uvec3(volumeDimension - 1));
-
     // fragment albedo
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
     albedo.rgb *= material.diffuse;
@@ -97,8 +73,11 @@ void main()
     // bring normal to 0-1 range
     vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
 
-    // average albedo per fragments sorrounding the voxel volume
-	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(voxelPos), albedo);
+    ivec3 position = ivec3(In.wsPosition);
+    position = min(max(position, ivec3(0)), ivec3(volumeDimension - 1));
+
     // average normal per fragments sorrounding the voxel volume
-    imageAtomicRGBA8Avg(voxelNormal, ivec3(voxelPos), normal);
+    imageAtomicRGBA8Avg(voxelNormal, position, normal);
+    // average albedo per fragments sorrounding the voxel volume
+	imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
 }

@@ -11,15 +11,16 @@ in Vertex
 
 out GeometryOut
 {
+	vec3 wsPosition;
     vec3 position;
     vec3 normal;
     vec3 texCoord;
-    flat int selectedAxis;
     flat vec4 triangleAABB;
 } Out;
 
 uniform mat4 viewProjections[3];
 uniform uint volumeDimension;
+uniform mat4 worldToVoxelTex;
 
 int CalculateAxis()
 {
@@ -64,7 +65,7 @@ void main()
 	vec3 texCoord[3];
 	int selectedIndex = CalculateAxis();
 	mat4 viewProjection = viewProjections[selectedIndex];
-	Out.selectedAxis = selectedIndex;
+	mat4 viewProjectionI = inverse(viewProjection);
 
     for (int i = 0; i < gl_in.length(); i++)
     {
@@ -94,7 +95,7 @@ void main()
         texCoord[1] = texCoordTemp;
     }
 
-	vec2 halfPixel = vec2(1.0f / volumeDimension) * 0.5;
+	vec2 halfPixel = vec2(1.0f / volumeDimension);
 	vec4 trianglePlane;
 	trianglePlane.xyz = cross(pos[1].xyz - pos[0].xyz, pos[2].xyz - pos[0].xyz);
 	trianglePlane.xyz = normalize(trianglePlane.xyz);
@@ -130,10 +131,14 @@ void main()
 
 	for(int i = 0; i < 3; ++i)
 	{
+		vec4 voxelPos = worldToVoxelTex * viewProjectionI * pos[i];
+		voxelPos.xyz /= voxelPos.w;
+
 		gl_Position = pos[i];
 		Out.position = pos[i].xyz;
 		Out.normal = In[i].normal;
 		Out.texCoord = texCoord[i];
+		Out.wsPosition = voxelPos.xyz * volumeDimension;
 
 		EmitVertex();
 	}
