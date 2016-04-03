@@ -15,8 +15,7 @@ void ShadowMapRenderer::SetMatricesUniforms(const Node &node) const
 {
     auto &prog = CurrentProgram<DepthProgram>();
     static auto &camera = Camera::Active();
-    prog.matrices.modelViewProjection.Set(camera->ProjectionMatrix() *
-                                          camera->ViewMatrix() *
+    prog.matrices.modelViewProjection.Set(camera->ViewProjectionMatrix() *
                                           node.transform.Matrix());
 }
 
@@ -88,8 +87,7 @@ const glm::mat4x4 &ShadowMapRenderer::LightSpaceMatrix()
                                 0.0, 0.5, 0.0, 0.0,
                                 0.0, 0.0, 0.5, 0.0,
                                 0.5, 0.5, 0.5, 1.0);
-    return lightSpaceMatrix = biasMatrix * lightView.ProjectionMatrix()
-                              * lightView.ViewMatrix();
+    return lightSpaceMatrix = biasMatrix * lightView.ViewProjectionMatrix();
 }
 
 const Light * ShadowMapRenderer::Caster() const

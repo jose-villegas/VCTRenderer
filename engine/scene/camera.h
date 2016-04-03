@@ -14,6 +14,8 @@
 class Camera : public SceneObject, public SingleActive<Camera>
 {
     public:
+        void UpdateTransformMatrix() override;
+
         enum class ProjectionMode
         {
             Perspective,
@@ -57,10 +59,11 @@ class Camera : public SceneObject, public SingleActive<Camera>
 
         glm::vec3 LookAt() const;
 
-        const glm::mat4x4 &ViewMatrix();
+        const glm::mat4x4 &ViewMatrix() const;
         const glm::mat4x4 &ProjectionMatrix() const;
-        const glm::mat4x4 &InverseViewMatrix();
-        const glm::mat4x4 &InverseProjectionMatrix();
+        const glm::mat4x4 &ViewProjectionMatrix() const;
+        const glm::mat4x4 &InverseViewMatrix() const;
+        const glm::mat4x4 &InverseProjectionMatrix() const;
 
         /// <summary>
         /// Checks if the bounding volume is inside the
@@ -68,7 +71,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
         /// </summary>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>
-        bool InFrustum(const BoundingBox &volume);
+        bool InFrustum(const BoundingBox &volume) const;
     private:
         float clipPlaneFar;
         float clipPlaneNear;
@@ -79,6 +82,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
 
         glm::mat4x4 viewMatrix;
         glm::mat4x4 projectionMatrix;
+        glm::mat4x4 viewProjectionMatrix;
         glm::mat4x4 inverseViewMatrix;
         glm::mat4x4 inverseProjectionMatrix;
         CullingFrustum frustum;

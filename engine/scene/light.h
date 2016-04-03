@@ -61,19 +61,14 @@ class Light : public SceneObject, public InstancePool<Light>
         void Diffuse(const glm::vec3 &val);
         void Specular(const glm::vec3 &val);
         void Intensities(const glm::vec3 &val);
-
         float AngleInnerCone() const;
         float AngleOuterCone() const;
         const glm::vec3 &Ambient() const;
         const glm::vec3 &Diffuse() const;
         const glm::vec3 &Specular() const;
         const glm::vec3 &Intensities() const;
-
         const glm::vec3 &Direction() const;
-        const glm::vec3 &Position() const;
-
         Attenuation attenuation;
-
         LightType Type() const;
         /// <summary>
         /// Changes the light type and also adds it to one of of the
@@ -95,7 +90,6 @@ class Light : public SceneObject, public InstancePool<Light>
         static const std::vector<Light *> &Directionals();
         static const std::vector<Light *> &Points();
         static const std::vector<Light *> &Spots();
-
         Light();
         virtual ~Light();
     private:

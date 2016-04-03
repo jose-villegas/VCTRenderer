@@ -18,11 +18,22 @@ void Camera::Projection(enum class ProjectionMode mode)
     }
 }
 
+void Camera::UpdateTransformMatrix()
+{
+    viewMatrix = lookAt(transform.Position(), LookAt(), transform.Up());
+    // view dependant
+    inverseViewMatrix = inverse(viewMatrix);
+    viewProjectionMatrix = projectionMatrix * viewMatrix;
+    frustum.ExtractPlanes(viewProjectionMatrix);
+}
+
 Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     fieldOfView(glm::radians(60.0f)), aspectRatio(16.0f / 9.0f),
     mode(ProjectionMode::Perspective)
 {
     name = "Default Camera";
+    viewMatrix = lookAt(transform.Position(), LookAt(), transform.Up());
+    inverseViewMatrix = inverse(viewMatrix);
     UpdateProjectionMatrix();
 }
 
@@ -107,9 +118,9 @@ glm::vec3 Camera::LookAt() const
     return transform.Position() + transform.Forward();
 }
 
-const glm::mat4x4 &Camera::ViewMatrix()
+const glm::mat4x4 &Camera::ViewMatrix() const
 {
-    return viewMatrix = lookAt(transform.Position(), LookAt(), transform.Up());
+    return viewMatrix;
 }
 
 const glm::mat4x4 &Camera::ProjectionMatrix() const
@@ -117,19 +128,23 @@ const glm::mat4x4 &Camera::ProjectionMatrix() const
     return projectionMatrix;
 }
 
-const glm::mat4x4 &Camera::InverseViewMatrix()
+const glm::mat4x4 &Camera::ViewProjectionMatrix() const
 {
-    return inverseViewMatrix = inverse(ViewMatrix());
+    return viewProjectionMatrix;
 }
 
-const glm::mat4x4 &Camera::InverseProjectionMatrix()
+const glm::mat4x4 &Camera::InverseViewMatrix() const
 {
-    return inverseProjectionMatrix = inverse(ProjectionMatrix());
+    return inverseViewMatrix;
 }
 
-bool Camera::InFrustum(const BoundingBox &volume)
+const glm::mat4x4 &Camera::InverseProjectionMatrix() const
 {
-    frustum.ExtractPlanes(ProjectionMatrix() * ViewMatrix());
+    return inverseProjectionMatrix;
+}
+
+bool Camera::InFrustum(const BoundingBox &volume) const
+{
     return frustum.InFrustum(volume);
 }
 
@@ -145,4 +160,9 @@ void Camera::UpdateProjectionMatrix()
         projectionMatrix = glm::ortho(orthoRect.x, orthoRect.y, orthoRect.z,
                                       orthoRect.w, clipPlaneNear, clipPlaneFar);
     }
+
+    // projection dependant
+    inverseProjectionMatrix = inverse(projectionMatrix);
+    viewProjectionMatrix = projectionMatrix * viewMatrix;
+    frustum.ExtractPlanes(viewProjectionMatrix);
 }

@@ -14,7 +14,10 @@ Transform::Transform()
     forward = Vector3::forward;
     up = Vector3::up;
     right = Vector3::right;
-    transformation = Matrix();
+    transformation = translate(position) *
+                     mat4_cast(rotation) *
+                     glm::scale(scale);
+    UpdateCoordinates();
 }
 
 Transform::~Transform()
@@ -112,17 +115,29 @@ const glm::vec3 &Transform::Up() const
 
 void Transform::Forward(const glm::vec3 &val)
 {
-    forward = val;
+    if (forward != val)
+    {
+        forward = val;
+        UpdateTransformMatrix();
+    }
 }
 
 void Transform::Right(const glm::vec3 &val)
 {
-    right = val;
+    if (right != val)
+    {
+        right = val;
+        UpdateTransformMatrix();
+    }
 }
 
 void Transform::Up(const glm::vec3 &val)
 {
-    up = val;
+    if (up != val)
+    {
+        up = val;
+        UpdateTransformMatrix();
+    }
 }
 
 const glm::vec3 &Transform::Angles() const

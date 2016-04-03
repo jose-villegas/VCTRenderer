@@ -1,6 +1,6 @@
 #include "scene_object.h"
 
-SceneObject::SceneObject()
+SceneObject::SceneObject() : transform(*this)
 {
 }
 

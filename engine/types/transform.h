@@ -2,18 +2,17 @@
 
 #include <glm/detail/type_vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
-#include <bitset>
+#include "base_object.h"
 
 /// <summary>
 /// Handles all transformation operations such
 /// as scaling, rotating and translating
 /// </summary>
-class Transform
+class Transform : public BaseObject
 {
     public:
         Transform();
         virtual ~Transform();
-
         /// <summary>
         /// Sets the transform position
         /// </summary>
@@ -34,11 +33,9 @@ class Transform
         /// </summary>
         /// <param name="val">The value.</param>
         void Scale(const glm::vec3 &val);
-
         const glm::vec3 &Position() const;
         const glm::quat &Rotation() const;
         const glm::vec3 &Scale() const;
-
         /// <summary>
         /// Sets the forward direction vector. Warning this does not update the
         /// rest of the direction vectors.
@@ -57,11 +54,9 @@ class Transform
         /// </summary>
         /// <param name="val">The value.</param>
         void Up(const glm::vec3 &val);
-
         const glm::vec3 &Forward() const;
         const glm::vec3 &Right() const;
         const glm::vec3 &Up() const;
-
         const glm::vec3 &Angles() const;
         /// <summary>
         /// Returns the transformation matrix result of this transform
@@ -71,6 +66,7 @@ class Transform
         /// </summary>
         /// <returns></returns>
         const glm::mat4x4 &Matrix() const;
+        virtual void UpdateTransformMatrix();
     private:
         glm::vec3 position;
         glm::quat rotation;
@@ -81,5 +77,4 @@ class Transform
         glm::vec3 angles;
         glm::mat4x4 transformation;
         void UpdateCoordinates();
-        void UpdateTransformMatrix();
 };

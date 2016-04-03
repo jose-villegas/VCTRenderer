@@ -70,11 +70,6 @@ const glm::vec3 &Light::Direction() const
     return transform.Forward();
 }
 
-const glm::vec3 &Light::Position() const
-{
-    return transform.Position();
-}
-
 void Light::Specular(const glm::vec3 &val)
 {
     specular = max(val, glm::vec3(0.0f));

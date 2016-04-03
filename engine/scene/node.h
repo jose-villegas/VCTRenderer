@@ -12,6 +12,7 @@ class MeshDrawer;
 class Node : public SceneObject
 {
     public:
+        void UpdateTransformMatrix() override;
         /// <summary>
         /// Node world space boundaries
         /// </summary>
@@ -28,7 +29,9 @@ class Node : public SceneObject
         virtual ~Node();
         void DrawList();
         void BuildDrawList();
+        const glm::mat4 InverseTranspose() const;
     private:
+        glm::mat4 inverseTransposeModel;
         std::vector<Node *> drawList;
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh

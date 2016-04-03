@@ -7,10 +7,22 @@
 #include "camera.h"
 #include "../core/renderer.h"
 
+#include <glm/detail/func_matrix.hpp>
+
+void Node::UpdateTransformMatrix()
+{
+    Transform::UpdateTransformMatrix();
+    // per transform change update inversetranpose
+    inverseTransposeModel = inverse(transpose(Matrix()));
+    // update boundaries with transform
+    TransformBoundaries();
+}
+
 Node::Node()
 {
     name = "Default Node";
     TransformBoundaries();
+    inverseTransposeModel = inverse(transpose(Matrix()));
 }
 
 Node::~Node()
@@ -52,8 +64,6 @@ void Node::DrawList()
         // no need to check or update boundaries and frustum planes.
         if (Renderer::UseFrustumCulling)
         {
-            node->TransformBoundaries();
-
             if (!camera->InFrustum(node->boundaries))
             {
                 continue;
@@ -67,6 +77,17 @@ void Node::DrawList()
     }
 }
 
+void Node::BuildDrawList()
+{
+    drawList.clear();
+    BuildDrawList(drawList);
+}
+
+const glm::mat4 Node::InverseTranspose() const
+{
+    return inverseTransposeModel;
+}
+
 void Node::TransformBoundaries()
 {
     boundaries.Transform(transform.Matrix());
@@ -75,10 +96,4 @@ void Node::TransformBoundaries()
     {
         mesh->boundaries.Transform(transform.Matrix());
     }
-}
-
-void Node::BuildDrawList()
-{
-    drawList.clear();
-    BuildDrawList(drawList);
 }

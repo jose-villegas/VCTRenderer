@@ -84,5 +84,6 @@ class VoxelizerRenderer : public Renderer
         unsigned int volumeDimension;
         int framestep;
         float volumeGridSize;
+        float voxelSize;
         unsigned int voxelCount;
 };

@@ -63,7 +63,7 @@ void VoxelizerRenderer::SetMatricesUniforms(const Node &node) const
     // no space matrices for voxelization pass during node rendering
     auto &prog = CurrentProgram<VoxelizationProgram>();
     prog.matrices.model.Set(node.transform.Matrix());
-    prog.matrices.normal.Set(inverse(transpose(node.transform.Matrix())));
+    prog.matrices.normal.Set(node.InverseTranspose());
 }
 
 void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
@@ -141,16 +141,27 @@ void VoxelizerRenderer::InjectRadiance()
     static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                            (oglplus::MemoryBarrierBit::TextureFetch);
     static auto &prog = InjectRadianceShader();
-    auto &shadowing = *static_cast<ShadowMapRenderer *>
-                      (AssetsManager::Instance()->renderers["Shadowmapping"].get());
+    static auto &shadowing = *static_cast<ShadowMapRenderer *>
+                             (AssetsManager::Instance()
+                              ->renderers["Shadowmapping"].get());
     auto &caster = *shadowing.Caster();
     // inject radiance into voxel texture and also mip-map
     CurrentProgram<InjectRadianceProgram>(prog);
     // control vars
-    auto sceneBox = scene->rootNode->boundaries;
-    auto voxelSize = volumeGridSize / volumeDimension;
+    auto &sceneBox = scene->rootNode->boundaries;
+    static glm::vec3 center = glm::vec3(sceneBox.Center());
+    static glm::vec3 vSize = glm::vec3(voxelSize);
     // voxel grid projection matrices
-    auto model = translate(sceneBox.Center()) * scale(glm::vec3(voxelSize));;
+    static auto model = translate(center) * scale(vSize);
+
+    // model transform for voxel grid changed
+    if(sceneBox.Center() != center || voxelSize != vSize.x)
+    {
+        center = glm::vec3(sceneBox.Center());
+        vSize = glm::vec3(voxelSize);
+        model = translate(center) * scale(vSize);
+    }
+
     // pass compute shader uniform
     prog.matrices.model.Set(model);
     prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
@@ -167,7 +178,7 @@ void VoxelizerRenderer::InjectRadiance()
                           oglplus::ImageUnitFormat::R32UI);
     voxelTex.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                        oglplus::ImageUnitFormat::RGBA8);
-    auto workGroups = glm::ceil(volumeDimension / 8.0f);
+    auto workGroups = glm::ceil(volumeDimension / 8);
     // inject radiance at level 0 of texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // mipmap radiance resulting volume
@@ -198,17 +209,15 @@ void VoxelizerRenderer::DrawVoxels()
     auto &prog = VoxelDrawerShader();
     CurrentProgram<VoxelDrawerProgram>(prog);
     // control vars
-    auto sceneBox = scene->rootNode->boundaries;
-    auto voxelSize = volumeGridSize / volumeDimension;
+    auto &sceneBox = scene->rootNode->boundaries;
     // voxel grid projection matrices
     auto model = translate(sceneBox.Center()) * scale(glm::vec3(voxelSize));
-    auto &viewMatrix = camera->ViewMatrix();
-    auto &projectionMatrix = camera->ProjectionMatrix();
+    auto &viewProjection = camera->ViewProjectionMatrix();
     // pass voxel drawer uniforms
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                        oglplus::ImageUnitFormat::RGBA8);;
     prog.volumeDimension.Set(volumeDimension);
-    prog.matrices.modelViewProjection.Set(projectionMatrix * viewMatrix * model);
+    prog.matrices.modelViewProjection.Set(viewProjection * model);
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
     voxelDrawerArray.Bind();
@@ -220,6 +229,7 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     auto axisSize = sceneBox.Extent() * 2.0f;
     auto &center = sceneBox.Center();
     volumeGridSize = glm::max(axisSize.x, glm::max(axisSize.y, axisSize.z));
+    voxelSize = volumeGridSize / volumeDimension;
     auto halfSize = volumeGridSize / 2.0f;
     auto projection = glm::ortho(-halfSize, halfSize, -halfSize, halfSize, 0.0f,
                                  volumeGridSize);
@@ -249,6 +259,7 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
     static float zero[] = { 0, 0, 0, 0 };
     volumeDimension = dimension;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
+    voxelSize = volumeGridSize / volumeDimension;
     auto maxLevel = static_cast<unsigned int>(log2(volumeDimension));
     // generate albedo volume
     voxelTex.Bind(TextureTarget::_3D);

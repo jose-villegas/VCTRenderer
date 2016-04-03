@@ -85,9 +85,8 @@ void DeferredRenderer::SetMatricesUniforms(const Node &node) const
 {
     auto &prog = CurrentProgram<GeometryProgram>();
     static auto &camera = Camera::Active();
-    prog.matrices.normal.Set(inverse(transpose(node.transform.Matrix())));
-    prog.matrices.modelViewProjection.Set(camera->ProjectionMatrix() *
-                                          camera->ViewMatrix() *
+    prog.matrices.normal.Set(node.InverseTranspose());
+    prog.matrices.modelViewProjection.Set(camera->ViewProjectionMatrix() *
                                           node.transform.Matrix());
 }
 
