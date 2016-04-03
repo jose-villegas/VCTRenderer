@@ -187,6 +187,14 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.shadowMap.Set(6);
     prog.exponents.Set(shadowing.Exponents());
     prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
+    // voxel test
+    auto &voxel = *static_cast<VoxelizerRenderer *>(AssetsManager::Instance()
+                  ->renderers["Voxelizer"].get());
+    prog.worldToVoxelTex.Set(voxel.WorldToVoxelMatrix());
+    prog.volumeDimension.Set(voxel.VolumeDimension());
+    voxel.VoxelTexture().Active(7);
+    voxel.VoxelTexture().Bind(oglplus::TextureTarget::_3D);
+    prog.voxelTex.Set(7);
 }
 
 GeometryProgram &DeferredRenderer::GeometryPass()

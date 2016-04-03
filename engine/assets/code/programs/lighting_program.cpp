@@ -103,6 +103,14 @@ void LightingProgram::ExtractUniforms()
         light.angleInnerCone.BindTo("spotLight[" + index + "].angleInnerCone");
         light.angleOuterCone.BindTo("spotLight[" + index + "].angleOuterCone");
     }
+
+    // voxel test
+    worldToVoxelTex.Assign(program);
+    worldToVoxelTex.BindTo("worldToVoxelTex");
+    volumeDimension.Assign(program);
+    volumeDimension.BindTo("volumeDimension");
+    voxelTex.Assign(program);
+    voxelTex.BindTo("voxelTex");
 }
 
 LightingProgram::~LightingProgram()

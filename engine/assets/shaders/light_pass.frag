@@ -47,6 +47,44 @@ uniform uint lightTypeCount[3];
 uniform vec2 exponents;
 uniform float lightBleedingReduction;
 
+uniform int volumeDimension;
+uniform mat4 worldToVoxelTex;
+uniform sampler3D voxelTex;
+uniform bool traceShadows = true;
+
+float traceCone(vec3 pos, vec3 dir, float aperture, float maxTracingDistance) {
+
+  uvec3 visibleFace;
+  vec3 weight = abs(dir);
+  float voxelSize = 1.0 / volumeDimension;
+  float dst = voxelSize * 2;
+  float diameter = aperture * dst;
+  vec3 samplePos = dir * dst + pos;
+  float shadowSample = 0.0;
+
+  while (shadowSample <= 1.0 && dst <= maxTracingDistance) {
+
+    if (aperture < 0.3 && (samplePos.x < 0 || samplePos.y < 0 || samplePos.z < 0
+                       || samplePos.x > 1 || samplePos.y > 1 || samplePos.z > 1)) {
+
+      break;
+    }
+
+    float mipLevel = max(log2(diameter * volumeDimension), 0);
+
+    vec4 interpolatedSample = weight.x * textureLod(voxelTex, samplePos, mipLevel)
+                            + weight.y * textureLod(voxelTex, samplePos, mipLevel)
+                            + weight.z * textureLod(voxelTex, samplePos, mipLevel);
+
+    shadowSample += (1 - shadowSample) * interpolatedSample.a;
+    dst += max(diameter, voxelSize);
+    diameter = dst * aperture;
+    samplePos = dir * dst + pos;
+  }
+
+  return shadowSample;
+}
+
 float linstep(float low, float high, float value)
 {
     return clamp((value - low) / (high - low), 0.0f, 1.0f);
@@ -192,6 +230,14 @@ void main()
     {
         lighting += CalculateDirectional(directionalLight[i], normal, position, 
                                          albedo, specular);
+        if(traceShadows)
+        {
+            vec4 voxelPos = worldToVoxelTex * vec4(position, 1.0f);
+            voxelPos.xyz /= voxelPos.w;
+
+            lighting *= max(0.0f, 1.0f - traceCone(voxelPos.xyz, directionalLight[i].direction, 0.01, 20.0f));
+        }
+        else
         // only directionals casts shadows (in this app), thus we can check here
         if(i == 0) { lighting *= Visibility(position); }
 
