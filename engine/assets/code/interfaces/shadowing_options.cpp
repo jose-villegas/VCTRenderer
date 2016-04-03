@@ -53,6 +53,7 @@ void UIShadowingOptions::Draw()
         BeginGroup();
         static auto blurScale = 0.5f;
         static auto blurQuality = 1;
+        static auto filtering = 2;
         static auto aniso = 8;
 
         if(SliderFloat("Blur Scale", &blurScale, 0.0f, 8.0f))
@@ -68,6 +69,11 @@ void UIShadowingOptions::Draw()
         if (SliderInt("Anisotropic Filtering", &aniso, 0, 16))
         {
             shadowRender.Anisotropy(aniso);
+        }
+
+        if (Combo("Filtering", &filtering, "None\0Bilinear\0Trilinear"))
+        {
+            shadowRender.Filtering(filtering);
         }
 
         EndGroup();

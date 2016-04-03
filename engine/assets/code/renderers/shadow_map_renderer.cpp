@@ -70,10 +70,13 @@ void ShadowMapRenderer::Render()
 
     // recover
     DefaultFramebuffer().Bind(FramebufferTarget::Draw);
+
+    // no trilinear filtering
+    if (filtering < 2) return;
+
     // mip map shadow map
     shadowMap.Bind(TextureTarget::_2D);
     shadowMap.GenerateMipmap(TextureTarget::_2D);
-    gl.Enable(Capability::DepthTest);
 }
 
 void ShadowMapRenderer::Caster(const Light * caster)
@@ -117,6 +120,7 @@ ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     SetupFramebuffers(1024, 1024);
     blurScale = 0.5f;
     blurQuality = 1;
+    filtering = 2;
     exponents = glm::vec2(40.0f, 5.0f);
     lightBleedingReduction = 0.0f;
 }
@@ -229,9 +233,30 @@ void ShadowMapRenderer::Anisotropy(const int &val) const
 {
     using namespace oglplus;
     static Context gl;
-    gl.Bound(TextureTarget::_2D, blurShadow).Anisotropy(val);
+    gl.Bound(TextureTarget::_2D, shadowMap).Anisotropy(val);
+}
+
+void ShadowMapRenderer::Filtering(const int &val)
+{
     using namespace oglplus;
-    gl.Bound(TextureTarget::_2D, shadowMap).Anisotropy(val);;
+    static Context gl;
+    filtering = glm::clamp(val, 0, 2);
+
+    if(filtering == 0)
+        gl.Bound(TextureTarget::_2D, shadowMap)
+        .MagFilter(TextureMagFilter::Nearest)
+        .MinFilter(TextureMinFilter::Nearest);
+
+    if(filtering == 1)
+        gl.Bound(TextureTarget::_2D, shadowMap)
+        .MagFilter(TextureMagFilter::Linear)
+        .MinFilter(TextureMinFilter::Linear);
+
+    if(filtering == 2)
+        gl.Bound(TextureTarget::_2D, shadowMap)
+        .MagFilter(TextureMagFilter::Linear)
+        .MinFilter(TextureMinFilter::LinearMipmapLinear)
+        .GenerateMipmap();
 }
 
 void ShadowMapRenderer::BlurShadowMap()
@@ -262,4 +287,5 @@ void ShadowMapRenderer::BlurShadowMap()
     prog.blurType.Set(blurQuality);
     gl.Clear().DepthBuffer().ColorBuffer();
     fsQuad.Draw();
+    gl.Enable(Capability::DepthTest);
 }

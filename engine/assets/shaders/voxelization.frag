@@ -12,8 +12,8 @@ in GeometryOut
 layout (location = 0) out vec4 fragColor;
 layout (pixel_center_integer) in vec4 gl_FragCoord;
 
-layout(binding = 0, r32ui) uniform uimage3D voxelAlbedo;
-layout(binding = 1, r32ui) uniform uimage3D voxelNormal;
+layout(binding = 0, r32ui) uniform volatile coherent uimage3D voxelAlbedo;
+layout(binding = 1, r32ui) uniform volatile coherent uimage3D voxelNormal;
 
 uniform struct Material
 {
@@ -39,7 +39,7 @@ uint convVec4ToRGBA8(vec4 val)
     (uint(val.x) & 0x000000FF);
 }
 
-void imageAtomicRGBA8Avg(layout(r32ui) uimage3D grid, ivec3 coords, vec4 value)
+void imageAtomicRGBA8Avg(layout(r32ui) volatile coherent uimage3D grid, ivec3 coords, vec4 value)
 {
     value.rgb *= 255.0;                 // optimize following calculations
     uint newVal = convVec4ToRGBA8(value);
@@ -92,12 +92,10 @@ void main()
     // fragment albedo
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
     albedo.rgb *= material.diffuse;
+    albedo.a = 1.0f;
 
     // bring normal to 0-1 range
     vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
-
-    // alpha cutoff
-    if(albedo.a <= 0.5f) discard;
 
     // average albedo per fragments sorrounding the voxel volume
 	imageAtomicRGBA8Avg(voxelAlbedo, ivec3(voxelPos), albedo);
