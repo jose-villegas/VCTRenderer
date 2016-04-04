@@ -48,6 +48,20 @@ void UIVoxelizationOptions::Draw()
             voxel.SetUpdateFrequency(glm::max(updateFrequency, 0));
         }
 
+        Separator();
+        static auto mipLevel = 0, direction = 0;
+        auto maxLevel = log2(voxel.VolumeDimension()) - 1;
+
+        if(SliderInt("Draw Mip Level", &mipLevel, 0, maxLevel))
+        {
+            voxel.SetupDrawVoxels(mipLevel, direction);
+        }
+
+        if (SliderInt("Draw Mip Direction", &direction, 0, 5))
+        {
+            voxel.SetupDrawVoxels(mipLevel, direction);
+        }
+
         if(Button("Voxelize Now"))
         {
             voxel.RevoxelizeScene();

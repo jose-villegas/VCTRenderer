@@ -211,7 +211,11 @@ void UISceneLights::Draw()
         if (Button("Delete"))
         {
             // stored as shadow caster also
-            if (light == casters[scene]) casters[scene] = nullptr;
+            if (light == casters[scene])
+            {
+                casters[scene] = nullptr;
+                shadowing->Caster(nullptr);
+            }
 
             // delete ref in scene lights
             scene->lights.erase(scene->lights.begin() + selected);

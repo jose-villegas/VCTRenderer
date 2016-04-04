@@ -4,8 +4,9 @@
 #include <oglplus/texture.hpp>
 #include <glm/mat4x4.hpp>
 #include <oglplus/vertex_array.hpp>
-#include <oglplus/buffer.hpp>
 
+class MipmappingVolumeProgram;
+class MipmappingBaseProgram;
 class InjectRadianceProgram;
 class BoundingBox;
 class VoxelDrawerProgram;
@@ -43,6 +44,7 @@ class VoxelizerRenderer : public Renderer
         explicit VoxelizerRenderer(RenderWindow &window);
         void SetupVoxelVolumes(const unsigned int &dimension);
         void RevoxelizeScene();
+        void SetupDrawVoxels(const unsigned &level, const unsigned &direction);
         /// <summary>
         /// Finalizes an instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
@@ -63,6 +65,8 @@ class VoxelizerRenderer : public Renderer
         /// <returns></returns>
         static VoxelDrawerProgram &VoxelDrawerShader();
         static InjectRadianceProgram &InjectRadianceShader();
+        static MipmappingBaseProgram &MipMappingBaseShader();
+        static MipmappingVolumeProgram &MipMappingVolumeShader();
         /// <summary>
         /// Creates the view projection matrices per x, y and z axis.
         /// depending on the voxel volume grid size.
@@ -73,12 +77,14 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         void VoxelizeScene();
         void InjectRadiance();
+        void GenerateMipmap();
         /// <summary>
         /// Draws the resulting voxels.
         /// </summary>
         void DrawVoxels();
         // output textures
         oglplus::Texture voxelTex;
+        oglplus::Texture voxelTexMipmap;
         oglplus::Texture voxelNormal;
 
         // vertex buffer object for 3d texture visualization
@@ -87,6 +93,8 @@ class VoxelizerRenderer : public Renderer
         std::array<glm::mat4x4, 3> viewProjectionMatrix;
         unsigned int volumeDimension;
         int framestep;
+        unsigned int drawMipLevel;
+        unsigned int drawDirection;
         float volumeGridSize;
         float voxelSize;
         unsigned int voxelCount;

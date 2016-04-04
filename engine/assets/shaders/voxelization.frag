@@ -73,11 +73,15 @@ void main()
     // bring normal to 0-1 range
     vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
 
+    const ivec3 zero = ivec3(0);
+    ivec3 dimension = ivec3(volumeDimension);
     ivec3 position = ivec3(In.wsPosition);
-    position = min(max(position, ivec3(0)), ivec3(volumeDimension - 1));
 
-    // average normal per fragments sorrounding the voxel volume
-    imageAtomicRGBA8Avg(voxelNormal, position, normal);
-    // average albedo per fragments sorrounding the voxel volume
-	imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
+    if(all(greaterThanEqual(position, zero)) && all(lessThan(position, dimension)))
+    {
+        // average normal per fragments sorrounding the voxel volume
+        imageAtomicRGBA8Avg(voxelNormal, position, normal);
+        // average albedo per fragments sorrounding the voxel volume
+        imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
+    }
 }

@@ -18,6 +18,7 @@ uniform Light directionalLight;
 uniform float voxelSize;
 
 uniform sampler2D shadowMap;
+uniform uint castShadow = 1;
 
 vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
 {
@@ -125,7 +126,12 @@ void main()
 	albedo.rgb = Diffuse(directionalLight, directionalLight.direction, normal, albedo.rgb);
 
 	vec3 unitCubeDirection = vec3(clamp(2.0f * normal, vec3(-1.0f), vec3(1.0f)));
-	albedo *= Visibility(wsPosition.xyz + unitCubeDirection * voxelSize);
+	
+	if(castShadow == 1)
+	{
+		albedo *= Visibility(wsPosition.xyz + unitCubeDirection * voxelSize);
+	}
+
 	albedo.a = 1.0f;
 
 	imageStore(voxelRadiance, writePos, albedo);

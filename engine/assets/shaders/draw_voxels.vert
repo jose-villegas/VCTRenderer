@@ -5,6 +5,7 @@ out vec4 albedo;
 layout(binding = 0, rgba8) uniform readonly image3D voxelRadiance;
 
 uniform uint volumeDimension;
+uniform uint direction = 0;
 
 void main()
 {
@@ -17,6 +18,8 @@ void main()
 		gl_VertexID / (volumeDimension * volumeDimension)
 	);
 
-	albedo = imageLoad(voxelRadiance, ivec3(position));
+	ivec3 texPos = ivec3(position.x + volumeDimension * direction, position.yz);
+
+	albedo = imageLoad(voxelRadiance, ivec3(texPos));
 	gl_Position = vec4(position, 1.0f);
 }

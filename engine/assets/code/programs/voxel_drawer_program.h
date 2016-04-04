@@ -14,6 +14,7 @@ class VoxelDrawerProgram : public ProgramShader
     public:
         UniformMatrices matrices;
         oglplus::Uniform<unsigned int> volumeDimension;
+        oglplus::Uniform<unsigned int> direction;
 
         void ExtractUniforms() override;
 
