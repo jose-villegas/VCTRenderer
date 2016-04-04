@@ -8,6 +8,7 @@ void LightingProgram::ExtractUniforms()
 {
     using namespace oglplus;
     // assign program
+    shadowMapping.Assign(program);
     inverseProjectionView.Assign(program);
     lightViewProjection.Assign(program);
     gDepth.Assign(program);
@@ -21,6 +22,7 @@ void LightingProgram::ExtractUniforms()
     exponents.Assign(program);
     lightBleedingReduction.Assign(program);
     // bind to uniform name
+    shadowMapping.BindTo("shadowMapping");
     inverseProjectionView.BindTo("inverseProjectionView");
     lightViewProjection.BindTo("lightViewProjection");
     gDepth.BindTo("gDepth");

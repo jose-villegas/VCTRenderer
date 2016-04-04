@@ -43,6 +43,7 @@ uniform Light pointLight[MAX_POINT_LIGHTS];
 uniform Light spotLight[MAX_SPOT_LIGHTS];
 
 uniform uint lightTypeCount[3];
+uniform uint shadowMapping = 1;
 
 uniform vec2 exponents;
 uniform float lightBleedingReduction;
@@ -192,8 +193,8 @@ void main()
     {
         lighting += CalculateDirectional(directionalLight[i], normal, position, 
                                          albedo, specular);
-        // only directionals casts shadows (in this app), thus we can check here
-        if(i == 0) { lighting *= Visibility(position); }
+        // only one directional uses shadowmapping, thus we can check here
+        if(i == 0 && shadowMapping == 1) { lighting *= Visibility(position); }
 
         lighting += Ambient(directionalLight[i], albedo);
     }

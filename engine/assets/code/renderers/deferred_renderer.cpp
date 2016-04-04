@@ -114,6 +114,7 @@ const
 void DeferredRenderer::SetLightPassUniforms() const
 {
     static auto &camera = Camera::Active();
+    static auto &scene = Scene::Active();
     auto &prog = CurrentProgram<LightingProgram>();;
     prog.inverseProjectionView.Set(camera->InverseViewMatrix() *
                                    camera->InverseProjectionMatrix());
@@ -121,72 +122,74 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.gNormal.Set(GeometryBuffer::Normal);
     prog.gAlbedo.Set(GeometryBuffer::Albedo);
     prog.gSpecular.Set(GeometryBuffer::Specular);
-    // set directional lights uniforms
-    auto &directionals = Light::Directionals();
-    auto &points = Light::Points();
-    auto &spots = Light::Spots();
     // uniform arrays of lights
     auto &uDirectionals = prog.directionalLight;
     auto &uPoints = prog.pointLight;
     auto &uSpots = prog.spotLight;
-
-    for (int i = 0; i < directionals.size(); i++)
-    {
-        auto &light = directionals[i];
-        auto &uLight = uDirectionals[i];
-        auto &intensity = light->Intensities();
-        // update view space direction-position
-        uLight.direction.Set(light->Direction());
-        uLight.ambient.Set(light->Ambient() * intensity.x);
-        uLight.diffuse.Set(light->Diffuse() * intensity.y);
-        uLight.specular.Set(light->Specular() * intensity.z);
-    }
-
-    for (int i = 0; i < points.size(); i++)
-    {
-        auto &light = points[i];
-        auto &uLight = uPoints[i];
-        auto &intensity = light->Intensities();
-        // update view space direction-position
-        uLight.position.Set(light->Position());
-        uLight.ambient.Set(light->Ambient() * intensity.x);
-        uLight.diffuse.Set(light->Diffuse() * intensity.y);
-        uLight.specular.Set(light->Specular() * intensity.z);
-        uLight.attenuation.constant.Set(light->attenuation.Constant());
-        uLight.attenuation.linear.Set(light->attenuation.Linear());
-        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
-    }
-
-    for (int i = 0; i < spots.size(); i++)
-    {
-        auto &light = spots[i];
-        auto &uLight = uSpots[i];
-        auto &intensity = light->Intensities();
-        // update view space direction-position
-        uLight.position.Set(light->Position());
-        uLight.direction.Set(light->Direction());
-        uLight.ambient.Set(light->Ambient() * intensity.x);
-        uLight.diffuse.Set(light->Diffuse() * intensity.y);
-        uLight.specular.Set(light->Specular() * intensity.z);
-        uLight.attenuation.constant.Set(light->attenuation.Constant());
-        uLight.attenuation.linear.Set(light->attenuation.Linear());
-        uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
-        uLight.angleInnerCone.Set(cos(light->AngleInnerCone()));
-        uLight.angleOuterCone.Set(cos(light->AngleOuterCone()));
-    }
-
+    auto &lights = scene->lights;
+    // index of directional-point-spot lights
+    auto typeIndex = glm::vec3(0);
     // pass number of lights per type
-    prog.lightTypeCount[0].Set(directionals.size());
-    prog.lightTypeCount[1].Set(points.size());
-    prog.lightTypeCount[2].Set(spots.size());
+    prog.lightTypeCount[0].Set(Light::Directionals().size());
+    prog.lightTypeCount[1].Set(Light::Points().size());
+    prog.lightTypeCount[2].Set(Light::Spots().size());
+
+    for (int i = 0; i < lights.size(); ++i)
+    {
+        auto &light = lights[i];
+        auto &factor = light->Intensities();
+        // current light uniform
+        auto &uLight = light->Type() == Light::Directional
+                       ? uDirectionals[typeIndex.x++]
+                       : light->Type() == Light::Point
+                       ? uPoints[typeIndex.y++]
+                       : uSpots[typeIndex.z++];
+        // shared uniforms between types
+        uLight.ambient.Set(light->Ambient() * factor.x);
+        uLight.diffuse.Set(light->Diffuse() * factor.y);
+        uLight.specular.Set(light->Specular() * factor.z);
+
+        if (light->Type() == Light::Spot || light->Type() == Light::Point)
+        {
+            uLight.position.Set(light->Position());
+        }
+
+        if (light->Type() == Light::Spot || light->Type() == Light::Directional)
+        {
+            uLight.direction.Set(light->Direction());
+        }
+
+        if (light->Type() == Light::Spot || light->Type() == Light::Point)
+        {
+            uLight.attenuation.constant.Set(light->attenuation.Constant());
+            uLight.attenuation.linear.Set(light->attenuation.Linear());
+            uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
+        }
+
+        if(light->Type() == Light::Spot)
+        {
+            uLight.angleInnerCone.Set(cos(light->AngleInnerCone()));
+            uLight.angleOuterCone.Set(cos(light->AngleOuterCone()));
+        }
+    }
+
     // pass shadowing parameters
     auto &shadowing = *static_cast<ShadowMapRenderer *>(AssetsManager::Instance()
                       ->renderers["Shadowmapping"].get());
-    prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
-    shadowing.BindReading(6);
-    prog.shadowMap.Set(6);
-    prog.exponents.Set(shadowing.Exponents());
-    prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
+
+    if(shadowing.Caster() != nullptr)
+    {
+        prog.shadowMapping.Set(1);
+        prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
+        shadowing.BindReading(6);
+        prog.shadowMap.Set(6);
+        prog.exponents.Set(shadowing.Exponents());
+        prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
+    }
+    else
+    {
+        prog.shadowMapping.Set(0);
+    }
 }
 
 GeometryProgram &DeferredRenderer::GeometryPass()

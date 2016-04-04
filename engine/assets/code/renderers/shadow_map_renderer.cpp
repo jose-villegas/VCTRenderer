@@ -84,6 +84,11 @@ void ShadowMapRenderer::Caster(const Light * caster)
     shadowCaster = caster;
 }
 
+const Light * ShadowMapRenderer::Caster() const
+{
+    return shadowCaster;
+}
+
 const glm::mat4x4 &ShadowMapRenderer::LightSpaceMatrix()
 {
     static glm::mat4 biasMatrix(0.5, 0.0, 0.0, 0.0,
@@ -91,11 +96,6 @@ const glm::mat4x4 &ShadowMapRenderer::LightSpaceMatrix()
                                 0.0, 0.0, 0.5, 0.0,
                                 0.5, 0.5, 0.5, 1.0);
     return lightSpaceMatrix = biasMatrix * lightView.ViewProjectionMatrix();
-}
-
-const Light * ShadowMapRenderer::Caster() const
-{
-    return shadowCaster;
 }
 
 void ShadowMapRenderer::BindReading(unsigned unit) const

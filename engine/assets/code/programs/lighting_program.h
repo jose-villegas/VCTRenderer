@@ -53,6 +53,7 @@ class LightingProgram : public ProgramShader
 
         oglplus::Uniform<glm::vec2> exponents;
         oglplus::Uniform<float> lightBleedingReduction;
+        oglplus::Uniform<unsigned int> shadowMapping;
 
         void ExtractUniforms() override;
 

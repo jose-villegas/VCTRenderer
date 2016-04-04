@@ -34,7 +34,7 @@ void main()
 	ivec3 sourcePos = writePos * 2;
 
 	vec4 values[8] = fetchTexels(sourcePos);
-	// z +
+	// x +
 	imageStore(voxelMipmap, writePos, 
 	(
 		values[0] + values[4] * (1 - values[0].a) + 
@@ -42,7 +42,7 @@ void main()
 		values[2] + values[6] * (1 - values[2].a) +
 		values[3] + values[7] * (1 - values[3].a)) / 4
 	);
-	// z -
+	// x -
 	writePos.x += mipDimension;
     imageStore(voxelMipmap, writePos, 
 	(
@@ -69,7 +69,7 @@ void main()
     	values[7] + values[5] * (1 - values[7].a) +
     	values[6] + values[4] * (1 - values[6].a)) / 4
     );
-	// x +
+	// z +
 	writePos.x += mipDimension;
     imageStore(voxelMipmap, writePos, 
 	(
@@ -78,7 +78,7 @@ void main()
     	values[4] + values[5] * (1 - values[4].a) +
     	values[6] + values[7] * (1 - values[6].a)) / 4
     );
-	// x -
+	// z -
 	writePos.x += mipDimension;
     imageStore(voxelMipmap, writePos, 
 	(

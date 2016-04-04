@@ -18,7 +18,7 @@ uniform Light directionalLight;
 uniform float voxelSize;
 
 uniform sampler2D shadowMap;
-uniform uint castShadow = 1;
+uniform uint shadowMapping = 1;
 
 vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
 {
@@ -127,7 +127,7 @@ void main()
 
 	vec3 unitCubeDirection = vec3(clamp(2.0f * normal, vec3(-1.0f), vec3(1.0f)));
 	
-	if(castShadow == 1)
+	if(shadowMapping == 1)
 	{
 		albedo *= Visibility(wsPosition.xyz + unitCubeDirection * voxelSize);
 	}

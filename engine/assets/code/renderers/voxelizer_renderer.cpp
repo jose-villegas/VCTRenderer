@@ -152,8 +152,6 @@ void VoxelizerRenderer::VoxelizeScene()
 
 void VoxelizerRenderer::InjectRadiance()
 {
-    static auto &camera = Camera::Active();
-    static auto &scene = Scene::Active();
     static oglplus::Context gl;
     static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                           (oglplus::MemoryBarrierBit::ShaderImageAccess);
@@ -177,11 +175,11 @@ void VoxelizerRenderer::InjectRadiance()
         auto &caster = *shadowing.Caster();
         prog.directionalLight.diffuse.Set(caster.Diffuse() * caster.Intensities().y);
         prog.directionalLight.direction.Set(caster.Direction());
-        prog.castShadow.Set(1);
+        prog.shadowMapping.Set(1);
     }
     else
     {
-        prog.castShadow.Set(0);
+        prog.shadowMapping.Set(0);
     }
 
     // pass uniform texture for shadowing
@@ -209,7 +207,7 @@ void VoxelizerRenderer::GenerateMipmap()
                           (oglplus::MemoryBarrierBit::ShaderImageAccess);
     static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                            (oglplus::MemoryBarrierBit::TextureFetch);
-    static auto &baseProg = MipMappingBaseShader(); \
+    static auto &baseProg = MipMappingBaseShader();
     static auto &volumeProg = MipMappingVolumeShader();
     auto halfDimension = volumeDimension / 2;
     // base volume mipmap from voxel tex to first mip level
