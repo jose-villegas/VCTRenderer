@@ -110,6 +110,8 @@ void LightingProgram::ExtractUniforms()
         light.angleOuterCone.BindTo("spotLight[" + index + "].angleOuterCone");
     }
 
+    cameraPosition.Assign(program);
+    cameraPosition.BindTo("cameraPosition");
     // voxel volume setup
     worldToVoxelTex.Assign(program);
     worldToVoxelTex.BindTo("worldToVoxelTex");

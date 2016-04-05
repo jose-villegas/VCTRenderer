@@ -52,6 +52,8 @@ class LightingProgram : public ProgramShader
         std::vector<UniformLight> spotLight;
         std::array<oglplus::Uniform<unsigned int>, 3> lightTypeCount;
 
+        oglplus::Uniform<glm::vec3> cameraPosition;
+
         oglplus::Uniform<glm::vec2> exponents;
         oglplus::Uniform<float> lightBleedingReduction;
 

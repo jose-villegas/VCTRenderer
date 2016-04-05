@@ -50,9 +50,7 @@ void DeferredRenderer::Render()
     // rendering and GL flags
     gl.ClearDepth(1.0f);
     gl.Enable(Capability::DepthTest);
-    gl.Enable(Capability::Blend);
-    gl.BlendFunc(BlendFunction::SrcAlpha,
-                 BlendFunction::OneMinusSrcAlpha);
+    gl.Disable(Capability::Blend);
     gl.Enable(Capability::CullFace);
     gl.FrontFace(FaceOrientation::CCW);
     gl.CullFace(Face::Back);
@@ -111,6 +109,7 @@ void DeferredRenderer::SetLightPassUniforms() const
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
     auto &prog = CurrentProgram<LightingProgram>();;
+    prog.cameraPosition.Set(camera->Position());
     prog.inverseProjectionView.Set(camera->InverseViewMatrix() *
                                    camera->InverseProjectionMatrix());
 

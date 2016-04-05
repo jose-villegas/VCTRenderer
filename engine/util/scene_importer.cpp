@@ -182,7 +182,6 @@ void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
     mMaterial->Get(AI_MATKEY_SHININESS, shininess);
     mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, shinStrength);
     material.RefractionIndex(refracti);
-    // assimp scales mtl range from 0 -> 1000 x 4
     material.Shininess(shininess);
     material.ShininessStrenght(shinStrength);
     // get material properties
