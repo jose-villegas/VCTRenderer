@@ -117,6 +117,8 @@ void LightingProgram::ExtractUniforms()
     volumeDimension.BindTo("volumeDimension");
     voxelTex.Assign(program);
     voxelTex.BindTo("voxelTex");
+    voxelTexMipmap.Assign(program);
+    voxelTexMipmap.BindTo("voxelTexMipmap");
 }
 
 LightingProgram::~LightingProgram()

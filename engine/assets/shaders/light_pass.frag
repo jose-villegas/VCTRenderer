@@ -53,18 +53,46 @@ uniform mat4 worldToVoxelTex;
 uniform sampler3D voxelTex;
 uniform sampler3D voxelTexMipmap;
 
+const vec3 mipOffset[] = 
+{
+    vec3(0.0f, 0.0f, 0.0f),
+    vec3(1.0f / 6.0f, 0.0f, 0.0f),
+    vec3(2.0f / 6.0f, 0.0f, 0.0f),
+    vec3( 3.0f / 6.0f, 0.0f, 0.0f),
+    vec3(4.0f / 6.0f, 0.0f, 0.0f),
+    vec3(5.0f / 6.0f, 0.0f, 0.0f)
+};
+
+vec4 VoxelAnistropicSample(sampler3D base, sampler3D mips, vec3 pos, vec3 dir, float level)
+{
+    uvec3 visibleFace;
+    visibleFace.x = (dir.x > 0.0) ? 0 : 1;
+    visibleFace.y = (dir.y > 0.0) ? 2 : 3;
+    visibleFace.z = (dir.z > 0.0) ? 4 : 5;
+    vec3 weight = dir * dir;
+    float anisoLevel = max(level - 1.0f, 0.0f);
+
+    vec4 color0 = texture(voxelTex, pos);
+
+    pos.x /= 6.0f;
+    vec4 color = weight.x * textureLod(mips, pos + mipOffset[visibleFace.x], anisoLevel)
+                + weight.y * textureLod(mips, pos + mipOffset[visibleFace.y], anisoLevel)
+                + weight.z * textureLod(mips, pos + mipOffset[visibleFace.z], anisoLevel);
+    color.rgb *= 8.0f;
+    return mix(color0, color, clamp(level, 0.0f, 1.0f));
+}
+
 float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance) 
 {
     uvec3 visibleFace;
-    visibleFace.x = (direction.x < 0.0) ? 0 : 1;
-    visibleFace.y = (direction.y < 0.0) ? 2 : 3;
-    visibleFace.z = (direction.z < 0.0) ? 4 : 5;
-    vec3 weight = abs(direction);
+    visibleFace.x = (direction.x > 0.0) ? 0 : 1;
+    visibleFace.y = (direction.y > 0.0) ? 2 : 3;
+    visibleFace.z = (direction.z > 0.0) ? 4 : 5;
+    vec3 weight = direction * direction;
     float voxelSize = 1.0f / volumeDimension;
     float dst = voxelSize * 2.0f;
     float diameter = aperture * dst;
     vec3 samplePos = direction * dst + position;
-    vec4 interpolatedSample = vec4(0.0f);
     float visibility = 0.0f;
 
     while (visibility <= 1.0f && dst <= maxTracingDistance) 
@@ -76,10 +104,18 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
         }
 
         float mipLevel = max(log2(diameter * volumeDimension), 0.0f);
+        float anisoLevel = max(mipLevel - 1.0f, 0.0f);
+        vec3 anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
 
-        interpolatedSample = weight.x * textureLod(voxelTex, samplePos, mipLevel)
-                            + weight.y * textureLod(voxelTex, samplePos, mipLevel)
-                            + weight.z * textureLod(voxelTex, samplePos, mipLevel);
+        vec4 baseColor = texture(voxelTex, samplePos);
+        vec4 interpolatedSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], anisoLevel)
+                                + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], anisoLevel)
+                                + weight.z * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.z], anisoLevel);
+        if(mipLevel <= 1.0f)
+        {
+            vec4 baseColor = texture(voxelTex, samplePos);
+            interpolatedSample = mix(baseColor, interpolatedSample, clamp(mipLevel, 0.0f, 1.0f));
+        }
 
         visibility += (1.0f - visibility) * interpolatedSample.a;
         dst += max(diameter, voxelSize);
@@ -187,14 +223,33 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
     light.direction = normalize(light.position - position);
-    float distance = distance(light.position, position);
-    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * distance
-                    + light.attenuation.quadratic * distance * distance + 1.0f);
+    float d = distance(light.position, position);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * d
+                    + light.attenuation.quadratic * d * d + 1.0f);
 
-    if(falloff <= 0.0f) { return Ambient(light, albedo); }             
+    if(falloff <= 0.0f) return vec3(0.0f);
+
+    float visibility = 1.0f;
+
+    if(light.shadowingMethod == 2)
+    {
+        vec4 voxelPos = worldToVoxelTex * vec4(position, 1.0f);
+        voxelPos.xyz /= voxelPos.w;
+
+        vec4 lightPosT = worldToVoxelTex * vec4(light.position, 1.0f);
+        lightPosT.xyz /= lightPosT.w;
+
+        vec3 lightDirT = lightPosT.xyz - voxelPos.xyz;
+        float dT = length(lightDirT);
+        lightDirT = normalize(lightDirT);
+
+        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos.xyz, lightDirT, 0.01f, dT));
+    }    
+
+    if(visibility <= 0.0f) return vec3(0.0f);  
 
     return (Diffuse(light, light.direction, normal, albedo) 
-           + Specular(light, light.direction, normal, position, specular)) * falloff;
+           + Specular(light, light.direction, normal, position, specular)) * falloff * visibility;
 }
 
 vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -203,7 +258,8 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
     light.direction = normalize(light.position - position);
     float cosAngle = dot(-light.direction, spotDirection);
 
-    if(cosAngle <= light.angleOuterCone) { return Ambient(light, albedo); }
+    // outside the cone
+    if(cosAngle <= light.angleOuterCone) { return vec3(0.0f); }
 
     // assuming they are passed as cos(angle)
     float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
@@ -211,15 +267,36 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
     float spotMark = (cosAngle - light.angleOuterCone) / innerMinusOuter;
     float spotFalloff = smoothstep(0.0f, 1.0f, spotMark);
 
+    if(spotFalloff <= 0.0f) return vec3(0.0f);   
+
     float dst = distance(light.position, position);
     float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * dst
-                    + light.attenuation.quadratic * dst * dst + 1.0f);
+                    + light.attenuation.quadratic * dst * dst + 1.0f);   
 
-    if(falloff <= 0.0f) { return Ambient(light, albedo); }             
+    if(falloff <= 0.0f) return vec3(0.0f);
+
+    float visibility = 1.0f;
+
+    if(light.shadowingMethod == 2)
+    {
+        vec4 voxelPos = worldToVoxelTex * vec4(position, 1.0f);
+        voxelPos.xyz /= voxelPos.w;
+
+        vec4 lightPosT = worldToVoxelTex * vec4(light.position, 1.0f);
+        lightPosT.xyz /= lightPosT.w;
+
+        vec3 lightDirT = lightPosT.xyz - voxelPos.xyz;
+        float dT = length(lightDirT);
+        lightDirT = normalize(lightDirT);
+
+        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos.xyz, lightDirT, 0.01f, dT));
+    }
+    
+    if(visibility <= 0.0f) return vec3(0.0f); 
 
     return (Diffuse(light, light.direction, normal, albedo) 
            + Specular(light, light.direction, normal, position, specular)) 
-           * falloff * spotFalloff;
+           * falloff * spotFalloff * visibility;
 }
 
 vec3 PositionFromDepth()

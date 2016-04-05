@@ -53,6 +53,7 @@ class VoxelizerRenderer : public Renderer
         const glm::mat4x4 &WorldToVoxelMatrix() const;
         const unsigned int &VolumeDimension() const;
         oglplus::Texture &VoxelTexture();
+        oglplus::Texture &VoxelTextureMipmap();
     private:
         /// <summary>
         /// Returns the voxelization program shader.

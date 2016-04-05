@@ -58,6 +58,7 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<glm::mat4x4> worldToVoxelTex;
         oglplus::Uniform<int> volumeDimension;
         oglplus::UniformSampler voxelTex;
+        oglplus::UniformSampler voxelTexMipmap;
 
         void ExtractUniforms() override;
 

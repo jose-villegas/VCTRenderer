@@ -197,7 +197,10 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.volumeDimension.Set(voxel.VolumeDimension());
     voxel.VoxelTexture().Active(7);
     voxel.VoxelTexture().Bind(oglplus::TextureTarget::_3D);
+    voxel.VoxelTextureMipmap().Active(8);
+    voxel.VoxelTextureMipmap().Bind(oglplus::TextureTarget::_3D);
     prog.voxelTex.Set(7);
+    prog.voxelTexMipmap.Set(8);
 }
 
 GeometryProgram &DeferredRenderer::GeometryPass()

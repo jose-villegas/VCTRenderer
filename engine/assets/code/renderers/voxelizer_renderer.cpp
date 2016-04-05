@@ -413,6 +413,12 @@ oglplus::Texture &VoxelizerRenderer::VoxelTexture()
 {
     return voxelTex;
 }
+
+oglplus::Texture &VoxelizerRenderer::VoxelTextureMipmap()
+{
+    return voxelTexMipmap;
+}
+
 VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()
 {
     static auto &assets = AssetsManager::Instance();
