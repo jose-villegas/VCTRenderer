@@ -55,7 +55,7 @@ class VoxelizerRenderer : public Renderer
         oglplus::Texture &VoxelTexture();
         oglplus::Texture &VoxelTextureMipmap();
         const float &VoxelWorldSize() const;
-        void VoxelWorldSize(float val) { voxelSize = val; }
+        const float &VolumeGridSize() const;
     private:
         /// <summary>
         /// Returns the voxelization program shader.
@@ -101,6 +101,4 @@ class VoxelizerRenderer : public Renderer
         float volumeGridSize;
         float voxelSize;
         unsigned int voxelCount;
-        glm::mat4x4 voxelToWorldMatrix;
-        glm::mat4x4 worldToVoxelMatrix;
 };

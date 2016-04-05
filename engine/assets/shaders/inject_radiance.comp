@@ -16,9 +16,18 @@ uniform float lightBleedingReduction;
 uniform mat4 lightViewProjection;
 uniform Light directionalLight;
 uniform float voxelSize;
+uniform vec3 worldMinPoint;
 
 uniform sampler2D shadowMap;
 uniform uint shadowMapping = 1;
+
+vec3 VoxelToWorld(ivec3 pos)
+{
+	vec3 result = vec3(pos);
+	result *= voxelSize;
+
+	return result + worldMinPoint;
+}
 
 vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
 {
@@ -89,11 +98,6 @@ vec4 convRGBA8ToVec4(uint val)
     float((val & 0xFF000000) >> 24U));
 }
 
-uniform struct Matrices
-{
-    mat4 model;
-} matrices;
-
 void main()
 {
 	uvec3 volumeDimension = imageSize(voxelAlbedo);
@@ -120,8 +124,7 @@ void main()
 	normal = normalize(normal * 2.0f - 1.0f);
 
 	// obtain ws position of the current voxel
-	vec4 wsPosition = vec4(writePos, 1.0f);
-	wsPosition = matrices.model * wsPosition;
+	vec3 wsPosition = VoxelToWorld(writePos);
 
 	albedo.rgb = Diffuse(directionalLight, directionalLight.direction, normal, albedo.rgb);
 
@@ -129,7 +132,7 @@ void main()
 	
 	if(shadowMapping == 1)
 	{
-		albedo *= Visibility(wsPosition.xyz + unitCubeDirection * voxelSize);
+		albedo *= Visibility(wsPosition + unitCubeDirection * voxelSize);
 	}
 
 	albedo.a = 1.0f;

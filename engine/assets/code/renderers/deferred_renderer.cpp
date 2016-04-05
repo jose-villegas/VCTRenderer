@@ -194,8 +194,9 @@ void DeferredRenderer::SetLightPassUniforms() const
 
     auto &voxel = *static_cast<VoxelizerRenderer *>(AssetsManager::Instance()
                   ->renderers["Voxelizer"].get());
-    prog.worldToVoxelTex.Set(voxel.WorldToVoxelMatrix());
     prog.volumeDimension.Set(voxel.VolumeDimension());
+    prog.voxelScale.Set(1.0f / voxel.VolumeGridSize());
+    prog.worldMinPoint.Set(scene->rootNode->boundaries.MinPoint());
     voxel.VoxelTexture().Active(7);
     voxel.VoxelTexture().Bind(oglplus::TextureTarget::_3D);
     voxel.VoxelTextureMipmap().Active(8);

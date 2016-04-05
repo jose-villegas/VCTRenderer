@@ -57,10 +57,11 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<glm::vec2> exponents;
         oglplus::Uniform<float> lightBleedingReduction;
 
-        oglplus::Uniform<glm::mat4x4> worldToVoxelTex;
         oglplus::Uniform<int> volumeDimension;
         oglplus::UniformSampler voxelTex;
         oglplus::UniformSampler voxelTexMipmap;
+        oglplus::Uniform<float> voxelScale;
+        oglplus::Uniform<glm::vec3> worldMinPoint;
 
         void ExtractUniforms() override;
 

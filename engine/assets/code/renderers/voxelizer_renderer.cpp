@@ -98,6 +98,7 @@ void VoxelizerRenderer::VoxelizeScene()
     if (!scene || !scene->IsLoaded()) { return; }
 
     auto &prog = VoxelizationPass();
+    auto &sceneBox = scene->rootNode->boundaries;
     // current renderer as active
     SetAsActive();
     // unbind fbos use default
@@ -112,27 +113,13 @@ void VoxelizerRenderer::VoxelizeScene()
     gl.Disable(oglplus::Capability::CullFace);
     gl.Disable(oglplus::Capability::DepthTest);
     UseFrustumCulling = false;
-    // control vars
-    auto &sceneBox = scene->rootNode->boundaries;
-    static auto minP = glm::vec3(sceneBox.MinPoint());
-    static auto vSize = glm::vec3(voxelSize);
-
-    // model transform for voxel grid changed
-    if (sceneBox.MinPoint() != minP || voxelSize != vSize.x)
-    {
-        minP = glm::vec3(sceneBox.MinPoint());
-        vSize = glm::vec3(voxelSize);
-        voxelToWorldMatrix = translate(minP) *
-                             scale(glm::vec3(voxelSize));
-        worldToVoxelMatrix = scale(glm::vec3(1.0f / volumeGridSize)) *
-                             translate(-minP);;
-    }
-
+    // pass voxelization uniforms
     prog.viewProjections[0].Set(viewProjectionMatrix[0]);
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
     prog.volumeDimension.Set(volumeDimension);
-    prog.worldToVoxelTex.Set(worldToVoxelMatrix);
+    prog.worldMinPoint.Set(sceneBox.MinPoint());
+    prog.voxelScale.Set(1.0f / volumeGridSize);
     // bind the volume texture to be writen in shaders
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                        oglplus::ImageUnitFormat::R32UI);
@@ -153,6 +140,7 @@ void VoxelizerRenderer::VoxelizeScene()
 void VoxelizerRenderer::InjectRadiance()
 {
     static oglplus::Context gl;
+    static auto &scene = Scene::Active();
     static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                           (oglplus::MemoryBarrierBit::ShaderImageAccess);
     static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
@@ -161,13 +149,15 @@ void VoxelizerRenderer::InjectRadiance()
     static auto &shadowing = *static_cast<ShadowMapRenderer *>
                              (AssetsManager::Instance()
                               ->renderers["Shadowmapping"].get());
+    // control vars
+    auto &sceneBox = scene->rootNode->boundaries;
     // inject radiance into voxel texture and also mip-map
     CurrentProgram<InjectRadianceProgram>(prog);
     // pass compute shader uniform
-    prog.matrices.model.Set(voxelToWorldMatrix);
     prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
     prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
     prog.voxelSize.Set(voxelSize);
+    prog.worldMinPoint.Set(sceneBox.MinPoint());
 
     // shadow casting
     if (shadowing.Caster() != nullptr)
@@ -320,12 +310,6 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     {
         matrix = projection * matrix;
     }
-
-    // update spatial matrices
-    voxelToWorldMatrix = translate(sceneBox.MinPoint()) *
-                         scale(glm::vec3(voxelSize));
-    worldToVoxelMatrix = scale(glm::vec3(1.0f / volumeGridSize)) *
-                         translate(-sceneBox.MinPoint());
 }
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
@@ -397,14 +381,7 @@ void VoxelizerRenderer::SetupDrawVoxels(const unsigned &level,
 VoxelizerRenderer::~VoxelizerRenderer()
 {
 }
-const glm::mat4x4 &VoxelizerRenderer::VoxelToWorldMatrix() const
-{
-    return voxelToWorldMatrix;
-}
-const glm::mat4x4 &VoxelizerRenderer::WorldToVoxelMatrix() const
-{
-    return worldToVoxelMatrix;
-}
+
 const unsigned &VoxelizerRenderer::VolumeDimension() const
 {
     return volumeDimension;
@@ -422,6 +399,11 @@ oglplus::Texture &VoxelizerRenderer::VoxelTextureMipmap()
 const float &VoxelizerRenderer::VoxelWorldSize() const
 {
     return voxelSize;
+}
+
+const float &VoxelizerRenderer::VolumeGridSize() const
+{
+    return volumeGridSize;
 }
 
 VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()

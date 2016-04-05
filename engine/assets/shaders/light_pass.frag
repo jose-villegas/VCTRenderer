@@ -50,10 +50,11 @@ uniform uint lightTypeCount[3];
 uniform vec2 exponents;
 uniform float lightBleedingReduction;
 
-uniform int volumeDimension;
-uniform mat4 worldToVoxelTex;
 uniform sampler3D voxelTex;
 uniform sampler3D voxelTexMipmap;
+uniform float voxelScale;
+uniform vec3 worldMinPoint;
+uniform int volumeDimension;
 
 uniform float maxConeDistance = sqrt(3.0f);
 
@@ -67,23 +68,10 @@ const vec3 mipOffset[] =
     vec3(5.0f / 6.0f, 0.0f, 0.0f)
 };
 
-vec4 VoxelAnistropicSample(sampler3D base, sampler3D mips, vec3 pos, vec3 dir, float level)
+vec3 WorldToVoxelSample(vec3 position)
 {
-    uvec3 visibleFace;
-    visibleFace.x = (dir.x > 0.0) ? 0 : 1;
-    visibleFace.y = (dir.y > 0.0) ? 2 : 3;
-    visibleFace.z = (dir.z > 0.0) ? 4 : 5;
-    vec3 weight = dir * dir;
-    float anisoLevel = max(level - 1.0f, 0.0f);
-
-    vec4 color0 = texture(voxelTex, pos);
-
-    pos.x /= 6.0f;
-    vec4 color = weight.x * textureLod(mips, pos + mipOffset[visibleFace.x], anisoLevel)
-                + weight.y * textureLod(mips, pos + mipOffset[visibleFace.y], anisoLevel)
-                + weight.z * textureLod(mips, pos + mipOffset[visibleFace.z], anisoLevel);
-    color.rgb *= 8.0f;
-    return mix(color0, color, clamp(level, 0.0f, 1.0f));
+    vec3 voxelPos = position - worldMinPoint;
+    return voxelPos * voxelScale;
 }
 
 vec4 TraceCone(vec3 position, vec3 direction, float aperture)
@@ -275,10 +263,8 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
     }
     else if(light.shadowingMethod == 2)
     {
-        vec4 voxelPos = worldToVoxelTex * vec4(position, 1.0f);
-        voxelPos.xyz /= voxelPos.w;
-
-        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos.xyz, light.direction, 0.01f, 1.0f));
+        vec3 voxelPos = WorldToVoxelSample(position);
+        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos, light.direction, 0.01f, 1.0f));
     }
 
     if(visibility <= 0.0f) return vec3(0.0f);  
@@ -289,8 +275,9 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
-    light.direction = normalize(light.position - position);
-    float d = distance(light.position, position);
+    light.direction = light.position - position;
+    float d = length(light.direction);
+    light.direction = normalize(light.direction);
     float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * d
                     + light.attenuation.quadratic * d * d + 1.0f);
 
@@ -300,17 +287,14 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 
     if(light.shadowingMethod == 2)
     {
-        vec4 voxelPos = worldToVoxelTex * vec4(position, 1.0f);
-        voxelPos.xyz /= voxelPos.w;
-
-        vec4 lightPosT = worldToVoxelTex * vec4(light.position, 1.0f);
-        lightPosT.xyz /= lightPosT.w;
+        vec3 voxelPos = WorldToVoxelSample(position);
+        vec3 lightPosT = WorldToVoxelSample(light.position);
 
         vec3 lightDirT = lightPosT.xyz - voxelPos.xyz;
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos.xyz, lightDirT, 0.01f, dT));
+        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos, lightDirT, 0.01f, dT));
     }    
 
     if(visibility <= 0.0f) return vec3(0.0f);  
@@ -346,17 +330,14 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
     if(light.shadowingMethod == 2)
     {
-        vec4 voxelPos = worldToVoxelTex * vec4(position, 1.0f);
-        voxelPos.xyz /= voxelPos.w;
-
-        vec4 lightPosT = worldToVoxelTex * vec4(light.position, 1.0f);
-        lightPosT.xyz /= lightPosT.w;
+        vec3 voxelPos = WorldToVoxelSample(position);
+        vec3 lightPosT = WorldToVoxelSample(light.position);
 
         vec3 lightDirT = lightPosT.xyz - voxelPos.xyz;
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos.xyz, lightDirT, 0.01f, dT));
+        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos, lightDirT, 0.01f, dT));
     }
 
     if(visibility <= 0.0f) return vec3(0.0f); 
@@ -374,19 +355,19 @@ vec3 PositionFromDepth()
     return projected.xyz / projected.w;
 }
 
-vec3 IndirectSpecular(vec3 position, vec3 normal, vec4 specular)
-{
-    vec4 positionT = worldToVoxelTex * vec4(position, 1.0f);
-    positionT.xyz /= positionT.w;
-    vec4 cameraPosT = worldToVoxelTex * vec4(cameraPosition, 1.0f);
-    cameraPosT.xyz /= cameraPosT.w;
+// vec3 IndirectSpecular(vec3 position, vec3 normal, vec4 specular)
+// {
+//     vec4 positionT = worldToVoxelTex * vec4(position, 1.0f);
+//     positionT.xyz /= positionT.w;
+//     vec4 cameraPosT = worldToVoxelTex * vec4(cameraPosition, 1.0f);
+//     cameraPosT.xyz /= cameraPosT.w;
 
-    vec3 viewDirection = normalize(cameraPosT - positionT).xyz;
-    vec3 coneDirection = reflect(-viewDirection, normal);
-    float aperture = sin(acos(sqrt(0.11f / (specular.a * specular.a + 0.11f))));
+//     vec3 viewDirection = normalize(cameraPosT - positionT).xyz;
+//     vec3 coneDirection = reflect(-viewDirection, normal);
+//     float aperture = sin(acos(sqrt(0.11f / (specular.a * specular.a + 0.11f))));
 
-    return TraceCone(positionT.xyz, coneDirection, aperture).rgb;
-}
+//     return TraceCone(positionT.xyz, coneDirection, aperture).rgb;
+// }
 
 void main()
 {

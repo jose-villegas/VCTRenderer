@@ -20,7 +20,9 @@ out GeometryOut
 
 uniform mat4 viewProjections[3];
 uniform uint volumeDimension;
-uniform mat4 worldToVoxelTex;
+
+uniform float voxelScale;
+uniform vec3 worldMinPoint;
 
 int CalculateAxis()
 {
@@ -131,8 +133,10 @@ void main()
 
 	for(int i = 0; i < 3; ++i)
 	{
-		vec4 voxelPos = worldToVoxelTex * viewProjectionI * pos[i];
+		vec4 voxelPos = viewProjectionI * pos[i];
 		voxelPos.xyz /= voxelPos.w;
+		voxelPos.xyz -= worldMinPoint;
+		voxelPos *= voxelScale;
 
 		gl_Position = pos[i];
 		Out.position = pos[i].xyz;
