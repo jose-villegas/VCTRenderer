@@ -240,7 +240,6 @@
     <ClCompile Include="types\transform.cpp" />
     <ClCompile Include="types\scene_object.cpp" />
     <ClCompile Include="types\base_object.cpp" />
-    <ClCompile Include="assets\code\misc\geometry_buffer.cpp" />
     <ClCompile Include="assets\code\programs\lighting_program.cpp" />
     <ClCompile Include="rendering\interface_renderer.cpp" />
     <ClCompile Include="assets\code\interfaces\scene_loader.cpp" />
@@ -326,7 +325,6 @@
     <ClInclude Include="types\transform.h" />
     <ClInclude Include="types\scene_object.h" />
     <ClInclude Include="types\base_object.h" />
-    <ClInclude Include="assets\code\misc\geometry_buffer.h" />
     <ClInclude Include="assets\code\programs\geometry_program.h" />
     <ClInclude Include="assets\code\programs\lighting_program.h" />
     <ClInclude Include="rendering\interface_renderer.h" />

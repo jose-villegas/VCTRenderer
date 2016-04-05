@@ -4,7 +4,6 @@
 
 #include "voxelizer_renderer.h"
 #include "shadow_map_renderer.h"
-#include "../misc/geometry_buffer.h"
 #include "../scene/camera.h"
 #include "../scene/scene.h"
 #include "../scene/material.h"
@@ -14,9 +13,8 @@
 #include "../programs/geometry_program.h"
 #include "../programs/lighting_program.h"
 
-#include <oglplus/vertex_attrib.hpp>
 #include <oglplus/bound/texture.hpp>
-#include <glm/detail/func_matrix.hpp>
+#include <oglplus/context.hpp>
 
 DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
 {
@@ -28,16 +26,10 @@ DeferredRenderer::~DeferredRenderer()
 {
 }
 
-const GeometryBuffer &DeferredRenderer::GBuffer() const
-{
-    return *geometryBuffer;
-}
-
 void DeferredRenderer::Render()
 {
     using namespace oglplus;
     static Context gl;
-    static auto &gbuffer = GBuffer();
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
 
@@ -48,7 +40,7 @@ void DeferredRenderer::Render()
 
     SetAsActive();
     // bind g buffer for writing
-    gbuffer.Bind(FramebufferTarget::Draw);
+    geometryBuffer.Bind(FramebufferTarget::Draw);
     gl.ColorMask(true, true, true, true);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Viewport(Window().Info().width, Window().Info().height);
@@ -73,8 +65,6 @@ void DeferredRenderer::Render()
     gl.Viewport(Window().Info().width, Window().Info().height);
     gl.Clear().ColorBuffer().DepthBuffer();
     CurrentProgram<LightingProgram>(LightingPass());
-    // bind g buffer textures for reading
-    gbuffer.ActivateTextures();
     // pass light info and texture locations for final light pass
     SetLightPassUniforms();
     // draw the result onto a fullscreen quad
@@ -111,6 +101,11 @@ const
     prog.normalsMap.Set(RawTexture::Normals);
 }
 
+const std::array<oglplus::Texture, 4> &DeferredRenderer::BufferTextures() const
+{
+    return bufferTextures;
+}
+
 void DeferredRenderer::SetLightPassUniforms() const
 {
     static auto &camera = Camera::Active();
@@ -118,10 +113,17 @@ void DeferredRenderer::SetLightPassUniforms() const
     auto &prog = CurrentProgram<LightingProgram>();;
     prog.inverseProjectionView.Set(camera->InverseViewMatrix() *
                                    camera->InverseProjectionMatrix());
-    prog.gDepth.Set(GeometryBuffer::Depth);
-    prog.gNormal.Set(GeometryBuffer::Normal);
-    prog.gAlbedo.Set(GeometryBuffer::Albedo);
-    prog.gSpecular.Set(GeometryBuffer::Specular);
+
+    for (int i = 0; i < bufferTextures.size(); i++)
+    {
+        bufferTextures[i].Active(i);
+        bufferTextures[i].Bind(oglplus::TextureTarget::_2D);
+    }
+
+    prog.gNormal.Set(0);
+    prog.gAlbedo.Set(1);
+    prog.gSpecular.Set(2);
+    prog.gDepth.Set(3);
     // uniform arrays of lights
     auto &uDirectionals = prog.directionalLight;
     auto &uPoints = prog.pointLight;
@@ -224,52 +226,51 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
 {
     using namespace oglplus;
     static Context gl;
-
-    if (!geometryBuffer)
-    {
-        geometryBuffer = std::make_unique<GeometryBuffer>();
-    }
-    // already setup the geometry buffer, need to delete previous to resetup
-    else { return; }
-
     // initialize geometry buffer
-    geometryBuffer->Bind(FramebufferTarget::Draw);
+    geometryBuffer.Bind(FramebufferTarget::Draw);
     // build textures -- normal
-    gl.Bound(TextureTarget::_2D,
-             geometryBuffer->RenderTarget(GeometryBuffer::Normal))
+    gl.Bound(TextureTarget::_2D, bufferTextures[0])
     .Image2D(0, PixelDataInternalFormat::RGB8SNorm, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer->AttachTexture(GeometryBuffer::Normal, FramebufferTarget::Draw);
+    geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 0, bufferTextures[0],
+                                      0);
     // build textures -- albedo
-    gl.Bound(TextureTarget::_2D,
-             geometryBuffer->RenderTarget(GeometryBuffer::Albedo))
+    gl.Bound(TextureTarget::_2D, bufferTextures[1])
     .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer->AttachTexture(GeometryBuffer::Albedo, FramebufferTarget::Draw);
+    geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 1, bufferTextures[1],
+                                      0);
     // build textures -- specular color and power
-    gl.Bound(TextureTarget::_2D,
-             geometryBuffer->RenderTarget(GeometryBuffer::Specular))
+    gl.Bound(TextureTarget::_2D, bufferTextures[2])
     .Image2D(0, PixelDataInternalFormat::RGBA8, windowWidth, windowHeight,
              0, PixelDataFormat::RGBA, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer->AttachTexture(GeometryBuffer::Specular,
-                                  FramebufferTarget::Draw);
+    geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 2, bufferTextures[2],
+                                      0);
     // attach depth texture for depth testing
-    gl.Bound(TextureTarget::_2D,
-             geometryBuffer->RenderTarget(GeometryBuffer::Depth))
+    gl.Bound(TextureTarget::_2D, bufferTextures[3])
     .Image2D(0, PixelDataInternalFormat::DepthComponent24, windowWidth,
              windowHeight, 0, PixelDataFormat::DepthComponent,
              PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
-    geometryBuffer->AttachTexture(GeometryBuffer::Depth, FramebufferTarget::Draw);
+    geometryBuffer.AttachTexture(FramebufferTarget::Draw,
+                                 FramebufferAttachment::Depth,
+                                 bufferTextures[3], 0);
+    // color textures
+    auto attachments = std::vector<Context::ColorBuffer>
+    {
+        FramebufferColorAttachment::_0 ,
+        FramebufferColorAttachment::_1,
+        FramebufferColorAttachment::_2
+    };
     // set draw buffers
-    geometryBuffer->DrawBuffers();
+    gl.DrawBuffers(attachments);
 
     // check if success building frame buffer
     if (!Framebuffer::IsComplete(FramebufferTarget::Draw))

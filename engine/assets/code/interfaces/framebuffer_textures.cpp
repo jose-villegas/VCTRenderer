@@ -4,7 +4,6 @@
 #include "framebuffer_textures.h"
 #include "main_menu.h"
 
-#include "../misc/geometry_buffer.h"
 #include "../renderers/deferred_renderer.h"\
 
 #include "../../../core/assets_manager.h"
@@ -42,7 +41,7 @@ void UIFramebuffers::Draw()
 
     static auto &gbuffer = static_cast<DeferredRenderer *>
                            (AssetsManager::Instance()->renderers
-                            ["Deferred"].get())->GBuffer();
+                            ["Deferred"].get())->BufferTextures();
     static auto &shadow = static_cast<ShadowMapRenderer *>
                           (AssetsManager::Instance()->renderers
                            ["Shadowmapping"].get())->ShadowMap();
@@ -51,13 +50,13 @@ void UIFramebuffers::Draw()
           ImGuiWindowFlags_AlwaysAutoResize);
     BeginGroup();
     Text("Geometry Buffer");
-    DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Normal), "Normal");
+    DrawBufferTexture(gbuffer[0], "Normal");
     SameLine();
-    DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Albedo), "Albedo");
+    DrawBufferTexture(gbuffer[1], "Albedo");
     SameLine();
-    DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Specular), "Specular");
+    DrawBufferTexture(gbuffer[2], "Specular");
     SameLine();
-    DrawBufferTexture(gbuffer.RenderTarget(GeometryBuffer::Depth), "Depth");
+    DrawBufferTexture(gbuffer[3], "Depth");
     EndGroup();
     BeginGroup();
     Text("Shadow Mapping");

@@ -3,9 +3,11 @@
 #include "../core/renderer.h"
 #include "../rendering/primitives/fullscreen_quad.h"
 
-#include <memory>
 #include <oglplus/vertex_array.hpp>
-#include <oglplus/buffer.hpp>
+
+#include <oglplus/texture.hpp>
+#include <oglplus/framebuffer.hpp>
+#include <oglplus/renderbuffer.hpp>
 
 class LightingProgram;
 class GeometryProgram;
@@ -33,12 +35,6 @@ class DeferredRenderer : public Renderer
         /// </summary>
         ~DeferredRenderer();
         /// <summary>
-        /// Returns <see cref="geometryBuffer"/> which is the associated
-        /// geometry buffer to this deferred path implementation.
-        /// </summary>
-        /// <returns></returns>
-        const GeometryBuffer &GBuffer() const;
-        /// <summary>
         /// Renders a frame using deferred rendering
         /// </summary>
         void Render() override;
@@ -51,6 +47,7 @@ class DeferredRenderer : public Renderer
         /// </summary>
         /// <param name="mat">The mat.</param>
         void SetMaterialUniforms(const Material &material) const override;
+        const std::array<oglplus::Texture, 4> &BufferTextures() const;
     private:
         FullscreenQuad fsQuad;
         /// <summary>
@@ -75,9 +72,8 @@ class DeferredRenderer : public Renderer
         /// <param name="windowWith">The rendering window width.</param>
         /// <param name="windowHeight">The rendering window height.</param>
         void SetupGeometryBuffer(unsigned int windowWidth, unsigned int windowHeight);
-        /// <summary>
-        /// The geometry buffer which holds all the framebuffer
-        /// with all the render target texture attachments
-        /// </summary>
-        std::unique_ptr<GeometryBuffer> geometryBuffer;
+
+        oglplus::Framebuffer geometryBuffer;
+        oglplus::Renderbuffer depthBuffer;
+        std::array<oglplus::Texture, 4> bufferTextures;
 };
