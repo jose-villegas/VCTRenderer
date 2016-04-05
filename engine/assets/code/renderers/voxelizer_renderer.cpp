@@ -419,6 +419,11 @@ oglplus::Texture &VoxelizerRenderer::VoxelTextureMipmap()
     return voxelTexMipmap;
 }
 
+const float &VoxelizerRenderer::VoxelWorldSize() const
+{
+    return voxelSize;
+}
+
 VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()
 {
     static auto &assets = AssetsManager::Instance();

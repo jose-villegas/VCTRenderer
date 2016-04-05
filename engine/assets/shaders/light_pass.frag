@@ -88,12 +88,21 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     visibleFace.x = (direction.x > 0.0) ? 0 : 1;
     visibleFace.y = (direction.y > 0.0) ? 2 : 3;
     visibleFace.z = (direction.z > 0.0) ? 4 : 5;
+    // weight per axis for aniso sampling
     vec3 weight = direction * direction;
+    // navigation
     float voxelSize = 1.0f / volumeDimension;
     float dst = voxelSize * 2.0f;
     float diameter = aperture * dst;
     vec3 samplePos = direction * dst + position;
+    // control variables
+    vec3 anisoPos = samplePos;
     float visibility = 0.0f;
+    float mipLevel = 0.0f;
+    float anisoLevel = 0.0f;
+    vec4 baseColor = vec4(0.0f);
+    vec4 interpolatedSample = vec4(1.0f);
+    float mipMaxLevel = log2(volumeDimension) - 1.0f;
 
     while (visibility <= 1.0f && dst <= maxTracingDistance) 
     {
@@ -103,21 +112,24 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
             break; 
         }
 
-        float mipLevel = max(log2(diameter * volumeDimension), 0.0f);
-        float anisoLevel = max(mipLevel - 1.0f, 0.0f);
-        vec3 anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
+        mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
+        anisoLevel = max(mipLevel - 1.0f, 0.0f);
+        anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
 
-        vec4 baseColor = texture(voxelTex, samplePos);
-        vec4 interpolatedSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], anisoLevel)
-                                + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], anisoLevel)
-                                + weight.z * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.z], anisoLevel);
+        // aniso sampling
+        interpolatedSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], anisoLevel)
+                           + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], anisoLevel)
+                           + weight.z * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.z], anisoLevel);
+        
         if(mipLevel <= 1.0f)
         {
-            vec4 baseColor = texture(voxelTex, samplePos);
+            baseColor = texture(voxelTex, samplePos);
             interpolatedSample = mix(baseColor, interpolatedSample, clamp(mipLevel, 0.0f, 1.0f));
         }
 
+        // accumulate
         visibility += (1.0f - visibility) * interpolatedSample.a;
+        // move further into volume
         dst += max(diameter, voxelSize);
         diameter = dst * aperture;
         samplePos = direction * dst + position;
@@ -217,6 +229,8 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
         visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos.xyz, light.direction, 0.01f, volumeDimension));
     }
 
+    if(visibility <= 0.0f) return vec3(0.0f);  
+
     return (Diffuse(light, light.direction, normal, albedo) + Specular(light, light.direction, normal, position, specular)) * visibility;
 }
 
@@ -291,7 +305,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
         visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos.xyz, lightDirT, 0.01f, dT));
     }
-    
+
     if(visibility <= 0.0f) return vec3(0.0f); 
 
     return (Diffuse(light, light.direction, normal, albedo) 

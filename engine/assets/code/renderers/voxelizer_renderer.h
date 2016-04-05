@@ -54,6 +54,8 @@ class VoxelizerRenderer : public Renderer
         const unsigned int &VolumeDimension() const;
         oglplus::Texture &VoxelTexture();
         oglplus::Texture &VoxelTextureMipmap();
+        const float &VoxelWorldSize() const;
+        void VoxelWorldSize(float val) { voxelSize = val; }
     private:
         /// <summary>
         /// Returns the voxelization program shader.

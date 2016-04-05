@@ -170,7 +170,7 @@ Light::~Light()
     {
         lights.erase(lights.begin() + this->collectionIndex);
 
-        for (auto i = 0; i < lights.size(); ++i)
+        for (auto i = 0; i < lights.size(); i++)
         {
             lights[i]->collectionIndex = i;
         }
