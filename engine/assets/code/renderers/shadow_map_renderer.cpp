@@ -233,7 +233,8 @@ void ShadowMapRenderer::Anisotropy(const int &val) const
 {
     using namespace oglplus;
     static Context gl;
-    gl.Bound(TextureTarget::_2D, shadowMap).Anisotropy(val);
+    gl.Bound(TextureTarget::_2D, shadowMap)
+    .Anisotropy(static_cast<float>(val));
 }
 
 void ShadowMapRenderer::Filtering(const int &val)

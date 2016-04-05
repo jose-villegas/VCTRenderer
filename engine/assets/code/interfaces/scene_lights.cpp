@@ -19,7 +19,7 @@ void UISceneLights::Draw()
                             (assets->renderers["Shadowmapping"].get());
     static auto scene = static_cast<Scene *>(nullptr);
     static auto light = static_cast<Light *>(nullptr);
-    static auto casters = std::map<Scene *, Light *>();
+    static auto shadowingMethod = int(0);
     // control variables
     static auto selected = -1;
     static glm::vec3 position;
@@ -37,26 +37,6 @@ void UISceneLights::Draw()
         scene = Scene::Active().get();
         light = nullptr;
         selected = -1;
-
-        // no shadow caster assigned
-        if(casters.find(scene) == casters.end())
-        {
-            for (auto &l : scene->lights)
-            {
-                if (l->Type() == Light::Directional)
-                {
-                    // store shadow caster
-                    casters[scene] = l.get();
-                    // assign to shadow renderer
-                    shadowing->Caster(casters[scene]);
-                    break;
-                }
-            }
-        }
-        else if(casters[scene] != nullptr)
-        {
-            shadowing->Caster(casters[scene]);
-        }
     }
 
     if (!scene) { return; }
@@ -85,6 +65,7 @@ void UISceneLights::Draw()
         {
             selected = i;
             light = current.get();
+            shadowingMethod = light->mode[0].to_ulong();
             position = light->transform.Position();
             angles = degrees(light->transform.Angles());
             color[0] = light->Ambient();
@@ -208,29 +189,51 @@ void UISceneLights::Draw()
 
         Unindent();
 
+        if (RadioButton("No Shadows", &shadowingMethod, 0))
+        {
+            light->mode[0].reset();
+
+            if (light == shadowing->Caster()) shadowing->Caster(nullptr);
+        }
+
+        if (light->Type() == Light::Directional &&
+                RadioButton("Shadow Mapping", &shadowingMethod, 1))
+        {
+            shadowing->Caster(light);
+            light->mode[0].reset();
+            light->mode[0].set(0, 1);
+
+            // there can be only one with shadow mapping
+            for (auto &l : scene->lights)
+            {
+                if (l.get() != light && l->mode[0][0])
+                {
+                    l->mode[0].reset();
+                }
+            }
+        }
+
+        if (RadioButton("Trace Shadow Cones", &shadowingMethod, 2))
+        {
+            light->mode[0].reset();
+            light->mode[0].set(1, 1);
+
+            if (light == shadowing->Caster()) shadowing->Caster(nullptr);
+        }
+
         if (Button("Delete"))
         {
-            // stored as shadow caster also
-            if (light == casters[scene])
+            // method 1 indicates this light is used for shadow mapping
+            if(light->mode[0][0])
             {
-                casters[scene] = nullptr;
+                // no shadowing from this light source
+                light->mode[0].reset();
                 shadowing->Caster(nullptr);
             }
 
-            // delete ref in scene lights
-            scene->lights.erase(scene->lights.begin() + selected);
             light = nullptr;
-        }
-
-        if (type == Light::Directional)
-        {
-            SameLine();
-
-            if (Button("Cast Shadow"))
-            {
-                casters[scene] = light;
-                shadowing->Caster(light);
-            }
+            // delete from scene
+            scene->lights.erase(scene->lights.begin() + selected);
         }
     }
     else

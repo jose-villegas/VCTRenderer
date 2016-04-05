@@ -8,7 +8,6 @@ void LightingProgram::ExtractUniforms()
 {
     using namespace oglplus;
     // assign program
-    shadowMapping.Assign(program);
     inverseProjectionView.Assign(program);
     lightViewProjection.Assign(program);
     gDepth.Assign(program);
@@ -22,7 +21,6 @@ void LightingProgram::ExtractUniforms()
     exponents.Assign(program);
     lightBleedingReduction.Assign(program);
     // bind to uniform name
-    shadowMapping.BindTo("shadowMapping");
     inverseProjectionView.BindTo("inverseProjectionView");
     lightViewProjection.BindTo("lightViewProjection");
     gDepth.BindTo("gDepth");
@@ -44,6 +42,8 @@ void LightingProgram::ExtractUniforms()
     {
         auto &light = directionalLight[i];
         auto index = std::to_string(i);
+        light.shadowingMethod.Assign(program);
+        light.shadowingMethod.BindTo("directionalLight[" + index + "].shadowingMethod");
         light.direction.Assign(program);
         light.ambient.Assign(program);
         light.diffuse.Assign(program);
@@ -58,6 +58,8 @@ void LightingProgram::ExtractUniforms()
     {
         auto &light = pointLight[i];
         auto index = std::to_string(i);
+        light.shadowingMethod.Assign(program);
+        light.shadowingMethod.BindTo("pointLight[" + index + "].shadowingMethod");
         light.position.Assign(program);
         light.ambient.Assign(program);
         light.diffuse.Assign(program);
@@ -81,6 +83,8 @@ void LightingProgram::ExtractUniforms()
     {
         auto &light = spotLight[i];
         auto index = std::to_string(i);
+        light.shadowingMethod.Assign(program);
+        light.shadowingMethod.BindTo("spotLight[" + index + "].shadowingMethod");
         light.position.Assign(program);
         light.direction.Assign(program);
         light.ambient.Assign(program);
@@ -105,6 +109,14 @@ void LightingProgram::ExtractUniforms()
         light.angleInnerCone.BindTo("spotLight[" + index + "].angleInnerCone");
         light.angleOuterCone.BindTo("spotLight[" + index + "].angleOuterCone");
     }
+
+    // voxel volume setup
+    worldToVoxelTex.Assign(program);
+    worldToVoxelTex.BindTo("worldToVoxelTex");
+    volumeDimension.Assign(program);
+    volumeDimension.BindTo("volumeDimension");
+    voxelTex.Assign(program);
+    voxelTex.BindTo("voxelTex");
 }
 
 LightingProgram::~LightingProgram()

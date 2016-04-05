@@ -33,6 +33,7 @@ class LightingProgram : public ProgramShader
                 oglplus::Uniform<float> quadratic;
             };
 
+            oglplus::Uniform<unsigned int> shadowingMethod;
             UniformAttenuation attenuation;
         };
     public:
@@ -53,7 +54,10 @@ class LightingProgram : public ProgramShader
 
         oglplus::Uniform<glm::vec2> exponents;
         oglplus::Uniform<float> lightBleedingReduction;
-        oglplus::Uniform<unsigned int> shadowMapping;
+
+        oglplus::Uniform<glm::mat4x4> worldToVoxelTex;
+        oglplus::Uniform<int> volumeDimension;
+        oglplus::UniformSampler voxelTex;
 
         void ExtractUniforms() override;
 

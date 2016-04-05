@@ -2,6 +2,9 @@
 
 #include "../../../core/interface.h"
 
+class Scene;
+class Light;
+
 class UISceneLights : public Interface
 {
     protected:

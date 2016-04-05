@@ -128,16 +128,20 @@ void DeferredRenderer::SetLightPassUniforms() const
     auto &uSpots = prog.spotLight;
     auto &lights = scene->lights;
     // index of directional-point-spot lights
-    auto typeIndex = glm::vec3(0);
+    auto typeIndex = glm::uvec3(0);
     // pass number of lights per type
-    prog.lightTypeCount[0].Set(Light::Directionals().size());
-    prog.lightTypeCount[1].Set(Light::Points().size());
-    prog.lightTypeCount[2].Set(Light::Spots().size());
+    prog.lightTypeCount[0].Set(static_cast<const unsigned int>
+                               (Light::Directionals().size()));
+    prog.lightTypeCount[1].Set(static_cast<const unsigned int>
+                               (Light::Points().size()));
+    prog.lightTypeCount[2].Set(static_cast<const unsigned int>
+                               (Light::Spots().size()));
 
     for (int i = 0; i < lights.size(); ++i)
     {
         auto &light = lights[i];
         auto &factor = light->Intensities();
+        auto shadowingMethod = light->mode[0].to_ulong();
         // current light uniform
         auto &uLight = light->Type() == Light::Directional
                        ? uDirectionals[typeIndex.x++]
@@ -145,6 +149,7 @@ void DeferredRenderer::SetLightPassUniforms() const
                        ? uPoints[typeIndex.y++]
                        : uSpots[typeIndex.z++];
         // shared uniforms between types
+        uLight.shadowingMethod.Set(shadowingMethod);
         uLight.ambient.Set(light->Ambient() * factor.x);
         uLight.diffuse.Set(light->Diffuse() * factor.y);
         uLight.specular.Set(light->Specular() * factor.z);
@@ -179,17 +184,20 @@ void DeferredRenderer::SetLightPassUniforms() const
 
     if(shadowing.Caster() != nullptr)
     {
-        prog.shadowMapping.Set(1);
         prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
         shadowing.BindReading(6);
         prog.shadowMap.Set(6);
         prog.exponents.Set(shadowing.Exponents());
         prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
     }
-    else
-    {
-        prog.shadowMapping.Set(0);
-    }
+
+    auto &voxel = *static_cast<VoxelizerRenderer *>(AssetsManager::Instance()
+                  ->renderers["Voxelizer"].get());
+    prog.worldToVoxelTex.Set(voxel.WorldToVoxelMatrix());
+    prog.volumeDimension.Set(voxel.VolumeDimension());
+    voxel.VoxelTexture().Active(7);
+    voxel.VoxelTexture().Bind(oglplus::TextureTarget::_3D);
+    prog.voxelTex.Set(7);
 }
 
 GeometryProgram &DeferredRenderer::GeometryPass()

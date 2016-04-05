@@ -193,7 +193,7 @@ void VoxelizerRenderer::InjectRadiance()
                           oglplus::ImageUnitFormat::R32UI);
     voxelTex.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                        oglplus::ImageUnitFormat::RGBA8);
-    auto workGroups = glm::ceil(volumeDimension / 8.0f);
+    auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
     // inject radiance at level 0 of texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // mipmap radiance resulting volume
@@ -217,7 +217,7 @@ void VoxelizerRenderer::GenerateMipmap()
                        oglplus::ImageUnitFormat::RGBA8);
     voxelTexMipmap.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                              oglplus::ImageUnitFormat::RGBA8);
-    auto workGroups = glm::ceil(halfDimension / 8.0f);
+    auto workGroups = static_cast<unsigned>(glm::ceil(halfDimension / 8.0f));
     // mipmap from base texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // mipmap radiance resulting volume
@@ -239,7 +239,7 @@ void VoxelizerRenderer::GenerateMipmap()
         voxelTexMipmap.BindImage(1, mipLevel + 1, true, 0,
                                  oglplus::AccessSpecifier::WriteOnly,
                                  oglplus::ImageUnitFormat::RGBA8);
-        workGroups = glm::ceil(mipDimension / 8.0f);
+        workGroups = static_cast<unsigned>(glm::ceil(mipDimension / 8.0f));
         // mipmap from mip level
         gl.DispatchCompute(workGroups, workGroups, workGroups);
         // mipmap radiance resulting volume
@@ -273,7 +273,8 @@ void VoxelizerRenderer::DrawVoxels()
     // voxel grid projection matrices
     auto &sceneBox = scene->rootNode->boundaries;
     auto &viewProjection = camera->ViewProjectionMatrix();
-    auto vDimension = volumeDimension / pow(2, drawMipLevel);
+    auto vDimension = static_cast<unsigned>(volumeDimension / pow(2.0f,
+                                            drawMipLevel));
     auto vSize = volumeGridSize / vDimension;
 
     // pass voxel drawer uniforms

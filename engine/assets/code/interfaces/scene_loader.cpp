@@ -6,6 +6,8 @@
 #include "../../../scene/camera.h"
 #include "../../../scene/scene.h"
 #include "../../../core/assets_manager.h"
+#include "../../../scene/light.h"
+#include "../renderers/shadow_map_renderer.h"
 
 using namespace ImGui;
 
@@ -49,10 +51,22 @@ void UISceneLoader::Draw()
 
         SameLine();
 
-        if (Button("Load") && scene)
+        if (Button("Load") && scene && !scene->IsLoaded())
         {
             scene->Import();
             scene->Load();
+            static auto &shadowRender = *static_cast<ShadowMapRenderer *>
+                                        (assets->renderers["Shadowmapping"].get());
+
+            // set first directional light as shadowmapping
+            for(auto &l : scene->lights)
+            {
+                if(l->Type() == Light::Directional)
+                {
+                    l->mode[0].set(0, 1);
+                    shadowRender.Caster(l.get());
+                }
+            }
         }
 
         PopItemWidth();

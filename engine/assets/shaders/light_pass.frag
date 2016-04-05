@@ -26,6 +26,7 @@ struct Light {
     vec3 position;
     vec3 direction;
 
+    uint shadowingMethod;
     Attenuation attenuation;
 };
 
@@ -43,10 +44,51 @@ uniform Light pointLight[MAX_POINT_LIGHTS];
 uniform Light spotLight[MAX_SPOT_LIGHTS];
 
 uniform uint lightTypeCount[3];
-uniform uint shadowMapping = 1;
 
 uniform vec2 exponents;
 uniform float lightBleedingReduction;
+
+uniform int volumeDimension;
+uniform mat4 worldToVoxelTex;
+uniform sampler3D voxelTex;
+uniform sampler3D voxelTexMipmap;
+
+float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance) 
+{
+    uvec3 visibleFace;
+    visibleFace.x = (direction.x < 0.0) ? 0 : 1;
+    visibleFace.y = (direction.y < 0.0) ? 2 : 3;
+    visibleFace.z = (direction.z < 0.0) ? 4 : 5;
+    vec3 weight = abs(direction);
+    float voxelSize = 1.0f / volumeDimension;
+    float dst = voxelSize * 2.0f;
+    float diameter = aperture * dst;
+    vec3 samplePos = direction * dst + position;
+    vec4 interpolatedSample = vec4(0.0f);
+    float visibility = 0.0f;
+
+    while (visibility <= 1.0f && dst <= maxTracingDistance) 
+    {
+        if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f)) 
+        { 
+            break; 
+        }
+
+        float mipLevel = max(log2(diameter * volumeDimension), 0.0f);
+
+        interpolatedSample = weight.x * textureLod(voxelTex, samplePos, mipLevel)
+                            + weight.y * textureLod(voxelTex, samplePos, mipLevel)
+                            + weight.z * textureLod(voxelTex, samplePos, mipLevel);
+
+        visibility += (1.0f - visibility) * interpolatedSample.a;
+        dst += max(diameter, voxelSize);
+        diameter = dst * aperture;
+        samplePos = direction * dst + position;
+    }
+
+    return visibility;
+}
 
 float linstep(float low, float high, float value)
 {
@@ -125,8 +167,21 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 
 vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
 {
-    return Diffuse(light, light.direction, normal, albedo) 
-           + Specular(light, light.direction, normal, position, specular);
+    float visibility = 1.0f;
+
+    if(light.shadowingMethod == 1)
+    {
+        visibility = Visibility(position);
+    }
+    else if(light.shadowingMethod == 2)
+    {
+        vec4 voxelPos = worldToVoxelTex * vec4(position, 1.0f);
+        voxelPos.xyz /= voxelPos.w;
+
+        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos.xyz, light.direction, 0.01f, volumeDimension));
+    }
+
+    return (Diffuse(light, light.direction, normal, albedo) + Specular(light, light.direction, normal, position, specular)) * visibility;
 }
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -193,8 +248,6 @@ void main()
     {
         lighting += CalculateDirectional(directionalLight[i], normal, position, 
                                          albedo, specular);
-        // only one directional uses shadowmapping, thus we can check here
-        if(i == 0 && shadowMapping == 1) { lighting *= Visibility(position); }
 
         lighting += Ambient(directionalLight[i], albedo);
     }
