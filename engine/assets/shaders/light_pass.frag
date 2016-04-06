@@ -474,7 +474,7 @@ void main()
     // direct lighting from all light sources
     vec3 directLighting = CalculateDirectLighting(position, normal, albedo, specular);
     vec4 indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular);
-    float ambientOcclusion = min(indirectLighting.a, aoAlpha);
+    float ambientOcclusion = min(indirectLighting.a + aoAlpha, 1.0f);
     // final color
     fragColor = vec4((directLighting + indirectLighting.rgb) * ambientOcclusion, 1.0f);
 }
