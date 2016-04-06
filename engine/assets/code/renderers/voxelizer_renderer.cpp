@@ -325,6 +325,13 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
     volumeDimension = dimension;
     voxelCount = volumeDimension * volumeDimension * volumeDimension;
     voxelSize = volumeGridSize / volumeDimension;
+
+    // update projection matrices on new dimension
+    if(Scene::Active())
+    {
+        UpdateProjectionMatrices(Scene::Active()->rootNode->boundaries);
+    }
+
     auto maxLevel = static_cast<unsigned int>(log2(volumeDimension));
     // generate albedo volume
     voxelTex.Bind(TextureTarget::_3D);

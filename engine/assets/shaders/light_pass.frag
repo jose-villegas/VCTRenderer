@@ -1,9 +1,9 @@
 #version 430
 
 out vec4 fragColor;
-
 in vec2 texCoord;
 
+const float PI = 3.14159265f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
@@ -41,7 +41,7 @@ uniform sampler2D shadowMap;
 
 uniform vec3 cameraPosition;
 
-uniform	Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
+uniform Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 uniform Light pointLight[MAX_POINT_LIGHTS];
 uniform Light spotLight[MAX_SPOT_LIGHTS];
 
@@ -56,7 +56,9 @@ uniform float voxelScale;
 uniform vec3 worldMinPoint;
 uniform int volumeDimension;
 
-uniform float maxConeDistance = sqrt(3.0f);
+uniform float maxTracingDistanceGlobal = 1.0f;
+uniform float bounceStrength = 1.0f;
+uniform uint mode = 0;
 
 const vec3 mipOffset[] = 
 {
@@ -68,55 +70,77 @@ const vec3 mipOffset[] =
     vec3(5.0f / 6.0f, 0.0f, 0.0f)
 };
 
+const vec3 diffuseConeDirections[] =
+{
+    vec3(0.0f, 1.0f, 0.0f),
+    vec3(0.0f, 0.5f, 0.866025f),
+    vec3(0.823639f, 0.5f, 0.267617f),
+    vec3(0.509037f, 0.5f, -0.7006629f),
+    vec3(-0.50937f, 0.5f, -0.7006629f),
+    vec3(-0.823639f, 0.5f, 0.267617f)
+};
+
+const float diffuseConeWeights[] =
+{
+    PI / 4.0f,
+    3.0f * PI / 20.0f,
+    3.0f * PI / 20.0f,
+    3.0f * PI / 20.0f,
+    3.0f * PI / 20.0f,
+    3.0f * PI / 20.0f,
+};
+
 vec3 WorldToVoxelSample(vec3 position)
 {
     vec3 voxelPos = position - worldMinPoint;
     return voxelPos * voxelScale;
 }
 
-vec4 TraceCone(vec3 position, vec3 direction, float aperture)
+vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance)
 {
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
     // weight per axis for aniso sampling
-    vec3 weight = direction * direction;
+    vec3 weight = abs(direction);
     // navigation
     float voxelSize = 1.0f / volumeDimension;
-    float dst = 0.0f;
+    // move one voxel further to avoid self collision
+    float dst = voxelSize * 2.0f;
     float diameter = aperture * dst;
-    vec3 samplePos = direction * dst * position;
-    vec3 anisoPos = samplePos;
+    vec3 samplePos = direction * dst + position;
+    vec3 anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
+    // control vars
     float mipLevel = 0.0f;
     float anisoLevel = 0.0f;
-    float mipMaxLevel = log2(volumeDimension) - 1.0f;
-    // int emptyVoxelCount = 0;
+    float mipMaxLevel = log2(volumeDimension);
     // accumulated sample
     vec4 coneSample = vec4(0.0f);
     vec4 baseColor = vec4(0.0f);
-    vec4 interpolatedSample = vec4(1.0f);
+    vec4 anisoSample = vec4(0.0f);
 
-    while(coneSample.a <= 1.0f && dst <= maxConeDistance)
+    while(coneSample.a <= 1.0f && dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal)
     {
         mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
         anisoLevel = max(mipLevel - 1.0f, 0.0f);
-        anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
         // aniso sampling
-        interpolatedSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], anisoLevel)
-                           + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], anisoLevel)
-                           + weight.z * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.z], anisoLevel);
+        anisoSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], anisoLevel)
+                    + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], anisoLevel)
+                    + weight.z * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.z], anisoLevel);
+
        if(mipLevel <= 1.0f)
         {
             baseColor = texture(voxelTex, samplePos);
-            interpolatedSample = mix(baseColor, interpolatedSample, clamp(mipLevel, 0.0f, 1.0f));
+            anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
         }
         // accumulate sampling
-        coneSample += (1.0f - coneSample.a) * interpolatedSample;
+        coneSample += (1.0f - coneSample.a) * anisoSample;
         // move further into volume
         dst += max(diameter, voxelSize);
         diameter = dst * aperture;
         samplePos = direction * dst + position;
+        anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
     }
 
     return coneSample;
@@ -125,26 +149,28 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture)
 float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance) 
 {
     uvec3 visibleFace;
-    visibleFace.x = (direction.x > 0.0) ? 0 : 1;
-    visibleFace.y = (direction.y > 0.0) ? 2 : 3;
-    visibleFace.z = (direction.z > 0.0) ? 4 : 5;
+    visibleFace.x = (direction.x < 0.0) ? 0 : 1;
+    visibleFace.y = (direction.y < 0.0) ? 2 : 3;
+    visibleFace.z = (direction.z < 0.0) ? 4 : 5;
     // weight per axis for aniso sampling
-    vec3 weight = direction * direction;
+    vec3 weight = abs(direction);
     // navigation
     float voxelSize = 1.0f / volumeDimension;
+    // move one voxel further to avoid self collision
     float dst = voxelSize * 2.0f;
     float diameter = aperture * dst;
     vec3 samplePos = direction * dst + position;
+    vec3 anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
     // control variables
-    vec3 anisoPos = samplePos;
     float visibility = 0.0f;
     float mipLevel = 0.0f;
     float anisoLevel = 0.0f;
+    float mipMaxLevel = log2(volumeDimension);
+    // accumulated sample
     vec4 baseColor = vec4(0.0f);
-    vec4 anisoSample = vec4(1.0f);
-    float mipMaxLevel = log2(volumeDimension) - 1.0f;
+    vec4 anisoSample = vec4(0.0f);
 
-    while (visibility <= 1.0f && dst <= maxTracingDistance) 
+    while (visibility <= 1.0f && dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal) 
     {
         if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
             || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f)) 
@@ -154,7 +180,6 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
 
         mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
         anisoLevel = max(mipLevel - 1.0f, 0.0f);
-        anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
         // aniso sampling
         anisoSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], anisoLevel)
                     + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], anisoLevel)
@@ -172,6 +197,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
         dst += max(diameter, voxelSize);
         diameter = dst * aperture;
         samplePos = direction * dst + position;
+        anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
     }
 
     return visibility;
@@ -248,7 +274,7 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
     vec3 viewDirection = normalize(cameraPosition - position);
     vec3 halfDirection = normalize(lightDirection + viewDirection);
     float specularFactor = clamp(dot(halfDirection, normal), 0.0f, 1.0f);
-    specularFactor = pow(specularFactor, specular.a * 4000.0f);
+    specularFactor = pow(specularFactor, specular.a);
 
     return light.specular * specular.rgb * specularFactor;
 }
@@ -355,19 +381,72 @@ vec3 PositionFromDepth()
     return projected.xyz / projected.w;
 }
 
-// vec3 IndirectSpecular(vec3 position, vec3 normal, vec4 specular)
-// {
-//     vec4 positionT = worldToVoxelTex * vec4(position, 1.0f);
-//     positionT.xyz /= positionT.w;
-//     vec4 cameraPosT = worldToVoxelTex * vec4(cameraPosition, 1.0f);
-//     cameraPosT.xyz /= cameraPosT.w;
+vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specular)
+{
+    // calculate directional lighting
+    vec3 directLighting = vec3(0.0f);
 
-//     vec3 viewDirection = normalize(cameraPosT - positionT).xyz;
-//     vec3 coneDirection = reflect(-viewDirection, normal);
-//     float aperture = sin(acos(sqrt(0.11f / (specular.a * specular.a + 0.11f))));
+    // calculate lighting for directional lights
+    for(int i = 0; i < lightTypeCount[0]; ++i)
+    {
+        directLighting += CalculateDirectional(directionalLight[i], normal, position, 
+                                         albedo, specular);
+        directLighting += Ambient(directionalLight[i], albedo);
+    }
 
-//     return TraceCone(positionT.xyz, coneDirection, aperture).rgb;
-// }
+    // calculate lighting for point lights
+    for(int i = 0; i < lightTypeCount[1]; ++i)
+    {
+        directLighting += CalculatePoint(pointLight[i], normal, position, 
+                                   albedo, specular);
+        directLighting += Ambient(pointLight[i], albedo);
+    }
+
+    // calculate lighting for spot lights
+    for(int i = 0; i < lightTypeCount[2]; ++i) 
+    {
+        directLighting += CalculateSpot(spotLight[i], normal, position, 
+                                  albedo, specular);
+        directLighting += Ambient(spotLight[i], albedo);
+    }
+
+    return directLighting;
+}
+
+vec3 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specular)
+{
+    vec3 positionT = WorldToVoxelSample(position);
+    vec3 cameraPosT = WorldToVoxelSample(cameraPosition);
+
+    vec3 viewDirection = normalize(cameraPosT - positionT);
+    vec3 coneDirection = reflect(-viewDirection, normal);
+
+    vec3 specularTrace = vec3(0.0f);
+    vec3 diffuseTrace = vec3(0.0f);
+
+    // specular cone setup
+    float aperture = sin(acos(sqrt(0.11f / (specular.a * specular.a + 0.11f))));
+    specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f).rgb * specular.rgb;
+
+    // diffuse cone setup
+    aperture = 0.5055f;
+    vec3 up = (normal.y * normal.y) > 0.95f ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
+    vec3 right = cross(normal, up);
+    up = cross(normal, right);
+
+    for(int i = 0; i < 6; i++)
+    {
+        coneDirection = normal;
+        coneDirection += diffuseConeDirections[i].x * right + diffuseConeDirections[i].z * up;
+        coneDirection = normalize(coneDirection);
+
+        diffuseTrace += (TraceCone(positionT, coneDirection, aperture, 1.0f) * diffuseConeWeights[i]).rgb;
+    }
+
+    diffuseTrace *= albedo;
+
+    return (diffuseTrace + specularTrace) * bounceStrength;
+}
 
 void main()
 {
@@ -379,33 +458,11 @@ void main()
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
-
-    vec3 lighting = vec3(0.0f);
-
-    // calculate lighting for directional lights
-    for(int i = 0; i < lightTypeCount[0]; ++i)
-    {
-        lighting += CalculateDirectional(directionalLight[i], normal, position, 
-                                         albedo, specular);
-        lighting += Ambient(directionalLight[i], albedo);
-    }
-
-    // calculate lighting for point lights
-    for(int i = 0; i < lightTypeCount[1]; ++i)
-    {
-        lighting += CalculatePoint(pointLight[i], normal, position, 
-                                   albedo, specular);
-        lighting += Ambient(pointLight[i], albedo);
-    }
-
-    // calculate lighting for spot lights
-    for(int i = 0; i < lightTypeCount[2]; ++i) 
-    {
-        lighting += CalculateSpot(spotLight[i], normal, position, 
-                                  albedo, specular);
-        lighting += Ambient(spotLight[i], albedo);
-    }
+    specular.a = specular.a * 8000.0f;
+    // direct lighting from all light sources
+    vec3 directLighting = CalculateDirectLighting(position, normal, albedo, specular);
+    vec3 indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular);
 
     // final color
-    fragColor = vec4(lighting, 1.0);
+    fragColor = vec4(directLighting + indirectLighting, 1.0f);
 }
