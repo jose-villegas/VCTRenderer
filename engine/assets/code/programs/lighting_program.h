@@ -63,6 +63,12 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<float> voxelScale;
         oglplus::Uniform<glm::vec3> worldMinPoint;
 
+        oglplus::Uniform<float> maxTracingDistanceGlobal;
+        oglplus::Uniform<float> bounceStrength;
+        oglplus::Uniform<float> aoFalloff;
+        oglplus::Uniform<float> aoAlpha;
+        oglplus::Uniform<unsigned int> mode;
+
         void ExtractUniforms() override;
 
         LightingProgram() = default;

@@ -219,6 +219,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="assets\code\interfaces\global_illumination_options.cpp" />
     <ClCompile Include="assets\code\interfaces\main_menu.cpp" />
     <ClCompile Include="assets\code\interfaces\scene_cameras.cpp" />
     <ClCompile Include="assets\code\interfaces\scene_lights.cpp" />
@@ -305,6 +306,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="assets\code\interfaces\global_illumination_options.h" />
     <ClInclude Include="assets\code\interfaces\main_menu.h" />
     <ClInclude Include="assets\code\interfaces\scene_cameras.h" />
     <ClInclude Include="assets\code\interfaces\scene_lights.h" />

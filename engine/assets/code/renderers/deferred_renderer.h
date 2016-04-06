@@ -48,6 +48,16 @@ class DeferredRenderer : public Renderer
         /// <param name="mat">The mat.</param>
         void SetMaterialUniforms(const Material &material) const override;
         const std::array<oglplus::Texture, 4> &BufferTextures() const;
+        const float &MaxTracingDistance();
+        void MaxTracingDistance(const float &val);
+        const float &GlobalIlluminationStrength() const;
+        void GlobalIlluminationStrength(const float &val);
+        const float &AmbientOclussionFalloff() const;
+        void AmbientOclussionFalloff(const float &val);
+        const float &AmbientOclussionAlpha() const;
+        void AmbientOclussionAlpha(const float &val);
+        const unsigned int &RenderMode() const;
+        void RenderMode(const unsigned int &mode);
     private:
         FullscreenQuad fsQuad;
         /// <summary>
@@ -76,4 +86,10 @@ class DeferredRenderer : public Renderer
         oglplus::Framebuffer geometryBuffer;
         oglplus::Renderbuffer depthBuffer;
         std::array<oglplus::Texture, 4> bufferTextures;
+
+        float maxTracingDistance;
+        float globalIlluminationStrength;
+        float ambientOcclusionFalloff;
+        float ambientOcclusionAlpha;
+        unsigned int renderMode;
 };

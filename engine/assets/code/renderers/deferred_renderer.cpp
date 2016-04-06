@@ -20,6 +20,12 @@ DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
 {
     // create textures and attachments for framebuffer in deferredhandler
     SetupGeometryBuffer(Window().Info().width, Window().Info().height);
+    // initial values
+    maxTracingDistance = 1.0f;
+    globalIlluminationStrength = 1.0f;
+    ambientOcclusionFalloff = 725.0f;
+    ambientOcclusionAlpha = 0.01f;
+    renderMode = 0;
 }
 
 DeferredRenderer::~DeferredRenderer()
@@ -102,6 +108,56 @@ const
 const std::array<oglplus::Texture, 4> &DeferredRenderer::BufferTextures() const
 {
     return bufferTextures;
+}
+
+const float &DeferredRenderer::MaxTracingDistance()
+{
+    return maxTracingDistance;
+}
+
+void DeferredRenderer::MaxTracingDistance(const float &val)
+{
+    maxTracingDistance = val;
+}
+
+const float &DeferredRenderer::GlobalIlluminationStrength() const
+{
+    return globalIlluminationStrength;
+}
+
+void DeferredRenderer::GlobalIlluminationStrength(const float &val)
+{
+    globalIlluminationStrength = val;
+}
+
+const float &DeferredRenderer::AmbientOclussionFalloff() const
+{
+    return ambientOcclusionFalloff;
+}
+
+void DeferredRenderer::AmbientOclussionFalloff(const float &val)
+{
+    ambientOcclusionFalloff = val;
+}
+
+const float &DeferredRenderer::AmbientOclussionAlpha() const
+{
+    return ambientOcclusionAlpha;
+}
+
+void DeferredRenderer::AmbientOclussionAlpha(const float &val)
+{
+    ambientOcclusionAlpha = val;
+}
+
+const unsigned &DeferredRenderer::RenderMode() const
+{
+    return renderMode;
+}
+
+void DeferredRenderer::RenderMode(const unsigned &mode)
+{
+    renderMode = mode;
 }
 
 void DeferredRenderer::SetLightPassUniforms() const
@@ -203,6 +259,12 @@ void DeferredRenderer::SetLightPassUniforms() const
     voxel.VoxelTextureMipmap().Bind(oglplus::TextureTarget::_3D);
     prog.voxelTex.Set(7);
     prog.voxelTexMipmap.Set(8);
+    // global illum setup
+    prog.maxTracingDistanceGlobal.Set(maxTracingDistance);
+    prog.bounceStrength.Set(globalIlluminationStrength);
+    prog.aoFalloff.Set(ambientOcclusionFalloff);
+    prog.aoAlpha.Set(ambientOcclusionAlpha);
+    prog.mode.Set(renderMode);
 }
 
 GeometryProgram &DeferredRenderer::GeometryPass()

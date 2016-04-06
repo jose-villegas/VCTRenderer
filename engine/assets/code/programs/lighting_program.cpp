@@ -125,6 +125,17 @@ void LightingProgram::ExtractUniforms()
     worldMinPoint.BindTo("worldMinPoint");
     voxelScale.Assign(program);
     voxelScale.BindTo("voxelScale");
+    // gi options
+    maxTracingDistanceGlobal.Assign(program);
+    maxTracingDistanceGlobal.BindTo("maxTracingDistanceGlobal");
+    bounceStrength.Assign(program);
+    bounceStrength.BindTo("bounceStrength");
+    aoFalloff.Assign(program);
+    aoFalloff.BindTo("aoFalloff");
+    aoAlpha.Assign(program);
+    aoAlpha.BindTo("aoAlpha");
+    mode.Assign(program);
+    mode.BindTo("mode");
 }
 
 LightingProgram::~LightingProgram()

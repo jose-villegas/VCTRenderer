@@ -120,7 +120,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     vec4 coneSample = vec4(0.0f);
     vec4 baseColor = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
-    float occlusion = 0;
+    float occlusion = traceOcclusion ? 0.0f : 1.0f;
 
     while(coneSample.a <= 1.0f && dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal)
     {
@@ -150,7 +150,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
         anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
     }
 
-    return vec4(coneSample.rgb, traceOcclusion ? occlusion : 1.0f);
+    return vec4(coneSample.rgb, occlusion);
 }
 
 float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance) 
@@ -420,7 +420,7 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specu
     return directLighting;
 }
 
-vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specular)
+vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specular, bool ambientOcclusion)
 {
     vec3 positionT = WorldToVoxelSample(position);
     vec3 cameraPosT = WorldToVoxelSample(cameraPosition);
@@ -431,30 +431,39 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     vec4 specularTrace = vec4(0.0f);
     vec4 diffuseTrace = vec4(0.0f);
 
-    // specular cone setup
-    float aperture = sin(acos(sqrt(0.11f / (specular.a * specular.a + 0.11f))));
-    specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
-    specularTrace.rgb *= specular.rgb;
-
-    // diffuse cone setup
-    aperture = 0.5055f;
-    vec3 up = (normal.y * normal.y) > 0.95f ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
-    vec3 right = cross(normal, up);
-    up = cross(normal, right);
-
-    for(int i = 0; i < 6; i++)
+    // component greater than zero
+    if(all(greaterThan(specular.rgb, specularTrace.rgb)))
     {
-        coneDirection = normal;
-        coneDirection += diffuseConeDirections[i].x * right + diffuseConeDirections[i].z * up;
-        coneDirection = normalize(coneDirection);
-
-        diffuseTrace += TraceCone(positionT, coneDirection, aperture, 1.0f, true) * diffuseConeWeights[i];
+        // specular cone setup
+        float aperture = sin(acos(sqrt(0.11f / (specular.a * specular.a + 0.11f))));
+        specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
+        specularTrace.rgb *= specular.rgb;
     }
 
-    diffuseTrace.rgb *= albedo;
+    // component greater than zero
+    if(all(greaterThan(albedo, diffuseTrace.rgb)))
+    {
+        // diffuse cone setup
+        float aperture = 0.5055f;
+        vec3 up = (normal.y * normal.y) > 0.95f ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
+        vec3 right = cross(normal, up);
+        up = cross(normal, right);
+
+        for(int i = 0; i < 6; i++)
+        {
+            coneDirection = normal;
+            coneDirection += diffuseConeDirections[i].x * right + diffuseConeDirections[i].z * up;
+            coneDirection = normalize(coneDirection);
+
+            diffuseTrace += TraceCone(positionT, coneDirection, aperture, 1.0f, ambientOcclusion) * diffuseConeWeights[i];
+        }
+
+        diffuseTrace.rgb *= albedo;
+    }
 
     vec4 result = (diffuseTrace + specularTrace) * bounceStrength;
-    result.a = 1.0f - clamp(diffuseTrace.a, 0.0f, 1.0f);
+
+    if(ambientOcclusion) result.a = 1.0f - clamp(diffuseTrace.a, 0.0f, 1.0f);
 
     return result;
 }
@@ -469,11 +478,44 @@ void main()
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
-    specular.a = specular.a * 4000.0f;
-    // direct lighting from all light sources
-    vec3 directLighting = CalculateDirectLighting(position, normal, albedo, specular);
-    vec4 indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular);
-    float ambientOcclusion = min(indirectLighting.a + aoAlpha, 1.0f);
+    specular.a = specular.a * 8000.0f;
+    // lighting cumulatives
+    vec3 directLighting = vec3(1.0f);
+    vec4 indirectLighting = vec4(1.0f);
+    vec4 compositeLighting = vec4(1.0f);
+    float ambientOcclusion = 1.0f;
+
+    if(mode == 0)   // direct + indirect + ao
+    {
+        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
+        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, true);
+        ambientOcclusion = min(indirectLighting.a + aoAlpha, 1.0f);
+    }
+    else if(mode == 1)  // direct + indirect
+    {
+        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
+        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, false);
+    }
+    else if(mode == 2) // direct only
+    {
+        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
+        indirectLighting = vec4(0.0f);
+    }
+    else if(mode == 3) // indirect only
+    {
+        directLighting = vec3(0.0f);
+        albedo.rgb = albedo.rgb = vec3(1.0f);
+        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, false);
+    }
+    else if(mode == 4) // ambient occlusion only
+    {
+        directLighting = vec3(0.0f);
+        specular = vec4(0.0f);
+        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, true);
+        ambientOcclusion = min(indirectLighting.a + aoAlpha, 1.0f);
+        indirectLighting = vec4(1.0f);
+    }
+
     // final color
     fragColor = vec4((directLighting + indirectLighting.rgb) * ambientOcclusion, 1.0f);
 }

@@ -11,6 +11,7 @@ bool UIMainMenu::drawSceneLights = false;
 bool UIMainMenu::drawFramebuffers = false;
 bool UIMainMenu::drawShadowOptions = false;
 bool UIMainMenu::drawVoxelizationOptions = false;
+bool UIMainMenu::drawGIOptions = false;
 
 using namespace ImGui;
 
@@ -38,6 +39,7 @@ void UIMainMenu::Draw()
         {
             MenuItem("Shadows", nullptr, &drawShadowOptions);
             MenuItem("Voxelization", nullptr, &drawVoxelizationOptions);
+            MenuItem("Global Illumination", nullptr, &drawGIOptions);
             EndMenu();
         }
 
