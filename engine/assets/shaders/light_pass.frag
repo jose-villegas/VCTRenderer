@@ -44,7 +44,6 @@ uniform vec3 cameraPosition;
 uniform Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
 uniform Light pointLight[MAX_POINT_LIGHTS];
 uniform Light spotLight[MAX_SPOT_LIGHTS];
-
 uniform uint lightTypeCount[3];
 
 uniform vec2 exponents;

@@ -15,9 +15,7 @@ void LightingProgram::ExtractUniforms()
     gAlbedo.Assign(program);
     gSpecular.Assign(program);
     shadowMap.Assign(program);
-    lightTypeCount[0].Assign(program);
-    lightTypeCount[1].Assign(program);
-    lightTypeCount[2].Assign(program);
+    ;
     exponents.Assign(program);
     lightBleedingReduction.Assign(program);
     // bind to uniform name
@@ -28,12 +26,15 @@ void LightingProgram::ExtractUniforms()
     gAlbedo.BindTo("gAlbedo");
     gSpecular.BindTo("gSpecular");
     shadowMap.BindTo("shadowMap");
-    lightTypeCount[0].BindTo("lightTypeCount[0]");
-    lightTypeCount[1].BindTo("lightTypeCount[1]");
-    lightTypeCount[2].BindTo("lightTypeCount[2]");
     exponents.BindTo("exponents");
     lightBleedingReduction.BindTo("lightBleedingReduction");
     // collections
+    lightTypeCount[0].Assign(program);
+    lightTypeCount[1].Assign(program);
+    lightTypeCount[2].Assign(program);
+    lightTypeCount[0].BindTo("lightTypeCount[0]");
+    lightTypeCount[1].BindTo("lightTypeCount[1]");
+    lightTypeCount[2].BindTo("lightTypeCount[2]");
     directionalLight.resize(Light::DirectionalsLimit);
     pointLight.resize(Light::PointsLimit);
     spotLight.resize(Light::SpotsLimit);

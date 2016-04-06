@@ -162,9 +162,10 @@ void VoxelizerRenderer::InjectRadiance()
     // shadow casting
     if (shadowing.Caster() != nullptr)
     {
-        auto &caster = *shadowing.Caster();
-        prog.directionalLight.diffuse.Set(caster.Diffuse() * caster.Intensities().y);
-        prog.directionalLight.direction.Set(caster.Direction());
+        // pass uniform texture for shadowing
+        shadowing.BindReading(6);
+        prog.shadowMap.Set(6);
+        prog.exponents.Set(shadowing.Exponents());
         prog.shadowMapping.Set(1);
     }
     else
@@ -172,10 +173,60 @@ void VoxelizerRenderer::InjectRadiance()
         prog.shadowMapping.Set(0);
     }
 
-    // pass uniform texture for shadowing
-    shadowing.BindReading(6);
-    prog.shadowMap.Set(6);
-    prog.exponents.Set(shadowing.Exponents());
+    // uniform arrays of lights
+    auto &uDirectionals = prog.directionalLight;
+    auto &uPoints = prog.pointLight;
+    auto &uSpots = prog.spotLight;
+    auto &lights = scene->lights;
+    // index of directional-point-spot lights
+    auto typeIndex = glm::uvec3(0);
+    // pass number of lights per type
+    prog.lightTypeCount[0].Set(static_cast<const unsigned int>
+                               (Light::Directionals().size()));
+    prog.lightTypeCount[1].Set(static_cast<const unsigned int>
+                               (Light::Points().size()));
+    prog.lightTypeCount[2].Set(static_cast<const unsigned int>
+                               (Light::Spots().size()));
+
+    for (int i = 0; i < lights.size(); ++i)
+    {
+        auto &light = lights[i];
+        auto &factor = light->Intensities();
+        auto shadowingMethod = light->mode[0].to_ulong();
+        // current light uniform
+        auto &uLight = light->Type() == Light::Directional
+                       ? uDirectionals[typeIndex.x++]
+                       : light->Type() == Light::Point
+                       ? uPoints[typeIndex.y++]
+                       : uSpots[typeIndex.z++];
+        // shared uniforms between types
+        uLight.diffuse.Set(light->Diffuse() * factor.y);
+
+        if (light->Type() == Light::Spot || light->Type() == Light::Point)
+        {
+            uLight.position.Set(light->Position());
+        }
+
+        if (light->Type() == Light::Spot || light->Type() == Light::Directional)
+        {
+            uLight.direction.Set(light->Direction());
+        }
+
+        if (light->Type() == Light::Spot || light->Type() == Light::Point)
+        {
+            uLight.attenuation.constant.Set(light->attenuation.Constant());
+            uLight.attenuation.linear.Set(light->attenuation.Linear());
+            uLight.attenuation.quadratic.Set(light->attenuation.Quadratic());
+        }
+
+        if (light->Type() == Light::Spot)
+        {
+            uLight.angleInnerCone.Set(cos(light->AngleInnerCone()));
+            uLight.angleOuterCone.Set(cos(light->AngleOuterCone()));
+        }
+    }
+
+    // pass light uniforms
     // voxel texture to read
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                        oglplus::ImageUnitFormat::R32UI);

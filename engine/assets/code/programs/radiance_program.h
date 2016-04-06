@@ -7,15 +7,33 @@
 class InjectRadianceProgram : public ProgramShader
 {
     protected:
+        // light pass uniforms
         struct UniformLight
         {
+            oglplus::Uniform<float> angleInnerCone;
+            oglplus::Uniform<float> angleOuterCone;
+
             oglplus::Uniform<glm::vec3> diffuse;
+
+            oglplus::Uniform<glm::vec3> position;
             oglplus::Uniform<glm::vec3> direction;
+
+            struct UniformAttenuation
+            {
+                oglplus::Uniform<float> constant;
+                oglplus::Uniform<float> linear;
+                oglplus::Uniform<float> quadratic;
+            };
+
+            UniformAttenuation attenuation;
         };
     public:
+        std::vector<UniformLight> directionalLight;
+        std::vector<UniformLight> pointLight;
+        std::vector<UniformLight> spotLight;
+        std::array<oglplus::Uniform<unsigned int>, 3> lightTypeCount;
         oglplus::Uniform<glm::mat4x4> lightViewProjection;
         oglplus::UniformSampler shadowMap;
-        UniformLight directionalLight;
         oglplus::Uniform<glm::vec2> exponents;
         oglplus::Uniform<float> lightBleedingReduction;
         oglplus::Uniform<float> voxelSize;

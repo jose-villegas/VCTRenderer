@@ -5,35 +5,42 @@ layout(binding = 0, r32ui) uniform uimage3D voxelAlbedo;
 layout(binding = 1, r32ui) uniform uimage3D voxelNormal;
 layout(binding = 2, rgba8) uniform writeonly image3D voxelRadiance;
 
-struct Light 
+const uint MAX_DIRECTIONAL_LIGHTS = 8;
+const uint MAX_POINT_LIGHTS = 256;
+const uint MAX_SPOT_LIGHTS = 256;
+
+struct Attenuation
 {
-    vec3 diffuse;
-    vec3 direction;
+    float constant;
+    float linear;
+    float quadratic;
 };
+
+struct Light {
+    float angleInnerCone;
+    float angleOuterCone;
+
+    vec3 diffuse;
+
+    vec3 position;
+    vec3 direction;
+
+    Attenuation attenuation;
+};
+
+uniform Light directionalLight[MAX_DIRECTIONAL_LIGHTS];
+uniform Light pointLight[MAX_POINT_LIGHTS];
+uniform Light spotLight[MAX_SPOT_LIGHTS];
+uniform uint lightTypeCount[3];
 
 uniform vec2 exponents;
 uniform float lightBleedingReduction;
 uniform mat4 lightViewProjection;
-uniform Light directionalLight;
 uniform float voxelSize;
 uniform vec3 worldMinPoint;
 
 uniform sampler2D shadowMap;
 uniform uint shadowMapping = 1;
-
-vec3 VoxelToWorld(ivec3 pos)
-{
-	vec3 result = vec3(pos);
-	result *= voxelSize;
-
-	return result + worldMinPoint;
-}
-
-vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
-{
-    float lambertian = clamp(dot(normal, lightDirection), 0.0f, 1.0f);
-    return light.diffuse * albedo * lambertian;
-}
 
 float linstep(float low, float high, float value)
 {
@@ -90,6 +97,100 @@ float Visibility(vec3 position)
     return min(positive, negative);
 }
 
+vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
+{
+    float lambertian = clamp(dot(normal, lightDirection), 0.0f, 1.0f);
+    return light.diffuse * albedo * lambertian;
+}
+
+vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
+{
+    return Diffuse(light, light.direction, normal, albedo);
+}
+
+vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
+{
+    light.direction = light.position - position;
+    float d = length(light.direction);
+    light.direction = normalize(light.direction);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * d
+                    + light.attenuation.quadratic * d * d + 1.0f);
+
+    if(falloff <= 0.0f) return vec3(0.0f);
+
+    return Diffuse(light, light.direction, normal, albedo) * falloff;
+}
+
+vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
+{
+    vec3 spotDirection = light.direction;
+    light.direction = normalize(light.position - position);
+    float cosAngle = dot(-light.direction, spotDirection);
+
+    // outside the cone
+    if(cosAngle <= light.angleOuterCone) { return vec3(0.0f); }
+
+    // assuming they are passed as cos(angle)
+    float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
+    // spot light factor for smooth transition
+    float spotMark = (cosAngle - light.angleOuterCone) / innerMinusOuter;
+    float spotFalloff = smoothstep(0.0f, 1.0f, spotMark);
+
+    if(spotFalloff <= 0.0f) return vec3(0.0f);   
+
+    float dst = distance(light.position, position);
+    float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * dst
+                    + light.attenuation.quadratic * dst * dst + 1.0f);   
+
+    if(falloff <= 0.0f) return vec3(0.0f);
+
+    return Diffuse(light, light.direction, normal, albedo) * falloff * spotFalloff;
+}
+
+vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
+{
+    // calculate directional lighting
+    vec3 directLighting = vec3(0.0f);
+	// fixes shadow mapping issues where the center voxel is occluded
+	vec3 unitCubeDirection = vec3(clamp(1.7320f * normal, vec3(-1.0f), vec3(1.0f)));
+	float visibility = 1.0f;
+
+	if(shadowMapping == 1)
+	{
+		visibility = Visibility(position + unitCubeDirection * voxelSize);
+	}
+
+    // calculate lighting for directional lights
+    for(int i = 0; i < lightTypeCount[0]; ++i)
+    {
+        directLighting += CalculateDirectional(directionalLight[i], normal, position, albedo);
+
+        if(i == 0) { directLighting *= visibility; }
+    }
+
+    // calculate lighting for point lights
+    for(int i = 0; i < lightTypeCount[1]; ++i)
+    {
+        directLighting += CalculatePoint(pointLight[i], normal, position, albedo);
+    }
+
+    // calculate lighting for spot lights
+    for(int i = 0; i < lightTypeCount[2]; ++i) 
+    {
+        directLighting += CalculateSpot(spotLight[i], normal, position, albedo);
+    }
+
+    return directLighting;
+}
+
+vec3 VoxelToWorld(ivec3 pos)
+{
+	vec3 result = vec3(pos);
+	result *= voxelSize;
+
+	return result + worldMinPoint;
+}
+
 vec4 convRGBA8ToVec4(uint val)
 {
     return vec4(float((val & 0x000000FF)), 
@@ -125,16 +226,8 @@ void main()
 
 	// obtain ws position of the current voxel
 	vec3 wsPosition = VoxelToWorld(writePos);
-
-	albedo.rgb = Diffuse(directionalLight, directionalLight.direction, normal, albedo.rgb);
-
-	vec3 unitCubeDirection = vec3(clamp(2.0f * normal, vec3(-1.0f), vec3(1.0f)));
-	
-	if(shadowMapping == 1)
-	{
-		albedo *= Visibility(wsPosition + unitCubeDirection * voxelSize);
-	}
-
+	// calculate direct lighting onto voxel
+	albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
 	albedo.a = 1.0f;
 
 	imageStore(voxelRadiance, writePos, albedo);
