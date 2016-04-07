@@ -124,6 +124,13 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
 
     while(coneSample.a <= 1.0f && dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal)
     {
+        // outisde bounds
+        if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f)) 
+        { 
+            break; 
+        }
+
         mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
         anisoLevel = max(mipLevel - 1.0f, 0.0f);
         // aniso sampling
@@ -465,7 +472,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
 
     if(ambientOcclusion) result.a = 1.0f - clamp(diffuseTrace.a, 0.0f, 1.0f);
 
-    return result;
+    return clamp(result, 0.0f, 1.0f);
 }
 
 void main()
@@ -478,11 +485,11 @@ void main()
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
-    specular.a = specular.a * 8000.0f;
+    specular.a = specular.a * 16000.0f;
     // lighting cumulatives
     vec3 directLighting = vec3(1.0f);
     vec4 indirectLighting = vec4(1.0f);
-    vec4 compositeLighting = vec4(1.0f);
+    vec3 compositeLighting = vec3(1.0f);
     float ambientOcclusion = 1.0f;
 
     if(mode == 0)   // direct + indirect + ao
@@ -516,6 +523,7 @@ void main()
         indirectLighting = vec4(1.0f);
     }
 
+    compositeLighting = (directLighting + indirectLighting.rgb) * ambientOcclusion;
     // final color
-    fragColor = vec4((directLighting + indirectLighting.rgb) * ambientOcclusion, 1.0f);
+    fragColor = vec4(clamp(compositeLighting, 0.0f, 1.0f), 1.0f);
 }

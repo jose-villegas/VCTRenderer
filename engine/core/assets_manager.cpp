@@ -15,6 +15,7 @@
 #include "../assets/code/programs/radiance_program.h"
 #include "../assets/code/programs/blur_program.h"
 #include "../assets/code/programs/mipmapping_program.h"
+#include "../assets/code/programs/propagation_program.h"
 // include interfaces
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
@@ -80,6 +81,7 @@ AssetsManager::AssetsManager()
     programs["VoxelDrawer"] = std::make_shared<VoxelDrawerProgram>();
     programs["Depth"] = std::make_shared<DepthProgram>();
     programs["InjectRadiance"] = std::make_shared<InjectRadianceProgram>();
+    programs["InjectPropagation"] = std::make_shared<PropagationProgram>();
     programs["MipmappingBase"] = std::make_shared<MipmappingBaseProgram>();
     programs["MipmappingVolume"] = std::make_shared<MipmappingVolumeProgram>();
     programs["Blur"] = std::make_shared<BlurProgram>();
@@ -114,6 +116,8 @@ AssetsManager::AssetsManager()
                                     "assets\\shaders\\depth_texture.frag");
     programs["InjectRadiance"]->AttachShader(oglplus::ShaderType::Compute,
             "assets\\shaders\\inject_radiance.comp");
+    programs["InjectPropagation"]->AttachShader(oglplus::ShaderType::Compute,
+            "assets\\shaders\\inject_propagation.comp");
     programs["MipmappingBase"]->AttachShader(oglplus::ShaderType::Compute,
             "assets\\shaders\\aniso_mipmapbase.comp");
     programs["MipmappingVolume"]->AttachShader(oglplus::ShaderType::Compute,

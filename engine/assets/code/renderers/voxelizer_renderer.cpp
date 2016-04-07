@@ -19,6 +19,7 @@
 #include <oglplus/context.hpp>
 #include <oglplus/framebuffer.hpp>
 #include <glm/gtx/transform.hpp>
+#include "../programs/propagation_program.h"
 
 bool VoxelizerRenderer::ShowVoxels = false;
 
@@ -121,20 +122,18 @@ void VoxelizerRenderer::VoxelizeScene()
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     prog.voxelScale.Set(1.0f / volumeGridSize);
     // bind the volume texture to be writen in shaders
+    voxelTex.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                        oglplus::ImageUnitFormat::R32UI);
-    voxelTex.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
-                          oglplus::ImageUnitFormat::R32UI);
-    voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    voxelTemporal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    voxelTemporal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+                            oglplus::ImageUnitFormat::R32UI);
     // draw scene triangles
     scene->rootNode->DrawList();
     // sync barrier
     gl.MemoryBarrier(shImage | texFetch);
     // compute shader injects diffuse lighting and shadowing
     InjectRadiance();
-    // generate mipmap levels per face for anisotropic mipmapping
-    GenerateMipmap();
 }
 
 void VoxelizerRenderer::InjectRadiance()
@@ -151,7 +150,7 @@ void VoxelizerRenderer::InjectRadiance()
                               ->renderers["Shadowmapping"].get());
     // control vars
     auto &sceneBox = scene->rootNode->boundaries;
-    // inject radiance into voxel texture and also mip-map
+    // inject radiance into voxel texture
     CurrentProgram<InjectRadianceProgram>(prog);
     // pass compute shader uniform
     prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
@@ -226,24 +225,51 @@ void VoxelizerRenderer::InjectRadiance()
         }
     }
 
-    // pass light uniforms
     // voxel texture to read
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                        oglplus::ImageUnitFormat::R32UI);
-    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                          oglplus::ImageUnitFormat::R32UI);
+    voxelTemporal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                            oglplus::ImageUnitFormat::R32UI);
     voxelTex.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                        oglplus::ImageUnitFormat::RGBA8);
     auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
     // inject radiance at level 0 of texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
-    // mipmap radiance resulting volume
+    // sync safety
     gl.MemoryBarrier(shImage | texFetch);
+
+    if(injectFirstBounce)
+    {
+        // we will have to mip map twice, here for cone tracing
+        GenerateMipmap(voxelTex);
+        // inject direct + "first bounce" into voxel texture
+        CurrentProgram<PropagationProgram>(InjectPropagationShader());
+        // voxel textures to read
+        voxelTex.Active(0);
+        voxelTex.Bind(oglplus::TextureTarget::_3D);
+        voxelTexMipmap.Active(1);
+        voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);
+        voxelTemporal.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                                oglplus::ImageUnitFormat::R32UI);
+        voxelTemporal.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                                oglplus::ImageUnitFormat::RGBA8);
+        // inject at level 0 of texture
+        gl.DispatchCompute(workGroups, workGroups, workGroups);
+        // sync safety
+        gl.MemoryBarrier(shImage | texFetch);
+        // now mipmap result
+        GenerateMipmap(voxelTemporal);
+    }
+    else
+    {
+        GenerateMipmap(voxelTex);
+    }
 }
 
-void VoxelizerRenderer::GenerateMipmap()
+void VoxelizerRenderer::GenerateMipmap(oglplus::Texture &baseTexture)
 {
     static oglplus::Context gl;
+    static float zero[] = { 0, 0, 0, 0 };
     static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                           (oglplus::MemoryBarrierBit::ShaderImageAccess);
     static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
@@ -254,8 +280,8 @@ void VoxelizerRenderer::GenerateMipmap()
     // base volume mipmap from voxel tex to first mip level
     CurrentProgram<MipmappingBaseProgram>(baseProg);
     // bind images for reading / writing
-    voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                       oglplus::ImageUnitFormat::RGBA8);
+    baseTexture.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                          oglplus::ImageUnitFormat::RGBA8);
     voxelTexMipmap.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                              oglplus::ImageUnitFormat::RGBA8);
     auto workGroups = static_cast<unsigned>(glm::ceil(halfDimension / 8.0f));
@@ -321,8 +347,17 @@ void VoxelizerRenderer::DrawVoxels()
     // pass voxel drawer uniforms
     if(drawMipLevel == 0)
     {
-        voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                           oglplus::ImageUnitFormat::RGBA8);
+        if(injectFirstBounce)
+        {
+            voxelTemporal.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                                    oglplus::ImageUnitFormat::RGBA8);
+        }
+        else
+        {
+            voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                               oglplus::ImageUnitFormat::RGBA8);
+        }
+
         prog.direction.Set(0);
     }
     else
@@ -364,6 +399,7 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 }
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
+    injectFirstBounce = false;
     drawMipLevel = drawDirection = 0;
     framestep = 5; // only on scene change
     SetupVoxelVolumes(256);
@@ -396,16 +432,16 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
                      PixelDataType::UnsignedByte, nullptr);
     voxelTex.ClearImage(0, PixelDataFormat::RGBA, zero);
     // generate normal volume for radiance
-    voxelNormal.Bind(TextureTarget::_3D);
-    voxelNormal.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
-    voxelNormal.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
-    voxelNormal.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    voxelNormal.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    voxelNormal.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    voxelNormal.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
-                        dimension, dimension, dimension, 0, PixelDataFormat::RGBA,
-                        PixelDataType::UnsignedByte, nullptr);;
-    voxelNormal.ClearImage(0, PixelDataFormat::RGBA, zero);
+    voxelTemporal.Bind(TextureTarget::_3D);
+    voxelTemporal.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
+    voxelTemporal.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
+    voxelTemporal.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelTemporal.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelTemporal.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelTemporal.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
+                          dimension, dimension, dimension, 0, PixelDataFormat::RGBA,
+                          PixelDataType::UnsignedByte, nullptr);;
+    voxelTemporal.ClearImage(0, PixelDataFormat::RGBA, zero);
     // mip mapping textures per face
     voxelTexMipmap.Bind(TextureTarget::_3D);
     voxelTexMipmap.MinFilter(TextureTarget::_3D,
@@ -446,7 +482,7 @@ const unsigned &VoxelizerRenderer::VolumeDimension() const
 }
 oglplus::Texture &VoxelizerRenderer::VoxelTexture()
 {
-    return voxelTex;
+    return injectFirstBounce ? voxelTemporal : voxelTex;
 }
 
 oglplus::Texture &VoxelizerRenderer::VoxelTextureMipmap()
@@ -462,6 +498,16 @@ const float &VoxelizerRenderer::VoxelWorldSize() const
 const float &VoxelizerRenderer::VolumeGridSize() const
 {
     return volumeGridSize;
+}
+
+bool VoxelizerRenderer::InjectFirstBounce() const
+{
+    return injectFirstBounce;
+}
+
+void VoxelizerRenderer::InjectFirstBounce(bool val)
+{
+    injectFirstBounce = val;
 }
 
 VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()
@@ -483,6 +529,13 @@ InjectRadianceProgram &VoxelizerRenderer::InjectRadianceShader()
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<InjectRadianceProgram *>
                         (assets->programs["InjectRadiance"].get());
+    return prog;
+}
+PropagationProgram &VoxelizerRenderer::InjectPropagationShader()
+{
+    static auto &assets = AssetsManager::Instance();
+    static auto &prog = *static_cast<PropagationProgram *>
+                        (assets->programs["InjectPropagation"].get());
     return prog;
 }
 MipmappingBaseProgram &VoxelizerRenderer::MipMappingBaseShader()

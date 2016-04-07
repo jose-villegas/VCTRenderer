@@ -4,6 +4,7 @@
 #include <oglplus/texture.hpp>
 #include <glm/mat4x4.hpp>
 #include <oglplus/vertex_array.hpp>
+#include "../programs/propagation_program.h"
 
 class MipmappingVolumeProgram;
 class MipmappingBaseProgram;
@@ -49,13 +50,13 @@ class VoxelizerRenderer : public Renderer
         /// Finalizes an instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
         ~VoxelizerRenderer();
-        const glm::mat4x4 &VoxelToWorldMatrix() const;
-        const glm::mat4x4 &WorldToVoxelMatrix() const;
         const unsigned int &VolumeDimension() const;
         oglplus::Texture &VoxelTexture();
         oglplus::Texture &VoxelTextureMipmap();
         const float &VoxelWorldSize() const;
         const float &VolumeGridSize() const;
+        bool InjectFirstBounce() const;
+        void InjectFirstBounce(bool val);
     private:
         /// <summary>
         /// Returns the voxelization program shader.
@@ -68,6 +69,7 @@ class VoxelizerRenderer : public Renderer
         /// <returns></returns>
         static VoxelDrawerProgram &VoxelDrawerShader();
         static InjectRadianceProgram &InjectRadianceShader();
+        static PropagationProgram &InjectPropagationShader();
         static MipmappingBaseProgram &MipMappingBaseShader();
         static MipmappingVolumeProgram &MipMappingVolumeShader();
         /// <summary>
@@ -80,7 +82,7 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         void VoxelizeScene();
         void InjectRadiance();
-        void GenerateMipmap();
+        void GenerateMipmap(oglplus::Texture &baseTexture);
         /// <summary>
         /// Draws the resulting voxels.
         /// </summary>
@@ -88,7 +90,7 @@ class VoxelizerRenderer : public Renderer
         // output textures
         oglplus::Texture voxelTex;
         oglplus::Texture voxelTexMipmap;
-        oglplus::Texture voxelNormal;
+        oglplus::Texture voxelTemporal;
 
         // vertex buffer object for 3d texture visualization
         oglplus::VertexArray voxelDrawerArray;
@@ -101,4 +103,5 @@ class VoxelizerRenderer : public Renderer
         float volumeGridSize;
         float voxelSize;
         unsigned int voxelCount;
+        bool injectFirstBounce;
 };

@@ -1,0 +1,159 @@
+#version 430
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
+
+layout(binding = 0, rgba8) uniform sampler3D voxelTex;
+layout(binding = 1, rgba8) uniform sampler3D voxelTexMipmap;
+layout(binding = 2, r32ui) uniform readonly uimage3D voxelNormal;
+layout(binding = 3, rgba8) uniform writeonly image3D voxelComposite;
+
+uvec3 volumeDimension;
+
+const float PI = 3.14159265f;
+
+const vec3 mipOffset[] = 
+{
+    vec3(0.0f, 0.0f, 0.0f),
+    vec3(1.0f / 6.0f, 0.0f, 0.0f),
+    vec3(2.0f / 6.0f, 0.0f, 0.0f),
+    vec3( 3.0f / 6.0f, 0.0f, 0.0f),
+    vec3(4.0f / 6.0f, 0.0f, 0.0f),
+    vec3(5.0f / 6.0f, 0.0f, 0.0f)
+};
+
+const vec3 propagationDirections[] =
+{
+    vec3(0.0f, 1.0f, 0.0f),
+    vec3(0.0f, 0.5f, 0.866025f),
+    vec3(0.823639f, 0.5f, 0.267617f),
+    vec3(0.509037f, 0.5f, -0.7006629f),
+    vec3(-0.50937f, 0.5f, -0.7006629f),
+    vec3(-0.823639f, 0.5f, 0.267617f)
+};
+
+const float diffuseConeWeights[] =
+{
+    PI / 4.0f,
+    3.0f * PI / 20.0f,
+    3.0f * PI / 20.0f,
+    3.0f * PI / 20.0f,
+    3.0f * PI / 20.0f,
+    3.0f * PI / 20.0f,
+};
+
+vec4 convRGBA8ToVec4(uint val)
+{
+    return vec4(float((val & 0x000000FF)), 
+    float((val & 0x0000FF00) >> 8U), 
+    float((val & 0x00FF0000) >> 16U), 
+    float((val & 0xFF000000) >> 24U));
+}
+
+vec3 TraceCone(vec3 position, vec3 direction, float aperture)
+{
+    uvec3 visibleFace;
+    visibleFace.x = (direction.x < 0.0) ? 0 : 1;
+    visibleFace.y = (direction.y < 0.0) ? 2 : 3;
+    visibleFace.z = (direction.z < 0.0) ? 4 : 5;
+    // weight per axis
+    vec3 weight = abs(direction);
+    // navigation
+    float voxelSize = 1.0f / volumeDimension.x;
+    // move one voxel further to avoid self collision
+    float dst = voxelSize * 2.0f;
+    float diameter = aperture * dst;
+    vec3 samplePos = direction * dst + position;
+    vec3 anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
+    // control vars
+    float mipLevel = 0.0f;
+    float anisoLevel = 0.0f;
+    float mipMaxLevel = log2(volumeDimension.x);
+    // accumulated sample
+    vec4 anisoSample = vec4(0.0f);
+    vec4 coneSample = vec4(0.0f);
+    vec4 baseColor = vec4(0.0f);
+
+    while(coneSample.a <= 1.0f && dst <= 1.0f)
+    {
+        if(samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+           || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
+        { 
+            break; 
+        }
+
+        mipLevel = clamp(log2(diameter * volumeDimension.x), 0.0f, mipMaxLevel);
+        anisoLevel = max(mipLevel - 1.0f, 0.0f);
+
+        // aniso sampling
+        anisoSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], anisoLevel)
+                    + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], anisoLevel)
+                    + weight.z * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.z], anisoLevel);
+
+       if(mipLevel <= 1.0f)
+        {
+            baseColor = texture(voxelTex, samplePos);
+            anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
+        }
+
+        // accumulate sampling
+        coneSample += (1.0f - coneSample.a) * anisoSample;
+        // move further into volume
+        dst += max(diameter, voxelSize);
+        diameter = dst * aperture;
+        samplePos = direction * dst + position;
+        anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
+    }
+
+    return coneSample.rgb;
+}
+
+vec3 CalculateIndirectLighting(vec3 position, vec3 normal)
+{
+    vec3 diffuseTrace = vec3(0.0f);
+
+    // diffuse cone setup
+    float aperture = 0.775f;
+    vec3 up = (normal.y * normal.y) > 0.95f ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
+    vec3 right = cross(normal, up);
+    up = cross(normal, right);
+
+    for(int i = 0; i < 6; i++)
+    {
+        vec3 coneDirection = normal;
+        coneDirection += propagationDirections[i].x * right + propagationDirections[i].z * up;
+        coneDirection = normalize(coneDirection);
+
+        diffuseTrace += TraceCone(position, coneDirection, aperture) * diffuseConeWeights[i];
+    }
+
+    return clamp(diffuseTrace, 0.0f, 1.0f);
+}
+
+void main()
+{
+    volumeDimension = imageSize(voxelNormal);
+
+    if(gl_GlobalInvocationID.x >= volumeDimension.x ||
+        gl_GlobalInvocationID.y >= volumeDimension.y ||
+        gl_GlobalInvocationID.z >= volumeDimension.z) return;
+
+    ivec3 sourcePosition = ivec3(gl_GlobalInvocationID);
+    // encoded normal in 24 bits uint
+    uvec4 normalEnc = imageLoad(voxelNormal, sourcePosition);
+
+    // empty voxel
+    if(normalEnc.x == 0) { return; }
+    // scale to 0 -- 1
+    vec3 samplePosition = sourcePosition / (volumeDimension - 1.0f);
+    vec3 normal = (convRGBA8ToVec4(normalEnc.x) / 255.0f).xyz;
+
+    // obtain values from inject radiance pass
+    vec4 injectionPass = texelFetch(voxelTex, sourcePosition, 0);
+
+    // normal is stored in 0-1 range, restore to -1 -> -1
+    normal = normalize(normal * 2.0f - 1.0f);
+    // calculate indirect lighting - first bounce onto the voxel texture
+    vec3 indirectLighting = CalculateIndirectLighting(samplePosition, normal);
+    vec4 result = vec4(injectionPass.rgb + indirectLighting, 1.0f);
+
+    imageStore(voxelComposite, sourcePosition, result);
+}
