@@ -203,8 +203,8 @@ void main()
 {
 	uvec3 volumeDimension = imageSize(voxelAlbedo);
 
-	if(gl_GlobalInvocationID.x >= volumeDimension.x ||
-		gl_GlobalInvocationID.y >= volumeDimension.y ||
+	if(gl_GlobalInvocationID.x >= volumeDimension.z ||
+		gl_GlobalInvocationID.y >= volumeDimension.z ||
 		gl_GlobalInvocationID.z >= volumeDimension.z) return;
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
