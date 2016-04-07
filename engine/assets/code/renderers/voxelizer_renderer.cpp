@@ -20,6 +20,7 @@
 #include <oglplus/framebuffer.hpp>
 #include <glm/gtx/transform.hpp>
 #include "../programs/propagation_program.h"
+#include "deferred_renderer.h"
 
 bool VoxelizerRenderer::ShowVoxels = false;
 
@@ -242,10 +243,16 @@ void VoxelizerRenderer::InjectRadiance()
 
     if(injectFirstBounce)
     {
+        static auto &assets = AssetsManager::Instance();
+        static auto &deferred = *static_cast<DeferredRenderer *>
+                                (assets->renderers["Deferred"].get());
+        static auto &proga = InjectPropagationShader();
         // we will have to mip map twice, here for cone tracing
         GenerateMipmapVolume();
         //// inject direct + "first bounce" into voxel texture
-        CurrentProgram<PropagationProgram>(InjectPropagationShader());
+        CurrentProgram<PropagationProgram>(proga);
+        // tracing limits
+        proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
         // voxel textures to read
         voxelTexMipmap.Active(1);
         voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);

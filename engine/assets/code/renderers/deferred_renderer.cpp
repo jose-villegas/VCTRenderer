@@ -23,7 +23,7 @@ DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
     // initial values
     maxTracingDistance = 1.0f;
     globalIlluminationStrength = 1.0f;
-    ambientOcclusionFalloff = 725.0f;
+    ambientOcclusionFalloff = 800.0f;
     ambientOcclusionAlpha = 0.01f;
     renderMode = 0;
 }

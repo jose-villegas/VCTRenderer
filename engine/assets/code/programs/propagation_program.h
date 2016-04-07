@@ -7,6 +7,7 @@
 class PropagationProgram : public ProgramShader
 {
     public:
+        oglplus::Uniform<float> maxTracingDistanceGlobal;
         void ExtractUniforms() override;
         PropagationProgram();
         ~PropagationProgram();

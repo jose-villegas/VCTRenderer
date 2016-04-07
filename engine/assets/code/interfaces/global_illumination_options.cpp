@@ -57,7 +57,7 @@ void UIGlobalIllumination::Draw()
         Text("Ambient Occlusion");
         Indent();
 
-        if (InputFloat("Falloff", &aoFalloff, 0.1))
+        if (InputFloat("Falloff", &aoFalloff, 10))
         {
             deferred.AmbientOclussionFalloff(aoFalloff);
         }

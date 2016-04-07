@@ -144,14 +144,12 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
             anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
         }
         // ambient occlusion lookup
-        if (traceOcclusion && occlusion <= 1.0) 
+        if (traceOcclusion && occlusion <= 1.0 && aoAlpha != 1.0f) 
         {
             occlusion += ((1.0f - occlusion) * anisoSample.a) / (1.0f + dst * aoFalloff);
         }
         // accumulate sampling
-        // coneSample += (1.0f - coneSample.a) * anisoSample;
-        coneSample.rgb = coneSample.a * coneSample.rgb + (1.0f - anisoSample.a) * anisoSample.a * anisoSample.rgb;
-        coneSample.a = coneSample.a + (1.0f - coneSample.a) * anisoSample.a;
+        coneSample += (1.0f - coneSample.a) * anisoSample;
         // move further into volume
         dst += max(diameter, voxelSize);
         diameter = dst * aperture;
@@ -207,6 +205,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
             anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
         }
 
+        if(anisoSample.a == 1.0f) { return 0.0f; }
         // accumulate
         visibility += (1.0f - visibility) * anisoSample.a;
         // move further into volume
@@ -216,7 +215,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
         anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
     }
 
-    return visibility;
+    return 1.0f - visibility;
 }
 
 float linstep(float low, float high, float value)
@@ -306,7 +305,7 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
     else if(light.shadowingMethod == 2)
     {
         vec3 voxelPos = WorldToVoxelSample(position);
-        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos, light.direction, 0.01f, 1.0f));
+        visibility = max(0.0f, TraceShadowCone(voxelPos, light.direction, 0.01f, 1.0f));
     }
 
     if(visibility <= 0.0f) return vec3(0.0f);  
@@ -336,7 +335,7 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos, lightDirT, 0.01f, dT));
+        visibility = max(0.0f, TraceShadowCone(voxelPos, lightDirT, 0.01f, dT));
     }    
 
     if(visibility <= 0.0f) return vec3(0.0f);  
@@ -379,7 +378,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = max(0.0f, 1.0f - TraceShadowCone(voxelPos, lightDirT, 0.01f, dT));
+        visibility = max(0.0f, TraceShadowCone(voxelPos, lightDirT, 0.01f, dT));
     }
 
     if(visibility <= 0.0f) return vec3(0.0f); 

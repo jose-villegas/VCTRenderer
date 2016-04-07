@@ -168,6 +168,8 @@ Light::~Light()
 
     auto UpdateIndex = [ = ](std::vector<Light *> &lights)
     {
+        if (lights.size() == 0) { return; }
+
         lights.erase(lights.begin() + this->collectionIndex);
 
         for (auto i = 0; i < lights.size(); i++)

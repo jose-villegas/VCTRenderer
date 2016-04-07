@@ -228,7 +228,7 @@ vec4 Downsample(layout(r32ui) uimage3D source, ivec3 pos)
 		}
 	}
 
-	return result / (count - 1);
+	return count == 0 ? result : result / count;
 }
 
 void main()
@@ -263,7 +263,8 @@ void main()
 
 		// calculate direct lighting onto voxel
 		albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
-		
+		albedo.a = 1.0f;
+
 		imageStore(voxelRadiance, writePos, albedo);
 	}
 	else if(writingLowerMip == 1)
@@ -272,12 +273,15 @@ void main()
 
 		vec4 albedo = Downsample(voxelAlbedo, sourcePos);
 		vec4 normal = Downsample(voxelNormal, sourcePos);
+
+		if(albedo.a == 0) { return; }
 		// normal is stored in 0-1 range, restore to -1-1
 		normal = normalize(normal * 2.0f - 1.0f);
 		// obtain world-space position of the current voxel
 		vec3 wsPosition = VoxelToWorld(sourcePos);
 		// calculate direct lighting onto voxel
 		albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
+		albedo.a = 1.0f;
 
 		for(int i = 0; i < 6; i++)
 		{

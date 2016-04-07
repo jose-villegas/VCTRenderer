@@ -20,6 +20,6 @@ void main()
 
 	ivec3 texPos = ivec3(position.x + volumeDimension * direction, position.yz);
 
-	albedo = imageLoad(voxelRadiance, ivec3(texPos));
+	albedo = vec4(imageLoad(voxelRadiance, ivec3(texPos)).rgb, 1.0f);
 	gl_Position = vec4(position, 1.0f);
 }

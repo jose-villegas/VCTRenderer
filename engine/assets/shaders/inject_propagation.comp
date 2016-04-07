@@ -9,6 +9,7 @@ layout(binding = 3, rgba8) uniform writeonly image3D voxelComposite;
 uvec3 volumeDimension;
 
 const float PI = 3.14159265f;
+uniform float maxTracingDistanceGlobal = 1.0f;
 
 const vec3 mipOffset[] = 
 {
@@ -19,6 +20,15 @@ const vec3 mipOffset[] =
     vec3(4.0f / 6.0f, 0.0f, 0.0f),
     vec3(5.0f / 6.0f, 0.0f, 0.0f)
 };
+
+// four cones
+// const vec3 propagationDirections[] =
+// {
+//     vec3(0.0f, 1.0f, 0.0f),
+//     vec3(0.0f, 0.5f, 0.866025f),
+//     vec3(0.754996f, 0.5f, -0.4330128f),
+//     vec3(-0.754996f, 0.5f, -0.4330128f)
+// }
 
 const vec3 propagationDirections[] =
 {
@@ -73,7 +83,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture)
     vec4 coneSample = vec4(0.0f);
     vec4 baseColor = vec4(0.0f);
 
-    while(coneSample.a <= 1.0f && dst <= 1.0f)
+    while(coneSample.a <= 1.0f && dst <= maxTracingDistanceGlobal)
     {
         // outisde bounds
         if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
@@ -110,7 +120,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
     vec4 diffuseTrace = vec4(0.0f);
 
     // diffuse cone setup
-    float aperture = 0.775f;
+    float aperture = 0.5055f;
     vec3 up = (normal.y * normal.y) > 0.95f ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
     vec3 right = cross(normal, up);
     up = cross(normal, right);
@@ -141,7 +151,7 @@ void main()
     uvec4 albedoEnc = imageLoad(voxelAlbedo, sourcePosition);
     uvec4 normalEnc = imageLoad(voxelNormal, sourcePosition);
 
-    if(albedoEnc.x == 0 || normalEnc.x == 0) { return; }
+    if(albedoEnc.x == 0) { return; }
     // obtain values from inject radiance pass
     vec4 injectionPass = texelFetch(voxelTexMipmap, mipPosition, 0);
     // convert to more manageable 0->1 float components
@@ -152,7 +162,8 @@ void main()
     vec3 samplePos = mipPosition / (volumeDimension.z / 2.0f);
     // calculate indirect lighting - first bounce onto the voxel texture
     vec4 indirectLighting = CalculateIndirectLighting(samplePos, normal);
-    vec4 result = vec4(injectionPass.rgb + indirectLighting.rgb * albedo.rgb, 1.0f);
+    vec4 result = injectionPass + indirectLighting * albedo;
+    result.a = 1.0f;
 
     imageStore(voxelComposite, sourcePosition, clamp(result, 0.0f, 1.0f));
 }

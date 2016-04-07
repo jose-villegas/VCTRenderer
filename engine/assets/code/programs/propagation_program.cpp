@@ -5,6 +5,8 @@
 
 void PropagationProgram::ExtractUniforms()
 {
+    maxTracingDistanceGlobal.Assign(program);
+    maxTracingDistanceGlobal.BindTo("maxTracingDistanceGlobal");
 }
 
 PropagationProgram::PropagationProgram()
