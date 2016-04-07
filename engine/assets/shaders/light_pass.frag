@@ -149,7 +149,9 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
             occlusion += ((1.0f - occlusion) * anisoSample.a) / (1.0f + dst * aoFalloff);
         }
         // accumulate sampling
-        coneSample += (1.0f - coneSample.a) * anisoSample;
+        // coneSample += (1.0f - coneSample.a) * anisoSample;
+        coneSample.rgb = coneSample.a * coneSample.rgb + (1.0f - anisoSample.a) * anisoSample.a * anisoSample.rgb;
+        coneSample.a = coneSample.a + (1.0f - coneSample.a) * anisoSample.a;
         // move further into volume
         dst += max(diameter, voxelSize);
         diameter = dst * aperture;
@@ -485,7 +487,7 @@ void main()
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
-    specular.a = specular.a * 16000.0f;
+    specular.a = specular.a * 4000.0f;
     // lighting cumulatives
     vec3 directLighting = vec3(1.0f);
     vec4 indirectLighting = vec4(1.0f);

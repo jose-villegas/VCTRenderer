@@ -1,7 +1,7 @@
 #version 430
 layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
-layout(binding = 0, rgba8) uniform sampler3D voxelTex;
+layout(binding = 0, r32ui) uniform uimage3D voxelAlbedo;
 layout(binding = 1, rgba8) uniform sampler3D voxelTexMipmap;
 layout(binding = 2, r32ui) uniform readonly uimage3D voxelNormal;
 layout(binding = 3, rgba8) uniform writeonly image3D voxelComposite;
@@ -48,7 +48,7 @@ vec4 convRGBA8ToVec4(uint val)
     float((val & 0xFF000000) >> 24U));
 }
 
-vec3 TraceCone(vec3 position, vec3 direction, float aperture)
+vec4 TraceCone(vec3 position, vec3 direction, float aperture)
 {
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
@@ -57,7 +57,8 @@ vec3 TraceCone(vec3 position, vec3 direction, float aperture)
     // weight per axis
     vec3 weight = abs(direction);
     // navigation
-    float voxelSize = 1.0f / volumeDimension.x;
+    int dimension = int(volumeDimension.x) / 2;
+    float voxelSize = 1.0f / dimension;
     // move one voxel further to avoid self collision
     float dst = voxelSize * 2.0f;
     float diameter = aperture * dst;
@@ -66,7 +67,7 @@ vec3 TraceCone(vec3 position, vec3 direction, float aperture)
     // control vars
     float mipLevel = 0.0f;
     float anisoLevel = 0.0f;
-    float mipMaxLevel = log2(volumeDimension.x);
+    float mipMaxLevel = log2(dimension);
     // accumulated sample
     vec4 anisoSample = vec4(0.0f);
     vec4 coneSample = vec4(0.0f);
@@ -74,26 +75,24 @@ vec3 TraceCone(vec3 position, vec3 direction, float aperture)
 
     while(coneSample.a <= 1.0f && dst <= 1.0f)
     {
-        if(samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
-           || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
+        // outisde bounds
+        if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f)) 
         { 
             break; 
         }
 
-        mipLevel = clamp(log2(diameter * volumeDimension.x), 0.0f, mipMaxLevel);
-        anisoLevel = max(mipLevel - 1.0f, 0.0f);
-
+        mipLevel = clamp(log2(diameter * dimension), 0.0f, mipMaxLevel);
         // aniso sampling
-        anisoSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], anisoLevel)
-                    + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], anisoLevel)
-                    + weight.z * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.z], anisoLevel);
+        anisoSample = weight.x * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.x], mipLevel + 1.0f)
+                    + weight.y * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.y], mipLevel + 1.0f)
+                    + weight.z * textureLod(voxelTexMipmap, anisoPos + mipOffset[visibleFace.z], mipLevel + 1.0f);
 
        if(mipLevel <= 1.0f)
         {
-            baseColor = texture(voxelTex, samplePos);
+            baseColor = texture(voxelTexMipmap, anisoPos);
             anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
         }
-
         // accumulate sampling
         coneSample += (1.0f - coneSample.a) * anisoSample;
         // move further into volume
@@ -103,12 +102,12 @@ vec3 TraceCone(vec3 position, vec3 direction, float aperture)
         anisoPos = vec3(samplePos.x / 6.0f, samplePos.yz);
     }
 
-    return coneSample.rgb;
+    return coneSample;
 }
 
-vec3 CalculateIndirectLighting(vec3 position, vec3 normal)
+vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
 {
-    vec3 diffuseTrace = vec3(0.0f);
+    vec4 diffuseTrace = vec4(0.0f);
 
     // diffuse cone setup
     float aperture = 0.775f;
@@ -130,30 +129,30 @@ vec3 CalculateIndirectLighting(vec3 position, vec3 normal)
 
 void main()
 {
-    volumeDimension = imageSize(voxelNormal);
+    volumeDimension = imageSize(voxelAlbedo);
 
-    if(gl_GlobalInvocationID.x >= volumeDimension.x ||
-        gl_GlobalInvocationID.y >= volumeDimension.y ||
+    if(gl_GlobalInvocationID.x >= volumeDimension.z ||
+        gl_GlobalInvocationID.y >= volumeDimension.z ||
         gl_GlobalInvocationID.z >= volumeDimension.z) return;
 
     ivec3 sourcePosition = ivec3(gl_GlobalInvocationID);
-    // encoded normal in 24 bits uint
+    ivec3 mipPosition = sourcePosition / 2;
+    // get r32ui encoded value
+    uvec4 albedoEnc = imageLoad(voxelAlbedo, sourcePosition);
     uvec4 normalEnc = imageLoad(voxelNormal, sourcePosition);
 
-    // empty voxel
-    if(normalEnc.x == 0) { return; }
-    // scale to 0 -- 1
-    vec3 samplePosition = sourcePosition / (volumeDimension - 1.0f);
-    vec3 normal = (convRGBA8ToVec4(normalEnc.x) / 255.0f).xyz;
-
+    if(albedoEnc.x == 0 || normalEnc.x == 0) { return; }
     // obtain values from inject radiance pass
-    vec4 injectionPass = texelFetch(voxelTex, sourcePosition, 0);
-
+    vec4 injectionPass = texelFetch(voxelTexMipmap, mipPosition, 0);
+    // convert to more manageable 0->1 float components
+    vec4 albedo = convRGBA8ToVec4(albedoEnc.x) / 255.0f;
+    vec3 normal = (convRGBA8ToVec4(normalEnc.x) / 255.0f).xyz;
     // normal is stored in 0-1 range, restore to -1 -> -1
     normal = normalize(normal * 2.0f - 1.0f);
+    vec3 samplePos = mipPosition / (volumeDimension.z / 2.0f);
     // calculate indirect lighting - first bounce onto the voxel texture
-    vec3 indirectLighting = CalculateIndirectLighting(samplePosition, normal);
-    vec4 result = vec4(injectionPass.rgb + indirectLighting, 1.0f);
+    vec4 indirectLighting = CalculateIndirectLighting(samplePos, normal);
+    vec4 result = vec4(injectionPass.rgb + indirectLighting.rgb * albedo.rgb, 1.0f);
 
-    imageStore(voxelComposite, sourcePosition, result);
+    imageStore(voxelComposite, sourcePosition, clamp(result, 0.0f, 1.0f));
 }

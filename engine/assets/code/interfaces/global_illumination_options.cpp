@@ -5,10 +5,10 @@
 #include "main_menu.h"
 #include "../core/assets_manager.h"
 #include "../renderers/deferred_renderer.h"
+#include "../renderers/voxelizer_renderer.h"
 
 #include <string>
 #include <glm/gtc/type_ptr.hpp>
-
 
 using namespace ImGui;
 
@@ -30,6 +30,9 @@ void UIGlobalIllumination::Draw()
         static auto mode = 0;
         static auto modes = "Direct + Indirect + Occlusion\0Direct + Indirec" \
                             "t\0Direct\0Indirect\0Ambient Occlusion";
+        static auto firstB = false;
+        static auto &voxel = *static_cast<VoxelizerRenderer *>
+                             (assets->renderers["Voxelizer"].get());
 
         if(SliderFloat("Maximum Trace Distance", &maxTracingConeDistance, 0.0f, 1.0f))
         {
@@ -39,6 +42,11 @@ void UIGlobalIllumination::Draw()
         if(SliderFloat("GI Strength", &bounceStrength, 0.0f, 32.0f))
         {
             deferred.GlobalIlluminationStrength(bounceStrength);
+        }
+
+        if (Checkbox("Inject First Bounce", &firstB))
+        {
+            voxel.InjectFirstBounce(firstB);
         }
 
         if(Combo("Render Mode", &mode, modes))

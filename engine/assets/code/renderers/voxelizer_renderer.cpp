@@ -220,18 +220,21 @@ void VoxelizerRenderer::InjectRadiance()
         }
     }
 
+    auto dimension = injectFirstBounce ? volumeDimension / 2.0f : volumeDimension;
     prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
     prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
     prog.voxelSize.Set(voxelSize);
     prog.worldMinPoint.Set(sceneBox.MinPoint());
+    prog.writingLowerMip.Set(injectFirstBounce ? 1 : 0);
     // voxel texture to read
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                        oglplus::ImageUnitFormat::R32UI);
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                           oglplus::ImageUnitFormat::R32UI);
-    voxelTex.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
-                       oglplus::ImageUnitFormat::RGBA8);
-    auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
+    (injectFirstBounce ? voxelTexMipmap : voxelTex)
+    .BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+               oglplus::ImageUnitFormat::RGBA8);
+    auto workGroups = static_cast<unsigned>(glm::ceil(dimension / 8.0f));
     // inject radiance at level 0 of texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // sync safety
@@ -240,19 +243,20 @@ void VoxelizerRenderer::InjectRadiance()
     if(injectFirstBounce)
     {
         // we will have to mip map twice, here for cone tracing
-        GenerateMipmap(voxelTex);
-        // inject direct + "first bounce" into voxel texture
+        GenerateMipmapVolume();
+        //// inject direct + "first bounce" into voxel texture
         CurrentProgram<PropagationProgram>(InjectPropagationShader());
         // voxel textures to read
-        voxelTex.Active(0);
-        voxelTex.Bind(oglplus::TextureTarget::_3D);
         voxelTexMipmap.Active(1);
         voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);
+        voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                           oglplus::ImageUnitFormat::R32UI);
         voxelNormal.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                               oglplus::ImageUnitFormat::R32UI);
         voxelNormal.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                               oglplus::ImageUnitFormat::RGBA8);
-        // inject at level 0 of texture
+        // inject at level 0 of textur
+        workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
         gl.DispatchCompute(workGroups, workGroups, workGroups);
         // sync safety
         gl.MemoryBarrier(shImage | texFetch);
@@ -522,6 +526,7 @@ bool VoxelizerRenderer::InjectFirstBounce() const
 void VoxelizerRenderer::InjectFirstBounce(bool val)
 {
     injectFirstBounce = val;
+    RevoxelizeScene();
 }
 
 VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()

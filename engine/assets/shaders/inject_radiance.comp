@@ -41,6 +41,7 @@ uniform vec3 worldMinPoint;
 
 uniform sampler2D shadowMap;
 uniform uint shadowMapping = 1;
+uniform uint writingLowerMip = 0;
 
 float linstep(float low, float high, float value)
 {
@@ -199,9 +200,40 @@ vec4 convRGBA8ToVec4(uint val)
     float((val & 0xFF000000) >> 24U));
 }
 
+vec4 Downsample(layout(r32ui) uimage3D source, ivec3 pos)
+{
+	vec4 result = vec4(0.0f);
+	uvec4 encoded = uvec4(0);
+	int count = 0;
+
+	for(int x = -1; x < 2; x++)
+	{
+		for(int y = -1; y < 2; y++)
+		{
+			for(int z = -1; z < 2; z++)
+			{
+				encoded = imageLoad(source, pos + ivec3(x, y, z));
+
+				if(encoded.x == 0) 
+				{
+					continue;
+				}
+				else
+				{
+					count++;
+				}
+
+				result += (convRGBA8ToVec4(encoded.x) / 255.0f);
+			}
+		}
+	}
+
+	return result / (count - 1);
+}
+
 void main()
 {
-	uvec3 volumeDimension = imageSize(voxelAlbedo);
+	ivec3 volumeDimension = ivec3(imageSize(voxelRadiance));
 
 	if(gl_GlobalInvocationID.x >= volumeDimension.z ||
 		gl_GlobalInvocationID.y >= volumeDimension.z ||
@@ -209,26 +241,48 @@ void main()
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
 
-	// get r32ui encoded value
-	uvec4 albedoEnc = imageLoad(voxelAlbedo, writePos);
-	uvec4 normalEnc = imageLoad(voxelNormal, writePos);
+	if(writingLowerMip == 0)
+	{
+		// get r32ui encoded value
+		uvec4 albedoEnc = imageLoad(voxelAlbedo, writePos);
+		uvec4 normalEnc = imageLoad(voxelNormal, writePos);
 
-	// empty voxel
-	if(albedoEnc.x == 0) { return; }
+		// empty voxel
+		if(albedoEnc.x == 0) { return; }
 
-	// convert to more manageable 0->1 float components
-	vec4 albedo = convRGBA8ToVec4(albedoEnc.x) / 255.0f;
-	albedo.a = 1.0f;
+		// convert to more manageable 0->1 float components
+		vec4 albedo = convRGBA8ToVec4(albedoEnc.x) / 255.0f;
+		vec3 normal = (convRGBA8ToVec4(normalEnc.x) / 255.0f).xyz;
 
-	vec3 normal = (convRGBA8ToVec4(normalEnc.x) / 255.0f).xyz;
-	// normal is stored in 0-1 range, restore to -1-1
-	normal = normalize(normal * 2.0f - 1.0f);
+		if(albedo.a == 0) { return; }
+		// normal is stored in 0-1 range, restore to -1-1
+		normal = normalize(normal * 2.0f - 1.0f);
 
-	// obtain ws position of the current voxel
-	vec3 wsPosition = VoxelToWorld(writePos);
-	// calculate direct lighting onto voxel
-	albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
-	albedo.a = 1.0f;
+		// obtain world-space position of the current voxel
+		vec3 wsPosition = VoxelToWorld(writePos);
 
-	imageStore(voxelRadiance, writePos, albedo);
+		// calculate direct lighting onto voxel
+		albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
+		
+		imageStore(voxelRadiance, writePos, albedo);
+	}
+	else if(writingLowerMip == 1)
+	{
+		ivec3 sourcePos = writePos * 2;
+
+		vec4 albedo = Downsample(voxelAlbedo, sourcePos);
+		vec4 normal = Downsample(voxelNormal, sourcePos);
+		// normal is stored in 0-1 range, restore to -1-1
+		normal = normalize(normal * 2.0f - 1.0f);
+		// obtain world-space position of the current voxel
+		vec3 wsPosition = VoxelToWorld(sourcePos);
+		// calculate direct lighting onto voxel
+		albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
+
+		for(int i = 0; i < 6; i++)
+		{
+			imageStore(voxelRadiance, writePos, albedo);
+			writePos.x += volumeDimension.z;
+		}
+	}
 }

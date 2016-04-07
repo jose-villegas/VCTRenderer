@@ -24,7 +24,6 @@ void UIVoxelizationOptions::Draw()
               ImGuiWindowFlags_AlwaysAutoResize))
     {
         static auto texRes = 5;
-        static auto firstB = false;
         static std::vector<int> sizes =
         {
             8, 16, 32, 64, 128, 256, 512
@@ -66,11 +65,6 @@ void UIVoxelizationOptions::Draw()
         if(Button("Voxelize Now"))
         {
             voxel.RevoxelizeScene();
-        }
-
-        if(Checkbox("Inject First Bounce", &firstB))
-        {
-            voxel.InjectFirstBounce(firstB);
         }
 
         EndGroup();

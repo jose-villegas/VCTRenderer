@@ -22,9 +22,7 @@ vec4[8] FetchTexels(ivec3 pos)
 
 void main()
 {
-	uvec3 volumeDimension = imageSize(voxelMipmap);
-	volumeDimension.x = volumeDimension.x / 6;
-	int mipDimension = int(volumeDimension.z);
+	int mipDimension = int(imageSize(voxelMipmap).z);
 
 	if(gl_GlobalInvocationID.x >= mipDimension ||
 		gl_GlobalInvocationID.y >= mipDimension ||
