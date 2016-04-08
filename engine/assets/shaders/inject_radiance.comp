@@ -1,8 +1,8 @@
 #version 430
 layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
-layout(binding = 0, r32ui) uniform uimage3D voxelAlbedo;
-layout(binding = 1, r32ui) uniform uimage3D voxelNormal;
+layout(binding = 0, rgba8) uniform image3D voxelAlbedo;
+layout(binding = 1, rgba8) uniform image3D voxelNormal;
 layout(binding = 2, rgba8) uniform writeonly image3D voxelRadiance;
 
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
@@ -197,10 +197,10 @@ vec4 convRGBA8ToVec4(uint val)
     			float((val & 0xFF000000) >> 24U));
 }
 
-vec4 Downsample(layout(r32ui) uimage3D source, ivec3 pos)
+vec4 Downsample(layout(rgba8) image3D source, ivec3 pos)
 {
 	vec4 result = vec4(0.0f);
-	uvec4 encoded = uvec4(0);
+	vec4 current = vec4(0.0f);
 	int count = 0;
 
 	for(int x = -1; x < 2; x++)
@@ -209,9 +209,9 @@ vec4 Downsample(layout(r32ui) uimage3D source, ivec3 pos)
 		{
 			for(int z = -1; z < 2; z++)
 			{
-				encoded = imageLoad(source, pos + ivec3(x, y, z));
+				current = imageLoad(source, pos + ivec3(x, y, z));
 
-				if(encoded.x == 0) 
+				if(current.a <= 0) 
 				{
 					continue;
 				}
@@ -220,7 +220,7 @@ vec4 Downsample(layout(r32ui) uimage3D source, ivec3 pos)
 					count++;
 				}
 
-				result += (convRGBA8ToVec4(encoded.x) / 255.0f);
+				result += current;
 			}
 		}
 	}
@@ -241,15 +241,11 @@ void main()
 	if(writingLowerMip == 0)
 	{
 		// get r32ui encoded value
-		uvec4 albedoEnc = imageLoad(voxelAlbedo, writePos);
-		uvec4 normalEnc = imageLoad(voxelNormal, writePos);
-
+		vec4 albedo = imageLoad(voxelAlbedo, writePos);
 		// empty voxel
-		if(albedoEnc.x <= 0) { return; }
+		if(albedo.a <= 0) { return; }
 
-		// convert to more manageable 0->1 float components
-		vec4 albedo = convRGBA8ToVec4(albedoEnc.x) / 255.0f;
-		vec3 normal = (convRGBA8ToVec4(normalEnc.x) / 255.0f).xyz;
+		vec4 normal = imageLoad(voxelNormal, writePos);
 		// normal is stored in 0-1 range, restore to -1-1
 		normal = normalize(normal * 2.0f - 1.0f);
 		// obtain world-space position of the current voxel

@@ -229,9 +229,9 @@ void VoxelizerRenderer::InjectRadiance()
     prog.writingLowerMip.Set(injectFirstBounce ? 1 : 0);
     // voxel texture to read
     voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                       oglplus::ImageUnitFormat::R32UI);
+                       oglplus::ImageUnitFormat::RGBA8);
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                          oglplus::ImageUnitFormat::R32UI);
+                          oglplus::ImageUnitFormat::RGBA8);
     (injectFirstBounce ? voxelTexMipmap : voxelTex)
     .BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                oglplus::ImageUnitFormat::RGBA8);
@@ -257,9 +257,9 @@ void VoxelizerRenderer::InjectRadiance()
         voxelTexMipmap.Active(1);
         voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);
         voxelTex.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                           oglplus::ImageUnitFormat::R32UI);
+                           oglplus::ImageUnitFormat::RGBA8);
         voxelNormal.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                              oglplus::ImageUnitFormat::R32UI);
+                              oglplus::ImageUnitFormat::RGBA8);
         voxelNormal.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                               oglplus::ImageUnitFormat::RGBA8);
         // inject at level 0 of textur
