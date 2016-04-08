@@ -151,7 +151,7 @@ void main()
     uvec4 albedoEnc = imageLoad(voxelAlbedo, sourcePosition);
     uvec4 normalEnc = imageLoad(voxelNormal, sourcePosition);
 
-    if(albedoEnc.x == 0) { return; }
+    if(albedoEnc.x <= 0) { return; }
     // obtain values from inject radiance pass
     vec4 injectionPass = texelFetch(voxelTexMipmap, mipPosition, 0);
     // convert to more manageable 0->1 float components

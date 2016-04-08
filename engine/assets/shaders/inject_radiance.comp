@@ -19,12 +19,9 @@ struct Attenuation
 struct Light {
     float angleInnerCone;
     float angleOuterCone;
-
     vec3 diffuse;
-
     vec3 position;
     vec3 direction;
-
     Attenuation attenuation;
 };
 
@@ -195,9 +192,9 @@ vec3 VoxelToWorld(ivec3 pos)
 vec4 convRGBA8ToVec4(uint val)
 {
     return vec4(float((val & 0x000000FF)), 
-    float((val & 0x0000FF00) >> 8U), 
-    float((val & 0x00FF0000) >> 16U), 
-    float((val & 0xFF000000) >> 24U));
+    			float((val & 0x0000FF00) >> 8U), 
+    			float((val & 0x00FF0000) >> 16U), 
+    			float((val & 0xFF000000) >> 24U));
 }
 
 vec4 Downsample(layout(r32ui) uimage3D source, ivec3 pos)
@@ -248,19 +245,15 @@ void main()
 		uvec4 normalEnc = imageLoad(voxelNormal, writePos);
 
 		// empty voxel
-		if(albedoEnc.x == 0) { return; }
+		if(albedoEnc.x <= 0) { return; }
 
 		// convert to more manageable 0->1 float components
 		vec4 albedo = convRGBA8ToVec4(albedoEnc.x) / 255.0f;
 		vec3 normal = (convRGBA8ToVec4(normalEnc.x) / 255.0f).xyz;
-
-		if(albedo.a == 0) { return; }
 		// normal is stored in 0-1 range, restore to -1-1
 		normal = normalize(normal * 2.0f - 1.0f);
-
 		// obtain world-space position of the current voxel
 		vec3 wsPosition = VoxelToWorld(writePos);
-
 		// calculate direct lighting onto voxel
 		albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
 		albedo.a = 1.0f;
@@ -270,11 +263,10 @@ void main()
 	else if(writingLowerMip == 1)
 	{
 		ivec3 sourcePos = writePos * 2;
-
 		vec4 albedo = Downsample(voxelAlbedo, sourcePos);
 		vec4 normal = Downsample(voxelNormal, sourcePos);
 
-		if(albedo.a == 0) { return; }
+		if(albedo.a <= 0) { return; }
 		// normal is stored in 0-1 range, restore to -1-1
 		normal = normalize(normal * 2.0f - 1.0f);
 		// obtain world-space position of the current voxel
