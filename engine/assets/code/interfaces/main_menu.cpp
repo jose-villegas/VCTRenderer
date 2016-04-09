@@ -12,6 +12,7 @@ bool UIMainMenu::drawFramebuffers = false;
 bool UIMainMenu::drawShadowOptions = false;
 bool UIMainMenu::drawVoxelizationOptions = false;
 bool UIMainMenu::drawGIOptions = false;
+bool UIMainMenu::drawSceneMaterials = false;
 
 using namespace ImGui;
 
@@ -32,6 +33,7 @@ void UIMainMenu::Draw()
         {
             MenuItem("Cameras", nullptr, &drawSceneCameras);
             MenuItem("Lights", nullptr, &drawSceneLights);
+            MenuItem("Materials", nullptr, &drawSceneMaterials);
             EndMenu();
         }
 

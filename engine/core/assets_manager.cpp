@@ -26,6 +26,7 @@
 #include "../assets/code/interfaces/shadowing_options.h"
 #include "../assets/code/interfaces/voxelization_options.h"
 #include "../assets/code/interfaces/global_illumination_options.h"
+#include "../assets/code/interfaces/scene_materials.h"
 // include behaviors
 // include renderers
 #include "../assets/code/renderers/voxelizer_renderer.h"
@@ -69,6 +70,7 @@ AssetsManager::AssetsManager()
     interfaces["MainMenu"] = std::make_shared<UIMainMenu>();
     interfaces["Cameras"] = std::make_shared<UISceneCameras>();
     interfaces["Lights"] = std::make_shared<UISceneLights>();
+    interfaces["Materials"] = std::make_shared<UISceneMaterials>();
     interfaces["Framebuffers"] = std::make_shared<UIFramebuffers>();
     interfaces["Shadowing"] = std::make_shared<UIShadowingOptions>();
     interfaces["Voxelization"] = std::make_shared<UIVoxelizationOptions>();

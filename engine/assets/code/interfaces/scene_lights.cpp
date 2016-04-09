@@ -44,8 +44,7 @@ void UISceneLights::Draw()
     if (!UIMainMenu::drawSceneLights) { return; }
 
     // begin editor
-    Begin("Lights", &UIMainMenu::drawSceneLights,
-          ImGuiWindowFlags_AlwaysAutoResize);
+    Begin("Lights", &UIMainMenu::drawSceneLights);
     PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
     Columns(2);
 

@@ -35,8 +35,7 @@ void UISceneCameras::Draw()
     if (!scene) { return; }
 
     // begin editor
-    Begin("Cameras", &UIMainMenu::drawSceneCameras,
-          ImGuiWindowFlags_AlwaysAutoResize);
+    Begin("Cameras", &UIMainMenu::drawSceneCameras);
     PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
     Columns(2);
 
@@ -155,7 +154,7 @@ void UISceneCameras::Draw()
     }
 
     PopStyleVar();
-    ImGui::End();
+    End();
 }
 UISceneCameras::UISceneCameras()
 {

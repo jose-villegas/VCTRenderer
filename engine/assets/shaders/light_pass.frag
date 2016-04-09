@@ -440,16 +440,17 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     vec4 diffuseTrace = vec4(0.0f);
 
     // component greater than zero
-    if(all(greaterThan(specular.rgb, specularTrace.rgb)))
+    if(any(greaterThan(specular.rgb, specularTrace.rgb)))
     {
         // specular cone setup
-        float aperture = sin(acos(sqrt(0.11f / (specular.a * specular.a + 0.11f))));
+        float factor = 1.0 / (1.0f + specular.a * specular.a * 0.0009765625f);
+        float aperture = sin(acos(sqrt(0.11f / (factor + 0.11f))));
         specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
         specularTrace.rgb *= specular.rgb;
     }
 
     // component greater than zero
-    if(all(greaterThan(albedo, diffuseTrace.rgb)))
+    if(any(greaterThan(albedo, diffuseTrace.rgb)))
     {
         // diffuse cone setup
         float aperture = 0.5055f;
@@ -486,7 +487,7 @@ void main()
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
-    specular.a = specular.a * 4000.0f;
+    specular.a = specular.a * 1024.0f;
     // lighting cumulatives
     vec3 directLighting = vec3(1.0f);
     vec4 indirectLighting = vec4(1.0f);
