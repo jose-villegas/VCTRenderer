@@ -15,7 +15,6 @@ void LightingProgram::ExtractUniforms()
     gAlbedo.Assign(program);
     gSpecular.Assign(program);
     shadowMap.Assign(program);
-    ;
     exponents.Assign(program);
     lightBleedingReduction.Assign(program);
     // bind to uniform name
@@ -128,14 +127,6 @@ void LightingProgram::ExtractUniforms()
     // gi options
     maxTracingDistanceGlobal.Assign(program);
     maxTracingDistanceGlobal.BindTo("maxTracingDistanceGlobal");
-    bounceStrength.Assign(program);
-    bounceStrength.BindTo("bounceStrength");
-    aoFalloff.Assign(program);
-    aoFalloff.BindTo("aoFalloff");
-    aoAlpha.Assign(program);
-    aoAlpha.BindTo("aoAlpha");
-    mode.Assign(program);
-    mode.BindTo("mode");
 }
 
 LightingProgram::~LightingProgram()

@@ -15,16 +15,13 @@
 
 #include <oglplus/bound/texture.hpp>
 #include <oglplus/context.hpp>
+#include "global_illumination_renderer.h"
 
 DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
 {
     // create textures and attachments for framebuffer in deferredhandler
-    SetupGeometryBuffer(Window().Info().width, Window().Info().height);
+    SetupFramebuffer(Window().Info().width, Window().Info().height);
     // initial values
-    maxTracingDistance = 1.0f;
-    globalIlluminationStrength = 1.0f;
-    ambientOcclusionFalloff = 800.0f;
-    ambientOcclusionAlpha = 0.01f;
     renderMode = 0;
 }
 
@@ -63,16 +60,23 @@ void DeferredRenderer::Render()
     UseFrustumCulling = true;
     // draw whole scene tree from root node
     scene->rootNode->DrawList();
-    // start light pass
-    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
+    // start light pass store to rgba8 texture
+    directLightBuffer.Bind(FramebufferTarget::Draw);
     gl.ColorMask(true, true, true, true);
     gl.Viewport(Window().Info().width, Window().Info().height);
     gl.Clear().ColorBuffer().DepthBuffer();
+    //flags
+    gl.Disable(Capability::Blend);
+    gl.Disable(Capability::CullFace);
+    gl.Disable(Capability::DepthTest);
+    // light pass shader
     CurrentProgram<LightingProgram>(LightingPass());
     // pass light info and texture locations for final light pass
     SetLightPassUniforms();
     // draw the result onto a fullscreen quad
     fsQuad.Draw();
+    // to default fbo
+    DefaultFramebuffer().Bind(FramebufferTarget::Draw);
 }
 
 void DeferredRenderer::SetMatricesUniforms(const Node &node) const
@@ -110,46 +114,6 @@ const std::array<oglplus::Texture, 4> &DeferredRenderer::BufferTextures() const
     return bufferTextures;
 }
 
-const float &DeferredRenderer::MaxTracingDistance()
-{
-    return maxTracingDistance;
-}
-
-void DeferredRenderer::MaxTracingDistance(const float &val)
-{
-    maxTracingDistance = val;
-}
-
-const float &DeferredRenderer::GlobalIlluminationStrength() const
-{
-    return globalIlluminationStrength;
-}
-
-void DeferredRenderer::GlobalIlluminationStrength(const float &val)
-{
-    globalIlluminationStrength = val;
-}
-
-const float &DeferredRenderer::AmbientOclussionFalloff() const
-{
-    return ambientOcclusionFalloff;
-}
-
-void DeferredRenderer::AmbientOclussionFalloff(const float &val)
-{
-    ambientOcclusionFalloff = val;
-}
-
-const float &DeferredRenderer::AmbientOclussionAlpha() const
-{
-    return ambientOcclusionAlpha;
-}
-
-void DeferredRenderer::AmbientOclussionAlpha(const float &val)
-{
-    ambientOcclusionAlpha = val;
-}
-
 const unsigned &DeferredRenderer::RenderMode() const
 {
     return renderMode;
@@ -158,6 +122,11 @@ const unsigned &DeferredRenderer::RenderMode() const
 void DeferredRenderer::RenderMode(const unsigned &mode)
 {
     renderMode = mode;
+}
+
+oglplus::Texture &DeferredRenderer::DirectLightPass()
+{
+    return lightPass;
 }
 
 void DeferredRenderer::SetLightPassUniforms() const
@@ -236,8 +205,9 @@ void DeferredRenderer::SetLightPassUniforms() const
     }
 
     // pass shadowing parameters
-    auto &shadowing = *static_cast<ShadowMapRenderer *>(AssetsManager::Instance()
-                      ->renderers["Shadowmapping"].get());
+    static auto &shadowing = *static_cast<ShadowMapRenderer *>
+                             (AssetsManager::Instance()
+                              ->renderers["Shadowmapping"].get());
 
     if(shadowing.Caster() != nullptr)
     {
@@ -248,8 +218,8 @@ void DeferredRenderer::SetLightPassUniforms() const
         prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
     }
 
-    auto &voxel = *static_cast<VoxelizerRenderer *>(AssetsManager::Instance()
-                  ->renderers["Voxelizer"].get());
+    static auto &voxel = *static_cast<VoxelizerRenderer *>(AssetsManager::Instance()
+                         ->renderers["Voxelizer"].get());
     prog.volumeDimension.Set(voxel.VolumeDimension());
     prog.voxelScale.Set(1.0f / voxel.VolumeGridSize());
     prog.worldMinPoint.Set(scene->rootNode->boundaries.MinPoint());
@@ -260,11 +230,9 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.voxelTex.Set(7);
     prog.voxelTexMipmap.Set(8);
     // global illum setup
-    prog.maxTracingDistanceGlobal.Set(maxTracingDistance);
-    prog.bounceStrength.Set(globalIlluminationStrength);
-    prog.aoFalloff.Set(ambientOcclusionFalloff);
-    prog.aoAlpha.Set(ambientOcclusionAlpha);
-    prog.mode.Set(renderMode);
+    static auto &gi = *static_cast<GIRenderer *>(AssetsManager::Instance()
+                      ->renderers["GlobalIllumination"].get());
+    prog.maxTracingDistanceGlobal.Set(gi.MaxTracingDistance());
 }
 
 GeometryProgram &DeferredRenderer::GeometryPass()
@@ -283,8 +251,7 @@ LightingProgram &DeferredRenderer::LightingPass()
     return prog;
 }
 
-void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
-        unsigned windowHeight)
+void DeferredRenderer::SetupFramebuffer(unsigned int width, unsigned int height)
 {
     using namespace oglplus;
     static Context gl;
@@ -292,7 +259,7 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
     geometryBuffer.Bind(FramebufferTarget::Draw);
     // build textures -- normal
     gl.Bound(TextureTarget::_2D, bufferTextures[0])
-    .Image2D(0, PixelDataInternalFormat::RGB8SNorm, windowWidth, windowHeight,
+    .Image2D(0, PixelDataInternalFormat::RGB8SNorm, width, height,
              0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
@@ -300,7 +267,7 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
                                       0);
     // build textures -- albedo
     gl.Bound(TextureTarget::_2D, bufferTextures[1])
-    .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
+    .Image2D(0, PixelDataInternalFormat::RGB8, width, height,
              0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
@@ -308,7 +275,7 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
                                       0);
     // build textures -- specular color and power
     gl.Bound(TextureTarget::_2D, bufferTextures[2])
-    .Image2D(0, PixelDataInternalFormat::RGBA8, windowWidth, windowHeight,
+    .Image2D(0, PixelDataInternalFormat::RGBA8, width, height,
              0, PixelDataFormat::RGBA, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
@@ -316,8 +283,8 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
                                       0);
     // attach depth texture for depth testing
     gl.Bound(TextureTarget::_2D, bufferTextures[3])
-    .Image2D(0, PixelDataInternalFormat::DepthComponent24, windowWidth,
-             windowHeight, 0, PixelDataFormat::DepthComponent,
+    .Image2D(0, PixelDataInternalFormat::DepthComponent24, width,
+             height, 0, PixelDataFormat::DepthComponent,
              PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
@@ -333,6 +300,26 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
     };
     // set draw buffers
     gl.DrawBuffers(attachments);
+
+    // check if success building frame buffer
+    if (!Framebuffer::IsComplete(FramebufferTarget::Draw))
+    {
+        auto status = Framebuffer::Status(FramebufferTarget::Draw);
+        Framebuffer::HandleIncompleteError(FramebufferTarget::Draw, status);
+    }
+
+    Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));
+    // initialize direct light storage fbo
+    directLightBuffer.Bind(FramebufferTarget::Draw);
+    // build textures -- normal
+    gl.Bound(TextureTarget::_2D, lightPass)
+    .Image2D(0, PixelDataInternalFormat::RGBA8, width, height,
+             0, PixelDataFormat::RGBA, PixelDataType::UnsignedByte, nullptr)
+    .MinFilter(TextureMinFilter::Linear)
+    .MagFilter(TextureMagFilter::Linear);
+    directLightBuffer.AttachColorTexture(FramebufferTarget::Draw, 0,
+                                         lightPass, 0);
+    gl.DrawBuffer(FramebufferColorAttachment::_0);
 
     // check if success building frame buffer
     if (!Framebuffer::IsComplete(FramebufferTarget::Draw))

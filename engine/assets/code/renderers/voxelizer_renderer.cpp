@@ -3,6 +3,7 @@
 
 #include "voxelizer_renderer.h"
 #include "shadow_map_renderer.h"
+#include "global_illumination_renderer.h"
 #include "../scene/scene.h"
 #include "../scene/light.h"
 #include "../core/assets_manager.h"
@@ -15,12 +16,11 @@
 #include "../programs/voxel_drawer_program.h"
 #include "../programs/radiance_program.h"
 #include "../programs/mipmapping_program.h"
+#include "../programs/propagation_program.h"
 
 #include <oglplus/context.hpp>
 #include <oglplus/framebuffer.hpp>
 #include <glm/gtx/transform.hpp>
-#include "../programs/propagation_program.h"
-#include "deferred_renderer.h"
 
 bool VoxelizerRenderer::ShowVoxels = false;
 
@@ -244,15 +244,15 @@ void VoxelizerRenderer::InjectRadiance()
     if(injectFirstBounce)
     {
         static auto &assets = AssetsManager::Instance();
-        static auto &deferred = *static_cast<DeferredRenderer *>
-                                (assets->renderers["Deferred"].get());
+        static auto &gi = *static_cast<GIRenderer *>
+                          (assets->renderers["GlobalIllumination"].get());
         static auto &proga = InjectPropagationShader();
         // we will have to mip map twice, here for cone tracing
         GenerateMipmapVolume();
         //// inject direct + "first bounce" into voxel texture
         CurrentProgram<PropagationProgram>(proga);
         // tracing limits
-        proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
+        proga.maxTracingDistanceGlobal.Set(gi.MaxTracingDistance());
         // voxel textures to read
         voxelTexMipmap.Active(1);
         voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);

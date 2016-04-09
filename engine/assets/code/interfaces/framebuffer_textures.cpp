@@ -10,6 +10,7 @@
 
 #include <oglplus/texture.hpp>
 #include "../renderers/shadow_map_renderer.h"
+#include "../renderers/global_illumination_renderer.h"
 
 using namespace ImGui;
 
@@ -39,12 +40,14 @@ void UIFramebuffers::Draw()
 {
     if (!UIMainMenu::drawFramebuffers) { return; }
 
-    static auto &gbuffer = static_cast<DeferredRenderer *>
-                           (AssetsManager::Instance()->renderers
-                            ["Deferred"].get())->BufferTextures();
-    static auto &shadow = static_cast<ShadowMapRenderer *>
-                          (AssetsManager::Instance()->renderers
-                           ["Shadowmapping"].get())->ShadowMap();
+    static auto &assets = AssetsManager::Instance();
+    static auto deferred = static_cast<DeferredRenderer *>
+                           (assets->renderers["Deferred"].get());
+    static auto &gbuffer = deferred->BufferTextures();
+    static auto &shadow = static_cast<ShadowMapRenderer *>(assets->renderers
+                          ["Shadowmapping"].get())->ShadowMap();
+    static auto &gi = *static_cast<GIRenderer *>
+                      (assets->renderers["GlobalIllumination"].get());
     // begin editor
     Begin("Geometry Buffer", &UIMainMenu::drawFramebuffers,
           ImGuiWindowFlags_AlwaysAutoResize);
@@ -61,6 +64,12 @@ void UIFramebuffers::Draw()
     BeginGroup();
     Text("Shadow Mapping");
     DrawBufferTexture(shadow, "EVSM4");
+    EndGroup();
+    BeginGroup();
+    Text("Global Illumination");
+    DrawBufferTexture(deferred->DirectLightPass(), "Direct Light");
+    SameLine();
+    DrawBufferTexture(gi.IndirectLightPass(), "Indirect Light");
     EndGroup();
     End();
 }

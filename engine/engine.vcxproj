@@ -226,9 +226,11 @@
     <ClCompile Include="assets\code\interfaces\shadowing_options.cpp" />
     <ClCompile Include="assets\code\interfaces\voxelization_options.cpp" />
     <ClCompile Include="assets\code\programs\blur_program.cpp" />
+    <ClCompile Include="assets\code\programs\gi_program.cpp" />
     <ClCompile Include="assets\code\programs\mipmapping_program.cpp" />
     <ClCompile Include="assets\code\programs\propagation_program.cpp" />
     <ClCompile Include="assets\code\programs\radiance_program.cpp" />
+    <ClCompile Include="assets\code\renderers\global_illumination_renderer.cpp" />
     <ClCompile Include="core\behavior.cpp" />
     <ClCompile Include="assets\code\interfaces\framerate.cpp" />
     <ClCompile Include="assets\code\interfaces\framebuffer_textures.cpp" />
@@ -314,9 +316,11 @@
     <ClInclude Include="assets\code\interfaces\shadowing_options.h" />
     <ClInclude Include="assets\code\interfaces\voxelization_options.h" />
     <ClInclude Include="assets\code\programs\blur_program.h" />
+    <ClInclude Include="assets\code\programs\gi_program.h" />
     <ClInclude Include="assets\code\programs\mipmapping_program.h" />
     <ClInclude Include="assets\code\programs\propagation_program.h" />
     <ClInclude Include="assets\code\programs\radiance_program.h" />
+    <ClInclude Include="assets\code\renderers\global_illumination_renderer.h" />
     <ClInclude Include="core\behavior.h" />
     <ClInclude Include="assets\code\interfaces\framebuffer_textures.h" />
     <ClInclude Include="core\renderer.h" />

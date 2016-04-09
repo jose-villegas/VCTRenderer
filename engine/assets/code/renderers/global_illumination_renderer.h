@@ -8,6 +8,7 @@
 #include <oglplus/texture.hpp>
 #include <oglplus/framebuffer.hpp>
 #include <oglplus/renderbuffer.hpp>
+#include <glm/vec2.hpp>
 
 class LightingProgram;
 class GeometryProgram;
@@ -21,7 +22,7 @@ class RenderWindow;
 /// geometry buffer and handles uniform pass.
 /// </summary>
 /// <seealso cref="DeferredHandler" />
-class DeferredRenderer : public Renderer
+class GIRenderer : public Renderer
 {
     public:
         /// <summary>
@@ -29,44 +30,28 @@ class DeferredRenderer : public Renderer
         /// class.
         /// </summary>
         /// <param name="rWindow">The rendering window.</param>
-        explicit DeferredRenderer(RenderWindow &window);
+        explicit GIRenderer(RenderWindow &window);
         /// <summary>
         /// Finalizes an instance of the <see cref="DeferredRenderer"/> class.
         /// </summary>
-        ~DeferredRenderer();
+        ~GIRenderer();
         /// <summary>
         /// Renders a frame using deferred rendering
         /// </summary>
         void Render() override;
-        /// <summary>
-        /// Sets the matrices uniforms during geometry pass.
-        /// </summary>
-        void SetMatricesUniforms(const Node &node) const override;
-        /// <summary>
-        /// Sets the material uniforms during geometry pass.
-        /// </summary>
-        /// <param name="mat">The mat.</param>
-        void SetMaterialUniforms(const Material &material) const override;
-        const std::array<oglplus::Texture, 4> &BufferTextures() const;
-        const unsigned int &RenderMode() const;
-        void RenderMode(const unsigned int &mode);
-        oglplus::Texture &DirectLightPass();
+
+        const float &MaxTracingDistance() const;
+        void MaxTracingDistance(const float &val);
+        const float &GlobalIlluminationStrength() const;
+        void GlobalIlluminationStrength(const float &val);
+        const float &AmbientOclussionFalloff() const;
+        void AmbientOclussionFalloff(const float &val);
+        const float &AmbientOclussionAlpha() const;
+        void AmbientOclussionAlpha(const float &val);
+        oglplus::Texture &IndirectLightPass();
+        void GlobalIlluminationScale(const float &val);
     private:
         FullscreenQuad fsQuad;
-        /// <summary>
-        /// The geometry program shader.
-        /// </summary>
-        /// <returns></returns>
-        static GeometryProgram &GeometryPass();
-        /// <summary>
-        /// The light pass program shader.
-        /// </summary>
-        /// <returns></returns>
-        static LightingProgram &LightingPass();
-        /// <summary>
-        /// Sets the light pass uniforms.
-        /// </summary>
-        void SetLightPassUniforms() const;
         /// <summary>
         /// Setups the geometry buffer, initializes the render target
         /// textures and attaches these textures to the
@@ -76,11 +61,13 @@ class DeferredRenderer : public Renderer
         /// <param name="windowHeight">The rendering window height.</param>
         void SetupFramebuffer(unsigned int width, unsigned int height);
 
-        oglplus::Framebuffer geometryBuffer;
-        std::array<oglplus::Texture, 4> bufferTextures;
+        oglplus::Framebuffer giFramebuffer;
+        oglplus::Texture indirectPass;
 
-        oglplus::Framebuffer directLightBuffer;
-        oglplus::Texture lightPass;
+        glm::uvec2 renderSize;
 
-        unsigned int renderMode;
+        float maxTracingDistance;
+        float globalIlluminationStrength;
+        float ambientOcclusionFalloff;
+        float ambientOcclusionAlpha;
 };

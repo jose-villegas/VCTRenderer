@@ -16,6 +16,7 @@
 #include "../assets/code/programs/blur_program.h"
 #include "../assets/code/programs/mipmapping_program.h"
 #include "../assets/code/programs/propagation_program.h"
+#include "../assets/code/programs/gi_program.h"
 // include interfaces
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
@@ -32,6 +33,7 @@
 #include "../assets/code/renderers/voxelizer_renderer.h"
 #include "../assets/code/renderers/deferred_renderer.h"
 #include "../assets/code/renderers/shadow_map_renderer.h"
+#include "../assets/code/renderers/global_illumination_renderer.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
 {
@@ -89,10 +91,13 @@ AssetsManager::AssetsManager()
     programs["MipmappingBase"] = std::make_shared<MipmappingBaseProgram>();
     programs["MipmappingVolume"] = std::make_shared<MipmappingVolumeProgram>();
     programs["Blur"] = std::make_shared<BlurProgram>();
+    programs["GlobalIllumination"] = std::make_shared<GIProgram>();
+    programs["Composite"] = std::make_shared<FinalCompositionProgram>();
     // instantiate impleted renderers
     renderers["Shadowmapping"] = std::make_shared<ShadowMapRenderer>(window);
     renderers["Voxelizer"]     = std::make_shared<VoxelizerRenderer>(window);
     renderers["Deferred"]      = std::make_shared<DeferredRenderer>(window);
+    renderers["GlobalIllumination"] = std::make_shared<GIRenderer>(window);
     // attach shaders, ej: programs[index]->AttachShader();
     programs["Geometry"]->AttachShader(oglplus::ShaderType::Vertex,
                                        "assets\\shaders\\geometry_pass.vert");
@@ -130,6 +135,14 @@ AssetsManager::AssetsManager()
                                    "assets\\shaders\\blur.vert");
     programs["Blur"]->AttachShader(oglplus::ShaderType::Fragment,
                                    "assets\\shaders\\blur.frag");
+    programs["GlobalIllumination"]->AttachShader(oglplus::ShaderType::Vertex,
+            "assets\\shaders\\light_pass.vert");
+    programs["GlobalIllumination"]->AttachShader(oglplus::ShaderType::Fragment,
+            "assets\\shaders\\global_illumination_pass.frag");
+    programs["Composite"]->AttachShader(oglplus::ShaderType::Vertex,
+                                        "assets\\shaders\\light_pass.vert");
+    programs["Composite"]->AttachShader(oglplus::ShaderType::Fragment,
+                                        "assets\\shaders\\final_composition.frag");
 
     // link and extract uniforms from shaders
     for (auto &prog : programs)
