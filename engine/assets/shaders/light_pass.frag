@@ -446,7 +446,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     {
         // specular cone setup
         float aperture = radians(clamp(specular.a * 0.000244140625f, 0.0f, 1.0f));
-        aperture = sin(acos(0.11f / (2.0f * aperture + 0.11f)));
+        aperture = sin(acos(0.11f / (PI * aperture + 0.11f)));
         specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
         specularTrace.rgb *= specular.rgb;
     }

@@ -151,6 +151,8 @@ void main()
     vec4 albedo = imageLoad(voxelAlbedo, sourcePosition);
 
     if(albedo.a <= 0) { return; }
+
+    vec4 injectionPass = texelFetch(voxelTexMipmap, mipPosition, 0);
     // normal from voxelization
     vec4 normal = imageLoad(voxelNormal, sourcePosition);
     // normal is stored in 0-1 range, restore to -1 -> -1
@@ -158,7 +160,7 @@ void main()
     vec3 samplePos = mipPosition / (volumeDimension.z / 2.0f);
     // calculate indirect lighting - first bounce onto the voxel texture
     vec4 indirectLighting = CalculateIndirectLighting(samplePos, normal.xyz);
-    vec4 result = 2.0f * indirectLighting * albedo;
+    vec4 result = indirectLighting * injectionPass + indirectLighting * albedo;
     result.a = 1.0f;
 
     imageStore(voxelComposite, sourcePosition, clamp(result, 0.0f, 1.0f));

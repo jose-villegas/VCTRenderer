@@ -374,6 +374,10 @@
     <ClInclude Include="assets\code\programs\voxelization_program.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\aniso_mipmapbase.comp" />
+    <None Include="assets\shaders\aniso_mipmapvolume.comp" />
+    <None Include="assets\shaders\blur.frag" />
+    <None Include="assets\shaders\blur.vert" />
     <None Include="assets\shaders\depth_texture.frag" />
     <None Include="assets\shaders\depth_texture.vert" />
     <None Include="assets\shaders\draw_voxels.frag" />
@@ -381,6 +385,8 @@
     <None Include="assets\shaders\draw_voxels.vert" />
     <None Include="assets\shaders\geometry_pass.frag" />
     <None Include="assets\shaders\geometry_pass.vert" />
+    <None Include="assets\shaders\inject_propagation.comp" />
+    <None Include="assets\shaders\inject_radiance.comp" />
     <None Include="assets\shaders\light_pass.frag" />
     <None Include="assets\shaders\light_pass.vert" />
     <None Include="assets\shaders\voxelization.frag" />
