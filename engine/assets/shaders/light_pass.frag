@@ -286,6 +286,8 @@ vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
 
 vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4 specular)
 {
+    if(specular.a == 0.0f) return vec3(0.0f);
+
     vec3 viewDirection = normalize(cameraPosition - position);
     vec3 halfDirection = normalize(lightDirection + viewDirection);
     float specularFactor = clamp(dot(halfDirection, normal), 0.0f, 1.0f);
@@ -443,7 +445,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     if(any(greaterThan(specular.rgb, specularTrace.rgb)))
     {
         // specular cone setup
-        float factor = 1.0 / (1.0f + specular.a * specular.a * 0.0009765625f);
+        float factor = 1.0f / (specular.a * specular.a * 0.001953125f + 1.0f);
         float aperture = sin(acos(sqrt(0.11f / (factor + 0.11f))));
         specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
         specularTrace.rgb *= specular.rgb;
