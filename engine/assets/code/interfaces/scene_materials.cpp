@@ -52,7 +52,7 @@ void UISceneMaterials::Draw()
             ambient = material->Ambient();
             specular = material->Specular();
             diffuse = material->Diffuse();
-            shininess = material->Shininess();
+            shininess = 1.0f - material->Shininess();
             // copy name to a standard vector
             name.clear();
             copy(material->name.begin(), material->name.end(), back_inserter(name));
@@ -89,7 +89,7 @@ void UISceneMaterials::Draw()
 
         if (DragFloat("Shininess", &shininess, 0.001f, 0.0f, 1.0f))
         {
-            material->Shininess(shininess);
+            material->Shininess(1.0f - shininess);
         }
     }
     else

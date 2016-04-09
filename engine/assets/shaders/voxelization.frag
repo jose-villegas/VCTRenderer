@@ -68,20 +68,23 @@ void main()
     const ivec3 zero = ivec3(0);
     // fragment albedo
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
-    albedo.rgb *= material.diffuse * albedo.a;
-    albedo.a = 1.0f;
-    // bring normal to 0-1 range
-    vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
-    ivec3 dimension = ivec3(volumeDimension);
-    ivec3 position = ivec3(In.wsPosition);
+    albedo.rgb *= material.diffuse;
 
-    if(any(greaterThan(albedo.rgb, vec3(0.0f))) && 
-        all(greaterThanEqual(position, zero)) && 
-        all(lessThan(position, dimension)))
+    // alpha cutoff
+    if(albedo.a > 0.0f)
     {
-        // average normal per fragments sorrounding the voxel volume
-        imageAtomicRGBA8Avg(voxelNormal, position, normal);
-        // average albedo per fragments sorrounding the voxel volume
-        imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
+        albedo.a = 1.0f;
+        // bring normal to 0-1 range
+        vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
+        ivec3 dimension = ivec3(volumeDimension);
+        ivec3 position = ivec3(In.wsPosition);
+
+        if(all(greaterThanEqual(position, zero)) && all(lessThan(position, dimension)))
+        {
+            // average normal per fragments sorrounding the voxel volume
+            imageAtomicRGBA8Avg(voxelNormal, position, normal);
+            // average albedo per fragments sorrounding the voxel volume
+            imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
+        }
     }
 }

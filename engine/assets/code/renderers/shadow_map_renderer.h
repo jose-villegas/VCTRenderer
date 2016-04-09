@@ -16,6 +16,7 @@ class Light;
 class ShadowMapRenderer : public Renderer
 {
     public:
+        void SetMaterialUniforms(const Material &material) const override;
         void SetMatricesUniforms(const Node &node) const override;
         void Render() override;
         void Caster(const Light * caster);

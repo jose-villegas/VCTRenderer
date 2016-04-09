@@ -34,8 +34,11 @@ void UIShadowingOptions::Draw()
             "32", "64", "128", "256", "512",
             "1024", "2048", "4096", "8192"
         };
+        static std::vector<const char *> filtersStr =
+        {
+            "None", "Bilinear", "Trilinear"
+        };
         // shadow map quality
-        BeginGroup();
         Text("Shadowmap Resolution");
 
         if(Combo("Height: ", &selectedH, sizesStr.data(), sizesStr.size()))
@@ -48,12 +51,10 @@ void UIShadowingOptions::Draw()
             shadowRender.SetupFramebuffers(sizes[selectedW], sizes[selectedH]);
         }
 
-        EndGroup();
         // shadow map blurring / filtering
-        BeginGroup();
         static auto blurScale = 0.5f;
         static auto blurQuality = 1;
-        static auto filtering = 2;
+        static auto filtering = 1;
         static auto aniso = 8;
 
         if(SliderFloat("Blur Scale", &blurScale, 0.0f, 8.0f))
@@ -71,14 +72,12 @@ void UIShadowingOptions::Draw()
             shadowRender.Anisotropy(aniso);
         }
 
-        if (Combo("Filtering", &filtering, "None\0Bilinear\0Trilinear"))
+        if (Combo("Filtering", &filtering, filtersStr.data(), filtersStr.size()))
         {
             shadowRender.Filtering(filtering);
         }
 
-        EndGroup();
         // vsm and evsm setup
-        BeginGroup();
         static auto exponents = glm::vec2(0);
         static auto reduction = 0.0f;
         exponents = shadowRender.Exponents();
@@ -93,8 +92,6 @@ void UIShadowingOptions::Draw()
         {
             shadowRender.Exponents(exponents);
         }
-
-        EndGroup();
     }
 
     End();

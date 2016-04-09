@@ -3,8 +3,11 @@
 layout(location = 0) out vec4 outColor;
 
 in vec4 position;
+in vec2 texCoord;
 
 uniform vec2 exponents;
+uniform sampler2D diffuseMap;
+uniform float alphaCutoff = 0.01f;
 
 vec2 WarpDepth(float depth)
 {
@@ -30,5 +33,9 @@ vec4 ShadowDepthToEVSM(float depth)
 
 void main()
 {
+    vec4 diffuseColor = texture(diffuseMap, texCoord);
+
+    if (diffuseColor.a <= alphaCutoff) { discard; }
+
 	outColor = ShadowDepthToEVSM(gl_FragCoord.z);
 }

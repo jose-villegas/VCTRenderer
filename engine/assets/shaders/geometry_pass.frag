@@ -24,7 +24,7 @@ uniform sampler2D diffuseMap;
 uniform sampler2D specularMap;
 uniform sampler2D normalsMap;
 
-uniform float alphaCutoff = 0.1;
+uniform float alphaCutoff = 0.01f;
 
 vec3 normalMapping()
 {

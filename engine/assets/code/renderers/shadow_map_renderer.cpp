@@ -6,10 +6,20 @@
 #include "../programs/depth_program.h"
 #include "../programs/blur_program.h"
 #include "../../../scene/scene.h"
+#include "../../../scene/texture.h"
+#include "../../../scene/material.h"
 #include "../../../core/assets_manager.h"
 
 #include <oglplus/context.hpp>
 #include <oglplus/bound/texture.hpp>
+
+void ShadowMapRenderer::SetMaterialUniforms(const Material &material) const
+{
+    auto &prog = CurrentProgram<DepthProgram>();
+    oglplus::Texture::Active(RawTexture::Diffuse);
+    material.BindTexture(RawTexture::Diffuse);
+    prog.diffuseMap.Set(RawTexture::Diffuse);
+}
 
 void ShadowMapRenderer::SetMatricesUniforms(const Node &node) const
 {
@@ -117,12 +127,12 @@ const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     shadowCaster(nullptr)
 {
-    SetupFramebuffers(1024, 1024);
     blurScale = 0.5f;
     blurQuality = 1;
-    filtering = 2;
+    filtering = 1;
     exponents = glm::vec2(40.0f, 5.0f);
     lightBleedingReduction = 0.0f;
+    SetupFramebuffers(1024, 1024);
 }
 
 ShadowMapRenderer::~ShadowMapRenderer()
@@ -181,9 +191,9 @@ void ShadowMapRenderer::SetupFramebuffers(const unsigned &w,
     // create variance shadow mapping texture, z and z * z
     gl.Bound(TextureTarget::_2D, shadowMap)
     .Image2D(0, PixelDataInternalFormat::RGBA32F, w, h, 0,
-             PixelDataFormat::RGBA, PixelDataType::Float, nullptr)
-    .MinFilter(TextureMinFilter::LinearMipmapLinear)
-    .MagFilter(TextureMagFilter::Linear).GenerateMipmap().Anisotropy(8);
+             PixelDataFormat::RGBA, PixelDataType::Float, nullptr);
+    Filtering(filtering);
+    Anisotropy(8);
     shadowFramebuffer.AttachColorTexture(FramebufferTarget::Draw, 0, shadowMap, 0);
     shadowFramebuffer.AttachRenderbuffer(FramebufferTarget::Draw,
                                          FramebufferAttachment::Depth,

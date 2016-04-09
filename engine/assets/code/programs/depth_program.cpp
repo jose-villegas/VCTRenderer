@@ -9,6 +9,10 @@ void DepthProgram::ExtractUniforms()
     matrices.modelViewProjection.BindTo("matrices.modelViewProjection");
     exponents.Assign(program);
     exponents.BindTo("exponents");
+    diffuseMap.Assign(program);
+    alphaCutoff.Assign(program);
+    diffuseMap.BindTo("diffuseMap");
+    alphaCutoff.BindTo("alphaCutoff");
 }
 
 DepthProgram::DepthProgram()
