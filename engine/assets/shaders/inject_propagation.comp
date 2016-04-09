@@ -22,23 +22,24 @@ const vec3 mipOffset[] =
 };
 
 // four cones
-// const vec3 propagationDirections[] =
-// {
-//     vec3(0.0f, 1.0f, 0.0f),
-//     vec3(0.0f, 0.5f, 0.866025f),
-//     vec3(0.754996f, 0.5f, -0.4330128f),
-//     vec3(-0.754996f, 0.5f, -0.4330128f)
-// }
-
 const vec3 propagationDirections[] =
 {
     vec3(0.0f, 1.0f, 0.0f),
     vec3(0.0f, 0.5f, 0.866025f),
-    vec3(0.823639f, 0.5f, 0.267617f),
-    vec3(0.509037f, 0.5f, -0.7006629f),
-    vec3(-0.50937f, 0.5f, -0.7006629f),
-    vec3(-0.823639f, 0.5f, 0.267617f)
+    vec3(0.754996f, 0.5f, -0.4330128f),
+    vec3(-0.754996f, 0.5f, -0.4330128f)
 };
+
+// six cones
+// const vec3 propagationDirections[] =
+// {
+//     vec3(0.0f, 1.0f, 0.0f),
+//     vec3(0.0f, 0.5f, 0.866025f),
+//     vec3(0.823639f, 0.5f, 0.267617f),
+//     vec3(0.509037f, 0.5f, -0.7006629f),
+//     vec3(-0.50937f, 0.5f, -0.7006629f),
+//     vec3(-0.823639f, 0.5f, 0.267617f)
+// };
 
 const float diffuseConeWeights[] =
 {
@@ -120,12 +121,12 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
     vec4 diffuseTrace = vec4(0.0f);
 
     // diffuse cone setup
-    float aperture = 0.5055f;
+    float aperture = 0.8425f;
     vec3 up = (normal.y * normal.y) > 0.95f ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
     vec3 right = cross(normal, up);
     up = cross(normal, right);
 
-    for(int i = 0; i < 6; i++)
+    for(int i = 0; i < 4; i++)
     {
         vec3 coneDirection = normal;
         coneDirection += propagationDirections[i].x * right + propagationDirections[i].z * up;
