@@ -82,10 +82,9 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         void VoxelizeScene();
         void InjectRadiance();
-        void GenerateMipmap();
         void GenerateMipmapVolume();
+        void GenerateMipmap(oglplus::Texture &baseTexture);
         void GenerateMipmapBase(oglplus::Texture &baseTexture);
-        void SparseTexture(GLuint id, const unsigned int &dimension) const;
 
         /// <summary>
         /// Draws the resulting voxels.
@@ -95,7 +94,6 @@ class VoxelizerRenderer : public Renderer
         oglplus::Texture voxelTex;
         oglplus::Texture voxelTexMipmap;
         oglplus::Texture voxelNormal;
-        oglplus::Texture emissiveSparse;
 
         // vertex buffer object for 3d texture visualization
         oglplus::VertexArray voxelDrawerArray;

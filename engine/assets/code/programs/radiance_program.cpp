@@ -1,4 +1,4 @@
-#include <GL/gl3w.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "radiance_program.h"
 #include "../../../scene/light.h"

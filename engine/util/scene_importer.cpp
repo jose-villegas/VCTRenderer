@@ -6,7 +6,7 @@
 
 #include "scene_importer.h"
 
-#include <GL/gl3w.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "texture_importer.h"
 #include "../scene/scene.h"

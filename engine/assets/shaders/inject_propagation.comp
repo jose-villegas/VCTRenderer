@@ -1,4 +1,4 @@
-#version 450
+#version 430
 layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
 layout(binding = 0, rgba8) uniform image3D voxelAlbedo;
@@ -162,7 +162,7 @@ void main()
     // calculate indirect lighting - first bounce onto the voxel texture
     vec4 indirectLighting = CalculateIndirectLighting(position, normal.xyz);
     // first bounce gi component only
-    vec4 firstBounce = indirectLighting * albedo;
+    vec4 firstBounce = indirectLighting * albedo * 2.0f;
     // first bounce + direct lighting
     vec4 radiance = injectionPass + firstBounce;
     radiance.a = 1.0f;

@@ -1,4 +1,4 @@
-#include <GL/gl3w.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "main_menu.h"
 
@@ -26,7 +26,7 @@ void UIMainMenu::Draw()
             MenuItem("Show Framerate", nullptr, &drawFramerate);
             MenuItem("View Voxels", nullptr, &VoxelizerRenderer::ShowVoxels);
             MenuItem("View Framebuffers", nullptr, &drawFramebuffers);
-            ImGui::EndMenu();
+            EndMenu();
         }
 
         if (BeginMenu("Scene"))
@@ -34,7 +34,7 @@ void UIMainMenu::Draw()
             MenuItem("Cameras", nullptr, &drawSceneCameras);
             MenuItem("Lights", nullptr, &drawSceneLights);
             MenuItem("Materials", nullptr, &drawSceneMaterials);
-            ImGui::EndMenu();
+            EndMenu();
         }
 
         if (BeginMenu("Options"))
@@ -42,7 +42,7 @@ void UIMainMenu::Draw()
             MenuItem("Shadows", nullptr, &drawShadowOptions);
             MenuItem("Voxelization", nullptr, &drawVoxelizationOptions);
             MenuItem("Global Illumination", nullptr, &drawGIOptions);
-            ImGui::EndMenu();
+            EndMenu();
         }
 
         EndMainMenuBar();

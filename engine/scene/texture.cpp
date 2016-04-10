@@ -1,4 +1,4 @@
-#include <GL/gl3w.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <oglplus/context.hpp>
 #include <oglplus/bound/texture.hpp>

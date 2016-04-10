@@ -89,7 +89,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)implement</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NOMINMAX;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;</PreprocessorDefinitions>
       <EnablePREfast>false</EnablePREfast>
       <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
@@ -102,7 +102,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;FreeImaged.lib;tbb_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;FreeImaged.lib;tbb_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib64\*.dll" "$(TargetDir)"</Command>
@@ -115,7 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)implement</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NOMINMAX;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;</PreprocessorDefinitions>
       <OmitFramePointers />
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <EnablePREfast>false</EnablePREfast>
@@ -126,7 +126,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;FreeImaged.lib;tbb_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3d.lib;zlibstaticd.lib;assimpd.lib;FreeImaged.lib;tbb_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"</Command>
@@ -141,7 +141,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)implement</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NOMINMAX;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;OGLPLUS_LOW_PROFILE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;OGLPLUS_LOW_PROFILE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat />
       <EnablePREfast>false</EnablePREfast>
       <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
@@ -155,7 +155,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib64\*.dll" "$(TargetDir)"</Command>
@@ -170,7 +170,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)implement</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NOMINMAX;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;OGLPLUS_LOW_PROFILE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;OGLPLUS_LOW_PROFILE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat />
       <EnablePREfast>false</EnablePREfast>
       <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
@@ -182,7 +182,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"</Command>
@@ -237,7 +237,6 @@
     <ClCompile Include="assets\code\programs\voxel_drawer_program.cpp" />
     <ClCompile Include="assets\code\renderers\shadow_map_renderer.cpp" />
     <ClCompile Include="assets\code\programs\depth_program.cpp" />
-    <ClCompile Include="include\GL\gl3w.c" />
     <ClCompile Include="rendering\primitives\fullscreen_quad.cpp" />
     <ClCompile Include="util\metrics_report.cpp" />
     <ClCompile Include="types\transform.cpp" />
@@ -325,8 +324,6 @@
     <ClInclude Include="assets\code\programs\voxel_drawer_program.h" />
     <ClInclude Include="assets\code\renderers\shadow_map_renderer.h" />
     <ClInclude Include="assets\code\programs\depth_program.h" />
-    <ClInclude Include="include\GL\gl3w.h" />
-    <ClInclude Include="include\GL\glcorearb.h" />
     <ClInclude Include="rendering\primitives\fullscreen_quad.h" />
     <ClInclude Include="util\metrics_report.h" />
     <ClInclude Include="types\transform.h" />
