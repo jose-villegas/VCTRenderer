@@ -1,4 +1,4 @@
-# version 430
+#version 450
 
 in GeometryOut
 {
@@ -14,6 +14,7 @@ layout (pixel_center_integer) in vec4 gl_FragCoord;
 
 layout(binding = 0, r32ui) uniform volatile coherent uimage3D voxelAlbedo;
 layout(binding = 1, r32ui) uniform volatile coherent uimage3D voxelNormal;
+layout(binding = 2, rgba8) uniform volatile coherent image3D voxelEmission;
 
 uniform struct Material
 {
@@ -88,5 +89,7 @@ void main()
             // average albedo per fragments sorrounding the voxel volume
             imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
         }
+
+        imageStore(voxelEmission, position, albedo);
     }
 }
