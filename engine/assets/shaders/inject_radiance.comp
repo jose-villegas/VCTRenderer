@@ -228,13 +228,6 @@ vec4 Downsample(layout(rgba8) image3D source, ivec3 pos)
 	return count == 0 ? result : result / count;
 }
 
-void correctAlpha(inout vec4 color, in float alphaCorrection) 
-{
-    const float oldColA = color.a;
-    color.a = 1.0 - pow((1.0 - color.a), alphaCorrection);
-    color.xyz *= color.a / clamp(oldColA, 0.0001, 10000.0);
-}
-
 void main()
 {
 	ivec3 volumeDimension = ivec3(imageSize(voxelRadiance));
@@ -250,7 +243,7 @@ void main()
 		// get r32ui encoded value
 		vec4 albedo = imageLoad(voxelAlbedo, writePos);
 		// empty voxel
-		if(albedo.a <= 0) { return; }
+		if(albedo.a <= 0.001f) { return; }
 
 		vec4 normal = imageLoad(voxelNormal, writePos);
 		// normal is stored in 0-1 range, restore to -1-1
@@ -269,7 +262,7 @@ void main()
 		vec4 albedo = Downsample(voxelAlbedo, sourcePos);
 		vec4 normal = Downsample(voxelNormal, sourcePos);
 
-		if(albedo.a <= 0) { return; }
+		if(albedo.a <= 0.001f) { return; }
 		// normal is stored in 0-1 range, restore to -1-1
 		normal = normalize(normal * 2.0f - 1.0f);
 		// obtain world-space position of the current voxel

@@ -69,10 +69,11 @@ class Transform : public BaseObject
         const glm::mat4x4 &Matrix() const;
         virtual void UpdateTransformMatrix();
 
-
         static bool TransformChanged(const Transform &transform);
         static const std::unordered_map<const Transform *, bool> &TransformChangedMap();
         static void CleanEventMap();
+    protected:
+        void RegisterChange(bool val = true) const;
     private:
         glm::vec3 position;
         glm::quat rotation;

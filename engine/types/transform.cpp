@@ -119,6 +119,11 @@ void Transform::CleanEventMap()
     transformChange.clear();
 }
 
+void Transform::RegisterChange(bool val) const
+{
+    transformChange[this] = val;
+}
+
 const glm::vec3 &Transform::Scale() const
 {
     return scale;

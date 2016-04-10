@@ -55,12 +55,12 @@ void VoxelizerRenderer::Render()
                 revoxelize = true; break;
             }
         }
-    }
 
-    if(framestep == -1 && revoxelize)
-    {
-        // update voxelization
-        VoxelizeScene();
+        if(revoxelize)
+        {
+            // update voxelization
+            VoxelizeScene();
+        }
     }
     // voxelization will happen every framestep frame
     else if (framestep >= 1 && frameCount++ % framestep == 0)

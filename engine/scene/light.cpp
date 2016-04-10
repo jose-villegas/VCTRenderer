@@ -22,6 +22,7 @@ float Light::AngleInnerCone() const
 void Light::AngleInnerCone(float val)
 {
     angleInnerCone = glm::clamp(val, 0.0f, glm::pi<float>());
+    RegisterChange();
 }
 
 float Light::AngleOuterCone() const
@@ -33,6 +34,7 @@ void Light::AngleOuterCone(float val)
 {
     angleOuterCone = glm::clamp(val, 0.0f, glm::pi<float>());;
     angleInnerCone = glm::min(angleInnerCone, angleOuterCone);
+    RegisterChange();
 }
 
 const glm::vec3 &Light::Ambient() const
@@ -43,6 +45,7 @@ const glm::vec3 &Light::Ambient() const
 void Light::Ambient(const glm::vec3 &val)
 {
     ambient = max(val, glm::vec3(0.0f));
+    RegisterChange();
 }
 
 const glm::vec3 &Light::Diffuse() const
@@ -52,7 +55,8 @@ const glm::vec3 &Light::Diffuse() const
 
 void Light::Diffuse(const glm::vec3 &val)
 {
-    diffuse = max(val, glm::vec3(0.0f));;
+    diffuse = max(val, glm::vec3(0.0f));
+    RegisterChange();
 }
 
 const glm::vec3 &Light::Specular() const
@@ -73,11 +77,13 @@ const glm::vec3 &Light::Direction() const
 void Light::Specular(const glm::vec3 &val)
 {
     specular = max(val, glm::vec3(0.0f));
+    RegisterChange();
 }
 
 void Light::Intensities(const glm::vec3 &val)
 {
     intensity = max(val, glm::vec3(0.0f));
+    RegisterChange();
 }
 
 Light::LightType Light::Type() const
@@ -90,6 +96,8 @@ void Light::TypeCollection(LightType val)
 {
     // no change
     if (val == lightType && collectionIndex >= 0) { return; }
+
+    RegisterChange();
 
     // this light is stored in another collection
     if (collectionIndex >= 0)

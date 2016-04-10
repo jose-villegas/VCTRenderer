@@ -141,27 +141,28 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
 void main()
 {
     volumeDimension = imageSize(voxelAlbedo);
+    float dimension = float(volumeDimension);
 
     if(gl_GlobalInvocationID.x >= volumeDimension.z ||
         gl_GlobalInvocationID.y >= volumeDimension.z ||
         gl_GlobalInvocationID.z >= volumeDimension.z) return;
 
     ivec3 sourcePosition = ivec3(gl_GlobalInvocationID);
-    ivec3 mipPosition = sourcePosition / 2;
     vec4 albedo = imageLoad(voxelAlbedo, sourcePosition);
 
-    if(albedo.a <= 0) { return; }
+    if(albedo.a <= 0.001f) { return; }
 
-    vec4 injectionPass = texelFetch(voxelTexMipmap, mipPosition, 0);
+    vec3 position = sourcePosition / dimension;
+    vec3 samplePos = vec3(position.x / 6.0f, position.yz);
+    vec4 injectionPass = texture(voxelTexMipmap, samplePos);
     // normal from voxelization
     vec4 normal = imageLoad(voxelNormal, sourcePosition);
     // normal is stored in 0-1 range, restore to -1 -> -1
     normal = normalize(normal * 2.0f - 1.0f);
-    vec3 samplePos = mipPosition / (volumeDimension.z / 2.0f);
     // calculate indirect lighting - first bounce onto the voxel texture
-    vec4 indirectLighting = CalculateIndirectLighting(samplePos, normal.xyz);
+    vec4 indirectLighting = CalculateIndirectLighting(position, normal.xyz);
     // first bounce gi component only
-    vec4 firstBounce = indirectLighting * albedo;
+    vec4 firstBounce = indirectLighting * albedo * 2.0f;
     // first bounce + direct lighting
     vec4 radiance = injectionPass + firstBounce;
     radiance.a = 1.0f;
