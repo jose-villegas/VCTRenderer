@@ -98,12 +98,11 @@ void Transform::UpdateTransformMatrix()
                      glm::scale(scale);
 }
 
-bool Transform::TransformChanged(const Transform &transform)
+bool Transform::TransformChanged() const
 {
-    if(transformChange.find(&transform) != transformChange.end())
-    {
-        return transformChange[&transform];
-    }
+    auto it = transformChange.find(this);
+
+    if (it != transformChange.end()) return it->second;
 
     return false;
 }

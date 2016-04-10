@@ -73,6 +73,8 @@ void main()
     // alpha cutoff
     if(albedo.a > 0.0f)
     {
+        // premultiplied alpha
+        albedo.rgb *= albedo.a;
         albedo.a = 1.0f;
         // bring normal to 0-1 range
         vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);

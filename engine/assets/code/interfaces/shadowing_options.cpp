@@ -5,6 +5,7 @@
 #include "main_menu.h"
 #include "../../../core/assets_manager.h"
 #include "../renderers/shadow_map_renderer.h"
+#include "../../../scene/light.h"
 
 #include <string>
 #include <glm/gtc/type_ptr.hpp>
@@ -44,11 +45,15 @@ void UIShadowingOptions::Draw()
         if(Combo("Height: ", &selectedH, sizesStr.data(), sizesStr.size()))
         {
             shadowRender.SetupFramebuffers(sizes[selectedW], sizes[selectedH]);
+
+            if (shadowRender.Caster()) { shadowRender.Caster()->RegisterChange(); }
         }
 
         if(Combo("Width: ", &selectedW, sizesStr.data(), sizesStr.size()))
         {
             shadowRender.SetupFramebuffers(sizes[selectedW], sizes[selectedH]);
+
+            if (shadowRender.Caster()) { shadowRender.Caster()->RegisterChange(); }
         }
 
         // shadow map blurring / filtering
@@ -60,21 +65,29 @@ void UIShadowingOptions::Draw()
         if(SliderFloat("Blur Scale", &blurScale, 0.0f, 8.0f))
         {
             shadowRender.BlurScale(blurScale);
+
+            if (shadowRender.Caster()) { shadowRender.Caster()->RegisterChange(); }
         }
 
         if (SliderInt("Blur Quality", &blurQuality, 1, 3))
         {
             shadowRender.BlurQuality(blurQuality);
+
+            if (shadowRender.Caster()) { shadowRender.Caster()->RegisterChange(); }
         }
 
         if (SliderInt("Anisotropic Filtering", &aniso, 0, 16))
         {
             shadowRender.Anisotropy(aniso);
+
+            if (shadowRender.Caster()) { shadowRender.Caster()->RegisterChange(); }
         }
 
         if (Combo("Filtering", &filtering, filtersStr.data(), filtersStr.size()))
         {
             shadowRender.Filtering(filtering);
+
+            if (shadowRender.Caster()) { shadowRender.Caster()->RegisterChange(); }
         }
 
         // vsm and evsm setup
@@ -86,11 +99,15 @@ void UIShadowingOptions::Draw()
         if(SliderFloat("Light Bleeding Reduction", &reduction, 0.0f, 1.0f))
         {
             shadowRender.LightBleedingReduction(reduction);
+
+            if (shadowRender.Caster()) { shadowRender.Caster()->RegisterChange(); }
         }
 
         if(DragFloat2("Exponents", value_ptr(exponents)))
         {
             shadowRender.Exponents(exponents);
+
+            if (shadowRender.Caster()) { shadowRender.Caster()->RegisterChange(); }
         }
     }
 
