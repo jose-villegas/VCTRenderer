@@ -1,4 +1,5 @@
 #version 430
+#extension GL_ARB_shader_image_load_store : require
 
 out vec4 albedo;
 

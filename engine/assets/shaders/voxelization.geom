@@ -19,6 +19,7 @@ out GeometryOut
 } Out;
 
 uniform mat4 viewProjections[3];
+uniform mat4 viewProjectionsI[3];
 uniform uint volumeDimension;
 
 uniform float voxelScale;
@@ -67,7 +68,7 @@ void main()
 	vec3 texCoord[3];
 	int selectedIndex = CalculateAxis();
 	mat4 viewProjection = viewProjections[selectedIndex];
-	mat4 viewProjectionI = inverse(viewProjection);
+	mat4 viewProjectionI = viewProjectionsI[selectedIndex];
 
     for (int i = 0; i < gl_in.length(); i++)
     {

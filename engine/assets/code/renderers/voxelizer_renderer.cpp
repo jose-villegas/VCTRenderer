@@ -21,7 +21,6 @@
 #include <glm/gtx/transform.hpp>
 #include "../programs/propagation_program.h"
 #include "deferred_renderer.h"
-#include <iostream>
 
 bool VoxelizerRenderer::ShowVoxels = false;
 
@@ -137,6 +136,9 @@ void VoxelizerRenderer::VoxelizeScene()
     prog.viewProjections[0].Set(viewProjectionMatrix[0]);
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
     prog.viewProjections[2].Set(viewProjectionMatrix[2]);
+    prog.viewProjectionsI[0].Set(viewProjectionMatrixI[0]);
+    prog.viewProjectionsI[1].Set(viewProjectionMatrixI[1]);
+    prog.viewProjectionsI[2].Set(viewProjectionMatrixI[2]);
     prog.volumeDimension.Set(volumeDimension);
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     prog.voxelScale.Set(1.0f / volumeGridSize);
@@ -148,8 +150,6 @@ void VoxelizerRenderer::VoxelizeScene()
                        oglplus::ImageUnitFormat::R32UI);
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
-    emissiveSparse.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
-                             oglplus::ImageUnitFormat::RGBA8);
     // draw scene triangles
     scene->rootNode->DrawList();
     // sync barrier
@@ -445,10 +445,12 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
                                      center, glm::vec3(0.0f, 0.0f, -1.0f));
     viewProjectionMatrix[2] = lookAt(center + glm::vec3(0.0f, 0.0f, halfSize),
                                      center, glm::vec3(0.0f, 1.0f, 0.0f));
+    int i = 0;
 
     for (auto &matrix : viewProjectionMatrix)
     {
         matrix = projection * matrix;
+        viewProjectionMatrixI[i++] = inverse(matrix);
     }
 }
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)

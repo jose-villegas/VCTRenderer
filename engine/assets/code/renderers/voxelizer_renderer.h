@@ -101,6 +101,7 @@ class VoxelizerRenderer : public Renderer
         oglplus::VertexArray voxelDrawerArray;
 
         std::array<glm::mat4x4, 3> viewProjectionMatrix;
+        std::array<glm::mat4x4, 3> viewProjectionMatrixI;
         unsigned int volumeDimension;
         int framestep;
         unsigned int drawMipLevel;
