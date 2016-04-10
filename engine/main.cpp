@@ -1,13 +1,13 @@
 #include "core/engine_base.h"
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #include <oglplus/error/program.hpp>
 #include <iostream>
 
 int main(int argc, char * argv[])
 {
-#ifndef NDEBUG // DEBUG
+    #ifndef NDEBUG // DEBUG
     // pause in positive case
     auto errorCaptured = false;
 
@@ -38,11 +38,11 @@ int main(int argc, char * argv[])
 
     if (errorCaptured) { std::cin.get(); }
 
-#else // RELEASE
+    #else // RELEASE
     // instance engine core to load all assets and
     // relevant data and start rendering main loop
     EngineBase::Instance()->MainLoop();
-#endif
+    #endif
     EngineBase::Terminate();
     // exit application
     return 0;

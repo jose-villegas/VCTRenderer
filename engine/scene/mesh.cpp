@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #include <oglplus/vertex_attrib.hpp>
 #include <oglplus/context.hpp>

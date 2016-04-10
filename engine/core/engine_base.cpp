@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #include "engine_base.h"
 
@@ -84,7 +84,6 @@ inline void PrintDependenciesVersions()
     std::cout << "FreeImage " << FreeImage_GetVersion() << std::endl;
     std::cout << "OpenGL " << glGetString(GL_VERSION) << "s, GLSL "
               << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
-    std::cout << "GLEW " << glewGetString(GLEW_VERSION) << std::endl;
     std::cout << "Ocornut's IMGUI " << ImGui::GetVersion() << std::endl;
 }
 
@@ -99,7 +98,8 @@ void EngineBase::Initialize()
     renderWindow->WindowHint(WindowHints::Resizable, false);
     renderWindow->WindowHint(ContextHints::ContextVersionMajor, 4);
     renderWindow->WindowHint(ContextHints::ContextVersionMinor, 5);
-    renderWindow->WindowHint(ContextHints::OpenGLProfile, Hint::OpenGLCoreProfile);
+    renderWindow->WindowHint(ContextHints::OpenGLProfile,
+                             Hint::OpenGLAnyProfile);
     renderWindow->Open(WindowInfo(1280, 720, 0, 0, "VCTRenderer"), false);
     renderWindow->SetAsCurrentContext();
     // initialize OpenGL API
