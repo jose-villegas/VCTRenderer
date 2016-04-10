@@ -26,9 +26,6 @@ bool VoxelizerRenderer::ShowVoxels = false;
 
 void VoxelizerRenderer::Render()
 {
-    // negative framestep means this is disabled
-    if (framestep < 0) { return; }
-
     static Scene * previous = nullptr;
     static auto frameCount = 1;
     static auto &scene = Scene::Active();
@@ -48,11 +45,15 @@ void VoxelizerRenderer::Render()
     static auto &changes = Transform::TransformChangedMap();
     static auto revoxelize = true;
 
-    for (auto &c : changes)
+    if (framestep == -1)
     {
-        if (typeid(*c.first) == typeid(Light) || typeid(*c.first) == typeid(Node))
+        for (auto &c : changes)
         {
-            revoxelize = true; break;
+            if (typeid(*c.first) == typeid(Light) ||
+                    typeid(*c.first) == typeid(Node))
+            {
+                revoxelize = true; break;
+            }
         }
     }
 
@@ -98,7 +99,7 @@ void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
     material.BindTexture(RawTexture::Specular);
 }
 
-void VoxelizerRenderer::SetUpdateFrequency(const unsigned int framestep)
+void VoxelizerRenderer::SetUpdateFrequency(const int framestep)
 {
     this->framestep = framestep;
 }

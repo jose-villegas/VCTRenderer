@@ -37,7 +37,7 @@ class VoxelizerRenderer : public Renderer
         /// every framestep number of frames.
         /// </summary>
         /// <param name="framestep">The framestep.</param>
-        void SetUpdateFrequency(const unsigned int framestep);
+        void SetUpdateFrequency(const int framestep);
         /// <summary>
         /// Initializes a new instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
