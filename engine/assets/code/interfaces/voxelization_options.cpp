@@ -41,11 +41,18 @@ void UIVoxelizationOptions::Draw()
             voxel.SetupVoxelVolumes(sizes[texRes]);
         }
 
-        static auto updateFrequency = 5;
+        static auto updateFrequency = 0;
+        static auto revoxOnNeed = true;
 
-        if(InputInt("Update Frequency", &updateFrequency))
+        if(Checkbox("Update When Needed", &revoxOnNeed))
         {
-            voxel.SetUpdateFrequency(glm::max(updateFrequency, 0));
+            voxel.SetUpdateFrequency(-1);
+        }
+
+        if(!revoxOnNeed && InputInt("Update Frequency", &updateFrequency))
+        {
+            updateFrequency = glm::max(updateFrequency, 0);
+            voxel.SetUpdateFrequency(updateFrequency);
         }
 
         Separator();

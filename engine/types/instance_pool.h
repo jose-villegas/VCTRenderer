@@ -11,18 +11,19 @@ class InstancePool
     public:
         InstancePool();
         virtual ~InstancePool();
-        void Priority(const int priority);
-        T &GetInstance(const int id);
+        void Priority(const long long priority);
+        T &GetInstance(const long long id);
+        InstancePool<T> &operator=(const InstancePool<T> &rhs);
     protected:
         static std::vector<T *> instances;
-        static std::map<int, int> location;
+        static std::map<long long, long long> location;
     private:
-        unsigned int instanceId;
-        unsigned int priorityIndex;
+        unsigned long long instanceId;
+        unsigned long long priorityIndex;
 };
 
 template<typename T>
-std::map<int, int> InstancePool<T>::location;
+std::map<long long, long long> InstancePool<T>::location;
 
 template<typename T>
 std::vector<T *> InstancePool<T>::instances;
@@ -45,14 +46,14 @@ InstancePool<T>::~InstancePool()
     instances.erase(instances.begin() + index);
 
     // update locations
-    for (auto i = 0; i < instances.size(); ++i)
+    for (size_t i = 0; i < instances.size(); ++i)
     {
         location[instances[i]->instanceId] = i;
     }
 }
 
 template <typename T>
-void InstancePool<T>::Priority(const int priority)
+void InstancePool<T>::Priority(const long long priority)
 {
     // keep reference
     auto &instance = instances[priorityIndex];
@@ -65,7 +66,13 @@ void InstancePool<T>::Priority(const int priority)
 }
 
 template <typename T>
-T &InstancePool<T>::GetInstance(const int id)
+T &InstancePool<T>::GetInstance(const long long id)
 {
     return instances[location[id]];
+}
+
+template <typename T>
+InstancePool<T> &InstancePool<T>::operator=(const InstancePool<T> &rhs)
+{
+    return instanceId == rhs.instanceId;
 }

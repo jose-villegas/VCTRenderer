@@ -2,6 +2,7 @@
 #include <string>
 #include <bitset>
 #include <array>
+#include <vector>
 
 class BaseObject
 {

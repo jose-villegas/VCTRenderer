@@ -160,8 +160,11 @@ void main()
     vec3 samplePos = mipPosition / (volumeDimension.z / 2.0f);
     // calculate indirect lighting - first bounce onto the voxel texture
     vec4 indirectLighting = CalculateIndirectLighting(samplePos, normal.xyz);
-    vec4 result = indirectLighting * injectionPass + indirectLighting * albedo;
-    result.a = 1.0f;
+    // first bounce gi component only
+    vec4 firstBounce = indirectLighting * albedo;
+    // first bounce + direct lighting
+    vec4 radiance = injectionPass + firstBounce;
+    radiance.a = 1.0f;
 
-    imageStore(voxelComposite, sourcePosition, clamp(result, 0.0f, 1.0f));
+    imageStore(voxelComposite, sourcePosition, clamp(radiance, 0.0f, 1.0f));
 }

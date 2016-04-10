@@ -228,6 +228,13 @@ vec4 Downsample(layout(rgba8) image3D source, ivec3 pos)
 	return count == 0 ? result : result / count;
 }
 
+void correctAlpha(inout vec4 color, in float alphaCorrection) 
+{
+    const float oldColA = color.a;
+    color.a = 1.0 - pow((1.0 - color.a), alphaCorrection);
+    color.xyz *= color.a / clamp(oldColA, 0.0001, 10000.0);
+}
+
 void main()
 {
 	ivec3 volumeDimension = ivec3(imageSize(voxelRadiance));

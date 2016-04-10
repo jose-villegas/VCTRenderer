@@ -3,6 +3,7 @@
 #include <glm/detail/type_vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include "base_object.h"
+#include <unordered_map>
 
 /// <summary>
 /// Handles all transformation operations such
@@ -67,6 +68,11 @@ class Transform : public BaseObject
         /// <returns></returns>
         const glm::mat4x4 &Matrix() const;
         virtual void UpdateTransformMatrix();
+
+
+        static bool TransformChanged(const Transform &transform);
+        static const std::unordered_map<const Transform *, bool> &TransformChangedMap();
+        static void CleanEventMap();
     private:
         glm::vec3 position;
         glm::quat rotation;
@@ -77,4 +83,6 @@ class Transform : public BaseObject
         glm::vec3 angles;
         glm::mat4x4 transformation;
         void UpdateCoordinates();
+        // contains a unique set of transforms, on change bool is set to true
+        static std::unordered_map<const Transform *, bool> transformChange;
 };

@@ -45,10 +45,24 @@ void VoxelizerRenderer::Render()
 
     // store current for next call
     previous = scene.get();
+    static auto &changes = Transform::TransformChangedMap();
+    static auto revoxelize = true;
 
-    // another frame called on render, if framestep is > 0
-    // Voxelization will happen every framestep frame
-    if (framestep != 0 && frameCount++ % framestep == 0)
+    for (auto &c : changes)
+    {
+        if (typeid(*c.first) == typeid(Light) || typeid(*c.first) == typeid(Node))
+        {
+            revoxelize = true; break;
+        }
+    }
+
+    if(framestep == -1 && revoxelize)
+    {
+        // update voxelization
+        VoxelizeScene();
+    }
+    // voxelization will happen every framestep frame
+    else if (framestep >= 1 && frameCount++ % framestep == 0)
     {
         frameCount = 1;
         // update voxelization
@@ -59,6 +73,8 @@ void VoxelizerRenderer::Render()
     {
         DrawVoxels();
     }
+
+    revoxelize = false;
 }
 
 void VoxelizerRenderer::SetMatricesUniforms(const Node &node) const
@@ -426,7 +442,7 @@ VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
     injectFirstBounce = false;
     drawMipLevel = drawDirection = 0;
-    framestep = 5; // only on scene change
+    framestep = -1; // on need
     SetupVoxelVolumes(256);
 }
 void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)

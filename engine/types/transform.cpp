@@ -4,7 +4,8 @@
 
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/orthonormalize.inl>
-#include <glm/gtx/euler_angles.hpp>
+
+std::unordered_map<const Transform *, bool> Transform::transformChange;
 
 Transform::Transform()
 {
@@ -30,6 +31,7 @@ void Transform::Position(const glm::vec3 &val)
     {
         position = val;
         UpdateTransformMatrix();
+        transformChange[this] = true;
     }
 }
 
@@ -41,6 +43,7 @@ void Transform::Rotation(const glm::quat &val)
         rotation = val;
         UpdateCoordinates();
         UpdateTransformMatrix();
+        transformChange[this] = true;
     }
 }
 
@@ -57,6 +60,7 @@ void Transform::Rotation(const glm::vec3 &angles)
         // rotate direction vectors
         UpdateCoordinates();
         UpdateTransformMatrix();
+        transformChange[this] = true;
     }
 }
 
@@ -66,6 +70,7 @@ void Transform::Scale(const glm::vec3 &val)
     {
         scale = val;
         UpdateTransformMatrix();
+        transformChange[this] = true;
     }
 }
 
@@ -91,6 +96,27 @@ void Transform::UpdateTransformMatrix()
     transformation = translate(position) *
                      mat4_cast(rotation) *
                      glm::scale(scale);
+}
+
+bool Transform::TransformChanged(const Transform &transform)
+{
+    if(transformChange.find(&transform) != transformChange.end())
+    {
+        return transformChange[&transform];
+    }
+
+    return false;
+}
+
+const std::unordered_map<const Transform *, bool>
+&Transform::TransformChangedMap()
+{
+    return transformChange;
+}
+
+void Transform::CleanEventMap()
+{
+    transformChange.clear();
 }
 
 const glm::vec3 &Transform::Scale() const
@@ -119,6 +145,7 @@ void Transform::Forward(const glm::vec3 &val)
     {
         forward = val;
         UpdateTransformMatrix();
+        transformChange[this] = true;
     }
 }
 
@@ -128,6 +155,7 @@ void Transform::Right(const glm::vec3 &val)
     {
         right = val;
         UpdateTransformMatrix();
+        transformChange[this] = true;
     }
 }
 
@@ -137,6 +165,7 @@ void Transform::Up(const glm::vec3 &val)
     {
         up = val;
         UpdateTransformMatrix();
+        transformChange[this] = true;
     }
 }
 

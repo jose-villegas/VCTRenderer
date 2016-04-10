@@ -7,6 +7,7 @@
 #include "renderer.h"
 #include "assets_manager.h"
 #include "../rendering/render_window.h"
+#include "../types/transform.h"
 
 #include <oglplus/gl.hpp>
 #include <oglplus/context.hpp>
@@ -70,6 +71,8 @@ void EngineBase::MainLoop()
         InterfaceRenderer::Render();
         // finally swap current frame
         renderWindow->SwapBuffers();
+        // clean up
+        Transform::CleanEventMap();
     }
 }
 

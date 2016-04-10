@@ -41,6 +41,17 @@ void ShadowMapRenderer::Render()
         return;
     }
 
+    // initially assign invalid direction
+    static auto direction = glm::vec3(0);
+
+    // direction hasn't changed to skip updating the shadow map
+    if(shadowCaster->Direction() == -direction)
+    {
+        return;
+    }
+
+    direction = -shadowCaster->Direction();
+    // update shadow map
     SetAsActive();
     lightView.SetAsActive();
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
@@ -58,7 +69,6 @@ void ShadowMapRenderer::Render()
     auto sceneBB = scene->rootNode->boundaries;
     auto &center = sceneBB.Center();
     auto radius = distance(center, sceneBB.MaxPoint());
-    auto direction = -shadowCaster->Direction();
     // fix light frustum to fit scene bounding sphere
     lightView.OrthoRect(glm::vec4(-radius, radius, -radius, radius));
     lightView.ClipPlaneNear(-radius);
