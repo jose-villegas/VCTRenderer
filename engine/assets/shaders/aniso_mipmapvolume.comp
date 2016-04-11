@@ -7,19 +7,31 @@ layout(binding = 1, rgba8) uniform writeonly image3D voxelMipmapDst;
 uniform int mipLevel;
 uniform int mipDimension;
 
+const ivec3 mipOffsets[] = ivec3[8]
+(
+	ivec3(1, 1, 1),
+	ivec3(1, 1, 0),
+	ivec3(1, 0, 1),
+	ivec3(1, 0, 0),
+	ivec3(0, 1, 1),
+	ivec3(0, 1, 0),
+	ivec3(0, 0, 1),
+	ivec3(0, 0, 0)
+);
+
 vec4[8] FetchTexels(ivec3 pos) 
 {
 	// look up texels
 	return vec4[8] 
 	(
-		texelFetch(voxelMipmapSrc, pos + ivec3(1, 1, 1), mipLevel), 
-		texelFetch(voxelMipmapSrc, pos + ivec3(1, 1, 0), mipLevel), 
-		texelFetch(voxelMipmapSrc, pos + ivec3(1, 0, 1), mipLevel), 
-		texelFetch(voxelMipmapSrc, pos + ivec3(1, 0, 0), mipLevel), 
-		texelFetch(voxelMipmapSrc, pos + ivec3(0, 1, 1), mipLevel), 
-		texelFetch(voxelMipmapSrc, pos + ivec3(0, 1, 0), mipLevel), 
-		texelFetch(voxelMipmapSrc, pos + ivec3(0, 0, 1), mipLevel), 
-		texelFetch(voxelMipmapSrc, pos + ivec3(0, 0, 0), mipLevel)
+		texelFetch(voxelMipmapSrc, pos + mipOffsets[0], mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + mipOffsets[1], mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + mipOffsets[2], mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + mipOffsets[3], mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + mipOffsets[4], mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + mipOffsets[5], mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + mipOffsets[6], mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + mipOffsets[7], mipLevel)
 	);
 }
 

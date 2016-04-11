@@ -6,6 +6,8 @@
 
 void MipmappingBaseProgram::ExtractUniforms()
 {
+    mipDimension.Assign(program);
+    mipDimension.BindTo("mipDimension");
 }
 
 MipmappingBaseProgram::MipmappingBaseProgram()

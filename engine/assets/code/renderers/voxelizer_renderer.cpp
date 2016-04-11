@@ -320,14 +320,14 @@ void VoxelizerRenderer::GenerateMipmapBase(oglplus::Texture &baseTexture)
     // base volume mipmap from voxel tex to first mip level
     CurrentProgram<MipmappingBaseProgram>(baseProg);
     // bind images for reading / writing
+    baseProg.mipDimension.Set(halfDimension);
     baseTexture.Active(0);
     baseTexture.Bind(oglplus::TextureTarget::_3D);
     voxelTexMipmap.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                              oglplus::ImageUnitFormat::RGBA8);
+    auto workGroups = static_cast<unsigned int>(ceil(halfDimension / 8));
     // mipmap from base texture
-    gl.DispatchCompute(halfDimension * 6 / 16,
-                       halfDimension / 8,
-                       halfDimension / 8);
+    gl.DispatchCompute(workGroups, workGroups, workGroups);
     // mipmap radiance resulting volume
     gl.MemoryBarrier(shImage | texFetch);
 }
