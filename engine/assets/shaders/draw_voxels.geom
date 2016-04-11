@@ -39,14 +39,9 @@ void main()
 		1, 3, 5, 7  // back
 	);
 
-	vec4 projectedVertices[8];
-	vec3 tolerance = vec3(0.0001f);
+	if(albedo[0].a == 0.0f) { return; }
 
-	// voxel is almost 0,0,0
-	if(all(lessThan(albedo[0].rgb, tolerance)))
-	{
-		return;
-	}
+	vec4 projectedVertices[8];
 
 	for(int i = 0; i < 8; ++i)
 	{
@@ -59,7 +54,7 @@ void main()
 		for(int vertex = 0; vertex < 4; ++vertex)
 		{
 			gl_Position = projectedVertices[cubeIndices[face * 4 + vertex]];
-			voxelColor = albedo[0];
+			voxelColor = albedo[0] * albedo[0].a;
 			EmitVertex();
 		}
 

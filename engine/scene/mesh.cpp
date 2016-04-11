@@ -21,7 +21,7 @@ void Mesh::FreeRawData()
     this->indices.clear();
 }
 
-MeshDrawer::MeshDrawer() : loaded(false)
+MeshDrawer::MeshDrawer() : loaded(false), indicesCount(0), vertexCount(0)
 {
 }
 
@@ -38,8 +38,8 @@ void MeshDrawer::Load()
     vertexArray->Bind();
     // create vertex buffer object and upload vertex data
     vertexBuffer = std::make_unique<Buffer>();
-    vertexBuffer->Bind(Buffer::Target::Array);
-    Buffer::Data(Buffer::Target::Array, this->vertices);
+    vertexBuffer->Bind(BufferTarget::Array);
+    Buffer::Data(BufferTarget::Array, this->vertices);
     // setup vertex data interleaving
     VertexArrayAttrib(VertexAttribSlot(0)).Enable() // position
     .Pointer(3, DataType::Float, false, sizeof(Vertex),
@@ -58,8 +58,8 @@ void MeshDrawer::Load()
              reinterpret_cast<const GLvoid *>(48));
     // create element (indices) buffer object and upload data
     elementBuffer = std::make_unique<Buffer>();
-    elementBuffer->Bind(Buffer::Target::ElementArray);
-    Buffer::Data(Buffer::Target::ElementArray, this->indices);
+    elementBuffer->Bind(BufferTarget::ElementArray);
+    Buffer::Data(BufferTarget::ElementArray, this->indices);
     // save number of faces and vertices for rendering
     this->indicesCount = static_cast<unsigned int>(this->indices.size());
     this->vertexCount = static_cast<unsigned int>(this->vertices.size());
@@ -85,9 +85,15 @@ void MeshDrawer::BindVertexArrayObject() const
     this->vertexArray->Bind();
 }
 
+bool MeshDrawer::IsLoaded() const
+{
+    return loaded;
+}
+
 void MeshDrawer::DrawElements() const
 {
     static oglplus::Context gl;
+    this->vertexArray->Bind();
     gl.DrawElements(oglplus::PrimitiveType::Triangles, indicesCount,
                     oglplus::DataType::UnsignedInt);
 }

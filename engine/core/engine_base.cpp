@@ -61,10 +61,10 @@ void EngineBase::MainLoop()
         RenderWindow::Events();
         // setup interface renderer for a new frame
         InterfaceRenderer::NewFrame();
+        // interfaces logic update
+        Interface::DrawAll();
         // behaviors update
         Behavior::UpdateAll();
-        // interfaces update
-        Interface::DrawAll();
         // call renderers
         Renderer::RenderAll();
         // ui render over scene

@@ -6,7 +6,5 @@ out vec4 fragColor;
 
 void main()
 {
-	if(voxelColor.a < 0.5f) discard;
-
 	fragColor = vec4(voxelColor);
 }

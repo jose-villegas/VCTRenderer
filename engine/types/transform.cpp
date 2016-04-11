@@ -19,6 +19,7 @@ Transform::Transform()
                      mat4_cast(rotation) *
                      glm::scale(scale);
     UpdateCoordinates();
+    RegisterChange(true);
 }
 
 Transform::~Transform()

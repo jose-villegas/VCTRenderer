@@ -29,6 +29,7 @@ void VoxelizerRenderer::Render()
     static Scene * previous = nullptr;
     static auto frameCount = 1;
     static auto &scene = Scene::Active();
+    static auto &camera = Camera::Active();
 
     if (!scene || !scene->IsLoaded()) { return; }
 
@@ -49,10 +50,10 @@ void VoxelizerRenderer::Render()
     {
         for (auto &c : changes)
         {
-            if (typeid(*c.first) == typeid(Light) ||
-                    typeid(*c.first) == typeid(Node))
+            if (c.first != camera.get())
             {
-                revoxelize = true; break;
+                revoxelize = true;
+                break;
             }
         }
 
@@ -145,6 +146,7 @@ void VoxelizerRenderer::VoxelizeScene()
     // clear images before voxelization
     voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // bind the volume texture to be writen in shaders
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);

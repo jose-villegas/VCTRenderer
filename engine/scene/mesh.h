@@ -20,38 +20,31 @@ class Mesh : public BaseObject
         std::vector<unsigned int> indices;
         // material used by mesh
         std::shared_ptr<Material> material;
-
         Mesh();
         ~Mesh();
-
         void FreeRawData();
 };
 
 class MeshDrawer : public Mesh
 {
+    public:
+        MeshDrawer();
+        ~MeshDrawer();
+        // No copying or copy assignment allowed of this class
+        MeshDrawer(MeshDrawer const &) = delete;
+        MeshDrawer &operator=(MeshDrawer const &) = delete;
+        void BindArrayBuffer() const;
+        void BindElementArrayBuffer() const;
+        void BindVertexArrayObject() const;
+        bool IsLoaded() const;
+        virtual void Load();
+        virtual void DrawElements() const;
     protected:
         std::unique_ptr<oglplus::Buffer> vertexBuffer;
         std::unique_ptr<oglplus::Buffer> elementBuffer;
         std::unique_ptr<oglplus::VertexArray> vertexArray;
-
         bool loaded;
         unsigned int indicesCount;
         unsigned int vertexCount;
-    public:
-
-        MeshDrawer();
-        ~MeshDrawer();
-
-        void Load();
-        void BindArrayBuffer() const;
-        void BindElementArrayBuffer() const;
-        void BindVertexArrayObject() const;
-
-        void DrawElements() const;
-        bool IsLoaded() const { return loaded; }
-    protected:
-        // No copying or copy assignment allowed of this class or any derived class
-        MeshDrawer(MeshDrawer const &) = delete;
-        MeshDrawer &operator=(MeshDrawer const &) = delete;
 };
 

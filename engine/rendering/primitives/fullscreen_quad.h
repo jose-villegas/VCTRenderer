@@ -2,11 +2,13 @@
 
 #include <oglplus/vertex_array.hpp>
 #include <oglplus/buffer.hpp>
+#include "../../scene/mesh.h"
 
-class FullscreenQuad
+class FullscreenQuad : public MeshDrawer
 {
     public:
-        void Draw() const;
+        void Load() override;
+        void DrawElements() const override;
         FullscreenQuad();
         ~FullscreenQuad();
     private:

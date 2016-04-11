@@ -5,19 +5,12 @@
 #include <oglplus/vertex_attrib.hpp>
 #include <oglplus/context.hpp>
 
-void FullscreenQuad::Draw() const
-{
-    static oglplus::Context gl;
-    fsQuadVertexArray.Bind();
-    gl.DrawElements(
-        oglplus::PrimitiveType::Triangles, 6,
-        oglplus::DataType::UnsignedInt
-    );
-}
-
-FullscreenQuad::FullscreenQuad()
+void FullscreenQuad::Load()
 {
     using namespace oglplus;
+
+    if (loaded) return;
+
     // data for fs quad
     static const std::array<float, 20> fsQuadVertexBufferData =
     {
@@ -49,6 +42,22 @@ FullscreenQuad::FullscreenQuad()
     Buffer::Data(Buffer::Target::ElementArray, indexData);
     // unbind vao
     NoVertexArray().Bind();
+    // mesh loaded
+    loaded = true;
+}
+
+void FullscreenQuad::DrawElements() const
+{
+    static oglplus::Context gl;
+    fsQuadVertexArray.Bind();
+    gl.DrawElements(
+        oglplus::PrimitiveType::Triangles, 6,
+        oglplus::DataType::UnsignedInt
+    );
+}
+
+FullscreenQuad::FullscreenQuad()
+{
 }
 
 FullscreenQuad::~FullscreenQuad()

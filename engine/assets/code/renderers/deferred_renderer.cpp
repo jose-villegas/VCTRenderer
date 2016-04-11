@@ -26,6 +26,7 @@ DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
     ambientOcclusionFalloff = 800.0f;
     ambientOcclusionAlpha = 0.01f;
     renderMode = 0;
+    fsQuad.Load();
 }
 
 DeferredRenderer::~DeferredRenderer()
@@ -72,7 +73,7 @@ void DeferredRenderer::Render()
     // pass light info and texture locations for final light pass
     SetLightPassUniforms();
     // draw the result onto a fullscreen quad
-    fsQuad.Draw();
+    fsQuad.DrawElements();
 }
 
 void DeferredRenderer::SetMatricesUniforms(const Node &node) const

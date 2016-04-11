@@ -48,7 +48,6 @@ void Node::DrawMeshes()
         if (!mesh->IsLoaded()) { return; }
 
         renderer->SetMaterialUniforms(*mesh->material);
-        mesh->BindVertexArrayObject();
         mesh->DrawElements();
     }
 }

@@ -237,6 +237,7 @@
     <ClCompile Include="assets\code\programs\voxel_drawer_program.cpp" />
     <ClCompile Include="assets\code\renderers\shadow_map_renderer.cpp" />
     <ClCompile Include="assets\code\programs\depth_program.cpp" />
+    <ClCompile Include="rendering\primitives\cube.cpp" />
     <ClCompile Include="rendering\primitives\fullscreen_quad.cpp" />
     <ClCompile Include="util\metrics_report.cpp" />
     <ClCompile Include="types\transform.cpp" />
@@ -324,6 +325,7 @@
     <ClInclude Include="assets\code\programs\voxel_drawer_program.h" />
     <ClInclude Include="assets\code\renderers\shadow_map_renderer.h" />
     <ClInclude Include="assets\code\programs\depth_program.h" />
+    <ClInclude Include="rendering\primitives\cube.h" />
     <ClInclude Include="rendering\primitives\fullscreen_quad.h" />
     <ClInclude Include="util\metrics_report.h" />
     <ClInclude Include="types\transform.h" />

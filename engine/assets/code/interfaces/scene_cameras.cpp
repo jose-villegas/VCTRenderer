@@ -124,6 +124,14 @@ void UISceneCameras::Draw()
 
         Unindent();
 
+        if(Button("To Center"))
+        {
+            position = scene->rootNode->boundaries.Center();
+            camera->Position(position);
+        }
+
+        SameLine();
+
         if (Button("Set as Active"))
         {
             camera->SetAsActive();

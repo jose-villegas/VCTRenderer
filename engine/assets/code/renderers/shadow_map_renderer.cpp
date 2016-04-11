@@ -43,12 +43,19 @@ void ShadowMapRenderer::Render()
 
     // initially assign invalid direction
     static auto direction = glm::vec3(0);
+    static auto &changes = Transform::TransformChangedMap();
+    auto updateShadowmap = false;
 
-    // direction hasn't changed to skip updating the shadow map
-    if(shadowCaster->Direction() == -direction)
+    for (auto &c : changes)
     {
-        return;
+        if (c.first != camera)
+        {
+            updateShadowmap = true;
+            break;
+        }
     }
+
+    if (!updateShadowmap) { return; }
 
     direction = -shadowCaster->Direction();
     // update shadow map
@@ -143,6 +150,7 @@ ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     exponents = glm::vec2(40.0f, 5.0f);
     lightBleedingReduction = 0.0f;
     SetupFramebuffers(1024, 1024);
+    fsQuad.Load();
 }
 
 ShadowMapRenderer::~ShadowMapRenderer()
@@ -297,7 +305,7 @@ void ShadowMapRenderer::BlurShadowMap()
     prog.blurDirection.Set(glm::vec2(1.0f / shadowMapSize.x * blurScale, 0.0f));
     prog.blurType.Set(blurQuality);
     gl.Clear().DepthBuffer().ColorBuffer();
-    fsQuad.Draw();
+    fsQuad.DrawElements();
     // blur vertically
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
     // active shadow to be read
@@ -307,6 +315,6 @@ void ShadowMapRenderer::BlurShadowMap()
     prog.blurDirection.Set(glm::vec2(0.0f, 1.0f / shadowMapSize.y * blurScale));
     prog.blurType.Set(blurQuality);
     gl.Clear().DepthBuffer().ColorBuffer();
-    fsQuad.Draw();
+    fsQuad.DrawElements();
     gl.Enable(Capability::DepthTest);
 }
