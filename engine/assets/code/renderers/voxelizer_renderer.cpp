@@ -145,7 +145,6 @@ void VoxelizerRenderer::VoxelizeScene()
     // clear images before voxelization
     voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // bind the volume texture to be writen in shaders
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
@@ -250,10 +249,10 @@ void VoxelizerRenderer::InjectRadiance()
     prog.voxelSize.Set(voxelSize);
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     // voxel texture to read
-    voxelAlbedo.Active(0);
-    voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
-    voxelNormal.Active(1);
-    voxelNormal.Bind(oglplus::TextureTarget::_3D);
+    voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                          oglplus::ImageUnitFormat::RGBA8);
+    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                          oglplus::ImageUnitFormat::RGBA8);;
     voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                             oglplus::ImageUnitFormat::RGBA8);
     auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
@@ -284,12 +283,12 @@ void VoxelizerRenderer::GenerateMipmap()
         // tracing limits
         proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
         // albedo
-        voxelAlbedo.Active(0);
-        voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
+        voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                              oglplus::ImageUnitFormat::RGBA8);
         // normals
-        voxelNormal.Active(1);
-        voxelNormal.Bind(oglplus::TextureTarget::_3D);
-        // direct light
+        voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                              oglplus::ImageUnitFormat::RGBA8);
+        // base volume - direct light
         voxelRadiance.Active(2);
         voxelRadiance.Bind(oglplus::TextureTarget::_3D);
         // anisotropic mipmap volume
@@ -321,8 +320,8 @@ void VoxelizerRenderer::GenerateMipmapBase(oglplus::Texture &baseTexture)
     CurrentProgram<MipmappingBaseProgram>(baseProg);
     // bind images for reading / writing
     baseProg.mipDimension.Set(halfDimension);
-    baseTexture.Active(0);
-    baseTexture.Bind(oglplus::TextureTarget::_3D);
+    baseTexture.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                          oglplus::ImageUnitFormat::RGBA8);
     voxelTexMipmap.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                              oglplus::ImageUnitFormat::RGBA8);
     auto workGroups = static_cast<unsigned int>(ceil(halfDimension / 8));
@@ -342,22 +341,22 @@ void VoxelizerRenderer::GenerateMipmapVolume()
     static auto &volumeProg = MipMappingVolumeShader();
     // from first mip level to the rest aniso mipmapping
     CurrentProgram<MipmappingVolumeProgram>(volumeProg);
-    // bind source texture
-    voxelTexMipmap.Active(0);
-    voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);
     // setup current mip level uniforms
     auto mipDimension = volumeDimension / 4;
     auto mipLevel = 0;
 
-    while (mipDimension >= 1)
+    while (mipDimension > 1)
     {
-        volumeProg.mipDimension.Set(mipDimension);
-        volumeProg.mipLevel.Set(mipLevel);
+        auto volumeSize = glm::vec3(mipDimension * 6, mipDimension, mipDimension);
+        volumeProg.mipDimension.Set(volumeSize);
         // bind for writing at mip level
+        voxelTexMipmap.BindImage(0, mipLevel, true, 0,
+                                 oglplus::AccessSpecifier::ReadOnly,
+                                 oglplus::ImageUnitFormat::RGBA8);
         voxelTexMipmap.BindImage(1, mipLevel + 1, true, 0,
                                  oglplus::AccessSpecifier::WriteOnly,
                                  oglplus::ImageUnitFormat::RGBA8);
-        auto workGroups = static_cast<unsigned>(glm::ceil(mipDimension / 8.0f));
+        auto workGroups = static_cast<unsigned>(glm::ceil(mipDimension / 4.0f));
         // mipmap from mip level
         gl.DispatchCompute(workGroups, workGroups, workGroups);
         // mipmap radiance resulting volume

@@ -184,7 +184,8 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     vec4 baseColor = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
 
-    while (visibility <= 1.0f && dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal) 
+    while (visibility <= 1.0f && anisoSample.a != 1.0f && 
+            dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal) 
     {
         if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
             || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f)) 
@@ -204,8 +205,6 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
             baseColor = texture(voxelTex, samplePos);
             anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
         }
-
-        if(anisoSample.a == 1.0f) { return 0.0f; }
         // accumulate
         visibility += (1.0f - visibility) * anisoSample.a;
         // move further into volume

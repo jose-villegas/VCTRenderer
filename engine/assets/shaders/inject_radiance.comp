@@ -3,8 +3,8 @@
 
 layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
-layout(binding = 0, rgba8) uniform sampler3D voxelAlbedo;
-layout(binding = 1, rgba8) uniform sampler3D voxelNormal;
+layout(binding = 0, rgba8) uniform readonly image3D voxelAlbedo;
+layout(binding = 1, rgba8) uniform readonly image3D voxelNormal;
 layout(binding = 2, rgba8) uniform writeonly image3D voxelRadiance;
 
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
@@ -202,23 +202,24 @@ void main()
 {
 	uvec3 volumeDimension = imageSize(voxelRadiance);
 
-	if(gl_GlobalInvocationID.x >= volumeDimension.z ||
-		gl_GlobalInvocationID.y >= volumeDimension.z ||
+	if(gl_GlobalInvocationID.x >= volumeDimension.x ||
+		gl_GlobalInvocationID.y >= volumeDimension.y ||
 		gl_GlobalInvocationID.z >= volumeDimension.z) return;
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
-	vec4 albedo = texelFetch(voxelAlbedo, writePos, 0);
+	vec4 albedo = imageLoad(voxelAlbedo, writePos);
 
 	// empty voxel
-	if(albedo.a <= 0.001f) { return; }
+	if(albedo.a == 0.0f) { return; }
 
-	vec4 normal = texelFetch(voxelNormal, writePos, 0);
+	vec4 normal = imageLoad(voxelNormal, writePos);
 	// normal is stored in 0-1 range, restore to -1-1
 	normal = normalize(normal * 2.0f - 1.0f);
 	// obtain world-space position of the current voxel
 	vec3 wsPosition = VoxelToWorld(writePos);
 	// calculate direct lighting onto voxel
 	albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
-	albedo.a = 1.0f;
+    albedo.a = 1.0f;
+
 	imageStore(voxelRadiance, writePos, albedo);
 }
