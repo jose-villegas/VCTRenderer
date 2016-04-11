@@ -315,8 +315,6 @@ void VoxelizerRenderer::GenerateMipmap()
         static auto &deferred = *static_cast<DeferredRenderer *>
                                 (assets->renderers["Deferred"].get());
         static auto &proga = InjectPropagationShader();
-        // dimension
-        auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 16.0f));
         //// inject direct + "first bounce" into voxel texture
         CurrentProgram<PropagationProgram>(proga);
         // tracing limits
@@ -336,7 +334,7 @@ void VoxelizerRenderer::GenerateMipmap()
         voxelPropagation.BindImage(4, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                                    oglplus::ImageUnitFormat::RGBA8);
         // inject at level 0 of textur
-        workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
+        auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
         gl.DispatchCompute(workGroups, workGroups, workGroups);
         // sync safety
         gl.MemoryBarrier(shImage | texFetch);

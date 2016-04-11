@@ -7,27 +7,20 @@ layout(binding = 1, rgba8) uniform writeonly image3D voxelMipmapDst;
 uniform int mipLevel;
 uniform int mipDimension;
 
-bool FetchTexels(ivec3 pos, out vec4[8] values) 
+vec4[8] FetchTexels(ivec3 pos) 
 {
-	int counter = 0;
-	int invalid;
-
-	for(int x = 0; x < 2; x++)
-	{
-		for(int y = 0; y < 2; y++)
-		{
-			for(int z = 0; z < 2; z++)
-			{
-				vec4 value = texelFetch(voxelMipmapSrc, pos + ivec3(1 - x, 1 - y, 1 - z), mipLevel);
-
-				if(value.a == 0) invalid++;
-
-				values[counter++] = value;
-			}
-		}
-	}
-
-	return invalid != counter;
+	// look up texels
+	return vec4[8] 
+	(
+		texelFetch(voxelMipmapSrc, pos + ivec3(1, 1, 1), mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + ivec3(1, 1, 0), mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + ivec3(1, 0, 1), mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + ivec3(1, 0, 0), mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + ivec3(0, 1, 1), mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + ivec3(0, 1, 0), mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + ivec3(0, 0, 1), mipLevel), 
+		texelFetch(voxelMipmapSrc, pos + ivec3(0, 0, 0), mipLevel)
+	);
 }
 
 void main()
@@ -39,87 +32,69 @@ void main()
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
 	ivec3 sourcePos = writePos * 2;
 	int sourceDimension = mipDimension * 2;
-	vec4 values[8];
-	
+
+	vec4 values[8] = FetchTexels(sourcePos);
 	// x -
-	if(FetchTexels(sourcePos, values))
-	{
-		imageStore(voxelMipmapDst, writePos, 
-		(
-			values[0] + values[4] * (1 - values[0].a) + 
-			values[1] + values[5] * (1 - values[1].a) +
-			values[2] + values[6] * (1 - values[2].a) +
-			values[3] + values[7] * (1 - values[3].a)) * 0.25f
-		);
-	}
+	imageStore(voxelMipmapDst, writePos, 
+	(
+		values[0] + values[4] * (1 - values[0].a) + 
+		values[1] + values[5] * (1 - values[1].a) +
+		values[2] + values[6] * (1 - values[2].a) +
+		values[3] + values[7] * (1 - values[3].a)) * 0.25f
+	);
 	// x +
 	writePos.x += mipDimension;
 	sourcePos.x += sourceDimension;
-
-	if(FetchTexels(sourcePos, values))
-	{
-		imageStore(voxelMipmapDst, writePos, 
-		(
-			values[4] + values[0] * (1 - values[4].a) +
-	    	values[5] + values[1] * (1 - values[5].a) +
-	    	values[6] + values[2] * (1 - values[6].a) +
-	    	values[7] + values[3] * (1 - values[7].a)) * 0.25f
-		);
-	}
+	values = FetchTexels(sourcePos);
+    imageStore(voxelMipmapDst, writePos, 
+	(
+		values[4] + values[0] * (1 - values[4].a) +
+    	values[5] + values[1] * (1 - values[5].a) +
+    	values[6] + values[2] * (1 - values[6].a) +
+    	values[7] + values[3] * (1 - values[7].a)) * 0.25f
+    );
 	// y -
 	writePos.x += mipDimension;
 	sourcePos.x += sourceDimension;
-	
-	if(FetchTexels(sourcePos, values))
-	{
-		imageStore(voxelMipmapDst, writePos, 
-		(
-			values[0] + values[2] * (1 - values[0].a) +
-	    	values[1] + values[3] * (1 - values[1].a) +
-	    	values[5] + values[7] * (1 - values[5].a) +
-	    	values[4] + values[6] * (1 - values[4].a)) * 0.25f
-		);
-	}
+	values = FetchTexels(sourcePos);	
+    imageStore(voxelMipmapDst, writePos, 
+	(
+		values[0] + values[2] * (1 - values[0].a) +
+    	values[1] + values[3] * (1 - values[1].a) +
+    	values[5] + values[7] * (1 - values[5].a) +
+    	values[4] + values[6] * (1 - values[4].a)) * 0.25f
+    );
 	// y +
 	writePos.x += mipDimension;
 	sourcePos.x += sourceDimension;
-
-	if(FetchTexels(sourcePos, values))
-	{
-		imageStore(voxelMipmapDst, writePos, 
-		(
-			values[2] + values[0] * (1 - values[2].a) +
-	    	values[3] + values[1] * (1 - values[3].a) +
-	    	values[7] + values[5] * (1 - values[7].a) +
-	    	values[6] + values[4] * (1 - values[6].a)) * 0.25f
-		);
-	}
+	values = FetchTexels(sourcePos);	
+    imageStore(voxelMipmapDst, writePos, 
+	(
+		values[2] + values[0] * (1 - values[2].a) +
+    	values[3] + values[1] * (1 - values[3].a) +
+    	values[7] + values[5] * (1 - values[7].a) +
+    	values[6] + values[4] * (1 - values[6].a)) * 0.25f
+    );
 	// z -
 	writePos.x += mipDimension;
 	sourcePos.x += sourceDimension;
-
-	if(FetchTexels(sourcePos, values))
-	{
-		imageStore(voxelMipmapDst, writePos, 
-		(
-			values[0] + values[1] * (1 - values[0].a) +
-	    	values[2] + values[3] * (1 - values[2].a) +
-	    	values[4] + values[5] * (1 - values[4].a) +
-	    	values[6] + values[7] * (1 - values[6].a)) * 0.25f
-		);
-	}
+	values = FetchTexels(sourcePos);	
+    imageStore(voxelMipmapDst, writePos, 
+	(
+		values[0] + values[1] * (1 - values[0].a) +
+    	values[2] + values[3] * (1 - values[2].a) +
+    	values[4] + values[5] * (1 - values[4].a) +
+    	values[6] + values[7] * (1 - values[6].a)) * 0.25f
+    );
 	// z +
 	writePos.x += mipDimension;
 	sourcePos.x += sourceDimension;
-
-	if(FetchTexels(sourcePos, values))
-	{
-		imageStore(voxelMipmapDst, writePos, 
-		(
-			values[1] + values[0] * (1 - values[1].a) +
-	    	values[3] + values[2] * (1 - values[3].a) +
-	    	values[5] + values[4] * (1 - values[5].a) +
-	    	values[7] + values[6] * (1 - values[7].a)) * 0.25f
-		);
-	}	
+	values = FetchTexels(sourcePos);	
+    imageStore(voxelMipmapDst, writePos, 
+	(
+		values[1] + values[0] * (1 - values[1].a) +
+    	values[3] + values[2] * (1 - values[3].a) +
+    	values[5] + values[4] * (1 - values[5].a) +
+    	values[7] + values[6] * (1 - values[7].a)) * 0.25f
+    );
 }

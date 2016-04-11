@@ -4,27 +4,19 @@ layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 layout(binding = 0, rgba8) uniform sampler3D voxelAlbedo;
 layout(binding = 1, rgba8) uniform writeonly image3D voxelMipmap;
 
-bool FetchTexels(ivec3 pos, out vec4[8] values) 
+vec4[8] FetchTexels(ivec3 pos) 
 {
-	int counter = 0;
-	int invalid = 0;
-
-	for(int x = 0; x < 2; x++)
-	{
-		for(int y = 0; y < 2; y++)
-		{
-			for(int z = 0; z < 2; z++)
-			{
-				vec4 value = texelFetch(voxelAlbedo, pos + ivec3(1 - x, 1 - y, 1 - z), 0);
-
-				if(value.a == 0) invalid++;
-
-				values[counter++] = value;
-			}
-		}
-	}
-
-	return invalid != counter;
+	return vec4[8] 
+	(
+		texelFetch(voxelAlbedo, pos + ivec3(1, 1, 1), 0), 
+		texelFetch(voxelAlbedo, pos + ivec3(1, 1, 0), 0), 
+		texelFetch(voxelAlbedo, pos + ivec3(1, 0, 1), 0), 
+		texelFetch(voxelAlbedo, pos + ivec3(1, 0, 0), 0), 
+		texelFetch(voxelAlbedo, pos + ivec3(0, 1, 1), 0), 
+		texelFetch(voxelAlbedo, pos + ivec3(0, 1, 0), 0), 
+		texelFetch(voxelAlbedo, pos + ivec3(0, 0, 1), 0), 
+		texelFetch(voxelAlbedo, pos + ivec3(0, 0, 0), 0)
+	);
 }
 
 void main()
@@ -38,9 +30,7 @@ void main()
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
 	ivec3 sourcePos = writePos * 2;
 
-	vec4 values[8];
-	
-	if(!FetchTexels(sourcePos, values)) { return; }
+	vec4 values[8] = FetchTexels(sourcePos);
 	// x -
 	imageStore(voxelMipmap, writePos, 
 	(

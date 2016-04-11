@@ -198,37 +198,6 @@ vec4 convRGBA8ToVec4(uint val)
     			float((val & 0xFF000000) >> 24U));
 }
 
-vec4 Downsample(layout(rgba8) image3D source, ivec3 pos)
-{
-	vec4 result = vec4(0.0f);
-	vec4 current = vec4(0.0f);
-	int count = 0;
-
-	for(int x = -1; x < 2; x++)
-	{
-		for(int y = -1; y < 2; y++)
-		{
-			for(int z = -1; z < 2; z++)
-			{
-				current = imageLoad(source, pos + ivec3(x, y, z));
-
-				if(current.a <= 0) 
-				{
-					continue;
-				}
-				else
-				{
-					count++;
-				}
-
-				result += current;
-			}
-		}
-	}
-
-	return count == 0 ? result : result / count;
-}
-
 void main()
 {
 	uvec3 volumeDimension = imageSize(voxelRadiance);
@@ -238,13 +207,12 @@ void main()
 		gl_GlobalInvocationID.z >= volumeDimension.z) return;
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
-    vec3 samplePos = vec3(writePos) / volumeDimension.z;
-	vec4 albedo = texture(voxelAlbedo, samplePos);
+	vec4 albedo = texelFetch(voxelAlbedo, writePos, 0);
 
 	// empty voxel
 	if(albedo.a <= 0.001f) { return; }
 
-	vec4 normal = texture(voxelNormal, samplePos);
+	vec4 normal = texelFetch(voxelNormal, writePos, 0);
 	// normal is stored in 0-1 range, restore to -1-1
 	normal = normalize(normal * 2.0f - 1.0f);
 	// obtain world-space position of the current voxel

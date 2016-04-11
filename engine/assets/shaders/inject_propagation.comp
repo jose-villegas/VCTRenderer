@@ -150,14 +150,13 @@ void main()
         gl_GlobalInvocationID.z >= volumeDimension.z) return;
 
     ivec3 writePos = ivec3(gl_GlobalInvocationID);
-    vec3 samplePos = vec3(writePos) / volumeDimension.z;
-    vec4 albedo = texture(voxelAlbedo, samplePos);
+    vec4 albedo = texelFetch(voxelAlbedo, writePos, 0);
 
     if(albedo.a <= 0.001f) { return; }
 
-    vec4 injectionPass = texture(voxelTex, samplePos);
+    vec4 injectionPass = texelFetch(voxelTex, writePos, 0);
     // normal from voxelization
-    vec4 normal = texture(voxelNormal, samplePos);
+    vec4 normal = texelFetch(voxelNormal, writePos, 0);
     // normal is stored in 0-1 range, restore to -1 -> -1
     normal = normalize(normal * 2.0f - 1.0f);
     // calculate indirect lighting - first bounce onto the voxel texture
