@@ -77,6 +77,7 @@ AssetsManager::AssetsManager()
     interfaces["Cameras"] = std::make_shared<UISceneCameras>();
     interfaces["Lights"] = std::make_shared<UISceneLights>();
     interfaces["Materials"] = std::make_shared<UISceneMaterials>();
+    interfaces["Nodes"] = std::make_shared<UISceneNodes>();
     interfaces["Framebuffers"] = std::make_shared<UIFramebuffers>();
     interfaces["Shadowing"] = std::make_shared<UIShadowingOptions>();
     interfaces["Voxelization"] = std::make_shared<UIVoxelizationOptions>();

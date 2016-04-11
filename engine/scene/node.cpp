@@ -39,11 +39,11 @@ void Node::BuildDrawList(std::vector<Node *> &base)
     }
 }
 
-void Node::DrawMeshes()
+void Node::DrawMeshes() const
 {
     static const auto &renderer = Renderer::Active();
 
-    for (auto &mesh : meshes)
+    for (const auto &mesh : meshes)
     {
         if (!mesh->IsLoaded()) { return; }
 
@@ -82,9 +82,14 @@ void Node::BuildDrawList()
     BuildDrawList(drawList);
 }
 
-const glm::mat4 Node::InverseTranspose() const
+const glm::mat4 &Node::InverseTranspose() const
 {
     return inverseTransposeModel;
+}
+
+const std::vector<Node *> &Node::DrawListNodes() const
+{
+    return drawList;
 }
 
 void Node::TransformBoundaries()

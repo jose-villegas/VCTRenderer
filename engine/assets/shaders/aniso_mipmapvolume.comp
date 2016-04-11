@@ -38,7 +38,6 @@ void main()
 	// fetch values
 	vec4 values[8];
 	FetchTexels(sourcePos, values);
-
 	// x -
 	if(writeDirection == 0)
 		imageStore(voxelMipmapDst, writePos, 

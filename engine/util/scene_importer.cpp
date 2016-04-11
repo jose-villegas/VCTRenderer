@@ -29,8 +29,7 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene)
 {
     Assimp::Importer importer;
     const aiScene * mScene = importer.ReadFile(filepath,
-                             aiProcessPreset_TargetRealtime_MaxQuality |
-                             aiProcess_OptimizeGraph);
+                             aiProcessPreset_TargetRealtime_MaxQuality);
 
     if (!mScene)
     {

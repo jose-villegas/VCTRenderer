@@ -44,19 +44,23 @@ void ShadowMapRenderer::Render()
     // initially assign invalid direction
     static auto direction = glm::vec3(0);
     static auto &changes = Transform::TransformChangedMap();
-    auto updateShadowmap = false;
+    static auto updateShadowmap = true;
 
     for (auto &c : changes)
     {
-        if (c.first != camera)
+        auto &type = typeid(*c.first);
+
+        if (type == typeid(Node))
         {
-            updateShadowmap = true;
-            break;
+            updateShadowmap = true; break;
         }
     }
 
+    if (direction != -shadowCaster->Direction()) { updateShadowmap = true; }
+
     if (!updateShadowmap) { return; }
 
+    updateShadowmap = false;
     direction = -shadowCaster->Direction();
     // update shadow map
     SetAsActive();

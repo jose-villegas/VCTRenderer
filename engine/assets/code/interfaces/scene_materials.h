@@ -6,7 +6,16 @@ class UISceneMaterials : public Interface
     protected:
         void Draw() override;
     public:
-        UISceneMaterials();
-        ~UISceneMaterials();
+        UISceneMaterials() = default;
+        ~UISceneMaterials() = default;
+};
+
+class UISceneNodes : public Interface
+{
+    protected:
+        void Draw() override;
+    public:
+        UISceneNodes() = default;
+        ~UISceneNodes() = default;
 };
 

@@ -18,6 +18,7 @@ class UIMainMenu : public Interface
         static bool drawVoxelizationOptions;
         static bool drawGIOptions;
         static bool drawSceneMaterials;
+        static bool drawSceneNodes;
         UIMainMenu();
         ~UIMainMenu() override;
 };

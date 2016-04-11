@@ -101,11 +101,11 @@ class VoxelizerRenderer : public Renderer
         std::array<glm::mat4x4, 3> viewProjectionMatrixI;
 
         unsigned int volumeDimension;
-        int framestep;
         unsigned int drawMipLevel;
         unsigned int drawDirection;
-        float volumeGridSize;
-        float voxelSize;
         unsigned int voxelCount;
         bool injectFirstBounce;
+        float volumeGridSize;
+        float voxelSize;
+        int framestep;
 };

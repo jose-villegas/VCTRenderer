@@ -29,13 +29,14 @@ class Node : public SceneObject
         virtual ~Node();
         void DrawList();
         void BuildDrawList();
-        const glm::mat4 InverseTranspose() const;
+        const glm::mat4 &InverseTranspose() const;
+        const std::vector<Node *> &DrawListNodes() const;
     private:
         glm::mat4 inverseTransposeModel;
         std::vector<Node *> drawList;
         void BuildDrawList(std::vector<Node *> &base);
         // call drawElements per mesh
-        void DrawMeshes();
+        void DrawMeshes() const;
         void TransformBoundaries();
 };
 

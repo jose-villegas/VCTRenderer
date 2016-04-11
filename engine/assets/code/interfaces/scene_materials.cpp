@@ -38,7 +38,7 @@ void UISceneMaterials::Draw()
     PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
     Columns(2);
 
-    for (int i = 0; i < scene->materials.size(); i++)
+    for (auto i = 0; i < scene->materials.size(); i++)
     {
         auto &current = scene->materials[i];
         PushID(i);
@@ -101,9 +101,88 @@ void UISceneMaterials::Draw()
     End();
 }
 
-UISceneMaterials::UISceneMaterials()
+void UISceneNodes::Draw()
 {
-}
-UISceneMaterials::~UISceneMaterials()
-{
+    if (!UIMainMenu::drawSceneNodes) { return; }
+
+    static auto scene = static_cast<Scene *>(nullptr);
+    static auto node = static_cast<Node *>(nullptr);
+    // control variables
+    static auto selected = -1;
+    static glm::vec3 position;
+    static glm::vec3 rotation;
+    static glm::vec3 scale;
+    static std::vector<char> name;
+
+    // active scene changed
+    if (scene != Scene::Active().get())
+    {
+        scene = Scene::Active().get();
+        selected = -1;
+        node = nullptr;
+    }
+
+    // no active scene
+    if (!scene) { return; }
+
+    // begin editor
+    Begin("Nodes", &UIMainMenu::drawSceneNodes);
+    PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+    Columns(2);
+
+    for (auto i = 0; i < scene->rootNode->DrawListNodes().size(); i++)
+    {
+        auto &current = scene->rootNode->DrawListNodes()[i];
+        PushID(i);
+        BeginGroup();
+
+        // selected becomes the clicked selectable
+        if (Selectable(current->name.c_str(), i == selected))
+        {
+            selected = i;
+            node = current;
+            position = node->Position();
+            rotation = degrees(node->Angles());
+            scale = node->Scale();
+            // copy name to a standard vector
+            name.clear();
+            copy(node->name.begin(), node->name.end(), back_inserter(name));
+            name.push_back('\0');
+        }
+
+        EndGroup();
+        PopID();
+    }
+
+    NextColumn();
+
+    if (selected >= 0 && node != nullptr)
+    {
+        if (InputText("Name", name.data(), name.size()))
+        {
+            node->name = std::string(name.data());
+        }
+
+        if (DragFloat3("Position", value_ptr(position)))
+        {
+            node->Position(position);
+        }
+
+        if (DragFloat3("Rotation", value_ptr(rotation)))
+        {
+            node->Rotation(radians(rotation));
+        }
+
+        if (DragFloat3("Scale", value_ptr(scale)))
+        {
+            node->Scale(scale);
+        }
+    }
+    else
+    {
+        Text("No Node Selected");
+    }
+
+    PopStyleVar();
+    End();
 }

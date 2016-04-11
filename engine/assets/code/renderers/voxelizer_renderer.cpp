@@ -147,6 +147,7 @@ void VoxelizerRenderer::VoxelizeScene()
     voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    voxelPropagation.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // bind the volume texture to be writen in shaders
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
