@@ -263,42 +263,6 @@ void VoxelizerRenderer::InjectRadiance()
     gl.MemoryBarrier(shImage | texFetch);
 }
 
-void VoxelizerRenderer::GenerateMipmapVolume()
-{
-    static oglplus::Context gl;
-    static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
-                          (oglplus::MemoryBarrierBit::ShaderImageAccess);
-    static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
-                           (oglplus::MemoryBarrierBit::TextureFetch);
-    static auto &volumeProg = MipMappingVolumeShader();
-    // from first mip level to the rest aniso mipmapping
-    CurrentProgram<MipmappingVolumeProgram>(volumeProg);
-    // bind source texture
-    voxelTexMipmap.Active(0);
-    voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);
-    // setup current mip level uniforms
-    auto mipDimension = volumeDimension / 4;
-    auto mipLevel = 0;
-
-    while(mipDimension >= 1)
-    {
-        volumeProg.mipDimension.Set(mipDimension);
-        volumeProg.mipLevel.Set(mipLevel);
-        // bind for writing at mip level
-        voxelTexMipmap.BindImage(1, mipLevel + 1, true, 0,
-                                 oglplus::AccessSpecifier::WriteOnly,
-                                 oglplus::ImageUnitFormat::RGBA8);
-        auto workGroups = static_cast<unsigned>(glm::ceil(mipDimension / 8.0f));
-        // mipmap from mip level
-        gl.DispatchCompute(workGroups, workGroups, workGroups);
-        // mipmap radiance resulting volume
-        gl.MemoryBarrier(shImage | texFetch);
-        // down a mip level
-        mipLevel++;
-        mipDimension /= 2;
-    }
-}
-
 void VoxelizerRenderer::GenerateMipmap()
 {
     GenerateMipmapBase(voxelRadiance);
@@ -360,11 +324,48 @@ void VoxelizerRenderer::GenerateMipmapBase(oglplus::Texture &baseTexture)
     baseTexture.Bind(oglplus::TextureTarget::_3D);
     voxelTexMipmap.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                              oglplus::ImageUnitFormat::RGBA8);
-    auto workGroups = static_cast<unsigned>(glm::ceil(halfDimension / 8.0f));
     // mipmap from base texture
-    gl.DispatchCompute(workGroups, workGroups, workGroups);
+    gl.DispatchCompute(halfDimension * 6 / 16,
+                       halfDimension / 8,
+                       halfDimension / 8);
     // mipmap radiance resulting volume
     gl.MemoryBarrier(shImage | texFetch);
+}
+
+void VoxelizerRenderer::GenerateMipmapVolume()
+{
+    static oglplus::Context gl;
+    static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                          (oglplus::MemoryBarrierBit::ShaderImageAccess);
+    static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                           (oglplus::MemoryBarrierBit::TextureFetch);
+    static auto &volumeProg = MipMappingVolumeShader();
+    // from first mip level to the rest aniso mipmapping
+    CurrentProgram<MipmappingVolumeProgram>(volumeProg);
+    // bind source texture
+    voxelTexMipmap.Active(0);
+    voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);
+    // setup current mip level uniforms
+    auto mipDimension = volumeDimension / 4;
+    auto mipLevel = 0;
+
+    while (mipDimension >= 1)
+    {
+        volumeProg.mipDimension.Set(mipDimension);
+        volumeProg.mipLevel.Set(mipLevel);
+        // bind for writing at mip level
+        voxelTexMipmap.BindImage(1, mipLevel + 1, true, 0,
+                                 oglplus::AccessSpecifier::WriteOnly,
+                                 oglplus::ImageUnitFormat::RGBA8);
+        auto workGroups = static_cast<unsigned>(glm::ceil(mipDimension / 8.0f));
+        // mipmap from mip level
+        gl.DispatchCompute(workGroups, workGroups, workGroups);
+        // mipmap radiance resulting volume
+        gl.MemoryBarrier(shImage | texFetch);
+        // down a mip level
+        mipLevel++;
+        mipDimension /= 2;
+    }
 }
 
 void VoxelizerRenderer::DrawVoxels()
@@ -524,68 +525,6 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
                            dimension * 3, dimension / 2, dimension / 2, 0,
                            PixelDataFormat::RGBA, PixelDataType::UnsignedByte, nullptr);
     voxelTexMipmap.GenerateMipmap(TextureTarget::_3D);
-}
-
-void VoxelizerRenderer::SparseVolumeTexture(oglplus::Texture &tex,
-        const unsigned int &dimension) const
-{
-    using namespace oglplus;
-    static Context gl;
-    auto id = GetName(tex);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_3D, id);
-    glTextureParameteri(id, GL_TEXTURE_SWIZZLE_R, GL_RED);
-    glTextureParameteri(id, GL_TEXTURE_SWIZZLE_G, GL_GREEN);
-    glTextureParameteri(id, GL_TEXTURE_SWIZZLE_B, GL_BLUE);
-    glTextureParameteri(id, GL_TEXTURE_SWIZZLE_A, GL_ALPHA);
-    glTextureParameteri(id, GL_TEXTURE_BASE_LEVEL, 0);
-    glTextureParameteri(id, GL_TEXTURE_MAX_LEVEL, 0);
-    glTextureParameteri(id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureParameteri(id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureParameteri(id, GL_TEXTURE_SPARSE_ARB, GL_TRUE);
-    glTextureStorage3D(id, 1, GL_RGBA8, dimension, dimension, dimension);
-    // page commits
-    /* glm::ivec3 pageSize;
-     glGetInternalformativ(GL_TEXTURE_3D, GL_RGBA8, GL_VIRTUAL_PAGE_SIZE_X_ARB,
-                           1, &pageSize.x);
-     glGetInternalformativ(GL_TEXTURE_3D, GL_RGBA8, GL_VIRTUAL_PAGE_SIZE_Y_ARB,
-                           1, &pageSize.y);
-     glGetInternalformativ(GL_TEXTURE_3D, GL_RGBA8, GL_VIRTUAL_PAGE_SIZE_Z_ARB,
-                           1, &pageSize.z);
-     std::vector<glm::u8vec4> Page;
-     Page.resize(static_cast<size_t>(pageSize.x * pageSize.y * pageSize.z));
-     GLint Page3DSizeX(0);
-     GLint Page3DSizeY(0);
-     GLint Page3DSizeZ(0);
-     glGetInternalformativ(GL_TEXTURE_3D, GL_RGBA32F, GL_VIRTUAL_PAGE_SIZE_X_ARB, 1,
-                           &Page3DSizeX);
-     glGetInternalformativ(GL_TEXTURE_3D, GL_RGBA32F, GL_VIRTUAL_PAGE_SIZE_Y_ARB, 1,
-                           &Page3DSizeY);
-     glGetInternalformativ(GL_TEXTURE_3D, GL_RGBA32F, GL_VIRTUAL_PAGE_SIZE_Z_ARB, 1,
-                           &Page3DSizeZ);
-     GLsizei TileCountY = dimension / pageSize.y;
-     GLsizei TileCountX = dimension / pageSize.x;
-     GLsizei TileCountZ = dimension / pageSize.z;
-
-     for (GLsizei k = 0; k < TileCountZ; ++k)
-     {
-         for (GLsizei j = 0; j < TileCountY; ++j)
-         {
-             for (GLsizei i = 0; i < TileCountX; ++i)
-             {
-                 glTexturePageCommitmentEXT
-                 (
-                     id, 0, static_cast<GLsizei>(pageSize.x) * i,
-                     static_cast<GLsizei>(pageSize.y) * j,
-                     static_cast<GLsizei>(pageSize.z) * k,
-                     static_cast<GLsizei>(pageSize.x),
-                     static_cast<GLsizei>(pageSize.y),
-                     static_cast<GLsizei>(pageSize.z),
-                     GL_TRUE
-                 );
-             }
-         }
-     }*/
 }
 
 void VoxelizerRenderer::RevoxelizeScene()
