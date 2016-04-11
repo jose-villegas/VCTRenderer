@@ -39,7 +39,6 @@ class InjectRadianceProgram : public ProgramShader
         oglplus::Uniform<float> voxelSize;
         oglplus::Uniform<glm::vec3> worldMinPoint;
         oglplus::Uniform<unsigned int> shadowMapping;
-        oglplus::Uniform<unsigned int> writingLowerMip;
         void ExtractUniforms() override;
         InjectRadianceProgram();
         ~InjectRadianceProgram();

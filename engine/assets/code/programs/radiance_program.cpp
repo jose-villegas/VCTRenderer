@@ -84,9 +84,6 @@ void InjectRadianceProgram::ExtractUniforms()
         light.angleInnerCone.BindTo("spotLight[" + index + "].angleInnerCone");
         light.angleOuterCone.BindTo("spotLight[" + index + "].angleOuterCone");
     }
-
-    writingLowerMip.Assign(program);
-    writingLowerMip.BindTo("writingLowerMip");
 }
 
 InjectRadianceProgram::InjectRadianceProgram()

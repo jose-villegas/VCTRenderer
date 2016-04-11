@@ -3,8 +3,8 @@
 
 layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
-layout(binding = 0, rgba8) uniform image3D voxelAlbedo;
-layout(binding = 1, rgba8) uniform image3D voxelNormal;
+layout(binding = 0, rgba8) uniform sampler3D voxelAlbedo;
+layout(binding = 1, rgba8) uniform sampler3D voxelNormal;
 layout(binding = 2, rgba8) uniform writeonly image3D voxelRadiance;
 
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
@@ -40,7 +40,6 @@ uniform vec3 worldMinPoint;
 
 uniform sampler2D shadowMap;
 uniform uint shadowMapping = 1;
-uniform uint writingLowerMip = 0;
 
 float linstep(float low, float high, float value)
 {
@@ -232,51 +231,26 @@ vec4 Downsample(layout(rgba8) image3D source, ivec3 pos)
 
 void main()
 {
-	ivec3 volumeDimension = ivec3(imageSize(voxelRadiance));
+	uvec3 volumeDimension = imageSize(voxelRadiance);
 
 	if(gl_GlobalInvocationID.x >= volumeDimension.z ||
 		gl_GlobalInvocationID.y >= volumeDimension.z ||
 		gl_GlobalInvocationID.z >= volumeDimension.z) return;
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
+    vec3 samplePos = vec3(writePos) / volumeDimension.z;
+	vec4 albedo = texture(voxelAlbedo, samplePos);
 
-	if(writingLowerMip == 0)
-	{
-		// get r32ui encoded value
-		vec4 albedo = imageLoad(voxelAlbedo, writePos);
-		// empty voxel
-		if(albedo.a <= 0.001f) { return; }
+	// empty voxel
+	if(albedo.a <= 0.001f) { return; }
 
-		vec4 normal = imageLoad(voxelNormal, writePos);
-		// normal is stored in 0-1 range, restore to -1-1
-		normal = normalize(normal * 2.0f - 1.0f);
-		// obtain world-space position of the current voxel
-		vec3 wsPosition = VoxelToWorld(writePos);
-		// calculate direct lighting onto voxel
-		albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
-		albedo.a = 1.0f;
-
-		imageStore(voxelRadiance, writePos, albedo);
-	}
-	else if(writingLowerMip == 1)
-	{
-		ivec3 sourcePos = writePos * 2;
-		vec4 albedo = Downsample(voxelAlbedo, sourcePos);
-		vec4 normal = Downsample(voxelNormal, sourcePos);
-
-		if(albedo.a <= 0.001f) { return; }
-		// normal is stored in 0-1 range, restore to -1-1
-		normal = normalize(normal * 2.0f - 1.0f);
-		// obtain world-space position of the current voxel
-		vec3 wsPosition = VoxelToWorld(sourcePos);
-		// calculate direct lighting onto voxel
-		albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
-		albedo.a = 1.0f;
-
-		for(int i = 0; i < 6; i++)
-		{
-			imageStore(voxelRadiance, writePos, albedo);
-			writePos.x += volumeDimension.z;
-		}
-	}
+	vec4 normal = texture(voxelNormal, samplePos);
+	// normal is stored in 0-1 range, restore to -1-1
+	normal = normalize(normal * 2.0f - 1.0f);
+	// obtain world-space position of the current voxel
+	vec3 wsPosition = VoxelToWorld(writePos);
+	// calculate direct lighting onto voxel
+	albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
+	albedo.a = 1.0f;
+	imageStore(voxelRadiance, writePos, albedo);
 }

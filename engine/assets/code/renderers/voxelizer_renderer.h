@@ -51,7 +51,7 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         ~VoxelizerRenderer();
         const unsigned int &VolumeDimension() const;
-        oglplus::Texture &VoxelTexture();
+        oglplus::Texture &VoxelRadiance();
         oglplus::Texture &VoxelTextureMipmap();
         const float &VoxelWorldSize() const;
         const float &VolumeGridSize() const;
@@ -87,21 +87,21 @@ class VoxelizerRenderer : public Renderer
         void GenerateMipmapBase(oglplus::Texture &baseTexture);
         void SparseVolumeTexture(oglplus::Texture &tex,
                                  const unsigned int &dimension) const;
-
         /// <summary>
         /// Draws the resulting voxels.
         /// </summary>
         void DrawVoxels();
         // output textures
-        oglplus::Texture voxelTex;
-        oglplus::Texture voxelTexMipmap;
+        oglplus::Texture voxelAlbedo;
         oglplus::Texture voxelNormal;
-
+        oglplus::Texture voxelRadiance;
+        oglplus::Texture voxelPropagation;
+        oglplus::Texture voxelTexMipmap;
         // vertex buffer object for 3d texture visualization
         oglplus::VertexArray voxelDrawerArray;
-
         std::array<glm::mat4x4, 3> viewProjectionMatrix;
         std::array<glm::mat4x4, 3> viewProjectionMatrixI;
+
         unsigned int volumeDimension;
         int framestep;
         unsigned int drawMipLevel;
