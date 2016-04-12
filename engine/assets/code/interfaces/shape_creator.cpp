@@ -44,6 +44,7 @@ void UIShapeCreator::Draw()
     static glm::vec3 ambient;
     static glm::vec3 specular;
     static glm::vec3 diffuse;
+    static glm::vec3 emissive;
     static float shininess;
     static std::map<Scene *, std::vector<Node *>> addedNodes;
     static std::map<Node *, bool> customMat;
@@ -111,6 +112,7 @@ void UIShapeCreator::Draw()
             diffuse = material->Diffuse();
             specular = material->Specular();
             shininess = material->Shininess();
+            emissive = material->Emissive();
         }
 
         EndGroup();
@@ -177,6 +179,12 @@ void UIShapeCreator::Draw()
             voxel.RevoxelizeScene();
         }
 
+        if (ColorEdit3("Emissive", value_ptr(emissive)))
+        {
+            material->Emissive(emissive);
+            voxel.RevoxelizeScene();
+        }
+
         if (Button("Delete Shape"))
         {
             auto itScene = find_if(scene->rootNode->nodes.begin(),
@@ -215,6 +223,7 @@ void UIShapeCreator::Draw()
                 }
             }
 
+            voxel.RevoxelizeScene();
             selected = -1;
             node = nullptr;
         }

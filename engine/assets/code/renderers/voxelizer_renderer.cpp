@@ -92,6 +92,7 @@ void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
     using namespace oglplus;
     auto &prog = CurrentProgram<VoxelizationProgram>();
     prog.material.diffuse.Set(material.Diffuse());
+    prog.material.emissive.Set(material.Emissive());
     // set textures
     Texture::Active(RawTexture::Diffuse);
     material.BindTexture(RawTexture::Diffuse);
@@ -153,6 +154,8 @@ void VoxelizerRenderer::VoxelizeScene()
                           oglplus::ImageUnitFormat::R32UI);
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
+    voxelPropagation.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                               oglplus::ImageUnitFormat::RGBA8);
     // draw scene triangles
     scene->rootNode->DrawList();
     // sync barrier
@@ -258,6 +261,8 @@ void VoxelizerRenderer::InjectRadiance()
                           oglplus::ImageUnitFormat::RGBA8);;
     voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                             oglplus::ImageUnitFormat::RGBA8);
+    voxelPropagation.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                               oglplus::ImageUnitFormat::RGBA8);
     auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
     // inject radiance at level 0 of texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);

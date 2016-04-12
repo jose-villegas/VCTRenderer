@@ -15,10 +15,12 @@ layout (pixel_center_integer) in vec4 gl_FragCoord;
 
 layout(binding = 0, r32ui) uniform volatile coherent uimage3D voxelAlbedo;
 layout(binding = 1, r32ui) uniform volatile coherent uimage3D voxelNormal;
+layout(binding = 2, rgba8) uniform volatile coherent image3D voxelEmission;
 
 uniform struct Material
 {
     vec3 diffuse;
+    vec3 emissive;
 } material;
 
 uniform sampler2D diffuseMap;
@@ -88,6 +90,8 @@ void main()
             imageAtomicRGBA8Avg(voxelNormal, position, normal);
             // average albedo per fragments sorrounding the voxel volume
             imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
+            // store emissive, no average operation since emissive is a single color
+            imageStore(voxelEmission, position, vec4(material.emissive, 1.0f));
         }
     }
 }

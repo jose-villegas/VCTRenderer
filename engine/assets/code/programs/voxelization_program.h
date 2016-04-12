@@ -10,6 +10,7 @@ class VoxelizationProgram : public ProgramShader
         struct UniformMaterial
         {
             oglplus::Uniform<glm::vec3> diffuse;
+            oglplus::Uniform<glm::vec3> emissive;
         };
         struct UniformMatrices
         {

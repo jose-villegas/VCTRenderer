@@ -24,6 +24,7 @@ void UISceneMaterials::Draw()
     static glm::vec3 ambient;
     static glm::vec3 specular;
     static glm::vec3 diffuse;
+    static glm::vec3 emissive;
     static float shininess;
     static std::vector<char> name;
 
@@ -57,6 +58,7 @@ void UISceneMaterials::Draw()
             ambient = material->Ambient();
             specular = material->Specular();
             diffuse = material->Diffuse();
+            emissive = material->Emissive();
             shininess = 1.0f - material->Shininess();
             // copy name to a standard vector
             name.clear();
@@ -98,6 +100,12 @@ void UISceneMaterials::Draw()
         if (DragFloat("Shininess", &shininess, 0.001f, 0.0f, 1.0f))
         {
             material->Shininess(1.0f - shininess);
+            voxel.RevoxelizeScene();
+        }
+
+        if (ColorEdit3("Emissive", value_ptr(emissive)))
+        {
+            material->Emissive(emissive);
             voxel.RevoxelizeScene();
         }
     }
