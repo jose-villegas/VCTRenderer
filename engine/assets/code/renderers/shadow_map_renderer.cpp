@@ -87,6 +87,9 @@ void ShadowMapRenderer::Render()
     lightView.Projection(Camera::ProjectionMode::Orthographic);
     lightView.transform.Position(center - direction * radius);
     lightView.transform.Forward(direction);
+    // update lightview matrix
+    LightSpaceMatrix();
+    // uniforms
     prog.exponents.Set(exponents);
     // draw whole scene tree from root node
     scene->rootNode->DrawList();
@@ -126,7 +129,13 @@ const glm::mat4x4 &ShadowMapRenderer::LightSpaceMatrix()
                                 0.0, 0.5, 0.0, 0.0,
                                 0.0, 0.0, 0.5, 0.0,
                                 0.5, 0.5, 0.5, 1.0);
-    return lightSpaceMatrix = biasMatrix * lightView.ViewProjectionMatrix();
+
+    if(lightView.TransformChanged())
+    {
+        return lightSpaceMatrix = biasMatrix * lightView.ViewProjectionMatrix();
+    }
+
+    return lightSpaceMatrix;
 }
 
 void ShadowMapRenderer::BindReading(unsigned unit) const

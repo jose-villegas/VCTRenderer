@@ -21,10 +21,10 @@ DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
     // create textures and attachments for framebuffer in deferredhandler
     SetupGeometryBuffer(Window().Info().width, Window().Info().height);
     // initial values
-    maxTracingDistance = 1.0f;
-    globalIlluminationStrength = 1.0f;
+    maxTracingDistance = 0.95f;
+    globalIlluminationStrength = 2.0f;
     ambientOcclusionFalloff = 800.0f;
-    ambientOcclusionAlpha = 0.01f;
+    ambientOcclusionAlpha = 0.0f;
     renderMode = 0;
     fsQuad.Load();
 }
@@ -92,6 +92,7 @@ const
     auto &prog = CurrentProgram<GeometryProgram>();
     prog.material.diffuse.Set(material.Diffuse());
     prog.material.specular.Set(material.Specular());
+    prog.material.emissive.Set(material.Emissive());
     prog.material.shininess.Set(material.Shininess());
     prog.material.useNormalsMap.Set(material.HasTexture(RawTexture::Normals));
     // set textures
@@ -237,8 +238,9 @@ void DeferredRenderer::SetLightPassUniforms() const
     }
 
     // pass shadowing parameters
-    auto &shadowing = *static_cast<ShadowMapRenderer *>(AssetsManager::Instance()
-                      ->renderers["Shadowmapping"].get());
+    static auto &shadowing = *static_cast<ShadowMapRenderer *>
+                             (AssetsManager::Instance()
+                              ->renderers["Shadowmapping"].get());
 
     if(shadowing.Caster() != nullptr)
     {
@@ -249,8 +251,8 @@ void DeferredRenderer::SetLightPassUniforms() const
         prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
     }
 
-    auto &voxel = *static_cast<VoxelizerRenderer *>(AssetsManager::Instance()
-                  ->renderers["Voxelizer"].get());
+    static auto &voxel = *static_cast<VoxelizerRenderer *>(AssetsManager::Instance()
+                         ->renderers["Voxelizer"].get());
     prog.volumeDimension.Set(voxel.VolumeDimension());
     prog.voxelScale.Set(1.0f / voxel.VolumeGridSize());
     prog.worldMinPoint.Set(scene->rootNode->boundaries.MinPoint());

@@ -402,6 +402,9 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specu
     // calculate directional lighting
     vec3 directLighting = vec3(0.0f);
 
+    // reserved for emissive materials
+    if(specular.a == 0.0f) { return albedo; }
+
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
     {
@@ -441,11 +444,11 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     vec4 diffuseTrace = vec4(0.0f);
 
     // component greater than zero
-    if(any(greaterThan(specular.rgb, specularTrace.rgb)))
+    if(any(greaterThan(specular.rgb, specularTrace.rgb)) && specular.a > 0.0f)
     {
         // specular cone setup
         float aperture = radians(clamp(specular.a * 0.000244140625f, 0.0f, 1.0f));
-        aperture = sin(acos(0.11f / (PI * aperture + 0.11f)));
+        aperture = sin(acos(0.11f / (aperture + 0.11f)));
         specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
         specularTrace.rgb *= specular.rgb;
     }

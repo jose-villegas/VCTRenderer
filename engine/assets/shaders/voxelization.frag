@@ -91,7 +91,10 @@ void main()
             // average albedo per fragments sorrounding the voxel volume
             imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
             // store emissive, no average operation since emissive is a single color
-            imageStore(voxelEmission, position, vec4(material.emissive, 0.0f));
+            if(any(greaterThan(material.emissive, vec3(0.0f))))
+            {
+                imageStore(voxelEmission, position, vec4(material.emissive, 1.0f));
+            }
         }
     }
 }

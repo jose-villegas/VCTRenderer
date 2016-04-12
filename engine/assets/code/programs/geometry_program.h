@@ -18,6 +18,7 @@ class GeometryProgram : public ProgramShader
             oglplus::Uniform<glm::vec3> ambient;
             oglplus::Uniform<glm::vec3> diffuse;
             oglplus::Uniform<glm::vec3> specular;
+            oglplus::Uniform<glm::vec3> emissive;
             oglplus::Uniform<float> shininess;
             oglplus::Uniform<unsigned int> useNormalsMap;
         };

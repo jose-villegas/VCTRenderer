@@ -10,6 +10,7 @@ void GeometryProgram::ExtractUniforms()
     material.diffuse.Assign(program);
     material.specular.Assign(program);
     material.shininess.Assign(program);
+    material.emissive.Assign(program);
     material.useNormalsMap.Assign(program);
     diffuseMap.Assign(program);
     specularMap.Assign(program);
@@ -20,6 +21,7 @@ void GeometryProgram::ExtractUniforms()
     // bind to uniform name
     material.diffuse.BindTo("material.diffuse");
     material.specular.BindTo("material.specular");
+    material.emissive.BindTo("material.emissive");
     material.shininess.BindTo("material.shininess");
     material.useNormalsMap.BindTo("material.useNormalsMap");
     diffuseMap.BindTo("diffuseMap");

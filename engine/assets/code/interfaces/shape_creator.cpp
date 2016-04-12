@@ -111,7 +111,7 @@ void UIShapeCreator::Draw()
             ambient = material->Ambient();
             diffuse = material->Diffuse();
             specular = material->Specular();
-            shininess = material->Shininess();
+            shininess = 1.0f - material->Shininess();
             emissive = material->Emissive();
         }
 

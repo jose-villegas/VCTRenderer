@@ -16,6 +16,7 @@ uniform struct Material
 {
     vec3 diffuse;
     vec3 specular;
+    vec3 emissive;
     float shininess;
     uint useNormalsMap;
 } material;
@@ -45,10 +46,13 @@ void main()
 
     if (diffuseColor.a <= alphaCutoff) { discard; }
 
-    gAlbedo = diffuseColor.rgb * material.diffuse;
+    bool isEmissive = any(greaterThan(material.emissive, vec3(0.0f)));
+
+    gAlbedo = isEmissive ? material.emissive : diffuseColor.rgb * material.diffuse;
     // store specular intensity
     vec4 specularColor = texture(specularMap, texCoord.xy);
-    gSpecular = vec4(specularColor.rgb * material.specular, clamp(material.shininess, 0.0075f, 1.0f));
+    float shininess = isEmissive ? 0.0f : clamp(material.shininess, 0.0045f, 1.0f);
+    gSpecular = vec4(specularColor.rgb * material.specular, shininess);
     // store per fragment normal
     gNormal = material.useNormalsMap == 1 ? normalMapping() : normalize(normal);
 }

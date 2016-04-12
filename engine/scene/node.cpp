@@ -21,7 +21,6 @@ void Node::UpdateTransformMatrix()
 Node::Node()
 {
     name = "Default Node";
-    TransformBoundaries();
     inverseTransposeModel = inverse(transpose(Matrix()));
 }
 
