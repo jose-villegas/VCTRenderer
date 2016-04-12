@@ -76,7 +76,7 @@ void UIShapeCreator::Draw()
           static_cast<int>(shapesNames.size()));
     SameLine();
 
-    if (Button("Create Shape"))
+    if (shapeSelected >= 0 && Button("Create Shape"))
     {
         auto shape = Shapes::GetShape(shapesNames[shapeSelected]);
         scene->rootNode->nodes.push_back(shape);

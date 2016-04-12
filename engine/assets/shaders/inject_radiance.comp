@@ -207,22 +207,23 @@ void main()
 		gl_GlobalInvocationID.z >= volumeDimension.z) return;
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
-	vec4 albedo = imageLoad(voxelAlbedo, writePos);
-
-	// empty voxel
-	if(all(equal(albedo.rgb, vec3(0.0f)))) { return; }
 
     // emission from voxel
     vec4 emission = imageLoad(voxelEmission, writePos);
+    // emission is already stored in voxel radiance, no need to inject diffuse
+    if(any(greaterThan(emission.rgb, vec3(0.0f)))) { return; }
+
+	vec4 albedo = imageLoad(voxelAlbedo, writePos);
+	// empty voxel
+	if(albedo.a == 0.0f) { return; }
+
 	vec4 normal = imageLoad(voxelNormal, writePos);
 	// normal is stored in 0-1 range, restore to -1-1
 	normal = normalize(normal * 2.0f - 1.0f);
 	// obtain world-space position of the current voxel
 	vec3 wsPosition = VoxelToWorld(writePos);
 	// calculate direct lighting onto voxel
-	albedo.rgb = all(equal(emission.rgb, vec3(0.0f)))
-                ? CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb)
-                : emission.rgb;
+	albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
     albedo.a = 1.0f;
 
 	imageStore(voxelRadiance, writePos, albedo);

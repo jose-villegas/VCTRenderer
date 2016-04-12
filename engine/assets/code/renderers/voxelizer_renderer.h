@@ -93,7 +93,6 @@ class VoxelizerRenderer : public Renderer
         oglplus::Texture voxelAlbedo;
         oglplus::Texture voxelNormal;
         oglplus::Texture voxelRadiance;
-        oglplus::Texture voxelPropagation;
         oglplus::Texture voxelTexMipmap;
         // vertex buffer object for 3d texture visualization
         oglplus::VertexArray voxelDrawerArray;
