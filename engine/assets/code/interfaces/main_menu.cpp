@@ -35,7 +35,7 @@ void UIMainMenu::Draw()
             MenuItem("Cameras", nullptr, &drawSceneCameras);
             MenuItem("Lights", nullptr, &drawSceneLights);
             MenuItem("Materials", nullptr, &drawSceneMaterials);
-            MenuItem("Nodes", nullptr, &drawSceneNodes);
+            MenuItem("Shapes", nullptr, &drawSceneNodes);
             EndMenu();
         }
 

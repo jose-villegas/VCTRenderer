@@ -1,9 +1,3 @@
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>
-#include <memory>
-#include <glm/gtc/quaternion.hpp>
-
 #include "scene_importer.h"
 
 #include <GL/glew.h>
@@ -16,6 +10,10 @@
 #include "../scene/light.h"
 #include "../types/vertex.h"
 
+#include <memory>
+#include <glm/gtc/quaternion.hpp>
+
+
 SceneImporter::SceneImporter()
 {
 }
@@ -25,11 +23,11 @@ SceneImporter::~SceneImporter()
 {
 }
 
-bool SceneImporter::Import(const std::string &filepath, Scene * scene)
+bool SceneImporter::Import(const std::string &filepath, Scene * scene,
+                           unsigned flags)
 {
     Assimp::Importer importer;
-    const aiScene * mScene = importer.ReadFile(filepath,
-                             aiProcessPreset_TargetRealtime_MaxQuality);
+    const aiScene * mScene = importer.ReadFile(filepath, flags);
 
     if (!mScene)
     {

@@ -69,8 +69,6 @@ Scene::Scene(std::string filepath): isLoaded(false), isImported(false),
     // insert defaults
     this->cameras.push_back(std::make_shared<Camera>());
     this->lights.push_back(move(ambientLight));
-    // default camera created always as active
-    this->cameras.back()->SetAsActive();
     // create scene root node
     this->rootNode = std::make_shared<Node>();
 }
@@ -109,6 +107,5 @@ void Scene::Load()
 
     if (name.empty()) { name = rootNode->name; }
 
-    cameras.front()->SetAsActive();
     isLoaded = true;
 }

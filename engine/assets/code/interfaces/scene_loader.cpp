@@ -67,6 +67,8 @@ void UISceneLoader::Draw()
                     shadowRender.Caster(l.get());
                 }
             }
+
+            if (scene->cameras.size() > 0) scene->cameras.front()->SetAsActive();
         }
 
         PopItemWidth();

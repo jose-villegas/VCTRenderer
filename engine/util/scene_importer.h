@@ -1,5 +1,8 @@
 #pragma once
 
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
 #include <string>
 
 struct aiLight;
@@ -23,7 +26,9 @@ class SceneImporter
     public:
         SceneImporter();
         virtual ~SceneImporter();
-        static bool Import(const std::string &filepath, Scene * scene) ;
+        static bool Import(const std::string &filepath, Scene * scene, unsigned flags =
+                               aiProcessPreset_TargetRealtime_MaxQuality |
+                               aiProcess_OptimizeGraph);
         // fine imports
         static void ImportMaterial(aiMaterial * mMaterial, Material &material);
         static void ImportMesh(aiMesh * mMesh, Mesh &mesh);

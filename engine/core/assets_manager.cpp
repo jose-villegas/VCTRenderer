@@ -5,6 +5,7 @@
 
 #include "../scene/texture.h"
 #include "../scene/scene.h"
+#include "../rendering/primitives/shapes.h"
 
 // include program shaders
 #include "../assets/code/programs/lighting_program.h"
@@ -27,6 +28,7 @@
 #include "../assets/code/interfaces/voxelization_options.h"
 #include "../assets/code/interfaces/global_illumination_options.h"
 #include "../assets/code/interfaces/scene_materials.h"
+#include "../assets/code/interfaces/shape_creator.h"
 // include behaviors
 // include renderers
 #include "../assets/code/renderers/voxelizer_renderer.h"
@@ -77,7 +79,7 @@ AssetsManager::AssetsManager()
     interfaces["Cameras"] = std::make_shared<UISceneCameras>();
     interfaces["Lights"] = std::make_shared<UISceneLights>();
     interfaces["Materials"] = std::make_shared<UISceneMaterials>();
-    interfaces["Nodes"] = std::make_shared<UISceneNodes>();
+    interfaces["Shapes"] = std::make_shared<UIShapeCreator>();
     interfaces["Framebuffers"] = std::make_shared<UIFramebuffers>();
     interfaces["Shadowing"] = std::make_shared<UIShadowingOptions>();
     interfaces["Voxelization"] = std::make_shared<UIVoxelizationOptions>();
@@ -156,4 +158,7 @@ AssetsManager::~AssetsManager()
     auto dTexture = Texture2D::GetDefaultTexture().release();
 
     if (dTexture != nullptr) { delete dTexture; }
+
+    // shape creator unload
+    Shapes::UnloadShapes();
 }
