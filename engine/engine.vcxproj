@@ -396,6 +396,8 @@
     <None Include="assets\shaders\voxelization.frag" />
     <None Include="assets\shaders\voxelization.geom" />
     <None Include="assets\shaders\voxelization.vert" />
+    <None Include="rendering\primitives\primitives.fbx" />
+    <None Include="rendering\primitives\primitives.mtl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

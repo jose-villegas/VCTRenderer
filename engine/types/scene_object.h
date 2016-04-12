@@ -9,5 +9,7 @@ class SceneObject : public Transform
 
         SceneObject();
         ~SceneObject();
+
+        SceneObject(const SceneObject &obj);  // copy constructor
 };
 

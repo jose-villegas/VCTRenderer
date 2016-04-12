@@ -15,8 +15,8 @@ void Shapes::Load()
         return;
     }
 
-    Scene primitiveScene("rendering\\primitives\\primitives.obj");
-    SceneImporter::Import("rendering\\primitives\\primitives.obj", &primitiveScene,
+    Scene primitiveScene("rendering\\primitives\\primitives.fbx");
+    SceneImporter::Import("rendering\\primitives\\primitives.fbx", &primitiveScene,
                           aiProcessPreset_TargetRealtime_MaxQuality);
 
     for (auto mesh : primitiveScene.meshes)
@@ -52,7 +52,11 @@ std::shared_ptr<Node> Shapes::GetShape(const std::string &name)
 
     auto it = shapes.find(name);
 
-    if (it != shapes.end()) return it->second;
+    if (it != shapes.end())
+    {
+        auto copyNode = std::make_shared<Node>(*it->second);
+        return copyNode;
+    }
 
     return nullptr;
 }

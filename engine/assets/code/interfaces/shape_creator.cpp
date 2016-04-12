@@ -50,6 +50,7 @@ void UIShapeCreator::Draw()
     static std::map<Node *, bool> customMat;
     static auto shapesNames = Shapes::ShapeNameList();
     static int shapeSelected = -1;
+    static std::vector<char> name;
 
     // active scene changed
     if (scene != Scene::Active().get())
@@ -113,6 +114,10 @@ void UIShapeCreator::Draw()
             specular = material->Specular();
             shininess = 1.0f - material->Shininess();
             emissive = material->Emissive();
+            // copy name to a standard vector
+            name.clear();
+            copy(node->name.begin(), node->name.end(), back_inserter(name));
+            name.push_back('\0');
         }
 
         EndGroup();
@@ -123,6 +128,11 @@ void UIShapeCreator::Draw()
 
     if (selected >= 0 && node != nullptr)
     {
+        if (InputText("Name", name.data(), name.size()))
+        {
+            node->name = std::string(name.data());
+        }
+
         if (DragFloat3("Position", value_ptr(position), 0.1f))
         {
             node->Position(position);
