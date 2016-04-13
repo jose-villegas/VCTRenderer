@@ -128,7 +128,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
                     + weight.y * textureLod(voxelTexMipmap[visibleFace.y], samplePos, anisoLevel)
                     + weight.z * textureLod(voxelTexMipmap[visibleFace.z], samplePos, anisoLevel);
 
-       if(mipLevel <= 1.0f)
+       if(mipLevel < 1.0f)
         {
             baseColor = texture(voxelTex, samplePos);
             anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
@@ -167,7 +167,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     float visibility = 0.0f;
     float mipLevel = 0.0f;
     float anisoLevel = 0.0f;
-    float mipMaxLevel = log2(volumeDimension);
+    float mipMaxLevel = log2(volumeDimension) - 1;
     // accumulated sample
     vec4 baseColor = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
@@ -188,7 +188,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
                     + weight.y * textureLod(voxelTexMipmap[visibleFace.y], samplePos, anisoLevel)
                     + weight.z * textureLod(voxelTexMipmap[visibleFace.z], samplePos, anisoLevel);
         
-        if(mipLevel <= 1.0f)
+        if(mipLevel < 1.0f)
         {
             baseColor = texture(voxelTex, samplePos);
             anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
