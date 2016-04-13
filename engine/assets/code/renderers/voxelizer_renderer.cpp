@@ -285,7 +285,7 @@ void VoxelizerRenderer::GenerateMipmap()
         static auto &deferred = *static_cast<DeferredRenderer *>
                                 (assets->renderers["Deferred"].get());
         static auto &proga = InjectPropagationShader();
-        //// inject direct + "first bounce" into voxel texture
+        // inject direct + "first bounce" into voxel texture
         CurrentProgram<PropagationProgram>(proga);
         // tracing limits
         proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
@@ -298,7 +298,7 @@ void VoxelizerRenderer::GenerateMipmap()
         voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                                 oglplus::ImageUnitFormat::RGBA8);
         // base volume - direct light
-        voxelRadiance.Active(2);
+        voxelRadiance.Active(3);
         voxelRadiance.Bind(oglplus::TextureTarget::_3D);
 
         // anisotropic mipmap volume

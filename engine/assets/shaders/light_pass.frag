@@ -105,7 +105,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     // control vars
     float mipLevel = 0.0f;
     float anisoLevel = 0.0f;
-    float mipMaxLevel = log2(volumeDimension) - 1;
+    float mipMaxLevel = log2(volumeDimension) - 1.0f;
     // accumulated sample
     vec4 coneSample = vec4(0.0f);
     vec4 baseColor = vec4(0.0f);
@@ -167,7 +167,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     float visibility = 0.0f;
     float mipLevel = 0.0f;
     float anisoLevel = 0.0f;
-    float mipMaxLevel = log2(volumeDimension) - 1;
+    float mipMaxLevel = log2(volumeDimension) - 1.0f;
     // accumulated sample
     vec4 baseColor = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
