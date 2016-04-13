@@ -3,6 +3,7 @@
 #include "material.h"
 
 #include <glm/detail/func_common.hpp>
+#include <random>
 
 const glm::vec3 &Material::Ambient() const
 {
@@ -124,10 +125,18 @@ bool Material::BindTexture(RawTexture::TextureType texType,
 }
 
 Material::Material() : opacity(1), shininess(0),
-    shininessStrenght(1), refractionIndex(1)
+    shininessStrenght(1), refractionIndex(1.5)
 {
     name = "Default Material";
-    diffuse = specular = ambient = emissive = transparent = glm::vec3(1.0f);
+    std::default_random_engine generator;
+    std::uniform_real_distribution<double> distribution(0.0, 1.0);
+    diffuse = ambient = glm::vec3(distribution(generator),
+                                  distribution(generator),
+                                  distribution(generator));
+    specular = glm::vec3(distribution(generator),
+                         distribution(generator),
+                         distribution(generator));
+    emissive = ambient = transparent = glm::vec3(0.0f);
 }
 
 Material::~Material()
