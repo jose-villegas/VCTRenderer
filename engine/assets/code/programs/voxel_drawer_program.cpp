@@ -5,11 +5,9 @@
 void VoxelDrawerProgram::ExtractUniforms()
 {
     // program owner
-    direction.Assign(program);
     volumeDimension.Assign(program);
     matrices.modelViewProjection.Assign(program);
     // binding point
-    direction.BindTo("direction");
     volumeDimension.BindTo("volumeDimension");
     matrices.modelViewProjection.BindTo("matrices.modelViewProjection");
 }

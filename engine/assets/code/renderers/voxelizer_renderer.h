@@ -52,7 +52,7 @@ class VoxelizerRenderer : public Renderer
         ~VoxelizerRenderer();
         const unsigned int &VolumeDimension() const;
         oglplus::Texture &VoxelRadiance();
-        oglplus::Texture &VoxelTextureMipmap();
+        std::array<oglplus::Texture, 6> &VoxelTextureMipmap();
         const float &VoxelWorldSize() const;
         const float &VolumeGridSize() const;
         bool InjectFirstBounce() const;
@@ -93,7 +93,7 @@ class VoxelizerRenderer : public Renderer
         oglplus::Texture voxelAlbedo;
         oglplus::Texture voxelNormal;
         oglplus::Texture voxelRadiance;
-        oglplus::Texture voxelTexMipmap;
+        std::array<oglplus::Texture, 6> voxelTexMipmap;
         // vertex buffer object for 3d texture visualization
         oglplus::VertexArray voxelDrawerArray;
         std::array<glm::mat4x4, 3> viewProjectionMatrix;

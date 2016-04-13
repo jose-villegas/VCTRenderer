@@ -58,8 +58,6 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<float> lightBleedingReduction;
 
         oglplus::Uniform<int> volumeDimension;
-        oglplus::UniformSampler voxelTex;
-        oglplus::UniformSampler voxelTexMipmap;
         oglplus::Uniform<float> voxelScale;
         oglplus::Uniform<glm::vec3> worldMinPoint;
 

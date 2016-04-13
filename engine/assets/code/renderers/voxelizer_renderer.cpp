@@ -295,14 +295,19 @@ void VoxelizerRenderer::GenerateMipmap()
         // normals
         voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                               oglplus::ImageUnitFormat::RGBA8);
+        voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                                oglplus::ImageUnitFormat::RGBA8);
         // base volume - direct light
         voxelRadiance.Active(2);
         voxelRadiance.Bind(oglplus::TextureTarget::_3D);
+
         // anisotropic mipmap volume
-        voxelTexMipmap.Active(3);
-        voxelTexMipmap.Bind(oglplus::TextureTarget::_3D);
-        voxelRadiance.BindImage(4, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
-                                oglplus::ImageUnitFormat::RGBA8);
+        for (int i = 0; i < voxelTexMipmap.size(); ++i)
+        {
+            voxelTexMipmap[i].Active(4 + i);
+            voxelTexMipmap[i].Bind(oglplus::TextureTarget::_3D);
+        }
+
         // inject at level 0 of textur
         auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
         gl.DispatchCompute(workGroups, workGroups, workGroups);
@@ -329,8 +334,14 @@ void VoxelizerRenderer::GenerateMipmapBase(oglplus::Texture &baseTexture)
     baseProg.mipDimension.Set(halfDimension);
     baseTexture.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                           oglplus::ImageUnitFormat::RGBA8);
-    voxelTexMipmap.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
-                             oglplus::ImageUnitFormat::RGBA8);
+
+    for (int i = 0; i < voxelTexMipmap.size(); ++i)
+    {
+        voxelTexMipmap[i]
+        .BindImage(i + 1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                   oglplus::ImageUnitFormat::RGBA8);
+    }
+
     auto workGroups = static_cast<unsigned int>(ceil(halfDimension / 8));
     // mipmap from base texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
@@ -352,18 +363,23 @@ void VoxelizerRenderer::GenerateMipmapVolume()
     auto mipDimension = volumeDimension / 4;
     auto mipLevel = 0;
 
-    while (mipDimension > 1)
+    while (mipDimension >= 1)
     {
-        auto volumeSize = glm::vec3(mipDimension * 6, mipDimension, mipDimension);
+        auto volumeSize = glm::vec3(mipDimension, mipDimension, mipDimension);
         volumeProg.mipDimension.Set(volumeSize);
+
         // bind for writing at mip level
-        voxelTexMipmap.BindImage(0, mipLevel, true, 0,
-                                 oglplus::AccessSpecifier::ReadOnly,
-                                 oglplus::ImageUnitFormat::RGBA8);
-        voxelTexMipmap.BindImage(1, mipLevel + 1, true, 0,
-                                 oglplus::AccessSpecifier::WriteOnly,
-                                 oglplus::ImageUnitFormat::RGBA8);
-        auto workGroups = static_cast<unsigned>(glm::ceil(mipDimension / 4.0f));
+        for (int i = 0; i < voxelTexMipmap.size(); ++i)
+        {
+            voxelTexMipmap[i].BindImage(i, mipLevel, true, 0,
+                                        oglplus::AccessSpecifier::ReadOnly,
+                                        oglplus::ImageUnitFormat::RGBA8);
+            voxelTexMipmap[i].BindImage(i + 6, mipLevel + 1, true, 0,
+                                        oglplus::AccessSpecifier::WriteOnly,
+                                        oglplus::ImageUnitFormat::RGBA8);
+        }
+
+        auto workGroups = static_cast<unsigned>(glm::ceil(mipDimension / 8.0f));
         // mipmap from mip level
         gl.DispatchCompute(workGroups, workGroups, workGroups);
         // mipmap radiance resulting volume
@@ -407,14 +423,12 @@ void VoxelizerRenderer::DrawVoxels()
     {
         voxelRadiance.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                                 oglplus::ImageUnitFormat::RGBA8);
-        prog.direction.Set(0);
     }
     else
     {
-        voxelTexMipmap.BindImage(0, drawMipLevel - 1, true, 0,
-                                 oglplus::AccessSpecifier::ReadOnly,
-                                 oglplus::ImageUnitFormat::RGBA8);
-        prog.direction.Set(drawDirection);
+        voxelTexMipmap[drawDirection]
+        .BindImage(0, drawMipLevel - 1, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                   oglplus::ImageUnitFormat::RGBA8);
     }
 
     auto model = translate(sceneBox.MinPoint()) * scale(glm::vec3(vSize));
@@ -499,19 +513,25 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
     voxelRadiance.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
                           dimension, dimension, dimension, 0, PixelDataFormat::RGBA,
                           PixelDataType::UnsignedByte, nullptr);
+
     // mip mapping textures per face
-    voxelTexMipmap.Bind(TextureTarget::_3D);
-    voxelTexMipmap.MinFilter(TextureTarget::_3D,
-                             TextureMinFilter::LinearMipmapLinear);
-    voxelTexMipmap.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
-    voxelTexMipmap.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    voxelTexMipmap.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    voxelTexMipmap.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
-    voxelTexMipmap.MaxLevel(TextureTarget::_3D, log2(dimension) - 1.0f);
-    voxelTexMipmap.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
-                           dimension * 3, dimension / 2, dimension / 2, 0,
-                           PixelDataFormat::RGBA, PixelDataType::UnsignedByte, nullptr);
-    voxelTexMipmap.GenerateMipmap(TextureTarget::_3D);
+    for (int i = 0; i < 6; i++)
+    {
+        voxelTexMipmap[i].Bind(TextureTarget::_3D);
+        voxelTexMipmap[i].MinFilter(TextureTarget::_3D,
+                                    TextureMinFilter::LinearMipmapLinear);
+        voxelTexMipmap[i].MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
+        voxelTexMipmap[i].WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
+        voxelTexMipmap[i].WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
+        voxelTexMipmap[i].WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
+        voxelTexMipmap[i].Image3D(TextureTarget::_3D, 0,
+                                  PixelDataInternalFormat::RGBA8,
+                                  dimension / 2, dimension / 2,
+                                  dimension / 2, 0,
+                                  PixelDataFormat::RGBA,
+                                  PixelDataType::UnsignedByte, nullptr);
+        voxelTexMipmap[i].GenerateMipmap(TextureTarget::_3D);
+    }
 }
 
 void VoxelizerRenderer::RevoxelizeScene()
@@ -541,7 +561,7 @@ oglplus::Texture &VoxelizerRenderer::VoxelRadiance()
 {
     return voxelRadiance;
 }
-oglplus::Texture &VoxelizerRenderer::VoxelTextureMipmap()
+std::array<oglplus::Texture, 6> &VoxelizerRenderer::VoxelTextureMipmap()
 {
     return voxelTexMipmap;
 }

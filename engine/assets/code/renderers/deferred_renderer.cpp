@@ -258,10 +258,14 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.worldMinPoint.Set(scene->rootNode->boundaries.MinPoint());
     voxel.VoxelRadiance().Active(7);
     voxel.VoxelRadiance().Bind(oglplus::TextureTarget::_3D);
-    voxel.VoxelTextureMipmap().Active(8);
-    voxel.VoxelTextureMipmap().Bind(oglplus::TextureTarget::_3D);
-    prog.voxelTex.Set(7);
-    prog.voxelTexMipmap.Set(8);
+    auto &mips = voxel.VoxelTextureMipmap();
+
+    for (auto i = 0; i < mips.size(); i++)
+    {
+        mips[0].Active(8 + i);
+        mips[0].Bind(oglplus::TextureTarget::_3D);
+    }
+
     // global illum setup
     prog.maxTracingDistanceGlobal.Set(maxTracingDistance);
     prog.bounceStrength.Set(globalIlluminationStrength);

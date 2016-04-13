@@ -116,10 +116,6 @@ void LightingProgram::ExtractUniforms()
     // voxel volume setup
     volumeDimension.Assign(program);
     volumeDimension.BindTo("volumeDimension");
-    voxelTex.Assign(program);
-    voxelTex.BindTo("voxelTex");
-    voxelTexMipmap.Assign(program);
-    voxelTexMipmap.BindTo("voxelTexMipmap");
     // from world to voxel space
     worldMinPoint.Assign(program);
     worldMinPoint.BindTo("worldMinPoint");
