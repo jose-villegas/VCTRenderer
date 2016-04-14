@@ -9,6 +9,7 @@
 #include "../renderers/shadow_map_renderer.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include "../renderers/voxelizer_renderer.h"
 
 using namespace ImGui;
 
@@ -17,6 +18,8 @@ void UISceneLights::Draw()
     static auto &assets = AssetsManager::Instance();
     static auto shadowing = static_cast<ShadowMapRenderer *>
                             (assets->renderers["Shadowmapping"].get());
+    static auto &voxel = *static_cast<VoxelizerRenderer *>
+                         (assets->renderers["Voxelizer"].get());
     static auto scene = static_cast<Scene *>(nullptr);
     static auto light = static_cast<Light *>(nullptr);
     static auto shadowingMethod = int(0);
@@ -100,7 +103,7 @@ void UISceneLights::Draw()
         {
             if (DragFloat3("Position", value_ptr(position), 0.1f))
             {
-                light->transform.Position(position);
+                light->Position(position);
             }
         }
 
@@ -108,13 +111,14 @@ void UISceneLights::Draw()
         {
             if (DragFloat3("Rotation", value_ptr(angles), 0.1f))
             {
-                light->transform.Rotation(radians(angles));
+                light->Rotation(radians(angles));
             }
         }
 
         if (Combo("Type", reinterpret_cast<int *>(&type), "Directional\0Point\0Spot"))
         {
             light->TypeCollection(type);
+            light->RegisterChange();
         }
 
         if (type == Light::Spot)
@@ -125,12 +129,14 @@ void UISceneLights::Draw()
             if (SliderFloat("Outer", &cone[1], 1.0f, 179.0f))
             {
                 light->AngleOuterCone(glm::radians(cone[1]));
+                light->RegisterChange();
                 cone[0] = glm::min(cone[0], cone[1]);
             }
 
             if (SliderFloat("Inner", &cone[0], 1.0f, cone[1]))
             {
                 light->AngleInnerCone(glm::radians(cone[0]));
+                light->RegisterChange();
             }
 
             Unindent();
@@ -146,18 +152,21 @@ void UISceneLights::Draw()
             {
                 attenuation[0] = glm::max(0.0f, attenuation[0]);
                 light->attenuation.Constant(attenuation[0]);
+                light->RegisterChange();
             }
 
             if (DragFloat("Linear", &attenuation[1], 0.01f))
             {
                 attenuation[1] = glm::max(0.0f, attenuation[1]);
                 light->attenuation.Linear(attenuation[1]);
+                light->RegisterChange();
             }
 
             if (DragFloat("Quadratic", &attenuation[2], 0.01f))
             {
                 attenuation[2] = glm::max(0.0f, attenuation[2]);
                 light->attenuation.Quadratic(attenuation[2]);
+                light->RegisterChange();
             }
 
             Unindent();
@@ -169,21 +178,25 @@ void UISceneLights::Draw()
         if (ColorEdit3("Ambient", value_ptr(color[0])))
         {
             light->Ambient(color[0]);
+            light->RegisterChange();
         }
 
         if (ColorEdit3("Diffuse", value_ptr(color[1])))
         {
             light->Diffuse(color[1]);
+            light->RegisterChange();
         }
 
         if (ColorEdit3("Specular", value_ptr(color[2])))
         {
             light->Specular(color[2]);
+            light->RegisterChange();
         }
 
         if (SliderFloat3("Intensities", value_ptr(intensities), 0.0f, 16.0f))
         {
             light->Intensities(intensities);
+            light->RegisterChange();
         }
 
         Unindent();
@@ -191,6 +204,7 @@ void UISceneLights::Draw()
         if (RadioButton("No Shadows", &shadowingMethod, 0))
         {
             light->mode[0].reset();
+            light->RegisterChange();
 
             if (light == shadowing->Caster()) shadowing->Caster(nullptr);
         }
@@ -201,6 +215,7 @@ void UISceneLights::Draw()
             shadowing->Caster(light);
             light->mode[0].reset();
             light->mode[0].set(0, 1);
+            light->RegisterChange();
 
             // there can be only one with shadow mapping
             for (auto &l : scene->lights)
@@ -216,6 +231,7 @@ void UISceneLights::Draw()
         {
             light->mode[0].reset();
             light->mode[0].set(1, 1);
+            light->RegisterChange();
 
             if (light == shadowing->Caster()) shadowing->Caster(nullptr);
         }
@@ -233,6 +249,7 @@ void UISceneLights::Draw()
             light = nullptr;
             // delete from scene
             scene->lights.erase(scene->lights.begin() + selected);
+            voxel.RevoxelizeScene();
         }
     }
     else
