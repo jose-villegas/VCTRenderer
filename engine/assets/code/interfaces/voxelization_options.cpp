@@ -39,6 +39,7 @@ void UIVoxelizationOptions::Draw()
         if(Combo("Resolution: ", &texRes, sizesStr.data(), sizesStr.size()))
         {
             voxel.SetupVoxelVolumes(sizes[texRes]);
+            voxel.RevoxelizeScene();
         }
 
         static auto updateFrequency = 0;

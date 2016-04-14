@@ -143,7 +143,7 @@ void main()
     vec4 firstBounce = indirectLighting * albedo;
     // first bounce + direct lighting
     vec4 radiance = injectionPass + firstBounce;
-    radiance.a = 1.0f;
+    radiance.a = injectionPass.a;
 
     imageStore(voxelComposite, writePos, clamp(radiance, 0.0f, 1.0f));
 }
