@@ -21,19 +21,19 @@ class RenderWindow;
 /// geometry buffer and handles uniform pass.
 /// </summary>
 /// <seealso cref="DeferredHandler" />
-class DeferredRenderer : public Renderer
+class GIDeferredRenderer : public Renderer
 {
     public:
         /// <summary>
-        /// Initializes a new instance of the <see cref="DeferredRenderer"/>
+        /// Initializes a new instance of the <see cref="GIDeferredRenderer"/>
         /// class.
         /// </summary>
         /// <param name="rWindow">The rendering window.</param>
-        explicit DeferredRenderer(RenderWindow &window);
+        explicit GIDeferredRenderer(RenderWindow &window);
         /// <summary>
-        /// Finalizes an instance of the <see cref="DeferredRenderer"/> class.
+        /// Finalizes an instance of the <see cref="GIDeferredRenderer"/> class.
         /// </summary>
-        ~DeferredRenderer();
+        ~GIDeferredRenderer();
         /// <summary>
         /// Renders a frame using deferred rendering
         /// </summary>

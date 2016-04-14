@@ -3,7 +3,7 @@
 #include <memory>
 
 class RenderWindow;
-class DeferredRenderer;
+class GIDeferredRenderer;
 class AssetsManager;
 
 /// <summary>

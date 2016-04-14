@@ -20,7 +20,7 @@
 #include <oglplus/framebuffer.hpp>
 #include <glm/gtx/transform.hpp>
 #include "../programs/propagation_program.h"
-#include "deferred_renderer.h"
+#include "gi_deferred_renderer.h"
 
 bool VoxelizerRenderer::ShowVoxels = false;
 
@@ -282,7 +282,7 @@ void VoxelizerRenderer::GenerateMipmap()
         static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                                (oglplus::MemoryBarrierBit::TextureFetch);
         static auto &assets = AssetsManager::Instance();
-        static auto &deferred = *static_cast<DeferredRenderer *>
+        static auto &deferred = *static_cast<GIDeferredRenderer *>
                                 (assets->renderers["Deferred"].get());
         static auto &proga = InjectPropagationShader();
         // inject direct + "first bounce" into voxel texture

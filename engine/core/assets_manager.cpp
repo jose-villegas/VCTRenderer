@@ -32,7 +32,7 @@
 // include behaviors
 // include renderers
 #include "../assets/code/renderers/voxelizer_renderer.h"
-#include "../assets/code/renderers/deferred_renderer.h"
+#include "../assets/code/renderers/gi_deferred_renderer.h"
 #include "../assets/code/renderers/shadow_map_renderer.h"
 
 std::unique_ptr<AssetsManager> &AssetsManager::Instance()
@@ -101,7 +101,7 @@ AssetsManager::AssetsManager()
     // instantiate impleted renderers
     renderers["Shadowmapping"] = std::make_shared<ShadowMapRenderer>(window);
     renderers["Voxelizer"]     = std::make_shared<VoxelizerRenderer>(window);
-    renderers["Deferred"]      = std::make_shared<DeferredRenderer>(window);
+    renderers["Deferred"]      = std::make_shared<GIDeferredRenderer>(window);
     // attach shaders, ej: programs[index]->AttachShader();
     programs["Geometry"]->AttachShader(oglplus::ShaderType::Vertex,
                                        "assets\\shaders\\geometry_pass.vert");

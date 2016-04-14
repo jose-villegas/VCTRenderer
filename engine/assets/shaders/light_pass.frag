@@ -269,12 +269,12 @@ float Visibility(vec3 position)
 
 vec3 Ambient(Light light, vec3 albedo)
 {
-    return clamp(albedo * light.ambient, 0.0f, 1.0f);
+    return max(albedo * light.ambient, 0.0f);
 }
 
 vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
 {
-    float lambertian = clamp(dot(normal, lightDirection), 0.0f, 1.0f);
+    float lambertian = max(dot(normal, lightDirection), 0.0f);
     return light.diffuse * albedo * lambertian;
 }
 
@@ -282,7 +282,7 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 {
     vec3 viewDirection = normalize(cameraPosition - position);
     vec3 halfDirection = normalize(lightDirection + viewDirection);
-    float specularFactor = clamp(dot(halfDirection, normal), 0.0f, 1.0f);
+    float specularFactor = max(dot(halfDirection, normal), 0.0f);
     specularFactor = pow(specularFactor, specular.a);
     return light.specular * specular.rgb * specularFactor;
 }
@@ -469,7 +469,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
 
     if(ambientOcclusion) result.a = 1.0f - clamp(diffuseTrace.a, 0.0f, 1.0f);
 
-    return clamp(result, 0.0f, 1.0f);
+    return result;
 }
 
 void main()
@@ -526,5 +526,5 @@ void main()
     compositeLighting = (directLighting + indirectLighting.rgb) * ambientOcclusion;
     compositeLighting.rgb += emissive;
     // final color
-    fragColor = vec4(clamp(compositeLighting, 0.0f, 1.0f), 1.0f);
+    fragColor = vec4(compositeLighting, 1.0f);
 }

@@ -383,7 +383,7 @@ xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Co
     <ClCompile Include="types\bounding_box.cpp" />
     <ClCompile Include="core\assets_manager.cpp" />
     <ClCompile Include="core\engine_base.cpp" />
-    <ClCompile Include="assets\code\renderers\deferred_renderer.cpp" />
+    <ClCompile Include="assets\code\renderers\gi_deferred_renderer.cpp" />
     <ClCompile Include="core\interface.cpp" />
     <ClCompile Include="rendering\render_window.cpp" />
     <ClCompile Include="main.cpp" />
@@ -497,7 +497,7 @@ xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Co
     <ClInclude Include="types\bounding_box.h" />
     <ClInclude Include="core\assets_manager.h" />
     <ClInclude Include="core\engine_base.h" />
-    <ClInclude Include="assets\code\renderers\deferred_renderer.h" />
+    <ClInclude Include="assets\code\renderers\gi_deferred_renderer.h" />
     <ClInclude Include="types\face.h" />
     <ClInclude Include="core\interface.h" />
     <ClInclude Include="rendering\render_window.h" />

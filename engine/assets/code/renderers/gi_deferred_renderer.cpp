@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "deferred_renderer.h"
+#include "gi_deferred_renderer.h"
 
 #include "voxelizer_renderer.h"
 #include "shadow_map_renderer.h"
@@ -16,7 +16,7 @@
 #include <oglplus/bound/texture.hpp>
 #include <oglplus/context.hpp>
 
-DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
+GIDeferredRenderer::GIDeferredRenderer(RenderWindow &window) : Renderer(window)
 {
     // create textures and attachments for framebuffer in deferredhandler
     SetupGeometryBuffer(Window().Info().width, Window().Info().height);
@@ -29,11 +29,11 @@ DeferredRenderer::DeferredRenderer(RenderWindow &window) : Renderer(window)
     fsQuad.Load();
 }
 
-DeferredRenderer::~DeferredRenderer()
+GIDeferredRenderer::~GIDeferredRenderer()
 {
 }
 
-void DeferredRenderer::Render()
+void GIDeferredRenderer::Render()
 {
     using namespace oglplus;
     static Context gl;
@@ -76,7 +76,7 @@ void DeferredRenderer::Render()
     fsQuad.DrawElements();
 }
 
-void DeferredRenderer::SetMatricesUniforms(const Node &node) const
+void GIDeferredRenderer::SetMatricesUniforms(const Node &node) const
 {
     auto &prog = CurrentProgram<GeometryProgram>();
     static auto &camera = Camera::Active();
@@ -85,7 +85,7 @@ void DeferredRenderer::SetMatricesUniforms(const Node &node) const
                                           node.transform.Matrix());
 }
 
-void DeferredRenderer::SetMaterialUniforms(const Material &material)
+void GIDeferredRenderer::SetMaterialUniforms(const Material &material)
 const
 {
     using namespace oglplus;
@@ -107,62 +107,63 @@ const
     prog.normalsMap.Set(RawTexture::Normals);
 }
 
-const std::array<oglplus::Texture, 5> &DeferredRenderer::BufferTextures() const
+const std::array<oglplus::Texture, 5> &GIDeferredRenderer::BufferTextures()
+const
 {
     return bufferTextures;
 }
 
-const float &DeferredRenderer::MaxTracingDistance() const
+const float &GIDeferredRenderer::MaxTracingDistance() const
 {
     return maxTracingDistance;
 }
 
-void DeferredRenderer::MaxTracingDistance(const float &val)
+void GIDeferredRenderer::MaxTracingDistance(const float &val)
 {
     maxTracingDistance = val;
 }
 
-const float &DeferredRenderer::GlobalIlluminationStrength() const
+const float &GIDeferredRenderer::GlobalIlluminationStrength() const
 {
     return globalIlluminationStrength;
 }
 
-void DeferredRenderer::GlobalIlluminationStrength(const float &val)
+void GIDeferredRenderer::GlobalIlluminationStrength(const float &val)
 {
     globalIlluminationStrength = val;
 }
 
-const float &DeferredRenderer::AmbientOclussionFalloff() const
+const float &GIDeferredRenderer::AmbientOclussionFalloff() const
 {
     return ambientOcclusionFalloff;
 }
 
-void DeferredRenderer::AmbientOclussionFalloff(const float &val)
+void GIDeferredRenderer::AmbientOclussionFalloff(const float &val)
 {
     ambientOcclusionFalloff = val;
 }
 
-const float &DeferredRenderer::AmbientOclussionAlpha() const
+const float &GIDeferredRenderer::AmbientOclussionAlpha() const
 {
     return ambientOcclusionAlpha;
 }
 
-void DeferredRenderer::AmbientOclussionAlpha(const float &val)
+void GIDeferredRenderer::AmbientOclussionAlpha(const float &val)
 {
     ambientOcclusionAlpha = val;
 }
 
-const unsigned &DeferredRenderer::RenderMode() const
+const unsigned &GIDeferredRenderer::RenderMode() const
 {
     return renderMode;
 }
 
-void DeferredRenderer::RenderMode(const unsigned &mode)
+void GIDeferredRenderer::RenderMode(const unsigned &mode)
 {
     renderMode = mode;
 }
 
-void DeferredRenderer::SetLightPassUniforms() const
+void GIDeferredRenderer::SetLightPassUniforms() const
 {
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
@@ -269,7 +270,7 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.mode.Set(renderMode);
 }
 
-GeometryProgram &DeferredRenderer::GeometryPass()
+GeometryProgram &GIDeferredRenderer::GeometryPass()
 {
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<GeometryProgram *>
@@ -277,7 +278,7 @@ GeometryProgram &DeferredRenderer::GeometryPass()
     return prog;
 }
 
-LightingProgram &DeferredRenderer::LightingPass()
+LightingProgram &GIDeferredRenderer::LightingPass()
 {
     static auto &assets = AssetsManager::Instance();
     static auto &prog = *static_cast<LightingProgram *>
@@ -285,7 +286,7 @@ LightingProgram &DeferredRenderer::LightingPass()
     return prog;
 }
 
-void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
+void GIDeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
         unsigned windowHeight)
 {
     using namespace oglplus;

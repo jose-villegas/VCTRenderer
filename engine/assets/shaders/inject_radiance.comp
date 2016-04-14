@@ -102,7 +102,7 @@ float Visibility(vec3 position)
 
 vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
 {
-    float lambertian = clamp(dot(normal, lightDirection), 0.0f, 1.0f);
+    float lambertian = max(dot(normal, lightDirection), 0.0f);
     return light.diffuse * albedo * lambertian;
 }
 

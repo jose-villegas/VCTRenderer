@@ -4,7 +4,7 @@
 
 #include "main_menu.h"
 #include "../core/assets_manager.h"
-#include "../renderers/deferred_renderer.h"
+#include "../renderers/gi_deferred_renderer.h"
 #include "../renderers/voxelizer_renderer.h"
 
 #include <string>
@@ -17,7 +17,7 @@ void UIGlobalIllumination::Draw()
     if (!UIMainMenu::drawGIOptions) { return; }
 
     static auto &assets = AssetsManager::Instance();
-    static auto &deferred = *static_cast<DeferredRenderer *>
+    static auto &deferred = *static_cast<GIDeferredRenderer *>
                             (assets->renderers["Deferred"].get());
 
     if (Begin("Global Illumination", &UIMainMenu::drawGIOptions,

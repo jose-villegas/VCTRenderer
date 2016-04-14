@@ -39,7 +39,7 @@ void UIFramebuffers::Draw()
 {
     if (!UIMainMenu::drawFramebuffers) { return; }
 
-    static auto &gbuffer = static_cast<DeferredRenderer *>
+    static auto &gbuffer = static_cast<GIDeferredRenderer *>
                            (AssetsManager::Instance()->renderers
                             ["Deferred"].get())->BufferTextures();
     static auto &shadow = static_cast<ShadowMapRenderer *>
