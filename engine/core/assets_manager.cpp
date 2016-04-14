@@ -17,6 +17,7 @@
 #include "../assets/code/programs/blur_program.h"
 #include "../assets/code/programs/mipmapping_program.h"
 #include "../assets/code/programs/propagation_program.h"
+#include "../assets/code/programs/post_process_program.h"
 // include interfaces
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
@@ -98,6 +99,7 @@ AssetsManager::AssetsManager()
     programs["MipmappingBase"] = std::make_shared<MipmappingBaseProgram>();
     programs["MipmappingVolume"] = std::make_shared<MipmappingVolumeProgram>();
     programs["Blur"] = std::make_shared<BlurProgram>();
+    programs["PostProcess"] = std::make_shared<PostProcessProgram>();
     // instantiate impleted renderers
     renderers["Shadowmapping"] = std::make_shared<ShadowMapRenderer>(window);
     renderers["Voxelizer"]     = std::make_shared<VoxelizerRenderer>(window);
@@ -108,7 +110,7 @@ AssetsManager::AssetsManager()
     programs["Geometry"]->AttachShader(oglplus::ShaderType::Fragment,
                                        "assets\\shaders\\geometry_pass.frag");
     programs["Lighting"]->AttachShader(oglplus::ShaderType::Vertex,
-                                       "assets\\shaders\\light_pass.vert");
+                                       "assets\\shaders\\fs_quad.vert");
     programs["Lighting"]->AttachShader(oglplus::ShaderType::Fragment,
                                        "assets\\shaders\\light_pass.frag");
     programs["Voxelization"]->AttachShader(oglplus::ShaderType::Vertex,
@@ -136,9 +138,13 @@ AssetsManager::AssetsManager()
     programs["MipmappingVolume"]->AttachShader(oglplus::ShaderType::Compute,
             "assets\\shaders\\aniso_mipmapvolume.comp");
     programs["Blur"]->AttachShader(oglplus::ShaderType::Vertex,
-                                   "assets\\shaders\\blur.vert");
+                                   "assets\\shaders\\fs_quad.vert");
     programs["Blur"]->AttachShader(oglplus::ShaderType::Fragment,
                                    "assets\\shaders\\blur.frag");
+    programs["PostProcess"]->AttachShader(oglplus::ShaderType::Vertex,
+                                          "assets\\shaders\\fs_quad.vert");
+    programs["PostProcess"]->AttachShader(oglplus::ShaderType::Fragment,
+                                          "assets\\shaders\\post_procress.frag");
 
     // link and extract uniforms from shaders
     for (auto &prog : programs)

@@ -4,7 +4,7 @@
 #include "framebuffer_textures.h"
 #include "main_menu.h"
 
-#include "../renderers/deferred_renderer.h"\
+#include "../renderers/gi_deferred_renderer.h"
 
 #include "../../../core/assets_manager.h"
 

@@ -1,6 +1,7 @@
 #version 430
 
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor;
+
 in vec2 texCoord;
 
 layout(binding = 0) uniform sampler2D gNormal;
@@ -524,7 +525,12 @@ void main()
     }
 
     compositeLighting = (directLighting + indirectLighting.rgb) * ambientOcclusion;
-    compositeLighting.rgb += emissive;
-    // final color
+    compositeLighting += emissive;
+    // Reinhard tone mapping
+    compositeLighting = compositeLighting / (compositeLighting + vec3(1.0));
+    // gamma correction
+    const float gamma = 2.2;
+    compositeLighting = pow(compositeLighting, vec3(1.0 / gamma));
+
     fragColor = vec4(compositeLighting, 1.0f);
 }
