@@ -91,6 +91,8 @@ void UIShapeCreator::Draw()
         {
             scene->materials.push_back(shape->meshes[0]->material);
         }
+
+        voxel.RevoxelizeScene();
     }
 
     for (auto i = 0; i < addedNodes[scene].size(); i++)
@@ -112,7 +114,7 @@ void UIShapeCreator::Draw()
             ambient = material->Ambient();
             diffuse = material->Diffuse();
             specular = material->Specular();
-            shininess = 1.0f - material->Shininess();
+            shininess = material->Shininess();
             emissive = material->Emissive();
             // copy name to a standard vector
             name.clear();
@@ -162,6 +164,7 @@ void UIShapeCreator::Draw()
             specular = material->Specular();
             shininess = material->Shininess();
             scene->materials.push_back(node->meshes[0]->material);
+            voxel.RevoxelizeScene();
         }
 
         // draw custom material values
@@ -185,7 +188,7 @@ void UIShapeCreator::Draw()
 
         if (DragFloat("Shininess", &shininess, 0.001f, 0.0f, 1.0f))
         {
-            material->Shininess(1.0f - shininess);
+            material->Shininess(shininess);
             voxel.RevoxelizeScene();
         }
 

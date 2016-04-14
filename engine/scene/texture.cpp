@@ -66,13 +66,6 @@ void Texture2D::Load(oglplus::TextureMinFilter minFilter,
     }
 
     this->FreeRawData();
-
-    // gen mipmaps
-    if (generateMipmaps)
-    {
-        gl.Bound(TextureTarget::_2D, *this->oglTexture).GenerateMipmap();
-    }
-
     // opengl texture parameters
     gl.Bound(TextureTarget::_2D, *this->oglTexture)
     .MinFilter(minFilter)
@@ -85,6 +78,12 @@ void Texture2D::Load(oglplus::TextureMinFilter minFilter,
         Vector<float, 4> color(borderColor.x, borderColor.y, borderColor.z,
                                borderColor.w);
         gl.Bound(TextureTarget::_2D, *this->oglTexture).BorderColor(color);
+    }
+
+    // gen mipmaps
+    if (generateMipmaps)
+    {
+        gl.Bound(TextureTarget::_2D, *this->oglTexture).GenerateMipmap();
     }
 }
 

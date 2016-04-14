@@ -107,12 +107,12 @@ const
     prog.normalsMap.Set(RawTexture::Normals);
 }
 
-const std::array<oglplus::Texture, 4> &DeferredRenderer::BufferTextures() const
+const std::array<oglplus::Texture, 5> &DeferredRenderer::BufferTextures() const
 {
     return bufferTextures;
 }
 
-const float &DeferredRenderer::MaxTracingDistance()
+const float &DeferredRenderer::MaxTracingDistance() const
 {
     return maxTracingDistance;
 }
@@ -177,10 +177,6 @@ void DeferredRenderer::SetLightPassUniforms() const
         bufferTextures[i].Bind(oglplus::TextureTarget::_2D);
     }
 
-    prog.gNormal.Set(0);
-    prog.gAlbedo.Set(1);
-    prog.gSpecular.Set(2);
-    prog.gDepth.Set(3);
     // uniform arrays of lights
     auto &uDirectionals = prog.directionalLight;
     auto &uPoints = prog.pointLight;
@@ -245,8 +241,7 @@ void DeferredRenderer::SetLightPassUniforms() const
     if(shadowing.Caster() != nullptr)
     {
         prog.lightViewProjection.Set(shadowing.LightSpaceMatrix());
-        shadowing.BindReading(6);
-        prog.shadowMap.Set(6);
+        shadowing.BindReading(5);
         prog.exponents.Set(shadowing.Exponents());
         prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
     }
@@ -256,13 +251,13 @@ void DeferredRenderer::SetLightPassUniforms() const
     prog.volumeDimension.Set(voxel.VolumeDimension());
     prog.voxelScale.Set(1.0f / voxel.VolumeGridSize());
     prog.worldMinPoint.Set(scene->rootNode->boundaries.MinPoint());
-    voxel.VoxelRadiance().Active(7);
+    voxel.VoxelRadiance().Active(6);
     voxel.VoxelRadiance().Bind(oglplus::TextureTarget::_3D);
     auto &mips = voxel.VoxelTextureMipmap();
 
     for (auto i = 0; i < mips.size(); i++)
     {
-        mips[0].Active(8 + i);
+        mips[0].Active(7 + i);
         mips[0].Bind(oglplus::TextureTarget::_3D);
     }
 
@@ -300,7 +295,7 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
     // build textures -- normal
     gl.Bound(TextureTarget::_2D, bufferTextures[0])
     .Image2D(0, PixelDataInternalFormat::RGB8SNorm, windowWidth, windowHeight,
-             0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
+             0, PixelDataFormat::RGB, PixelDataType::UnsignedByte, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
     geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 0, bufferTextures[0],
@@ -308,21 +303,29 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
     // build textures -- albedo
     gl.Bound(TextureTarget::_2D, bufferTextures[1])
     .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
-             0, PixelDataFormat::RGB, PixelDataType::Float, nullptr)
+             0, PixelDataFormat::RGB, PixelDataType::UnsignedByte, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
     geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 1, bufferTextures[1],
                                       0);
-    // build textures -- specular color and power
+    // build textures -- specular color and shininess
     gl.Bound(TextureTarget::_2D, bufferTextures[2])
     .Image2D(0, PixelDataInternalFormat::RGBA8, windowWidth, windowHeight,
-             0, PixelDataFormat::RGBA, PixelDataType::Float, nullptr)
+             0, PixelDataFormat::RGBA, PixelDataType::UnsignedByte, nullptr)
     .MinFilter(TextureMinFilter::Nearest)
     .MagFilter(TextureMagFilter::Nearest);
     geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 2, bufferTextures[2],
                                       0);
-    // attach depth texture for depth testing
+    // emissivenes
     gl.Bound(TextureTarget::_2D, bufferTextures[3])
+    .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
+             0, PixelDataFormat::RGB, PixelDataType::UnsignedByte, nullptr)
+    .MinFilter(TextureMinFilter::Nearest)
+    .MagFilter(TextureMagFilter::Nearest);
+    geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 3, bufferTextures[3],
+                                      0);
+    // attach depth texture for depth testing
+    gl.Bound(TextureTarget::_2D, bufferTextures[4])
     .Image2D(0, PixelDataInternalFormat::DepthComponent24, windowWidth,
              windowHeight, 0, PixelDataFormat::DepthComponent,
              PixelDataType::Float, nullptr)
@@ -330,13 +333,14 @@ void DeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
     .MagFilter(TextureMagFilter::Nearest);
     geometryBuffer.AttachTexture(FramebufferTarget::Draw,
                                  FramebufferAttachment::Depth,
-                                 bufferTextures[3], 0);
+                                 bufferTextures[4], 0);
     // color textures
     auto attachments = std::vector<Context::ColorBuffer>
     {
         FramebufferColorAttachment::_0 ,
         FramebufferColorAttachment::_1,
-        FramebufferColorAttachment::_2
+        FramebufferColorAttachment::_2,
+        FramebufferColorAttachment::_3
     };
     // set draw buffers
     gl.DrawBuffers(attachments);

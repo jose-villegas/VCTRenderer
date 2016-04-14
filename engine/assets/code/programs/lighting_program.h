@@ -41,11 +41,6 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<glm::mat4x4> inverseProjectionView;
         oglplus::Uniform<glm::mat4x4> lightViewProjection;
 
-        oglplus::UniformSampler gDepth;
-        oglplus::UniformSampler gNormal;
-        oglplus::UniformSampler gAlbedo;
-        oglplus::UniformSampler gSpecular;
-        oglplus::UniformSampler shadowMap;
 
         std::vector<UniformLight> directionalLight;
         std::vector<UniformLight> pointLight;

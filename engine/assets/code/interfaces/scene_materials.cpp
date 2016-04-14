@@ -59,7 +59,7 @@ void UISceneMaterials::Draw()
             specular = material->Specular();
             diffuse = material->Diffuse();
             emissive = material->Emissive();
-            shininess = 1.0f - material->Shininess();
+            shininess = material->Shininess();
             // copy name to a standard vector
             name.clear();
             copy(material->name.begin(), material->name.end(), back_inserter(name));
@@ -99,7 +99,7 @@ void UISceneMaterials::Draw()
 
         if (DragFloat("Shininess", &shininess, 0.001f, 0.0f, 1.0f))
         {
-            material->Shininess(1.0f - shininess);
+            material->Shininess(shininess);
             voxel.RevoxelizeScene();
         }
 

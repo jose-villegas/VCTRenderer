@@ -225,9 +225,13 @@
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib64\*.dll" "$(TargetDir)"
+
 xcopy /Y "$(ProjectDir)rendering\primitives\primitives.fbx" "$(TargetDir)rendering\primitives\"
+
 xcopy /Y/S/H/E/K "$(ProjectDir)assets\models" "$(TargetDir)assets\models\"
+
 xcopy /Y/S/H/E/K "$(ProjectDir)assets\fonts" "$(TargetDir)assets\fonts\"
+
 xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -284,9 +288,13 @@ xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Co
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"
+
 xcopy /Y "$(ProjectDir)rendering\primitives\primitives.fbx" "$(TargetDir)rendering\primitives\"
+
 xcopy /Y/S/H/E/K "$(ProjectDir)assets\models" "$(TargetDir)assets\models\"
+
 xcopy /Y/S/H/E/K "$(ProjectDir)assets\fonts" "$(TargetDir)assets\fonts\"
+
 xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

@@ -56,7 +56,9 @@ void UIFramebuffers::Draw()
     SameLine();
     DrawBufferTexture(gbuffer[2], "Specular");
     SameLine();
-    DrawBufferTexture(gbuffer[3], "Depth");
+    DrawBufferTexture(gbuffer[3], "Emissive");
+    SameLine();
+    DrawBufferTexture(gbuffer[4], "Depth");
     EndGroup();
     BeginGroup();
     Text("Shadow Mapping");

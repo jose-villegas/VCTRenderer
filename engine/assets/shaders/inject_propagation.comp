@@ -22,17 +22,6 @@ const vec3 propagationDirections[] =
     vec3(-0.754996f, 0.5f, -0.4330128f)
 };
 
-// six cones
-// const vec3 propagationDirections[] =
-// {
-//     vec3(0.0f, 1.0f, 0.0f),
-//     vec3(0.0f, 0.5f, 0.866025f),
-//     vec3(0.823639f, 0.5f, 0.267617f),
-//     vec3(0.509037f, 0.5f, -0.7006629f),
-//     vec3(-0.50937f, 0.5f, -0.7006629f),
-//     vec3(-0.823639f, 0.5f, 0.267617f)
-// };
-
 const float diffuseConeWeights[] =
 {
     PI / 4.0f,

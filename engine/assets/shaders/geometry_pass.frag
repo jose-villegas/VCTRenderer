@@ -3,6 +3,7 @@
 layout(location = 0) out vec3 gNormal;
 layout(location = 1) out vec3 gAlbedo;
 layout(location = 2) out vec4 gSpecular;
+layout(location = 3) out vec3 gEmissive;
 
 in Vertex
 {
@@ -46,13 +47,15 @@ void main()
 
     if (diffuseColor.a <= alphaCutoff) { discard; }
 
-    bool isEmissive = any(greaterThan(material.emissive, vec3(0.0f)));
-
-    gAlbedo = isEmissive ? material.emissive : diffuseColor.rgb * material.diffuse;
+    gAlbedo = diffuseColor.rgb * material.diffuse;
     // store specular intensity
     vec4 specularColor = texture(specularMap, texCoord.xy);
-    float shininess = isEmissive ? 0.0f : clamp(material.shininess, 0.0045f, 1.0f);
+    // shininess zero means this is a emissive material
+    float shininess = clamp(material.shininess, 0.01f, 1.0f);
+    // for emissive materials we ignore the specular
     gSpecular = vec4(specularColor.rgb * material.specular, shininess);
     // store per fragment normal
     gNormal = material.useNormalsMap == 1 ? normalMapping() : normalize(normal);
+    // per fragment emissivenes
+    gEmissive = material.emissive;
 }

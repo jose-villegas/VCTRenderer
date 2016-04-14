@@ -210,7 +210,7 @@ void main()
 
     // emission from voxel
     vec4 emission = imageLoad(voxelEmission, writePos);
-    // emission is already stored in voxel radiance, no need to inject diffuse
+    // emission is already stored in voxel radiance, ignore diffuse
     if(emission.a > 0.0f) { return; }
 
 	vec4 albedo = imageLoad(voxelAlbedo, writePos);

@@ -10,22 +10,11 @@ void LightingProgram::ExtractUniforms()
     // assign program
     inverseProjectionView.Assign(program);
     lightViewProjection.Assign(program);
-    gDepth.Assign(program);
-    gNormal.Assign(program);
-    gAlbedo.Assign(program);
-    gSpecular.Assign(program);
-    shadowMap.Assign(program);
-    ;
     exponents.Assign(program);
     lightBleedingReduction.Assign(program);
     // bind to uniform name
     inverseProjectionView.BindTo("inverseProjectionView");
     lightViewProjection.BindTo("lightViewProjection");
-    gDepth.BindTo("gDepth");
-    gNormal.BindTo("gNormal");
-    gAlbedo.BindTo("gAlbedo");
-    gSpecular.BindTo("gSpecular");
-    shadowMap.BindTo("shadowMap");
     exponents.BindTo("exponents");
     lightBleedingReduction.BindTo("lightBleedingReduction");
     // collections

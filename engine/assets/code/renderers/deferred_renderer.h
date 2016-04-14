@@ -47,8 +47,8 @@ class DeferredRenderer : public Renderer
         /// </summary>
         /// <param name="mat">The mat.</param>
         void SetMaterialUniforms(const Material &material) const override;
-        const std::array<oglplus::Texture, 4> &BufferTextures() const;
-        const float &MaxTracingDistance();
+        const std::array<oglplus::Texture, 5> &BufferTextures() const;
+        const float &MaxTracingDistance() const;
         void MaxTracingDistance(const float &val);
         const float &GlobalIlluminationStrength() const;
         void GlobalIlluminationStrength(const float &val);
@@ -85,7 +85,7 @@ class DeferredRenderer : public Renderer
 
         oglplus::Framebuffer geometryBuffer;
         oglplus::Renderbuffer depthBuffer;
-        std::array<oglplus::Texture, 4> bufferTextures;
+        std::array<oglplus::Texture, 5> bufferTextures;
 
         float maxTracingDistance;
         float globalIlluminationStrength;

@@ -44,6 +44,11 @@ const glm::vec4 &Frustum::Plane(const PlaneFace face) const
     return planes[face];
 }
 
+const std::array<glm::vec4, 6> &Frustum::Planes() const
+{
+    return planes;
+}
+
 bool CullingFrustum::InFrustum(const BoundingBox &volume) const
 {
     glm::vec3 normal;

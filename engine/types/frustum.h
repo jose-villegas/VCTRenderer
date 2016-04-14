@@ -14,13 +14,15 @@ class BoundingBox;
 class Frustum
 {
     public:
-        enum PlaneFace {
+        enum PlaneFace
+        {
             Left, Right,
             Bottom, Top,
             Near, Far,
         };
         void ExtractPlanes(const glm::mat4x4 &mvMatrix, bool normalize = true);
         const glm::vec4 &Plane(const PlaneFace face) const;
+        const std::array<glm::vec4, 6> &Planes() const;
     protected:
         std::array<glm::vec4, 6> planes;
 };

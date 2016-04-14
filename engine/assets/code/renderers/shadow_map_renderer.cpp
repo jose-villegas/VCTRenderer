@@ -44,7 +44,6 @@ void ShadowMapRenderer::Render()
     // initially assign invalid direction
     static auto direction = glm::vec3(0);
     static auto &changes = Transform::TransformChangedMap();
-    static auto updateShadowmap = true;
 
     for (auto &c : changes)
     {
@@ -52,15 +51,15 @@ void ShadowMapRenderer::Render()
 
         if (type == typeid(Node))
         {
-            updateShadowmap = true; break;
+            updateShadowMap = true; break;
         }
     }
 
-    if (direction != -shadowCaster->Direction()) { updateShadowmap = true; }
+    if (direction != -shadowCaster->Direction()) { updateShadowMap = true; }
 
-    if (!updateShadowmap) { return; }
+    if (!updateShadowMap) { return; }
 
-    updateShadowmap = false;
+    updateShadowMap = false;
     direction = -shadowCaster->Direction();
     // update shadow map
     SetAsActive();
@@ -157,6 +156,7 @@ const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     shadowCaster(nullptr)
 {
+    updateShadowMap = true;
     blurScale = 0.5f;
     blurQuality = 1;
     filtering = 1;

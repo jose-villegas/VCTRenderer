@@ -3,10 +3,23 @@
 out vec4 fragColor;
 in vec2 texCoord;
 
+layout(binding = 0) uniform sampler2D gNormal;
+layout(binding = 1) uniform sampler2D gAlbedo;
+layout(binding = 2) uniform sampler2D gSpecular;
+layout(binding = 3) uniform sampler2D gEmissive;
+layout(binding = 4) uniform sampler2D gDepth;
+
+layout(binding = 5) uniform sampler2D shadowMap;
+
+layout(binding = 6, rgba8) uniform sampler3D voxelTex;
+layout(binding = 7, rgba8) uniform sampler3D voxelTexMipmap[6];
+
 const float PI = 3.14159265f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
+
+bool isEmissive = false;
 
 struct Attenuation
 {
@@ -32,15 +45,6 @@ struct Light {
 
 uniform mat4 inverseProjectionView;
 uniform mat4 lightViewProjection;
-
-uniform sampler2D gDepth;
-uniform sampler2D gNormal;
-uniform sampler2D gAlbedo;
-uniform sampler2D gSpecular;
-uniform sampler2D shadowMap;
-
-layout(binding = 7, rgba8) uniform sampler3D voxelTex;
-layout(binding = 8, rgba8) uniform sampler3D voxelTexMipmap[6];
 
 uniform vec3 cameraPosition;
 
@@ -151,6 +155,8 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
 
 float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance) 
 {
+    if(isEmissive) { return 1.0f; }
+
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
@@ -240,6 +246,8 @@ float Chebyshev(vec2 moments, float mean, float minVariance)
 
 float Visibility(vec3 position)
 {
+    if(isEmissive) { return 1.0f; }
+
     vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
     // avoid arithmetic error
     if(lsPos.w == 0.0f) return 1.0f;
@@ -261,24 +269,21 @@ float Visibility(vec3 position)
 
 vec3 Ambient(Light light, vec3 albedo)
 {
-    return clamp(albedo * light.ambient, 0.0f, 1.0f);
+    return max(albedo * light.ambient, 0.0f);
 }
 
 vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
 {
-    float lambertian = clamp(dot(normal, lightDirection), 0.0f, 1.0f);
+    float lambertian = max(dot(normal, lightDirection), 0.0f);
     return light.diffuse * albedo * lambertian;
 }
 
 vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4 specular)
 {
-    if(specular.a == 0.0f) return vec3(0.0f);
-
     vec3 viewDirection = normalize(cameraPosition - position);
     vec3 halfDirection = normalize(lightDirection + viewDirection);
-    float specularFactor = clamp(dot(halfDirection, normal), 0.0f, 1.0f);
+    float specularFactor = max(dot(halfDirection, normal), 0.0f);
     specularFactor = pow(specularFactor, specular.a);
-
     return light.specular * specular.rgb * specularFactor;
 }
 
@@ -357,6 +362,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
     float visibility = 1.0f;
 
+
     if(light.shadowingMethod == 2)
     {
         vec3 voxelPos = WorldToVoxelSample(position);
@@ -389,9 +395,6 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specu
     // calculate directional lighting
     vec3 directLighting = vec3(0.0f);
 
-    // reserved for emissive materials
-    if(specular.a == 0.0f) { return albedo; }
-
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
     {
@@ -421,24 +424,22 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specu
 
 vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specular, bool ambientOcclusion)
 {
-    // reserved for emissive materials
-    if(specular.a == 0.0f) { ambientOcclusion = false; }
-
     vec3 positionT = WorldToVoxelSample(position);
     vec3 cameraPosT = WorldToVoxelSample(cameraPosition);
 
-    vec3 viewDirection = normalize(cameraPosT - positionT);
-    vec3 coneDirection = reflect(-viewDirection, normal);
-
     vec4 specularTrace = vec4(0.0f);
     vec4 diffuseTrace = vec4(0.0f);
+    vec3 coneDirection = vec3(0.0f);
 
     // component greater than zero
-    if(any(greaterThan(specular.rgb, specularTrace.rgb)) && specular.a > 0.0f)
+    if(any(greaterThan(specular.rgb, specularTrace.rgb)))
     {
+        vec3 viewDirection = normalize(cameraPosT - positionT);
+        vec3 coneDirection = reflect(-viewDirection, normal);
+        coneDirection = normalize(coneDirection);
         // specular cone setup
-        float aperture = radians(clamp(specular.a * 0.000244140625f, 0.0f, 1.0f));
-        aperture = sin(acos(0.11f / (PI * aperture + 0.11f)));
+        float smoothness = pow(specular.a / 64.0f, 4.0f);
+        float aperture = clamp(1.0f - sin(acos(0.11f / (smoothness + 0.11f))), 0.05f, 1.0f);
         specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
         specularTrace.rgb *= specular.rgb;
     }
@@ -476,12 +477,15 @@ void main()
     // world-space position
     vec3 position = PositionFromDepth();
     // world-space normal
-    vec3 normal = texture(gNormal, texCoord).xyz;
+    vec3 normal = normalize(texture(gNormal, texCoord).xyz);
     // fragment albedo
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
+    // fragment emissiviness
+    vec3 emissive = texture(gEmissive, texCoord).rgb;
+    isEmissive = any(greaterThan(emissive, vec3(0.0f)));
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
-    specular.a = specular.a * 4096.0f;
+    specular.a *= 64.0f;
     // lighting cumulatives
     vec3 directLighting = vec3(1.0f);
     vec4 indirectLighting = vec4(1.0f);
@@ -520,6 +524,7 @@ void main()
     }
 
     compositeLighting = (directLighting + indirectLighting.rgb) * ambientOcclusion;
+    compositeLighting.rgb += emissive;
     // final color
     fragColor = vec4(clamp(compositeLighting, 0.0f, 1.0f), 1.0f);
 }
