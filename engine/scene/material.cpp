@@ -128,14 +128,8 @@ Material::Material() : opacity(1), shininess(0),
     shininessStrenght(1), refractionIndex(1.5)
 {
     name = "Default Material";
-    std::default_random_engine generator;
-    std::uniform_real_distribution<double> distribution(0.0, 1.0);
-    diffuse = ambient = glm::vec3(distribution(generator),
-                                  distribution(generator),
-                                  distribution(generator));
-    specular = glm::vec3(distribution(generator),
-                         distribution(generator),
-                         distribution(generator));
+    diffuse = ambient = glm::vec3(1.0f);
+    specular = glm::vec3(0.2f);
     emissive = ambient = transparent = glm::vec3(0.0f);
 }
 

@@ -155,15 +155,16 @@ void UIShapeCreator::Draw()
         if((it == customMat.end() || !it->second) &&
                 Button("Create Custom Material"))
         {
-            customMat[node] = true;
-            node->meshes[0]->material = std::make_shared<Material>();
-            node->meshes[0]->material->name = node->name + "CustomMat";
-            material = node->meshes[0]->material.get();
+            auto newMaterial = std::make_shared<Material>(*node->meshes[0]->material);
+            newMaterial->name = node->name + "CustomMat";
+            material = newMaterial.get();
             ambient = material->Ambient();
             diffuse = material->Diffuse();
             specular = material->Specular();
             shininess = material->Shininess();
-            scene->materials.push_back(node->meshes[0]->material);
+            scene->materials.push_back(newMaterial);
+            node->meshes[0]->material = move(newMaterial);
+            customMat[node] = true;
             voxel.RevoxelizeScene();
         }
 

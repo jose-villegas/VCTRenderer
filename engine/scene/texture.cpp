@@ -6,13 +6,6 @@
 
 #include <glm/detail/type_vec3.hpp>
 
-void RawTexture::FreeRawData()
-{
-    if (!this->rawData) { return; }
-
-    free(this->rawData.release());
-}
-
 RawTexture::RawTexture() :
     height(1),
     width(1),
@@ -26,7 +19,9 @@ RawTexture::RawTexture() :
 
 RawTexture::~RawTexture()
 {
-    FreeRawData();
+    if (!this->rawData) { return; }
+
+    free(this->rawData.release());
 }
 
 void Texture2D::Load(oglplus::TextureMinFilter minFilter,
@@ -40,6 +35,9 @@ void Texture2D::Load(oglplus::TextureMinFilter minFilter,
 
     // already loaded a texture
     if (this->oglTexture) { return; }
+
+    // no texture data to create
+    if (!this->rawData) { return; }
 
     using namespace oglplus;
     auto pdf = PixelDataFormat::BGRA;
@@ -65,7 +63,6 @@ void Texture2D::Load(oglplus::TextureMinFilter minFilter,
                              TextureSwizzle::Red);
     }
 
-    this->FreeRawData();
     // opengl texture parameters
     gl.Bound(TextureTarget::_2D, *this->oglTexture)
     .MinFilter(minFilter)
@@ -85,6 +82,8 @@ void Texture2D::Load(oglplus::TextureMinFilter minFilter,
     {
         gl.Bound(TextureTarget::_2D, *this->oglTexture).GenerateMipmap();
     }
+
+    free(this->rawData.release());
 }
 
 void Texture2D::Bind() const

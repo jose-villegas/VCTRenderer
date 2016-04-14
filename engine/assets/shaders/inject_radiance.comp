@@ -11,6 +11,8 @@ const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
 
+bool isEmissive = false;
+
 struct Attenuation
 {
     float constant;
@@ -77,6 +79,8 @@ float Chebyshev(vec2 moments, float mean, float minVariance)
 
 float Visibility(vec3 position)
 {
+    if(isEmissive) { return 1.0f; }
+
     vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
     // avoid arithmetic error
     if(lsPos.w == 0.0f) return 1.0f;
@@ -208,15 +212,14 @@ void main()
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
 
-    // emission from voxel
-    vec4 emission = imageLoad(voxelEmission, writePos);
-    // emission is already stored in voxel radiance, ignore diffuse
-    if(emission.a > 0.0f) { return; }
-
 	vec4 albedo = imageLoad(voxelAlbedo, writePos);
 	// empty voxel
 	if(albedo.a == 0.0f) { return; }
 
+    // emission from voxel
+    vec3 emissive = imageLoad(voxelEmission, writePos).rgb;
+    isEmissive = any(greaterThan(emissive, vec3(0.0f)));
+    // voxel normal in 0-1 range
 	vec4 normal = imageLoad(voxelNormal, writePos);
 	// normal is stored in 0-1 range, restore to -1-1
 	normal = normalize(normal * 2.0f - 1.0f);
@@ -224,6 +227,7 @@ void main()
 	vec3 wsPosition = VoxelToWorld(writePos);
 	// calculate direct lighting onto voxel
 	albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
+    albedo.rgb += emissive;
     albedo.a = 1.0f;
 
 	imageStore(voxelRadiance, writePos, albedo);

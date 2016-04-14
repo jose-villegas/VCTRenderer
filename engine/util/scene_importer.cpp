@@ -41,7 +41,7 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene,
         // process material properties
         for (unsigned int i = 0; i < mScene->mNumMaterials; i++)
         {
-            std::shared_ptr<Material> newMaterial(new Material());
+            auto newMaterial = std::make_shared<Material>();
             ImportMaterial(mScene->mMaterials[i], *newMaterial);
             scene->materials.push_back(newMaterial);
         }
@@ -62,7 +62,7 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene,
 
         for (unsigned int i = 0; i < mScene->mNumMeshes; i++)
         {
-            std::shared_ptr<MeshDrawer> newMesh(new MeshDrawer());
+            auto newMesh = std::make_shared<MeshDrawer>();
             ImportMesh(mScene->mMeshes[i], *newMesh);
             // material assigned to mesh
             newMesh->material = scene->materials
@@ -83,7 +83,7 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene,
 
         for (unsigned int i = 0; i < mScene->mNumCameras; i++)
         {
-            std::shared_ptr<Camera> newCamera = std::make_shared<Camera>();
+            auto newCamera = std::make_shared<Camera>();
             ImportCamera(mScene->mCameras[i], *newCamera);
             scene->cameras.push_back(newCamera);
         }
@@ -95,7 +95,7 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene,
 
         for (unsigned int i = 0; i < mScene->mNumLights; i++)
         {
-            std::shared_ptr<Light> newLight = std::make_shared<Light>();
+            auto newLight = std::make_shared<Light>();
             ImportLight(mScene->mLights[i], *newLight);
             scene->lights.push_back(newLight);
         }

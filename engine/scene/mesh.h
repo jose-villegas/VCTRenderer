@@ -22,7 +22,6 @@ class Mesh : public BaseObject
         std::shared_ptr<Material> material;
         Mesh();
         ~Mesh();
-        void FreeRawData();
 };
 
 class MeshDrawer : public Mesh
@@ -40,9 +39,9 @@ class MeshDrawer : public Mesh
         virtual void Load();
         virtual void DrawElements() const;
     protected:
-        std::unique_ptr<oglplus::Buffer> vertexBuffer;
-        std::unique_ptr<oglplus::Buffer> elementBuffer;
-        std::unique_ptr<oglplus::VertexArray> vertexArray;
+        std::shared_ptr<oglplus::Buffer> vertexBuffer;
+        std::shared_ptr<oglplus::Buffer> elementBuffer;
+        std::shared_ptr<oglplus::VertexArray> vertexArray;
         bool loaded;
         unsigned int indicesCount;
         unsigned int vertexCount;

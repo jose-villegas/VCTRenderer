@@ -39,7 +39,6 @@ class RawTexture
         };
         std::set<TextureType> textureTypes;
         // unloads raw data from RAM memory
-        void FreeRawData();
         std::string GetFilepath() const { return filepath; }
 
         RawTexture();

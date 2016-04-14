@@ -15,12 +15,6 @@ Mesh::~Mesh()
 {
 }
 
-void Mesh::FreeRawData()
-{
-    this->vertices.clear();
-    this->indices.clear();
-}
-
 MeshDrawer::MeshDrawer() : loaded(false), indicesCount(0), vertexCount(0)
 {
 }
@@ -31,13 +25,14 @@ MeshDrawer::~MeshDrawer()
 
 void MeshDrawer::Load()
 {
-    if (elementBuffer || vertexBuffer) { return; }
+    if (loaded) { return; }
 
     using namespace oglplus;
-    this->vertexArray = std::make_unique<VertexArray>();
+    // create vao
+    this->vertexArray = std::make_shared<VertexArray>();
     vertexArray->Bind();
     // create vertex buffer object and upload vertex data
-    vertexBuffer = std::make_unique<Buffer>();
+    vertexBuffer = std::make_shared<Buffer>();
     vertexBuffer->Bind(BufferTarget::Array);
     Buffer::Data(BufferTarget::Array, this->vertices);
     // setup vertex data interleaving
@@ -57,7 +52,7 @@ void MeshDrawer::Load()
     .Pointer(3, DataType::Float, false, sizeof(Vertex),
              reinterpret_cast<const GLvoid *>(48));
     // create element (indices) buffer object and upload data
-    elementBuffer = std::make_unique<Buffer>();
+    elementBuffer = std::make_shared<Buffer>();
     elementBuffer->Bind(BufferTarget::ElementArray);
     Buffer::Data(BufferTarget::ElementArray, this->indices);
     // save number of faces and vertices for rendering
