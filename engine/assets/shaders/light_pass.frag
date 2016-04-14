@@ -99,7 +99,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
     // weight per axis for aniso sampling
-    vec3 weight = abs(direction);
+    vec3 weight = direction * direction;
     // navigation
     float voxelSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision
@@ -162,7 +162,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
     // weight per axis for aniso sampling
-    vec3 weight = abs(direction);
+    vec3 weight = direction * direction;
     // navigation
     float voxelSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision

@@ -533,7 +533,6 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
         voxelTexMipmap[i].GenerateMipmap(TextureTarget::_3D);
     }
 }
-
 void VoxelizerRenderer::RevoxelizeScene()
 {
     static auto &scene = Scene::Active();
