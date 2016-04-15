@@ -52,7 +52,13 @@ class Scene : public BaseObject, public SingleActive<Scene>
         /// Imports the raw data from the specified scene at
         /// <see cref="filepath" /> into usable classes.
         /// </summary>
-        void Import();
+        void Import(unsigned int flags);
+        /// <summary>
+        /// Reimports the scene with the specified flags.
+        /// This will clear any previous data.
+        /// </summary>
+        /// <param name="flags">The flags.</param>
+        void CleanImport(unsigned int flags);
         /// <summary>
         /// Uploads to GPU the mesh and texture data
         /// </summary>

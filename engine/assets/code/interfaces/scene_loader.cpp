@@ -8,6 +8,7 @@
 #include "../../../core/assets_manager.h"
 #include "../../../scene/light.h"
 #include "../renderers/shadow_map_renderer.h"
+#include "../../../util/scene_importer.h"
 
 using namespace ImGui;
 
@@ -35,12 +36,41 @@ void UISceneLoader::Draw()
     static auto activeScene = -1;
     SetNextWindowPosCenter();
 
-    if (Begin("Load Scene", &UIMainMenu::drawSceneLoader, ImGuiWindowFlags_NoMove |
-              ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings))
+    if (Begin("Load Scene", &UIMainMenu::drawSceneLoader))
     {
-        // active scene selector
-        PushItemWidth(200);
+        static auto advancedImport = false;
+        static unsigned int flag = aiProcessPreset_TargetRealtime_Fast;
+        static unsigned int flags[26] =
+        {
+            aiProcess_CalcTangentSpace,
+            aiProcess_JoinIdenticalVertices,
+            aiProcess_MakeLeftHanded,
+            aiProcess_Triangulate,
+            aiProcess_RemoveComponent,
+            aiProcess_GenNormals,
+            aiProcess_GenSmoothNormals,
+            aiProcess_SplitLargeMeshes,
+            aiProcess_PreTransformVertices,
+            aiProcess_LimitBoneWeights,
+            aiProcess_ValidateDataStructure,
+            aiProcess_ImproveCacheLocality,
+            aiProcess_RemoveRedundantMaterials,
+            aiProcess_FixInfacingNormals,
+            aiProcess_SortByPType,
+            aiProcess_FindDegenerates,
+            aiProcess_FindInvalidData,
+            aiProcess_GenUVCoords,
+            aiProcess_TransformUVCoords,
+            aiProcess_FindInstances,
+            aiProcess_OptimizeMeshes,
+            aiProcess_OptimizeGraph,
+            aiProcess_FlipUVs ,
+            aiProcess_FlipWindingOrder,
+            aiProcess_SplitByBoneCount,
+            aiProcess_Debone,
+        };
 
+        // active scene selector
         if (Combo("Path", &activeScene, SceneName, &assets->scenes,
                   static_cast<int>(assets->scenes.size())))
         {
@@ -53,7 +83,7 @@ void UISceneLoader::Draw()
 
         if (Button("Load") && scene && !scene->IsLoaded())
         {
-            scene->Import();
+            scene->CleanImport(flag);
             scene->Load();
             static auto &shadowRender = *static_cast<ShadowMapRenderer *>
                                         (assets->renderers["Shadowmapping"].get());
@@ -74,7 +104,48 @@ void UISceneLoader::Draw()
             shadowRender.Render();
         }
 
-        PopItemWidth();
+        static int choosen = 1;
+
+        if (Combo("Importing Preset", &choosen,
+                  "ToLeftHanded\0Fast\0Quality\0Max Quality", 4))
+        {
+            switch (choosen)
+            {
+                case 0: flag = aiProcess_ConvertToLeftHanded; break;
+
+                case 1: flag = aiProcessPreset_TargetRealtime_Fast; break;
+
+                case 2: flag = aiProcessPreset_TargetRealtime_Quality; break;
+
+                case 3: flag = aiProcessPreset_TargetRealtime_MaxQuality; break;
+            }
+        }
+
+        Separator();
+        Checkbox("Show Advanced Import Settings", &advancedImport);
+
+        if(advancedImport)
+        {
+            Separator();
+            PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+            Columns(2);
+
+            for (auto i = 0; i < SceneImporter::flagsNames.size(); i++)
+            {
+                if (i > SceneImporter::flagsNames.size() / 2 - 1 &&
+                        i <= SceneImporter::flagsNames.size() / 2)
+                {
+                    NextColumn();
+                }
+
+                if (CheckboxFlags(SceneImporter::flagsNames[i].c_str(),
+                                  &flag, flags[i]))
+                {
+                }
+            }
+
+            PopStyleVar();
+        }
     }
 
     End();

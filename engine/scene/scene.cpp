@@ -62,27 +62,33 @@ Scene::Scene(std::string filepath): isLoaded(false), isImported(false),
 {
     this->filepath = filepath;
     this->directory = GetDirectoryPath(filepath);
-    // scenes have by default at least one camera
-    // they will be removed if camera or light info
-    // is found during scene extraction
-    auto ambientLight = std::make_shared<Light>();
-    // insert defaults
-    this->cameras.push_back(std::make_shared<Camera>());
-    this->lights.push_back(move(ambientLight));
-    // create scene root node
-    this->rootNode = std::make_shared<Node>();
 }
 
 Scene::~Scene()
 {
 }
 
-void Scene::Import()
+void Scene::Import(unsigned int flags)
 {
     if (isImported || isLoaded) { return; }
 
-    SceneImporter::Import(filepath, this, aiProcessPreset_TargetRealtime_Fast);
+    SceneImporter::Import(filepath, this, flags);
     isImported = true;
+    isLoaded = false;
+}
+
+void Scene::CleanImport(unsigned flags)
+{
+    Camera::ResetActive();
+    meshes.clear();
+    textures.clear();
+    materials.clear();
+    lights.clear();
+    cameras.clear();
+    rootNode.reset();
+    isImported = false;
+    isLoaded = false;
+    Import(flags);
 }
 
 void Scene::Load()

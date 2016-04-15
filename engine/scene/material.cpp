@@ -124,7 +124,7 @@ bool Material::BindTexture(RawTexture::TextureType texType,
     return false;
 }
 
-Material::Material() : opacity(1), shininess(0),
+Material::Material() : opacity(1), shininess(0.5f),
     shininessStrenght(1), refractionIndex(1.5)
 {
     name = "Default Material";

@@ -73,10 +73,11 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene,
 
     if (mScene->mRootNode != nullptr)
     {
+        if (!scene->rootNode) scene->rootNode = std::make_shared<Node>();
+
         ProcessNodes(scene, mScene->mRootNode, *scene->rootNode);
     }
 
-    // if these objects don't exist in scene, they are created by default
     if (mScene->HasCameras())
     {
         scene->cameras.clear();
@@ -87,6 +88,10 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene,
             ImportCamera(mScene->mCameras[i], *newCamera);
             scene->cameras.push_back(newCamera);
         }
+    }
+    else // add one default camera
+    {
+        scene->cameras.push_back(std::make_shared<Camera>());
     }
 
     if (mScene->HasLights())
@@ -99,6 +104,10 @@ bool SceneImporter::Import(const std::string &filepath, Scene * scene,
             ImportLight(mScene->mLights[i], *newLight);
             scene->lights.push_back(newLight);
         }
+    }
+    else // add one default light
+    {
+        scene->lights.push_back(std::make_shared<Light>());
     }
 
     importer.FreeScene();
@@ -179,7 +188,7 @@ void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
     mMaterial->Get(AI_MATKEY_SHININESS, shininess);
     mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, shinStrength);
     material.RefractionIndex(refracti);
-    material.Shininess(glm::clamp(shininess / 1000.0f, 0.0f, 1.0f));
+    material.Shininess(0.5f);
     material.ShininessStrenght(shinStrength);
     // get material properties
     aiColor3D ambient(0.f), diffuse(0.f), specular(0.f);
@@ -386,3 +395,33 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
         }
     }
 }
+
+std::array<const std::string, 26> SceneImporter::flagsNames =
+{
+    "CalculateTangentSpace",
+    "JoinIdenticalVertices",
+    "MakeLeftHanded",
+    "Triangulate",
+    "RemoveComponent",
+    "GenerateNormals",
+    "GenerateSmoothNormals",
+    "SplitLargeMeshes",
+    "PreTransformVertices",
+    "LimitBoneWeights",
+    "ValidateDataStructure",
+    "ImproveCacheLocality",
+    "RemoveRedundantMaterials",
+    "FixInfacingNormals",
+    "SortByType",
+    "FindDegenerates",
+    "FindInvalidData",
+    "GenerateUVCoords",
+    "TransformUVCoords",
+    "FindInstances",
+    "OptimizeMeshes",
+    "OptimizeGraph",
+    "FlipUVs",
+    "FlipWindingOrder",
+    "SplitByBoneCount",
+    "Debone"
+};
