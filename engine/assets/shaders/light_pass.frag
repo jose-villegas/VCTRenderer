@@ -99,6 +99,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
+    traceOcclusion = traceOcclusion && aoAlpha <= 1.0f;
     // weight per axis for aniso sampling
     vec3 weight = direction * direction;
     // navigation
@@ -139,7 +140,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
             anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
         }
         // ambient occlusion lookup
-        if (traceOcclusion && occlusion <= 1.0 && aoAlpha != 1.0f) 
+        if (traceOcclusion && occlusion <= 1.0f) 
         {
             occlusion += ((1.0f - occlusion) * anisoSample.a) / (1.0f + dst * aoFalloff);
         }
@@ -428,9 +429,9 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     vec3 positionT = WorldToVoxelSample(position);
     vec3 cameraPosT = WorldToVoxelSample(cameraPosition);
 
-    vec4 specularTrace = vec4(0.0f);
-    vec4 diffuseTrace = vec4(0.0f);
-    vec3 coneDirection = vec3(0.0f);
+    vec4 specularTrace = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+    vec4 diffuseTrace = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    vec3 coneDirection = vec3(0.0f, 0.0f, 0.0f);
 
     // component greater than zero
     if(any(greaterThan(specular.rgb, specularTrace.rgb)))
@@ -458,18 +459,20 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
             coneDirection = normal;
             coneDirection += diffuseConeDirections[i].x * right + diffuseConeDirections[i].z * up;
             coneDirection = normalize(coneDirection);
+            // cumulative result
+            vec4 coneSample = TraceCone(positionT, coneDirection, aperture, 1.0f, ambientOcclusion);
 
-            diffuseTrace += TraceCone(positionT, coneDirection, aperture, 1.0f, ambientOcclusion) * diffuseConeWeights[i];
+            diffuseTrace.rgb += coneSample.rgb * diffuseConeWeights[i];
+            // ao cummulative
+            diffuseTrace.a -= coneSample.a * diffuseConeWeights[i];
         }
 
         diffuseTrace.rgb *= albedo;
     }
 
-    vec4 result = (diffuseTrace + specularTrace) * bounceStrength;
+    vec3 result = (diffuseTrace.rgb + specularTrace.rgb) * bounceStrength;
 
-    if(ambientOcclusion) result.a = 1.0f - clamp(diffuseTrace.a, 0.0f, 1.0f);
-
-    return result;
+    return vec4(result, ambientOcclusion ? clamp(diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
 }
 
 void main()
@@ -489,13 +492,11 @@ void main()
     vec3 directLighting = vec3(1.0f);
     vec4 indirectLighting = vec4(1.0f);
     vec3 compositeLighting = vec3(1.0f);
-    float ambientOcclusion = 1.0f;
 
     if(mode == 0)   // direct + indirect + ao
     {
         directLighting = CalculateDirectLighting(position, normal, albedo, specular);
         indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, !isEmissive);
-        ambientOcclusion = min(indirectLighting.a + aoAlpha, 1.0f);
     }
     else if(mode == 1)  // direct + indirect
     {
@@ -518,11 +519,10 @@ void main()
         directLighting = vec3(0.0f);
         specular = vec4(0.0f);
         indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, true);
-        ambientOcclusion = min(indirectLighting.a + aoAlpha, 1.0f);
-        indirectLighting = vec4(1.0f);
+        indirectLighting.rgb = vec3(1.0f);
     }
 
-    compositeLighting = (directLighting + indirectLighting.rgb) * ambientOcclusion;
+    compositeLighting = (directLighting + indirectLighting.rgb) * indirectLighting.a;
     compositeLighting += emissive;
     // Reinhard tone mapping
     compositeLighting = compositeLighting / (compositeLighting + 1.0f);

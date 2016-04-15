@@ -81,7 +81,7 @@ void Scene::Import()
 {
     if (isImported || isLoaded) { return; }
 
-    SceneImporter::Import(filepath, this);
+    SceneImporter::Import(filepath, this, aiProcessPreset_TargetRealtime_Fast);
     isImported = true;
 }
 

@@ -72,10 +72,27 @@ void BoundingBox::Transform(const glm::mat4x4 &model)
 {
     if (!original) { original = std::make_shared<BoundingBox>(*this); }
 
-    this->boundaries[0] = glm::vec3(model * glm::vec4(original->boundaries[0],
-                                    1.0f));
-    this->boundaries[1] = glm::vec3(model * glm::vec4(original->boundaries[1],
-                                    1.0f));;
+    auto min = original->boundaries[0];
+    auto max = original->boundaries[1];
+    glm::vec3 corners[8] =
+    {
+        min,
+        max,
+        glm::vec3(min.x, min.y, max.z),
+        glm::vec3(min.x, max.y, min.z),
+        glm::vec3(max.x, min.y, min.z),
+        glm::vec3(min.x, max.y, max.z),
+        glm::vec3(max.x, min.y, max.z),
+        glm::vec3(max.x, max.y, min.z),
+    };
+
+    for (int i = 0; i < 8; i++)
+    {
+        auto transformed = glm::vec3(model * glm::vec4(corners[i], 1.0f));
+        this->boundaries[0] = glm::min(this->boundaries[0], transformed);
+        this->boundaries[1] = glm::max(this->boundaries[1], transformed);
+    }
+
     this->center = (boundaries[1] + boundaries[0]) * 0.5f;
     this->extent = (boundaries[1] - boundaries[0]) * 0.5f;
 }

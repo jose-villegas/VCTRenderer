@@ -73,6 +73,8 @@ AssetsManager::AssetsManager()
                             ("assets\\models\\science\\madScience.obj");
     scenes["Cornellbox Empty"] = std::make_shared<Scene>
                                  ("assets\\models\\cornell-box\\CornellBox-Empty-RG.obj");
+    scenes["San Miguel"] = std::make_shared<Scene>
+                           ("assets\\models\\san-miguel\\san-miguel.obj");
     // instantiate implemented interfaces
     interfaces["SceneLoader"] = std::make_shared<UISceneLoader>();
     interfaces["Framerate"] = std::make_shared<UIFramerate>();

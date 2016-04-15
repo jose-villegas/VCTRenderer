@@ -26,9 +26,7 @@ class SceneImporter
     public:
         SceneImporter();
         virtual ~SceneImporter();
-        static bool Import(const std::string &filepath, Scene * scene, unsigned flags =
-                               aiProcessPreset_TargetRealtime_MaxQuality |
-                               aiProcess_OptimizeGraph);
+        static bool Import(const std::string &filepath, Scene * scene, unsigned flags);
         // fine imports
         static void ImportMaterial(aiMaterial * mMaterial, Material &material);
         static void ImportMesh(aiMesh * mMesh, Mesh &mesh);

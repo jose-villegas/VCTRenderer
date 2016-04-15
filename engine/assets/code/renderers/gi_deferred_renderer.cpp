@@ -93,7 +93,9 @@ const
     prog.material.diffuse.Set(material.Diffuse());
     prog.material.specular.Set(material.Specular());
     prog.material.emissive.Set(material.Emissive());
-    prog.material.shininess.Set(material.Shininess());
+    // shininess curve, a bit smoother than linear
+    prog.material.shininess.Set(sin(pow(material.Shininess(),
+                                        3.0f) * glm::half_pi<float>()));
     prog.material.useNormalsMap.Set(material.HasTexture(RawTexture::Normals));
     // set textures
     Texture::Active(RawTexture::Diffuse);
