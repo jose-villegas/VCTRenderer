@@ -283,8 +283,8 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 {
     vec3 viewDirection = normalize(cameraPosition - position);
     vec3 halfDirection = normalize(lightDirection + viewDirection);
-    float specularFactor = max(dot(halfDirection, normal), 0.0f);
-    specularFactor = pow(specularFactor, specular.a);
+    float specularFactor = max(dot(normal, halfDirection), 0.0f);
+    specularFactor = pow(specularFactor, specular.a * 256.0f);
     return light.specular * specular.rgb * specularFactor;
 }
 
@@ -439,8 +439,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         vec3 coneDirection = reflect(-viewDirection, normal);
         coneDirection = normalize(coneDirection);
         // specular cone setup
-        float smoothness = pow(specular.a / 64.0f, 4.0f);
-        float aperture = clamp(1.0f - sin(acos(0.11f / (smoothness + 0.11f))), 0.05f, 1.0f);
+        float aperture = clamp(1.0f - sin(acos(0.11f / (specular.a * specular.a + 0.11f))) * 0.97f, 0.03f, 1.0f);
         specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
         specularTrace.rgb *= specular.rgb;
     }
@@ -486,7 +485,6 @@ void main()
     isEmissive = any(greaterThan(emissive, vec3(0.0f)));
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
-    specular.a *= 64.0f;
     // lighting cumulatives
     vec3 directLighting = vec3(1.0f);
     vec4 indirectLighting = vec4(1.0f);
@@ -527,7 +525,7 @@ void main()
     compositeLighting = (directLighting + indirectLighting.rgb) * ambientOcclusion;
     compositeLighting += emissive;
     // Reinhard tone mapping
-    compositeLighting = compositeLighting / (compositeLighting + vec3(1.0));
+    compositeLighting = compositeLighting / (compositeLighting + 1.0f);
     // gamma correction
     const float gamma = 2.2;
     compositeLighting = pow(compositeLighting, vec3(1.0 / gamma));

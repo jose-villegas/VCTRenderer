@@ -50,10 +50,8 @@ void main()
     gAlbedo = diffuseColor.rgb * material.diffuse;
     // store specular intensity
     vec4 specularColor = texture(specularMap, texCoord.xy);
-    // shininess zero means this is a emissive material
-    float shininess = clamp(material.shininess, 0.01f, 1.0f);
     // for emissive materials we ignore the specular
-    gSpecular = vec4(specularColor.rgb * material.specular, shininess);
+    gSpecular = vec4(specularColor.rgb * material.specular, max(material.shininess, 0.01f));
     // store per fragment normal
     gNormal = material.useNormalsMap == 1 ? normalMapping() : normalize(normal);
     // per fragment emissivenes
