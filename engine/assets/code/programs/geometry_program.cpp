@@ -12,9 +12,6 @@ void GeometryProgram::ExtractUniforms()
     material.shininess.Assign(program);
     material.emissive.Assign(program);
     material.useNormalsMap.Assign(program);
-    diffuseMap.Assign(program);
-    specularMap.Assign(program);
-    normalsMap.Assign(program);
     alphaCutoff.Assign(program);
     matrices.normal.Assign(program);
     matrices.modelViewProjection.Assign(program);
@@ -24,9 +21,6 @@ void GeometryProgram::ExtractUniforms()
     material.emissive.BindTo("material.emissive");
     material.shininess.BindTo("material.shininess");
     material.useNormalsMap.BindTo("material.useNormalsMap");
-    diffuseMap.BindTo("diffuseMap");
-    specularMap.BindTo("specularMap");
-    normalsMap.BindTo("normalsMap");
     alphaCutoff.BindTo("alphaCutoff");
     matrices.normal.BindTo("matrices.normal");
     matrices.modelViewProjection.BindTo("matrices.modelViewProjection");

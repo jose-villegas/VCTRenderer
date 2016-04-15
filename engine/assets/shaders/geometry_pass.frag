@@ -22,9 +22,10 @@ uniform struct Material
     uint useNormalsMap;
 } material;
 
-uniform sampler2D diffuseMap;
-uniform sampler2D specularMap;
-uniform sampler2D normalsMap;
+layout(binding = 0) uniform sampler2D diffuseMap;
+layout(binding = 1) uniform sampler2D specularMap;
+layout(binding = 2) uniform sampler2D normalsMap;
+layout(binding = 3) uniform sampler2D opacityMap;
 
 uniform float alphaCutoff = 0.01f;
 
@@ -44,8 +45,9 @@ void main()
 {
     // store albedo rgb
     vec4 diffuseColor = texture(diffuseMap, texCoord.xy);
+    float opacity = min(diffuseColor.a, texture(opacityMap, texCoord.xy).r);
 
-    if (diffuseColor.a <= alphaCutoff) { discard; }
+    if (opacity <= alphaCutoff) { discard; }
 
     gAlbedo = diffuseColor.rgb * material.diffuse;
     // store specular intensity

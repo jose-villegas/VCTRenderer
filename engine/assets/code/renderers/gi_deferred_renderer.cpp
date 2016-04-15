@@ -98,15 +98,14 @@ const
                                         3.0f) * glm::half_pi<float>()));
     prog.material.useNormalsMap.Set(material.HasTexture(RawTexture::Normals));
     // set textures
-    Texture::Active(RawTexture::Diffuse);
+    Texture::Active(0);
     material.BindTexture(RawTexture::Diffuse);
-    prog.diffuseMap.Set(RawTexture::Diffuse);
-    Texture::Active(RawTexture::Specular);
+    Texture::Active(1);
     material.BindTexture(RawTexture::Specular);
-    prog.specularMap.Set(RawTexture::Specular);
-    Texture::Active(RawTexture::Normals);
+    Texture::Active(2);
     material.BindTexture(RawTexture::Normals);
-    prog.normalsMap.Set(RawTexture::Normals);
+    Texture::Active(3);
+    material.BindTexture(RawTexture::Opacity);
 }
 
 const std::array<oglplus::Texture, 5> &GIDeferredRenderer::BufferTextures()

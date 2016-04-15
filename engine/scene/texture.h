@@ -59,7 +59,7 @@ class Texture2D : public RawTexture
         std::unique_ptr<oglplus::Texture> oglTexture;
 
         static Texture2D * CreateColorTexture(std::string texName,
-                                              glm::u8vec3 texColor);
+                                              glm::u8vec4 texColor);
     public:
         Texture2D();
         ~Texture2D();

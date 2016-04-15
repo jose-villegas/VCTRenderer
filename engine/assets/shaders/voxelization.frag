@@ -17,13 +17,15 @@ layout(binding = 0, r32ui) uniform volatile coherent uimage3D voxelAlbedo;
 layout(binding = 1, r32ui) uniform volatile coherent uimage3D voxelNormal;
 layout(binding = 2, rgba8) uniform volatile coherent image3D voxelEmission;
 
+layout(binding = 3) uniform sampler2D diffuseMap;
+layout(binding = 4) uniform sampler2D opacityMap;
+
 uniform struct Material
 {
     vec3 diffuse;
     vec3 emissive;
 } material;
 
-uniform sampler2D diffuseMap;
 uniform uint volumeDimension;
 
 vec4 convRGBA8ToVec4(uint val)
@@ -73,11 +75,12 @@ void main()
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
     albedo.rgb *= material.diffuse;
 
+    float opacity = min(albedo.a, texture(opacityMap, In.texCoord.xy).r);
     // alpha cutoff
-    if(albedo.a > 0.0f)
+    if(opacity > 0.0f)
     {
         // premultiplied alpha
-        albedo.rgb *= albedo.a;
+        albedo.rgb *= opacity;
         albedo.a = 1.0f;
         // bring normal to 0-1 range
         vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);

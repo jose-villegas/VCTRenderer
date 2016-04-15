@@ -30,9 +30,6 @@ class GeometryProgram : public ProgramShader
     public:
         // fragment shader uniforms
         UniformMaterial material;
-        oglplus::UniformSampler diffuseMap;
-        oglplus::UniformSampler specularMap;
-        oglplus::UniformSampler normalsMap;
         oglplus::Uniform<float> alphaCutoff;
         // vertex shader uniforms
         UniformMatrices matrices;

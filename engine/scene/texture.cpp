@@ -113,7 +113,7 @@ int Texture2D::Name() const
 }
 
 Texture2D * Texture2D::CreateColorTexture(std::string texName,
-        glm::u8vec3 texColor)
+        glm::u8vec4 texColor)
 {
     auto defaultTexture = new Texture2D();
     defaultTexture->filepath = texName;
@@ -121,10 +121,10 @@ Texture2D * Texture2D::CreateColorTexture(std::string texName,
     defaultTexture->height = 1;
     defaultTexture->lineWidth = 1;
     defaultTexture->depth = 1;
-    defaultTexture->bitsPerPixel = 24;
-    defaultTexture->rawData.reset(new unsigned char[3]
+    defaultTexture->bitsPerPixel = 32;
+    defaultTexture->rawData.reset(new unsigned char[4]
     {
-        texColor.b, texColor.g, texColor.r
+        texColor.b, texColor.g, texColor.r, texColor.a
     });
 
     // texture types conveyed by default
@@ -144,7 +144,7 @@ std::unique_ptr<Texture2D> &Texture2D::GetDefaultTexture()
     {
         // default texture is white
         std::string texName = "!defaultTexture";
-        glm::u8vec3 texColor = glm::u8vec3(255, 255, 255);
+        glm::u8vec4 texColor = glm::u8vec4(255, 255, 255, 255);
         // save to instance
         instance.reset(CreateColorTexture(texName, texColor));
         instance->Load

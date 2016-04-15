@@ -94,11 +94,10 @@ void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
     prog.material.diffuse.Set(material.Diffuse());
     prog.material.emissive.Set(material.Emissive());
     // set textures
-    Texture::Active(RawTexture::Diffuse);
+    Texture::Active(3);
     material.BindTexture(RawTexture::Diffuse);
-    prog.diffuseMap.Set(RawTexture::Diffuse);
-    Texture::Active(RawTexture::Specular);
-    material.BindTexture(RawTexture::Specular);
+    Texture::Active(4);
+    material.BindTexture(RawTexture::Opacity);
 }
 
 void VoxelizerRenderer::SetUpdateFrequency(const int framestep)
