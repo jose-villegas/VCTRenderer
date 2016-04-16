@@ -148,6 +148,11 @@ bool Camera::InFrustum(const BoundingBox &volume) const
     return frustum.InFrustum(volume);
 }
 
+const CullingFrustum &Camera::Frustum() const
+{
+    return frustum;
+}
+
 void Camera::UpdateProjectionMatrix()
 {
     if (mode == ProjectionMode::Perspective)

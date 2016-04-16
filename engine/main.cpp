@@ -7,7 +7,6 @@
 
 int main(int argc, char * argv[])
 {
-#ifndef NDEBUG // DEBUG
     // pause in positive case
     auto errorCaptured = false;
 
@@ -38,11 +37,6 @@ int main(int argc, char * argv[])
 
     if (errorCaptured) { std::cin.get(); }
 
-#else // RELEASE
-    // instance engine core to load all assets and
-    // relevant data and start rendering main loop
-    EngineBase::Instance()->MainLoop();
-#endif
     EngineBase::Terminate();
     // exit application
     return 0;

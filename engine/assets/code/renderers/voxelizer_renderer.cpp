@@ -431,6 +431,15 @@ void VoxelizerRenderer::DrawVoxels()
     auto model = translate(sceneBox.MinPoint()) * scale(glm::vec3(vSize));
     prog.volumeDimension.Set(vDimension);
     prog.matrices.modelViewProjection.Set(viewProjection * model);
+    auto &planes = camera->Frustum().Planes();
+
+    for (auto i = 0; i < 6; i++)
+    {
+        prog.frustumPlanes[i].Set(planes[i]);
+    }
+
+    prog.voxelSize.Set(voxelSize);
+    prog.worldMinPoint.Set(sceneBox.MinPoint());
     // bind vertex buffer array to draw, needed but all geometry is generated
     // in the geometry shader
     voxelDrawerArray.Bind();

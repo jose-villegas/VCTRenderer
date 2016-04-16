@@ -10,10 +10,39 @@ uniform struct Matrices
     mat4 modelViewProjection;
 } matrices;
 
-uniform uint volumeDimension;
+uniform vec4 frustumPlanes[6];
+uniform float voxelSize;
+uniform vec3 worldMinPoint;
+
+bool VoxelInFrustum(vec3 center, vec3 extent)
+{
+	vec4 plane;
+
+	for(int i = 0; i < 6; i++)
+	{
+		plane = frustumPlanes[i];
+		float d = dot(extent, abs(plane.xyz));
+		float r = dot(center, plane.xyz) + plane.w;
+
+		if(d + r > 0.0f == false)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
 
 in vec4 albedo[];
 out vec4 voxelColor;
+
+vec3 VoxelToWorld(vec3 pos)
+{
+	vec3 result = pos;
+	result *= voxelSize;
+
+	return result + worldMinPoint;
+}
 
 void main()
 {
@@ -38,6 +67,11 @@ void main()
 		4, 6, 0, 2, // front
 		1, 3, 5, 7  // back
 	);
+
+	vec3 center = VoxelToWorld(gl_in[0].gl_Position.xyz);
+	vec3 extent = vec3(voxelSize);
+
+	if(!VoxelInFrustum(center, extent)) { return; }
 
 	if(albedo[0].a == 0.0f) { return; }
 

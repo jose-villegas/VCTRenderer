@@ -72,6 +72,7 @@ class Camera : public SceneObject, public SingleActive<Camera>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>
         bool InFrustum(const BoundingBox &volume) const;
+        const CullingFrustum &Frustum() const;
     private:
         float clipPlaneFar;
         float clipPlaneNear;
