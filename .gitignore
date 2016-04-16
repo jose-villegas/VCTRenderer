@@ -195,3 +195,6 @@ ModelManifest.xml
 doc/
 VCTRenderer.VC.opendb
 Deploy/
+
+# models folder
+engine/assets/models/
