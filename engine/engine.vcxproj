@@ -527,12 +527,14 @@ xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Co
     <None Include="assets\shaders\draw_voxels.frag" />
     <None Include="assets\shaders\draw_voxels.geom" />
     <None Include="assets\shaders\draw_voxels.vert" />
+    <None Include="assets\shaders\fs_quad.vert" />
     <None Include="assets\shaders\geometry_pass.frag" />
     <None Include="assets\shaders\geometry_pass.vert" />
     <None Include="assets\shaders\inject_propagation.comp" />
     <None Include="assets\shaders\inject_radiance.comp" />
     <None Include="assets\shaders\light_pass.frag" />
     <None Include="assets\shaders\light_pass.vert" />
+    <None Include="assets\shaders\post_procress.frag" />
     <None Include="assets\shaders\voxelization.frag" />
     <None Include="assets\shaders\voxelization.geom" />
     <None Include="assets\shaders\voxelization.vert" />

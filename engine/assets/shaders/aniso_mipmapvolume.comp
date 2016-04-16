@@ -18,17 +18,12 @@ const ivec3 anisoOffsets[] = ivec3[8]
 	ivec3(0, 0, 0)
 );
 
-float FetchTexels(ivec3 pos, int dir, inout vec4 val[8]) 
+void FetchTexels(ivec3 pos, int dir, inout vec4 val[8]) 
 {
-	float alphaCummulative = 0.0f;
-
 	for(int i = 0; i < 8; i++)
 	{
 		val[i] = imageLoad(voxelMipmapSrc[dir], pos + anisoOffsets[i]);
-		alphaCummulative += val[i].a;
 	}
-
-	return alphaCummulative;
 }
 
 void main()
@@ -39,12 +34,11 @@ void main()
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
 	ivec3 sourcePos = writePos * 2;
-	float alphaCummulative = 0.0f;
 	// fetch values
 	vec4 values[8];
 	// x -
-	alphaCummulative = FetchTexels(sourcePos, 0, values);
-	if(alphaCummulative > 0.0f) imageStore(voxelMipmapDst[0], writePos, 
+	FetchTexels(sourcePos, 0, values);
+	imageStore(voxelMipmapDst[0], writePos, 
 	(
 		values[0] + values[4] * (1 - values[0].a) + 
 		values[1] + values[5] * (1 - values[1].a) +
@@ -52,8 +46,8 @@ void main()
 		values[3] + values[7] * (1 - values[3].a)) * 0.25f
 	);
 	// x +
-	alphaCummulative = FetchTexels(sourcePos, 1, values);
-    if(alphaCummulative > 0.0f) imageStore(voxelMipmapDst[1], writePos, 
+	FetchTexels(sourcePos, 1, values);
+    imageStore(voxelMipmapDst[1], writePos, 
 	(
 		values[4] + values[0] * (1 - values[4].a) +
     	values[5] + values[1] * (1 - values[5].a) +
@@ -61,8 +55,8 @@ void main()
     	values[7] + values[3] * (1 - values[7].a)) * 0.25f
     );
 	// y -	
-	alphaCummulative = FetchTexels(sourcePos, 2, values);
-    if(alphaCummulative > 0.0f) imageStore(voxelMipmapDst[2], writePos, 
+	FetchTexels(sourcePos, 2, values);
+    imageStore(voxelMipmapDst[2], writePos, 
 	(
 		values[0] + values[2] * (1 - values[0].a) +
     	values[1] + values[3] * (1 - values[1].a) +
@@ -70,8 +64,8 @@ void main()
     	values[4] + values[6] * (1 - values[4].a)) * 0.25f
     );
 	// y +
-	alphaCummulative = FetchTexels(sourcePos, 3, values);
-    if(alphaCummulative > 0.0f) imageStore(voxelMipmapDst[3], writePos, 
+	FetchTexels(sourcePos, 3, values);
+    imageStore(voxelMipmapDst[3], writePos, 
 	(
 		values[2] + values[0] * (1 - values[2].a) +
     	values[3] + values[1] * (1 - values[3].a) +
@@ -79,8 +73,8 @@ void main()
     	values[6] + values[4] * (1 - values[6].a)) * 0.25f
     );
 	// z -
-	alphaCummulative = FetchTexels(sourcePos, 4, values);
-    if(alphaCummulative > 0.0f) imageStore(voxelMipmapDst[4], writePos, 
+	FetchTexels(sourcePos, 4, values);
+    imageStore(voxelMipmapDst[4], writePos, 
 	(
 		values[0] + values[1] * (1 - values[0].a) +
     	values[2] + values[3] * (1 - values[2].a) +
@@ -88,8 +82,8 @@ void main()
     	values[6] + values[7] * (1 - values[6].a)) * 0.25f
     );
 	// z +
-	alphaCummulative = FetchTexels(sourcePos, 5, values);
-    if(alphaCummulative > 0.0f) imageStore(voxelMipmapDst[5], writePos, 
+	FetchTexels(sourcePos, 5, values);
+    imageStore(voxelMipmapDst[5], writePos, 
 	(
 		values[1] + values[0] * (1 - values[1].a) +
     	values[3] + values[2] * (1 - values[3].a) +

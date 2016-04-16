@@ -18,17 +18,12 @@ const ivec3 anisoOffsets[] = ivec3[8]
 	ivec3(0, 0, 0)
 );
 
-float FetchTexels(ivec3 pos, inout vec4 val[8]) 
+void FetchTexels(ivec3 pos, inout vec4 val[8]) 
 {
-	float alphaCummulative = 0.0f;
-
 	for(int i = 0; i < 8; i++)
 	{
 		val[i] = imageLoad(voxelBase, pos + anisoOffsets[i]);
-		alphaCummulative += val[i].a;
 	}
-
-	return alphaCummulative;
 }
 
 void main()
@@ -39,12 +34,9 @@ void main()
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
 	ivec3 sourcePos = writePos * 2;
-	float alphaCummulative = 0.0f;
 	vec4 values[8];
 
-	alphaCummulative = FetchTexels(sourcePos, values);
-
-	if(alphaCummulative == 0.0f) { return; }
+	FetchTexels(sourcePos, values);
 	// x -
 	imageStore(voxelMipmap[0], writePos, 
 	(
