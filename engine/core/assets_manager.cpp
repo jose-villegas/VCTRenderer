@@ -155,6 +155,8 @@ AssetsManager::AssetsManager()
 
     // utility default assets
     Texture2D::GetDefaultTexture();
+    // shapes instancer
+    Shapes::Load();
 }
 
 

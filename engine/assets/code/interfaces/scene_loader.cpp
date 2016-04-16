@@ -34,6 +34,7 @@ void UISceneLoader::Draw()
     static auto &assets = AssetsManager::Instance();
     static auto &scene = Scene::Active();
     static auto activeScene = -1;
+    static Scene * reloaded = nullptr;
     SetNextWindowPosCenter();
 
     if (Begin("Load Scene", &UIMainMenu::drawSceneLoader))
@@ -79,17 +80,20 @@ void UISceneLoader::Draw()
             begin->second->SetAsActive();
         }
 
-        SameLine();
+        if(scene) SameLine();
 
-        if (Button("Load") && scene && !scene->IsLoaded())
+        if (reloaded) { reloaded->SetAsActive(); reloaded = nullptr; }
+
+        if (scene && Button(scene->IsLoaded() ? "Reload" : "Load"))
         {
-            scene->CleanImport(flag);
-            scene->Load();
+            auto scenePtr = scene.get();
+            scenePtr->IsLoaded() ? scenePtr->CleanImport(flag) : scenePtr->Import(flag);
+            scenePtr->Load();
             static auto &shadowRender = *static_cast<ShadowMapRenderer *>
                                         (assets->renderers["Shadowmapping"].get());
 
             // set first directional light as shadowmapping
-            for(auto &l : scene->lights)
+            for(auto &l : scenePtr->lights)
             {
                 if(l->Type() == Light::Directional)
                 {
@@ -98,10 +102,12 @@ void UISceneLoader::Draw()
                 }
             }
 
-            if (scene->cameras.size() > 0) scene->cameras.front()->SetAsActive();
+            if(shadowRender.Caster()) shadowRender.Caster()->RegisterChange();
 
-            // update shadow map
-            shadowRender.Render();
+            if (scenePtr->cameras.size() > 0) scenePtr->cameras.front()->SetAsActive();
+
+            // to reset as active next frame
+            reloaded = scenePtr;
         }
 
         static int choosen = 1;

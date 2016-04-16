@@ -10,8 +10,8 @@ class Shapes
         // this will remove shapes from memory since they are
         // context dependent they have to be deleted before closing the context
         static void UnloadShapes();
-    private:
         static void Load();
+    private:
         static std::unordered_map<std::string, std::shared_ptr<Node>> shapes;
 };
 

@@ -16,7 +16,8 @@ void Shapes::Load()
     }
 
     Scene primitiveScene("rendering\\primitives\\primitives.fbx");
-    SceneImporter::Import("rendering\\primitives\\primitives.fbx", &primitiveScene,
+    SceneImporter::Import("rendering\\primitives\\primitives.fbx",
+                          &primitiveScene,
                           aiProcessPreset_TargetRealtime_Fast);
 
     for (auto mesh : primitiveScene.meshes)

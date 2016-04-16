@@ -13,6 +13,9 @@ void Scene::SetAsActive()
     // previous active scene
     auto previous = Active().get();
 
+    // no change
+    if (previous == this) { return; }
+
     if (previous != nullptr)
     {
         // save current scene active camera index
@@ -80,6 +83,7 @@ void Scene::Import(unsigned int flags)
 void Scene::CleanImport(unsigned flags)
 {
     Camera::ResetActive();
+    ResetActive();
     meshes.clear();
     textures.clear();
     materials.clear();

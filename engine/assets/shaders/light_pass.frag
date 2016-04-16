@@ -506,7 +506,7 @@ void main()
     else if(mode == 2) // direct only
     {
         directLighting = CalculateDirectLighting(position, normal, albedo, specular);
-        indirectLighting = vec4(0.0f);
+        indirectLighting = vec4(0.0f, 0.0f, 0.0f, 1.0f);
     }
     else if(mode == 3) // indirect only
     {

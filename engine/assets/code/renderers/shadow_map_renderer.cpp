@@ -33,6 +33,7 @@ void ShadowMapRenderer::Render()
 {
     using namespace oglplus;
     static Context gl;
+    static Scene * scenePtr = nullptr;
     static auto &scene = Scene::Active();
     auto camera = Camera::Active().get();
 
@@ -45,6 +46,7 @@ void ShadowMapRenderer::Render()
     static auto direction = glm::vec3(0);
     static auto &changes = Transform::TransformChangedMap();
 
+    // any node transformation happened
     for (auto &c : changes)
     {
         auto &type = typeid(*c.first);
@@ -55,7 +57,11 @@ void ShadowMapRenderer::Render()
         }
     }
 
+    // shadow caster change
     if (shadowCaster->TransformChanged()) { updateShadowMap = true; }
+
+    // scene change
+    if (scenePtr != scene.get()) { updateShadowMap = true; }
 
     if (!updateShadowMap) { return; }
 

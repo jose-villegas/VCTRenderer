@@ -9,6 +9,8 @@
 #include "../../../rendering/primitives/shapes.h"
 #include "../renderers/voxelizer_renderer.h"
 #include "../../../core/assets_manager.h"
+#include "../renderers/shadow_map_renderer.h"
+#include "../../../scene/light.h"
 
 using namespace ImGui;
 
@@ -203,6 +205,8 @@ void UIShapeCreator::Draw()
 
         if (Button("Delete Shape"))
         {
+            static auto &shadowRender = *static_cast<ShadowMapRenderer *>
+                                        (assets->renderers["Shadowmapping"].get());
             auto itScene = find_if(scene->rootNode->nodes.begin(),
                                    scene->rootNode->nodes.end(),
                                    [ = ](const std::shared_ptr<Node> &ptr)
@@ -242,6 +246,8 @@ void UIShapeCreator::Draw()
             voxel.RevoxelizeScene();
             selected = -1;
             node = nullptr;
+
+            if (shadowRender.Caster()) shadowRender.Caster()->RegisterChange();
         }
     }
     else
