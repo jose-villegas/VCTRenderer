@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../types/vertex.h"
 #include "../types/base_object.h"
 #include "../types/bounding_box.h"
 
@@ -8,7 +9,6 @@
 #include <oglplus/vertex_array.hpp>
 
 class Material;
-struct Vertex;
 
 class Mesh : public BaseObject
 {
@@ -29,9 +29,6 @@ class MeshDrawer : public Mesh
     public:
         MeshDrawer();
         ~MeshDrawer();
-        // No copying or copy assignment allowed of this class
-        MeshDrawer(MeshDrawer const &) = delete;
-        MeshDrawer &operator=(MeshDrawer const &) = delete;
         void BindArrayBuffer() const;
         void BindElementArrayBuffer() const;
         void BindVertexArrayObject() const;

@@ -55,7 +55,7 @@ void ShadowMapRenderer::Render()
         }
     }
 
-    if (direction != -shadowCaster->Direction()) { updateShadowMap = true; }
+    if (shadowCaster->TransformChanged()) { updateShadowMap = true; }
 
     if (!updateShadowMap) { return; }
 
