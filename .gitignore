@@ -198,3 +198,5 @@ Deploy/
 
 # models folder
 models/
+*.opendb
+*.db

@@ -504,9 +504,9 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
     voxelRadiance.Bind(TextureTarget::_3D);
     voxelRadiance.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
     voxelRadiance.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
-    voxelRadiance.WrapR(TextureTarget::_3D, TextureWrap::MirroredRepeat);
-    voxelRadiance.WrapS(TextureTarget::_3D, TextureWrap::MirroredRepeat);
-    voxelRadiance.WrapT(TextureTarget::_3D, TextureWrap::MirroredRepeat);
+    voxelRadiance.WrapR(TextureTarget::_3D, TextureWrap::MirrorClampToEdge);
+    voxelRadiance.WrapS(TextureTarget::_3D, TextureWrap::MirrorClampToEdge);
+    voxelRadiance.WrapT(TextureTarget::_3D, TextureWrap::MirrorClampToEdge);
     voxelRadiance.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
                           dimension, dimension, dimension, 0, PixelDataFormat::RGBA,
                           PixelDataType::UnsignedByte, nullptr);
@@ -518,9 +518,9 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
         voxelTexMipmap[i].MinFilter(TextureTarget::_3D,
                                     TextureMinFilter::LinearMipmapLinear);
         voxelTexMipmap[i].MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
-        voxelTexMipmap[i].WrapR(TextureTarget::_3D, TextureWrap::MirroredRepeat);
-        voxelTexMipmap[i].WrapS(TextureTarget::_3D, TextureWrap::MirroredRepeat);
-        voxelTexMipmap[i].WrapT(TextureTarget::_3D, TextureWrap::MirroredRepeat);
+        voxelTexMipmap[i].WrapR(TextureTarget::_3D, TextureWrap::MirrorClampToEdge);
+        voxelTexMipmap[i].WrapS(TextureTarget::_3D, TextureWrap::MirrorClampToEdge);
+        voxelTexMipmap[i].WrapT(TextureTarget::_3D, TextureWrap::MirrorClampToEdge);
         voxelTexMipmap[i].Image3D(TextureTarget::_3D, 0,
                                   PixelDataInternalFormat::RGBA8,
                                   dimension / 2, dimension / 2,

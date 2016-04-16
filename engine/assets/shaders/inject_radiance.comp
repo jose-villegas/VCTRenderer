@@ -10,8 +10,6 @@ const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
 
-bool isEmissive = false;
-
 struct Attenuation
 {
     float constant;
@@ -78,15 +76,13 @@ float Chebyshev(vec2 moments, float mean, float minVariance)
 
 float Visibility(vec3 position)
 {
-    if(isEmissive) { return 1.0f; }
-
     vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
     // avoid arithmetic error
     if(lsPos.w == 0.0f) return 1.0f;
     // transform to ndc-space
     lsPos /= lsPos.w;
     // querry visibility
-    vec4 moments = texture(shadowMap, lsPos.xy).xyzw;
+    vec4 moments = texture(shadowMap, lsPos.xy);
     // move to avoid acne
     vec2 wDepth = WarpDepth(lsPos.z - 0.0001f);
     // derivative of warping at depth
@@ -105,7 +101,7 @@ vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
     return light.diffuse * albedo * lambertian;
 }
 
-vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
+vec3 CalculateDirectional(Light light, vec3 normal, vec3 albedo)
 {
     return Diffuse(light, light.direction, normal, albedo);
 }
@@ -154,18 +150,20 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     // calculate directional lighting
     vec3 directLighting = vec3(0.0f);
 	// fixes shadow mapping issues where the center voxel is occluded
-	vec3 unitCubeDirection = vec3(clamp(1.7320f * normal, vec3(-1.0f), vec3(1.0f)));
-	float visibility = 1.0f;
+	vec3 unitCubeDirection = clamp(1.7320f * normal, -1.0f, 1.0f);
+    float visibility = 1.0f;
+
+    position = position + unitCubeDirection * voxelSize;
 
 	if(shadowMapping == 1)
 	{
-		visibility = Visibility(position + unitCubeDirection * voxelSize);
+		visibility = Visibility(position);
 	}
 
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
     {
-        directLighting += CalculateDirectional(directionalLight[i], normal, position, albedo);
+        directLighting += CalculateDirectional(directionalLight[i], normal, albedo);
 
         if(i == 0) { directLighting *= visibility; }
     }
@@ -216,19 +214,17 @@ void main()
     if(albedo.a == 0.0f) { return; }
     // emission from voxel
     vec3 emissive = imageLoad(voxelRadiance, writePos).rgb;
-    isEmissive = any(greaterThan(emissive, vec3(0.0f)));
-
     // black voxel has no irradiance diffuse
     if(any(greaterThan(albedo.rgb, vec3(0.0f))))
     {
         // voxel normal in 0-1 range
-        vec4 normal = imageLoad(voxelNormal, writePos);
+        vec3 normal = imageLoad(voxelNormal, writePos).xyz;
         // normal is stored in 0-1 range, restore to -1-1
         normal = normalize(normal * 2.0f - 1.0f);
         // obtain world-space position of the current voxel
         vec3 wsPosition = VoxelToWorld(writePos);
         // calculate direct lighting onto voxel
-        albedo.rgb = CalculateDirectLighting(wsPosition, normal.xyz, albedo.rgb);
+        albedo.rgb = CalculateDirectLighting(wsPosition, normal, albedo.rgb);
     }
 
     albedo.rgb += emissive;

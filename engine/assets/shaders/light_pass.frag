@@ -20,8 +20,6 @@ const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
 
-bool isEmissive = false;
-
 struct Attenuation
 {
     float constant;
@@ -157,8 +155,6 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
 
 float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance) 
 {
-    if(isEmissive) { return 1.0f; }
-
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
@@ -248,15 +244,13 @@ float Chebyshev(vec2 moments, float mean, float minVariance)
 
 float Visibility(vec3 position)
 {
-    if(isEmissive) { return 1.0f; }
-
     vec4 lsPos = lightViewProjection * vec4(position, 1.0f);
     // avoid arithmetic error
     if(lsPos.w == 0.0f) return 1.0f;
     // transform to ndc-space
     lsPos /= lsPos.w;
     // querry visibility
-    vec4 moments = texture(shadowMap, lsPos.xy).xyzw;
+    vec4 moments = texture(shadowMap, lsPos.xy);
     // move to avoid acne
     vec2 wDepth = WarpDepth(lsPos.z - 0.0001f);
     // derivative of warping at depth
@@ -485,7 +479,6 @@ void main()
     vec3 albedo = texture(gAlbedo, texCoord).rgb;
     // fragment emissiviness
     vec3 emissive = texture(gEmissive, texCoord).rgb;
-    isEmissive = any(greaterThan(emissive, vec3(0.0f)));
     // xyz = fragment specular, w = shininess
     vec4 specular = texture(gSpecular, texCoord);
     // lighting cumulatives
@@ -496,7 +489,7 @@ void main()
     if(mode == 0)   // direct + indirect + ao
     {
         directLighting = CalculateDirectLighting(position, normal, albedo, specular);
-        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, !isEmissive);
+        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, true);
     }
     else if(mode == 1)  // direct + indirect
     {
@@ -524,6 +517,9 @@ void main()
 
     compositeLighting = (directLighting + indirectLighting.rgb) * indirectLighting.a;
     compositeLighting += emissive;
+
+    // -- this could be done in a post-process pass -- 
+
     // Reinhard tone mapping
     compositeLighting = compositeLighting / (compositeLighting + 1.0f);
     // gamma correction

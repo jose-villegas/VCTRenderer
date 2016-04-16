@@ -11,22 +11,23 @@
 //
 #include <oglplus/enumerations.hpp>
 
-namespace oglplus {
+namespace oglplus
+{
 
 /// Enumeration TextureWrap
-/**
- *  @ingroup oglplus_enumerations
- */
-OGLPLUS_ENUM_CLASS_BEGIN(TextureWrap, GLenum)
+    /**
+     *  @ingroup oglplus_enumerations
+     */
+    OGLPLUS_ENUM_CLASS_BEGIN(TextureWrap, GLenum)
 #include <oglplus/enums/texture_wrap.ipp>
-OGLPLUS_ENUM_CLASS_END(TextureWrap)
+    OGLPLUS_ENUM_CLASS_END(TextureWrap)
 
 #if !OGLPLUS_NO_ENUM_VALUE_NAMES
-#include <oglplus/enums/texture_wrap_names.ipp>
+    #include <oglplus/enums/texture_wrap_names.ipp>
 #endif
 
 #if !OGLPLUS_NO_ENUM_VALUE_RANGES
-#include <oglplus/enums/texture_wrap_range.ipp>
+    #include <oglplus/enums/texture_wrap_range.ipp>
 #endif
 
 } // namespace oglplus
