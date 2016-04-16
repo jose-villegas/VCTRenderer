@@ -257,9 +257,7 @@ void VoxelizerRenderer::InjectRadiance()
                           oglplus::ImageUnitFormat::RGBA8);
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                           oglplus::ImageUnitFormat::RGBA8);;
-    voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
-                            oglplus::ImageUnitFormat::RGBA8);
-    voxelRadiance.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+    voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                             oglplus::ImageUnitFormat::RGBA8);
     auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
     // inject radiance at level 0 of texture
