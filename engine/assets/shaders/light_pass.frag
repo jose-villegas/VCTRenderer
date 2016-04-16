@@ -465,6 +465,8 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     }
 
     vec3 result = (diffuseTrace.rgb + specularTrace.rgb) * bounceStrength;
+    // result is in linear space, convert to srgb
+    result = pow(result, vec3(2.2f));
 
     return vec4(result, ambientOcclusion ? clamp(diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
 }
@@ -476,7 +478,8 @@ void main()
     // world-space normal
     vec3 normal = normalize(texture(gNormal, texCoord).xyz);
     // fragment albedo
-    vec3 albedo = texture(gAlbedo, texCoord).rgb;
+    vec3 baseColor = texture(gAlbedo, texCoord).rgb;
+    vec3 albedo = pow(baseColor, vec3(2.2f));
     // fragment emissiviness
     vec3 emissive = texture(gEmissive, texCoord).rgb;
     // xyz = fragment specular, w = shininess
@@ -489,12 +492,12 @@ void main()
     if(mode == 0)   // direct + indirect + ao
     {
         directLighting = CalculateDirectLighting(position, normal, albedo, specular);
-        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, true);
+        indirectLighting = CalculateIndirectLighting(position, normal, baseColor, specular, true);
     }
     else if(mode == 1)  // direct + indirect
     {
         directLighting = CalculateDirectLighting(position, normal, albedo, specular);
-        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, false);
+        indirectLighting = CalculateIndirectLighting(position, normal, baseColor, specular, false);
     }
     else if(mode == 2) // direct only
     {
@@ -505,13 +508,13 @@ void main()
     {
         directLighting = vec3(0.0f);
         albedo.rgb = albedo.rgb = vec3(1.0f);
-        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, false);
+        indirectLighting = CalculateIndirectLighting(position, normal, baseColor, specular, false);
     }
     else if(mode == 4) // ambient occlusion only
     {
         directLighting = vec3(0.0f);
         specular = vec4(0.0f);
-        indirectLighting = CalculateIndirectLighting(position, normal, albedo, specular, true);
+        indirectLighting = CalculateIndirectLighting(position, normal, baseColor, specular, true);
         indirectLighting.rgb = vec3(1.0f);
     }
 
@@ -523,8 +526,8 @@ void main()
     // Reinhard tone mapping
     compositeLighting = compositeLighting / (compositeLighting + 1.0f);
     // // gamma correction
-    // const float gamma = 2.2;
-    // compositeLighting = pow(compositeLighting, vec3(1.0 / gamma));
+    const float gamma = 2.2;
+    compositeLighting = pow(compositeLighting, vec3(1.0 / gamma));
 
     fragColor = vec4(compositeLighting, 1.0f);
 }
