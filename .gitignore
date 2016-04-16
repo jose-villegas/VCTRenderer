@@ -197,4 +197,4 @@ VCTRenderer.VC.opendb
 Deploy/
 
 # models folder
-engine/assets/models/
+models/
