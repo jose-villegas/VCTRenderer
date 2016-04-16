@@ -73,12 +73,14 @@ void main()
     const ivec3 zero = ivec3(0);
     // fragment albedo
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
-    albedo.rgb *= material.diffuse;
+    // albedo.rgb *= material.diffuse;
 
     float opacity = min(albedo.a, texture(opacityMap, In.texCoord.xy).r);
     // alpha cutoff
     if(opacity > 0.0f)
     {
+        // albedo is in srgb space, bring back to linear
+        albedo.rgb = material.diffuse * albedo.rgb;
         // premultiplied alpha
         albedo.rgb *= opacity;
         albedo.a = 1.0f;

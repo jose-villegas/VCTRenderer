@@ -82,7 +82,7 @@ float Visibility(vec3 position)
     // transform to ndc-space
     lsPos /= lsPos.w;
     // querry visibility
-    vec4 moments = texture(shadowMap, lsPos.xy);
+    vec4 moments = texture(shadowMap, lsPos.xy).xyzw;
     // move to avoid acne
     vec2 wDepth = WarpDepth(lsPos.z - 0.0001f);
     // derivative of warping at depth

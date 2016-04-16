@@ -520,8 +520,8 @@ void main()
 
     // -- this could be done in a post-process pass -- 
 
-    // // Reinhard tone mapping
-    // compositeLighting = compositeLighting / (compositeLighting + 1.0f);
+    // Reinhard tone mapping
+    compositeLighting = compositeLighting / (compositeLighting + 1.0f);
     // // gamma correction
     // const float gamma = 2.2;
     // compositeLighting = pow(compositeLighting, vec3(1.0 / gamma));
