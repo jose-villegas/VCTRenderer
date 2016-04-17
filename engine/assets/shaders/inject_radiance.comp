@@ -63,7 +63,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance)
     // navigation
     float voxelTexSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision
-    float dst = voxelTexSize;
+    float dst = voxelTexSize * 2.0f;
     vec3 samplePos = direction * dst + position;
     // control variables
     float visibility = 0.0f;
@@ -88,7 +88,9 @@ float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance)
         samplePos = direction * dst + position;
     }
 
-    return 1.0f - visibility;
+    visibility = 1.0f - sin(acos(0.01f / (visibility + 0.01f)));
+
+    return visibility;
 }
 
 float linstep(float low, float high, float value)
@@ -152,7 +154,7 @@ vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
     return light.diffuse * albedo * lambertian;
 }
 
-vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
+vec4 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
 {
     float visibility = 1.0f;
 
@@ -163,15 +165,15 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
     else if(light.shadowingMethod == 2)
     {
         vec3 voxelPos = WorldToVoxel(position);
-        visibility = floor(TraceShadowCone(voxelPos, light.direction, 1.0f));
+        visibility = TraceShadowCone(voxelPos, light.direction, 1.0f);
     }
 
-    if(visibility == 0.0f) return vec3(0.0f); 
+    if(visibility == 0.0f) return vec4(0.0f); 
 
-    return Diffuse(light, light.direction, normal, albedo) * visibility;
+    return vec4(Diffuse(light, light.direction, normal, albedo) * visibility, visibility);
 }
 
-vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
+vec4 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
 {
     light.direction = light.position - position;
     float d = length(light.direction);
@@ -179,7 +181,7 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
     float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * d
                     + light.attenuation.quadratic * d * d + 1.0f);
 
-    if(falloff <= 0.0f) return vec3(0.0f);
+    if(falloff <= 0.0f) return vec4(0.0f);
 
     float visibility = 1.0f;
 
@@ -192,22 +194,22 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = floor(TraceShadowCone(voxelPos, lightDirT, dT));
+        visibility = TraceShadowCone(voxelPos, lightDirT, dT);
     }    
 
-    if(visibility <= 0.0f) return vec3(0.0f); 
+    if(visibility <= 0.0f) return vec4(0.0f); 
 
-    return Diffuse(light, light.direction, normal, albedo) * falloff * visibility;
+    return vec4(Diffuse(light, light.direction, normal, albedo) * falloff * visibility, visibility);
 }
 
-vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
+vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 {
     vec3 spotDirection = light.direction;
     light.direction = normalize(light.position - position);
     float cosAngle = dot(-light.direction, spotDirection);
 
     // outside the cone
-    if(cosAngle <= light.angleOuterCone) { return vec3(0.0f); }
+    if(cosAngle <= light.angleOuterCone) { return vec4(0.0f); }
 
     // assuming they are passed as cos(angle)
     float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
@@ -215,13 +217,13 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
     float spotMark = (cosAngle - light.angleOuterCone) / innerMinusOuter;
     float spotFalloff = smoothstep(0.0f, 1.0f, spotMark);
 
-    if(spotFalloff <= 0.0f) return vec3(0.0f);   
+    if(spotFalloff <= 0.0f) return vec4(0.0f);   
 
     float dst = distance(light.position, position);
     float falloff = 1.0f / (light.attenuation.constant + light.attenuation.linear * dst
                     + light.attenuation.quadratic * dst * dst + 1.0f);   
 
-    if(falloff <= 0.0f) return vec3(0.0f);
+    if(falloff <= 0.0f) return vec4(0.0f);
 
     float visibility = 1.0f;
 
@@ -234,18 +236,19 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = floor(TraceShadowCone(voxelPos, lightDirT, dT)) * visibility;;
+        visibility = TraceShadowCone(voxelPos, lightDirT, dT);
     }    
 
-    if(visibility <= 0.0f) return vec3(0.0f); 
+    if(visibility <= 0.0f) return vec4(0.0f);
 
-    return Diffuse(light, light.direction, normal, albedo) * falloff * spotFalloff * visibility;
+    return vec4(Diffuse(light, light.direction, normal, albedo) * falloff * spotFalloff * visibility, visibility);
 }
 
-vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
+vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
 {
     // calculate directional lighting
-    vec3 directLighting = vec3(0.0f);
+    vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    vec4 current =  vec4(0.0f);
 	// fixes shadow mapping issues where the center voxel is occluded
 	vec3 unitCubeDirection = clamp(1.7320f * normal, -1.0f, 1.0f);
     position = position + unitCubeDirection * voxelSize;
@@ -253,19 +256,25 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
     {
-        directLighting += CalculateDirectional(directionalLight[i], normal, position, albedo);
+        current = CalculateDirectional(directionalLight[i], normal, position, albedo);
+        directLighting.rgb += current.rgb;
+        directLighting.a *= current.a;
     }
 
     // calculate lighting for point lights
     for(int i = 0; i < lightTypeCount[1]; ++i)
     {
-        directLighting += CalculatePoint(pointLight[i], normal, position, albedo);
+        current = CalculatePoint(pointLight[i], normal, position, albedo);
+        directLighting.rgb += current.rgb;
+        directLighting.a *= current.a;
     }
 
     // calculate lighting for spot lights
     for(int i = 0; i < lightTypeCount[2]; ++i) 
     {
-        directLighting += CalculateSpot(spotLight[i], normal, position, albedo);
+        current = CalculateSpot(spotLight[i], normal, position, albedo);
+        directLighting.rgb += current.rgb;
+        directLighting.a *= current.a;
     }
 
     return directLighting;
@@ -291,6 +300,7 @@ void main()
 
     if(albedo.a == 0.0f) { return; }
 
+    albedo.a = 0.0f;
     // voxel normal in 0-1 range
     vec3 normal = imageLoad(voxelNormal, writePos).xyz;
     // normal is stored in 0-1 range, restore to -1-1
@@ -303,12 +313,15 @@ void main()
         // obtain world-space position of the current voxel
         vec3 wsPosition = VoxelToWorld(writePos);
         // calculate direct lighting onto voxel
-        albedo.rgb = CalculateDirectLighting(wsPosition, normal, albedo.rgb);
+        albedo = CalculateDirectLighting(wsPosition, normal, albedo.rgb);
     }
 
+    // store visibility in normal alpha
+    imageStore(voxelNormal, writePos, vec4(normal, albedo.a));
+
+    // add emission
     albedo.rgb += emissive;
     albedo.a = 1.0f;
 
 	imageStore(voxelRadiance, writePos, albedo);
-    imageStore(voxelNormal, writePos, vec4(normal, );
 }

@@ -21,6 +21,8 @@ void VoxelDrawerProgram::ExtractUniforms()
     voxelSize.BindTo("voxelSize");
     worldMinPoint.Assign(program);
     worldMinPoint.BindTo("worldMinPoint");
+    colorChannels.Assign(program);
+    colorChannels.BindTo("colorChannels");
 }
 
 VoxelDrawerProgram::~VoxelDrawerProgram()

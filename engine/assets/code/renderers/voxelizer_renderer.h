@@ -45,7 +45,8 @@ class VoxelizerRenderer : public Renderer
         explicit VoxelizerRenderer(RenderWindow &window);
         void SetupVoxelVolumes(const unsigned int &dimension);
         void RevoxelizeScene();
-        void SetupDrawVoxels(const unsigned &level, const unsigned &direction);
+        void SetupDrawVoxels(const unsigned &level, const unsigned &direction,
+                             const glm::vec4 colors);
         /// <summary>
         /// Finalizes an instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
@@ -53,6 +54,7 @@ class VoxelizerRenderer : public Renderer
         const unsigned int &VolumeDimension() const;
         oglplus::Texture &VoxelRadiance();
         std::array<oglplus::Texture, 6> &VoxelTextureMipmap();
+        oglplus::Texture &VoxelNormalVisibility();
         const float &VoxelWorldSize() const;
         const float &VolumeGridSize() const;
         bool TraceShadowCones() const;
@@ -102,12 +104,14 @@ class VoxelizerRenderer : public Renderer
         std::array<glm::mat4x4, 3> viewProjectionMatrixI;
 
         unsigned int volumeDimension;
-        unsigned int drawMipLevel;
-        unsigned int drawDirection;
         unsigned int voxelCount;
         bool injectFirstBounce;
         float volumeGridSize;
         float voxelSize;
         int framestep;
         bool traceShadowCones;
+
+        unsigned int drawMipLevel;
+        unsigned int drawDirection;
+        glm::vec4 drawColorChannels;
 };

@@ -416,12 +416,22 @@ void VoxelizerRenderer::DrawVoxels()
     auto vSize = volumeGridSize / vDimension;
 
     // pass voxel drawer uniforms
-    if(drawMipLevel == 0)
+    if(drawDirection == 7)
+    {
+        voxelNormal.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                              oglplus::ImageUnitFormat::RGBA8);
+    }
+    else if (drawDirection == 8)
+    {
+        voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                              oglplus::ImageUnitFormat::RGBA8);
+    }
+    else if(drawMipLevel == 0)
     {
         voxelRadiance.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                                 oglplus::ImageUnitFormat::RGBA8);
     }
-    else
+    else if(drawMipLevel > 0)
     {
         voxelTexMipmap[drawDirection]
         .BindImage(0, drawMipLevel - 1, true, 0, oglplus::AccessSpecifier::ReadOnly,
@@ -431,6 +441,7 @@ void VoxelizerRenderer::DrawVoxels()
     auto model = translate(sceneBox.MinPoint()) * scale(glm::vec3(vSize));
     prog.volumeDimension.Set(vDimension);
     prog.matrices.modelViewProjection.Set(viewProjection * model);
+    prog.colorChannels.Set(drawColorChannels);
     auto &planes = camera->Frustum().Planes();
 
     for (auto i = 0; i < 6; i++)
@@ -474,6 +485,7 @@ VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
     drawMipLevel = drawDirection = 0;
     framestep = -1; // on need
     traceShadowCones = true;
+    drawColorChannels = glm::vec4(1.0f);
     SetupVoxelVolumes(256);
 }
 void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
@@ -492,8 +504,8 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
     auto maxLevel = static_cast<unsigned int>(log2(volumeDimension));
     // albedo volume
     voxelAlbedo.Bind(TextureTarget::_3D);
-    voxelAlbedo.MinFilter(TextureTarget::_3D, TextureMinFilter::Nearest);
-    voxelAlbedo.MagFilter(TextureTarget::_3D, TextureMagFilter::Nearest);
+    voxelAlbedo.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
+    voxelAlbedo.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
     voxelAlbedo.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
     voxelAlbedo.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
     voxelAlbedo.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
@@ -502,8 +514,8 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
                         PixelDataType::UnsignedByte, nullptr);
     // generate normal volume for radiance injection
     voxelNormal.Bind(TextureTarget::_3D);
-    voxelNormal.MinFilter(TextureTarget::_3D, TextureMinFilter::Nearest);
-    voxelNormal.MagFilter(TextureTarget::_3D, TextureMagFilter::Nearest);
+    voxelNormal.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
+    voxelNormal.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
     voxelNormal.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
     voxelNormal.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
     voxelNormal.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
@@ -550,12 +562,17 @@ void VoxelizerRenderer::RevoxelizeScene()
     // update voxelization
     VoxelizeScene();
 }
+
 void VoxelizerRenderer::SetupDrawVoxels(const unsigned &level,
-                                        const unsigned &direction)
+                                        const unsigned &direction,
+                                        const glm::vec4 colors)
 {
     drawMipLevel = level;
     drawDirection = direction;
+    drawColorChannels = colors;
 }
+
+
 VoxelizerRenderer::~VoxelizerRenderer()
 {
 }
@@ -571,6 +588,12 @@ std::array<oglplus::Texture, 6> &VoxelizerRenderer::VoxelTextureMipmap()
 {
     return voxelTexMipmap;
 }
+
+oglplus::Texture &VoxelizerRenderer::VoxelNormalVisibility()
+{
+    return voxelNormal;
+}
+
 const float &VoxelizerRenderer::VoxelWorldSize() const
 {
     return voxelSize;
@@ -597,7 +620,6 @@ bool VoxelizerRenderer::InjectFirstBounce() const
 void VoxelizerRenderer::InjectFirstBounce(bool val)
 {
     injectFirstBounce = val;
-    RevoxelizeScene();
 }
 VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()
 {

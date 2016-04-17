@@ -58,6 +58,8 @@ class GIDeferredRenderer : public Renderer
         void AmbientOclussionAlpha(const float &val);
         const unsigned int &RenderMode() const;
         void RenderMode(const unsigned int &mode);
+        bool SampleVoxelShadowVolume() const;
+        void SampleVoxelShadowVolume(bool val);
     private:
         FullscreenQuad fsQuad;
         /// <summary>
@@ -91,5 +93,6 @@ class GIDeferredRenderer : public Renderer
         float globalIlluminationStrength;
         float ambientOcclusionFalloff;
         float ambientOcclusionAlpha;
+        bool sampleVoxelShadowVolume;
         unsigned int renderMode;
 };

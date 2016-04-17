@@ -27,6 +27,7 @@ GIDeferredRenderer::GIDeferredRenderer(RenderWindow &window) : Renderer(window)
     ambientOcclusionAlpha = 0.0f;
     renderMode = 0;
     fsQuad.Load();
+    sampleVoxelShadowVolume = false;
 }
 
 GIDeferredRenderer::~GIDeferredRenderer()
@@ -164,6 +165,16 @@ void GIDeferredRenderer::RenderMode(const unsigned &mode)
     renderMode = mode;
 }
 
+bool GIDeferredRenderer::SampleVoxelShadowVolume() const
+{
+    return sampleVoxelShadowVolume;
+}
+
+void GIDeferredRenderer::SampleVoxelShadowVolume(bool val)
+{
+    sampleVoxelShadowVolume = val;
+}
+
 void GIDeferredRenderer::SetLightPassUniforms() const
 {
     static auto &camera = Camera::Active();
@@ -199,6 +210,8 @@ void GIDeferredRenderer::SetLightPassUniforms() const
         auto &light = lights[i];
         auto &factor = light->Intensities();
         auto shadowingMethod = light->mode[0].to_ulong();
+        shadowingMethod = shadowingMethod == 2 && sampleVoxelShadowVolume
+                          ? 3 : shadowingMethod;
         // current light uniform
         auto &uLight = light->Type() == Light::Directional
                        ? uDirectionals[typeIndex.x++]
@@ -253,13 +266,20 @@ void GIDeferredRenderer::SetLightPassUniforms() const
     prog.volumeDimension.Set(voxel.VolumeDimension());
     prog.voxelScale.Set(1.0f / voxel.VolumeGridSize());
     prog.worldMinPoint.Set(scene->rootNode->boundaries.MinPoint());
-    voxel.VoxelRadiance().Active(6);
+
+    if(sampleVoxelShadowVolume)
+    {
+        voxel.VoxelNormalVisibility().Active(6);
+        voxel.VoxelNormalVisibility().Bind(oglplus::TextureTarget::_3D);
+    }
+
+    voxel.VoxelRadiance().Active(7);
     voxel.VoxelRadiance().Bind(oglplus::TextureTarget::_3D);
     auto &mips = voxel.VoxelTextureMipmap();
 
     for (auto i = 0; i < mips.size(); i++)
     {
-        mips[0].Active(7 + i);
+        mips[0].Active(8 + i);
         mips[0].Bind(oglplus::TextureTarget::_3D);
     }
 

@@ -86,7 +86,11 @@ void main()
 		for(int vertex = 0; vertex < 4; ++vertex)
 		{
 			gl_Position = projectedVertices[cubeIndices[face * 4 + vertex]];
-			voxelColor = albedo[0] * albedo[0].a;
+
+			// multply per color channel, 0 = delete channel, 1 = see channel
+			// on alpha zero if the colors channels are positive, alpha will be passed as one
+			// with alpha enabled and color channels > 1,  the albedo alpha will be passed.
+			voxelColor = albedo[0];
 			EmitVertex();
 		}
 

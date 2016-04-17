@@ -17,6 +17,7 @@ class VoxelDrawerProgram : public ProgramShader
         std::array<oglplus::Uniform<glm::vec4>, 6> frustumPlanes;
         oglplus::Uniform<float> voxelSize;
         oglplus::Uniform<glm::vec3> worldMinPoint;
+        oglplus::Uniform<glm::vec4> colorChannels;
 
         void ExtractUniforms() override;
 

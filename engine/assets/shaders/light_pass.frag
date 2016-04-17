@@ -11,9 +11,10 @@ layout(binding = 3) uniform sampler2D gEmissive;
 layout(binding = 4) uniform sampler2D gDepth;
 
 layout(binding = 5) uniform sampler2D shadowMap;
+layout(binding = 6, rgba8) uniform sampler3D voxelVisibility;
 
-layout(binding = 6, rgba8) uniform sampler3D voxelTex;
-layout(binding = 7, rgba8) uniform sampler3D voxelTexMipmap[6];
+layout(binding = 7, rgba8) uniform sampler3D voxelTex;
+layout(binding = 8, rgba8) uniform sampler3D voxelTexMipmap[6];
 
 const float PI = 3.14159265f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
@@ -276,6 +277,11 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
         vec3 voxelPos = WorldToVoxel(position);
         visibility = max(0.0f, TraceShadowCone(voxelPos, light.direction, 1.0f));
     }
+    else if(light.shadowingMethod == 3)
+    {
+        vec3 voxelPos = WorldToVoxel(position);  
+        visibility = max(0.0f, texture(voxelVisibility, voxelPos).a);
+    }
 
     if(visibility <= 0.0f) return vec3(0.0f);  
 
@@ -305,7 +311,12 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
         lightDirT = normalize(lightDirT);
 
         visibility = max(0.0f, TraceShadowCone(voxelPos, lightDirT, dT));
-    }    
+    }
+    else if(light.shadowingMethod == 3)
+    {
+        vec3 voxelPos = WorldToVoxel(position);  
+        visibility = max(0.0f, texture(voxelVisibility, voxelPos).a);
+    } 
 
     if(visibility <= 0.0f) return vec3(0.0f);  
 
@@ -350,6 +361,11 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
         visibility = max(0.0f, TraceShadowCone(voxelPos, lightDirT, dT));
     }
+    else if(light.shadowingMethod == 3)
+    {
+        vec3 voxelPos = WorldToVoxel(position);  
+        visibility = max(0.0f, texture(voxelVisibility, voxelPos).a);
+    } 
 
     if(visibility <= 0.0f) return vec3(0.0f); 
 

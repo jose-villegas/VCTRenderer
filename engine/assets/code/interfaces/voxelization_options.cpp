@@ -58,16 +58,31 @@ void UIVoxelizationOptions::Draw()
 
         Separator();
         static auto mipLevel = 0, direction = 0;
+        static auto drawAlbedo = false;
+        static auto colors = glm::vec4(1.0f);
         auto maxLevel = log2(voxel.VolumeDimension()) - 1;
 
-        if(SliderInt("Draw Mip Level", &mipLevel, 0, maxLevel))
+        if (DragFloat4("Color Channels", value_ptr(colors), 1.0f, 0.0f, 1.0f))
         {
-            voxel.SetupDrawVoxels(mipLevel, direction);
+            voxel.SetupDrawVoxels(mipLevel, drawAlbedo ? 8 : direction, colors);
         }
 
-        if (SliderInt("Draw Mip Direction", &direction, 0, 5))
+        if(Checkbox("Draw Albedo", &drawAlbedo))
         {
-            voxel.SetupDrawVoxels(mipLevel, direction);
+            voxel.SetupDrawVoxels(mipLevel, drawAlbedo ? 8 : direction, colors);
+        }
+
+        if(!drawAlbedo)
+        {
+            if (SliderInt("Draw Mip Level", &mipLevel, 0, maxLevel))
+            {
+                voxel.SetupDrawVoxels(mipLevel, direction, colors);
+            }
+
+            if (SliderInt("Draw Mip Direction", &direction, 0, 5))
+            {
+                voxel.SetupDrawVoxels(mipLevel, direction, colors);
+            }
         }
 
         if(Button("Voxelize Now"))
