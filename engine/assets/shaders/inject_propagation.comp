@@ -133,12 +133,12 @@ void main()
 
     vec4 injectionPass = texelFetch(voxelTex, writePos, 0);
     // normal from voxelization
-    vec4 normal = imageLoad(voxelNormal, writePos);
+    vec3 normal = imageLoad(voxelNormal, writePos).xyz;
     // normal is stored in 0-1 range, restore to -1 -> -1
     normal = normalize(normal * 2.0f - 1.0f);
     // calculate indirect lighting - first bounce onto the voxel texture
     vec3 position = writePos / dimension;
-    vec4 indirectLighting = CalculateIndirectLighting(position, normal.xyz);
+    vec4 indirectLighting = CalculateIndirectLighting(position, normal);
     // first bounce gi component only
     vec4 firstBounce = indirectLighting * albedo;
     // first bounce + direct lighting

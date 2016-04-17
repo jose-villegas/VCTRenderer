@@ -188,11 +188,6 @@ void VoxelizerRenderer::InjectRadiance()
         shadowing.BindReading(6);
         prog.shadowMap.Set(6);
         prog.exponents.Set(shadowing.Exponents());
-        prog.shadowMapping.Set(1);
-    }
-    else
-    {
-        prog.shadowMapping.Set(0);
     }
 
     // uniform arrays of lights
@@ -215,6 +210,8 @@ void VoxelizerRenderer::InjectRadiance()
         auto &light = lights[i];
         auto &factor = light->Intensities();
         auto shadowingMethod = light->mode[0].to_ulong();
+        shadowingMethod = shadowingMethod == 2 && !traceShadowCones
+                          ? 0 : shadowingMethod;
         // current light uniform
         auto &uLight = light->Type() == Light::Directional
                        ? uDirectionals[typeIndex.x++]
@@ -223,6 +220,7 @@ void VoxelizerRenderer::InjectRadiance()
                        : uSpots[typeIndex.z++];
         // shared uniforms between types
         uLight.diffuse.Set(light->Diffuse() * factor.y);
+        uLight.shadowingMethod.Set(shadowingMethod);
 
         if (light->Type() == Light::Spot || light->Type() == Light::Point)
         {
@@ -252,10 +250,12 @@ void VoxelizerRenderer::InjectRadiance()
     prog.lightBleedingReduction.Set(shadowing.LightBleedingReduction());
     prog.voxelSize.Set(voxelSize);
     prog.worldMinPoint.Set(sceneBox.MinPoint());
+    prog.volumeDimension.Set(volumeDimension);
+    prog.voxelScale.Set(1.0f / volumeGridSize);
     // voxel texture to read
-    voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                          oglplus::ImageUnitFormat::RGBA8);
-    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+    voxelAlbedo.Active(0);
+    voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
+    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::RGBA8);;
     voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                             oglplus::ImageUnitFormat::RGBA8);
@@ -473,6 +473,7 @@ VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
     injectFirstBounce = false;
     drawMipLevel = drawDirection = 0;
     framestep = -1; // on need
+    traceShadowCones = true;
     SetupVoxelVolumes(256);
 }
 void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
@@ -578,6 +579,17 @@ const float &VoxelizerRenderer::VolumeGridSize() const
 {
     return volumeGridSize;
 }
+
+bool VoxelizerRenderer::TraceShadowCones() const
+{
+    return traceShadowCones;
+}
+
+void VoxelizerRenderer::TraceShadowCones(bool val)
+{
+    traceShadowCones = val;
+}
+
 bool VoxelizerRenderer::InjectFirstBounce() const
 {
     return injectFirstBounce;

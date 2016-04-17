@@ -85,7 +85,7 @@ const float diffuseConeWeights[] =
     3.0f * PI / 20.0f,
 };
 
-vec3 WorldToVoxelSample(vec3 position)
+vec3 WorldToVoxel(vec3 position)
 {
     vec3 voxelPos = position - worldMinPoint;
     return voxelPos * voxelScale;
@@ -155,12 +155,6 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
 
 float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
 {
-    uvec3 visibleFace;
-    visibleFace.x = (direction.x < 0.0) ? 0 : 1;
-    visibleFace.y = (direction.y < 0.0) ? 2 : 3;
-    visibleFace.z = (direction.z < 0.0) ? 4 : 5;
-    // weight per axis for aniso sampling
-    vec3 weight = direction * direction;
     // navigation
     float voxelSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision
@@ -279,7 +273,7 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
     }
     else if(light.shadowingMethod == 2)
     {
-        vec3 voxelPos = WorldToVoxelSample(position);
+        vec3 voxelPos = WorldToVoxel(position);
         visibility = max(0.0f, TraceShadowCone(voxelPos, light.direction, 1.0f));
     }
 
@@ -303,8 +297,8 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 
     if(light.shadowingMethod == 2)
     {
-        vec3 voxelPos = WorldToVoxelSample(position);
-        vec3 lightPosT = WorldToVoxelSample(light.position);
+        vec3 voxelPos = WorldToVoxel(position);
+        vec3 lightPosT = WorldToVoxel(light.position);
 
         vec3 lightDirT = lightPosT.xyz - voxelPos.xyz;
         float dT = length(lightDirT);
@@ -347,8 +341,8 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
     if(light.shadowingMethod == 2)
     {
-        vec3 voxelPos = WorldToVoxelSample(position);
-        vec3 lightPosT = WorldToVoxelSample(light.position);
+        vec3 voxelPos = WorldToVoxel(position);
+        vec3 lightPosT = WorldToVoxel(light.position);
 
         vec3 lightDirT = lightPosT.xyz - voxelPos.xyz;
         float dT = length(lightDirT);
@@ -406,8 +400,8 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specu
 
 vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specular, bool ambientOcclusion)
 {
-    vec3 positionT = WorldToVoxelSample(position);
-    vec3 cameraPosT = WorldToVoxelSample(cameraPosition);
+    vec3 positionT = WorldToVoxel(position);
+    vec3 cameraPosT = WorldToVoxel(cameraPosition);
 
     vec4 specularTrace = vec4(0.0f, 0.0f, 0.0f, 0.0f);
     vec4 diffuseTrace = vec4(0.0f, 0.0f, 0.0f, 1.0f);

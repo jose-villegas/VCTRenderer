@@ -2,8 +2,8 @@
 #extension GL_ARB_shader_image_load_store : require
 layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
-layout(binding = 0, rgba8) uniform readonly image3D voxelAlbedo;
-layout(binding = 1, rgba8) uniform readonly image3D voxelNormal;
+layout(binding = 0, rgba8) uniform sampler3D voxelAlbedo;
+layout(binding = 1, rgba8) uniform image3D voxelNormal;
 layout(binding = 2, rgba8) uniform image3D voxelRadiance;
 
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
@@ -23,6 +23,7 @@ struct Light {
     vec3 diffuse;
     vec3 position;
     vec3 direction;
+    uint shadowingMethod;
     Attenuation attenuation;
 };
 
@@ -35,10 +36,60 @@ uniform vec2 exponents;
 uniform float lightBleedingReduction;
 uniform mat4 lightViewProjection;
 uniform float voxelSize;
+uniform float voxelScale;
 uniform vec3 worldMinPoint;
 
 uniform sampler2D shadowMap;
-uniform uint shadowMapping = 1;
+uniform int volumeDimension;
+
+uniform uint storeVisibility;
+
+vec3 VoxelToWorld(ivec3 pos)
+{
+    vec3 result = vec3(pos);
+    result *= voxelSize;
+
+    return result + worldMinPoint;
+}
+
+vec3 WorldToVoxel(vec3 position)
+{
+    vec3 voxelPos = position - worldMinPoint;
+    return voxelPos * voxelScale;
+}
+
+float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
+{
+    // navigation
+    float voxelTexSize = 1.0f / volumeDimension;
+    // move one voxel further to avoid self collision
+    float dst = voxelTexSize;
+    vec3 samplePos = direction * dst + position;
+    // control variables
+    float visibility = 0.0f;
+    float anisoLevel = 0.0f;
+    float mipMaxLevel = log2(volumeDimension) - 1.0f;
+    // accumulated sample
+    vec4 traceSample = vec4(0.0f);
+
+    while (visibility <= 1.0f && traceSample.a != 1.0f && dst <= maxTracingDistance) 
+    {
+        if (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
+        { 
+            break; 
+        }
+        
+        traceSample = texture(voxelAlbedo, samplePos);
+        // accumulate
+        visibility += (1.0f - visibility) * traceSample.a;
+        // move further into volume
+        dst += voxelTexSize;
+        samplePos = direction * dst + position;
+    }
+
+    return 1.0f - visibility;
+}
 
 float linstep(float low, float high, float value)
 {
@@ -101,9 +152,23 @@ vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
     return light.diffuse * albedo * lambertian;
 }
 
-vec3 CalculateDirectional(Light light, vec3 normal, vec3 albedo)
+vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
 {
-    return Diffuse(light, light.direction, normal, albedo);
+    float visibility = 1.0f;
+
+    if(light.shadowingMethod == 1)
+    {
+        visibility = Visibility(position);
+    }
+    else if(light.shadowingMethod == 2)
+    {
+        vec3 voxelPos = WorldToVoxel(position);
+        visibility = floor(TraceShadowCone(voxelPos, light.direction, 1.0f));
+    }
+
+    if(visibility == 0.0f) return vec3(0.0f); 
+
+    return Diffuse(light, light.direction, normal, albedo) * visibility;
 }
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
@@ -116,7 +181,23 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
 
     if(falloff <= 0.0f) return vec3(0.0f);
 
-    return Diffuse(light, light.direction, normal, albedo) * falloff;
+    float visibility = 1.0f;
+
+    if(light.shadowingMethod == 2)
+    {
+        vec3 voxelPos = WorldToVoxel(position);
+        vec3 lightPosT = WorldToVoxel(light.position);
+
+        vec3 lightDirT = lightPosT.xyz - voxelPos.xyz;
+        float dT = length(lightDirT);
+        lightDirT = normalize(lightDirT);
+
+        visibility = floor(TraceShadowCone(voxelPos, lightDirT, dT));
+    }    
+
+    if(visibility <= 0.0f) return vec3(0.0f); 
+
+    return Diffuse(light, light.direction, normal, albedo) * falloff * visibility;
 }
 
 vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
@@ -142,7 +223,23 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 
     if(falloff <= 0.0f) return vec3(0.0f);
 
-    return Diffuse(light, light.direction, normal, albedo) * falloff * spotFalloff;
+    float visibility = 1.0f;
+
+    if(light.shadowingMethod == 2)
+    {
+        vec3 voxelPos = WorldToVoxel(position);
+        vec3 lightPosT = WorldToVoxel(light.position);
+
+        vec3 lightDirT = lightPosT.xyz - voxelPos.xyz;
+        float dT = length(lightDirT);
+        lightDirT = normalize(lightDirT);
+
+        visibility = floor(TraceShadowCone(voxelPos, lightDirT, dT)) * visibility;;
+    }    
+
+    if(visibility <= 0.0f) return vec3(0.0f); 
+
+    return Diffuse(light, light.direction, normal, albedo) * falloff * spotFalloff * visibility;
 }
 
 vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
@@ -151,21 +248,12 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     vec3 directLighting = vec3(0.0f);
 	// fixes shadow mapping issues where the center voxel is occluded
 	vec3 unitCubeDirection = clamp(1.7320f * normal, -1.0f, 1.0f);
-    float visibility = 1.0f;
-
     position = position + unitCubeDirection * voxelSize;
-
-	if(shadowMapping == 1)
-	{
-		visibility = Visibility(position);
-	}
 
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
     {
-        directLighting += CalculateDirectional(directionalLight[i], normal, albedo);
-
-        if(i == 0) { directLighting *= visibility; }
+        directLighting += CalculateDirectional(directionalLight[i], normal, position, albedo);
     }
 
     // calculate lighting for point lights
@@ -183,14 +271,6 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     return directLighting;
 }
 
-vec3 VoxelToWorld(ivec3 pos)
-{
-	vec3 result = vec3(pos);
-	result *= voxelSize;
-
-	return result + worldMinPoint;
-}
-
 vec4 convRGBA8ToVec4(uint val)
 {
     return vec4(float((val & 0x000000FF)), 
@@ -201,26 +281,25 @@ vec4 convRGBA8ToVec4(uint val)
 
 void main()
 {
-	uvec3 volumeDimension = imageSize(voxelRadiance);
-
-	if(gl_GlobalInvocationID.x >= volumeDimension.x ||
-		gl_GlobalInvocationID.y >= volumeDimension.y ||
-		gl_GlobalInvocationID.z >= volumeDimension.z) return;
+	if(gl_GlobalInvocationID.x >= volumeDimension ||
+		gl_GlobalInvocationID.y >= volumeDimension ||
+		gl_GlobalInvocationID.z >= volumeDimension) return;
 
 	ivec3 writePos = ivec3(gl_GlobalInvocationID);
     // voxel color
-	vec4 albedo = imageLoad(voxelAlbedo, writePos);
+	vec4 albedo = texelFetch(voxelAlbedo, writePos, 0);
 
     if(albedo.a == 0.0f) { return; }
+
+    // voxel normal in 0-1 range
+    vec3 normal = imageLoad(voxelNormal, writePos).xyz;
+    // normal is stored in 0-1 range, restore to -1-1
+    normal = normalize(normal * 2.0f - 1.0f);
     // emission from voxel
     vec3 emissive = imageLoad(voxelRadiance, writePos).rgb;
     // black voxel has no irradiance diffuse
     if(any(greaterThan(albedo.rgb, vec3(0.0f))))
     {
-        // voxel normal in 0-1 range
-        vec3 normal = imageLoad(voxelNormal, writePos).xyz;
-        // normal is stored in 0-1 range, restore to -1-1
-        normal = normalize(normal * 2.0f - 1.0f);
         // obtain world-space position of the current voxel
         vec3 wsPosition = VoxelToWorld(writePos);
         // calculate direct lighting onto voxel
@@ -231,4 +310,5 @@ void main()
     albedo.a = 1.0f;
 
 	imageStore(voxelRadiance, writePos, albedo);
+    imageStore(voxelNormal, writePos, vec4(normal, );
 }

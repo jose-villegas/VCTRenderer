@@ -6,18 +6,20 @@
 
 void InjectRadianceProgram::ExtractUniforms()
 {
+    voxelScale.Assign(program);
+    voxelScale.BindTo("voxelScale");
+    volumeDimension.Assign(program);
+    volumeDimension.BindTo("volumeDimension");
     shadowMap.Assign(program);
     exponents.Assign(program);
     lightBleedingReduction.Assign(program);
     lightViewProjection.Assign(program);
     voxelSize.Assign(program);
-    shadowMapping.Assign(program);
     shadowMap.BindTo("shadowMap");
     exponents.BindTo("exponents");
     lightBleedingReduction.BindTo("lightBleedingReduction");
     lightViewProjection.BindTo("lightViewProjection");
     voxelSize.BindTo("voxelSize");
-    shadowMapping.BindTo("shadowMapping");
     worldMinPoint.Assign(program);
     worldMinPoint.BindTo("worldMinPoint");
     // collections
@@ -39,6 +41,8 @@ void InjectRadianceProgram::ExtractUniforms()
         light.diffuse.Assign(program);
         light.direction.BindTo("directionalLight[" + index + "].direction");
         light.diffuse.BindTo("directionalLight[" + index + "].diffuse");
+        light.shadowingMethod.Assign(program);
+        light.shadowingMethod.BindTo("directionalLight[" + index + "].shadowingMethod");
     }
 
     for (auto i = 0; i < pointLight.size(); i++)
@@ -58,6 +62,8 @@ void InjectRadianceProgram::ExtractUniforms()
                                         "].attenuation.linear");
         light.attenuation.quadratic.BindTo("pointLight[" + index +
                                            "].attenuation.quadratic");
+        light.shadowingMethod.Assign(program);
+        light.shadowingMethod.BindTo("pointLight[" + index + "].shadowingMethod");
     }
 
     for (auto i = 0; i < spotLight.size(); i++)
@@ -83,6 +89,8 @@ void InjectRadianceProgram::ExtractUniforms()
                                            "].attenuation.quadratic");
         light.angleInnerCone.BindTo("spotLight[" + index + "].angleInnerCone");
         light.angleOuterCone.BindTo("spotLight[" + index + "].angleOuterCone");
+        light.shadowingMethod.Assign(program);
+        light.shadowingMethod.BindTo("spotLight[" + index + "].shadowingMethod");
     }
 }
 

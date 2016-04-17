@@ -55,6 +55,8 @@ class VoxelizerRenderer : public Renderer
         std::array<oglplus::Texture, 6> &VoxelTextureMipmap();
         const float &VoxelWorldSize() const;
         const float &VolumeGridSize() const;
+        bool TraceShadowCones() const;
+        void TraceShadowCones(bool val);
         bool InjectFirstBounce() const;
         void InjectFirstBounce(bool val);
     private:
@@ -89,7 +91,7 @@ class VoxelizerRenderer : public Renderer
         /// Draws the resulting voxels.
         /// </summary>
         void DrawVoxels();
-        // output textures
+        // output texture
         oglplus::Texture voxelAlbedo;
         oglplus::Texture voxelNormal;
         oglplus::Texture voxelRadiance;
@@ -107,4 +109,5 @@ class VoxelizerRenderer : public Renderer
         float volumeGridSize;
         float voxelSize;
         int framestep;
+        bool traceShadowCones;
 };

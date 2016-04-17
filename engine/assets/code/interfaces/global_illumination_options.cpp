@@ -23,6 +23,8 @@ void UIGlobalIllumination::Draw()
     if (Begin("Global Illumination", &UIMainMenu::drawGIOptions,
               ImGuiWindowFlags_AlwaysAutoResize))
     {
+        static auto &voxel = *static_cast<VoxelizerRenderer *>
+                             (assets->renderers["Voxelizer"].get());
         static auto maxTracingConeDistance = deferred.MaxTracingDistance();
         static auto bounceStrength = deferred.GlobalIlluminationStrength();
         static auto aoFalloff = deferred.AmbientOclussionFalloff();
@@ -30,9 +32,9 @@ void UIGlobalIllumination::Draw()
         static auto mode = 0;
         static auto modes = "Direct + Indirect + Occlusion\0Direct + Indirec" \
                             "t\0Direct\0Indirect\0Ambient Occlusion";
-        static auto firstB = false;
-        static auto &voxel = *static_cast<VoxelizerRenderer *>
-                             (assets->renderers["Voxelizer"].get());
+        static auto firstB = voxel.InjectFirstBounce();
+        static auto conesS = voxel.TraceShadowCones();
+        static auto shadwMethod = -1;
 
         if(SliderFloat("Maximum Trace Distance", &maxTracingConeDistance, 0.0f, 1.0f))
         {
@@ -47,6 +49,16 @@ void UIGlobalIllumination::Draw()
         if (Checkbox("Inject First Bounce", &firstB))
         {
             voxel.InjectFirstBounce(firstB);
+        }
+
+        if (Checkbox("Inject Shadow Cones", &conesS))
+        {
+            voxel.TraceShadowCones(conesS);
+        }
+
+        if(Combo("Traced Shadow Cones", &shadwMethod,
+                 "Trace Per Fragment\0Sample Shadow Volume", 2))
+        {
         }
 
         if(Combo("Render Mode", &mode, modes))

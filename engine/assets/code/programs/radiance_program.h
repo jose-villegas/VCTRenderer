@@ -25,6 +25,7 @@ class InjectRadianceProgram : public ProgramShader
                 oglplus::Uniform<float> quadratic;
             };
 
+            oglplus::Uniform<unsigned int> shadowingMethod;
             UniformAttenuation attenuation;
         };
     public:
@@ -38,7 +39,8 @@ class InjectRadianceProgram : public ProgramShader
         oglplus::Uniform<float> lightBleedingReduction;
         oglplus::Uniform<float> voxelSize;
         oglplus::Uniform<glm::vec3> worldMinPoint;
-        oglplus::Uniform<unsigned int> shadowMapping;
+        oglplus::Uniform<int> volumeDimension;
+        oglplus::Uniform<float> voxelScale;;
         void ExtractUniforms() override;
         InjectRadianceProgram();
         ~InjectRadianceProgram();
