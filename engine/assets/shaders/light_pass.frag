@@ -153,7 +153,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     return vec4(coneSample.rgb, occlusion);
 }
 
-float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance) 
+float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
 {
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
@@ -165,43 +165,29 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     float voxelSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision
     float dst = voxelSize * 2.0f;
-    float diameter = aperture * dst;
     vec3 samplePos = direction * dst + position;
     // control variables
     float visibility = 0.0f;
-    float mipLevel = 0.0f;
     float anisoLevel = 0.0f;
     float mipMaxLevel = log2(volumeDimension) - 1.0f;
     // accumulated sample
     vec4 baseColor = vec4(0.0f);
-    vec4 anisoSample = vec4(0.0f);
+    vec4 traceSample = vec4(0.0f);
 
-    while (visibility <= 1.0f && anisoSample.a != 1.0f && 
+    while (visibility <= 1.0f && traceSample.a != 1.0f && 
             dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal) 
     {
-        if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
-            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f)) 
+        if (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
         { 
             break; 
         }
-
-        mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
-        anisoLevel = max(mipLevel - 1.0f, 0.0f);
-        // aniso sampling
-        anisoSample = weight.x * textureLod(voxelTexMipmap[visibleFace.x], samplePos, anisoLevel)
-                    + weight.y * textureLod(voxelTexMipmap[visibleFace.y], samplePos, anisoLevel)
-                    + weight.z * textureLod(voxelTexMipmap[visibleFace.z], samplePos, anisoLevel);
         
-        if(mipLevel < 1.0f)
-        {
-            baseColor = texture(voxelTex, samplePos);
-            anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
-        }
+        traceSample = texture(voxelTex, samplePos);
         // accumulate
-        visibility += (1.0f - visibility) * anisoSample.a;
+        visibility += (1.0f - visibility) * traceSample.a;
         // move further into volume
-        dst += max(diameter, voxelSize);
-        diameter = dst * aperture;
+        dst += voxelSize;
         samplePos = direction * dst + position;
     }
 
@@ -294,7 +280,7 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
     else if(light.shadowingMethod == 2)
     {
         vec3 voxelPos = WorldToVoxelSample(position);
-        visibility = max(0.0f, TraceShadowCone(voxelPos, light.direction, 0.01f, 1.0f));
+        visibility = max(0.0f, TraceShadowCone(voxelPos, light.direction, 1.0f));
     }
 
     if(visibility <= 0.0f) return vec3(0.0f);  
@@ -324,7 +310,7 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = max(0.0f, TraceShadowCone(voxelPos, lightDirT, 0.01f, dT));
+        visibility = max(0.0f, TraceShadowCone(voxelPos, lightDirT, dT));
     }    
 
     if(visibility <= 0.0f) return vec3(0.0f);  
@@ -368,7 +354,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = max(0.0f, TraceShadowCone(voxelPos, lightDirT, 0.01f, dT));
+        visibility = max(0.0f, TraceShadowCone(voxelPos, lightDirT, dT));
     }
 
     if(visibility <= 0.0f) return vec3(0.0f); 

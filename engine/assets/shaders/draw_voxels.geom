@@ -71,9 +71,7 @@ void main()
 	vec3 center = VoxelToWorld(gl_in[0].gl_Position.xyz);
 	vec3 extent = vec3(voxelSize);
 
-	if(!VoxelInFrustum(center, extent)) { return; }
-
-	if(albedo[0].a == 0.0f) { return; }
+	if(albedo[0].a == 0.0f || !VoxelInFrustum(center, extent)) { return; }
 
 	vec4 projectedVertices[8];
 
