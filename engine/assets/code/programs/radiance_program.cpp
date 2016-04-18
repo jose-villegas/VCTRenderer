@@ -6,6 +6,8 @@
 
 void InjectRadianceProgram::ExtractUniforms()
 {
+    coneShadowTolerance.Assign(program);
+    coneShadowTolerance.BindTo("coneShadowTolerance");
     voxelScale.Assign(program);
     voxelScale.BindTo("voxelScale");
     volumeDimension.Assign(program);

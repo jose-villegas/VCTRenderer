@@ -28,7 +28,7 @@ void main()
 	// if no color channel is enabled but alpha is one, show alpha as rgb
 	if(all(equal(channels.rgb, uvec3(0))) && channels.a > 0) 
 	{
-		albedo = vec4(vec3(albedo.a), albedo.a);
+		albedo = vec4(albedo.a);
 	}
 
 	gl_Position = vec4(position, 1.0f);

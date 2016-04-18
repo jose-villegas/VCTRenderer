@@ -58,6 +58,20 @@ void UIGlobalIllumination::Draw()
             voxel.RevoxelizeScene();
         }
 
+        if(conesS)
+        {
+            Indent();
+            static auto umbra = voxel.ShadowConeUmbra();
+
+            if(SliderFloat("Tolerance", &umbra, 0.01f, 1.0f))
+            {
+                voxel.ShadowConeTolerance(umbra);
+                voxel.RevoxelizeScene();
+            }
+
+            Unindent();
+        }
+
         if(Combo("Traced Shadow Cones", &shadwMethod,
                  "Trace Per Fragment\0Sample Shadow Volume\0", 2))
         {

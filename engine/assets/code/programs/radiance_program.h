@@ -40,7 +40,8 @@ class InjectRadianceProgram : public ProgramShader
         oglplus::Uniform<float> voxelSize;
         oglplus::Uniform<glm::vec3> worldMinPoint;
         oglplus::Uniform<int> volumeDimension;
-        oglplus::Uniform<float> voxelScale;;
+        oglplus::Uniform<float> voxelScale;
+        oglplus::Uniform<float> coneShadowTolerance;
         void ExtractUniforms() override;
         InjectRadianceProgram();
         ~InjectRadianceProgram();

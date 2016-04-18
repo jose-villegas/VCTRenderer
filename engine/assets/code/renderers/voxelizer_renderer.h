@@ -61,6 +61,8 @@ class VoxelizerRenderer : public Renderer
         void TraceShadowCones(bool val);
         bool InjectFirstBounce() const;
         void InjectFirstBounce(bool val);
+        void ShadowConeTolerance(const float &umbra);
+        const float &ShadowConeUmbra() const;
     private:
         /// <summary>
         /// Returns the voxelization program shader.
@@ -110,6 +112,7 @@ class VoxelizerRenderer : public Renderer
         float voxelSize;
         int framestep;
         bool traceShadowCones;
+        float coneShadowTolerance;
 
         unsigned int drawMipLevel;
         unsigned int drawDirection;

@@ -44,6 +44,8 @@ uniform int volumeDimension;
 
 uniform uint storeVisibility;
 
+uniform float coneShadowTolerance;
+
 vec3 VoxelToWorld(ivec3 pos)
 {
     vec3 result = vec3(pos);
@@ -82,15 +84,13 @@ float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance)
         
         traceSample = texture(voxelAlbedo, samplePos);
         // accumulate
-        visibility += (1.0f - visibility) * traceSample.a;
+        visibility += (1.0f - visibility) * ceil(traceSample.a) * coneShadowTolerance;
         // move further into volume
         dst += voxelTexSize;
         samplePos = direction * dst + position;
     }
 
-    visibility = 1.0f - sin(acos(0.01f / (visibility + 0.01f)));
-
-    return visibility;
+    return 1.0f - visibility;
 }
 
 float linstep(float low, float high, float value)

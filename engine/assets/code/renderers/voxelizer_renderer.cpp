@@ -252,6 +252,7 @@ void VoxelizerRenderer::InjectRadiance()
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelScale.Set(1.0f / volumeGridSize);
+    prog.coneShadowTolerance.Set(coneShadowTolerance);
     // voxel texture to read
     voxelAlbedo.Active(0);
     voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
@@ -485,6 +486,7 @@ VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
     drawMipLevel = drawDirection = 0;
     framestep = -1; // on need
     traceShadowCones = true;
+    coneShadowTolerance = 0.5f;
     drawColorChannels = glm::vec4(1.0f);
     SetupVoxelVolumes(256);
 }
@@ -617,6 +619,17 @@ bool VoxelizerRenderer::InjectFirstBounce() const
 {
     return injectFirstBounce;
 }
+
+void VoxelizerRenderer::ShadowConeTolerance(const float &umbra)
+{
+    coneShadowTolerance = umbra;
+}
+
+const float &VoxelizerRenderer::ShadowConeUmbra() const
+{
+    return coneShadowTolerance;
+}
+
 void VoxelizerRenderer::InjectFirstBounce(bool val)
 {
     injectFirstBounce = val;
