@@ -460,8 +460,6 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     }
 
     vec3 result = (diffuseTrace.rgb + specularTrace.rgb);
-    // convert to linear space
-    result = pow(result, vec3(2.2f)) * bounceStrength;
 
     return vec4(result, ambientOcclusion ? clamp(diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
 }
@@ -514,6 +512,9 @@ void main()
         indirectLighting.rgb = vec3(1.0f);
     }
 
+    // convert indirect to linear space
+    indirectLighting.rgb = pow(indirectLighting.rgb, vec3(2.2f)) * bounceStrength;
+    // final composite lighting (direct + indirect) * ambient occlusion
     compositeLighting = (directLighting + indirectLighting.rgb) * indirectLighting.a;
     compositeLighting += emissive;
 

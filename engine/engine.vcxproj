@@ -222,6 +222,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib64</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib64\*.dll" "$(TargetDir)"
@@ -285,6 +287,8 @@ xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Co
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;zlibstatic.lib;assimp.lib;FreeImage.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"
