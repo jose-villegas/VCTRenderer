@@ -417,9 +417,9 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     vec3 positionT = WorldToVoxel(position);
     vec3 cameraPosT = WorldToVoxel(cameraPosition);
 
-    vec4 specularTrace = vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    vec4 diffuseTrace = vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    vec3 coneDirection = vec3(0.0f, 0.0f, 0.0f);
+    vec4 specularTrace = vec4(0.0f);
+    vec4 diffuseTrace = vec4(0.0f);
+    vec3 coneDirection = vec3(0.0f);
 
     // component greater than zero
     if(any(greaterThan(specular.rgb, specularTrace.rgb)))
@@ -451,9 +451,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
             // cumulative result
             vec4 coneSample = TraceCone(positionT, coneDirection, aperture, 1.0f, ambientOcclusion);
 
-            diffuseTrace.rgb += coneSample.rgb * diffuseConeWeights[i];
-            // ao cummulative
-            diffuseTrace.a -= coneSample.a * diffuseConeWeights[i];
+            diffuseTrace += coneSample * diffuseConeWeights[i];
         }
 
         diffuseTrace.rgb *= albedo;
@@ -461,7 +459,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
 
     vec3 result = (diffuseTrace.rgb + specularTrace.rgb);
 
-    return vec4(result, ambientOcclusion ? clamp(diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
+    return vec4(result, ambientOcclusion ? clamp(1.0f - diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
 }
 
 void main()

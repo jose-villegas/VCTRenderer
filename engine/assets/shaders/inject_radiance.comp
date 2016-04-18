@@ -246,7 +246,7 @@ vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
 {
     // calculate directional lighting
     vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    vec4 current =  vec4(0.0f); int count =  1;
+    vec4 current =  vec4(0.0f); int count = 0;
 	// fixes shadow mapping issues where the center voxel is occluded
 	vec3 unitCubeDirection = clamp(1.7320f * normal, -1.0f, 1.0f);
     position = position + unitCubeDirection * voxelSize;

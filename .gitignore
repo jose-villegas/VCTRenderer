@@ -196,7 +196,5 @@ doc/
 VCTRenderer.VC.opendb
 Deploy/
 
-# models folder
-models/
 *.opendb
 *.db

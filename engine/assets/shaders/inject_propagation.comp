@@ -11,6 +11,7 @@ layout(binding = 4, rgba8) uniform sampler3D voxelTexMipmap[6];
 uvec3 volumeDimension;
 
 const float PI = 3.14159265f;
+const float EPSILON = 1e-30;
 uniform float maxTracingDistanceGlobal = 1.0f;
 
 // four cones
@@ -101,7 +102,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
 
     // diffuse cone setup
     float aperture = 0.7853f;
-    vec3 up = (normal.y * normal.y) > 0.95f ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
+    vec3 up = (normal.y * normal.y) > 1.0f - EPSILON ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
     vec3 right = cross(normal, up);
     up = cross(normal, right);
 
