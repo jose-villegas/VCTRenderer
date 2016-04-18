@@ -17,6 +17,7 @@ layout(binding = 7, rgba8) uniform sampler3D voxelTex;
 layout(binding = 8, rgba8) uniform sampler3D voxelTexMipmap[6];
 
 const float PI = 3.14159265f;
+const float EPSILON = 1e-30;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
@@ -146,7 +147,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
         // accumulate sampling
         coneSample += (1.0f - coneSample.a) * anisoSample;
         // move further into volume
-        dst += max(diameter * 2.0f, voxelSize);
+        dst += max(diameter, voxelSize);
         diameter = dst * aperture;
         samplePos = direction * dst + position;
     }
@@ -437,8 +438,8 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     if(any(greaterThan(albedo, diffuseTrace.rgb)))
     {
         // diffuse cone setup
-        float aperture = 0.5055f;
-        vec3 up = (normal.y * normal.y) > 0.95f ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
+        float aperture = 0.5235f;
+        vec3 up = (normal.y * normal.y) > 1.0f - EPSILON ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
         vec3 right = cross(normal, up);
         up = cross(normal, right);
 
@@ -458,9 +459,9 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         diffuseTrace.rgb *= albedo;
     }
 
-    vec3 result = (diffuseTrace.rgb + specularTrace.rgb) * bounceStrength;
-    // result is in linear space, convert to srgb
-    result = pow(result, vec3(2.2f));
+    vec3 result = (diffuseTrace.rgb + specularTrace.rgb);
+    // convert to linear space
+    result = pow(result, vec3(2.2f)) * bounceStrength;
 
     return vec4(result, ambientOcclusion ? clamp(diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
 }
@@ -473,6 +474,7 @@ void main()
     vec3 normal = normalize(texture(gNormal, texCoord).xyz);
     // fragment albedo
     vec3 baseColor = texture(gAlbedo, texCoord).rgb;
+    // convert to linear space
     vec3 albedo = pow(baseColor, vec3(2.2f));
     // fragment emissiviness
     vec3 emissive = texture(gEmissive, texCoord).rgb;
@@ -519,8 +521,9 @@ void main()
 
     // Reinhard tone mapping
     compositeLighting = compositeLighting / (compositeLighting + 1.0f);
-    // // gamma correction
+    // gamma correction
     const float gamma = 2.2;
+    // convert to gamma space
     compositeLighting = pow(compositeLighting, vec3(1.0 / gamma));
 
     fragColor = vec4(compositeLighting, 1.0f);
