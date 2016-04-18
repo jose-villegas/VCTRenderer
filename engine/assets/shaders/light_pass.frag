@@ -146,7 +146,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
         // accumulate sampling
         coneSample += (1.0f - coneSample.a) * anisoSample;
         // move further into volume
-        dst += max(diameter, voxelSize);
+        dst += max(diameter * 2.0f, voxelSize);
         diameter = dst * aperture;
         samplePos = direction * dst + position;
     }
@@ -163,10 +163,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance)
     vec3 samplePos = direction * dst + position;
     // control variables
     float visibility = 0.0f;
-    float anisoLevel = 0.0f;
-    float mipMaxLevel = log2(volumeDimension) - 1.0f;
     // accumulated sample
-    vec4 baseColor = vec4(0.0f);
     vec4 traceSample = vec4(0.0f);
 
     while (visibility <= 1.0f && traceSample.a != 1.0f && 
@@ -430,7 +427,8 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         vec3 coneDirection = reflect(-viewDirection, normal);
         coneDirection = normalize(coneDirection);
         // specular cone setup
-        float aperture = clamp(1.0f - sin(acos(0.11f / (specular.a * specular.a + 0.11f))) * 0.97f, 0.03f, 1.0f);
+        float aperture = 1.0f - sin(acos(0.11f / (specular.a * specular.a + 0.11f))) * 0.96f;
+        aperture = clamp(aperture, 0.04f, 1.0f); // extremely thin cones slow down performance
         specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
         specularTrace.rgb *= specular.rgb;
     }

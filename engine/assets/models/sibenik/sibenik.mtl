@@ -1,8 +1,8 @@
-# Blender MTL File: 'sibenik.blend'
+# Blender MTL File: 'None'
 # Material Count: 16
 
 newmtl kamen_zid
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.730588 0.674118
 Ks 0.000000 0.000000 0.000000
@@ -15,7 +15,7 @@ map_Bump kamen-bump.png
 map_Ka kamen.png
 
 newmtl kamen_zid_parapet
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.730588 0.674118
 Ks 0.000000 0.000000 0.000000
@@ -27,7 +27,7 @@ map_Kd KAMEN-stup.png
 map_Ka KAMEN-stup.png
 
 newmtl kamen_zid_prozor
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.730588 0.674118
 Ks 0.000000 0.000000 0.000000
@@ -40,7 +40,7 @@ map_Bump kamen-bump.png
 map_Ka kamen.png
 
 newmtl pod
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.709412 0.674118
 Ks 0.000000 0.000000 0.000000
@@ -53,7 +53,7 @@ map_Bump mramor6x6-bump.png
 map_Ka mramor6x6.png
 
 newmtl pod_rub
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.730588 0.674118
 Ks 0.000000 0.000000 0.000000
@@ -66,7 +66,7 @@ map_Bump kamen-bump.png
 map_Ka kamen.png
 
 newmtl pod_tepih
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.546274 0.219608 0.183922
 Ks 0.000000 0.000000 0.000000
@@ -76,7 +76,7 @@ d 1.000000
 illum 2
 
 newmtl rozeta
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.730588 0.674118
 Ks 0.000000 0.000000 0.000000
@@ -88,7 +88,7 @@ map_Kd KAMEN-stup.png
 map_Ka KAMEN-stup.png
 
 newmtl sprljci
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.784314 0.784314 0.784314
 Ks 0.000000 0.000000 0.000000
@@ -148,7 +148,7 @@ d 1.000000
 illum 2
 
 newmtl stupovi
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.730588 0.674118
 Ks 0.000000 0.000000 0.000000
@@ -160,7 +160,7 @@ map_Kd KAMEN-stup.png
 map_Ka KAMEN-stup.png
 
 newmtl stupovi_NONE
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.730588 0.674118
 Ks 0.000000 0.000000 0.000000
@@ -168,11 +168,11 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Ka KAMEN-stup.png
 map_Kd KAMEN-stup.png
+map_Ka KAMEN-stup.png
 
 newmtl zid_vani
-Ns 7.843137
+Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.734118 0.730588 0.674118
 Ks 0.000000 0.000000 0.000000
