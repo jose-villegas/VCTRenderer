@@ -233,7 +233,7 @@ float Visibility(vec3 position)
     // move to avoid acne
     vec2 wDepth = WarpDepth(lsPos.z - 0.0001f);
     // derivative of warping at depth
-    vec2 depthScale = 0.0002f * exponents * wDepth;
+    vec2 depthScale = 0.0001f * exponents * wDepth;
     vec2 minVariance = depthScale * depthScale;
     // evsm mode 4 compares negative and positive
     float positive = Chebyshev(moments.xz, wDepth.x, minVariance.x);
@@ -438,10 +438,17 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     if(any(greaterThan(albedo, diffuseTrace.rgb)))
     {
         // diffuse cone setup
-        float aperture = 0.5235f;
-        vec3 up = (normal.y * normal.y) > 1.0f - EPSILON ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
-        vec3 right = cross(normal, up);
-        up = cross(normal, right);
+        float aperture = 0.4487f;
+        vec3 guide = vec3(0.0f, 1.0f, 0.0f);
+
+        if (abs(dot(normal,guide)) == 1.0f)
+        {
+            guide = vec3(0.0f, 0.0f, 1.0f);
+        }
+
+        // Find a tangent and a bitangent
+        vec3 right = normalize(guide - dot(normal, guide) * normal);
+        vec3 up = cross(right, normal);
 
         for(int i = 0; i < 6; i++)
         {
@@ -449,15 +456,13 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
             coneDirection += diffuseConeDirections[i].x * right + diffuseConeDirections[i].z * up;
             coneDirection = normalize(coneDirection);
             // cumulative result
-            vec4 coneSample = TraceCone(positionT, coneDirection, aperture, 1.0f, ambientOcclusion);
-
-            diffuseTrace += coneSample * diffuseConeWeights[i];
+            diffuseTrace += TraceCone(positionT, coneDirection, aperture, 1.0f, ambientOcclusion) * diffuseConeWeights[i];
         }
 
         diffuseTrace.rgb *= albedo;
     }
 
-    vec3 result = (diffuseTrace.rgb + specularTrace.rgb);
+    vec3 result = (diffuseTrace.rgb + specularTrace.rgb) * bounceStrength;
 
     return vec4(result, ambientOcclusion ? clamp(1.0f - diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
 }
@@ -511,7 +516,7 @@ void main()
     }
 
     // convert indirect to linear space
-    indirectLighting.rgb = pow(indirectLighting.rgb, vec3(2.2f)) * bounceStrength;
+    indirectLighting.rgb = pow(indirectLighting.rgb, vec3(2.2f));
     // final composite lighting (direct + indirect) * ambient occlusion
     compositeLighting = (directLighting + indirectLighting.rgb) * indirectLighting.a;
     compositeLighting += emissive;

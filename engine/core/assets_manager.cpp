@@ -63,16 +63,16 @@ AssetsManager::AssetsManager()
                                         ("assets\\models\\crytek-sponza-noflag\\sponza.obj");
     scenes["Sibenik"] = std::make_shared<Scene>
                         ("assets\\models\\sibenik\\sibenik.obj");
-    scenes["Cornellbox"] = std::make_shared<Scene>
-                           ("assets\\models\\cornell-box\\Cornellbox-Original.obj");
+    scenes["Cornellbox (Original)"] = std::make_shared<Scene>
+                                      ("assets\\models\\cornell-box\\Cornellbox-Original.obj");
     scenes["Conference Room"] = std::make_shared<Scene>
                                 ("assets\\models\\conference\\conference.obj");
     scenes["King's Treasure"] = std::make_shared<Scene>
                                 ("assets\\models\\KingsTreasure\\KingsTreasure.obj");
     scenes["Mad Science"] = std::make_shared<Scene>
                             ("assets\\models\\science\\madScience.obj");
-    scenes["Cornellbox Empty"] = std::make_shared<Scene>
-                                 ("assets\\models\\cornell-box\\CornellBox-Empty-RG.obj");
+    scenes["Cornellbox (Empty)"] = std::make_shared<Scene>
+                                   ("assets\\models\\cornell-box\\CornellBox-Empty-RG.obj");
     // instantiate implemented interfaces
     interfaces["SceneLoader"] = std::make_shared<UISceneLoader>();
     interfaces["Framerate"] = std::make_shared<UIFramerate>();

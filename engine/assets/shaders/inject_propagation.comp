@@ -101,10 +101,17 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
     vec4 diffuseTrace = vec4(0.0f);
 
     // diffuse cone setup
-    float aperture = 0.7853f;
-    vec3 up = (normal.y * normal.y) > 1.0f - EPSILON ? vec3(0.0f, 0.0f, 1.0f) : vec3(0.0f, 1.0f, 0.0f);
-    vec3 right = cross(normal, up);
-    up = cross(normal, right);
+    float aperture = 0.6283f;
+    vec3 guide = vec3(0.0f, 1.0f, 0.0f);
+
+    if (abs(dot(normal,guide)) == 1.0f)
+    {
+        guide = vec3(0.0f, 0.0f, 1.0f);
+    }
+
+    // Find a tangent and a bitangent
+    vec3 right = normalize(guide - dot(normal, guide) * normal);
+    vec3 up = cross(right, normal);
 
     for(int i = 0; i < 4; i++)
     {
