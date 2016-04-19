@@ -95,7 +95,8 @@ class RenderWindow
         template<typename T> void WindowHint(T &&target, const Hint value);
 
         void Open(WindowInfo windowConfig = WindowInfo(),
-                  bool setPosition = true);
+                  bool setPosition = true, GLFWmonitor * monitor = nullptr,
+                  GLFWwindow * share = nullptr);
         void Destroy() const;
 
         void SetPosition(const int x, const int y);
@@ -113,6 +114,7 @@ class RenderWindow
 
         GLFWwindow * Handler() const { return windowHandler; }
         const WindowInfo &Info() const { return windowInfo; }
+        bool IsOpen() const { return isOpen; }
     private:
         WindowInfo windowInfo;
         GLFWwindow * windowHandler;

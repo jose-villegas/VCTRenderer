@@ -46,11 +46,17 @@ void EngineBase::Terminate()
     delete Instance().release();
 }
 
-void EngineBase::MainLoop()
+void EngineBase::MainLoop() const
 {
     static oglplus::Context gl;
+    static auto enteredMainLoop = false;
+
+    if (enteredMainLoop) { return; }
+
     // import assets and initialize ext libraries
     this->Initialize();
+    // entered main loop, this function cannot be called again
+    enteredMainLoop = true;
 
     // render loop
     while (!renderWindow->ShouldClose())
@@ -93,14 +99,19 @@ RenderWindow &EngineBase::Window() const
     return *renderWindow;
 }
 
-void EngineBase::Initialize()
+void EngineBase::Initialize() const
 {
-    // open window and set rendering context
-    renderWindow->WindowHint(WindowHints::Resizable, false);
-    renderWindow->WindowHint(ContextHints::ContextVersionMajor, 4);
-    renderWindow->WindowHint(ContextHints::ContextVersionMinor, 5);
-    renderWindow->WindowHint(ContextHints::OpenGLProfile, Hint::OpenGLCoreProfile);
-    renderWindow->Open(WindowInfo(1280, 720, 0, 0, "VCTRenderer"), false);
+    if(!renderWindow->IsOpen())
+    {
+        // open window
+        renderWindow->WindowHint(WindowHints::Resizable, false);
+        renderWindow->WindowHint(ContextHints::ContextVersionMajor, 4);
+        renderWindow->WindowHint(ContextHints::ContextVersionMinor, 5);
+        renderWindow->WindowHint(ContextHints::OpenGLProfile, Hint::OpenGLCoreProfile);
+        renderWindow->Open(WindowInfo(1280, 720, 0, 0, "Voxel Cone Tracing"), false);
+    }
+
+    // and set window as rendering context
     renderWindow->SetAsCurrentContext();
     // initialize OpenGL API
     oglplus::GLAPIInitializer();

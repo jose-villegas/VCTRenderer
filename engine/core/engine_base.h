@@ -22,14 +22,14 @@ class EngineBase
         /// Setups all the engine components, imports assets
         /// and initializes libraries.
         /// </summary>
-        void Initialize();
+        void Initialize() const;
         EngineBase();
     public:
         virtual ~EngineBase();
         /// <summary>
         /// Main rendering loop
         /// </summary>
-        void MainLoop();
+        void MainLoop() const;
         /// <summary>
         /// The active context window.
         /// </summary>

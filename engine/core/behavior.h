@@ -19,7 +19,7 @@ class Behavior : public InstancePool<Behavior>
     protected:
         virtual void Update() = 0;
     private:
-        friend void EngineBase::MainLoop();
+        friend void EngineBase::MainLoop() const;
         static void UpdateAll();
 };
 

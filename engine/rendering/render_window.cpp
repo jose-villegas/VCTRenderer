@@ -136,14 +136,14 @@ void RenderWindow::WindowHint(const ContextHints &target, const int value)
 /// if set to <c>true</c> will set the specified
 /// window position.
 /// </param>
-void RenderWindow::Open(WindowInfo windowConfig, bool setPosition)
+void RenderWindow::Open(WindowInfo windowConfig, bool setPosition,
+                        GLFWmonitor * monitor, GLFWwindow * share)
 {
     if (isOpen || !glfwInit()) { return; }
 
     windowInfo = std::move(windowConfig);
     windowHandler = glfwCreateWindow(windowInfo.width, windowInfo.height,
-                                     windowInfo.title.c_str(),
-                                     nullptr, nullptr);
+                                     windowInfo.title.c_str(), monitor, share);
 
     if (setPosition)
     {
