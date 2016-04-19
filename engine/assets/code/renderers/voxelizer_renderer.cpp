@@ -287,26 +287,20 @@ void VoxelizerRenderer::GenerateMipmap()
         CurrentProgram<PropagationProgram>(proga);
         // tracing limits
         proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
-        proga.voxelSize.Set(voxelSize);
-        proga.worldMinPoint.Set(Scene::Active()->rootNode->boundaries.MinPoint());
         proga.volumeDimension.Set(volumeDimension);
-        proga.voxelScale.Set(1.0f / volumeGridSize);
         // albedo
         voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                               oglplus::ImageUnitFormat::RGBA8);
         // normals
         voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                               oglplus::ImageUnitFormat::RGBA8);
-        voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+        voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                                 oglplus::ImageUnitFormat::RGBA8);
-        // base volume - direct light
-        voxelRadiance.Active(3);
-        voxelRadiance.Bind(oglplus::TextureTarget::_3D);
 
         // anisotropic mipmap volume
         for (int i = 0; i < voxelTexMipmap.size(); ++i)
         {
-            voxelTexMipmap[i].Active(4 + i);
+            voxelTexMipmap[i].Active(3 + i);
             voxelTexMipmap[i].Bind(oglplus::TextureTarget::_3D);
         }
 

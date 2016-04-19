@@ -75,6 +75,8 @@ AssetsManager::AssetsManager()
                                    ("assets\\models\\cornell-box\\CornellBox-Empty-RG.obj");
     scenes["Paris City"] = std::make_shared<Scene>
                            ("assets\\models\\Paris\\Paris2010_0.obj");
+    scenes["Lightbox"] = std::make_shared<Scene>
+                         ("assets\\models\\lightbox\\LightBox01.obj");
     // instantiate implemented interfaces
     interfaces["SceneLoader"] = std::make_shared<UISceneLoader>();
     interfaces["Framerate"] = std::make_shared<UIFramerate>();
@@ -158,7 +160,7 @@ AssetsManager::AssetsManager()
     // utility default assets
     Texture2D::GetDefaultTexture();
     // shapes instancer
-    Shapes::Load();
+    //Shapes::Load();
 }
 
 

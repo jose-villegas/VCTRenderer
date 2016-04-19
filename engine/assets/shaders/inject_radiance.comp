@@ -294,9 +294,9 @@ void main()
 
     albedo.a = 0.0f;
     // voxel normal in 0-1 range
-    vec3 normal = imageLoad(voxelNormal, writePos).xyz;
+    vec3 baseNormal = imageLoad(voxelNormal, writePos).xyz;
     // normal is stored in 0-1 range, restore to -1-1
-    normal = normalize(normal * 2.0f - 1.0f);
+    vec3 normal = normalize(baseNormal * 2.0f - 1.0f);
     // emission from voxel
     vec3 emissive = imageLoad(voxelRadiance, writePos).rgb;
     // black voxel has no irradiance diffuse
@@ -309,7 +309,7 @@ void main()
     }
 
     // store visibility in normal alpha
-    imageStore(voxelNormal, writePos, vec4(normal, albedo.a));
+    imageStore(voxelNormal, writePos, vec4(baseNormal, albedo.a));
 
     // add emission
     albedo.rgb += emissive;

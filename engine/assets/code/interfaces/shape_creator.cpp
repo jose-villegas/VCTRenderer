@@ -214,6 +214,19 @@ void UIShapeCreator::Draw()
                 return ptr.get() == node;
             });
 
+            // shape had custom material
+            if (it != customMat.end() && it->second)
+            {
+                auto itMaterial = find(scene->materials.begin(),
+                                       scene->materials.end(),
+                                       node->meshes[0]->material);
+
+                if (itMaterial != scene->materials.end())
+                {
+                    scene->materials.erase(itMaterial);
+                }
+            }
+
             // remove from scene root node
             if(itScene != scene->rootNode->nodes.end())
             {
@@ -228,19 +241,6 @@ void UIShapeCreator::Draw()
             if (itMap != addedNodes[scene].end())
             {
                 addedNodes[scene].erase(itMap);
-            }
-
-            // shape had custom material
-            if(it != customMat.end() && it->second)
-            {
-                auto itMaterial = find(scene->materials.begin(),
-                                       scene->materials.end(),
-                                       node->meshes[0]->material);
-
-                if(itMaterial != scene->materials.end())
-                {
-                    scene->materials.erase(itMaterial);
-                }
             }
 
             voxel.RevoxelizeScene();

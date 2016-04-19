@@ -9,12 +9,6 @@ void PropagationProgram::ExtractUniforms()
     maxTracingDistanceGlobal.BindTo("maxTracingDistanceGlobal");
     volumeDimension.Assign(program);
     volumeDimension.BindTo("volumeDimension");
-    voxelScale.Assign(program);
-    voxelScale.BindTo("voxelScale");
-    voxelSize.Assign(program);
-    voxelSize.BindTo("voxelSize");
-    worldMinPoint.Assign(program);
-    worldMinPoint.BindTo("worldMinPoint");
 }
 
 PropagationProgram::PropagationProgram()

@@ -121,17 +121,17 @@ void SceneImporter::ImportLight(aiLight * mLight, Light &light)
                       mLight->mColorAmbient.r,
                       mLight->mColorAmbient.g,
                       mLight->mColorAmbient.b
-                  ));
+                  ) / 255.0F);
     light.Diffuse(glm::vec3(
                       mLight->mColorDiffuse.r,
                       mLight->mColorDiffuse.g,
                       mLight->mColorDiffuse.b
-                  ));
+                  ) / 255.0F);
     light.Specular(glm::vec3(
                        mLight->mColorSpecular.r,
                        mLight->mColorSpecular.g,
                        mLight->mColorSpecular.b
-                   ));
+                   ) / 255.0F);
     light.transform.Forward(glm::vec3(
                                 mLight->mDirection.x,
                                 mLight->mDirection.y,
