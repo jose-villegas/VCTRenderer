@@ -53,21 +53,22 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
+    // in propagation mode we only trace the mip levels for 
+    // speed and to avoid aliasing issues
+    float anisoDimension = volumeDimension / 2.0f;
     // weight per axis for aniso sampling
     vec3 weight = direction * direction;
     // navigation
-    float voxelSize = 1.0f / volumeDimension;
+    float voxelSize = 1.0f / anisoDimension;
     // move one voxel further to avoid self collision
     float dst = voxelSize * 2.0f;
     float diameter = aperture * dst;
     vec3 samplePos = direction * dst + position;
     // control vars
     float mipLevel = 0.0f;
-    float anisoLevel = 0.0f;
-    float mipMaxLevel = log2(volumeDimension) - 1.0f;
+    float mipMaxLevel = log2(anisoDimension) - 1.0f;
     // accumulated sample
     vec4 coneSample = vec4(0.0f);
-    vec4 baseColor = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
 
     while(coneSample.a <= 1.0f && dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal)
@@ -79,18 +80,11 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
             break; 
         }
 
-        mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
-        anisoLevel = max(mipLevel - 1.0f, 0.0f);
+        mipLevel = clamp(log2(diameter * anisoDimension), 0.0f, mipMaxLevel);
         // aniso sampling
-        anisoSample = weight.x * textureLod(voxelTexMipmap[visibleFace.x], samplePos, anisoLevel)
-                    + weight.y * textureLod(voxelTexMipmap[visibleFace.y], samplePos, anisoLevel)
-                    + weight.z * textureLod(voxelTexMipmap[visibleFace.z], samplePos, anisoLevel);
-
-       if(mipLevel < 1.0f)
-        {
-            baseColor = texture(voxelTex, samplePos);
-            anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
-        }
+        anisoSample = weight.x * textureLod(voxelTexMipmap[visibleFace.x], samplePos, mipLevel)
+                    + weight.y * textureLod(voxelTexMipmap[visibleFace.y], samplePos, mipLevel)
+                    + weight.z * textureLod(voxelTexMipmap[visibleFace.z], samplePos, mipLevel);
         // accumulate sampling
         coneSample += (1.0f - coneSample.a) * anisoSample;
         // move further into volume
