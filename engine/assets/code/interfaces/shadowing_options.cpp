@@ -91,10 +91,8 @@ void UIShadowingOptions::Draw()
         }
 
         // vsm and evsm setup
-        static auto exponents = glm::vec2(0.0f);
-        static auto reduction = 0.0f;
-        exponents = shadowRender.Exponents();
-        reduction = shadowRender.LightBleedingReduction();
+        static auto exponents = shadowRender.Exponents();
+        static auto reduction = shadowRender.LightBleedingReduction();
 
         if(SliderFloat("Light Bleeding Reduction", &reduction, 0.0f, 1.0f))
         {

@@ -45,6 +45,7 @@ void ShadowMapRenderer::Render()
     // initially assign invalid direction
     static auto direction = glm::vec3(0);
     static auto &changes = Transform::TransformChangedMap();
+    static bool updateShadowMap = true;
 
     // any node transformation happened
     for (auto &c : changes)
@@ -81,6 +82,9 @@ void ShadowMapRenderer::Render()
     gl.Disable(Capability::Blend);
     gl.Enable(Capability::DepthTest);
     gl.Disable(Capability::CullFace);
+    // unneded since directional light cover the whole scene
+    // can be useful for view frustum aware light frustum later
+    UseFrustumCulling = false;
     // scene spatial cues
     auto sceneBB = scene->rootNode->boundaries;
     auto &center = sceneBB.Center();
@@ -149,6 +153,7 @@ void ShadowMapRenderer::BindReading(unsigned unit) const
     shadowMap.Bind(oglplus::TextureTarget::_2D);
 }
 
+
 const Camera &ShadowMapRenderer::LightCamera() const
 {
     return lightView;
@@ -162,7 +167,6 @@ const oglplus::Texture &ShadowMapRenderer::ShadowMap() const
 ShadowMapRenderer::ShadowMapRenderer(RenderWindow &window) : Renderer(window),
     shadowCaster(nullptr)
 {
-    updateShadowMap = true;
     blurScale = 0.5f;
     blurQuality = 1;
     filtering = 1;

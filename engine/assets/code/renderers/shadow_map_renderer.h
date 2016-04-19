@@ -58,6 +58,5 @@ class ShadowMapRenderer : public Renderer
         float blurScale;
         int blurQuality;
         int filtering;
-        bool updateShadowMap;
 };
 

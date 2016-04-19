@@ -1,0 +1,1599 @@
+newmtl FacadeSets_78
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/166_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_52
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/161_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur3.png
+    Kd 0.933333 0.933333 0.933333
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_14
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur1.png
+    Kd 1 0.956863 0.858824
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl BlindFacadeTextured
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMurAveugle5.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl tree17
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/reverbere1.tif
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageArdoise_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/ardoise.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_25
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/185_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_42
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/164_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol7.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageTuile_3
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/tuile.png
+    Kd 0.839216 1 0.921569
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl BlindFacadeGF
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMurAveugle1.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_51
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/165_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofMansardArdoise_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/comble_4.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genCourInterieure1.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_77
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/182_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_10
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/185_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageZinc_4
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/zinc2.png
+    Kd 0.933333 0.933333 0.933333
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_11
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur3.png
+    Kd 0.976471 0.803922 0.780392
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/191_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofMansardArdoise
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/comble_6.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_68
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/190_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur2.png
+    Kd 0.839216 1 0.921569
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl BlindFacadeTextured_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMurAveugle3.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_16
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/166_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_33
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/168_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_10
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur1.png
+    Kd 0.976471 0.803922 0.780392
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageTuile_5
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/tuile.png
+    Kd 0.870588 0.921569 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_43
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/186_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_29
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/180_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_3
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/172_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Curbs
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/curb.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_24
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/161_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genCourInterieure2.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_53
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/173_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_17
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur1.png
+    Kd 0.933333 0.933333 0.933333
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_9
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol4.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_69
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/195_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_59
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/195_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageArdoise_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/ardoise.png
+    Kd 0.839216 1 0.921569
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_56
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/176_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_20
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/183_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_45
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/167_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_35
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/160_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageZinc_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/zinc2.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_3
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur1.png
+    Kd 0.839216 1 0.921569
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_4
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur1.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_65
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/165_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_41
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/176_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_30
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/193_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_4
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/180_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageArdoise
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/ardoise.png
+    Kd 0.933333 0.933333 0.933333
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_20
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur2.png
+    Kd 0.870588 0.921569 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_76
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/197_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_28
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/192_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageArdoise_4
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/ardoise.png
+    Kd 1 0.956863 0.858824
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_64
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/167_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_26
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/163_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageTuile_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/tuile.png
+    Kd 0.976471 0.803922 0.780392
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageTuile_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/tuile.png
+    Kd 0.866667 0.866667 0.866667
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_7
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/183_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageArdoise_6
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/ardoise.png
+    Kd 0.866667 0.866667 0.866667
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofMansardZinc_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/comble_3.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_75
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/164_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_21
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/181_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_7
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur3.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur2.png
+    Kd 0.933333 0.933333 0.933333
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_17
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/177_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_55
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/196_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_37
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/178_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageZinc_5
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/zinc2.png
+    Kd 0.976471 0.803922 0.780392
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_32
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/175_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_66
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/184_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_9
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur2.png
+    Kd 0.866667 0.866667 0.866667
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_16
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur1.png
+    Kd 0.870588 0.921569 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_74
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/169_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageZinc_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/zinc2.png
+    Kd 0.866667 0.866667 0.866667
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofMansardZinc_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/comble_5.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_71
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/189_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofMansardTuile
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/comble_1.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_9
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/182_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_15
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur3.png
+    Kd 0.870588 0.921569 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageTuile
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/tuile.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_23
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/198_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_22
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/162_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_5
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur2.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_80
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/199_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_70
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/175_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_47
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/188_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_31
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/187_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_18
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/179_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_46
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/197_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofTerrasse_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/flatroof4.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_63
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/189_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_5
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/186_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_61
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/162_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_8
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur3.png
+    Kd 0.866667 0.866667 0.866667
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl BlindFacadeTextured_3
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMurAveugle4.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageArdoise_5
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/ardoise.png
+    Kd 0.870588 0.921569 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_8
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/170_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_39
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/174_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Footprint
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl BlindFacadeTextured_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMurAveugle2.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_18
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur3.png
+    Kd 1 0.956863 0.858824
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_73
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/194_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_6
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/172_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_57
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/188_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_54
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/192_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_62
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/170_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_49
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/190_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofMansardZinc
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/comble_2.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageZinc_6
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/zinc2.png
+    Kd 1 0.956863 0.858824
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_79
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/178_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_3
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol1.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_6
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur3.png
+    Kd 0.839216 1 0.921569
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_19
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur2.png
+    Kd 1 0.956863 0.858824
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofTerrasse_4
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/flatroof1.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_27
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/184_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageZinc
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/zinc2.png
+    Kd 0.839216 1 0.921569
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_50
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/191_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_60
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/187_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_13
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/163_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageZinc_3
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/zinc2.png
+    Kd 0.870588 0.921569 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_81
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/199_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_67
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/174_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageTuile_6
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/tuile.png
+    Kd 1 0.956863 0.858824
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageArdoise_3
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/ardoise.png
+    Kd 0.976471 0.803922 0.780392
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_44
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/193_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_34
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/181_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_12
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur1.png
+    Kd 0.866667 0.866667 0.866667
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_15
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/179_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_36
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/171_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_14
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/160_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_40
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/177_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_11
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/171_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_48
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/169_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl ChimneyBase_13
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur2.png
+    Kd 0.976471 0.803922 0.780392
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FaitageTuile_4
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/tuile.png
+    Kd 0.933333 0.933333 0.933333
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_7
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol8.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_5
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol2.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/herbe1.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_8
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol5.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Concrete
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/trottoir.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_4
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol9.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_38
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/173_2.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl StreetPart
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/route1voie.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_19
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/194_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Asphalt
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/Asphalt_rue.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_72
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/198_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl PrivateYard_1
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur1.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_12
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/196_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol_6
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol3.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl SidewalkTree
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/tree15.tif
+    Kd 1 1 1
+    d 0.99
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl FacadeSets_58
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/168_1.jpg
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofTerrasse_3
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/flatroof5.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofTerrasse
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/flatroof3.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl PrivateYard_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur3.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl RoofTerrasse_2
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/flatroof2.png
+    Kd 1 1 1
+    d 1
+    Ka 1 1 1
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl PrivateYard
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/genMur2.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
+newmtl Sol
+    illum 3
+    Ks 0 0 0
+    Ns 0
+    map_Kd texture/sol6.png
+    Kd 1 1 1
+    d 1
+    Ka 0 0 0
+    Tf 1.0 1.0 1.0
+    Ni 1.0
