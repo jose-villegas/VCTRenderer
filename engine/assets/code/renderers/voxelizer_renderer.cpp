@@ -287,6 +287,10 @@ void VoxelizerRenderer::GenerateMipmap()
         CurrentProgram<PropagationProgram>(proga);
         // tracing limits
         proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
+        proga.voxelSize.Set(voxelSize);
+        proga.worldMinPoint.Set(Scene::Active()->rootNode->boundaries.MinPoint());
+        proga.volumeDimension.Set(volumeDimension);
+        proga.voxelScale.Set(1.0f / volumeGridSize);
         // albedo
         voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                               oglplus::ImageUnitFormat::RGBA8);
