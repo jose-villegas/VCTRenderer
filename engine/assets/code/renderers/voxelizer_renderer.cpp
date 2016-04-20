@@ -44,7 +44,6 @@ void VoxelizerRenderer::Render()
     // store current for next call
     previous = scene.get();
     static auto &changes = Transform::TransformChangedMap();
-    static auto revoxelize = true;
 
     if (framestep == -1)
     {
@@ -52,15 +51,10 @@ void VoxelizerRenderer::Render()
         {
             if (c.first != camera.get())
             {
-                revoxelize = true;
+                // update voxelization
+                VoxelizeScene();
                 break;
             }
-        }
-
-        if(revoxelize)
-        {
-            // update voxelization
-            VoxelizeScene();
         }
     }
     // voxelization will happen every framestep frame
@@ -75,8 +69,6 @@ void VoxelizerRenderer::Render()
     {
         DrawVoxels();
     }
-
-    revoxelize = false;
 }
 
 void VoxelizerRenderer::SetMatricesUniforms(const Node &node) const
@@ -554,11 +546,17 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
 }
 void VoxelizerRenderer::RevoxelizeScene()
 {
-    static auto &scene = Scene::Active();
+    static auto scene = static_cast<Scene *>(nullptr);
+
+    // active scene changed
+    if (scene != Scene::Active().get())
+    {
+        scene = Scene::Active().get();
+        UpdateProjectionMatrices(scene->rootNode->boundaries);
+    }
 
     if (!scene || !scene->IsLoaded()) { return; }
 
-    UpdateProjectionMatrices(scene->rootNode->boundaries);
     // update voxelization
     VoxelizeScene();
 }
