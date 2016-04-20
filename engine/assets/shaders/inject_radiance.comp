@@ -6,6 +6,7 @@ layout(binding = 0, rgba8) uniform sampler3D voxelAlbedo;
 layout(binding = 1, rgba8) uniform image3D voxelNormal;
 layout(binding = 2, rgba8) uniform image3D voxelRadiance;
 
+const float PI = 3.14159265f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;

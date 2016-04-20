@@ -250,6 +250,7 @@ vec3 Ambient(Light light, vec3 albedo)
 vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
 {
     float lambertian = max(dot(normal, lightDirection), 0.0f);
+
     return light.diffuse * albedo * lambertian;
 }
 
@@ -257,9 +258,16 @@ vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4
 {
     vec3 viewDirection = normalize(cameraPosition - position);
     vec3 halfDirection = normalize(lightDirection + viewDirection);
+    // emulates fresnel effect
+    float fresnelFactor = pow(1.0f - max(dot(viewDirection, halfDirection), 0.0f), 5.0f);
+    vec3 fresnel = mix(specular.rgb, vec3(1.0f), fresnelFactor);
+    // modulate shininess
+    float shininess = max(PI * pow(specular.a, 2.0f), 0.01f) * 256.0f;
+    // specular blinn-phong factor
     float specularFactor = max(dot(normal, halfDirection), 0.0f);
-    specularFactor = pow(specularFactor, specular.a * 256.0f);
-    return light.specular * specular.rgb * specularFactor;
+    specularFactor = pow(specularFactor, shininess);
+
+    return light.specular * specularFactor * fresnel;
 }
 
 vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
