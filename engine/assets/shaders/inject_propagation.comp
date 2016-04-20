@@ -39,7 +39,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     // speed and to avoid aliasing issues
     float anisoDimension = volumeDimension / 2.0f;
     // weight per axis for aniso sampling
-    vec3 weight = abs(direction);
+    vec3 weight = direction * direction;
     // navigation
     float voxelSize = 1.0f / anisoDimension;
     // move one voxel further to avoid self collision
