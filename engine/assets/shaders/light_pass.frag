@@ -247,27 +247,30 @@ vec3 Ambient(Light light, vec3 albedo)
     return max(albedo * light.ambient, 0.0f);
 }
 
-vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
+vec3 BDRF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
 {
-    float lambertian = max(dot(normal, lightDirection), 0.0f);
-
-    return light.diffuse * albedo * lambertian;
-}
-
-vec3 Specular(Light light, vec3 lightDirection, vec3 normal, vec3 position, vec4 specular)
-{
-    vec3 viewDirection = normalize(cameraPosition - position);
-    vec3 halfDirection = normalize(lightDirection + viewDirection);
-    // emulates fresnel effect
-    float fresnelFactor = pow(1.0f - max(dot(viewDirection, halfDirection), 0.0f), 5.0f);
-    vec3 fresnel = mix(specular.rgb, vec3(1.0f), fresnelFactor);
+    // common variables
+    vec3 L = normalize(light.direction);
+    vec3 V = normalize(cameraPosition - position);
+    vec3 H = normalize(V + L);
+    // compute dot procuts
+    float dotNL = max(dot(N, L), 0.0f);
+    float dotNH = max(dot(N, H), 0.0f);
+    float dotLH = max(dot(L, H), 0.0f);
     // modulate shininess
-    float shininess = max(PI * pow(specular.a, 2.0f), 0.01f) * 256.0f;
-    // specular blinn-phong factor
-    float specularFactor = max(dot(normal, halfDirection), 0.0f);
-    specularFactor = pow(specularFactor, shininess);
-
-    return light.specular * specularFactor * fresnel;
+    float shininess = max(PI * pow(ks.a, 2.0f), 0.01f) * 256.0f;
+    // emulate fresnel effect
+    float F = pow(1.0f - max(dotLH, 0.0f), 5.0f);
+    vec3 fresnel = ks.rgb + (1.0f - ks.rgb) * F;
+    // specular factor
+    float S = pow(dotNH, shininess);
+    // energy conservation normalization factor
+    S *= shininess * 0.0397f + 0.3183f;
+    // specular term
+    vec3 specular = light.specular * S * fresnel;
+    vec3 diffuse = light.diffuse * ka;
+    // return composition
+    return (specular + diffuse) * dotNL;
 }
 
 vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -291,8 +294,7 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
 
     if(visibility <= 0.0f) return vec3(0.0f);  
 
-    return (Diffuse(light, light.direction, normal, albedo) 
-           + Specular(light, light.direction, normal, position, specular)) * visibility;
+    return BDRF(light, normal, position, albedo, specular) * visibility;
 }
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -326,8 +328,7 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 
     if(visibility <= 0.0f) return vec3(0.0f);  
 
-    return (Diffuse(light, light.direction, normal, albedo) 
-           + Specular(light, light.direction, normal, position, specular)) * falloff * visibility;
+    return BDRF(light, normal, position, albedo, specular) * falloff * visibility;
 }
 
 vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -337,7 +338,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
     float cosAngle = dot(-light.direction, spotDirection);
 
     // outside the cone
-    if(cosAngle <= light.angleOuterCone) { return vec3(0.0f); }
+    if(cosAngle < light.angleOuterCone) { return vec3(0.0f); }
 
     // assuming they are passed as cos(angle)
     float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
@@ -375,9 +376,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
     if(visibility <= 0.0f) return vec3(0.0f); 
 
-    return (Diffuse(light, light.direction, normal, albedo) 
-           + Specular(light, light.direction, normal, position, specular)) 
-           * falloff * spotFalloff * visibility;
+    return BDRF(light, normal, position, albedo, specular) * falloff * spotFalloff * visibility;
 }
 
 vec3 PositionFromDepth()
@@ -481,14 +480,14 @@ void main()
     vec3 position = PositionFromDepth();
     // world-space normal
     vec3 normal = normalize(texture(gNormal, texCoord).xyz);
+    // xyz = fragment specular, w = shininess
+    vec4 specular = texture(gSpecular, texCoord);
     // fragment albedo
     vec3 baseColor = texture(gAlbedo, texCoord).rgb;
     // convert to linear space
     vec3 albedo = pow(baseColor, vec3(2.2f));
     // fragment emissiviness
     vec3 emissive = texture(gEmissive, texCoord).rgb;
-    // xyz = fragment specular, w = shininess
-    vec4 specular = texture(gSpecular, texCoord);
     // lighting cumulatives
     vec3 directLighting = vec3(1.0f);
     vec4 indirectLighting = vec4(1.0f);

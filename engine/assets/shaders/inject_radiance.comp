@@ -147,9 +147,9 @@ float Visibility(vec3 position)
     return min(positive, negative);
 }
 
-vec3 Diffuse(Light light, vec3 lightDirection, vec3 normal, vec3 albedo)
+vec3 BRDF(Light light, vec3 normal, vec3 albedo)
 {
-    float lambertian = max(dot(normal, lightDirection), 0.0f);
+    float lambertian = max(dot(normal, light.direction), 0.0f);
     return light.diffuse * albedo * lambertian;
 }
 
@@ -169,7 +169,7 @@ vec4 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
 
     if(visibility == 0.0f) return vec4(0.0f); 
 
-    return vec4(Diffuse(light, light.direction, normal, albedo) * visibility, visibility);
+    return vec4(BRDF(light, normal, albedo) * visibility, visibility);
 }
 
 vec4 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
@@ -198,7 +198,7 @@ vec4 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
 
     if(visibility <= 0.0f) return vec4(0.0f); 
 
-    return vec4(Diffuse(light, light.direction, normal, albedo) * falloff * visibility, visibility);
+    return vec4(BRDF(light, normal, albedo) * falloff * visibility, visibility);
 }
 
 vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
@@ -208,7 +208,7 @@ vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
     float cosAngle = dot(-light.direction, spotDirection);
 
     // outside the cone
-    if(cosAngle <= light.angleOuterCone) { return vec4(0.0f); }
+    if(cosAngle < light.angleOuterCone) { return vec4(0.0f); }
 
     // assuming they are passed as cos(angle)
     float innerMinusOuter = light.angleInnerCone - light.angleOuterCone;
@@ -240,7 +240,7 @@ vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 
     if(visibility <= 0.0f) return vec4(0.0f);
 
-    return vec4(Diffuse(light, light.direction, normal, albedo) * falloff * spotFalloff * visibility, visibility);
+    return vec4(BRDF(light, normal, albedo) * falloff * spotFalloff * visibility, visibility);
 }
 
 vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
