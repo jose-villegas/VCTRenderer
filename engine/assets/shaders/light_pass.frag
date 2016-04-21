@@ -268,8 +268,8 @@ vec3 BRDF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
     // energy conservation normalization factor
     blinnPhong *= shininess * 0.0397f + 0.3183f;
     // specular term
-    vec3 specular = light.specular * blinnPhong * fresnel;
-    vec3 diffuse = light.diffuse * ka;
+    vec3 specular = ks.rgb * light.specular * blinnPhong * fresnel;
+    vec3 diffuse = ka.rgb * light.diffuse;
     // return composition
     return (diffuse + specular) * dotNL;
 }
@@ -512,7 +512,7 @@ void main()
     else if(mode == 3) // indirect only
     {
         directLighting = vec3(0.0f);
-        albedo.rgb = albedo.rgb = vec3(1.0f);
+        baseColor.rgb = specular.rgb = vec3(1.0f);
         indirectLighting = CalculateIndirectLighting(position, normal, baseColor, specular, false);
     }
     else if(mode == 4) // ambient occlusion only

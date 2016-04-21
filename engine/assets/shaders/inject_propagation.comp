@@ -133,7 +133,7 @@ void main()
     // normal from voxelization
     vec3 normal = imageLoad(voxelNormal, writePos).xyz;
     // normal is stored in 0-1 range, restore to -1 -> -1
-    normal = DecodeNormal(normal);
+    normal = normalize(DecodeNormal(normal));
     // calculate indirect lighting - first bounce onto the voxel texture
     vec3 position = vec3(writePos) / volumeDimension;
     vec4 indirectLighting = CalculateIndirectLighting(position, normal);
