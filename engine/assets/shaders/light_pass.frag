@@ -260,8 +260,6 @@ vec3 BRDF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
     // modulate shininess
     // float shininess = max(PI * pow(ks.a, 2.0f), 0.01f) * 256.0f;
     float shininess = exp2(10.0f * ks.a + 1.0f);
-    // deviation
-    float vis = (shininess + 2.0f) / 8.0f;
     // emulate fresnel effect
     vec3 fresnel = ks.rgb + (1.0f - ks.rgb) * pow(1.0f - dotLH, 5.0f);
     // specular factor
@@ -269,7 +267,7 @@ vec3 BRDF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
     // energy conservation normalization factor
     blinnPhong *= shininess * 0.0397f + 0.3183f;
     // specular term
-    vec3 specular = light.specular * vis * blinnPhong * fresnel;
+    vec3 specular = light.specular * blinnPhong * fresnel;
     vec3 diffuse = light.diffuse * ka;
     // return composition
     return (diffuse + specular) * dotNL;

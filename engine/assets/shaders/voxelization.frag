@@ -62,6 +62,16 @@ void imageAtomicRGBA8Avg(layout(r32ui) volatile coherent uimage3D grid, ivec3 co
     }
 }
 
+vec3 EncodeNormal(vec3 normal)
+{
+    return normal * 0.5f + vec3(0.5f);
+}
+
+vec3 DecodeNormal(vec3 normal)
+{
+    return normal * 2.0f - vec3(1.0f);
+}
+
 void main()
 {
     if( In.position.x < In.triangleAABB.x || In.position.y < In.triangleAABB.y || 
@@ -85,7 +95,7 @@ void main()
         albedo.rgb *= opacity;
         albedo.a = 1.0f;
         // bring normal to 0-1 range
-        vec4 normal = vec4(normalize(In.normal) * 0.5f + 0.5f, 1.0f);
+        vec4 normal = vec4(EncodeNormal(normalize(In.normal)), 1.0f);
         ivec3 dimension = ivec3(volumeDimension);
         ivec3 position = ivec3(In.wsPosition);
 

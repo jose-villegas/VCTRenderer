@@ -108,6 +108,16 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
     return clamp(diffuseTrace, 0.0f, 1.0f);
 }
 
+vec3 EncodeNormal(vec3 normal)
+{
+    return normal * 0.5f + vec3(0.5f);
+}
+
+vec3 DecodeNormal(vec3 normal)
+{
+    return normal * 2.0f - vec3(1.0f);
+}
+
 void main()
 {
     if(gl_GlobalInvocationID.x >= volumeDimension ||
@@ -123,7 +133,7 @@ void main()
     // normal from voxelization
     vec3 normal = imageLoad(voxelNormal, writePos).xyz;
     // normal is stored in 0-1 range, restore to -1 -> -1
-    normal = normalize(normal * 2.0f - 1.0f);
+    normal = DecodeNormal(normal);
     // calculate indirect lighting - first bounce onto the voxel texture
     vec3 position = vec3(writePos) / volumeDimension;
     vec4 indirectLighting = CalculateIndirectLighting(position, normal);

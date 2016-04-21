@@ -281,6 +281,16 @@ vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     return directLighting;
 }
 
+vec3 EncodeNormal(vec3 normal)
+{
+    return normal * 0.5f + vec3(0.5f);
+}
+
+vec3 DecodeNormal(vec3 normal)
+{
+    return normal * 2.0f - vec3(1.0f);
+}
+
 void main()
 {
 	if(gl_GlobalInvocationID.x >= volumeDimension ||
@@ -297,7 +307,7 @@ void main()
     // voxel normal in 0-1 range
     vec3 baseNormal = imageLoad(voxelNormal, writePos).xyz;
     // normal is stored in 0-1 range, restore to -1-1
-    vec3 normal = normalize(baseNormal * 2.0f - 1.0f);
+    vec3 normal = DecodeNormal(baseNormal);
     // emission from voxel
     vec3 emissive = imageLoad(voxelRadiance, writePos).rgb;
     // black voxel has no irradiance diffuse
