@@ -247,7 +247,7 @@ vec3 Ambient(Light light, vec3 albedo)
     return max(albedo * light.ambient, 0.0f);
 }
 
-vec3 BDRF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
+vec3 BRDF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
 {
     // common variables
     vec3 L = normalize(light.direction);
@@ -258,7 +258,10 @@ vec3 BDRF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
     float dotNH = max(dot(N, H), 0.0f);
     float dotLH = max(dot(L, H), 0.0f);
     // modulate shininess
-    float shininess = max(PI * pow(ks.a, 2.0f), 0.01f) * 256.0f;
+    // float shininess = max(PI * pow(ks.a, 2.0f), 0.01f) * 256.0f;
+    float shininess = exp2(10.0f * ks.a + 1.0f);
+    // deviation
+    float vis = (shininess + 2.0f) / 8.0f;
     // emulate fresnel effect
     vec3 fresnel = ks.rgb + (1.0f - ks.rgb) * pow(1.0f - dotLH, 5.0f);
     // specular factor
@@ -266,10 +269,10 @@ vec3 BDRF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
     // energy conservation normalization factor
     blinnPhong *= shininess * 0.0397f + 0.3183f;
     // specular term
-    vec3 specular = light.specular * blinnPhong * fresnel;
+    vec3 specular = light.specular * vis * blinnPhong * fresnel;
     vec3 diffuse = light.diffuse * ka;
     // return composition
-    return (specular + diffuse) * dotNL;
+    return (diffuse + specular) * dotNL;
 }
 
 vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -293,7 +296,7 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
 
     if(visibility <= 0.0f) return vec3(0.0f);  
 
-    return BDRF(light, normal, position, albedo, specular) * visibility;
+    return BRDF(light, normal, position, albedo, specular) * visibility;
 }
 
 vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -327,7 +330,7 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 
     if(visibility <= 0.0f) return vec3(0.0f);  
 
-    return BDRF(light, normal, position, albedo, specular) * falloff * visibility;
+    return BRDF(light, normal, position, albedo, specular) * falloff * visibility;
 }
 
 vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 specular)
@@ -375,7 +378,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
     if(visibility <= 0.0f) return vec3(0.0f); 
 
-    return BDRF(light, normal, position, albedo, specular) * falloff * spotFalloff * visibility;
+    return BRDF(light, normal, position, albedo, specular) * falloff * spotFalloff * visibility;
 }
 
 vec3 PositionFromDepth()
@@ -494,18 +497,18 @@ void main()
 
     if(mode == 0)   // direct + indirect + ao
     {
-        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
         indirectLighting = CalculateIndirectLighting(position, normal, baseColor, specular, true);
+        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
     }
     else if(mode == 1)  // direct + indirect
     {
-        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
         indirectLighting = CalculateIndirectLighting(position, normal, baseColor, specular, false);
+        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
     }
     else if(mode == 2) // direct only
     {
-        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
         indirectLighting = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+        directLighting = CalculateDirectLighting(position, normal, albedo, specular);
     }
     else if(mode == 3) // indirect only
     {

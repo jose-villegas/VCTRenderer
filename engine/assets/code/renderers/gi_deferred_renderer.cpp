@@ -318,32 +318,32 @@ void GIDeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
     gl.Bound(TextureTarget::_2D, bufferTextures[0])
     .Image2D(0, PixelDataInternalFormat::RGB8SNorm, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::UnsignedByte, nullptr)
-    .MinFilter(TextureMinFilter::Nearest)
-    .MagFilter(TextureMagFilter::Nearest);
+    .MinFilter(TextureMinFilter::Linear)
+    .MagFilter(TextureMagFilter::Linear);
     geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 0, bufferTextures[0],
                                       0);
     // build textures -- albedo
     gl.Bound(TextureTarget::_2D, bufferTextures[1])
     .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::UnsignedByte, nullptr)
-    .MinFilter(TextureMinFilter::Nearest)
-    .MagFilter(TextureMagFilter::Nearest);
+    .MinFilter(TextureMinFilter::Linear)
+    .MagFilter(TextureMagFilter::Linear);
     geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 1, bufferTextures[1],
                                       0);
     // build textures -- specular color and shininess
     gl.Bound(TextureTarget::_2D, bufferTextures[2])
     .Image2D(0, PixelDataInternalFormat::RGBA8, windowWidth, windowHeight,
              0, PixelDataFormat::RGBA, PixelDataType::UnsignedByte, nullptr)
-    .MinFilter(TextureMinFilter::Nearest)
-    .MagFilter(TextureMagFilter::Nearest);
+    .MinFilter(TextureMinFilter::Linear)
+    .MagFilter(TextureMagFilter::Linear);
     geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 2, bufferTextures[2],
                                       0);
     // emissivenes
     gl.Bound(TextureTarget::_2D, bufferTextures[3])
     .Image2D(0, PixelDataInternalFormat::RGB8, windowWidth, windowHeight,
              0, PixelDataFormat::RGB, PixelDataType::UnsignedByte, nullptr)
-    .MinFilter(TextureMinFilter::Nearest)
-    .MagFilter(TextureMagFilter::Nearest);
+    .MinFilter(TextureMinFilter::Linear)
+    .MagFilter(TextureMagFilter::Linear);
     geometryBuffer.AttachColorTexture(FramebufferTarget::Draw, 3, bufferTextures[3],
                                       0);
     // attach depth texture for depth testing
@@ -351,8 +351,8 @@ void GIDeferredRenderer::SetupGeometryBuffer(unsigned windowWidth,
     .Image2D(0, PixelDataInternalFormat::DepthComponent24, windowWidth,
              windowHeight, 0, PixelDataFormat::DepthComponent,
              PixelDataType::Float, nullptr)
-    .MinFilter(TextureMinFilter::Nearest)
-    .MagFilter(TextureMagFilter::Nearest);
+    .MinFilter(TextureMinFilter::Linear)
+    .MagFilter(TextureMagFilter::Linear);
     geometryBuffer.AttachTexture(FramebufferTarget::Draw,
                                  FramebufferAttachment::Depth,
                                  bufferTextures[4], 0);
