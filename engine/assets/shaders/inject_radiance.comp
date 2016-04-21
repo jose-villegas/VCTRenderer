@@ -134,11 +134,11 @@ float Visibility(vec3 position)
     // transform to ndc-space
     lsPos /= lsPos.w;
     // querry visibility
-    vec4 moments = texture(shadowMap, lsPos.xy).xyzw;
+    vec4 moments = texture(shadowMap, lsPos.xy);
     // move to avoid acne
     vec2 wDepth = WarpDepth(lsPos.z - 0.0001f);
     // derivative of warping at depth
-    vec2 depthScale = 0.0002f * exponents * wDepth;
+    vec2 depthScale = 0.0001f * exponents * wDepth;
     vec2 minVariance = depthScale * depthScale;
     // evsm mode 4 compares negative and positive
     float positive = Chebyshev(moments.xz, wDepth.x, minVariance.x);
@@ -149,7 +149,9 @@ float Visibility(vec3 position)
 
 vec3 BRDF(Light light, vec3 normal, vec3 albedo)
 {
-    float lambertian = max(dot(normal, light.direction), 0.0f);
+    // lit back face uniformly
+    float lambertian = abs(dot(normal, light.direction));
+
     return light.diffuse * albedo * lambertian;
 }
 

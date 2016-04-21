@@ -64,15 +64,15 @@ AssetsManager::AssetsManager()
     scenes["Sibenik"] = std::make_shared<Scene>
                         ("assets\\models\\sibenik\\sibenik.obj");
     scenes["Cornellbox (Original)"] = std::make_shared<Scene>
-                                      ("assets\\models\\cornell-box\\Cornellbox-Original.obj");
+                                      ("assets\\models\\cornell-box\\cornell_box.obj");
+    scenes["Cornellbox (Empty)"] = std::make_shared<Scene>
+                                   ("assets\\models\\cornell-box\\cornell_box_EMPTY.obj");
     scenes["Conference Room"] = std::make_shared<Scene>
                                 ("assets\\models\\conference\\conference.obj");
     scenes["King's Treasure"] = std::make_shared<Scene>
                                 ("assets\\models\\KingsTreasure\\KingsTreasure.obj");
     scenes["Mad Science"] = std::make_shared<Scene>
                             ("assets\\models\\science\\madScience.obj");
-    scenes["Cornellbox (Empty)"] = std::make_shared<Scene>
-                                   ("assets\\models\\cornell-box\\CornellBox-Empty-RG.obj");
     scenes["Paris City"] = std::make_shared<Scene>
                            ("assets\\models\\Paris\\Paris2010_0.obj");
     scenes["Lightbox"] = std::make_shared<Scene>
