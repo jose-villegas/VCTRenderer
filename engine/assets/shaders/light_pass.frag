@@ -260,14 +260,13 @@ vec3 BDRF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
     // modulate shininess
     float shininess = max(PI * pow(ks.a, 2.0f), 0.01f) * 256.0f;
     // emulate fresnel effect
-    float F = pow(1.0f - max(dotLH, 0.0f), 5.0f);
-    vec3 fresnel = ks.rgb + (1.0f - ks.rgb) * F;
+    vec3 fresnel = ks.rgb + (1.0f - ks.rgb) * pow(1.0f - dotLH, 5.0f);
     // specular factor
-    float S = pow(dotNH, shininess);
+    float blinnPhong = pow(dotNH, shininess);
     // energy conservation normalization factor
-    S *= shininess * 0.0397f + 0.3183f;
+    blinnPhong *= shininess * 0.0397f + 0.3183f;
     // specular term
-    vec3 specular = light.specular * S * fresnel;
+    vec3 specular = light.specular * blinnPhong * fresnel;
     vec3 diffuse = light.diffuse * ka;
     // return composition
     return (specular + diffuse) * dotNL;
