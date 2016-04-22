@@ -50,8 +50,11 @@ void imageAtomicRGBA8Avg(layout(r32ui) volatile coherent uimage3D grid, ivec3 co
     uint newVal = convVec4ToRGBA8(value);
     uint prevStoredVal = 0;
     uint curStoredVal;
+    uint numIterations = 0;
 
-    while((curStoredVal = imageAtomicCompSwap(grid, coords, prevStoredVal, newVal)) != prevStoredVal)
+    while((curStoredVal = imageAtomicCompSwap(grid, coords, prevStoredVal, newVal)) 
+            != prevStoredVal
+            && numIterations < 100)
     {
         prevStoredVal = curStoredVal;
         vec4 rval = convRGBA8ToVec4(curStoredVal);
@@ -59,6 +62,8 @@ void imageAtomicRGBA8Avg(layout(r32ui) volatile coherent uimage3D grid, ivec3 co
         vec4 curValF = rval + value;    // Add
         curValF.rgb /= curValF.a;       // Renormalize
         newVal = convVec4ToRGBA8(curValF);
+
+        ++numIterations;
     }
 }
 
@@ -85,13 +90,12 @@ void main()
 		discard;
 	}
 
-    const ivec3 zero = ivec3(0);
     // writing coords position
     ivec3 position = ivec3(In.wsPosition);
     // fragment albedo
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
-
     float opacity = min(albedo.a, texture(opacityMap, In.texCoord.xy).r);
+
     // alpha cutoff
     if(opacity > 0.0f)
     {
@@ -102,16 +106,11 @@ void main()
         albedo.a = 1.0f;
         // bring normal to 0-1 range
         vec4 normal = vec4(EncodeNormal(normalize(In.normal)), 1.0f);
-        ivec3 dimension = ivec3(volumeDimension);
-
-        if(all(greaterThanEqual(position, zero)) && all(lessThan(position, dimension)))
-        {
-            // average normal per fragments sorrounding the voxel volume
-            imageAtomicRGBA8Avg(voxelNormal, position, normal);
-            // average albedo per fragments sorrounding the voxel volume
-            imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
-            // store emissive, no average operation since emissive is a single color
-            imageStore(voxelEmission, position, vec4(material.emissive, 1.0f)); 
-        }
+        // average normal per fragments sorrounding the voxel volume
+        imageAtomicRGBA8Avg(voxelNormal, position, normal);
+        // average albedo per fragments sorrounding the voxel volume
+        imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
+        // store emissive, no average operation since emissive is a single color
+        imageStore(voxelEmission, position, vec4(material.emissive, 1.0f)); 
     }
 }

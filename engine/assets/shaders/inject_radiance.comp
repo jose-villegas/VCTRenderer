@@ -150,8 +150,25 @@ float Visibility(vec3 position)
 
 vec3 BRDF(Light light, vec3 normal, vec3 albedo)
 {
-    // lit back face uniformly
+    vec3 guide = vec3(0.0, 1.0, 0.0);
+
+    if (abs(dot(normal,guide)) == 1.0)
+    {
+        guide = vec3(0.0, 0.0, 1.0);
+    }
+
+    // find some axis vectors
+    vec3 right = normalize(guide - dot(normal, guide) * normal);
+    vec3 up = cross(right, normal);
+    up = normalize(up);
+    // weight per voxel face
+    vec3 weight = normal * normal;
+    // calculate directional lamberts
+    float lambertRight = abs(dot(right, light.direction));
+    float lambertUp = abs(dot(up, light.direction));
     float lambertian = abs(dot(normal, light.direction));
+    // voxel shading average from all front sides
+    lambertian = lambertian * weight.z + lambertUp * weight.y + lambertRight * weight.x;
 
     return light.diffuse * albedo * lambertian;
 }
@@ -248,12 +265,12 @@ vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 
 vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
 {
+    const float expansion = sqrt(3.0f);
     // calculate directional lighting
     vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 0.0f);
     vec4 current =  vec4(0.0f); int count = 0;
-	// fixes issues where the voxel's center point is occluded
-	vec3 unitCubeDirection = clamp(1.7320f * normal, -1.0f, 1.0f);
-    position = position + unitCubeDirection * voxelSize;
+	// extend normal into a unit cube direction to reduce voxelization error
+    position = position + clamp(normal * expansion, -1.0f, 1.0f) * voxelSize;
 
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
@@ -318,6 +335,7 @@ void main()
     vec3 normal = normalize(DecodeNormal(baseNormal));
     // emission from voxel
     vec3 emissive = imageLoad(voxelEmissive, writePos).rgb;
+
     // black voxel has no irradiance diffuse
     if(any(greaterThan(albedo.rgb, vec3(0.0f))))
     {
