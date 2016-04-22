@@ -117,7 +117,7 @@ void VoxelizerRenderer::VoxelizeScene()
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     // clear and setup viewport
     gl.ColorMask(false, false, false, false);
-    gl.Viewport(volumeDimension, volumeDimension);
+    gl.Viewport(0, 0, volumeDimension, volumeDimension);
     gl.Clear().ColorBuffer().DepthBuffer();
     // active voxelization pass program
     CurrentProgram<VoxelizationProgram>(prog);

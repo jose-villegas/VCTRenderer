@@ -328,7 +328,6 @@ void main()
 
     // store visibility in normal alpha
     imageStore(voxelNormal, writePos, vec4(baseNormal, albedo.a));
-
     // add emission
     albedo.rgb += emissive;
     albedo.a = 1.0f;

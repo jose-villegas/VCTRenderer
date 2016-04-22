@@ -97,7 +97,7 @@ void UISceneMaterials::Draw()
             voxel.RevoxelizeScene();
         }
 
-        if (DragFloat("Shininess", &shininess, 0.001f, 0.0f, 1.0f))
+        if (DragFloat("Glossiness", &shininess, 0.001f, 0.0f, 1.0f))
         {
             material->Shininess(shininess);
             voxel.RevoxelizeScene();

@@ -72,7 +72,7 @@ void ShadowMapRenderer::Render()
     SetAsActive();
     lightView.SetAsActive();
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
-    gl.Viewport(shadowMapSize.x, shadowMapSize.y);
+    gl.Viewport(0, 0, shadowMapSize.x, shadowMapSize.y);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.Clear().DepthBuffer().ColorBuffer();
     // activate geometry pass shader program
