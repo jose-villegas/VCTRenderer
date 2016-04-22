@@ -49,13 +49,13 @@ void UIGlobalIllumination::Draw()
         if (Checkbox("Inject First Bounce", &firstB))
         {
             voxel.InjectFirstBounce(firstB);
-            voxel.RevoxelizeScene();
+            voxel.UpdateRadiance();
         }
 
         if (Checkbox("Inject Shadow Cones", &conesS))
         {
             voxel.TraceShadowCones(conesS);
-            voxel.RevoxelizeScene();
+            voxel.UpdateRadiance();
         }
 
         if(conesS)
@@ -66,7 +66,7 @@ void UIGlobalIllumination::Draw()
             if(SliderFloat("Tolerance", &umbra, 0.01f, 1.0f))
             {
                 voxel.ShadowConeTolerance(umbra);
-                voxel.RevoxelizeScene();
+                voxel.UpdateRadiance();
             }
 
             Unindent();

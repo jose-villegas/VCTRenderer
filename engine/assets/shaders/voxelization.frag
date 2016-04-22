@@ -15,7 +15,7 @@ layout (pixel_center_integer) in vec4 gl_FragCoord;
 
 layout(binding = 0, r32ui) uniform volatile coherent uimage3D voxelAlbedo;
 layout(binding = 1, r32ui) uniform volatile coherent uimage3D voxelNormal;
-layout(binding = 2, rgba8) uniform volatile coherent image3D voxelEmission;
+layout(binding = 2, rgba8) uniform image3D voxelEmission;
 
 layout(binding = 3) uniform sampler2D diffuseMap;
 layout(binding = 4) uniform sampler2D opacityMap;
@@ -70,7 +70,7 @@ vec3 EncodeNormal(vec3 n)
 
 vec3 DecodeNormal(vec3 enc)
 {
-    vec4 nn = vec4(enc, 1) * vec4(2,2,0,0) + vec4(-1,-1,1,-1);
+    vec4 nn = vec4(enc.xy * 2, 0, 0) + vec4(-1,-1,1,-1);
     float l = dot(nn.xyz, -nn.xyw);
     nn.z = l;
     nn.xy *= sqrt(l);
@@ -86,9 +86,10 @@ void main()
 	}
 
     const ivec3 zero = ivec3(0);
+    // writing coords position
+    ivec3 position = ivec3(In.wsPosition);
     // fragment albedo
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
-    // albedo.rgb *= material.diffuse;
 
     float opacity = min(albedo.a, texture(opacityMap, In.texCoord.xy).r);
     // alpha cutoff
@@ -102,7 +103,6 @@ void main()
         // bring normal to 0-1 range
         vec4 normal = vec4(EncodeNormal(normalize(In.normal)), 1.0f);
         ivec3 dimension = ivec3(volumeDimension);
-        ivec3 position = ivec3(In.wsPosition);
 
         if(all(greaterThanEqual(position, zero)) && all(lessThan(position, dimension)))
         {
@@ -111,10 +111,7 @@ void main()
             // average albedo per fragments sorrounding the voxel volume
             imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
             // store emissive, no average operation since emissive is a single color
-            if(any(greaterThan(material.emissive, vec3(0.0f))))
-            {
-                imageStore(voxelEmission, position, vec4(material.emissive, 1.0f));
-            }
+            imageStore(voxelEmission, position, vec4(material.emissive, 1.0f)); 
         }
     }
 }

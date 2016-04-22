@@ -169,14 +169,12 @@ void UIShapeCreator::Draw()
             node->meshes[0] = move(newMesh);
             node->meshes[0]->material = move(newMaterial);
             customMat[node] = true;
-            voxel.RevoxelizeScene();
         }
 
         // draw custom material values
         if (ColorEdit3("Ambient", value_ptr(ambient)))
         {
             material->Ambient(ambient);
-            voxel.RevoxelizeScene();
         }
 
         if (ColorEdit3("Diffuse", value_ptr(diffuse)))
@@ -188,13 +186,11 @@ void UIShapeCreator::Draw()
         if (ColorEdit3("Specular", value_ptr(specular)))
         {
             material->Specular(specular);
-            voxel.RevoxelizeScene();
         }
 
         if (DragFloat("Glossiness", &shininess, 0.001f, 0.0f, 1.0f))
         {
             material->Shininess(shininess);
-            voxel.RevoxelizeScene();
         }
 
         if (ColorEdit3("Emissive", value_ptr(emissive)))

@@ -4,7 +4,8 @@ layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
 layout(binding = 0, rgba8) uniform sampler3D voxelAlbedo;
 layout(binding = 1, rgba8) uniform image3D voxelNormal;
-layout(binding = 2, rgba8) uniform image3D voxelRadiance;
+layout(binding = 2, rgba8) uniform image3D writeonly voxelRadiance;
+layout(binding = 3, rgba8) uniform image3D readonly voxelEmissive;
 
 const float PI = 3.14159265f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
@@ -291,7 +292,7 @@ vec3 EncodeNormal(vec3 n)
 
 vec3 DecodeNormal(vec3 enc)
 {
-    vec4 nn = vec4(enc, 1) * vec4(2,2,0,0) + vec4(-1,-1,1,-1);
+    vec4 nn = vec4(enc.xy * 2, 0, 0) + vec4(-1,-1,1,-1);
     float l = dot(nn.xyz, -nn.xyw);
     nn.z = l;
     nn.xy *= sqrt(l);
@@ -316,7 +317,7 @@ void main()
     // normal is stored in 0-1 range, restore to -1-1
     vec3 normal = normalize(DecodeNormal(baseNormal));
     // emission from voxel
-    vec3 emissive = imageLoad(voxelRadiance, writePos).rgb;
+    vec3 emissive = imageLoad(voxelEmissive, writePos).rgb;
     // black voxel has no irradiance diffuse
     if(any(greaterThan(albedo.rgb, vec3(0.0f))))
     {

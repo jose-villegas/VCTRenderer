@@ -82,7 +82,6 @@ void UISceneMaterials::Draw()
         if(ColorEdit3("Ambient", value_ptr(ambient)))
         {
             material->Ambient(ambient);
-            voxel.RevoxelizeScene();
         }
 
         if (ColorEdit3("Diffuse", value_ptr(diffuse)))
@@ -94,13 +93,11 @@ void UISceneMaterials::Draw()
         if (ColorEdit3("Specular", value_ptr(specular)))
         {
             material->Specular(specular);
-            voxel.RevoxelizeScene();
         }
 
         if (DragFloat("Glossiness", &shininess, 0.001f, 0.0f, 1.0f))
         {
             material->Shininess(shininess);
-            voxel.RevoxelizeScene();
         }
 
         if (ColorEdit3("Emissive", value_ptr(emissive)))

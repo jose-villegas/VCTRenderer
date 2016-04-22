@@ -44,7 +44,10 @@ class VoxelizerRenderer : public Renderer
         /// <param name="window">The window.</param>
         explicit VoxelizerRenderer(RenderWindow &window);
         void SetupVoxelVolumes(const unsigned int &dimension);
+
         void RevoxelizeScene();
+        void UpdateRadiance();
+
         void SetupDrawVoxels(const unsigned &level, const unsigned &direction,
                              const glm::vec4 colors);
         /// <summary>
@@ -98,6 +101,7 @@ class VoxelizerRenderer : public Renderer
         // output texture
         oglplus::Texture voxelAlbedo;
         oglplus::Texture voxelNormal;
+        oglplus::Texture voxelEmissive;
         oglplus::Texture voxelRadiance;
         std::array<oglplus::Texture, 6> voxelTexMipmap;
         // vertex buffer object for 3d texture visualization

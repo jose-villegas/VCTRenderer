@@ -249,7 +249,7 @@ void UISceneLights::Draw()
             light = nullptr;
             // delete from scene
             scene->lights.erase(scene->lights.begin() + selected);
-            voxel.RevoxelizeScene();
+            voxel.UpdateRadiance();
         }
     }
     else
