@@ -249,9 +249,10 @@ vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     // calculate directional lighting
     vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 0.0f);
     vec4 current =  vec4(0.0f); int count = 0;
-	// fixes issues where the voxel's center point is occluded
-	vec3 unitCubeDirection = clamp(1.7320f * normal, -1.0f, 1.0f);
-    position = position + unitCubeDirection * voxelSize;
+    // boost normal into a unit cube direction
+	normal = clamp(1.7320f * normal, -1.0f, 1.0f);
+    // fixes issues where the voxel's center point is occluded
+    position = position + normal * voxelSize;
 
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
@@ -308,7 +309,7 @@ void main()
     // voxel normal in 0-1 range
     vec3 baseNormal = imageLoad(voxelNormal, writePos).xyz;
     // normal is stored in 0-1 range, restore to -1-1
-    vec3 normal = DecodeNormal(baseNormal);
+    vec3 normal = normalize(DecodeNormal(baseNormal));
     // emission from voxel
     vec3 emissive = imageLoad(voxelRadiance, writePos).rgb;
     // black voxel has no irradiance diffuse
