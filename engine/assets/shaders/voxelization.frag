@@ -67,19 +67,14 @@ void imageAtomicRGBA8Avg(layout(r32ui) volatile coherent uimage3D grid, ivec3 co
     }
 }
 
-vec3 EncodeNormal(vec3 n)
+vec3 EncodeNormal(vec3 normal)
 {
-    vec2 enc = normalize(n.xy) * sqrt(-n.z * 0.5 + 0.5);
-    return vec3(enc * 0.5 + 0.5, 0.0);
+    return normal * 0.5f + vec3(0.5f);
 }
 
-vec3 DecodeNormal(vec3 enc)
+vec3 DecodeNormal(vec3 normal)
 {
-    vec4 nn = vec4(enc.xy * 2, 0, 0) + vec4(-1,-1,1,-1);
-    float l = dot(nn.xyz, -nn.xyw);
-    nn.z = l;
-    nn.xy *= sqrt(l);
-    return nn.xyz * 2.0f + vec3(0, 0, -1);
+    return normal * 2.0f - vec3(1.0f);
 }
 
 void main()

@@ -150,26 +150,7 @@ float Visibility(vec3 position)
 
 vec3 BRDF(Light light, vec3 normal, vec3 albedo)
 {
-    vec3 guide = vec3(0.0, 1.0, 0.0);
-
-    if (abs(dot(normal,guide)) == 1.0)
-    {
-        guide = vec3(0.0, 0.0, 1.0);
-    }
-
-    // find some axis vectors
-    vec3 right = normalize(guide - dot(normal, guide) * normal);
-    vec3 up = cross(right, normal);
-    up = normalize(up);
-    // weight per voxel face
-    vec3 weight = normal * normal;
-    // calculate directional lamberts
-    float lambertRight = abs(dot(right, light.direction));
-    float lambertUp = abs(dot(up, light.direction));
-    float lambertian = abs(dot(normal, light.direction));
-    // voxel shading average from all front sides
-    lambertian = lambertian * weight.z + lambertUp * weight.y + lambertRight * weight.x;
-
+    float lambertian = max(dot(normal, light.direction), 0.0f);
     return light.diffuse * albedo * lambertian;
 }
 
@@ -301,19 +282,14 @@ vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     return directLighting;
 }
 
-vec3 EncodeNormal(vec3 n)
+vec3 EncodeNormal(vec3 normal)
 {
-    vec2 enc = normalize(n.xy) * sqrt(-n.z * 0.5 + 0.5);
-    return vec3(enc * 0.5 + 0.5, 0.0);
+    return normal * 0.5f + vec3(0.5f);
 }
 
-vec3 DecodeNormal(vec3 enc)
+vec3 DecodeNormal(vec3 normal)
 {
-    vec4 nn = vec4(enc.xy * 2, 0, 0) + vec4(-1,-1,1,-1);
-    float l = dot(nn.xyz, -nn.xyw);
-    nn.z = l;
-    nn.xy *= sqrt(l);
-    return nn.xyz * 2.0f + vec3(0, 0, -1);
+    return normal * 2.0f - vec3(1.0f);
 }
 
 void main()
