@@ -149,8 +149,7 @@ float Visibility(vec3 position)
 
 vec3 BRDF(Light light, vec3 normal, vec3 albedo)
 {
-    // lit back face uniformly
-    float lambertian = abs(dot(normal, light.direction));
+    float lambertian = max(dot(normal, light.direction), 0.0f);
 
     return light.diffuse * albedo * lambertian;
 }
@@ -283,19 +282,14 @@ vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     return directLighting;
 }
 
-vec3 EncodeNormal(vec3 n)
+vec3 EncodeNormal(vec3 normal)
 {
-    vec2 enc = normalize(n.xy) * sqrt(-n.z * 0.5 + 0.5);
-    return vec3(enc * 0.5 + 0.5, 0.0);
+    return normal * 0.5f + vec3(0.5f);
 }
 
-vec3 DecodeNormal(vec3 enc)
+vec3 DecodeNormal(vec3 normal)
 {
-    vec4 nn = vec4(enc, 1) * vec4(2,2,0,0) + vec4(-1,-1,1,-1);
-    float l = dot(nn.xyz, -nn.xyw);
-    nn.z = l;
-    nn.xy *= sqrt(l);
-    return nn.xyz * 2.0f + vec3(0, 0, -1);
+    return normal * 2.0f - vec3(1.0f);
 }
 
 void main()
@@ -314,7 +308,7 @@ void main()
     // voxel normal in 0-1 range
     vec3 baseNormal = imageLoad(voxelNormal, writePos).xyz;
     // normal is stored in 0-1 range, restore to -1-1
-    vec3 normal = normalize(DecodeNormal(baseNormal));
+    vec3 normal = DecodeNormal(baseNormal);
     // emission from voxel
     vec3 emissive = imageLoad(voxelRadiance, writePos).rgb;
     // black voxel has no irradiance diffuse

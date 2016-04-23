@@ -470,7 +470,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         diffuseTrace.rgb *= albedo;
     }
 
-    vec3 result = (diffuseTrace.rgb + specularTrace.rgb) * bounceStrength;
+    vec3 result = bounceStrength * (diffuseTrace.rgb + specularTrace.rgb);
 
     return vec4(result, ambientOcclusion ? clamp(1.0f - diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
 }
