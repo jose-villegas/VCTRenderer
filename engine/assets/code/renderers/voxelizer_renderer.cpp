@@ -49,11 +49,17 @@ void VoxelizerRenderer::Render()
     {
         for (auto &c : changes)
         {
-            if (c.first != camera.get())
+            auto &type = typeid(*c.first);
+
+            if (type == typeid(Node))
             {
-                // update voxelization
-                VoxelizeScene();
-                break;
+                // update scene voxelization
+                VoxelizeScene(); break;
+            }
+            else if(type == typeid(Light))
+            {
+                // only radiance needs to be updated
+                UpdateRadiance(); break;
             }
         }
     }
@@ -138,18 +144,26 @@ void VoxelizerRenderer::VoxelizeScene()
     // clear images before voxelization
     voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    voxelEmissive.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // bind the volume texture to be writen in shaders
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
-    voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+    voxelEmissive.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                             oglplus::ImageUnitFormat::RGBA8);
     // draw scene triangles
     scene->rootNode->DrawList();
     // sync barrier
     gl.MemoryBarrier(shImage | texFetch);
+    // on voxel basis change, radiance needs to be updated
+    UpdateRadiance();
+}
+
+void VoxelizerRenderer::UpdateRadiance()
+{
+    static float zero[] = { 0, 0, 0, 0 };
+    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // compute shader injects diffuse lighting and shadowing
     InjectRadiance();
     // finally generate mip map values (and light propagation if needed)
@@ -250,7 +264,9 @@ void VoxelizerRenderer::InjectRadiance()
     voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::RGBA8);;
-    voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+    voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                            oglplus::ImageUnitFormat::RGBA8);
+    voxelEmissive.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                             oglplus::ImageUnitFormat::RGBA8);
     auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
     // inject radiance at level 0 of texture
@@ -543,6 +559,17 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
                                   PixelDataType::UnsignedByte, nullptr);
         voxelTexMipmap[i].GenerateMipmap(TextureTarget::_3D);
     }
+
+    // emission volume
+    voxelEmissive.Bind(TextureTarget::_3D);
+    voxelEmissive.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);
+    voxelEmissive.MagFilter(TextureTarget::_3D, TextureMagFilter::Linear);
+    voxelEmissive.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelEmissive.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelEmissive.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    voxelEmissive.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
+                          dimension, dimension, dimension, 0, PixelDataFormat::RGBA,
+                          PixelDataType::UnsignedByte, nullptr);
 }
 void VoxelizerRenderer::RevoxelizeScene()
 {

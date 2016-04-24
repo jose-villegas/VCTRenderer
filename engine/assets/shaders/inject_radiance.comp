@@ -4,7 +4,8 @@ layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
 layout(binding = 0, rgba8) uniform sampler3D voxelAlbedo;
 layout(binding = 1, rgba8) uniform image3D voxelNormal;
-layout(binding = 2, rgba8) uniform image3D voxelRadiance;
+layout(binding = 2, rgba8) uniform image3D writeonly voxelRadiance;
+layout(binding = 3, rgba8) uniform image3D readonly voxelEmissive;
 
 const float PI = 3.14159265f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
@@ -150,7 +151,6 @@ float Visibility(vec3 position)
 vec3 BRDF(Light light, vec3 normal, vec3 albedo)
 {
     float lambertian = max(dot(normal, light.direction), 0.0f);
-
     return light.diffuse * albedo * lambertian;
 }
 
@@ -246,13 +246,12 @@ vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 
 vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
 {
+    const float expansion = sqrt(3.0f);
     // calculate directional lighting
     vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 0.0f);
     vec4 current =  vec4(0.0f); int count = 0;
-    // boost normal into a unit cube direction
-	normal = clamp(1.7320f * normal, -1.0f, 1.0f);
-    // fixes issues where the voxel's center point is occluded
-    position = position + normal * voxelSize;
+	// extend normal into a unit cube direction to reduce voxelization error
+    position = position + clamp(normal * expansion, -1.0f, 1.0f) * voxelSize;
 
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
@@ -311,7 +310,8 @@ void main()
     // normal is stored in 0-1 range, restore to -1-1
     vec3 normal = normalize(DecodeNormal(baseNormal));
     // emission from voxel
-    vec3 emissive = imageLoad(voxelRadiance, writePos).rgb;
+    vec3 emissive = imageLoad(voxelEmissive, writePos).rgb;
+
     // black voxel has no irradiance diffuse
     if(any(greaterThan(albedo.rgb, vec3(0.0f))))
     {
