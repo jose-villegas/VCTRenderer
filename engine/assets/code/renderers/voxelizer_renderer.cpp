@@ -15,11 +15,12 @@
 #include "../programs/voxel_drawer_program.h"
 #include "../programs/radiance_program.h"
 #include "../programs/mipmapping_program.h"
+#include "../programs/propagation_program.h"
+#include "../programs/clear_dynamic_program.h"
 
 #include <oglplus/context.hpp>
 #include <oglplus/framebuffer.hpp>
 #include <glm/gtx/transform.hpp>
-#include "../programs/propagation_program.h"
 #include "gi_deferred_renderer.h"
 
 bool VoxelizerRenderer::ShowVoxels = false;
@@ -29,7 +30,6 @@ void VoxelizerRenderer::Render()
     static Scene * previous = nullptr;
     static auto frameCount = 1;
     static auto &scene = Scene::Active();
-    static auto &camera = Camera::Active();
 
     if (!scene || !scene->IsLoaded()) { return; }
 
@@ -38,7 +38,7 @@ void VoxelizerRenderer::Render()
     {
         UpdateProjectionMatrices(scene->rootNode->boundaries);
         // update voxelization
-        VoxelizeScene();
+        VoxelizeStaticScene();
     }
 
     // store current for next call
@@ -49,14 +49,14 @@ void VoxelizerRenderer::Render()
     {
         for (auto &c : changes)
         {
-            auto &type = typeid(*c.first);
+            auto const * node = dynamic_cast<const Node *>(c.first);
 
-            if (type == typeid(Node))
+            if (node && node->TransformChanged())
             {
                 // update scene voxelization
-                VoxelizeScene(); break;
+                VoxelizeDynamicScene(); break;
             }
-            else if(type == typeid(Light))
+            else if(dynamic_cast<const Light *>(c.first))
             {
                 // only radiance needs to be updated
                 UpdateRadiance(); break;
@@ -68,7 +68,7 @@ void VoxelizerRenderer::Render()
     {
         frameCount = 1;
         // update voxelization
-        VoxelizeScene();
+        VoxelizeDynamicScene();
     }
 
     if (ShowVoxels)
@@ -92,9 +92,9 @@ void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
     prog.material.diffuse.Set(material.Diffuse());
     prog.material.emissive.Set(material.Emissive());
     // set textures
-    Texture::Active(3);
-    material.BindTexture(RawTexture::Diffuse);
     Texture::Active(4);
+    material.BindTexture(RawTexture::Diffuse);
+    Texture::Active(5);
     material.BindTexture(RawTexture::Opacity);
 }
 
@@ -103,11 +103,12 @@ void VoxelizerRenderer::SetUpdateFrequency(const int framestep)
     this->framestep = framestep;
 }
 
-void VoxelizerRenderer::VoxelizeScene()
+void VoxelizerRenderer::VoxelizeStaticScene()
 {
     static oglplus::Context gl;
     static auto &scene = Scene::Active();
     static float zero[] = { 0, 0, 0, 0 };
+    static float sZero = 0.0f;
     static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                           (oglplus::MemoryBarrierBit::ShaderImageAccess);
     static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
@@ -141,7 +142,9 @@ void VoxelizerRenderer::VoxelizeScene()
     prog.volumeDimension.Set(volumeDimension);
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     prog.voxelScale.Set(1.0f / volumeGridSize);
+    prog.flagStaticVoxels.Set(1);
     // clear images before voxelization
+    staticFlag.ClearImage(0, oglplus::PixelDataFormat::Red, &sZero);
     voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelEmissive.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
@@ -152,8 +155,71 @@ void VoxelizerRenderer::VoxelizeScene()
                           oglplus::ImageUnitFormat::R32UI);
     voxelEmissive.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                             oglplus::ImageUnitFormat::RGBA8);
+    staticFlag.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                         oglplus::ImageUnitFormat::R8);
     // draw scene triangles
-    scene->rootNode->DrawList();
+    scene->rootNode->DrawListState(Node::Static);
+    // sync barrier
+    gl.MemoryBarrier(shImage | texFetch);
+    // update dynamic scene also
+    VoxelizeDynamicScene();
+}
+
+void VoxelizerRenderer::VoxelizeDynamicScene()
+{
+    static oglplus::Context gl;
+    static auto &scene = Scene::Active();
+    static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                          (oglplus::MemoryBarrierBit::ShaderImageAccess);
+    static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                           (oglplus::MemoryBarrierBit::TextureFetch);
+
+    if (!scene || !scene->IsLoaded()) { return; }
+
+    auto &prog = VoxelizationPass();
+    auto &sceneBox = scene->rootNode->boundaries;
+    // current renderer as active
+    SetAsActive();
+    // first clear writing available voxels
+    ClearDynamicVoxels();
+    // unbind fbos use default
+    oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
+    // clear and setup viewport
+    gl.ColorMask(false, false, false, false);
+    gl.Viewport(0, 0, volumeDimension, volumeDimension);
+    gl.Clear().ColorBuffer().DepthBuffer();
+    // active voxelization pass program
+    CurrentProgram<VoxelizationProgram>(prog);
+    // rendering flags
+    gl.Disable(oglplus::Capability::CullFace);
+    gl.Disable(oglplus::Capability::DepthTest);
+    UseFrustumCulling = false;
+    // pass voxelization uniforms
+    prog.viewProjections[0].Set(viewProjectionMatrix[0]);
+    prog.viewProjections[1].Set(viewProjectionMatrix[1]);
+    prog.viewProjections[2].Set(viewProjectionMatrix[2]);
+    prog.viewProjectionsI[0].Set(viewProjectionMatrixI[0]);
+    prog.viewProjectionsI[1].Set(viewProjectionMatrixI[1]);
+    prog.viewProjectionsI[2].Set(viewProjectionMatrixI[2]);
+    prog.volumeDimension.Set(volumeDimension);
+    prog.worldMinPoint.Set(sceneBox.MinPoint());
+    prog.voxelScale.Set(1.0f / volumeGridSize);
+    prog.flagStaticVoxels.Set(0);
+    // clear images before voxelization
+    //voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    //voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    //voxelEmissive.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    // bind the volume texture to be writen in shaders
+    voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+                          oglplus::ImageUnitFormat::R32UI);
+    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+                          oglplus::ImageUnitFormat::R32UI);
+    voxelEmissive.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+                            oglplus::ImageUnitFormat::RGBA8);
+    staticFlag.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                         oglplus::ImageUnitFormat::R8);
+    // draw only dynamic objects
+    scene->rootNode->DrawListState(Node::Dynamic);
     // sync barrier
     gl.MemoryBarrier(shImage | texFetch);
     // on voxel basis change, radiance needs to be updated
@@ -350,6 +416,30 @@ void VoxelizerRenderer::GenerateMipmapBase(oglplus::Texture &baseTexture)
     // mipmap from base texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // mipmap radiance resulting volume
+    gl.MemoryBarrier(shImage | texFetch);
+}
+
+void VoxelizerRenderer::ClearDynamicVoxels()
+{
+    static oglplus::Context gl;
+    static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                          (oglplus::MemoryBarrierBit::ShaderImageAccess);
+    static auto texFetch = oglplus::Bitfield<oglplus::MemoryBarrierBit>
+                           (oglplus::MemoryBarrierBit::TextureFetch);
+    static auto &prog = VoxelCleanerShader();
+    auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
+    // inject radiance into voxel texture
+    CurrentProgram<ClearDynamicProgram>(prog);
+    staticFlag.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
+                         oglplus::ImageUnitFormat::R8);
+    voxelAlbedo.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+                          oglplus::ImageUnitFormat::RGBA8);
+    voxelNormal.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                          oglplus::ImageUnitFormat::RGBA8);
+    voxelEmissive.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+                            oglplus::ImageUnitFormat::RGBA8);
+    gl.DispatchCompute(workGroups, workGroups, workGroups);
+    // sync safety
     gl.MemoryBarrier(shImage | texFetch);
 }
 
@@ -570,6 +660,16 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
     voxelEmissive.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::RGBA8,
                           dimension, dimension, dimension, 0, PixelDataFormat::RGBA,
                           PixelDataType::UnsignedByte, nullptr);
+    // static flagging voxel
+    staticFlag.Bind(TextureTarget::_3D);
+    staticFlag.MinFilter(TextureTarget::_3D, TextureMinFilter::Nearest);
+    staticFlag.MagFilter(TextureTarget::_3D, TextureMagFilter::Nearest);
+    staticFlag.WrapR(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    staticFlag.WrapS(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    staticFlag.WrapT(TextureTarget::_3D, TextureWrap::ClampToEdge);
+    staticFlag.Image3D(TextureTarget::_3D, 0, PixelDataInternalFormat::R8,
+                       dimension, dimension, dimension, 0, PixelDataFormat::Red,
+                       PixelDataType::UnsignedByte, nullptr);
 }
 void VoxelizerRenderer::RevoxelizeScene()
 {
@@ -585,7 +685,7 @@ void VoxelizerRenderer::RevoxelizeScene()
     if (!scene || !scene->IsLoaded()) { return; }
 
     // update voxelization
-    VoxelizeScene();
+    VoxelizeStaticScene();
 }
 
 void VoxelizerRenderer::SetupDrawVoxels(const unsigned &level,
@@ -664,6 +764,15 @@ VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()
                         (assets->programs["Voxelization"].get());
     return prog;
 }
+
+ClearDynamicProgram &VoxelizerRenderer::VoxelCleanerShader()
+{
+    static auto &assets = AssetsManager::Instance();
+    static auto &prog = *static_cast<ClearDynamicProgram *>
+                        (assets->programs["ClearDynamic"].get());
+    return prog;
+}
+
 VoxelDrawerProgram &VoxelizerRenderer::VoxelDrawerShader()
 {
     static auto &assets = AssetsManager::Instance();

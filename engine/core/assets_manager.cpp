@@ -17,7 +17,7 @@
 #include "../assets/code/programs/blur_program.h"
 #include "../assets/code/programs/mipmapping_program.h"
 #include "../assets/code/programs/propagation_program.h"
-#include "../assets/code/programs/post_process_program.h"
+#include "../assets/code/programs/clear_dynamic_program.h"
 // include interfaces
 #include "../assets/code/interfaces/scene_loader.h"
 #include "../assets/code/interfaces/framerate.h"
@@ -103,7 +103,7 @@ AssetsManager::AssetsManager()
     programs["MipmappingBase"] = std::make_shared<MipmappingBaseProgram>();
     programs["MipmappingVolume"] = std::make_shared<MipmappingVolumeProgram>();
     programs["Blur"] = std::make_shared<BlurProgram>();
-    programs["PostProcess"] = std::make_shared<PostProcessProgram>();
+    programs["ClearDynamic"] = std::make_shared<ClearDynamicProgram>();
     // instantiate impleted renderers
     renderers["Shadowmapping"] = std::make_shared<ShadowMapRenderer>(window);
     renderers["Voxelizer"]     = std::make_shared<VoxelizerRenderer>(window);
@@ -145,10 +145,8 @@ AssetsManager::AssetsManager()
                                    "assets\\shaders\\fs_quad.vert");
     programs["Blur"]->AttachShader(oglplus::ShaderType::Fragment,
                                    "assets\\shaders\\blur.frag");
-    programs["PostProcess"]->AttachShader(oglplus::ShaderType::Vertex,
-                                          "assets\\shaders\\fs_quad.vert");
-    programs["PostProcess"]->AttachShader(oglplus::ShaderType::Fragment,
-                                          "assets\\shaders\\post_procress.frag");
+    programs["ClearDynamic"]->AttachShader(oglplus::ShaderType::Compute,
+                                           "assets\\shaders\\clear_dynamic.comp");
 
     // link and extract uniforms from shaders
     for (auto &prog : programs)

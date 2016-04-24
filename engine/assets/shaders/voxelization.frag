@@ -16,9 +16,10 @@ layout (pixel_center_integer) in vec4 gl_FragCoord;
 layout(binding = 0, r32ui) uniform volatile coherent uimage3D voxelAlbedo;
 layout(binding = 1, r32ui) uniform volatile coherent uimage3D voxelNormal;
 layout(binding = 2, rgba8) uniform image3D voxelEmission;
+layout(binding = 3, r8) uniform image3D staticVoxelFlag;
 
-layout(binding = 3) uniform sampler2D diffuseMap;
-layout(binding = 4) uniform sampler2D opacityMap;
+layout(binding = 4) uniform sampler2D diffuseMap;
+layout(binding = 5) uniform sampler2D opacityMap;
 
 uniform struct Material
 {
@@ -27,6 +28,7 @@ uniform struct Material
 } material;
 
 uniform uint volumeDimension;
+uniform uint flagStaticVoxels;
 
 vec4 convRGBA8ToVec4(uint val)
 {
@@ -91,6 +93,14 @@ void main()
     vec4 albedo = texture(diffuseMap, In.texCoord.xy);
     float opacity = min(albedo.a, texture(opacityMap, In.texCoord.xy).r);
 
+    if(flagStaticVoxels == 0)
+    {
+        bool isStatic = imageLoad(staticVoxelFlag, position).r > 0.0f;
+
+        // force condition so writing is canceled
+        if(isStatic) opacity = 0.0f;
+    }
+
     // alpha cutoff
     if(opacity > 0.0f)
     {
@@ -106,6 +116,12 @@ void main()
         // average albedo per fragments sorrounding the voxel volume
         imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
         // store emissive, no average operation since emissive is a single color
-        imageStore(voxelEmission, position, vec4(material.emissive, 1.0f)); 
+        imageStore(voxelEmission, position, vec4(material.emissive, 1.0f));
+
+        // doing a static flagging pass for static geometry voxelization
+        if(flagStaticVoxels == 1)
+        {
+            imageStore(staticVoxelFlag, position, vec4(1.0));
+        }
     }
 }

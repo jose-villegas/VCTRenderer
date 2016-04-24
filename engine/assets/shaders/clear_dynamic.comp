@@ -1,0 +1,26 @@
+#version 450
+#extension GL_ARB_shader_image_load_store : require
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
+
+layout(binding = 0, r8) uniform image3D staticVoxelFlag;
+layout(binding = 1, rgba8) uniform image3D toClearVoxels[3];
+
+void main()
+{
+    int volumeDimension = imageSize(staticVoxelFlag).x;
+
+	if(gl_GlobalInvocationID.x >= volumeDimension ||
+		gl_GlobalInvocationID.y >= volumeDimension ||
+		gl_GlobalInvocationID.z >= volumeDimension) return;
+
+    ivec3 writePos = ivec3(gl_GlobalInvocationID);
+
+    // is a non-static voxel and the voxel in that position isn't empty
+    if(imageLoad(staticVoxelFlag, writePos).r < 1.0 && imageLoad(toClearVoxels[0], writePos).a > 0.0)
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            imageStore(toClearVoxels[i], writePos, vec4(0.0));
+        }
+    }
+}

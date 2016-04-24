@@ -35,6 +35,8 @@ void VoxelizationProgram::ExtractUniforms()
     worldMinPoint.BindTo("worldMinPoint");
     voxelScale.Assign(program);
     voxelScale.BindTo("voxelScale");
+    flagStaticVoxels.Assign(program);
+    flagStaticVoxels.BindTo("flagStaticVoxels");
 };
 
 VoxelizationProgram::~VoxelizationProgram()

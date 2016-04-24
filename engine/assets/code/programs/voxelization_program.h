@@ -27,6 +27,7 @@ class VoxelizationProgram : public ProgramShader
 
         oglplus::Uniform<float> voxelScale;
         oglplus::Uniform<glm::vec3> worldMinPoint;
+        oglplus::Uniform<unsigned int> flagStaticVoxels;
 
         void ExtractUniforms() override;
 

@@ -4,11 +4,11 @@
 #include <oglplus/uniform.hpp>
 #include <oglplus/interop/glm.hpp>
 
-class PostProcessProgram : public ProgramShader
+class ClearDynamicProgram : public ProgramShader
 {
     public:
         void ExtractUniforms() override;
-        PostProcessProgram();
-        ~PostProcessProgram();
+        ClearDynamicProgram();
+        ~ClearDynamicProgram();
 };
 

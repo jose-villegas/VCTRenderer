@@ -12,6 +12,13 @@ class MeshDrawer;
 class Node : public SceneObject
 {
     public:
+        enum GeometryState
+        {
+            Dynamic,
+            Static,
+        };
+        GeometryState nodeState;
+
         void UpdateTransformMatrix() override;
         /// <summary>
         /// Node world space boundaries
@@ -27,7 +34,9 @@ class Node : public SceneObject
         std::vector<std::shared_ptr<Node>> nodes;
         Node();
         virtual ~Node();
-        void DrawList();
+        void DrawList() const;
+        // true means static false means dynamic
+        void DrawListState(GeometryState state) const;
         void BuildDrawList();
         const glm::mat4 &InverseTranspose() const;
         const std::vector<Node *> &DrawListNodes() const;

@@ -6,6 +6,7 @@
 #include <oglplus/vertex_array.hpp>
 #include "../programs/propagation_program.h"
 
+class ClearDynamicProgram;
 class MipmappingVolumeProgram;
 class MipmappingBaseProgram;
 class InjectRadianceProgram;
@@ -38,6 +39,7 @@ class VoxelizerRenderer : public Renderer
         /// </summary>
         /// <param name="framestep">The framestep.</param>
         void SetUpdateFrequency(const int framestep);
+        void VoxelizeStaticScene();
         /// <summary>
         /// Initializes a new instance of the <see cref="VoxelRenderer"/> class.
         /// </summary>
@@ -76,6 +78,7 @@ class VoxelizerRenderer : public Renderer
         /// Returns the voxelization program shader.
         /// </summary>
         /// <returns></returns>
+        static ClearDynamicProgram &VoxelCleanerShader();
         static VoxelDrawerProgram &VoxelDrawerShader();
         static InjectRadianceProgram &InjectRadianceShader();
         static PropagationProgram &InjectPropagationShader();
@@ -89,16 +92,18 @@ class VoxelizerRenderer : public Renderer
         /// <summary>
         /// Voxelizes the scene.
         /// </summary>
-        void VoxelizeScene();
+        void VoxelizeDynamicScene();
         void InjectRadiance();
         void GenerateMipmap();
         void GenerateMipmapVolume();
         void GenerateMipmapBase(oglplus::Texture &baseTexture);
+        void ClearDynamicVoxels();
         /// <summary>
         /// Draws the resulting voxels.
         /// </summary>
         void DrawVoxels();
         // output texture
+        oglplus::Texture staticFlag;
         oglplus::Texture voxelAlbedo;
         oglplus::Texture voxelNormal;
         oglplus::Texture voxelEmissive;

@@ -99,7 +99,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
-    traceOcclusion = traceOcclusion && aoAlpha <= 1.0f;
+    traceOcclusion = traceOcclusion && aoAlpha < 1.0f;
     // weight per axis for aniso sampling
     vec3 weight = direction * direction;
     // navigation
@@ -152,7 +152,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
         samplePos = direction * dst + position;
     }
 
-    return vec4(coneSample.rgb, occlusion);
+    return vec4(coneSample.rgb, occlusion + aoAlpha);
 }
 
 float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
@@ -272,11 +272,11 @@ vec3 Ambient(Light light, vec3 albedo)
     return max(albedo * light.ambient, 0.0f);
 }
 
-vec3 BRDF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
+vec3 BRDF(Light light, vec3 N, vec3 X, vec3 ka, vec4 ks)
 {
     // common variables
-    vec3 L = normalize(light.direction);
-    vec3 V = normalize(cameraPosition - position);
+    vec3 L = light.direction;
+    vec3 V = normalize(cameraPosition - X);
     vec3 H = normalize(V + L);
     // compute dot procuts
     float dotNL = max(dot(N, L), 0.0f);
@@ -284,12 +284,10 @@ vec3 BRDF(Light light, vec3 N, vec3 position, vec3 ka, vec4 ks)
     float dotLH = max(dot(L, H), 0.0f);
     // modulate shininess
     float shininess = exp2(10.0f * ks.a + 1.0f);
-    // gloss scale
-    float scale = (shininess + 2.0f) / 8.0f;
     // emulate fresnel effect
     vec3 fresnel = ks.rgb + (1.0f - ks.rgb) * pow(1.0f - dotLH, 5.0f);
     // specular factor
-    float blinnPhong = scale * pow(dotNH, shininess);
+    float blinnPhong = pow(dotNH, shininess);
     // energy conservation normalization factor
     blinnPhong *= shininess * 0.0397f + 0.3183f;
     // specular term

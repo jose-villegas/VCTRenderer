@@ -27,6 +27,8 @@ void Shapes::Load()
 
     for (auto &node : primitiveScene.rootNode->nodes)
     {
+        node->BuildDrawList();
+        node->nodeState = Node::Dynamic;
         shapes[node->name] = move(node);
     }
 

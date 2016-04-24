@@ -22,6 +22,7 @@ Node::Node()
 {
     name = "Default Node";
     inverseTransposeModel = inverse(transpose(Matrix()));
+    nodeState = Static;
 }
 
 Node::~Node()
@@ -51,7 +52,7 @@ void Node::DrawMeshes() const
     }
 }
 
-void Node::DrawList()
+void Node::DrawList() const
 {
     static const auto &renderer = Renderer::Active();;
     static const auto &camera = Camera::Active();
@@ -59,6 +60,32 @@ void Node::DrawList()
     // draw elements using draw list
     for (auto &node : drawList)
     {
+        // no need to check or update boundaries and frustum planes.
+        if (Renderer::UseFrustumCulling)
+        {
+            if (!camera->InFrustum(node->boundaries))
+            {
+                continue;
+            }
+        }
+
+        // set matrices uniform with updated matrices
+        renderer->SetMatricesUniforms(*node);
+        // draw node meshes
+        node->DrawMeshes();
+    }
+}
+
+void Node::DrawListState(GeometryState state) const
+{
+    static const auto &renderer = Renderer::Active();;
+    static const auto &camera = Camera::Active();
+
+    // draw elements using draw list
+    for (auto &node : drawList)
+    {
+        if (node->nodeState != state) { continue; }
+
         // no need to check or update boundaries and frustum planes.
         if (Renderer::UseFrustumCulling)
         {
