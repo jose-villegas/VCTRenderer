@@ -108,6 +108,8 @@ void LightingProgram::ExtractUniforms()
     // from world to voxel space
     worldMinPoint.Assign(program);
     worldMinPoint.BindTo("worldMinPoint");
+    worldMaxPoint.Assign(program);
+    worldMaxPoint.BindTo("worldMaxPoint");
     voxelScale.Assign(program);
     voxelScale.BindTo("voxelScale");
     // gi options

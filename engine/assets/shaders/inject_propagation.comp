@@ -29,7 +29,7 @@ const float diffuseConeWeights[] =
     2.0f * PI / 9.0f,
 };
 
-vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance)
+vec4 TraceCone(vec3 position, vec3 direction, float aperture)
 {
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
@@ -53,7 +53,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
     vec4 coneSample = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
 
-    while(coneSample.a <= 1.0f && dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal)
+    while(coneSample.a <= 1.0f && dst <= maxTracingDistanceGlobal)
     {
         // outisde bounds
         if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
@@ -102,7 +102,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
         coneDirection += propagationDirections[i].x * right + propagationDirections[i].z * up;
         coneDirection = normalize(coneDirection);
 
-        diffuseTrace += TraceCone(position, coneDirection, aperture, 1.0f) * diffuseConeWeights[i];
+        diffuseTrace += TraceCone(position, coneDirection, aperture) * diffuseConeWeights[i];
     }
 
     return clamp(diffuseTrace, 0.0f, 1.0f);

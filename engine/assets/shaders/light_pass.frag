@@ -59,6 +59,7 @@ uniform float lightBleedingReduction;
 
 uniform float voxelScale;
 uniform vec3 worldMinPoint;
+uniform vec3 worldMaxPoint;
 uniform int volumeDimension;
 
 uniform float maxTracingDistanceGlobal = 1.0f;
@@ -93,63 +94,73 @@ vec3 WorldToVoxel(vec3 position)
     return voxelPos * voxelScale;
 }
 
-vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance, bool traceOcclusion)
+vec4 AnistropicSample(vec3 coord, vec3 weight, uvec3 face, float lod)
+{
+    // anisotropic volumes level
+    float anisoLevel = max(lod - 1.0f, 0.0f);
+    // directional sample
+    vec4 anisoSample = weight.x * textureLod(voxelTexMipmap[face.x], coord, anisoLevel)
+                     + weight.y * textureLod(voxelTexMipmap[face.y], coord, anisoLevel)
+                     + weight.z * textureLod(voxelTexMipmap[face.z], coord, anisoLevel);
+    // linearly interpolate on base level
+    if(lod < 1.0f)
+    {
+        vec4 baseColor = texture(voxelTex, coord);
+        anisoSample = mix(baseColor, anisoSample, clamp(lod, 0.0f, 1.0f));
+    }
+
+    return anisoSample;                    
+}
+
+vec4 TraceCone(vec3 position, vec3 direction, float aperture, bool traceOcclusion)
 {
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
     traceOcclusion = traceOcclusion && aoAlpha < 1.0f;
+    // world space grid size
+    float voxelWorldSize = 2.0 /  (voxelScale * volumeDimension);
     // weight per axis for aniso sampling
     vec3 weight = direction * direction;
-    // navigation
-    float voxelSize = 1.0f / volumeDimension;
-    // move one voxel further to avoid self collision
-    position = position + direction * voxelScale;
-    float dst = voxelSize;
-    vec3 tracePosition = position + direction * dst;
+    // move further to avoid self collision
+    float dst = voxelWorldSize;
+    vec3 startPosition = position + direction * dst;
     // control vars
-    float mipLevel = 0.0f;
-    float anisoLevel = 0.0f;
     float mipMaxLevel = log2(volumeDimension) - 1.0f;
-    // accumulated sample
-    vec4 baseColor = vec4(0.0f);
-    vec4 anisoSample = vec4(0.0f);
     // final results
-    vec3 coneSample = vec3(0.0f);
-    float alpha = 0.0f;
+    vec4 coneSample = vec4(0.0f);
     float occlusion = 0.0f;
+    float maxDistance = maxTracingDistanceGlobal * (1.0f / voxelScale);
 
-    while(alpha <= 1.0f && dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal)
+    while(coneSample.a <= 1.0f && dst <= maxDistance)
     {
-        // if(any(greaterThan(tracePosition, vec3(1.0f))) || any(lessThan(tracePosition, vec3(0.0f)))) { break; }
+        vec3 conePosition = startPosition + direction * dst;
 
-        float diameter = max(voxelSize, 2.0f * aperture * dst);
-
-        mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
-        anisoLevel = max(mipLevel - 1.0f, 0.0f);
-        // aniso sampling
-        anisoSample = weight.x * textureLod(voxelTexMipmap[visibleFace.x], tracePosition, anisoLevel)
-                    + weight.y * textureLod(voxelTexMipmap[visibleFace.y], tracePosition, anisoLevel)
-                    + weight.z * textureLod(voxelTexMipmap[visibleFace.z], tracePosition, anisoLevel);
-
-        if(mipLevel < 1.0f)
+        if (any(greaterThan(conePosition, worldMaxPoint)))
         {
-            baseColor = texture(voxelTex, tracePosition);
-            anisoSample = mix(baseColor, anisoSample, clamp(mipLevel, 0.0f, 1.0f));
+            break;
         }
+
+        float diameter = max(voxelWorldSize, 2.0f * aperture * dst);
+        float mipLevel = clamp(log2(diameter / voxelWorldSize), 0.0f, mipMaxLevel);
+        // convert position to texture coord
+        vec3 coord = WorldToVoxel(conePosition);
+        // get directional sample from anisotropic representation
+        vec4 anisoSample = AnistropicSample(coord, weight, visibleFace, mipLevel);
         // front to back composition
-        float a = 1.0f - alpha;
-        coneSample += a * anisoSample.rgb;
-        alpha += a * anisoSample.a;
+        coneSample += (1.0f - coneSample.a) * anisoSample;
         // ambient occlusion
-        occlusion += (a * anisoSample.a) / (1.0f + diameter * aoFalloff);
+        if(traceOcclusion && occlusion <= 1.0)
+        {
+            float coneStop = (1.0f + dst * voxelScale * aoFalloff);
+            occlusion += ((1.0f - occlusion) * anisoSample.a) / coneStop;
+        }
         // move further into volume
         dst += diameter * 0.5f;
-        tracePosition = direction * dst + position;
     }
 
-    return vec4(coneSample, occlusion + aoAlpha);
+    return vec4(coneSample.rgb, occlusion);
 }
 
 float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
@@ -442,9 +453,6 @@ vec3 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specu
 
 vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 specular, bool ambientOcclusion)
 {
-    vec3 positionT = WorldToVoxel(position);
-    vec3 cameraPosT = WorldToVoxel(cameraPosition);
-
     vec4 specularTrace = vec4(0.0f);
     vec4 diffuseTrace = vec4(0.0f);
     vec3 coneDirection = vec3(0.0f);
@@ -452,13 +460,13 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     // component greater than zero
     if(any(greaterThan(specular.rgb, specularTrace.rgb)))
     {
-        vec3 viewDirection = normalize(cameraPosT - positionT);
+        vec3 viewDirection = normalize(cameraPosition - position);
         vec3 coneDirection = reflect(-viewDirection, normal);
         coneDirection = normalize(coneDirection);
         // specular cone setup
         float aperture = 1.0f - sin(acos(0.11f / (specular.a * specular.a + 0.11f))) * 0.96f;
         aperture = clamp(aperture, 0.04f, 1.0f); // extremely thin cones slow down performance
-        specularTrace = TraceCone(positionT.xyz, coneDirection, aperture, 1.0f, false);
+        specularTrace = TraceCone(position, coneDirection, aperture, false);
         specularTrace.rgb *= specular.rgb;
     }
 
@@ -484,7 +492,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
             coneDirection += diffuseConeDirections[i].x * right + diffuseConeDirections[i].z * up;
             coneDirection = normalize(coneDirection);
             // cumulative result
-            diffuseTrace += TraceCone(positionT, coneDirection, aperture, 1.0f, ambientOcclusion) * diffuseConeWeights[i];
+            diffuseTrace += TraceCone(position, coneDirection, aperture, ambientOcclusion) * diffuseConeWeights[i];
         }
 
         diffuseTrace.rgb *= albedo;
@@ -492,7 +500,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
 
     vec3 result = bounceStrength * (diffuseTrace.rgb + specularTrace.rgb);
 
-    return vec4(result, ambientOcclusion ? clamp(1.0f - diffuseTrace.a, 0.0f, 1.0f) : 1.0f);
+    return vec4(result, ambientOcclusion ? clamp(1.0f - diffuseTrace.a + aoAlpha, 0.0f, 1.0f) : 1.0f);
 }
 
 void main()

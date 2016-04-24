@@ -55,6 +55,7 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<int> volumeDimension;
         oglplus::Uniform<float> voxelScale;
         oglplus::Uniform<glm::vec3> worldMinPoint;
+        oglplus::Uniform<glm::vec3> worldMaxPoint;
 
         oglplus::Uniform<float> maxTracingDistanceGlobal;
         oglplus::Uniform<float> bounceStrength;
