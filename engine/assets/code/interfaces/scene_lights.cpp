@@ -155,14 +155,14 @@ void UISceneLights::Draw()
                 light->RegisterChange();
             }
 
-            if (DragFloat("Linear", &attenuation[1], 0.01f))
+            if (DragFloat("Linear", &attenuation[1], 0.001f))
             {
                 attenuation[1] = glm::max(0.0f, attenuation[1]);
                 light->attenuation.Linear(attenuation[1]);
                 light->RegisterChange();
             }
 
-            if (DragFloat("Quadratic", &attenuation[2], 0.01f))
+            if (DragFloat("Quadratic", &attenuation[2], 0.001f))
             {
                 attenuation[2] = glm::max(0.0f, attenuation[2]);
                 light->attenuation.Quadratic(attenuation[2]);

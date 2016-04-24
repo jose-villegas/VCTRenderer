@@ -157,30 +157,55 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, float maxTracingDi
 
 float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
 {
+    uvec3 visibleFace;
+    visibleFace.x = (direction.x < 0.0) ? 0 : 1;
+    visibleFace.y = (direction.y < 0.0) ? 2 : 3;
+    visibleFace.z = (direction.z < 0.0) ? 4 : 5;
+    // weight per axis for aniso sampling
+    vec3 weight = direction * direction;
     // navigation
     float voxelSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision
+    float aperture = 0.03f;
     float dst = voxelSize * 2.0f;
+    float diameter = aperture * dst;
     vec3 samplePos = direction * dst + position;
-    // control variables
+    // control vars
+    float mipLevel = 0.0f;
+    float anisoLevel = 0.0f;
+    float mipMaxLevel = log2(volumeDimension) - 1.0f;
     float visibility = 0.0f;
     // accumulated sample
     vec4 traceSample = vec4(0.0f);
+    vec4 baseColor = vec4(0.0f);
 
     while (visibility <= 1.0f && traceSample.a != 1.0f && 
             dst <= maxTracingDistance && dst <= maxTracingDistanceGlobal) 
     {
-        if (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
-            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
+        // outisde bounds
+        if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f)) 
         { 
             break; 
         }
         
-        traceSample = texture(voxelTex, samplePos);
+        mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
+        anisoLevel = max(mipLevel - 1.0f, 0.0f);
+        // aniso sampling
+        traceSample = weight.x * textureLod(voxelTexMipmap[visibleFace.x], samplePos, anisoLevel)
+                    + weight.y * textureLod(voxelTexMipmap[visibleFace.y], samplePos, anisoLevel)
+                    + weight.z * textureLod(voxelTexMipmap[visibleFace.z], samplePos, anisoLevel);
+
+        if(mipLevel < 1.0f)
+        {
+            baseColor = texture(voxelTex, samplePos);
+            traceSample = mix(baseColor, traceSample, clamp(mipLevel, 0.0f, 1.0f));
+        }
         // accumulate
         visibility += (1.0f - visibility) * traceSample.a;
         // move further into volume
-        dst += voxelSize;
+        dst += max(diameter, voxelSize);
+        diameter = dst * aperture;
         samplePos = direction * dst + position;
     }
 
