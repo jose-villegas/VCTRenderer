@@ -66,6 +66,7 @@ vec3 WorldToVoxel(vec3 position)
 
 float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
 {
+    float k = exp2(6.0f * coneShadowTolerance + 1.0f);
     // navigation
     float voxelTexSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision
@@ -76,7 +77,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance)
     // accumulated sample
     vec4 traceSample = vec4(0.0f);
 
-    while (visibility <= 1.0f && traceSample.a != 1.0f && dst <= maxTracingDistance) 
+    while (visibility <= 1.0f && dst <= maxTracingDistance) 
     {
         if (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
             || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
@@ -85,8 +86,10 @@ float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance)
         }
         
         traceSample = texture(voxelAlbedo, samplePos);
+
+        if(traceSample.a > 1.0f - EPSILON) { return 0.0f; }
         // accumulate
-        visibility += (1.0f - visibility) * ceil(traceSample.a) * coneShadowTolerance;
+        visibility += (1.0f - visibility) * (traceSample.a * k) / dst;
         // move further into volume
         dst += voxelTexSize;
         samplePos = direction * dst + position;
