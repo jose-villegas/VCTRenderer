@@ -232,12 +232,12 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
 
         if(anisoSample.a > 1.0f - EPSILON) { return 0.0f; }
         // accumulate
-        visibility += (1.0f - visibility) * (anisoSample.a * k) / dst;
+        visibility += (1.0f - visibility) * anisoSample.a;
         // move further into volume
         dst += diameter * 0.5f;
     }
 
-    return 1.0f - visibility;
+    return pow(1.0f - visibility, k);
 }
 
 float linstep(float low, float high, float value)

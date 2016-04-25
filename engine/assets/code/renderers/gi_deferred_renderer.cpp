@@ -26,7 +26,7 @@ GIDeferredRenderer::GIDeferredRenderer(RenderWindow &window) : Renderer(window)
     ambientOcclusionFalloff = 800.0f;
     ambientOcclusionAlpha = 0.0f;
     samplingFactor = 0.5f;
-    coneShadowTolerance = 0.5f;
+    coneShadowTolerance = 0.15f;
     renderMode = 0;
     fsQuad.Load();
     sampleVoxelShadowVolume = false;
