@@ -84,7 +84,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
     vec4 diffuseTrace = vec4(0.0f);
 
     // diffuse cone setup
-    const float aperture = PI / 4.0f;
+    const float aperture = 1.0f; // tan(90 d / 2);
     vec3 guide = vec3(0.0f, 1.0f, 0.0f);
 
     if (abs(dot(normal,guide)) == 1.0f)

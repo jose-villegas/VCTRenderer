@@ -17,6 +17,7 @@ layout(binding = 7, rgba8) uniform sampler3D voxelTex;
 layout(binding = 8, rgba8) uniform sampler3D voxelTexMipmap[6];
 
 const float PI = 3.14159265f;
+const float HALF_PI = 1.57079f;
 const float EPSILON = 1e-30;
 const float SQRT_3 = 1.73205080f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
@@ -205,20 +206,15 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     float mipMaxLevel = log2(volumeDimension) - 1.0f;
     // final results
     float visibility = 0.0f;
-    float maxDistance = maxTracingDistance;
     float k = exp2(7.0f * coneShadowTolerance);
-
-    // boolean because it can cause skipping on thin walls
-    if(checkBoundaries > 0)
-    {
-        // out of volume bounds
-        float enter = 0.0; float leave = 0.0;
-        vec3 vMin = worldMinPoint - voxelWorldSize;
-        vec3 vMax = worldMaxPoint + voxelWorldSize;
-        IntersectRayWithAABB(position, direction, vMin, vMax, enter, leave);
-        // cone will only trace the needed distance
-        maxDistance = min(maxDistance, leave);
-    }
+    // out of volume bounds
+    float enter = 0.0; float leave = 0.0;
+    vec3 vMin = worldMinPoint - voxelWorldSize;
+    vec3 vMax = worldMaxPoint + voxelWorldSize;
+    IntersectRayWithAABB(position, direction, vMin, vMax, enter, leave);
+    // cone will only trace the needed distance
+    float maxDistance = min(maxTracingDistance, leave);
+    
 
     while(visibility <= 1.0f && dst <= maxDistance)
     {
@@ -469,8 +465,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         vec3 coneDirection = reflect(-viewDirection, normal);
         coneDirection = normalize(coneDirection);
         // specular cone setup
-        float aperture = 1.0f - sin(acos(0.11f / (specular.a * specular.a + 0.11f))) * 0.96f;
-        aperture = clamp(aperture, 0.04f, 1.0f); // extremely thin cones slow down performance
+        float aperture = max(HALF_PI * (1.0f - specular.a), 0.01f);
         specularTrace = TraceCone(position, normal, coneDirection, aperture, false);
         specularTrace.rgb *= specular.rgb;
     }
@@ -479,7 +474,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     if(any(greaterThan(albedo, diffuseTrace.rgb)))
     {
         // diffuse cone setup
-        const float aperture = PI / 6.0f;
+        const float aperture = 0.57735f; // tan(60 d / 2)
         vec3 guide = vec3(0.0f, 1.0f, 0.0f);
 
         if (abs(dot(normal,guide)) == 1.0f)
