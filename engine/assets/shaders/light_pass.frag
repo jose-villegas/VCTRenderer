@@ -67,6 +67,8 @@ uniform float maxTracingDistanceGlobal = 1.0f;
 uniform float bounceStrength = 1.0f;
 uniform float aoFalloff = 725.0f;
 uniform float aoAlpha = 0.01f;
+uniform float samplingFactor = 0.5f;
+uniform uint checkBoundaries;
 uniform uint mode = 0;
 
 const vec3 diffuseConeDirections[] =
@@ -133,7 +135,7 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
-    traceOcclusion = traceOcclusion && aoAlpha < 1.0f && aoFalloff != -1 || true;
+    traceOcclusion = traceOcclusion && aoAlpha < 1.0f;
     // world space grid size
     float voxelWorldSize = 2.0 /  (voxelScale * volumeDimension);
     // weight per axis for aniso sampling
@@ -143,20 +145,28 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
     vec3 startPosition = position + normal * dst;
     // control vars
     float mipMaxLevel = log2(volumeDimension) - 1.0f;
-    // out of volume bounds
-    // float enter = 0.0; float leave = 0.0;
-    // vec3 vMin = worldMinPoint - voxelWorldSize;
-    // vec3 vMax = worldMaxPoint + voxelWorldSize;
-    // IntersectRayWithAABB(position, direction, vMin, vMax, enter, leave);
     // final results
     vec4 coneSample = vec4(0.0f);
     float occlusion = 0.0f;
     float maxDistance = maxTracingDistanceGlobal * (1.0f / voxelScale);
     float falloff = aoFalloff * voxelScale;
 
+    // boolean because it can cause skipping on thin walls
+    if(checkBoundaries > 0)
+    {
+        // out of volume bounds
+        float enter = 0.0; float leave = 0.0;
+        vec3 vMin = worldMinPoint - voxelWorldSize;
+        vec3 vMax = worldMaxPoint + voxelWorldSize;
+        IntersectRayWithAABB(position, direction, vMin, vMax, enter, leave);
+        // cone will only trace the needed distance
+        maxDistance = min(maxDistance, leave);
+    }
+
     while(coneSample.a <= 1.0f && dst <= maxDistance)
     {
         vec3 conePosition = startPosition + direction * dst;
+        // cone expansion and respective mip level based on diameter
         float diameter = max(voxelWorldSize, 2.0f * aperture * dst);
         float mipLevel = clamp(log2(diameter / voxelWorldSize), 0.0f, mipMaxLevel);
         // convert position to texture coord
@@ -168,10 +178,10 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
         // ambient occlusion
         if(traceOcclusion && occlusion < 1.0)
         {
-            occlusion += coneSample.a / (1.0f + falloff * diameter);
+            occlusion += ((1.0f - occlusion) * anisoSample.a) / (1.0f + falloff * diameter);
         }
         // move further into volume
-        dst += diameter * 0.5f;
+        dst += diameter * samplingFactor;
     }
 
     return vec4(coneSample.rgb, occlusion);
@@ -192,14 +202,21 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     vec3 startPosition = position + direction * dst;
     // control vars
     float mipMaxLevel = log2(volumeDimension) - 1.0f;
-    // out of volume bounds
-    float enter = 0.0; float leave = 0.0;
-    vec3 vMin = worldMinPoint - voxelWorldSize;
-    vec3 vMax = worldMaxPoint + voxelWorldSize;
-    IntersectRayWithAABB(position, direction, vMin, vMax, enter, leave);
     // final results
     float visibility = 0.0f;
-    float maxDistance = min(maxTracingDistance, leave);
+    float maxDistance = maxTracingDistance;
+
+    // boolean because it can cause skipping on thin walls
+    if(checkBoundaries > 0)
+    {
+        // out of volume bounds
+        float enter = 0.0; float leave = 0.0;
+        vec3 vMin = worldMinPoint - voxelWorldSize;
+        vec3 vMax = worldMaxPoint + voxelWorldSize;
+        IntersectRayWithAABB(position, direction, vMin, vMax, enter, leave);
+        // cone will only trace the needed distance
+        maxDistance = min(maxDistance, leave);
+    }
 
     while(visibility <= 1.0f && dst <= maxDistance)
     {

@@ -60,6 +60,10 @@ class GIDeferredRenderer : public Renderer
         void RenderMode(const unsigned int &mode);
         bool SampleVoxelShadowVolume() const;
         void SampleVoxelShadowVolume(bool val);
+        bool CheckVolumeBoundaries() const;
+        void CheckVolumeBoundaries(bool val);
+        void SamplingFactor(const float &val);
+        const float &SamplingFactor();
     private:
         FullscreenQuad fsQuad;
         /// <summary>
@@ -93,6 +97,8 @@ class GIDeferredRenderer : public Renderer
         float globalIlluminationStrength;
         float ambientOcclusionFalloff;
         float ambientOcclusionAlpha;
+        float samplingFactor;
         bool sampleVoxelShadowVolume;
         unsigned int renderMode;
+        bool checkVolumeBoundaries;
 };

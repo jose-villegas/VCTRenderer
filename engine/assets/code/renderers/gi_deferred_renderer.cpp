@@ -25,9 +25,11 @@ GIDeferredRenderer::GIDeferredRenderer(RenderWindow &window) : Renderer(window)
     globalIlluminationStrength = 2.0f;
     ambientOcclusionFalloff = 800.0f;
     ambientOcclusionAlpha = 0.0f;
+    samplingFactor = 0.5f;
     renderMode = 0;
     fsQuad.Load();
     sampleVoxelShadowVolume = false;
+    checkVolumeBoundaries = false;
 }
 
 GIDeferredRenderer::~GIDeferredRenderer()
@@ -175,6 +177,26 @@ void GIDeferredRenderer::SampleVoxelShadowVolume(bool val)
     sampleVoxelShadowVolume = val;
 }
 
+bool GIDeferredRenderer::CheckVolumeBoundaries() const
+{
+    return checkVolumeBoundaries;
+}
+
+void GIDeferredRenderer::CheckVolumeBoundaries(bool val)
+{
+    checkVolumeBoundaries = val;
+}
+
+void GIDeferredRenderer::SamplingFactor(const float &val)
+{
+    samplingFactor = val;
+}
+
+const float &GIDeferredRenderer::SamplingFactor()
+{
+    return samplingFactor;
+}
+
 void GIDeferredRenderer::SetLightPassUniforms() const
 {
     static auto &camera = Camera::Active();
@@ -290,6 +312,8 @@ void GIDeferredRenderer::SetLightPassUniforms() const
     prog.aoFalloff.Set(ambientOcclusionFalloff);
     prog.aoAlpha.Set(ambientOcclusionAlpha);
     prog.mode.Set(renderMode);
+    prog.checkBoundaries.Set(checkVolumeBoundaries);
+    prog.samplingFactor.Set(samplingFactor);
 }
 
 GeometryProgram &GIDeferredRenderer::GeometryPass()

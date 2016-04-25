@@ -34,6 +34,8 @@ void UIGlobalIllumination::Draw()
                             "t\0Direct\0Indirect\0Ambient Occlusion";
         static auto firstB = voxel.InjectFirstBounce();
         static auto conesS = voxel.TraceShadowCones();
+        static auto checkB = deferred.CheckVolumeBoundaries();
+        static auto samplingFact = deferred.SamplingFactor();
         static auto shadwMethod = 0;
 
         if(SliderFloat("Maximum Trace Distance", &maxTracingConeDistance, 0.0f, 1.0f))
@@ -41,9 +43,19 @@ void UIGlobalIllumination::Draw()
             deferred.MaxTracingDistance(maxTracingConeDistance);
         }
 
+        if(Checkbox("Check Scene Boundaries", &checkB))
+        {
+            deferred.CheckVolumeBoundaries(checkB);
+        }
+
         if(SliderFloat("GI Strength", &bounceStrength, 0.0f, 32.0f))
         {
             deferred.GlobalIlluminationStrength(bounceStrength);
+        }
+
+        if (SliderFloat("Sampling Factor", &samplingFact, 0.1f, 2.0f))
+        {
+            deferred.SamplingFactor(samplingFact);
         }
 
         if (Checkbox("Inject First Bounce", &firstB))

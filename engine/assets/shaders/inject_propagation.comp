@@ -70,7 +70,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture)
         // accumulate sampling
         coneSample += (1.0f - coneSample.a) * anisoSample;
         // move further into volume
-        dst += max(diameter, voxelSize);
+        dst += max(diameter * 2.0f, voxelSize);
         diameter = dst * aperture;
         samplePos = direction * dst + position;
     }

@@ -61,7 +61,9 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<float> bounceStrength;
         oglplus::Uniform<float> aoFalloff;
         oglplus::Uniform<float> aoAlpha;
+        oglplus::Uniform<float> samplingFactor;
         oglplus::Uniform<unsigned int> mode;
+        oglplus::Uniform<unsigned int> checkBoundaries;
 
         void ExtractUniforms() override;
 
