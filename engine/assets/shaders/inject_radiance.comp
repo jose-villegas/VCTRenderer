@@ -66,7 +66,7 @@ vec3 WorldToVoxel(vec3 position)
 
 float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
 {
-    float k = exp2(6.0f * coneShadowTolerance + 1.0f);
+    float k = exp2(7.0f * coneShadowTolerance);
     // navigation
     float voxelTexSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision

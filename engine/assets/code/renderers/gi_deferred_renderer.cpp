@@ -26,6 +26,7 @@ GIDeferredRenderer::GIDeferredRenderer(RenderWindow &window) : Renderer(window)
     ambientOcclusionFalloff = 800.0f;
     ambientOcclusionAlpha = 0.0f;
     samplingFactor = 0.5f;
+    coneShadowTolerance = 0.5f;
     renderMode = 0;
     fsQuad.Load();
     sampleVoxelShadowVolume = false;
@@ -192,9 +193,19 @@ void GIDeferredRenderer::SamplingFactor(const float &val)
     samplingFactor = val;
 }
 
-const float &GIDeferredRenderer::SamplingFactor()
+const float &GIDeferredRenderer::SamplingFactor() const
 {
     return samplingFactor;
+}
+
+const float &GIDeferredRenderer::ConeShadowTolerance() const
+{
+    return coneShadowTolerance;
+}
+
+void GIDeferredRenderer::ConeShadowTolerance(const float &val)
+{
+    coneShadowTolerance = val;
 }
 
 void GIDeferredRenderer::SetLightPassUniforms() const
@@ -314,6 +325,7 @@ void GIDeferredRenderer::SetLightPassUniforms() const
     prog.mode.Set(renderMode);
     prog.checkBoundaries.Set(checkVolumeBoundaries);
     prog.samplingFactor.Set(samplingFactor);
+    prog.coneShadowTolerance.Set(coneShadowTolerance);
 }
 
 GeometryProgram &GIDeferredRenderer::GeometryPass()

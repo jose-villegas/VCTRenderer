@@ -68,6 +68,7 @@ uniform float bounceStrength = 1.0f;
 uniform float aoFalloff = 725.0f;
 uniform float aoAlpha = 0.01f;
 uniform float samplingFactor = 0.5f;
+uniform float coneShadowTolerance = 1.0f;
 uniform uint checkBoundaries;
 uniform uint mode = 0;
 
@@ -205,6 +206,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     // final results
     float visibility = 0.0f;
     float maxDistance = maxTracingDistance;
+    float k = exp2(7.0f * coneShadowTolerance);
 
     // boolean because it can cause skipping on thin walls
     if(checkBoundaries > 0)
@@ -227,13 +229,15 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
         vec3 coord = WorldToVoxel(conePosition);
         // get directional sample from anisotropic representation
         vec4 anisoSample = AnistropicSample(coord, weight, visibleFace, mipLevel);
+
+        if(anisoSample.a > 1.0f - EPSILON) { return 0.0f; }
         // accumulate
-        visibility += (1.0f - visibility) * anisoSample.a;
+        visibility += (1.0f - visibility) * (anisoSample.a * k) / dst;
         // move further into volume
         dst += diameter * 0.5f;
     }
 
-    return pow(1.0f - visibility, 2.0f);
+    return 1.0f - visibility;
 }
 
 float linstep(float low, float high, float value)
@@ -362,7 +366,8 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
     }
     else if(light.shadowingMethod == 3)
     {
-        visibility = max(0.0f, texture(voxelVisibility, WorldToVoxel(position)).a);
+        vec3 voxelPos = WorldToVoxel(position);  
+        visibility = max(0.0f, texture(voxelVisibility, voxelPos).a);
     } 
 
     if(visibility <= 0.0f) return vec3(0.0f);  
@@ -402,7 +407,8 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
     }
     else if(light.shadowingMethod == 3)
     {
-        visibility = max(0.0f, texture(voxelVisibility, WorldToVoxel(position)).a);
+        vec3 voxelPos = WorldToVoxel(position);  
+        visibility = max(0.0f, texture(voxelVisibility, voxelPos).a);
     } 
 
     if(visibility <= 0.0f) return vec3(0.0f); 

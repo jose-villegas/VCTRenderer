@@ -36,6 +36,7 @@ void UIGlobalIllumination::Draw()
         static auto conesS = voxel.TraceShadowCones();
         static auto checkB = deferred.CheckVolumeBoundaries();
         static auto samplingFact = deferred.SamplingFactor();
+        static auto fCone = deferred.ConeShadowTolerance();
         static auto shadwMethod = 0;
 
         if(SliderFloat("Maximum Trace Distance", &maxTracingConeDistance, 0.0f, 1.0f))
@@ -88,6 +89,13 @@ void UIGlobalIllumination::Draw()
                  "Trace Per Fragment\0Sample Shadow Volume\0", 2))
         {
             deferred.SampleVoxelShadowVolume(shadwMethod == 1);
+        }
+
+        if (shadwMethod == 0 &&
+                SliderFloat("Fragment Shadow Cone Tolerance",
+                            &fCone, 0.0f, 1.0f))
+        {
+            deferred.ConeShadowTolerance(fCone);
         }
 
         if(Combo("Render Mode", &mode, modes))
