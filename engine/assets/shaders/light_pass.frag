@@ -18,6 +18,7 @@ layout(binding = 8, rgba8) uniform sampler3D voxelTexMipmap[6];
 
 const float PI = 3.14159265f;
 const float EPSILON = 1e-30;
+const float SQRT_3 = 1.73205080f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
@@ -126,7 +127,7 @@ bool IntersectRayWithAABB (in vec3 ro, in vec3 rd, in vec3 minPoint, in vec3 max
     return leave > enter;
 }
 
-vec4 TraceCone(vec3 position, vec3 direction, float aperture, bool traceOcclusion)
+vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool traceOcclusion)
 {
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
@@ -139,7 +140,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture, bool traceOcclusio
     vec3 weight = direction * direction;
     // move further to avoid self collision
     float dst = voxelWorldSize;
-    vec3 startPosition = position + direction * dst;
+    vec3 startPosition = position + normal * dst;
     // control vars
     float mipMaxLevel = log2(volumeDimension) - 1.0f;
     // out of volume bounds
@@ -447,7 +448,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         // specular cone setup
         float aperture = 1.0f - sin(acos(0.11f / (specular.a * specular.a + 0.11f))) * 0.96f;
         aperture = clamp(aperture, 0.04f, 1.0f); // extremely thin cones slow down performance
-        specularTrace = TraceCone(position, coneDirection, aperture, false);
+        specularTrace = TraceCone(position, normal, coneDirection, aperture, false);
         specularTrace.rgb *= specular.rgb;
     }
 
@@ -473,7 +474,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
             coneDirection += diffuseConeDirections[i].x * right + diffuseConeDirections[i].z * up;
             coneDirection = normalize(coneDirection);
             // cumulative result
-            diffuseTrace += TraceCone(position, coneDirection, aperture, ambientOcclusion) * diffuseConeWeights[i];
+            diffuseTrace += TraceCone(position, normal, coneDirection, aperture, ambientOcclusion) * diffuseConeWeights[i];
         }
 
         diffuseTrace.rgb *= albedo;

@@ -8,6 +8,8 @@ layout(binding = 2, rgba8) uniform image3D writeonly voxelRadiance;
 layout(binding = 3, rgba8) uniform image3D readonly voxelEmissive;
 
 const float PI = 3.14159265f;
+const float EPSILON = 1e-30;
+const float SQRT_3 = 1.73205080f;
 const uint MAX_DIRECTIONAL_LIGHTS = 8;
 const uint MAX_POINT_LIGHTS = 256;
 const uint MAX_SPOT_LIGHTS = 256;
@@ -246,12 +248,11 @@ vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 
 vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
 {
-    const float expansion = sqrt(3.0f);
     // calculate directional lighting
     vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 0.0f);
     vec4 current =  vec4(0.0f); int count = 0;
 	// extend normal into a unit cube direction to reduce voxelization error
-    position = position + clamp(normal * expansion, -1.0f, 1.0f) * voxelSize;
+    position = position + clamp(normal * SQRT_3, -1.0f, 1.0f) * voxelSize;
 
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)
