@@ -11,7 +11,7 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd kamen.png
-map_Bump kamen-bump.png
+# map_Bump kamen-bump.png
 map_Ka kamen.png
 
 newmtl kamen_zid_parapet
@@ -36,7 +36,7 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd kamen.png
-map_Bump kamen-bump.png
+# map_Bump kamen-bump.png
 map_Ka kamen.png
 
 newmtl pod
@@ -49,7 +49,7 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd mramor6x6.png
-map_Bump mramor6x6-bump.png
+# map_Bump mramor6x6-bump.png
 map_Ka mramor6x6.png
 
 newmtl pod_rub
@@ -62,7 +62,7 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd kamen.png
-map_Bump kamen-bump.png
+# map_Bump kamen-bump.png
 map_Ka kamen.png
 
 newmtl pod_tepih
@@ -181,5 +181,5 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd kamen.png
-map_Bump kamen-bump.png
+# map_Bump kamen-bump.png
 map_Ka kamen.png

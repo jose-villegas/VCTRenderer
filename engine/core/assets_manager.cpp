@@ -61,8 +61,10 @@ AssetsManager::AssetsManager()
                               ("assets\\models\\crytek-sponza\\sponza.obj");
     scenes["Crytek Sponza (No Flag)"] = std::make_shared<Scene>
                                         ("assets\\models\\crytek-sponza-noflag\\sponza.obj");
-    scenes["Sibenik"] = std::make_shared<Scene>
-                        ("assets\\models\\sibenik\\sibenik.obj");
+    scenes["Sibenik (Open Windows)"] = std::make_shared<Scene>
+                                       ("assets\\models\\sibenik\\sibenik.obj");
+    scenes["Sibenik (Original)"] = std::make_shared<Scene>
+                                   ("assets\\models\\sibenik_original\\sibenik.obj");
     scenes["Cornellbox (Original)"] = std::make_shared<Scene>
                                       ("assets\\models\\cornell-box\\cornell_box.obj");
     scenes["Cornellbox (Empty)"] = std::make_shared<Scene>
@@ -77,6 +79,8 @@ AssetsManager::AssetsManager()
                            ("assets\\models\\Paris\\Paris2010_0.obj");
     scenes["Lightbox"] = std::make_shared<Scene>
                          ("assets\\models\\lightbox\\LightBox01.obj");
+    scenes["Test Plane"] = std::make_shared<Scene>
+                           ("assets\\models\\lightbox\\TestPlane.obj");
     // instantiate implemented interfaces
     interfaces["SceneLoader"] = std::make_shared<UISceneLoader>();
     interfaces["Framerate"] = std::make_shared<UIFramerate>();
@@ -158,7 +162,7 @@ AssetsManager::AssetsManager()
     // utility default assets
     Texture2D::GetDefaultTexture();
     // shapes instancer
-    //Shapes::Load();
+    Shapes::Load();
 }
 
 
