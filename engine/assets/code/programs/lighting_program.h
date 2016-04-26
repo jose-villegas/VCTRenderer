@@ -63,6 +63,7 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<float> aoAlpha;
         oglplus::Uniform<float> samplingFactor;
         oglplus::Uniform<float> coneShadowTolerance;
+        oglplus::Uniform<float> coneShadowAperture;
         oglplus::Uniform<unsigned int> mode;
         oglplus::Uniform<unsigned int> checkBoundaries;
 

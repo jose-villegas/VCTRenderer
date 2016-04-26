@@ -70,6 +70,7 @@ uniform float aoFalloff = 725.0f;
 uniform float aoAlpha = 0.01f;
 uniform float samplingFactor = 0.5f;
 uniform float coneShadowTolerance = 1.0f;
+uniform float coneShadowAperture = 0.03f;
 uniform uint checkBoundaries;
 uniform uint mode = 0;
 
@@ -331,7 +332,7 @@ vec3 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo, 
     }
     else if(light.shadowingMethod == 2)
     {
-        visibility = max(0.0f, TraceShadowCone(position, light.direction, 0.03f, 1.0f / voxelScale));
+        visibility = max(0.0f, TraceShadowCone(position, light.direction, coneShadowAperture, 1.0f / voxelScale));
     }
     else if(light.shadowingMethod == 3)
     {
@@ -358,7 +359,7 @@ vec3 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 s
 
     if(light.shadowingMethod == 2)
     {
-        visibility = max(0.0f, TraceShadowCone(position, light.direction, 0.03f, d));
+        visibility = max(0.0f, TraceShadowCone(position, light.direction, coneShadowAperture, d));
     }
     else if(light.shadowingMethod == 3)
     {
@@ -399,7 +400,7 @@ vec3 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo, vec4 sp
 
     if(light.shadowingMethod == 2)
     {
-        visibility = max(0.0f, TraceShadowCone(position, light.direction, 0.03f, dst));
+        visibility = max(0.0f, TraceShadowCone(position, light.direction, coneShadowAperture, dst));
     }
     else if(light.shadowingMethod == 3)
     {
@@ -465,7 +466,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         vec3 coneDirection = reflect(-viewDirection, normal);
         coneDirection = normalize(coneDirection);
         // specular cone setup
-        float aperture = max(HALF_PI * (1.0f - specular.a), 0.01f);
+        float aperture = clamp(HALF_PI * (1.0f - specular.a), 0.01f, HALF_PI);
         specularTrace = TraceCone(position, normal, coneDirection, aperture, false);
         specularTrace.rgb *= specular.rgb;
     }

@@ -129,6 +129,8 @@ void LightingProgram::ExtractUniforms()
     samplingFactor.BindTo("samplingFactor");
     coneShadowTolerance.Assign(program);
     coneShadowTolerance.BindTo("coneShadowTolerance");
+    coneShadowAperture.Assign(program);
+    coneShadowAperture.BindTo("coneShadowAperture");
 }
 
 LightingProgram::~LightingProgram()

@@ -66,6 +66,8 @@ class GIDeferredRenderer : public Renderer
         const float &SamplingFactor() const;
         const float &ConeShadowTolerance() const;
         void ConeShadowTolerance(const float &val);
+        float ConeShadowAperture() const;
+        void ConeShadowAperture(float val);
     private:
         FullscreenQuad fsQuad;
         /// <summary>
@@ -101,6 +103,7 @@ class GIDeferredRenderer : public Renderer
         float ambientOcclusionAlpha;
         float samplingFactor;
         float coneShadowTolerance;
+        float coneShadowAperture;
         bool sampleVoxelShadowVolume;
         unsigned int renderMode;
         bool checkVolumeBoundaries;

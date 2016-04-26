@@ -37,6 +37,7 @@ void UIGlobalIllumination::Draw()
         static auto checkB = deferred.CheckVolumeBoundaries();
         static auto samplingFact = deferred.SamplingFactor();
         static auto fCone = deferred.ConeShadowTolerance();
+        static auto fConeAperture = glm::degrees(deferred.ConeShadowAperture());
         static auto shadwMethod = 0;
 
         if(SliderFloat("Maximum Trace Distance", &maxTracingConeDistance, 0.0f, 1.0f))
@@ -65,7 +66,7 @@ void UIGlobalIllumination::Draw()
             voxel.UpdateRadiance();
         }
 
-        if (Checkbox("Inject Shadow Cones", &conesS))
+        if (Checkbox("Inject Raytraced Shadows", &conesS))
         {
             voxel.TraceShadowCones(conesS);
             voxel.UpdateRadiance();
@@ -91,11 +92,23 @@ void UIGlobalIllumination::Draw()
             deferred.SampleVoxelShadowVolume(shadwMethod == 1);
         }
 
-        if (shadwMethod == 0 &&
-                SliderFloat("Fragment Shadow Cone Tolerance",
-                            &fCone, 0.0f, 1.0f))
+        if (shadwMethod == 0)
         {
-            deferred.ConeShadowTolerance(fCone);
+            Indent();
+
+            if (SliderFloat("Fragment Shadow Cone Tolerance",
+                            &fCone, 0.0f, 1.0f))
+            {
+                deferred.ConeShadowTolerance(fCone);
+            }
+
+            if (SliderFloat("Fragment Shadow Cone Aperture",
+                            &fConeAperture, 1.0f, 90.0f))
+            {
+                deferred.ConeShadowAperture(glm::radians(fConeAperture));
+            }
+
+            Unindent();
         }
 
         if(Combo("Render Mode", &mode, modes))
