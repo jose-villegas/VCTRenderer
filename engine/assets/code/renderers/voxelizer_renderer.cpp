@@ -63,12 +63,12 @@ void VoxelizerRenderer::Render()
             }
         }
     }
-    // whole process voxelization will happen every framestep frame
+    // dynamic voxelization will happen every framestep frame
     else if (framestep >= 1 && frameCount++ % framestep == 0)
     {
         frameCount = 1;
         // update voxelization
-        VoxelizeStaticScene();
+        VoxelizeDynamicScene();
     }
 
     if (ShowVoxels)
@@ -228,8 +228,6 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
 
 void VoxelizerRenderer::UpdateRadiance()
 {
-    static float zero[] = { 0, 0, 0, 0 };
-    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // compute shader injects diffuse lighting and shadowing
     InjectRadiance();
     // finally generate mip map values (and light propagation if needed)
@@ -325,6 +323,9 @@ void VoxelizerRenderer::InjectRadiance()
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.coneShadowTolerance.Set(coneShadowTolerance);
+    // clear radiance texture for writing
+    static float zero[] = { 0, 0, 0, 0 };
+    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // voxel texture to read
     voxelAlbedo.Active(0);
     voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
@@ -673,9 +674,6 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
 }
 void VoxelizerRenderer::RevoxelizeScene()
 {
-    // whole process happens per frame anyway
-    if (framestep == 1) return;
-
     static auto scene = static_cast<Scene *>(nullptr);
 
     // active scene changed
