@@ -251,13 +251,13 @@ vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 
 vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
 {
+    // world space grid voxel size
+    float voxelWorldSize = 2.0 /  (voxelScale * volumeDimension);
     // calculate directional lighting
     vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 0.0f);
     vec4 current =  vec4(0.0f); int count = 0;
-    // use variance for normalization, from the average normal lobe
-    normal = SQRT_3 * normal;
-	// extend normal into a unit cube direction to reduce voxelization error
-    position = position + clamp(normal, -1.0f, 1.0f) * voxelSize;
+	// move position forward to avoid shadowing errors
+    position = position + normal * voxelWorldSize;
 
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)

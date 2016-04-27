@@ -139,7 +139,7 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
     traceOcclusion = traceOcclusion && aoAlpha < 1.0f;
-    // world space grid size
+    // world space grid voxel size
     float voxelWorldSize = 2.0 /  (voxelScale * volumeDimension);
     // weight per axis for aniso sampling
     vec3 weight = direction * direction;
