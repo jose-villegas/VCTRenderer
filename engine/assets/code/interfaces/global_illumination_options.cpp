@@ -55,9 +55,9 @@ void UIGlobalIllumination::Draw()
             deferred.GlobalIlluminationStrength(bounceStrength);
         }
 
-        if (SliderFloat("Sampling Factor", &samplingFact, 0.1f, 2.0f))
+        if (SliderFloat("Sampling Factor", &samplingFact, 0.1f, 2.5f))
         {
-            deferred.SamplingFactor(glm::clamp(samplingFact, 0.1f, 2.0f));
+            deferred.SamplingFactor(glm::clamp(samplingFact, 0.1f, 2.5f));
         }
 
         if (Checkbox("Inject First Bounce", &firstB))

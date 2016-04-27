@@ -75,8 +75,6 @@ AssetsManager::AssetsManager()
                                 ("assets\\models\\KingsTreasure\\KingsTreasure.obj");
     scenes["Mad Science"] = std::make_shared<Scene>
                             ("assets\\models\\science\\madScience.obj");
-    scenes["Paris City"] = std::make_shared<Scene>
-                           ("assets\\models\\Paris\\Paris2010_0.obj");
     scenes["Lightbox"] = std::make_shared<Scene>
                          ("assets\\models\\lightbox\\LightBox01.obj");
     scenes["Test Plane"] = std::make_shared<Scene>

@@ -673,6 +673,9 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
 }
 void VoxelizerRenderer::RevoxelizeScene()
 {
+    // whole process happens per frame anyway
+    if (framestep == 1) return;
+
     static auto scene = static_cast<Scene *>(nullptr);
 
     // active scene changed

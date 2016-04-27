@@ -32,23 +32,22 @@ const float diffuseConeWeights[] =
 vec4 TraceCone(vec3 position, vec3 direction, float aperture)
 {
     uvec3 visibleFace;
+    // in propagation mode we only trace the mip levels for 
+    // speed and to avoid aliasing issues
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
     visibleFace.z = (direction.z < 0.0) ? 4 : 5;
-    // in propagation mode we only trace the mip levels for 
-    // speed and to avoid aliasing issues
-    float anisoDimension = volumeDimension / 2.0f;
     // weight per axis for aniso sampling
     vec3 weight = direction * direction;
     // navigation
-    float voxelSize = 1.0f / anisoDimension;
+    float voxelSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision
     float dst = voxelSize * 2.0f;
     float diameter = aperture * dst;
     vec3 samplePos = direction * dst + position;
     // control vars
     float mipLevel = 0.0f;
-    float mipMaxLevel = log2(anisoDimension) - 1.0f;
+    float mipMaxLevel = volumeDimension - 1.0f;
     // accumulated sample
     vec4 coneSample = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
@@ -56,13 +55,14 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture)
     while(coneSample.a <= 1.0f && dst <= maxTracingDistanceGlobal)
     {
         // outisde bounds
-        if (aperture < 0.3f && (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
-            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f)) 
+        if (samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+            || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
         { 
             break; 
         }
 
-        mipLevel = clamp(log2(diameter * anisoDimension), 0.0f, mipMaxLevel);
+        mipLevel = clamp(log2(diameter * volumeDimension), 0.0f, mipMaxLevel);
+        mipLevel = max(mipLevel - 1.0f, 0.0f);
         // aniso sampling
         anisoSample = weight.x * textureLod(voxelTexMipmap[visibleFace.x], samplePos, mipLevel)
                     + weight.y * textureLod(voxelTexMipmap[visibleFace.y], samplePos, mipLevel)

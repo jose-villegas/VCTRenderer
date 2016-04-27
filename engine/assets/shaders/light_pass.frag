@@ -231,7 +231,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
         // accumulate
         visibility += (1.0f - visibility) * anisoSample.a;
         // move further into volume
-        dst += diameter * 0.5f;
+        dst += diameter * samplingFactor;
     }
 
     return pow(1.0f - visibility, k);
