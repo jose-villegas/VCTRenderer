@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../core/interface.h"
+#include "../core/interface.h"
 
 class UIFramerate : public Interface
 {

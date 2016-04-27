@@ -63,12 +63,12 @@ void VoxelizerRenderer::Render()
             }
         }
     }
-    // voxelization will happen every framestep frame
+    // whole process voxelization will happen every framestep frame
     else if (framestep >= 1 && frameCount++ % framestep == 0)
     {
         frameCount = 1;
         // update voxelization
-        VoxelizeDynamicScene();
+        VoxelizeStaticScene();
     }
 
     if (ShowVoxels)
