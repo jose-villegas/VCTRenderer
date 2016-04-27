@@ -14,15 +14,27 @@ class Metric : IMetric
         explicit Metric(const T &value);
 };
 
-class ElapsedTime : public Metric<long long>
+class ElapsedTime : public Metric<float>
 {
     public:
         void Begin();
-        template<class _Duration = std::chrono::nanoseconds>
         void End();
-        explicit ElapsedTime(const long long &value);
+        explicit ElapsedTime(const float &value);
     private:
-        std::chrono::time_point<std::chrono::steady_clock> time[2];
+        std::chrono::nanoseconds time[2];
+};
+
+class MovingAverage : public Metric<float>
+{
+    public:
+        void Begin();
+        void End();
+        void Reset();
+        explicit MovingAverage();
+    private:
+        float sum;
+        long long count;
+        std::chrono::nanoseconds time[2];
 };
 
 class MetricsReport
@@ -43,13 +55,6 @@ template <typename T>
 Metric<T>::Metric(const T &value)
 {
     this->value = value;
-}
-
-template<class _Duration = std::chrono::nanoseconds>
-void ElapsedTime::End()
-{
-    time[1] = std::chrono::steady_clock::now();
-    value = std::chrono::duration_cast<_Duration>(time[1] - time[0]).count();
 }
 
 template <typename T>

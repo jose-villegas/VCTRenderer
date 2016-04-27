@@ -91,6 +91,7 @@ AssetsManager::AssetsManager()
     interfaces["Shadowing"] = std::make_shared<UIShadowingOptions>();
     interfaces["Voxelization"] = std::make_shared<UIVoxelizationOptions>();
     interfaces["GIOptions"] = std::make_shared<UIGlobalIllumination>();
+    interfaces["Metrics"] = std::make_shared<UIMetrics>();
     // instantiate implemented behaviors
     {
     };

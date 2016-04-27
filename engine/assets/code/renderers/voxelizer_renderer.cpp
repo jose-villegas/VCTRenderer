@@ -23,6 +23,8 @@
 #include <glm/gtx/transform.hpp>
 #include "gi_deferred_renderer.h"
 
+#include "../interfaces/framerate.h"
+
 bool VoxelizerRenderer::ShowVoxels = false;
 
 void VoxelizerRenderer::Render()
@@ -68,7 +70,7 @@ void VoxelizerRenderer::Render()
     {
         frameCount = 1;
         // update voxelization
-        VoxelizeDynamicScene();
+        VoxelizeStaticScene();
     }
 
     if (ShowVoxels)
@@ -144,11 +146,14 @@ void VoxelizerRenderer::VoxelizeStaticScene()
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.flagStaticVoxels.Set(1);
     // clear images before voxelization
+    UIMetrics::ClearStatic.Begin();
     staticFlag.ClearImage(0, oglplus::PixelDataFormat::Red, &sZero);
     voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     voxelEmissive.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
+    UIMetrics::ClearStatic.End();
     // bind the volume texture to be writen in shaders
+    UIMetrics::VoxelizationStatic.Begin();
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
@@ -161,6 +166,7 @@ void VoxelizerRenderer::VoxelizeStaticScene()
     scene->rootNode->DrawListState(Node::Static);
     // sync barrier
     gl.MemoryBarrier(shImage | texFetch);
+    UIMetrics::VoxelizationStatic.End();
     // update dynamic scene also
     VoxelizeDynamicScene();
 }
@@ -183,6 +189,7 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
     // first clear writing available voxels
     ClearDynamicVoxels();
     // unbind fbos use default
+    UIMetrics::VoxelizationDynamic.Begin();
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     // clear and setup viewport
     gl.ColorMask(false, false, false, false);
@@ -205,10 +212,6 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.flagStaticVoxels.Set(0);
-    // clear images before voxelization
-    //voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    //voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    //voxelEmissive.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // bind the volume texture to be writen in shaders
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
@@ -222,14 +225,13 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
     scene->rootNode->DrawListState(Node::Dynamic);
     // sync barrier
     gl.MemoryBarrier(shImage | texFetch);
+    UIMetrics::VoxelizationDynamic.End();
     // on voxel basis change, radiance needs to be updated
     UpdateRadiance();
 }
 
 void VoxelizerRenderer::UpdateRadiance()
 {
-    static float zero[] = { 0, 0, 0, 0 };
-    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // compute shader injects diffuse lighting and shadowing
     InjectRadiance();
     // finally generate mip map values (and light propagation if needed)
@@ -248,6 +250,7 @@ void VoxelizerRenderer::InjectRadiance()
     static auto &shadowing = *static_cast<ShadowMapRenderer *>
                              (AssetsManager::Instance()
                               ->renderers["Shadowmapping"].get());
+    static float zero[] = { 0, 0, 0, 0 };
     // control vars
     auto &sceneBox = scene->rootNode->boundaries;
     // inject radiance into voxel texture
@@ -325,6 +328,9 @@ void VoxelizerRenderer::InjectRadiance()
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.coneShadowTolerance.Set(coneShadowTolerance);
+    UIMetrics::RadianceInjection.Begin();
+    // clear radiance volume
+    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // voxel texture to read
     voxelAlbedo.Active(0);
     voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
@@ -339,12 +345,15 @@ void VoxelizerRenderer::InjectRadiance()
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // sync safety
     gl.MemoryBarrier(shImage | texFetch);
+    UIMetrics::RadianceInjection.End();
 }
 
 void VoxelizerRenderer::GenerateMipmap()
 {
+    UIMetrics::MipmappingRadiance.Begin();
     GenerateMipmapBase(voxelRadiance);
     GenerateMipmapVolume();
+    UIMetrics::MipmappingRadiance.End();
 
     if (injectFirstBounce)
     {
@@ -359,6 +368,7 @@ void VoxelizerRenderer::GenerateMipmap()
         static auto &proga = InjectPropagationShader();
         // inject direct + "first bounce" into voxel texture
         CurrentProgram<PropagationProgram>(proga);
+        UIMetrics::BounceInjection.Begin();
         // tracing limits
         proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
         proga.volumeDimension.Set(volumeDimension);
@@ -383,9 +393,12 @@ void VoxelizerRenderer::GenerateMipmap()
         gl.DispatchCompute(workGroups, workGroups, workGroups);
         // sync safety
         gl.MemoryBarrier(shImage | texFetch);
+        UIMetrics::BounceInjection.End();
         // now mipmap result
+        UIMetrics::MipmappingBounce.Begin();
         GenerateMipmapBase(voxelRadiance);
         GenerateMipmapVolume();
+        UIMetrics::MipmappingBounce.End();
     }
 }
 
@@ -421,6 +434,7 @@ void VoxelizerRenderer::GenerateMipmapBase(oglplus::Texture &baseTexture)
 
 void VoxelizerRenderer::ClearDynamicVoxels()
 {
+    UIMetrics::ClearDynamic.Begin();
     static oglplus::Context gl;
     static auto shImage = oglplus::Bitfield<oglplus::MemoryBarrierBit>
                           (oglplus::MemoryBarrierBit::ShaderImageAccess);
@@ -441,6 +455,7 @@ void VoxelizerRenderer::ClearDynamicVoxels()
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // sync safety
     gl.MemoryBarrier(shImage | texFetch);
+    UIMetrics::ClearDynamic.End();
 }
 
 void VoxelizerRenderer::GenerateMipmapVolume()
@@ -674,8 +689,7 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
 void VoxelizerRenderer::RevoxelizeScene()
 {
     // whole process happens per frame anyway
-    if (framestep == 1) return;
-
+    // if (framestep == 1) return;
     static auto scene = static_cast<Scene *>(nullptr);
 
     // active scene changed

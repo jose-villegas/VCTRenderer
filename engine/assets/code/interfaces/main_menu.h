@@ -19,6 +19,7 @@ class UIMainMenu : public Interface
         static bool drawGIOptions;
         static bool drawSceneMaterials;
         static bool drawSceneNodes;
+        static bool showMetrics;
         UIMainMenu();
         ~UIMainMenu() override;
 };

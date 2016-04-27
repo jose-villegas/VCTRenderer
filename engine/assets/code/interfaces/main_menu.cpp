@@ -14,17 +14,21 @@ bool UIMainMenu::drawVoxelizationOptions = false;
 bool UIMainMenu::drawGIOptions = false;
 bool UIMainMenu::drawSceneMaterials = false;
 bool UIMainMenu::drawSceneNodes = false;
+bool UIMainMenu::showMetrics = false;
 
 using namespace ImGui;
 
 void UIMainMenu::Draw()
 {
+    static bool showAbout = false;
+
     if (BeginMainMenuBar())
     {
         if (BeginMenu("View"))
         {
             MenuItem("Scene Loader", nullptr, &drawSceneLoader);
             MenuItem("Show Framerate", nullptr, &drawFramerate);
+            MenuItem("Show Metrics", nullptr, &showMetrics);
             MenuItem("View Voxels", nullptr, &VoxelizerRenderer::ShowVoxels);
             MenuItem("View Framebuffers", nullptr, &drawFramebuffers);
             EndMenu();
@@ -44,10 +48,22 @@ void UIMainMenu::Draw()
             MenuItem("Shadows", nullptr, &drawShadowOptions);
             MenuItem("Voxelization", nullptr, &drawVoxelizationOptions);
             MenuItem("Global Illumination", nullptr, &drawGIOptions);
+            MenuItem("About", nullptr, &showAbout);
             EndMenu();
         }
 
         EndMainMenuBar();
+    }
+
+    if(showAbout)
+    {
+        if (Begin("Name", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            Text("Developer: Jose Villegas.");
+            Text("Developer: villegasjose.gg@gmail.com");
+        }
+
+        End();
     }
 }
 

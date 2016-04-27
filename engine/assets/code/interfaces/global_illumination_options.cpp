@@ -134,6 +134,7 @@ void UIGlobalIllumination::Draw()
 
     End();
 }
+
 UIGlobalIllumination::UIGlobalIllumination()
 {
 }

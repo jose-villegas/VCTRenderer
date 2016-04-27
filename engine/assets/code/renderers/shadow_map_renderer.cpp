@@ -62,7 +62,11 @@ void ShadowMapRenderer::Render()
     if (shadowCaster->TransformChanged()) { updateShadowMap = true; }
 
     // scene change
-    if (scenePtr != scene.get()) { updateShadowMap = true; }
+    if (scenePtr != scene.get())
+    {
+        // scenePtr = scene.get();
+        updateShadowMap = true;
+    }
 
     if (!updateShadowMap) { return; }
 

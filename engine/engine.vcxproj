@@ -177,7 +177,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)implement</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NOMINMAX;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;OGLPLUS_LOW_PROFILE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;OGLPLUS_LOW_PROFILE;NDEBUG;PROFILING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat />
       <EnablePREfast>false</EnablePREfast>
       <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
@@ -246,7 +246,7 @@ xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Co
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)implement</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NOMINMAX;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;OGLPLUS_LOW_PROFILE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS;IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS;OGLPLUS_LOW_PROFILE;NDEBUG;PROFILING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat />
       <EnablePREfast>false</EnablePREfast>
       <AdditionalOptions>-Zm200 %(AdditionalOptions)</AdditionalOptions>
