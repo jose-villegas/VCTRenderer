@@ -19,6 +19,8 @@ using namespace ImGui;
 
 void UIMainMenu::Draw()
 {
+    static bool showAbout = false;
+
     if (BeginMainMenuBar())
     {
         if (BeginMenu("View"))
@@ -44,10 +46,22 @@ void UIMainMenu::Draw()
             MenuItem("Shadows", nullptr, &drawShadowOptions);
             MenuItem("Voxelization", nullptr, &drawVoxelizationOptions);
             MenuItem("Global Illumination", nullptr, &drawGIOptions);
+            MenuItem("About", nullptr, &showAbout);
             EndMenu();
         }
 
         EndMainMenuBar();
+    }
+
+    if(showAbout)
+    {
+        if (Begin("About...", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            Text("Developer: Jose Villegas.");
+            Text("Email: villegasjose.gg@gmail.com");
+        }
+
+        End();
     }
 }
 

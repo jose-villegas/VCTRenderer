@@ -256,6 +256,8 @@ vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
     // calculate directional lighting
     vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 0.0f);
     vec4 current =  vec4(0.0f); int count = 0;
+    // extend normal 
+    normal = normal * SQRT_3;
 	// move position forward to avoid shadowing errors
     position = position + normal * voxelWorldSize;
 
@@ -308,7 +310,7 @@ void main()
     // voxel color
 	vec4 albedo = texelFetch(voxelAlbedo, writePos, 0);
 
-    if(albedo.a == 0.0f) { return; }
+    if(albedo.a < EPSILON) { return; }
 
     albedo.a = 0.0f;
     // voxel normal in 0-1 range
