@@ -228,8 +228,6 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
 
 void VoxelizerRenderer::UpdateRadiance()
 {
-    static float zero[] = { 0, 0, 0, 0 };
-    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // compute shader injects diffuse lighting and shadowing
     InjectRadiance();
     // finally generate mip map values (and light propagation if needed)
@@ -325,6 +323,9 @@ void VoxelizerRenderer::InjectRadiance()
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.coneShadowTolerance.Set(coneShadowTolerance);
+    // clear radiance volume
+    static float zero[] = { 0, 0, 0, 0 };
+    voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // voxel texture to read
     voxelAlbedo.Active(0);
     voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
