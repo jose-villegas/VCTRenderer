@@ -82,15 +82,15 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture)
 
 vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
 {
-    // move position further along normal
-    position = position + normal * (1.0f / float(volumeDimension));
+    // move position further along normal, 1 voxel step, half dimension
+    position = position + normal * (1.0f / (volumeDimension / 2.0f));
     // cummulative
     vec4 diffuseTrace = vec4(0.0f);
     // diffuse cone setup
     const float aperture = 1.0f; // tan(90 d / 2);
     vec3 guide = vec3(0.0f, 1.0f, 0.0f);
 
-    if (abs(dot(normal,guide)) == 1.0f)
+    if (abs(dot(normal, guide)) == 1.0f)
     {
         guide = vec3(0.0f, 0.0f, 1.0f);
     }
