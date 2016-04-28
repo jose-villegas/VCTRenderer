@@ -5,6 +5,8 @@ layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 layout(binding = 0, r8) uniform image3D staticVoxelFlag;
 layout(binding = 1, rgba8) uniform image3D toClearVoxels[3];
 
+const float EPSILON = 1e-30;
+
 void main()
 {
     int volumeDimension = imageSize(staticVoxelFlag).x;
@@ -15,12 +17,16 @@ void main()
 
     ivec3 writePos = ivec3(gl_GlobalInvocationID);
 
+    // empty voxel
+    if(imageLoad(toClearVoxels[1], writePos).a < EPSILON) { return; }
+
+    // static flag is true
+    if(imageLoad(staticVoxelFlag, writePos).r > EPSILON) { return; }
+
     // is a non-static voxel and the voxel in that position isn't empty
-    if(imageLoad(staticVoxelFlag, writePos).r < 1.0 && imageLoad(toClearVoxels[0], writePos).a > 0.0)
+    // clear the volumnes with 0,0,0,0
+    for(int i = 0; i < 3; i++)
     {
-        for(int i = 0; i < 3; i++)
-        {
-            imageStore(toClearVoxels[i], writePos, vec4(0.0));
-        }
+        imageStore(toClearVoxels[i], writePos, vec4(0.0));
     }
 }
