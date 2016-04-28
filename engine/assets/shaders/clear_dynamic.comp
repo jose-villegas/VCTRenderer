@@ -18,7 +18,7 @@ void main()
     ivec3 writePos = ivec3(gl_GlobalInvocationID);
 
     // empty voxel
-    if(imageLoad(toClearVoxels[1], writePos).a < EPSILON) { return; }
+    if(imageLoad(toClearVoxels[0], writePos).a < EPSILON) { return; }
 
     // static flag is true
     if(imageLoad(staticVoxelFlag, writePos).r > EPSILON) { return; }
