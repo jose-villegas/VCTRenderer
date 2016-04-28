@@ -56,15 +56,6 @@ void Texture2D::Load(oglplus::TextureMinFilter minFilter,
     pdif = bytesPerPixel == 2 ? PixelDataInternalFormat::RG8 : pdif;
     pdf = bytesPerPixel == 1 ? PixelDataFormat::Red : pdf;
     pdif = bytesPerPixel == 1 ? PixelDataInternalFormat::R8 : pdif;
-    //// srgba8 textures
-    //if(IsType(Diffuse) && bytesPerPixel == 3)
-    //{
-    //    pdif = PixelDataInternalFormat::SRGB8;
-    //}
-    //else if (IsType(Diffuse) && bytesPerPixel == 4)
-    //{
-    //    pdif = PixelDataInternalFormat::SRGB8Alpha8;
-    //}
     // create texture with raw data (upload to gpu)
     gl.Bound(TextureTarget::_2D, *this->oglTexture)
     .Image2D(0, pdif, this->width, this->height, 0, pdf,
@@ -150,7 +141,7 @@ std::unique_ptr<Texture2D> &Texture2D::GetDefaultTexture()
             oglplus::TextureMinFilter::LinearMipmapLinear,
             oglplus::TextureMagFilter::Linear,
             oglplus::TextureWrap::Repeat,
-            oglplus::TextureWrap::Repeat
+            oglplus::TextureWrap::Repeat, false
         );
     }
 
