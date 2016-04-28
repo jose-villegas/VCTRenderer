@@ -9,6 +9,8 @@ void PropagationProgram::ExtractUniforms()
     maxTracingDistanceGlobal.BindTo("maxTracingDistanceGlobal");
     volumeDimension.Assign(program);
     volumeDimension.BindTo("volumeDimension");
+    checkBoundaries.Assign(program);
+    checkBoundaries.BindTo("checkBoundaries");
 }
 
 PropagationProgram::PropagationProgram()

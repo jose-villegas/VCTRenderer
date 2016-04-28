@@ -251,6 +251,7 @@ vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
 
 vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
 {
+    normal = normalize(normal);
     // world space grid voxel size
     float voxelWorldSize = 2.0 /  (voxelScale * volumeDimension);
     // calculate directional lighting
@@ -308,7 +309,7 @@ void main()
     // voxel color
 	vec4 albedo = texelFetch(voxelAlbedo, writePos, 0);
 
-    if(albedo.a == 0.0f) { return; }
+    if(albedo.a < EPSILON) { return; }
 
     albedo.a = 0.0f;
     // voxel normal in 0-1 range

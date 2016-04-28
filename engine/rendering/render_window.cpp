@@ -24,7 +24,8 @@ WindowInfo::WindowInfo() : WindowInfo(1280, 720, 0, 0, "Default") {}
 /// <param name="title">The title.</param>
 WindowInfo::WindowInfo(const unsigned width, const unsigned height, const int x,
                        const int y, const std::string &title)
-    : width{width}, height{height}, x{x}, y{y}, title{title}
+    : displayWidth{width}, displayHeight{height}, framebufferWidth(0),
+      framebufferHeight(0), x{x}, y{y}, title{title}
 {
 }
 
@@ -136,13 +137,14 @@ void RenderWindow::WindowHint(const ContextHints &target, const int value)
 /// if set to <c>true</c> will set the specified
 /// window position.
 /// </param>
-void RenderWindow::Open(WindowInfo windowConfig, bool setPosition,
+void RenderWindow::Open(const WindowInfo &windowConfig, bool setPosition,
                         GLFWmonitor * monitor, GLFWwindow * share)
 {
     if (isOpen || !glfwInit()) { return; }
 
     windowInfo = std::move(windowConfig);
-    windowHandler = glfwCreateWindow(windowInfo.width, windowInfo.height,
+    windowHandler = glfwCreateWindow(windowInfo.displayWidth,
+                                     windowInfo.displayHeight,
                                      windowInfo.title.c_str(), monitor, share);
 
     if (setPosition)
@@ -150,7 +152,8 @@ void RenderWindow::Open(WindowInfo windowConfig, bool setPosition,
         glfwSetWindowPos(windowHandler, windowInfo.x, windowInfo.y);
     }
 
-    glfwSetWindowSize(windowHandler, windowInfo.width, windowInfo.height);
+    glfwSetWindowSize(windowHandler, windowInfo.displayWidth,
+                      windowInfo.displayHeight);
     glfwSetWindowTitle(windowHandler, windowInfo.title.c_str());
     glfwGetWindowPos(windowHandler, &windowInfo.x, &windowInfo.y);
 
@@ -160,6 +163,14 @@ void RenderWindow::Open(WindowInfo windowConfig, bool setPosition,
         throw std::runtime_error("Couldn't create GLFW window.");
     }
 
+    // save window info
+    int w, h, displayW, displayH;;
+    glfwGetWindowSize(windowHandler, &w, &h);
+    glfwGetFramebufferSize(windowHandler, &displayW, &displayH);
+    windowInfo.displayHeight = displayH;
+    windowInfo.displayWidth = displayW;
+    windowInfo.framebufferHeight = h;
+    windowInfo.framebufferWidth = w;
     // successfull window open
     isOpen = true;
 }
@@ -182,8 +193,8 @@ void RenderWindow::SetPosition(const int x, const int y)
 void RenderWindow::SetWindowSize(const int w, const int h)
 {
     glfwSetWindowSize(windowHandler, w, h);
-    windowInfo.width = w;
-    windowInfo.height = h;
+    windowInfo.displayWidth = w;
+    windowInfo.displayHeight = h;
 }
 
 void RenderWindow::SetWindowTitle(const std::string &title)

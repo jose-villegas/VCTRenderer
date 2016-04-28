@@ -70,8 +70,10 @@ enum class EventMode
 
 struct WindowInfo
 {
-    unsigned int width;
-    unsigned int height;
+    unsigned int displayWidth;
+    unsigned int displayHeight;
+    unsigned int framebufferWidth;
+    unsigned int framebufferHeight;
     int x;
     int y;
     std::string title;
@@ -94,7 +96,7 @@ class RenderWindow
         static void WindowHint(const ContextHints &target, const int value);
         template<typename T> void WindowHint(T &&target, const Hint value);
 
-        void Open(WindowInfo windowConfig = WindowInfo(),
+        void Open(const WindowInfo &windowConfig,
                   bool setPosition = true, GLFWmonitor * monitor = nullptr,
                   GLFWwindow * share = nullptr);
         void Destroy() const;

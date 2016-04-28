@@ -63,7 +63,7 @@ void VoxelizerRenderer::Render()
             }
         }
     }
-    // dynamic voxelization will happen every framestep frame
+    // dyanmic process voxelization will happen every framestep frame
     else if (framestep >= 1 && frameCount++ % framestep == 0)
     {
         frameCount = 1;
@@ -205,10 +205,6 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.flagStaticVoxels.Set(0);
-    // clear images before voxelization
-    //voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    //voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    //voxelEmissive.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // bind the volume texture to be writen in shaders
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
@@ -323,7 +319,7 @@ void VoxelizerRenderer::InjectRadiance()
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.coneShadowTolerance.Set(coneShadowTolerance);
-    // clear radiance texture for writing
+    // clear radiance volume
     static float zero[] = { 0, 0, 0, 0 };
     voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // voxel texture to read
@@ -363,6 +359,7 @@ void VoxelizerRenderer::GenerateMipmap()
         // tracing limits
         proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
         proga.volumeDimension.Set(volumeDimension);
+        proga.checkBoundaries.Set(deferred.CheckVolumeBoundaries());
         // albedo
         voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                               oglplus::ImageUnitFormat::RGBA8);
@@ -497,7 +494,7 @@ void VoxelizerRenderer::DrawVoxels()
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.ColorMask(true, true, true, true);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    gl.Viewport(info.width, info.height);
+    gl.Viewport(info.framebufferWidth, info.framebufferHeight);
     gl.Clear().ColorBuffer().DepthBuffer();
     // Open GL flags
     gl.ClearDepth(1.0f);
@@ -674,6 +671,9 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
 }
 void VoxelizerRenderer::RevoxelizeScene()
 {
+    // whole process happens per frame anyway
+    if (framestep == 1) return;
+
     static auto scene = static_cast<Scene *>(nullptr);
 
     // active scene changed

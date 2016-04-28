@@ -103,12 +103,30 @@ void EngineBase::Initialize() const
 {
     if(!renderWindow->IsOpen())
     {
+        auto monitor = glfwGetPrimaryMonitor();
+        auto mode = glfwGetVideoMode(monitor);
         // open window
+        renderWindow->WindowHint(FramebufferHints::RedBits, mode->redBits);
+        renderWindow->WindowHint(FramebufferHints::GreenBits, mode->greenBits);
+        renderWindow->WindowHint(FramebufferHints::BlueBits, mode->blueBits);
+        renderWindow->WindowHint(FramebufferHints::RefreshRate, mode->refreshRate);
+        renderWindow->WindowHint(FramebufferHints::DoubleBuffer, true);
+        renderWindow->WindowHint(WindowHints::AutoIconify, false);
         renderWindow->WindowHint(WindowHints::Resizable, false);
+        #ifdef _1080P
+        renderWindow->WindowHint(WindowHints::Decorated, false);
+        #endif
         renderWindow->WindowHint(ContextHints::ContextVersionMajor, 4);
         renderWindow->WindowHint(ContextHints::ContextVersionMinor, 5);
         renderWindow->WindowHint(ContextHints::OpenGLProfile, Hint::OpenGLCoreProfile);
-        renderWindow->Open(WindowInfo(1280, 720, 0, 0, "Voxel Cone Tracing"), false);
+        renderWindow->WindowHint(ContextHints::OpenGLForwardCompatibility, Hint::False);
+        #ifdef _1080P
+        renderWindow->Open(WindowInfo(1920, 1080, 0, 0, "Voxel Cone Tracing"), true,
+                           nullptr, nullptr);
+        #else
+        renderWindow->Open(WindowInfo(1280, 720, 0, 0, "Voxel Cone Tracing"), false,
+                           nullptr, nullptr);
+        #endif
     }
 
     // and set window as rendering context

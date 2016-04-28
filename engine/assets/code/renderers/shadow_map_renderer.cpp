@@ -62,7 +62,11 @@ void ShadowMapRenderer::Render()
     if (shadowCaster->TransformChanged()) { updateShadowMap = true; }
 
     // scene change
-    if (scenePtr != scene.get()) { updateShadowMap = true; }
+    if (scenePtr != scene.get())
+    {
+        scenePtr = scene.get();
+        updateShadowMap = true;
+    }
 
     if (!updateShadowMap) { return; }
 
@@ -249,11 +253,11 @@ void ShadowMapRenderer::SetupFramebuffers(const unsigned &w,
     }
 
     Framebuffer::Bind(Framebuffer::Target::Draw, FramebufferName(0));
-    // setup shadow framebuffer
+    // setup shadow blur framebuffer
     blurFramebuffer.Bind(FramebufferTarget::Draw);
     // create variance shadow mapping texture, z and z * z
     gl.Bound(TextureTarget::_2D, blurShadow)
-    .Image2D(0, PixelDataInternalFormat::RGBA32F, w, h, 0,
+    .Image2D(0, PixelDataInternalFormat::RGBA32F, w / 2, h / 2, 0,
              PixelDataFormat::RGBA, PixelDataType::Float, nullptr)
     .MinFilter(TextureMinFilter::Linear).MagFilter(TextureMagFilter::Linear)
     .WrapS(TextureWrap::ClampToEdge).WrapT(TextureWrap::ClampToEdge).Anisotropy(8);
@@ -319,6 +323,7 @@ void ShadowMapRenderer::BlurShadowMap()
     CurrentProgram<BlurProgram>(prog);
     // horizontal blur
     blurFramebuffer.Bind(FramebufferTarget::Draw);
+    gl.Viewport(0, 0, shadowMapSize.x / 2, shadowMapSize.y / 2);
     gl.Disable(Capability::DepthTest);
     // active shadow to be read
     shadowMap.Active(0);
@@ -331,6 +336,7 @@ void ShadowMapRenderer::BlurShadowMap()
     fsQuad.DrawElements();
     // blur vertically
     shadowFramebuffer.Bind(FramebufferTarget::Draw);
+    gl.Viewport(0, 0, shadowMapSize.x, shadowMapSize.y);
     // active shadow to be read
     blurShadow.Bind(TextureTarget::_2D);
     // update uniform
