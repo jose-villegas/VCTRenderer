@@ -63,12 +63,12 @@ void VoxelizerRenderer::Render()
             }
         }
     }
-    // whole process voxelization will happen every framestep frame
+    // dyanmic process voxelization will happen every framestep frame
     else if (framestep >= 1 && frameCount++ % framestep == 0)
     {
         frameCount = 1;
         // update voxelization
-        VoxelizeStaticScene();
+        VoxelizeDynamicScene();
     }
 
     if (ShowVoxels)
@@ -205,10 +205,6 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.flagStaticVoxels.Set(0);
-    // clear images before voxelization
-    //voxelAlbedo.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    //voxelNormal.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
-    //voxelEmissive.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
     // bind the volume texture to be writen in shaders
     voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
@@ -498,7 +494,7 @@ void VoxelizerRenderer::DrawVoxels()
     oglplus::DefaultFramebuffer().Bind(oglplus::FramebufferTarget::Draw);
     gl.ColorMask(true, true, true, true);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    gl.Viewport(info.width, info.height);
+    gl.Viewport(info.framebufferWidth, info.framebufferHeight);
     gl.Clear().ColorBuffer().DepthBuffer();
     // Open GL flags
     gl.ClearDepth(1.0f);

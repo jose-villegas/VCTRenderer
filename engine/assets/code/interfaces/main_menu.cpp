@@ -3,6 +3,7 @@
 #include "main_menu.h"
 
 #include "../renderers/voxelizer_renderer.h"
+#include "../../../rendering/render_window.h"
 
 bool UIMainMenu::drawSceneLoader = true;
 bool UIMainMenu::drawFramerate = false;
@@ -49,6 +50,11 @@ void UIMainMenu::Draw()
             MenuItem("About", nullptr, &showAbout);
             EndMenu();
         }
+
+        if(Button("Exit"))
+        {
+            EngineBase::Instance()->Window().ShouldClose(true);
+        };
 
         EndMainMenuBar();
     }

@@ -463,7 +463,7 @@ void InterfaceRenderer::KeyCallback(GLFWwindow * window, int key, int scancode,
     io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] ||
                 io.KeysDown[GLFW_KEY_RIGHT_ALT];
 
-    if (io.KeyCtrl && io.KeyShift && ImGui::IsKeyReleased(GLFW_KEY_H))
+    if (ImGui::IsKeyReleased(GLFW_KEY_H))
     {
         renderer->disabled = !renderer->disabled;
     }

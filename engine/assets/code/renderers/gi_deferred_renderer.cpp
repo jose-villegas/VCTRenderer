@@ -18,8 +18,9 @@
 
 GIDeferredRenderer::GIDeferredRenderer(RenderWindow &window) : Renderer(window)
 {
+    auto &info = Window().Info();
     // create textures and attachments for framebuffer in deferredhandler
-    SetupGeometryBuffer(Window().Info().width, Window().Info().height);
+    SetupGeometryBuffer(info.framebufferWidth, info.framebufferHeight);
     // initial values
     maxTracingDistance = 0.95f;
     globalIlluminationStrength = 2.0f;
@@ -44,6 +45,7 @@ void GIDeferredRenderer::Render()
     static Context gl;
     static auto &camera = Camera::Active();
     static auto &scene = Scene::Active();
+    static auto &info = Window().Info();
 
     if (!camera || !scene || !scene->IsLoaded() || VoxelizerRenderer::ShowVoxels)
     {
@@ -55,7 +57,7 @@ void GIDeferredRenderer::Render()
     geometryBuffer.Bind(FramebufferTarget::Draw);
     gl.ColorMask(true, true, true, true);
     gl.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    gl.Viewport(Window().Info().width, Window().Info().height);
+    gl.Viewport(info.framebufferWidth, info.framebufferHeight);
     gl.Clear().ColorBuffer().DepthBuffer();
     // activate geometry pass shader program
     CurrentProgram<GeometryProgram>(GeometryPass());
@@ -72,7 +74,7 @@ void GIDeferredRenderer::Render()
     // start light pass
     DefaultFramebuffer().Bind(FramebufferTarget::Draw);
     gl.ColorMask(true, true, true, true);
-    gl.Viewport(Window().Info().width, Window().Info().height);
+    gl.Viewport(info.framebufferWidth, info.framebufferHeight);
     gl.Clear().ColorBuffer().DepthBuffer();
     CurrentProgram<LightingProgram>(LightingPass());
     // pass light info and texture locations for final light pass

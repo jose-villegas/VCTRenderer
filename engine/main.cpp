@@ -42,38 +42,9 @@ int main(int argc, char * argv[])
     #else // RELEASE
     // instance engine core to load all assets and
     // relevant data and start rendering main loop
-    auto errorCaptured = false;
-
-    try
-    {
-        // instance engine core to load all assets and
-        // relevant data and start rendering main loop
-        EngineBase::Instance()->MainLoop();
-    }
-    catch (const oglplus::ProgramBuildError &pbe)
-    {
-        std::cerr << pbe.Log() << std::endl;
-        errorCaptured = true;
-    }
-    catch (const oglplus::Error &err)
-    {
-        std::cerr << "Error (in " << err.GLFunc()
-                  << "') [" << err.SourceFile()
-                  << ":" << err.SourceLine()
-                  << "]: " << err.what() << std::endl;
-        errorCaptured = true;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << std::endl;
-        errorCaptured = true;
-    }
-
-    if (errorCaptured) { std::cin.get(); };
-
+    EngineBase::Instance()->MainLoop();
     #endif
     EngineBase::Terminate();
-
     // exit application
     return 0;
 }
