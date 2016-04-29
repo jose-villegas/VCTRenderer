@@ -1,4 +1,4 @@
-#version 450
+#version 430
 #extension GL_ARB_shader_image_load_store : require
 
 in GeometryOut
