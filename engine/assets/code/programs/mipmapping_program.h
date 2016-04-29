@@ -17,6 +17,7 @@ class MipmappingVolumeProgram : public ProgramShader
 {
     public:
         oglplus::Uniform<glm::vec3> mipDimension;
+        oglplus::Uniform<int> mipLevel;
         void ExtractUniforms() override;
         MipmappingVolumeProgram();
         ~MipmappingVolumeProgram();

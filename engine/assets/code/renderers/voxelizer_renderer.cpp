@@ -400,8 +400,8 @@ void VoxelizerRenderer::GenerateMipmapBase(oglplus::Texture &baseTexture)
     CurrentProgram<MipmappingBaseProgram>(baseProg);
     // bind images for reading / writing
     baseProg.mipDimension.Set(halfDimension);
-    baseTexture.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                          oglplus::ImageUnitFormat::RGBA8);
+    baseTexture.Active(0);
+    baseTexture.Bind(oglplus::TextureTarget::_3D);
 
     for (int i = 0; i < voxelTexMipmap.size(); ++i)
     {
@@ -459,13 +459,13 @@ void VoxelizerRenderer::GenerateMipmapVolume()
     {
         auto volumeSize = glm::vec3(mipDimension, mipDimension, mipDimension);
         volumeProg.mipDimension.Set(volumeSize);
+        volumeProg.mipLevel.Set(mipLevel);
 
         // bind for writing at mip level
         for (int i = 0; i < voxelTexMipmap.size(); ++i)
         {
-            voxelTexMipmap[i].BindImage(i, mipLevel, true, 0,
-                                        oglplus::AccessSpecifier::ReadOnly,
-                                        oglplus::ImageUnitFormat::RGBA8);
+            voxelTexMipmap[i].Active(i);
+            voxelTexMipmap[i].Bind(oglplus::TextureTarget::_3D);
             voxelTexMipmap[i].BindImage(i + 6, mipLevel + 1, true, 0,
                                         oglplus::AccessSpecifier::WriteOnly,
                                         oglplus::ImageUnitFormat::RGBA8);

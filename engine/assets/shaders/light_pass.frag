@@ -11,10 +11,10 @@ layout(binding = 3) uniform sampler2D gEmissive;
 layout(binding = 4) uniform sampler2D gDepth;
 
 layout(binding = 5) uniform sampler2D shadowMap;
-layout(binding = 6, rgba8) uniform sampler3D voxelVisibility;
+layout(binding = 6) uniform sampler3D voxelVisibility;
 
-layout(binding = 7, rgba8) uniform sampler3D voxelTex;
-layout(binding = 8, rgba8) uniform sampler3D voxelTexMipmap[6];
+layout(binding = 7) uniform sampler3D voxelTex;
+layout(binding = 8) uniform sampler3D voxelTexMipmap[6];
 
 const float PI = 3.14159265f;
 const float HALF_PI = 1.57079f;

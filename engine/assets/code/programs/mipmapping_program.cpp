@@ -22,6 +22,8 @@ void MipmappingVolumeProgram::ExtractUniforms()
 {
     mipDimension.Assign(program);
     mipDimension.BindTo("mipDimension");
+    mipLevel.Assign(program);
+    mipLevel.BindTo("mipLevel");
 }
 
 MipmappingVolumeProgram::MipmappingVolumeProgram()

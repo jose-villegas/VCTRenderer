@@ -5,7 +5,7 @@ layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 layout(binding = 0, rgba8) uniform readonly image3D voxelAlbedo;
 layout(binding = 1, rgba8) uniform readonly image3D voxelNormal;
 layout(binding = 2, rgba8) uniform image3D voxelComposite;
-layout(binding = 3, rgba8) uniform sampler3D voxelTexMipmap[6];
+layout(binding = 3) uniform sampler3D voxelTexMipmap[6];
 
 const float PI = 3.14159265f;
 const float EPSILON = 1e-30;
