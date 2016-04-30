@@ -192,6 +192,11 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
 
 float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTracingDistance) 
 {
+    bool hardShadows = false;
+
+    if(coneShadowTolerance == 1.0f) { hardShadows = true; }
+
+    // directional dominat axis
     uvec3 visibleFace;
     visibleFace.x = (direction.x < 0.0) ? 0 : 1;
     visibleFace.y = (direction.y < 0.0) ? 2 : 3;
@@ -227,14 +232,15 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
         // get directional sample from anisotropic representation
         vec4 anisoSample = AnistropicSample(coord, weight, visibleFace, mipLevel);
 
-        if(anisoSample.a > 1.0f - EPSILON) { return 0.0f; }
+        // hard shadows exit as soon cone hits something
+        if(hardShadows && anisoSample.a > EPSILON) { return 0.0f; }  
         // accumulate
-        visibility += (1.0f - visibility) * anisoSample.a;
+        visibility += (1.0f - visibility) * anisoSample.a * k;
         // move further into volume
         dst += diameter * samplingFactor;
     }
 
-    return pow(1.0f - visibility, k);
+    return 1.0f - visibility;
 }
 
 float linstep(float low, float high, float value)
