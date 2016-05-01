@@ -45,8 +45,8 @@ uniform vec3 worldMinPoint;
 
 uniform sampler2D shadowMap;
 uniform int volumeDimension;
-
 uniform uint storeVisibility;
+uniform uint normalWeightedLambert = 1;
 
 uniform float coneShadowTolerance;
 
@@ -162,7 +162,27 @@ float Visibility(vec3 position)
 
 vec3 BRDF(Light light, vec3 normal, vec3 albedo)
 {
-    float lambertian = max(dot(normal, light.direction), 0.0f);
+    float lambertian = 0.0f;
+
+    if(normalWeightedLambert == 1)
+    {
+        vec3 weight = normal * normal;
+        // calculate directional lamberts
+        float lambertRight = dot(vec3(1.0, 0.0, 0.0), light.direction);
+        float lambertUp = dot(vec3(0.0, 1.0, 0.0), light.direction);
+        float lambertForward = dot(vec3(0.0, 0.0, 1.0), light.direction);
+
+        lambertRight = normal.x > 0.0 ? max(lambertRight, 0.0) : max(-lambertRight, 0.0);
+        lambertUp = normal.y > 0.0 ? max(lambertUp, 0.0) : max(-lambertUp, 0.0);
+        lambertForward = normal.z > 0.0 ? max(lambertForward, 0.0) : max(-lambertForward, 0.0);
+        // voxel shading average from all front sides
+        lambertian = lambertRight * weight.x + lambertUp * weight.y + lambertForward * weight.z;
+    }
+    else
+    {
+        lambertian = max(dot(normal, light.direction), 0.0f);
+    }
+
     return light.diffuse * albedo * lambertian;
 }
 

@@ -319,6 +319,7 @@ void VoxelizerRenderer::InjectRadiance()
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelScale.Set(1.0f / volumeGridSize);
     prog.coneShadowTolerance.Set(coneShadowTolerance);
+    prog.normalWeightedLambert.Set(normalWeightedLambert);
     // clear radiance volume
     static float zero[] = { 0, 0, 0, 0 };
     voxelRadiance.ClearImage(0, oglplus::PixelDataFormat::RGBA, zero);
@@ -582,6 +583,7 @@ VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
     traceShadowCones = true;
     coneShadowTolerance = 0.5f;
     drawColorChannels = glm::vec4(1.0f);
+    normalWeightedLambert = true;
     SetupVoxelVolumes(256);
 }
 void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
@@ -758,6 +760,17 @@ void VoxelizerRenderer::InjectFirstBounce(bool val)
 {
     injectFirstBounce = val;
 }
+
+bool VoxelizerRenderer::WeightedLambert() const
+{
+    return normalWeightedLambert;
+}
+
+void VoxelizerRenderer::WeightedLambert(bool val)
+{
+    normalWeightedLambert = val;
+}
+
 VoxelizationProgram &VoxelizerRenderer::VoxelizationPass()
 {
     static auto &assets = AssetsManager::Instance();

@@ -38,6 +38,7 @@ void UIGlobalIllumination::Draw()
         static auto samplingFact = deferred.SamplingFactor();
         static auto fCone = deferred.ConeShadowTolerance();
         static auto fConeAperture = glm::degrees(deferred.ConeShadowAperture());
+        static auto vWeightedLambert = voxel.WeightedLambert();
         static auto shadwMethod = 0;
 
         if(SliderFloat("Maximum Trace Distance", &maxTracingConeDistance, 0.0f, 1.0f))
@@ -69,6 +70,12 @@ void UIGlobalIllumination::Draw()
         if (Checkbox("Inject Raytraced Shadows", &conesS))
         {
             voxel.TraceShadowCones(conesS);
+            voxel.UpdateRadiance();
+        }
+
+        if(Checkbox("Use Normal Weighted Lambert", &vWeightedLambert))
+        {
+            voxel.WeightedLambert(vWeightedLambert);
             voxel.UpdateRadiance();
         }
 

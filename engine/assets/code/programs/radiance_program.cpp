@@ -6,6 +6,8 @@
 
 void InjectRadianceProgram::ExtractUniforms()
 {
+    normalWeightedLambert.Assign(program);
+    normalWeightedLambert.BindTo("normalWeightedLambert");
     coneShadowTolerance.Assign(program);
     coneShadowTolerance.BindTo("coneShadowTolerance");
     voxelScale.Assign(program);
