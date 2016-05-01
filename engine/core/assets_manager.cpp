@@ -31,6 +31,7 @@
 #include "../assets/code/interfaces/scene_materials.h"
 #include "../assets/code/interfaces/shape_creator.h"
 // include behaviors
+#include "../assets/code/behaviors/free_camera.h"
 // include renderers
 #include "../assets/code/renderers/voxelizer_renderer.h"
 #include "../assets/code/renderers/gi_deferred_renderer.h"
@@ -92,8 +93,7 @@ AssetsManager::AssetsManager()
     interfaces["Voxelization"] = std::make_shared<UIVoxelizationOptions>();
     interfaces["GIOptions"] = std::make_shared<UIGlobalIllumination>();
     // instantiate implemented behaviors
-    {
-    };
+    behaviors["FreeCamera"] = std::make_shared<FreeCamera>();
     // instantiate implemented programs
     programs["Geometry"] = std::make_shared<GeometryProgram>();
     programs["Lighting"] = std::make_shared<LightingProgram>();

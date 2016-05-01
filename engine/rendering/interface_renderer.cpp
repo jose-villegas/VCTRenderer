@@ -255,10 +255,17 @@ void InterfaceRenderer::NewFrame()
 
     io.MouseWheel = renderer->mouseWheel;
     renderer->mouseWheel = 0.0f;
+
     // Hide OS mouse cursor if ImGui is drawing it
-    glfwSetInputMode(renderer->window, GLFW_CURSOR, io.MouseDrawCursor
-                     ? GLFW_CURSOR_HIDDEN
-                     : GLFW_CURSOR_NORMAL);
+    if(io.MouseDrawCursor)
+    {
+        glfwSetInputMode(renderer->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+    else
+    {
+        glfwSetInputMode(renderer->window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    }
+
     // Start the frame
     ImGui::NewFrame();
 }
@@ -463,7 +470,7 @@ void InterfaceRenderer::KeyCallback(GLFWwindow * window, int key, int scancode,
     io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] ||
                 io.KeysDown[GLFW_KEY_RIGHT_ALT];
 
-    if (io.KeysDown[GLFW_KEY_V])
+    if (io.KeysDown[GLFW_KEY_H])
     {
         renderer->disabled = !renderer->disabled;
     }
