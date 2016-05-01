@@ -101,6 +101,7 @@ RenderWindow &EngineBase::Window() const
 
 void EngineBase::Initialize() const
 {
+// #define _1080P
     if(!renderWindow->IsOpen())
     {
         auto monitor = glfwGetPrimaryMonitor();

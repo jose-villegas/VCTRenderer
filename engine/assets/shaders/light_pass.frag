@@ -471,8 +471,8 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         vec3 viewDirection = normalize(cameraPosition - position);
         vec3 coneDirection = reflect(-viewDirection, normal);
         coneDirection = normalize(coneDirection);
-        // specular cone setup
-        float aperture = clamp(HALF_PI * (1.0f - specular.a), 0.01f, HALF_PI);
+        // specular cone setup, minimum of 1 grad, fewer can severly slow down performance
+        float aperture = clamp(HALF_PI * (1.0f - specular.a), 0.0174533f, HALF_PI);
         specularTrace = TraceCone(position, normal, coneDirection, aperture, false);
         specularTrace.rgb *= specular.rgb;
     }
@@ -563,7 +563,6 @@ void main()
     // final composite lighting (direct + indirect) * ambient occlusion
     compositeLighting = (directLighting + indirectLighting.rgb) * indirectLighting.a;
     compositeLighting += emissive;
-
     // -- this could be done in a post-process pass -- 
 
     // Reinhard tone mapping
