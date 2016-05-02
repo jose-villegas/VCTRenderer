@@ -321,16 +321,17 @@ vec3 BRDF(Light light, vec3 N, vec3 X, vec3 ka, vec4 ks)
     float dotNL = max(dot(N, L), 0.0f);
     float dotNH = max(dot(N, H), 0.0f);
     float dotLH = max(dot(L, H), 0.0f);
-    // modulate shininess
-    float shininess = exp2(10.0f * ks.a + 1.0f);
+    // decode specular power
+    float spec = exp2(11.0f * ks.a + 1.0f);
     // emulate fresnel effect
     vec3 fresnel = ks.rgb + (1.0f - ks.rgb) * pow(1.0f - dotLH, 5.0f);
     // specular factor
-    float blinnPhong = pow(dotNH, shininess);
-    // energy conservation normalization factor
-    blinnPhong *= shininess * 0.0397f + 0.3183f;
+    float blinnPhong = pow(dotNH, spec);
+    // energy conservation, aprox normalization factor
+    blinnPhong *= spec * 0.0397f + 0.3183f;
     // specular term
     vec3 specular = ks.rgb * light.specular * blinnPhong * fresnel;
+    // diffuse term
     vec3 diffuse = ka.rgb * light.diffuse;
     // return composition
     return (diffuse + specular) * dotNL;
@@ -489,7 +490,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
     if(any(greaterThan(albedo, diffuseTrace.rgb)))
     {
         // diffuse cone setup
-        const float aperture = 0.57735f; // tan(60 d / 2)
+        const float aperture = 0.523599f;
         vec3 guide = vec3(0.0f, 1.0f, 0.0f);
 
         if (abs(dot(normal,guide)) == 1.0f)

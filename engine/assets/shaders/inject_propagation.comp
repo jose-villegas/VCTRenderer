@@ -53,6 +53,13 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture)
     // accumulated sample
     vec4 coneSample = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
+    
+    // outside bounts
+    if(samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
+        || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
+    { 
+        return coneSample; 
+    }
 
     while(coneSample.a <= 1.0f && dst <= maxTracingDistanceGlobal)
     {
@@ -87,7 +94,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal)
     // cummulative
     vec4 diffuseTrace = vec4(0.0f);
     // diffuse cone setup
-    const float aperture = 1.0f; // tan(90 d / 2);
+    const float aperture = 0.785398f;
     vec3 guide = vec3(0.0f, 1.0f, 0.0f);
 
     if (abs(dot(normal, guide)) == 1.0f)

@@ -188,7 +188,7 @@ void SceneImporter::ImportMaterial(aiMaterial * mMaterial,
     mMaterial->Get(AI_MATKEY_SHININESS, shininess);
     mMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, shinStrength);
     material.RefractionIndex(refracti);
-    material.Shininess(0.5f);
+    material.Shininess((log2(shininess) + 1.0f) / 11.0f);
     material.ShininessStrenght(shinStrength);
     // get material properties
     aiColor3D ambient(0.f), diffuse(0.f), specular(0.f);
