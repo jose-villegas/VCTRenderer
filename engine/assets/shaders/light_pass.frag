@@ -118,10 +118,10 @@ vec4 AnistropicSample(vec3 coord, vec3 weight, uvec3 face, float lod)
     return anisoSample;                    
 }
 
-bool IntersectRayWithAABB (in vec3 ro, in vec3 rd, in vec3 minPoint, in vec3 maxPoint, out float enter, out float leave)
+bool IntersectRayWithWorldAABB(vec3 ro, vec3 rd, out float enter, out float leave)
 {
-    vec3 tempMin = (minPoint - ro) / rd; 
-    vec3 tempMax = (maxPoint - ro) / rd;
+    vec3 tempMin = (worldMinPoint - ro) / rd; 
+    vec3 tempMax = (worldMaxPoint - ro) / rd;
     
     vec3 v3Max = max (tempMax, tempMin);
     vec3 v3Min = min (tempMax, tempMin);
@@ -153,20 +153,21 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
     float occlusion = 0.0f;
     float maxDistance = maxTracingDistanceGlobal * (1.0f / voxelScale);
     float falloff = aoFalloff * voxelScale;
+    // out of boundaries check
+    float enter = 0.0; float leave = 0.0;
 
-    // boolean because it can cause skipping on thin walls
+    if(!IntersectRayWithWorldAABB(position, direction, enter, leave))
+    {
+        coneSample.a = 1.0f;
+    }
+
     if(checkBoundaries > 0)
     {
-        // out of volume bounds
-        float enter = 0.0; float leave = 0.0;
-        vec3 vMin = worldMinPoint - voxelWorldSize;
-        vec3 vMax = worldMaxPoint + voxelWorldSize;
-        IntersectRayWithAABB(position, direction, vMin, vMax, enter, leave);
         // cone will only trace the needed distance
         maxDistance = min(maxDistance, leave);
     }
 
-    while(coneSample.a <= 1.0f && dst <= maxDistance)
+    while(coneSample.a < 1.0f && dst <= maxDistance)
     {
         vec3 conePosition = startPosition + direction * dst;
         // cone expansion and respective mip level based on diameter
@@ -213,16 +214,23 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     // final results
     float visibility = 0.0f;
     float k = exp2(7.0f * coneShadowTolerance);
-    // out of volume bounds
-    float enter = 0.0; float leave = 0.0;
-    vec3 vMin = worldMinPoint - voxelWorldSize;
-    vec3 vMax = worldMaxPoint + voxelWorldSize;
-    IntersectRayWithAABB(position, direction, vMin, vMax, enter, leave);
     // cone will only trace the needed distance
-    float maxDistance = min(maxTracingDistance, leave);
-    
+    float maxDistance = maxTracingDistance;
+    // out of boundaries check
+    float enter = 0.0; float leave = 0.0;
 
-    while(visibility <= 1.0f && dst <= maxDistance)
+    if(!IntersectRayWithWorldAABB(position, direction, enter, leave))
+    {
+        visibility = 1.0f;
+    }
+
+    if(checkBoundaries > 0)
+    {
+        // cone will only trace the needed distance
+        maxDistance = min(maxDistance, leave);
+    }
+    
+    while(visibility < 1.0f && dst <= maxDistance)
     {
         vec3 conePosition = startPosition + direction * dst;
         float diameter = max(voxelWorldSize, 2.0f * aperture * dst);
