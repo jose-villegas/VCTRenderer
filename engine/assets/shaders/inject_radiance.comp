@@ -48,7 +48,7 @@ uniform int volumeDimension;
 uniform uint storeVisibility;
 uniform uint normalWeightedLambert = 1;
 
-uniform float coneShadowTolerance;
+uniform float traceShadowHit;
 
 vec3 VoxelToWorld(ivec3 pos)
 {
@@ -64,14 +64,10 @@ vec3 WorldToVoxel(vec3 position)
     return voxelPos * voxelScale;
 }
 
-float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance) 
+float TraceShadow(vec3 position, vec3 direction, float maxTracingDistance) 
 {
-    bool hardShadows = false;
-
-    if(coneShadowTolerance == 1.0f) { hardShadows = true; }
-
     // scaling factor
-    float k = exp2(7.0f * coneShadowTolerance);
+    float k = traceShadowHit * traceShadowHit;
     // navigation
     float voxelTexSize = 1.0f / volumeDimension;
     // move one voxel further to avoid self collision
@@ -80,7 +76,7 @@ float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance)
     // control variables
     float visibility = 0.0f;
     // accumulated sample
-    vec4 traceSample = vec4(0.0f);
+    float traceSample = 0.0f;
 
     while (visibility <= 1.0f && dst <= maxTracingDistance) 
     {
@@ -90,13 +86,13 @@ float TraceShadowCone(vec3 position, vec3 direction, float maxTracingDistance)
             break; 
         }
         
-        traceSample = texture(voxelAlbedo, samplePos);
-        // exit as soon the ray hits something on hard shadow mode
-        if(hardShadows && traceSample.a > EPSILON) { return 0.0f; }
-        // high density voxel
-        if(traceSample.a > 1.0f - EPSILON) { return 0.0f; }
+        traceSample = ceil(texture(voxelAlbedo, samplePos).a) * k;
+
+        // hard shadows mode
+        if(traceSample > 1.0f - EPSILON) { return 0.0f; }
+
         // accumulate
-        visibility += (1.0f - visibility) * (traceSample.a * k) / dst;
+        visibility += (1.0f - visibility) * traceSample / dst;
         // move further into volume
         dst += voxelTexSize;
         samplePos = direction * dst + position;
@@ -197,7 +193,7 @@ vec4 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
     else if(light.shadowingMethod == 2)
     {
         vec3 voxelPos = WorldToVoxel(position);
-        visibility = TraceShadowCone(voxelPos, light.direction, 1.0f);
+        visibility = TraceShadow(voxelPos, light.direction, 1.0f);
     }
 
     if(visibility == 0.0f) return vec4(0.0f); 
@@ -226,7 +222,7 @@ vec4 CalculatePoint(Light light, vec3 normal, vec3 position, vec3 albedo)
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = TraceShadowCone(voxelPos, lightDirT, dT);
+        visibility = TraceShadow(voxelPos, lightDirT, dT);
     }    
 
     if(visibility <= 0.0f) return vec4(0.0f); 
@@ -268,7 +264,7 @@ vec4 CalculateSpot(Light light, vec3 normal, vec3 position, vec3 albedo)
         float dT = length(lightDirT);
         lightDirT = normalize(lightDirT);
 
-        visibility = TraceShadowCone(voxelPos, lightDirT, dT);
+        visibility = TraceShadow(voxelPos, lightDirT, dT);
     }    
 
     if(visibility <= 0.0f) return vec4(0.0f);

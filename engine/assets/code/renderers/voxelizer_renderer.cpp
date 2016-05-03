@@ -318,7 +318,7 @@ void VoxelizerRenderer::InjectRadiance()
     prog.worldMinPoint.Set(sceneBox.MinPoint());
     prog.volumeDimension.Set(volumeDimension);
     prog.voxelScale.Set(1.0f / volumeGridSize);
-    prog.coneShadowTolerance.Set(coneShadowTolerance);
+    prog.traceShadowHit.Set(traceShadowHit);
     prog.normalWeightedLambert.Set(normalWeightedLambert);
     // clear radiance volume
     static float zero[] = { 0, 0, 0, 0 };
@@ -581,7 +581,7 @@ VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
     drawMipLevel = drawDirection = 0;
     framestep = -1; // on need
     traceShadowCones = true;
-    coneShadowTolerance = 0.5f;
+    traceShadowHit = 0.5f;
     drawColorChannels = glm::vec4(1.0f);
     normalWeightedLambert = true;
     SetupVoxelVolumes(256);
@@ -746,14 +746,14 @@ bool VoxelizerRenderer::InjectFirstBounce() const
     return injectFirstBounce;
 }
 
-void VoxelizerRenderer::ShadowConeTolerance(const float &umbra)
+void VoxelizerRenderer::TraceShadowHit(const float &umbra)
 {
-    coneShadowTolerance = umbra;
+    traceShadowHit = umbra;
 }
 
-const float &VoxelizerRenderer::ShadowConeUmbra() const
+const float &VoxelizerRenderer::TraceShadowHit() const
 {
-    return coneShadowTolerance;
+    return traceShadowHit;
 }
 
 void VoxelizerRenderer::InjectFirstBounce(bool val)

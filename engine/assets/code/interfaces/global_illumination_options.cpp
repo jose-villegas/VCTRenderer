@@ -82,11 +82,11 @@ void UIGlobalIllumination::Draw()
         if(conesS)
         {
             Indent();
-            static auto umbra = voxel.ShadowConeUmbra();
+            static auto umbra = voxel.TraceShadowHit();
 
             if(SliderFloat("Tolerance", &umbra, 0.01f, 1.0f))
             {
-                voxel.ShadowConeTolerance(umbra);
+                voxel.TraceShadowHit(umbra);
                 voxel.UpdateRadiance();
             }
 

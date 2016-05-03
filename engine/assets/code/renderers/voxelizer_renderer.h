@@ -68,8 +68,8 @@ class VoxelizerRenderer : public Renderer
         void InjectFirstBounce(bool val);
         bool WeightedLambert() const;
         void WeightedLambert(bool val);
-        void ShadowConeTolerance(const float &umbra);
-        const float &ShadowConeUmbra() const;
+        void TraceShadowHit(const float &umbra);
+        const float &TraceShadowHit() const;
     private:
         /// <summary>
         /// Returns the voxelization program shader.
@@ -124,7 +124,7 @@ class VoxelizerRenderer : public Renderer
         int framestep;
         bool traceShadowCones;
         bool normalWeightedLambert;
-        float coneShadowTolerance;
+        float traceShadowHit;
 
         unsigned int drawMipLevel;
         unsigned int drawDirection;
