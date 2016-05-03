@@ -401,16 +401,16 @@ void VoxelizerRenderer::GenerateMipmapBase(oglplus::Texture &baseTexture)
     CurrentProgram<MipmappingBaseProgram>(baseProg);
     // bind images for reading / writing
     baseProg.mipDimension.Set(halfDimension);
-    baseTexture.Active(0);
-    baseTexture.Bind(oglplus::TextureTarget::_3D);
 
     for (int i = 0; i < voxelTexMipmap.size(); ++i)
     {
         voxelTexMipmap[i]
-        .BindImage(i + 1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+        .BindImage(i, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                    oglplus::ImageUnitFormat::RGBA8);
     }
 
+    baseTexture.Active(5);
+    baseTexture.Bind(oglplus::TextureTarget::_3D);
     auto workGroups = static_cast<unsigned int>(ceil(halfDimension / 8));
     // mipmap from base texture
     gl.DispatchCompute(workGroups, workGroups, workGroups);
@@ -429,14 +429,14 @@ void VoxelizerRenderer::ClearDynamicVoxels()
     auto workGroups = static_cast<unsigned>(glm::ceil(volumeDimension / 8.0f));
     // inject radiance into voxel texture
     CurrentProgram<ClearDynamicProgram>(prog);
-    staticFlag.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                         oglplus::ImageUnitFormat::R8);
-    voxelAlbedo.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+    voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::RGBA8);
-    voxelNormal.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+    voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                           oglplus::ImageUnitFormat::RGBA8);
-    voxelEmissive.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
+    voxelEmissive.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                             oglplus::ImageUnitFormat::RGBA8);
+    staticFlag.Active(3);
+    staticFlag.Bind(oglplus::TextureTarget::_3D);
     gl.DispatchCompute(workGroups, workGroups, workGroups);
     // sync safety
     gl.MemoryBarrier(shImage | texFetch);
@@ -463,11 +463,11 @@ void VoxelizerRenderer::GenerateMipmapVolume()
         volumeProg.mipLevel.Set(mipLevel);
 
         // bind for writing at mip level
-        for (int i = 0; i < voxelTexMipmap.size(); ++i)
+        for (auto i = 0; i < voxelTexMipmap.size(); ++i)
         {
-            voxelTexMipmap[i].Active(i);
+            voxelTexMipmap[i].Active(i + 5);
             voxelTexMipmap[i].Bind(oglplus::TextureTarget::_3D);
-            voxelTexMipmap[i].BindImage(i + 6, mipLevel + 1, true, 0,
+            voxelTexMipmap[i].BindImage(i, mipLevel + 1, true, 0,
                                         oglplus::AccessSpecifier::WriteOnly,
                                         oglplus::ImageUnitFormat::RGBA8);
         }
