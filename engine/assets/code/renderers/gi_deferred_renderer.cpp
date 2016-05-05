@@ -113,6 +113,8 @@ const
     material.BindTexture(RawTexture::Normals);
     Texture::Active(3);
     material.BindTexture(RawTexture::Opacity);
+    Texture::Active(4);
+    material.BindTexture(RawTexture::Diffuse);
 }
 
 const std::array<oglplus::Texture, 5> &GIDeferredRenderer::BufferTextures()

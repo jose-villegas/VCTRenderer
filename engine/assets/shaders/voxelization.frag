@@ -20,6 +20,7 @@ layout(binding = 3, r8) uniform image3D staticVoxelFlag;
 
 layout(binding = 4) uniform sampler2D diffuseMap;
 layout(binding = 5) uniform sampler2D opacityMap;
+layout(binding = 6) uniform sampler2D emissiveMap;
 
 uniform struct Material
 {
@@ -89,9 +90,9 @@ void main()
 
     // writing coords position
     ivec3 position = ivec3(In.wsPosition);
-    // fragment diffuse map
-    vec4 diffuseColor = texture(diffuseMap, In.texCoord.xy);
-    float opacity = min(diffuseColor.a, texture(opacityMap, In.texCoord.xy).r);
+    // fragment albedo
+    vec4 albedo = texture(diffuseMap, In.texCoord.xy);
+    float opacity = min(albedo.a, texture(opacityMap, In.texCoord.xy).r);
 
     if(flagStaticVoxels == 0)
     {
@@ -105,11 +106,14 @@ void main()
     if(opacity > 0.0f)
     {
         // albedo is in srgb space, bring back to linear
-        vec4 albedo = vec4(material.diffuse * diffuseColor.rgb, 1.0f);
+        albedo.rgb = material.diffuse * albedo.rgb;
         // premultiplied alpha
         albedo.rgb *= opacity;
+        albedo.a = 1.0f;
         // emission value
-        vec4 emissive = vec4(material.emissive * diffuseColor.rgb, 1.0f);
+        vec4 emissive = texture(emissiveMap, In.texCoord.xy);
+        emissive.rgb = emissive.rgb * material.emissive;
+        emissive.a = 1.0f;
         // bring normal to 0-1 range
         vec4 normal = vec4(EncodeNormal(normalize(In.normal)), 1.0f);
         // average normal per fragments sorrounding the voxel volume

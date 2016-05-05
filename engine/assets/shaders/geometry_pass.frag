@@ -26,6 +26,7 @@ layout(binding = 0) uniform sampler2D diffuseMap;
 layout(binding = 1) uniform sampler2D specularMap;
 layout(binding = 2) uniform sampler2D normalsMap;
 layout(binding = 3) uniform sampler2D opacityMap;
+layout(binding = 4) uniform sampler2D emissiveMap;
 
 uniform float alphaCutoff = 0.01f;
 
@@ -49,8 +50,7 @@ void main()
 
     if (opacity <= alphaCutoff) { discard; }
 
-    vec3 albedo = diffuseColor.rgb * material.diffuse;
-    gAlbedo = albedo;
+    gAlbedo = diffuseColor.rgb * material.diffuse;
     // store specular intensity
     vec4 specularColor = texture(specularMap, texCoord.xy);
     // for emissive materials we ignore the specular
@@ -58,5 +58,5 @@ void main()
     // store per fragment normal
     gNormal = material.useNormalsMap == 1 ? normalMapping() : normalize(normal);
     // per fragment emissivenes
-    gEmissive = material.emissive * diffuseColor.rgb;
+    gEmissive = material.emissive * texture(emissiveMap, texCoord.xy).rgb;
 }

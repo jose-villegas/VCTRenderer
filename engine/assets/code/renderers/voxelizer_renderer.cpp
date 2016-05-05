@@ -96,6 +96,8 @@ void VoxelizerRenderer::SetMaterialUniforms(const Material &material) const
     material.BindTexture(RawTexture::Diffuse);
     Texture::Active(5);
     material.BindTexture(RawTexture::Opacity);
+    Texture::Active(6);
+    material.BindTexture(RawTexture::Diffuse);
 }
 
 void VoxelizerRenderer::SetUpdateFrequency(const int framestep)
