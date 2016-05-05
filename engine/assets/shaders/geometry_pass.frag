@@ -49,7 +49,8 @@ void main()
 
     if (opacity <= alphaCutoff) { discard; }
 
-    gAlbedo = diffuseColor.rgb * material.diffuse;
+    vec3 albedo = diffuseColor.rgb * material.diffuse;
+    gAlbedo = albedo;
     // store specular intensity
     vec4 specularColor = texture(specularMap, texCoord.xy);
     // for emissive materials we ignore the specular
@@ -57,5 +58,5 @@ void main()
     // store per fragment normal
     gNormal = material.useNormalsMap == 1 ? normalMapping() : normalize(normal);
     // per fragment emissivenes
-    gEmissive = material.emissive;
+    gEmissive = material.emissive * diffuseColor.rgb;
 }

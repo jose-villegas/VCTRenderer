@@ -15,7 +15,7 @@ layout (pixel_center_integer) in vec4 gl_FragCoord;
 
 layout(binding = 0, r32ui) uniform volatile coherent uimage3D voxelAlbedo;
 layout(binding = 1, r32ui) uniform volatile coherent uimage3D voxelNormal;
-layout(binding = 2, rgba8) uniform image3D voxelEmission;
+layout(binding = 2, r32ui) uniform volatile coherent uimage3D voxelEmission;
 layout(binding = 3, r8) uniform image3D staticVoxelFlag;
 
 layout(binding = 4) uniform sampler2D diffuseMap;
@@ -89,9 +89,9 @@ void main()
 
     // writing coords position
     ivec3 position = ivec3(In.wsPosition);
-    // fragment albedo
-    vec4 albedo = texture(diffuseMap, In.texCoord.xy);
-    float opacity = min(albedo.a, texture(opacityMap, In.texCoord.xy).r);
+    // fragment diffuse map
+    vec4 diffuseColor = texture(diffuseMap, In.texCoord.xy);
+    float opacity = min(diffuseColor.a, texture(opacityMap, In.texCoord.xy).r);
 
     if(flagStaticVoxels == 0)
     {
@@ -105,19 +105,19 @@ void main()
     if(opacity > 0.0f)
     {
         // albedo is in srgb space, bring back to linear
-        albedo.rgb = material.diffuse * albedo.rgb;
+        vec4 albedo = vec4(material.diffuse * diffuseColor.rgb, 1.0f);
         // premultiplied alpha
         albedo.rgb *= opacity;
-        albedo.a = 1.0f;
+        // emission value
+        vec4 emissive = vec4(material.emissive * diffuseColor.rgb, 1.0f);
         // bring normal to 0-1 range
         vec4 normal = vec4(EncodeNormal(normalize(In.normal)), 1.0f);
         // average normal per fragments sorrounding the voxel volume
         imageAtomicRGBA8Avg(voxelNormal, position, normal);
         // average albedo per fragments sorrounding the voxel volume
         imageAtomicRGBA8Avg(voxelAlbedo, position, albedo);
-        // store emissive, no average operation since emissive is a single color
-        imageStore(voxelEmission, position, vec4(material.emissive, 1.0f));
-
+        // average emission per fragments sorrounding the voxel volume
+        imageAtomicRGBA8Avg(voxelEmission, position, emissive);
         // doing a static flagging pass for static geometry voxelization
         if(flagStaticVoxels == 1)
         {

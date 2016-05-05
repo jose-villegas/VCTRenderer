@@ -154,7 +154,7 @@ void VoxelizerRenderer::VoxelizeStaticScene()
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
     voxelEmissive.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
-                            oglplus::ImageUnitFormat::RGBA8);
+                            oglplus::ImageUnitFormat::R32UI);
     staticFlag.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::WriteOnly,
                          oglplus::ImageUnitFormat::R8);
     // draw scene triangles
@@ -211,7 +211,7 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
     voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                           oglplus::ImageUnitFormat::R32UI);
     voxelEmissive.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
-                            oglplus::ImageUnitFormat::RGBA8);
+                            oglplus::ImageUnitFormat::R32UI);
     staticFlag.BindImage(3, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
                          oglplus::ImageUnitFormat::R8);
     // draw only dynamic objects

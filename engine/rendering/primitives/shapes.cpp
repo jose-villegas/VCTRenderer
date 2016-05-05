@@ -5,6 +5,7 @@
 #include <assimp/postprocess.h>
 #include "../../scene/scene.h"
 #include "../../util/scene_importer.h"
+#include "../../scene/texture.h"
 
 std::unordered_map<std::string, std::shared_ptr<Node>> Shapes::shapes;
 
@@ -20,9 +21,20 @@ void Shapes::Load()
                           &primitiveScene,
                           aiProcessPreset_TargetRealtime_Fast);
 
-    for (auto mesh : primitiveScene.meshes)
+    for (auto &mesh : primitiveScene.meshes)
     {
         mesh->Load();
+    }
+
+    for (auto &texture : primitiveScene.textures)
+    {
+        texture->Load
+        (
+            oglplus::TextureMinFilter::LinearMipmapLinear,
+            oglplus::TextureMagFilter::Linear,
+            oglplus::TextureWrap::Repeat,
+            oglplus::TextureWrap::Repeat
+        );
     }
 
     for (auto &node : primitiveScene.rootNode->nodes)
