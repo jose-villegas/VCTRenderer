@@ -363,14 +363,12 @@ void VoxelizerRenderer::GenerateMipmap()
         proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
         proga.volumeDimension.Set(volumeDimension);
         proga.checkBoundaries.Set(deferred.CheckVolumeBoundaries() ? 1 : 0);
-        // albedo
-        voxelAlbedo.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                              oglplus::ImageUnitFormat::RGBA8);
-        // normals
-        voxelNormal.BindImage(1, 0, true, 0, oglplus::AccessSpecifier::ReadOnly,
-                              oglplus::ImageUnitFormat::RGBA8);
-        voxelRadiance.BindImage(2, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
+        voxelRadiance.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                                 oglplus::ImageUnitFormat::RGBA8);
+        voxelAlbedo.Active(1);
+        voxelAlbedo.Bind(oglplus::TextureTarget::_3D);
+        voxelNormal.Active(2);
+        voxelNormal.Bind(oglplus::TextureTarget::_3D);
 
         // anisotropic mipmap volume
         for (int i = 0; i < voxelTexMipmap.size(); ++i)
@@ -561,8 +559,10 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
     volumeGridSize = glm::max(axisSize.x, glm::max(axisSize.y, axisSize.z));
     voxelSize = volumeGridSize / volumeDimension;
     auto halfSize = volumeGridSize / 2.0f;
+    // projection matrices
     auto projection = glm::ortho(-halfSize, halfSize, -halfSize, halfSize, 0.0f,
                                  volumeGridSize);
+    // view matrices
     viewProjectionMatrix[0] = lookAt(center + glm::vec3(halfSize, 0.0f, 0.0f),
                                      center, glm::vec3(0.0f, 1.0f, 0.0f));
     viewProjectionMatrix[1] = lookAt(center + glm::vec3(0.0f, halfSize, 0.0f),

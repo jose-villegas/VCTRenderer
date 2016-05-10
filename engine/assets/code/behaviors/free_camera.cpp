@@ -4,6 +4,7 @@
 #include "../scene/camera.h"
 #include "../core/interface.h"
 #include "../rendering/render_window.h"
+#include "../../../scene/scene.h"
 
 void FreeCamera::Update()
 {
@@ -23,7 +24,10 @@ void FreeCamera::Update()
     if (Camera::Active() && enabled)
     {
         auto &cam = Camera::Active();
-        auto cameraSpeed = 5.0f * io.DeltaTime;
+        auto &sceneExtent = Scene::Active()->rootNode->boundaries.Extent();
+        auto scaleSpeed = glm::max(sceneExtent.x, glm::max(sceneExtent.y,
+                                   sceneExtent.z)) * 0.5f;
+        auto cameraSpeed = scaleSpeed * io.DeltaTime;
         auto cameraRight = normalize(cross(cam->Forward(), cam->Up()));
         static auto yaw = 3.14f, pitch = 0.0f;
 

@@ -57,7 +57,7 @@ void imageAtomicRGBA8Avg(layout(r32ui) volatile coherent uimage3D grid, ivec3 co
 
     while((curStoredVal = imageAtomicCompSwap(grid, coords, prevStoredVal, newVal)) 
             != prevStoredVal
-            && numIterations < 100)
+            && numIterations < 255)
     {
         prevStoredVal = curStoredVal;
         vec4 rval = convRGBA8ToVec4(curStoredVal);

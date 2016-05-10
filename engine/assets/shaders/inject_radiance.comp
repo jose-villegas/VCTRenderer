@@ -158,28 +158,28 @@ float Visibility(vec3 position)
 
 vec3 BRDF(Light light, vec3 normal, vec3 albedo)
 {
-    float lambertian = 0.0f;
+    float nDotL = 0.0f;
 
     if(normalWeightedLambert == 1)
     {
         vec3 weight = normal * normal;
-        // calculate directional lamberts
-        float lambertRight = dot(vec3(1.0, 0.0, 0.0), light.direction);
-        float lambertUp = dot(vec3(0.0, 1.0, 0.0), light.direction);
-        float lambertForward = dot(vec3(0.0, 0.0, 1.0), light.direction);
+        // calculate directional normal attenuation
+        float rDotL = dot(vec3(1.0, 0.0, 0.0), light.direction);
+        float uDotL = dot(vec3(0.0, 1.0, 0.0), light.direction);
+        float fDotL = dot(vec3(0.0, 0.0, 1.0), light.direction);
 
-        lambertRight = normal.x > 0.0 ? max(lambertRight, 0.0) : max(-lambertRight, 0.0);
-        lambertUp = normal.y > 0.0 ? max(lambertUp, 0.0) : max(-lambertUp, 0.0);
-        lambertForward = normal.z > 0.0 ? max(lambertForward, 0.0) : max(-lambertForward, 0.0);
+        rDotL = normal.x > 0.0 ? max(rDotL, 0.0) : max(-rDotL, 0.0);
+        uDotL = normal.y > 0.0 ? max(uDotL, 0.0) : max(-uDotL, 0.0);
+        fDotL = normal.z > 0.0 ? max(fDotL, 0.0) : max(-fDotL, 0.0);
         // voxel shading average from all front sides
-        lambertian = lambertRight * weight.x + lambertUp * weight.y + lambertForward * weight.z;
+        nDotL = rDotL * weight.x + uDotL * weight.y + fDotL * weight.z;
     }
     else
     {
-        lambertian = max(dot(normal, light.direction), 0.0f);
+        nDotL = max(dot(normal, light.direction), 0.0f);
     }
 
-    return light.diffuse * albedo * lambertian;
+    return light.diffuse * albedo * nDotL;
 }
 
 vec4 CalculateDirectional(Light light, vec3 normal, vec3 position, vec3 albedo)
@@ -276,12 +276,12 @@ vec4 CalculateDirectLighting(vec3 position, vec3 normal, vec3 albedo)
 {
     normal = normalize(normal);
     // world space grid voxel size
-    float voxelWorldSize = 2.0 /  (voxelScale * volumeDimension);
+    float voxelWorldSize = 1.0 /  (voxelScale * volumeDimension);
     // calculate directional lighting
     vec4 directLighting = vec4(0.0f, 0.0f, 0.0f, 0.0f);
     vec4 current =  vec4(0.0f); int count = 0;
 	// move position forward to avoid shadowing errors
-    position = position + normal * voxelWorldSize;
+    position = position + normal * voxelWorldSize * 0.5f;
 
     // calculate lighting for directional lights
     for(int i = 0; i < lightTypeCount[0]; ++i)

@@ -31,15 +31,15 @@ int CalculateAxis()
 	vec3 p2 = gl_in[2].gl_Position.xyz - gl_in[0].gl_Position.xyz;
 	vec3 faceNormal = cross(p1, p2);
 
-	float NdotXAxis = abs( faceNormal.x );
-	float NdotYAxis = abs( faceNormal.y );
-	float NdotZAxis = abs( faceNormal.z );
+	float nDX = abs(faceNormal.x);
+	float nDY = abs(faceNormal.y);
+	float nDZ = abs(faceNormal.z);
 
-	if( NdotXAxis > NdotYAxis && NdotXAxis > NdotZAxis )
+	if( nDX > nDY && nDX > nDZ )
     {
 		return 0;
 	}
-	else if( NdotYAxis > NdotXAxis && NdotYAxis > NdotZAxis  )
+	else if( nDY > nDX && nDY > nDZ  )
     {
 	    return 1;
     }
@@ -83,10 +83,13 @@ void main()
 		viewProjection * gl_in[2].gl_Position
 	);
 
+	vec4 trianglePlane;
+	trianglePlane.xyz = cross(pos[1].xyz - pos[0].xyz, pos[2].xyz - pos[0].xyz);
+	trianglePlane.xyz = normalize(trianglePlane.xyz);
+	trianglePlane.w = -dot(pos[0].xyz, trianglePlane.xyz);
+
     // change winding, otherwise there are artifacts for the back faces.
-    vec3 triangleNormal = normalize(cross(pos[1].xyz - pos[0].xyz, pos[2].xyz - pos[0].xyz));
-    
-    if (dot(triangleNormal, vec3(0.0, 0.0, 1.0)) < 0.0)
+    if (dot(trianglePlane.xyz, vec3(0.0, 0.0, 1.0)) < 0.0)
     {
         vec4 vertexTemp = pos[2];
         vec3 texCoordTemp = texCoord[2];
@@ -99,15 +102,12 @@ void main()
     }
 
 	vec2 halfPixel = vec2(1.0f / volumeDimension);
-	vec4 trianglePlane;
-	trianglePlane.xyz = cross(pos[1].xyz - pos[0].xyz, pos[2].xyz - pos[0].xyz);
-	trianglePlane.xyz = normalize(trianglePlane.xyz);
-	trianglePlane.w = -dot(pos[0].xyz, trianglePlane.xyz);
 
 	if(trianglePlane.z == 0.0f) return;
 	// expanded aabb for triangle
 	Out.triangleAABB = AxisAlignedBoundingBox(pos, halfPixel);
 	// calculate the plane through each edge of the triangle
+	// in normal form for dilatation of the triangle
 	vec3 planes[3];
 	planes[0] = cross(pos[0].xyw - pos[2].xyw, pos[2].xyw);
 	planes[1] = cross(pos[1].xyw - pos[0].xyw, pos[0].xyw);
@@ -115,7 +115,7 @@ void main()
 	planes[0].z -= dot(halfPixel, abs(planes[0].xy));
 	planes[1].z -= dot(halfPixel, abs(planes[1].xy));
 	planes[2].z -= dot(halfPixel, abs(planes[2].xy));
-	// create dilated triangle
+	// calculate intersection between translated planes
 	vec3 intersection[3];
 	intersection[0] = cross(planes[0], planes[1]);
 	intersection[1] = cross(planes[1], planes[2]);
@@ -123,7 +123,7 @@ void main()
 	intersection[0] /= intersection[0].z;
 	intersection[1] /= intersection[1].z;
 	intersection[2] /= intersection[2].z;
-	// dilated triangle vertices
+	// calculate dilated triangle vertices
 	float z[3];
 	z[0] = -(intersection[0].x * trianglePlane.x + intersection[0].y * trianglePlane.y + trianglePlane.w) / trianglePlane.z;
 	z[1] = -(intersection[1].x * trianglePlane.x + intersection[1].y * trianglePlane.y + trianglePlane.w) / trianglePlane.z;

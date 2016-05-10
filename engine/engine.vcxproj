@@ -228,7 +228,7 @@
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib64\*.dll" "$(TargetDir)"
 
-xcopy /Y "$(ProjectDir)rendering\primitives\primitives.fbx" "$(TargetDir)rendering\primitives\"
+xcopy /Y/S/H/E/K "$(ProjectDir)rendering\primitives\assets" "$(TargetDir)rendering\primitives\assets\"
 
 xcopy /Y/S/H/E/K "$(ProjectDir)assets\models" "$(TargetDir)assets\models\"
 
@@ -293,7 +293,7 @@ xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Co
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"
 
-xcopy /Y "$(ProjectDir)rendering\primitives\primitives.fbx" "$(TargetDir)rendering\primitives\"
+xcopy /Y/S/H/E/K "$(ProjectDir)rendering\primitives\assets" "$(TargetDir)rendering\primitives\assets\"
 
 xcopy /Y/S/H/E/K "$(ProjectDir)assets\models" "$(TargetDir)assets\models\"
 
@@ -544,6 +544,8 @@ xcopy /Y/S/H/E/K "$(ProjectDir)assets\shaders" "$(TargetDir)assets\shaders\"</Co
     <None Include="assets\shaders\voxelization.frag" />
     <None Include="assets\shaders\voxelization.geom" />
     <None Include="assets\shaders\voxelization.vert" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="rendering\primitives\primitives.fbx" />
     <None Include="rendering\primitives\primitives.mtl" />
   </ItemGroup>

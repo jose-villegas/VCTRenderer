@@ -1,12 +1,14 @@
 #pragma once
 
 #include <set>
+#include "../types/base_object.h"
+
 #include <memory>
 #include <glm/detail/type_vec1.hpp>
 #include <glm/detail/type_vec4.hpp>
 #include <oglplus/texture.hpp>
 
-class RawTexture
+class RawTexture : public BaseObject
 {
     protected:
         std::string filepath;

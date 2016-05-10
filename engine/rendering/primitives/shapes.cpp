@@ -16,8 +16,8 @@ void Shapes::Load()
         return;
     }
 
-    Scene primitiveScene("rendering\\primitives\\primitives.fbx");
-    SceneImporter::Import("rendering\\primitives\\primitives.fbx",
+    Scene primitiveScene("rendering\\primitives\\assets\\primitives.fbx");
+    SceneImporter::Import("rendering\\primitives\\assets\\primitives.fbx",
                           &primitiveScene,
                           aiProcessPreset_TargetRealtime_Fast);
 
@@ -39,6 +39,8 @@ void Shapes::Load()
 
     for (auto &node : primitiveScene.rootNode->nodes)
     {
+        if (node->meshes.size() == 0) { continue; }
+
         node->BuildDrawList();
         node->nodeState = Node::Dynamic;
         shapes[node->name] = move(node);

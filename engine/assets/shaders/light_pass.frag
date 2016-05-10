@@ -146,13 +146,11 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
     // move further to avoid self collision
     float dst = voxelWorldSize;
     vec3 startPosition = position + normal * dst;
-    // control vars
-    float mipMaxLevel = log2(volumeDimension) - 1.0f;
     // final results
     vec4 coneSample = vec4(0.0f);
     float occlusion = 0.0f;
     float maxDistance = maxTracingDistanceGlobal * (1.0f / voxelScale);
-    float falloff = aoFalloff * voxelScale;
+    float falloff = 0.5f * aoFalloff * voxelScale;
     // out of boundaries check
     float enter = 0.0; float leave = 0.0;
 
@@ -171,8 +169,8 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
     {
         vec3 conePosition = startPosition + direction * dst;
         // cone expansion and respective mip level based on diameter
-        float diameter = max(voxelWorldSize, 2.0f * aperture * dst);
-        float mipLevel = clamp(log2(diameter / voxelWorldSize), 0.0f, mipMaxLevel);
+        float diameter = 2.0f * aperture * dst;
+        float mipLevel = log2(diameter / voxelWorldSize);
         // convert position to texture coord
         vec3 coord = WorldToVoxel(conePosition);
         // get directional sample from anisotropic representation
@@ -233,8 +231,8 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     while(visibility < 1.0f && dst <= maxDistance)
     {
         vec3 conePosition = startPosition + direction * dst;
-        float diameter = max(voxelWorldSize, 2.0f * aperture * dst);
-        float mipLevel = clamp(log2(diameter / voxelWorldSize), 0.0f, mipMaxLevel);
+        float diameter = 2.0f * aperture * dst;
+        float mipLevel = log2(diameter / voxelWorldSize);
         // convert position to texture coord
         vec3 coord = WorldToVoxel(conePosition);
         // get directional sample from anisotropic representation

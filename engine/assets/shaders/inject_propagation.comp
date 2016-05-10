@@ -2,9 +2,9 @@
 #extension GL_ARB_shader_image_load_store : require
 layout (local_size_x = 8, local_size_y = 8, local_size_z = 8) in;
 
-layout(binding = 0, rgba8) uniform readonly image3D voxelAlbedo;
-layout(binding = 1, rgba8) uniform readonly image3D voxelNormal;
-layout(binding = 2, rgba8) uniform image3D voxelComposite;
+layout(binding = 0, rgba8) uniform image3D voxelComposite;
+layout(binding = 1, rgba8) uniform sampler3D voxelAlbedo;
+layout(binding = 2, rgba8) uniform sampler3D voxelNormal;
 layout(binding = 3) uniform sampler3D voxelTexMipmap[6];
 
 const float PI = 3.14159265f;
@@ -49,12 +49,11 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture)
     vec3 samplePos = position + direction * dst;
     // control vars
     float mipLevel = 0.0f;
-    float mipMaxLevel = anisoDimension - 1.0f;
     // accumulated sample
     vec4 coneSample = vec4(0.0f);
     vec4 anisoSample = vec4(0.0f);
     
-    // outside bounts
+    // outside bounds
     if(samplePos.x < 0.0f || samplePos.y < 0.0f || samplePos.z < 0.0f
         || samplePos.x > 1.0f || samplePos.y > 1.0f || samplePos.z > 1.0f) 
     { 
@@ -70,7 +69,7 @@ vec4 TraceCone(vec3 position, vec3 direction, float aperture)
             break; 
         }
 
-        mipLevel = clamp(log2(diameter * anisoDimension), 0.0f, mipMaxLevel);
+        mipLevel = log2(diameter * anisoDimension);
         mipLevel = max(mipLevel - 1.0f, 0.0f);
         // aniso sampling
         anisoSample = weight.x * textureLod(voxelTexMipmap[visibleFace.x], samplePos, mipLevel)
@@ -135,23 +134,23 @@ void main()
         gl_GlobalInvocationID.z >= volumeDimension) return;
 
     ivec3 writePos = ivec3(gl_GlobalInvocationID);
-    vec4 albedo = imageLoad(voxelAlbedo, writePos);
+    vec4 albedo = texelFetch(voxelAlbedo, writePos, 0);
 
     if(albedo.a < EPSILON) { return; }
 
-    vec4 injectionPass = imageLoad(voxelComposite, writePos);
+    vec4 directLight = imageLoad(voxelComposite, writePos);
     // normal from voxelization
-    vec3 normal = imageLoad(voxelNormal, writePos).xyz;
+    vec3 normal = texelFetch(voxelNormal, writePos, 0).xyz;
     // normal is stored in 0-1 range, restore to -1 -> -1
     normal = normalize(DecodeNormal(normal));
     // calculate indirect lighting - first bounce onto the voxel texture
     vec3 position = vec3(writePos) / volumeDimension;
     vec4 indirectLighting = CalculateIndirectLighting(position, normal);
     // first bounce gi component only
-    vec4 firstBounce = indirectLighting * albedo;
+    indirectLighting *= albedo;
     // first bounce + direct lighting
-    vec4 radiance = injectionPass + firstBounce;
-    radiance.a = injectionPass.a;
+    vec4 radiance = directLight + indirectLighting;
+    radiance.a = directLight.a;
 
-    imageStore(voxelComposite, writePos, clamp(radiance, 0.0f, 1.0f));
+    imageStore(voxelComposite, writePos, radiance);
 }
