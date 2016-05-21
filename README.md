@@ -2,5 +2,5 @@
 
 In development...
 
-Multi-bounce Global Illumination
-![alt tag](https://i.imgur.com/3zAAzAZ.png)
+Global Illumination
+![alt tag](https://i.imgur.com/S4fssRn.jpg)
