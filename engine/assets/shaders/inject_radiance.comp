@@ -10,9 +10,9 @@ layout(binding = 3, rgba8) uniform image3D readonly voxelEmissive;
 const float PI = 3.14159265f;
 const float EPSILON = 1e-30;
 const float SQRT_3 = 1.73205080f;
-const uint MAX_DIRECTIONAL_LIGHTS = 8;
-const uint MAX_POINT_LIGHTS = 256;
-const uint MAX_SPOT_LIGHTS = 256;
+const uint MAX_DIRECTIONAL_LIGHTS = 3;
+const uint MAX_POINT_LIGHTS = 6;
+const uint MAX_SPOT_LIGHTS = 6;
 
 struct Attenuation
 {

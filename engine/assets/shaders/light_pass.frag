@@ -20,9 +20,9 @@ const float PI = 3.14159265f;
 const float HALF_PI = 1.57079f;
 const float EPSILON = 1e-30;
 const float SQRT_3 = 1.73205080f;
-const uint MAX_DIRECTIONAL_LIGHTS = 8;
-const uint MAX_POINT_LIGHTS = 256;
-const uint MAX_SPOT_LIGHTS = 256;
+const uint MAX_DIRECTIONAL_LIGHTS = 3;
+const uint MAX_POINT_LIGHTS = 6;
+const uint MAX_SPOT_LIGHTS = 6;
 
 struct Attenuation
 {
@@ -479,7 +479,7 @@ vec4 CalculateIndirectLighting(vec3 position, vec3 normal, vec3 albedo, vec4 spe
         vec3 coneDirection = reflect(-viewDirection, normal);
         coneDirection = normalize(coneDirection);
         // specular cone setup, minimum of 1 grad, fewer can severly slow down performance
-        float aperture = max(tan(HALF_PI * (1.0f - specular.a)), 0.0174533f);
+        float aperture = clamp(tan(HALF_PI * (1.0f - specular.a)), 0.0174533f, PI);
         specularTrace = TraceCone(position, normal, coneDirection, aperture, false);
         specularTrace.rgb *= specular.rgb;
     }

@@ -5,9 +5,9 @@
 #include "../util/const_definitions.h"
 #include "camera.h"
 
-const unsigned int Light::DirectionalsLimit = 8;
-const unsigned int Light::PointsLimit = 256;
-const unsigned int Light::SpotsLimit = 256;
+const unsigned int Light::DirectionalsLimit = 3;
+const unsigned int Light::PointsLimit = 6;
+const unsigned int Light::SpotsLimit = 6;
 
 std::vector<Light *> Light::directionals;
 std::vector<Light *> Light::points;
