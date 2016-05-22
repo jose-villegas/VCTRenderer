@@ -17,3 +17,8 @@ Specular Reflection
 Soft Cone Traced Shadows
 
 ![alt tag](https://i.imgur.com/ElT2Sac.png)
+
+Single Ray Soft Shadows for Voxel Occlusion.
+![alt tag](https://i.imgur.com/cbk5i50.png)
+![alt tag](https://i.imgur.com/bwd0QYG.png)
+
