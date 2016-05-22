@@ -12,4 +12,4 @@ Emissive Materials and Indirect Shadows
 
 Specular Reflection
 
-![alt tag](https://i.imgur.com/eMgkB8Lg.png)
+![alt tag](https://i.imgur.com/eMgkB8L.png)
