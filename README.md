@@ -13,3 +13,7 @@ Emissive Materials and Indirect Shadows
 Specular Reflection
 
 ![alt tag](https://i.imgur.com/eMgkB8L.png)
+
+Soft Cone Traced Shadows
+
+![alt tag](https://i.imgur.com/ElT2Sac.png)
