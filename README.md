@@ -19,6 +19,12 @@ Soft Cone Traced Shadows
 ![alt tag](https://i.imgur.com/ElT2Sac.png)
 
 Single Ray Soft Shadows for Voxel Occlusion.
-![alt tag](https://i.imgur.com/cbk5i50.png)
-![alt tag](https://i.imgur.com/bwd0QYG.png)
+![alt tag](https://i.imgur.com/5hGSR6G.jpg)
+
+Directional Voxel Shading (Reduces Normal Voxelization Issues)
+![alt tag](https://i.imgur.com/uwHOfMJ.png)
+
+Voxel Difuse Global Illumination
+![alt tag](https://i.imgur.com/ne18AfK.png)
+![alt tag](https://i.imgur.com/e4FBxyT.png)
 
