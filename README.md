@@ -24,7 +24,7 @@ Single Ray Soft Shadows for Voxel Occlusion.
 Directional Voxel Shading (Reduces Normal Voxelization Issues)
 ![alt tag](https://i.imgur.com/guz5MR6.png)
 
-Voxel Difuse Global Illumination
+Voxel Diffuse Global Illumination
+![alt tag](https://i.imgur.com/aiFVyAAr.png)
 ![alt tag](https://i.imgur.com/ne18AfK.png)
-![alt tag](https://i.imgur.com/e4FBxyT.png)
 
