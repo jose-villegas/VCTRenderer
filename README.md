@@ -8,7 +8,7 @@ Global Illumination
 
 Ambient Occlusion
 
-![alt tag](https://i.imgur.com/s7eTW8cg.png)
+![alt tag](https://i.imgur.com/s7eTW8c.png)
 
 Emissive Materials and Indirect Shadows
 
