@@ -1,6 +1,9 @@
 # VCTRenderer
 Interactive global illumination using a hierarchical voxel representation with anisotropic voxels stored in volumetric textures and voxel cone tracing. Achieved effects such as: glossy surfaces, diffuse reflection, specular reflection, indirect shadows, soft shadows, emissive materials and 2-bounce GI.
 
+https://www.youtube.com/watch?v=e1r5VrDtG7k
+![alt tag](http://i.imgur.com/lM1YWmQ.png)
+
 Global Illumination
 
 ![alt tag](https://i.imgur.com/S4fssRn.jpg)
