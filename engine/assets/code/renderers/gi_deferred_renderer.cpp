@@ -32,7 +32,6 @@ GIDeferredRenderer::GIDeferredRenderer(RenderWindow &window) : Renderer(window)
     renderMode = 0;
     fsQuad.Load();
     sampleVoxelShadowVolume = false;
-    checkVolumeBoundaries = false;
 }
 
 GIDeferredRenderer::~GIDeferredRenderer()
@@ -183,16 +182,6 @@ void GIDeferredRenderer::SampleVoxelShadowVolume(bool val)
     sampleVoxelShadowVolume = val;
 }
 
-bool GIDeferredRenderer::CheckVolumeBoundaries() const
-{
-    return checkVolumeBoundaries;
-}
-
-void GIDeferredRenderer::CheckVolumeBoundaries(bool val)
-{
-    checkVolumeBoundaries = val;
-}
-
 void GIDeferredRenderer::SamplingFactor(const float &val)
 {
     samplingFactor = val;
@@ -338,7 +327,6 @@ void GIDeferredRenderer::SetLightPassUniforms() const
     prog.aoFalloff.Set(ambientOcclusionFalloff);
     prog.aoAlpha.Set(ambientOcclusionAlpha);
     prog.mode.Set(renderMode);
-    prog.checkBoundaries.Set(checkVolumeBoundaries);
     prog.samplingFactor.Set(samplingFactor);
     prog.coneShadowTolerance.Set(coneShadowTolerance);
     prog.coneShadowAperture.Set(coneShadowAperture);

@@ -60,10 +60,8 @@ class GIDeferredRenderer : public Renderer
         void RenderMode(const unsigned int &mode);
         bool SampleVoxelShadowVolume() const;
         void SampleVoxelShadowVolume(bool val);
-        bool CheckVolumeBoundaries() const;
-        void CheckVolumeBoundaries(bool val);
-        void SamplingFactor(const float &val);
         const float &SamplingFactor() const;
+        void SamplingFactor(const float &val);
         const float &ConeShadowTolerance() const;
         void ConeShadowTolerance(const float &val);
         float ConeShadowAperture() const;
@@ -106,5 +104,4 @@ class GIDeferredRenderer : public Renderer
         float coneShadowAperture;
         bool sampleVoxelShadowVolume;
         unsigned int renderMode;
-        bool checkVolumeBoundaries;
 };

@@ -65,7 +65,6 @@ class LightingProgram : public ProgramShader
         oglplus::Uniform<float> coneShadowTolerance;
         oglplus::Uniform<float> coneShadowAperture;
         oglplus::Uniform<unsigned int> mode;
-        oglplus::Uniform<unsigned int> checkBoundaries;
 
         void ExtractUniforms() override;
 

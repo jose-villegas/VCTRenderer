@@ -71,7 +71,6 @@ uniform float aoAlpha = 0.01f;
 uniform float samplingFactor = 0.5f;
 uniform float coneShadowTolerance = 1.0f;
 uniform float coneShadowAperture = 0.03f;
-uniform uint checkBoundaries;
 uniform uint mode = 0;
 
 const vec3 diffuseConeDirections[] =
@@ -159,12 +158,6 @@ vec4 TraceCone(vec3 position, vec3 normal, vec3 direction, float aperture, bool 
         coneSample.a = 1.0f;
     }
 
-    if(checkBoundaries > 0)
-    {
-        // cone will only trace the needed distance
-        maxDistance = min(maxDistance, leave);
-    }
-
     while(coneSample.a < 1.0f && dst <= maxDistance)
     {
         vec3 conePosition = startPosition + direction * dst;
@@ -220,12 +213,6 @@ float TraceShadowCone(vec3 position, vec3 direction, float aperture, float maxTr
     if(!IntersectRayWithWorldAABB(position, direction, enter, leave))
     {
         visibility = 1.0f;
-    }
-
-    if(checkBoundaries > 0)
-    {
-        // cone will only trace the needed distance
-        maxDistance = min(maxDistance, leave);
     }
     
     while(visibility < 1.0f && dst <= maxDistance)

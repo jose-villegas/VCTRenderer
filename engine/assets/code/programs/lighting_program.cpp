@@ -123,8 +123,6 @@ void LightingProgram::ExtractUniforms()
     aoAlpha.BindTo("aoAlpha");
     mode.Assign(program);
     mode.BindTo("mode");
-    checkBoundaries.Assign(program);
-    checkBoundaries.BindTo("checkBoundaries");
     samplingFactor.Assign(program);
     samplingFactor.BindTo("samplingFactor");
     coneShadowTolerance.Assign(program);

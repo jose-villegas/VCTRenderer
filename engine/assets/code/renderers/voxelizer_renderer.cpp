@@ -362,7 +362,6 @@ void VoxelizerRenderer::GenerateMipmap()
         // tracing limits
         proga.maxTracingDistanceGlobal.Set(deferred.MaxTracingDistance());
         proga.volumeDimension.Set(volumeDimension);
-        proga.checkBoundaries.Set(deferred.CheckVolumeBoundaries() ? 1 : 0);
         voxelRadiance.BindImage(0, 0, true, 0, oglplus::AccessSpecifier::ReadWrite,
                                 oglplus::ImageUnitFormat::RGBA8);
         voxelAlbedo.Active(1);
