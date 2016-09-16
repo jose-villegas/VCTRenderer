@@ -64,7 +64,7 @@ void VoxelizerRenderer::Render()
         }
     }
     // dyanmic process voxelization will happen every framestep frame
-    else if (framestep >= 1 && frameCount++ % framestep == 0)
+    else if (framestep >= 1 && frameCount % framestep == 0)
     {
         frameCount = 1;
         // update voxelization
@@ -120,6 +120,7 @@ void VoxelizerRenderer::VoxelizeStaticScene()
 
     auto &prog = VoxelizationPass();
     auto &sceneBox = scene->rootNode->boundaries;
+    static auto &camera = Camera::Active();
     // current renderer as active
     SetAsActive();
     // unbind fbos use default
@@ -133,7 +134,7 @@ void VoxelizerRenderer::VoxelizeStaticScene()
     // rendering flags
     gl.Disable(oglplus::Capability::CullFace);
     gl.Disable(oglplus::Capability::DepthTest);
-    UseFrustumCulling = false;
+    camera->DoFrustumCulling(false);
     // pass voxelization uniforms
     prog.viewProjections[0].Set(viewProjectionMatrix[0]);
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
@@ -180,6 +181,7 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
 
     auto &prog = VoxelizationPass();
     auto &sceneBox = scene->rootNode->boundaries;
+    static auto &camera = Camera::Active();
     // current renderer as active
     SetAsActive();
     // first clear writing available voxels
@@ -195,7 +197,7 @@ void VoxelizerRenderer::VoxelizeDynamicScene()
     // rendering flags
     gl.Disable(oglplus::Capability::CullFace);
     gl.Disable(oglplus::Capability::DepthTest);
-    UseFrustumCulling = false;
+    camera->DoFrustumCulling(false);
     // pass voxelization uniforms
     prog.viewProjections[0].Set(viewProjectionMatrix[0]);
     prog.viewProjections[1].Set(viewProjectionMatrix[1]);
@@ -600,7 +602,6 @@ void VoxelizerRenderer::SetupVoxelVolumes(const unsigned int &dimension)
         UpdateProjectionMatrices(Scene::Active()->rootNode->boundaries);
     }
 
-    auto maxLevel = static_cast<unsigned int>(log2(volumeDimension));
     // albedo volume
     voxelAlbedo.Bind(TextureTarget::_3D);
     voxelAlbedo.MinFilter(TextureTarget::_3D, TextureMinFilter::Linear);

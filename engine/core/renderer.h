@@ -39,8 +39,9 @@ class Renderer : public SingleActive <Renderer>, public InstancePool<Renderer>
         typename std::enable_if<std::is_base_of<ProgramShader, T>::value, T>::type
         &CurrentProgram() const;
     public:
-        static bool UseFrustumCulling;
-
+        /// <summary>
+        /// Calls all the implementations of <see cref="Render"/>
+        /// </summary>
         static void RenderAll();
         /// <summary>
         /// Rendering logic

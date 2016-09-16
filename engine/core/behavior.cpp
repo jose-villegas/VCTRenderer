@@ -4,7 +4,6 @@ Behavior::Behavior()
 {
 }
 
-
 Behavior::~Behavior()
 {
 }

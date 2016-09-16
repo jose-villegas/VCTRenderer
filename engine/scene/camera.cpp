@@ -9,9 +9,14 @@ Camera::~Camera()
 {
 }
 
-void Camera::Projection(enum class ProjectionMode mode)
+void Camera::DoFrustumCulling(const bool val)
 {
-    if(this->mode != mode)
+    doFrustumCulling = val;
+}
+
+void Camera::Projection(const ProjectionMode &mode)
+{
+    if (this->mode != mode)
     {
         this->mode = mode;
         UpdateProjectionMatrix();
@@ -34,15 +39,16 @@ Camera::Camera() : clipPlaneFar(10000.0f), clipPlaneNear(0.3f),
     name = "Default Camera";
     viewMatrix = lookAt(transform.Position(), LookAt(), transform.Up());
     inverseViewMatrix = inverse(viewMatrix);
+    doFrustumCulling = true;
     UpdateProjectionMatrix();
 }
 
-float Camera::ClipPlaneFar() const
+const float &Camera::ClipPlaneFar() const
 {
     return clipPlaneFar;
 }
 
-void Camera::ClipPlaneFar(float val)
+void Camera::ClipPlaneFar(const float &val)
 {
     auto res = glm::max(val, 0.01f);
 
@@ -53,12 +59,12 @@ void Camera::ClipPlaneFar(float val)
     }
 }
 
-float Camera::ClipPlaneNear() const
+const float &Camera::ClipPlaneNear() const
 {
     return clipPlaneNear;
 }
 
-void Camera::ClipPlaneNear(float val)
+void Camera::ClipPlaneNear(const float &val)
 {
     auto res = glm::max(val, 0.01f);
 
@@ -85,12 +91,12 @@ void Camera::FieldOfView(const float &val)
     }
 }
 
-float Camera::AspectRatio() const
+const float &Camera::AspectRatio() const
 {
     return aspectRatio;
 }
 
-void Camera::AspectRatio(float val)
+void Camera::AspectRatio(const float &val)
 {
     if (val != aspectRatio)
     {
@@ -145,6 +151,8 @@ const glm::mat4x4 &Camera::InverseProjectionMatrix() const
 
 bool Camera::InFrustum(const BoundingBox &volume) const
 {
+    if (!doFrustumCulling) return true;
+
     return frustum.InFrustum(volume);
 }
 

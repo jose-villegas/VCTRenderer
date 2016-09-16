@@ -43,7 +43,6 @@ void ShadowMapRenderer::Render()
     }
 
     // initially assign invalid direction
-    static auto direction = glm::vec3(0);
     static auto &changes = Transform::TransformChangedMap();
     static bool updateShadowMap = true;
 
@@ -71,7 +70,6 @@ void ShadowMapRenderer::Render()
     if (!updateShadowMap) { return; }
 
     updateShadowMap = false;
-    direction = -shadowCaster->Direction();
     // update shadow map
     SetAsActive();
     lightView.SetAsActive();
@@ -88,7 +86,7 @@ void ShadowMapRenderer::Render()
     gl.Disable(Capability::CullFace);
     // unneded since directional light cover the whole scene
     // can be useful for view frustum aware light frustum later
-    UseFrustumCulling = false;
+    lightView.DoFrustumCulling(false);
     // scene spatial cues
     auto sceneBB = scene->rootNode->boundaries;
     auto &center = sceneBB.Center();
@@ -98,8 +96,8 @@ void ShadowMapRenderer::Render()
     lightView.ClipPlaneNear(-radius);
     lightView.ClipPlaneFar(2.0f * radius);
     lightView.Projection(Camera::ProjectionMode::Orthographic);
-    lightView.transform.Position(center - direction * radius);
-    lightView.transform.Forward(direction);
+    lightView.transform.Position(center + shadowCaster->Direction() * radius);
+    lightView.transform.Forward(-shadowCaster->Direction());
     // update lightview matrix
     LightSpaceMatrix();
     // uniforms

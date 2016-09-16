@@ -29,9 +29,9 @@ class MetricsReport
 {
     public:
         template<typename T>
-        void Write(const std::string id, const Metric<T> &value);
+        static void Write(const std::string id, const Metric<T> &value);
         template<typename T>
-        const T &Read(const std::string id);
+        static const T &Read(const std::string id);
 
         MetricsReport() = default;
         ~MetricsReport() = default;

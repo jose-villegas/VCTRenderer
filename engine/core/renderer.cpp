@@ -4,8 +4,6 @@
 
 #include "../scene/node.h"
 
-bool Renderer::UseFrustumCulling = true;
-
 RenderWindow &Renderer::Window() const
 {
     return *window;

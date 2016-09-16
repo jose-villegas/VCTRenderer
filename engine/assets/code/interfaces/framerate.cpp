@@ -10,7 +10,6 @@ void UIFramerate::Draw()
 {
     if (!UIMainMenu::drawFramerate) { return; }
 
-    static auto openFPSWindow = false;
     static auto position = ImVec2(io->DisplaySize.x - 80 - 3,
                                   io->DisplaySize.y - 50 - 3);
     SetNextWindowPos(position);

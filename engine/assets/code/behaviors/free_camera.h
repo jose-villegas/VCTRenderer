@@ -7,5 +7,4 @@ class FreeCamera : public Behavior
     public:
         FreeCamera() = default;
         ~FreeCamera() = default;
-    private:
 };

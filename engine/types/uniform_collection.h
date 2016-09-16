@@ -46,7 +46,8 @@ void UniformCollection<T1, T2>::Save(T2 id, T1 uniform)
     }
 
     actives.push_back(std::move(id));
-    links[(int)id] = new std::pair<T2, T1>(actives.back(), std::move(uniform));;
+    links[static_cast<int>(id)] = new std::pair<T2, T1>(actives.back(),
+            std::move(uniform));
 }
 
 /// <summary>

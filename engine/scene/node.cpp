@@ -60,13 +60,9 @@ void Node::DrawList() const
     // draw elements using draw list
     for (auto &node : drawList)
     {
-        // no need to check or update boundaries and frustum planes.
-        if (Renderer::UseFrustumCulling)
+        if (!camera->InFrustum(node->boundaries))
         {
-            if (!camera->InFrustum(node->boundaries))
-            {
-                continue;
-            }
+            continue;
         }
 
         // set matrices uniform with updated matrices
@@ -86,13 +82,9 @@ void Node::DrawListState(GeometryState state) const
     {
         if (node->nodeState != state) { continue; }
 
-        // no need to check or update boundaries and frustum planes.
-        if (Renderer::UseFrustumCulling)
+        if (!camera->InFrustum(node->boundaries))
         {
-            if (!camera->InFrustum(node->boundaries))
-            {
-                continue;
-            }
+            continue;
         }
 
         // set matrices uniform with updated matrices

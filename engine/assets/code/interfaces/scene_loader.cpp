@@ -82,7 +82,7 @@ void UISceneLoader::Draw()
 
         if(scene) SameLine();
 
-        if (reloaded) { reloaded->SetAsActive(); reloaded = nullptr; }
+        if (reloaded) { reloaded->SetAsActive(); }
 
         if (scene && Button(scene->IsLoaded() ? "Reload" : "Load"))
         {

@@ -67,7 +67,7 @@ void GIDeferredRenderer::Render()
     gl.Enable(Capability::CullFace);
     gl.FrontFace(FaceOrientation::CCW);
     gl.CullFace(Face::Back);
-    UseFrustumCulling = true;
+    camera->DoFrustumCulling(true);
     // draw whole scene tree from root node
     scene->rootNode->DrawList();
     // start light pass

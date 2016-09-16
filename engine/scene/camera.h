@@ -24,39 +24,52 @@ class Camera : public SceneObject, public SingleActive<Camera>
 
         Camera();
         virtual ~Camera();
-
-        void Projection(ProjectionMode mode);
-        float ClipPlaneFar() const;
+        /// <summary>
+        /// Disables or enables frustum culling for this camera.
+        /// if false the method <see cref="InFrustum"/> will return
+        /// always true.
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void DoFrustumCulling(const bool val);
+        /// <summary>
+        /// Camera projection mode
+        /// </summary>
+        /// <param name="mode">The mode.</param>
+        void Projection(const ProjectionMode &mode);
         /// <summary>
         /// Sets the <see cref="clipPlaneFar"> value.
         /// Value is in the range [0.01, inf]
         /// </summary>
         /// <param name="val">The value.</param>
-        void ClipPlaneFar(float val);
-
-        float ClipPlaneNear() const;
+        void ClipPlaneFar(const float &val);
         /// <summary>
         /// Sets the <see cref="clipPlaneNear"> value.
         /// Value is in the range [0.01, inf]
         /// </summary>
         /// <param name="val">The value.</param>
-        void ClipPlaneNear(float val);
-
-        const float &FieldOfView() const;
+        void ClipPlaneNear(const float &val);
         /// <summary>
         /// Sets the <see cref="fieldOfView"> value.
         /// Value is in the range [1, 179]
         /// </summary>
         /// <param name="val">The value.</param>
         void FieldOfView(const float &val);
-
-        float AspectRatio() const;
-        void AspectRatio(float val);
-
-        // left right bottom top
+        /// <summary>
+        /// The camera's aspect ratio.
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void AspectRatio(const float &val);
+        /// <summary>
+        /// The camera view rectangle on orthographic mode
+        /// </summary>
+        /// <param name="rect">The rect.</param>
         void OrthoRect(const glm::vec4 &rect);
-        const glm::vec4 &OrthoRect() const;
 
+        const float &ClipPlaneFar() const;
+        const float &ClipPlaneNear() const;
+        const float &FieldOfView() const;
+        const float &AspectRatio() const;
+        const glm::vec4 &OrthoRect() const;
         glm::vec3 LookAt() const;
 
         const glm::mat4x4 &ViewMatrix() const;
@@ -72,8 +85,13 @@ class Camera : public SceneObject, public SingleActive<Camera>
         /// <param name="volume">The volume.</param>
         /// <returns></returns>
         bool InFrustum(const BoundingBox &volume) const;
+        /// <summary>
+        /// Returns the camera's frustum pyramid
+        /// </summary>
+        /// <returns></returns>
         const CullingFrustum &Frustum() const;
     private:
+        bool doFrustumCulling;
         float clipPlaneFar;
         float clipPlaneNear;
         float fieldOfView;

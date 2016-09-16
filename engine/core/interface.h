@@ -20,7 +20,9 @@ class Interface : InterfaceRenderer, public InstancePool<Interface>
     protected:
         ImGuiIO * io;
         ImGuiStyle * style;
-        // application specific UI code
+        /// <summary>
+        /// Called per frame, interface drawing logic resides on this method
+        /// </summary>
         virtual void Draw() = 0;
     private:
         friend void EngineBase::MainLoop() const;

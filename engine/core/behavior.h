@@ -17,6 +17,9 @@ class Behavior : public InstancePool<Behavior>
         Behavior();
         virtual ~Behavior();
     protected:
+        /// <summary>
+        /// Called per frame, contains the behavior's logic
+        /// </summary>
         virtual void Update() = 0;
     private:
         friend void EngineBase::MainLoop() const;
