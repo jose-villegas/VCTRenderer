@@ -60,7 +60,7 @@ float Material::Opacity() const
     return opacity;
 }
 
-void Material::Opacity(float val)
+void Material::Opacity(const float &val)
 {
     opacity = glm::clamp(opacity, 0.0f, 1.0f);
 }
@@ -70,7 +70,7 @@ float Material::Shininess() const
     return shininess;
 }
 
-void Material::Shininess(float val)
+void Material::Shininess(const float &val)
 {
     shininess = val;
 }
@@ -80,7 +80,7 @@ float Material::ShininessStrenght() const
     return shininessStrenght;
 }
 
-void Material::ShininessStrenght(float val)
+void Material::ShininessStrenght(const float &val)
 {
     shininessStrenght = val;
 }
@@ -90,7 +90,7 @@ float Material::RefractionIndex() const
     return refractionIndex;
 }
 
-void Material::RefractionIndex(float val)
+void Material::RefractionIndex(const float &val)
 {
     refractionIndex = glm::max(0.0f, val);
 }

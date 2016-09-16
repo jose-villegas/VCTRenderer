@@ -29,13 +29,25 @@ class Light : public SceneObject, public InstancePool<Light>
         class Attenuation
         {
             public:
-                void Linear(float val) { linear = val; }
-                void Quadratic(float val) { quadratic = val; }
-                void Constant(float val) { constant = val; }
+                /// <summary>
+                /// The linear falloff factor or l
+                /// </summary>
+                /// <param name="val">The value.</param>
+                void Linear(const float &val) { linear = val; }
+                /// <summary>
+                /// The quadratic falloff factor or q
+                /// </summary>
+                /// <param name="val">The value.</param>
+                void Quadratic(const float &val) { quadratic = val; }
+                /// <summary>
+                /// The constant falloff value or c
+                /// </summary>
+                /// <param name="val">The value.</param>
+                void Constant(const float &val) { constant = val; }
 
-                float Linear() const { return linear; }
-                float Quadratic() const { return quadratic; }
-                float Constant() const { return constant; }
+                const float &Linear() const { return linear; }
+                const float &Quadratic() const { return quadratic; }
+                const float &Constant() const { return constant; }
 
                 Attenuation() : constant(1.0f), linear(0.2f), quadratic(0.08f) {};
                 ~Attenuation() {};
@@ -55,12 +67,40 @@ class Light : public SceneObject, public InstancePool<Light>
         static const unsigned int PointsLimit;
         static const unsigned int SpotsLimit;
 
-        void AngleInnerCone(float val);
-        void AngleOuterCone(float val);
+        /// <summary>
+        /// For a spot light the angle of the inner circle
+        /// given in radians
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void AngleInnerCone(const float &val);
+        /// <summary>
+        /// For a spot light the angle of the outer cone or
+        /// basically the extent of the light, give in radians.
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void AngleOuterCone(const float &val);
+        /// <summary>
+        /// Light ambient color component.
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Ambient(const glm::vec3 &val);
+        /// <summary>
+        /// Light diffuse color component.
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Diffuse(const glm::vec3 &val);
+        /// <summary>
+        /// Light specular color component.
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Specular(const glm::vec3 &val);
+        /// <summary>
+        /// Intensities of the ambient, diffuse and specular
+        /// components as x, y, and z respectively
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Intensities(const glm::vec3 &val);
+
         float AngleInnerCone() const;
         float AngleOuterCone() const;
         const glm::vec3 &Ambient() const;
@@ -68,7 +108,15 @@ class Light : public SceneObject, public InstancePool<Light>
         const glm::vec3 &Specular() const;
         const glm::vec3 &Intensities() const;
         const glm::vec3 &Direction() const;
+        /// <summary>
+        /// The attenuation structure describes the attenuation falloff
+        /// function for spot and point lights
+        /// </summary>
         Attenuation attenuation;
+        /// <summary>
+        /// Returns the light's type, directional, point or spot
+        /// </summary>
+        /// <returns></returns>
         LightType Type() const;
         /// <summary>
         /// Changes the light type and also adds it to one of of the
@@ -87,9 +135,22 @@ class Light : public SceneObject, public InstancePool<Light>
         /// Cleans the light type static collection vectors.
         /// </summary>
         static void ResetCollections();
+        /// <summary>
+        /// Returns the collection of directional lights
+        /// </summary>
+        /// <returns></returns>
         static const std::vector<Light *> &Directionals();
+        /// <summary>
+        /// Returns the collection of point lights
+        /// </summary>
+        /// <returns></returns>
         static const std::vector<Light *> &Points();
+        /// <summary>
+        /// Returns the collection of spot lights
+        /// </summary>
+        /// <returns></returns>
         static const std::vector<Light *> &Spots();
+
         Light();
         virtual ~Light();
     private:

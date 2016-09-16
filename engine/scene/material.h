@@ -34,30 +34,87 @@ class Material : public BaseObject
             Additive
         };
 
-        const glm::vec3 &Ambient() const;
+        /// <summary>
+        /// The material's ambient color component
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Ambient(const glm::vec3 &val);
-        const glm::vec3 &Diffuse() const;
+        /// <summary>
+        /// The material's diffuse color component
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Diffuse(const glm::vec3 &val);
-        const glm::vec3 &Specular() const;
+        /// <summary>
+        /// The material's specular color component
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Specular(const glm::vec3 &val);
-        const glm::vec3 &Emissive() const;
+        /// <summary>
+        /// The material's emissive color component
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Emissive(const glm::vec3 &val);
-        const glm::vec3 &Transparent() const;
+        /// <summary>
+        /// The material's transparent color component
+        /// </summary>
+        /// <param name="val">The value.</param>
         void Transparent(const glm::vec3 &val);
+        /// <summary>
+        /// The material's opacity value
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void Opacity(const float &val);
+        /// <summary>
+        /// The material's shininess value
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void Shininess(const float &val);
+        /// <summary>
+        /// The material's shininess strength value
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void ShininessStrenght(const float &val);
+        /// <summary>
+        /// The material's refractive index value
+        /// </summary>
+        /// <param name="val">The value.</param>
+        void RefractionIndex(const float &val);
 
+        const glm::vec3 &Ambient() const;
+        const glm::vec3 &Diffuse() const;
+        const glm::vec3 &Specular() const;
+        const glm::vec3 &Emissive() const;
+        const glm::vec3 &Transparent() const;
         float Opacity() const;
-        void Opacity(float val);
         float Shininess() const;
-        void Shininess(float val);
         float ShininessStrenght() const;
-        void ShininessStrenght(float val);
         float RefractionIndex() const;
-        void RefractionIndex(float val);
 
+        /// <summary>
+        /// Determines wheter the material has the give texture
+        /// </summary>
+        /// <param name="texType">The texture type.</param>
+        /// <returns>
+        ///   <c>true</c> if the material has the texture type,
+        ///   otherwise, <c>false</c>.
+        /// </returns>
         bool HasTexture(RawTexture::TextureType texType) const;
+        /// <summary>
+        /// Adds a texture to the material
+        /// </summary>
+        /// <param name="spTexture">The sp texture.</param>
+        /// <param name="texType">Type of the tex.</param>
         void AddTexture(const std::shared_ptr<Texture2D> &spTexture,
                         RawTexture::TextureType texType);
-        bool BindTexture(RawTexture::TextureType texType, bool bindDefaul = true) const;
+        /// <summary>
+        /// Binds the material's texture type
+        /// </summary>
+        /// <param name="texType">Type of the tex.</param>
+        /// <param name="bindDefaul">if set to <c>true</c> binds a
+        /// default texture for the texture type.</param>
+        /// <returns></returns>
+        bool BindTexture(RawTexture::TextureType texType,
+                         bool bindDefault = true) const;
 
         Material();
         ~Material();

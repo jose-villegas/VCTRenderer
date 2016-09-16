@@ -19,7 +19,7 @@ float Light::AngleInnerCone() const
     return angleInnerCone;
 }
 
-void Light::AngleInnerCone(float val)
+void Light::AngleInnerCone(const float &val)
 {
     angleInnerCone = glm::clamp(val, 0.0f, glm::pi<float>());
 }
@@ -29,7 +29,7 @@ float Light::AngleOuterCone() const
     return angleOuterCone;
 }
 
-void Light::AngleOuterCone(float val)
+void Light::AngleOuterCone(const float &val)
 {
     angleOuterCone = glm::clamp(val, 0.0f, glm::pi<float>());;
     angleInnerCone = glm::min(angleInnerCone, angleOuterCone);
