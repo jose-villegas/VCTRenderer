@@ -136,15 +136,15 @@ void UISceneLoader::Draw()
             PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
             Columns(2);
 
-            for (auto i = 0; i < SceneImporter::flagsNames.size(); i++)
+            for (auto i = 0; i < SceneImporter::FlagNames.size(); i++)
             {
-                if (i > SceneImporter::flagsNames.size() / 2 - 1 &&
-                        i <= SceneImporter::flagsNames.size() / 2)
+                if (i > SceneImporter::FlagNames.size() / 2 - 1 &&
+                        i <= SceneImporter::FlagNames.size() / 2)
                 {
                     NextColumn();
                 }
 
-                if (CheckboxFlags(SceneImporter::flagsNames[i].c_str(),
+                if (CheckboxFlags(SceneImporter::FlagNames[i].c_str(),
                                   &flag, flags[i]))
                 {
                 }

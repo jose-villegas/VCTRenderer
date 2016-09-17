@@ -3,6 +3,9 @@
 #include <glm/detail/type_vec3.hpp>
 #include <glm/matrix.hpp>
 
+/// <summary>
+/// Vector3 constants
+/// </summary>
 class Vector3
 {
     public:
@@ -18,6 +21,9 @@ class Vector3
         static const glm::vec3 one;
 };
 
+/// <summary>
+/// Matrix constants
+/// </summary>
 class Matrix
 {
     public:

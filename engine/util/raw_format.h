@@ -8,10 +8,14 @@ class RawFormat
         class DataSegment;
         /// <summary>
         /// Returns the raw data pointer. Will call Build
-        /// the raw format hasn't been built already
+        /// if the raw format hasn't been built already
         /// </summary>
         /// <returns>Pointer holding all the stacked data</returns>
         void * RawData();
+        /// <summary>
+        /// Size of this data segment
+        /// </summary>
+        /// <returns></returns>
         size_t Size() const { return wholeSize; };
         RawFormat();
     protected:

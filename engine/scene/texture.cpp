@@ -6,6 +6,11 @@
 
 #include <glm/detail/type_vec3.hpp>
 
+std::string RawTexture::GetFilepath() const
+{
+    return filepath;
+}
+
 bool RawTexture::IsType(TextureType type)
 {
     return textureTypes.find(type) != textureTypes.end();

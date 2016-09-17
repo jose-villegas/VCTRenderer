@@ -9,13 +9,31 @@ template<typename T>
 class InstancePool
 {
     public:
+        /// <summary>
+        /// Sets this instance priority. Updating its
+        /// position in the <see cref="instances"/> collection.
+        /// </summary>
+        /// <param name="priority">The priority.</param>
+        void Priority(const long long priority);
+        /// <summary>
+        /// Gets the instance with the given identifier
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        T &GetInstance(const long long id);
+
+        InstancePool<T> &operator=(const InstancePool<T> &rhs);
         InstancePool();
         virtual ~InstancePool();
-        void Priority(const long long priority);
-        T &GetInstance(const long long id);
-        InstancePool<T> &operator=(const InstancePool<T> &rhs);
     protected:
+        /// <summary>
+        /// The instance pool
+        /// </summary>
         static std::vector<T *> instances;
+        /// <summary>
+        /// The location of each instance in the
+        /// <see cref="instances"/>  collection
+        /// </summary>
         static std::map<long long, long long> location;
     private:
         unsigned long long instanceId;

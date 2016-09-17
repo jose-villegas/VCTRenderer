@@ -128,6 +128,5 @@ class Material : public BaseObject
         float shininess;
         float shininessStrenght;
         float refractionIndex;
-
         std::array<std::shared_ptr<Texture2D>, RawTexture::TYPE_MAX> textures;
 };

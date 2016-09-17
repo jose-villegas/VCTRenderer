@@ -2,6 +2,9 @@
 
 #include <glm/detail/type_vec3.hpp>
 
+/// <summary>
+/// Vertex parameters
+/// </summary>
 struct Vertex
 {
     glm::vec3 position;

@@ -9,17 +9,15 @@ class RawFormat::DataSegment : public Segment
         T * pointer;
         RawFormat * holder;
 
-        explicit DataSegment(RawFormat * format, T * pointer = nullptr,
-                             size_t offset = 0);
-        // deleted constructor and assignments
-        DataSegment(const DataSegment &other) = delete;
-        DataSegment() = delete;
         DataSegment &operator=(const DataSegment &) = delete;
-
-        ~DataSegment();
-        // assignments
         T operator=(const T &value);
         T * operator=(const std::array <T, _Count> &values);
+
+        explicit DataSegment(RawFormat * format, T * pointer = nullptr,
+                             size_t offset = 0);
+        ~DataSegment();
+        DataSegment(const DataSegment &other) = delete;
+        DataSegment() = delete;
 };
 
 template <typename T, size_t _Count>
@@ -82,10 +80,10 @@ T * RawFormat::DataSegment<T, _Count>::operator=(const std::array <T, _Count>
 #include <glm/gtc/type_ptr.hpp>
 
 #if (GLM_VERSION_MAJOR > 0) || ( \
-    (GLM_VERSION_MINOR > 9) || ( \
-        (GLM_VERSION_MINOR == 9) && \
-        (GLM_VERSION_PATCH > 5) \
-    ))
+(GLM_VERSION_MINOR > 9) || ( \
+                             (GLM_VERSION_MINOR == 9) && \
+                             (GLM_VERSION_PATCH > 5) \
+                           ))
 #define GLM_TPLNS ::glm
 #else
 #define GLM_TPLNS ::glm::detail

@@ -166,6 +166,7 @@ Light::~Light()
 {
     if (collectionIndex < 0) return;
 
+    // delete self from type collection
     auto UpdateIndex = [ = ](std::vector<Light *> &lights)
     {
         if (lights.size() == 0) { return; }
@@ -178,7 +179,7 @@ Light::~Light()
         }
     };
 
-    // delete self from type collection
+    // update indexes
     switch(lightType)
     {
         case Directional:
@@ -195,8 +196,6 @@ Light::~Light()
 
         default: break;
     }
-
-    // update indexes
 }
 
 void Light::ResetCollections()

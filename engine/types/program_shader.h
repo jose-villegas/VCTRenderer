@@ -9,10 +9,6 @@ class ProgramShader
 {
     public:
         /// <summary>
-        /// Finalizes an instance of the <see cref="ProgramShader"/> class.
-        /// </summary>
-        virtual ~ProgramShader() {}
-        /// <summary>
         /// Uses this program.
         /// </summary>
         void Use() const;
@@ -32,18 +28,16 @@ class ProgramShader
         /// <returns></returns>
         const oglplus::Program &Program() const;
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProgramShader"/> class.
-        /// </summary>
-        ProgramShader() = default;
-        // non copyable
-        ProgramShader(ProgramShader const &r) = delete;
-        ProgramShader &operator=(ProgramShader const &r) = delete;
-        /// <summary>
         /// Extracts the uniforms associated with this program.
         /// The method is meant to be implemented by inheriting classes
         /// which represent different shaders.
         /// </summary>
         virtual void ExtractUniforms() = 0;
+
+        ProgramShader() = default;
+        virtual ~ProgramShader() {}
+        ProgramShader(ProgramShader const &r) = delete;
+        ProgramShader &operator=(ProgramShader const &r) = delete;
     protected:
         /// <summary>
         /// The program shader

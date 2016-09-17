@@ -5,6 +5,10 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/orthonormalize.inl>
 
+/// <summary>
+/// The transform change{CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}
+/// </summary>
+/// contains a unique set of transforms, on change bool is set to true
 std::unordered_map<const Transform *, bool> Transform::transformChange;
 
 Transform::Transform()

@@ -71,6 +71,16 @@ Scene::~Scene()
 {
 }
 
+const std::string &Scene::GetFilepath() const
+{
+    return filepath;
+}
+
+const std::string &Scene::GetDirectory() const
+{
+    return directory;
+}
+
 void Scene::Import(unsigned int flags)
 {
     if (isImported || isLoaded) { return; }
@@ -80,7 +90,7 @@ void Scene::Import(unsigned int flags)
     isLoaded = false;
 }
 
-void Scene::CleanImport(unsigned flags)
+void Scene::CleanImport(unsigned int flags)
 {
     Camera::ResetActive();
     ResetActive();
@@ -118,4 +128,9 @@ void Scene::Load()
     if (name.empty()) { name = rootNode->name; }
 
     isLoaded = true;
+}
+
+bool Scene::IsLoaded() const
+{
+    return isLoaded;
 }

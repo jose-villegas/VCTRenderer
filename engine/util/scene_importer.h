@@ -54,12 +54,19 @@ class SceneImporter
             SplitByBoneCount = aiProcess_SplitByBoneCount,
             Debone = aiProcess_Debone,
         };
-        static std::array<const std::string, 26> flagsNames;
+        static const std::array<const std::string, 26> FlagNames;
+        /// <summary>
+        /// Imports a scene from the specified filepath.
+        /// </summary>
+        /// <param name="filepath">The filepath.</param>
+        /// <param name="scene">The scene.</param>
+        /// <param name="flags">The flags.</param>
+        /// <returns></returns>
+        static bool Import(const std::string &filepath, Scene * scene, unsigned flags);
 
         SceneImporter();
         virtual ~SceneImporter();
-        static bool Import(const std::string &filepath, Scene * scene, unsigned flags);
-        // fine imports
+    private:
         static void ImportMaterial(aiMaterial * mMaterial, Material &material);
         static void ImportMesh(aiMesh * mMesh, Mesh &mesh);
         static void ProcessNodes(Scene * scene, aiNode * mNode, Node &node);

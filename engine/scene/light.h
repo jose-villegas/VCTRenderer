@@ -158,13 +158,14 @@ class Light : public SceneObject, public InstancePool<Light>
         static std::vector<Light *> points;
         static std::vector<Light *> spots;
         int collectionIndex;
+
         float angleInnerCone;
         float angleOuterCone;
         glm::vec3 ambient;
         glm::vec3 diffuse;
         glm::vec3 specular;
         /// <summary>
-        /// The intensity per component
+        /// The intensity per light component
         /// x * ambient, y * diffuse, z * specular
         /// </summary>
         glm::vec3 intensity;

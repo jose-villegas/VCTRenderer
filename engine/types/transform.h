@@ -12,8 +12,31 @@
 class Transform : public BaseObject
 {
     public:
-        Transform();
-        virtual ~Transform();
+        /// <summary>
+        /// Clearns the transform changed map
+        /// </summary>
+        static void CleanEventMap();
+        /// <summary>
+        /// Registers a change in the transform parameters onto
+        /// the transform changed map
+        /// </summary>
+        /// <param name="val">if set to <c>true</c> [value].</param>
+        void RegisterChange(bool val = true) const;
+        /// <summary>
+        /// Determines whether this transform has changed
+        /// </summary>
+        /// <returns></returns>
+        bool TransformChanged() const;
+        /// <summary>
+        /// Returns a map of bool associated with a transform that
+        /// tells if the transform has changed
+        /// </summary>
+        /// <returns></returns>
+        static const std::unordered_map<const Transform *, bool> &TransformChangedMap();
+        /// <summary>
+        /// Updates the transform matrix.
+        /// </summary>
+        virtual void UpdateTransformMatrix();
         /// <summary>
         /// Sets the transform position
         /// </summary>
@@ -34,9 +57,6 @@ class Transform : public BaseObject
         /// </summary>
         /// <param name="val">The value.</param>
         void Scale(const glm::vec3 &val);
-        const glm::vec3 &Position() const;
-        const glm::quat &Rotation() const;
-        const glm::vec3 &Scale() const;
         /// <summary>
         /// Sets the forward direction vector. Warning this does not update the
         /// rest of the direction vectors.
@@ -55,24 +75,18 @@ class Transform : public BaseObject
         /// </summary>
         /// <param name="val">The value.</param>
         void Up(const glm::vec3 &val);
+
+        const glm::vec3 &Position() const;
+        const glm::quat &Rotation() const;
+        const glm::vec3 &Scale() const;
         const glm::vec3 &Forward() const;
         const glm::vec3 &Right() const;
         const glm::vec3 &Up() const;
         const glm::vec3 &Angles() const;
-        /// <summary>
-        /// Returns the transformation matrix result of this transform
-        /// components. If changed is true Matrix will keep calculating
-        /// the transform matrix, otherwise it will just return a reference to
-        /// <see cref="transformation" />
-        /// </summary>
-        /// <returns></returns>
         const glm::mat4x4 &Matrix() const;
-        virtual void UpdateTransformMatrix();
 
-        static const std::unordered_map<const Transform *, bool> &TransformChangedMap();
-        static void CleanEventMap();
-        void RegisterChange(bool val = true) const;
-        bool TransformChanged() const;
+        Transform();
+        virtual ~Transform();
     private:
         glm::vec3 position;
         glm::quat rotation;
@@ -83,6 +97,5 @@ class Transform : public BaseObject
         glm::vec3 angles;
         glm::mat4x4 transformation;
         void UpdateCoordinates();
-        // contains a unique set of transforms, on change bool is set to true
         static std::unordered_map<const Transform *, bool> transformChange;
 };

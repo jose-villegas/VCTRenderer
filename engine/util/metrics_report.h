@@ -17,9 +17,17 @@ class Metric : IMetric
 class ElapsedTime : public Metric<long long>
 {
     public:
+        /// <summary>
+        /// Initializes the beginning clock time
+        /// </summary>
         void Begin();
+        /// <summary>
+        /// Ends the clock and stores the elapsed time from
+        /// begin to end.
+        /// </summary>
         template<class _Duration = std::chrono::nanoseconds>
         void End();
+
         explicit ElapsedTime(const long long &value);
     private:
         std::chrono::time_point<std::chrono::steady_clock> time[2];
@@ -28,8 +36,18 @@ class ElapsedTime : public Metric<long long>
 class MetricsReport
 {
     public:
+        /// <summary>
+        /// Writes the given metric value and maps it to the id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="value">The value.</param>
         template<typename T>
         static void Write(const std::string id, const Metric<T> &value);
+        /// <summary>
+        /// Returns the metric value for the given metrics id
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         template<typename T>
         static const T &Read(const std::string id);
 

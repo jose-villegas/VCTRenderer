@@ -396,7 +396,7 @@ void SceneImporter::ImportMaterialTextures(Scene * scene,
     }
 }
 
-std::array<const std::string, 26> SceneImporter::flagsNames =
+const std::array<const std::string, 26> SceneImporter::FlagNames =
 {
     "CalculateTangentSpace",
     "JoinIdenticalVertices",
