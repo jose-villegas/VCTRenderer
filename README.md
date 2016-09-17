@@ -32,7 +32,7 @@ Soft Cone Traced Shadows
 
 Single Ray Soft Shadows for Voxel Occlusion.
 
-![alt tag](images/voxel_shadows.png)
+![alt tag](images/voxel_shadows.jpg)
 
 Directional Voxel Shading (Reduces Normal Voxelization Issues)
 
