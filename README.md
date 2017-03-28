@@ -43,3 +43,4 @@ Voxel Diffuse Global Illumination
 ![alt tag](images/voxel_gi_cornell.png)
 ![alt tag](images/voxel_gi_sponza.png)
 
+http://ieeexplore.ieee.org/abstract/document/7833375/
