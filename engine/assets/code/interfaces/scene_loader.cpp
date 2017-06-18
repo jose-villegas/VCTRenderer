@@ -71,6 +71,8 @@ void UISceneLoader::Draw()
             aiProcess_Debone,
         };
 
+        if (reloaded) { reloaded->SetAsActive(); }
+
         // active scene selector
         if (Combo("Path", &activeScene, SceneName, &assets->scenes,
                   static_cast<int>(assets->scenes.size())))
@@ -78,11 +80,10 @@ void UISceneLoader::Draw()
             auto begin = assets->scenes.begin();
             advance(begin, activeScene);
             begin->second->SetAsActive();
+            reloaded = nullptr;
         }
 
         if(scene) SameLine();
-
-        if (reloaded) { reloaded->SetAsActive(); }
 
         if (scene && Button(scene->IsLoaded() ? "Reload" : "Load"))
         {

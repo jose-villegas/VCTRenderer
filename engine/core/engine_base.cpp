@@ -117,8 +117,8 @@ void EngineBase::Initialize() const
         renderWindow->WindowHint(ContextHints::ContextVersionMinor, 5);
         renderWindow->WindowHint(ContextHints::OpenGLProfile, Hint::OpenGLCoreProfile);
         renderWindow->WindowHint(ContextHints::OpenGLForwardCompatibility, Hint::False);
-        renderWindow->Open(WindowInfo(1280, 720, 0, 0, "Voxel Cone Tracing"), false,
-                           nullptr, nullptr);
+        renderWindow->Open(WindowInfo(mode->width * .75, mode->height * .75, 0, 0, "Voxel Cone Tracing"), false,
+            nullptr, nullptr);
     }
 
     // and set window as rendering context

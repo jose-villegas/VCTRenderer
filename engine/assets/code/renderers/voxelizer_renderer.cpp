@@ -28,7 +28,7 @@ bool VoxelizerRenderer::ShowVoxels = false;
 void VoxelizerRenderer::Render()
 {
     static Scene * previous = nullptr;
-    static auto frameCount = 1;
+    static auto frameCount = 0;
     static auto &scene = Scene::Active();
 
     if (!scene || !scene->IsLoaded()) { return; }
@@ -56,7 +56,8 @@ void VoxelizerRenderer::Render()
                 // update scene voxelization
                 VoxelizeDynamicScene(); break;
             }
-            else if(dynamic_cast<const Light *>(c.first))
+            
+            if(dynamic_cast<const Light *>(c.first))
             {
                 // only radiance needs to be updated
                 UpdateRadiance(); break;
@@ -66,15 +67,32 @@ void VoxelizerRenderer::Render()
     // dyanmic process voxelization will happen every framestep frame
     else if (framestep >= 1 && frameCount % framestep == 0)
     {
-        frameCount = 1;
+        frameCount = 0;
         // update voxelization
-        VoxelizeDynamicScene();
+        for (auto &c : changes)
+        {
+            auto const * node = dynamic_cast<const Node *>(c.first);
+
+            if (node && node->TransformChanged())
+            {
+                // update scene voxelization
+                VoxelizeDynamicScene(); break;
+            }
+            
+            if (dynamic_cast<const Light *>(c.first))
+            {
+                // only radiance needs to be updated
+                UpdateRadiance(); break;
+            }
+        };
     }
 
     if (ShowVoxels)
     {
         DrawVoxels();
     }
+
+    frameCount++;
 }
 
 void VoxelizerRenderer::SetMatricesUniforms(const Node &node) const
@@ -580,7 +598,7 @@ void VoxelizerRenderer::UpdateProjectionMatrices(const BoundingBox &sceneBox)
 }
 VoxelizerRenderer::VoxelizerRenderer(RenderWindow &window) : Renderer(window)
 {
-    injectFirstBounce = false;
+    injectFirstBounce = true;
     drawMipLevel = drawDirection = 0;
     framestep = -1; // on need
     traceShadowCones = true;
