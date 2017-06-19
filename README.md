@@ -1,6 +1,6 @@
 # Deferred Voxel Shading for Real Time Global Illumination
 
-*Peer-review published paper for this technique can be found here:* http://ieeexplore.ieee.org/abstract/document/7833375/*
+*Peer-review published paper for this technique can be found here:* http://ieeexplore.ieee.org/abstract/document/7833375/
 
 Computing indirect illumination is a challenging and complex problem for real-time rendering in 3D applications. This global illumination approach computes indirect lighting in real time utilizing a simpliﬁed version of the outgoing radiance and the scene stored in voxels.
 <!--more-->
@@ -54,7 +54,7 @@ The radiance volume represents the maximum level of detail for the voxelized sce
     <th>A visualization of the voxel structure</th>
   </tr>
   <tr>
-    <td align="center"><img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497571454/DVSGI/voxel_structure_dsmsvc.svg" style="width: 60%;"/></td>
+    <td align="center"><img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497571454/DVSGI/voxel_structure_dsmsvc.svg" style="width: 100%;"/></td>
   </tr>
 </table>
 
@@ -74,7 +74,7 @@ One of the advantages of this technique is that it's compatible with all standar
 
 | Scene | Voxel Direct Lighting |
 |:-----:|:---------------------:|
-<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497323827/DVSGI/scene_culelk.png" style="width: 50%"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497323829/DVSGI/v_direct_vrnajc.png" style="width: 50%"/>
+<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497323827/DVSGI/scene_culelk.png" style="width: 100%"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497323829/DVSGI/v_direct_vrnajc.png" style="width: 100%"/>
 
 ### 2.1. Normal-Weighted Attenuation
 
@@ -88,33 +88,21 @@ A disvantage of this technique is the loss of precision averaging all the geomet
 
 To reduce this issue my proposal utilizes a normal-weighted attenuation, where first the normal attenuation is calculated per every face of the voxel as follows:
 
-\begin{equation}
-D_\{x,y,z\} = (\hat{i}\cdot\Psi, \hat{j}\cdot\Psi, \hat{k}\cdot\Psi)
-\end{equation}
+<a href="https://www.codecogs.com/eqnedit.php?latex=D_{x,y,z}&space;=&space;(\hat{i}\cdot\Psi,&space;\hat{j}\cdot\Psi,&space;\hat{k}\cdot\Psi)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?D_{x,y,z}&space;=&space;(\hat{i}\cdot\Psi,&space;\hat{j}\cdot\Psi,&space;\hat{k}\cdot\Psi)" title="D_{x,y,z} = (\hat{i}\cdot\Psi, \hat{j}\cdot\Psi, \hat{k}\cdot\Psi)" /></a>
 
 Then three dominant faces are selected depending on the axes sign of the voxel averaged normal vector:
 
-\begin{equation}
-D_{\omega} =
-\begin{cases}
-max\\{D\_\omega, 0\\}, & N\_\omega>0\\\ 
-max\\{-D\_\omega, 0\\}, & \text{otherwise}
-\end{cases}
-\end{equation}
+<a href="https://www.codecogs.com/eqnedit.php?latex=D_{\omega}&space;=&space;\begin{cases}&space;max\{D_{\omega},0\},&space;&&space;N_{\omega}&space;>&space;0&space;\\&space;max\{-D_{\omega},0\},&space;&&space;\text{otherwise}&space;\end{cases}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?D_{\omega}&space;=&space;\begin{cases}&space;max\{D_{\omega},0\},&space;&&space;N_{\omega}&space;>&space;0&space;\\&space;max\{-D_{\omega},0\},&space;&&space;\text{otherwise}&space;\end{cases}" title="D_{\omega} = \begin{cases} max\{D_{\omega},0\}, & N_{\omega} > 0 \\ max\{-D_{\omega},0\}, & \text{otherwise} \end{cases}" /></a>
 
 And finally, the resulting attenuation is the product of every dominant face normal attenuation, multiplied with the weight per axis of the averaged normal vector of the voxel, the resulting reflectance model is computed as follows:
 
-\begin{equation}
-\begin{split}
-W &= N^2\\\ 
-V_\{r\} &= L\_\{i\}\frac{\rho}{\pi}(W_x D_x + W_y D_y + W_z D_z)
-\end{split}
-\end{equation}
-where \\(L_i\\) is the light source intensity, \\(\rho\\) the voxel albedo, \\(N\\) the normal vector of the voxel and \\(\Psi\\) the light direction.
+<a href="https://www.codecogs.com/eqnedit.php?latex=W&space;=&space;N^2\\&space;V_{r}&space;=&space;L_{i}\frac{\rho}{\pi}(W_x&space;D_x&space;&plus;&space;W_y&space;D_y&space;&plus;&space;W_z&space;D_z)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?W&space;=&space;N^2\\&space;V_{r}&space;=&space;L_{i}\frac{\rho}{\pi}(W_x&space;D_x&space;&plus;&space;W_y&space;D_y&space;&plus;&space;W_z&space;D_z)" title="W = N^2\\ V_{r} = L_{i}\frac{\rho}{\pi}(W_x D_x + W_y D_y + W_z D_z)" /></a>
+
+where <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;L_i" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;L_i" title="L_i" /></a> is the light source intensity, <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\rho" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\rho" title="\rho" /></a> the voxel albedo, <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;N" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;N" title="N" /></a> the normal vector of the voxel and <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\Psi" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\Psi" title="\Psi" /></a> the light direction.
 
 | Normal Attenuation | Normal-weighted Attenuation |
 |--------------------|-----------------------------|
-<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497414410/DVSGI/shading_standard_e7vzft.png" style="width: 99%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497414410/DVSGI/shading_directional_uwyxxw.png" style="width: 99%;"/>
+<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497414410/DVSGI/shading_standard_e7vzft.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497414410/DVSGI/shading_directional_uwyxxw.png" style="width: 100%;"/>
 
 ### 2.2. Voxel Occlusion
 
@@ -126,13 +114,12 @@ My proposal also computes occlusion using raycasting within a volume. Any of the
 
 #### 2.2.1. Soft Voxel Shadows
 
-Instead of stopping the ray as soon a voxel is found, soft shadows can be approximated with a single ray accumulating a value \\(\kappa\\) per collision and dividing by the traced distance \\(t\\), i.e. \\(\nu = \nu + (1 - \nu)\kappa\div t\\), where \\(1 - \nu\\) represents the occlusion value after the accumulation is finished. This technique exploits the observation that, from the light point of view, the number of collisions will usually be higher for the rays that pass through the borders of the voxelized geometry.
+Instead of stopping the ray as soon a voxel is found, soft shadows can be approximated with a single ray accumulating a value \\(\kappa\\) per collision and dividing by the traced distance <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;t" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;t" title="t" /></a>, i.e. <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\nu&space;=&space;\nu&space;&plus;&space;(1&space;-&space;\nu)\kappa\div&space;t" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\nu&space;=&space;\nu&space;&plus;&space;(1&space;-&space;\nu)\kappa\div&space;t" title="\nu = \nu + (1 - \nu)\kappa\div t" /></a>, where <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;1-\nu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;1-\nu" title="1-\nu" /></a> represents the occlusion value after the accumulation is finished. This technique exploits the observation that, from the light point of view, the number of collisions will usually be higher for the rays that pass through the borders of the voxelized geometry.
 
 | Hard Voxel Shadows | Soft Voxel Shadows |
 |:------------------:|:------------------:|
-<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497500701/DVSGI/hard_voxel_shadows_ovj32i.svg" style="width: 49%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497500702/DVSGI/soft_voxel_shadows_gcmlzm.svg" style="width: 49%;"/>
-&nbsp;|&nbsp;
-<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497500851/DVSGI/hard_traced_takadd.png" style="width: 99%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497500853/DVSGI/soft_traced_upabyg.png" style="width: 99%;"/>
+<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497500701/DVSGI/hard_voxel_shadows_ovj32i.svg" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497500702/DVSGI/soft_voxel_shadows_gcmlzm.svg" style="width: 100%;"/>
+<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497500851/DVSGI/hard_traced_takadd.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497500853/DVSGI/soft_traced_upabyg.png" style="width: 100%;"/>
 
 ### 2.3. Emission
 
@@ -149,7 +136,7 @@ To generate the anisotropic voxels I use the process detailed by Crassin [here](
     <th>Process to generate anisotropic voxels</th>
   </tr>
   <tr>
-    <td align="center"><img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497576308/DVSGI/aniso_cropped_aekdhv.png" style="width: 40%;"/></td>
+    <td align="center"><img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497576308/DVSGI/aniso_cropped_aekdhv.png" style="width: 100%;"/></td>
   </tr>
 </table>
 
@@ -164,15 +151,15 @@ The shape of the cone is meant to exploit the spatial and directional coherence 
     <th>Visual representation of a cone used for cone tracing</th>
   </tr>
   <tr>
-    <td align="center"><img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497581558/DVSGI/cone_oyxusj.svg" style="width: 80%;"/></td>
+    <td align="center"><img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497581558/DVSGI/cone_oyxusj.svg" style="width: 100%;"/></td>
   </tr>
 </table>
 
-As seen in the figure above each cone is defined by an origin \\(C\_o\\), a direction \\(C\_d\\) and an aperture angle \\(\theta\\). During the cone steps the diameter of the cone is defined by \\(d\\), this value can be extracted using the traced distance \\(t\\) with the following equation: \\(d=2t\times\tan(\theta\div 2)\\). Which mipmap level should be sampled depending on the diameter of the cone can be obtained using the following equation: \\(V\_\{level\} = log\_2(d\div V\_\{size\})\\), where \\(V\_\{size\}\\) is the size of a voxel at the maximum level of detail.
+As seen in the figure above each cone is defined by an origin <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;C_o" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;C_o" title="C_o" /></a>, a direction <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;C_d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;C_d" title="C_d" /></a> and an aperture angle <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\theta" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\theta" title="\theta" /></a>. During the cone steps the diameter of the cone is defined by <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;d" title="d" /></a>, this value can be extracted using the traced distance<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;t" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;t" title="t" /></a> with the following equation: <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;d=2t\times\tan(\theta\div&space;2)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;d=2t\times\tan(\theta\div&space;2)" title="d=2t\times\tan(\theta\div 2)" /></a>. Which mipmap level should be sampled depending on the diameter of the cone can be obtained using the following equation: <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;V_{level}&space;=&space;log_2(d\div&space;V_{size})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;V_{level}&space;=&space;log_2(d\div&space;V_{size})" title="V_{level} = log_2(d\div V_{size})" /></a>, where <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;V_{size}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;V_{size}" title="V_{size}" /></a> is the size of a voxel at the maximum level of detail.
 
-As described by Crassin [here](http://maverick.inria.fr/Publications/2011/CNSGE11b/), for each cone trace we keep track of the occlusion value \\(\alpha\\) and the color value \\(c\\) which represents the indirect light towards the cone origin \\(C\_o\\). In each step we retrieve from the voxel structure the occlusion value \\(\alpha_2\\) and the outgoing radiance \\(c_2\\). Then the \\(c\\) and \\(\alpha\\) values are updated using volumetric front-to-back accumulation as follows: \\(c =\alpha c + (1-\alpha)\alpha\_2c\_2\\) and \\(\alpha=\alpha+(1-\alpha)\alpha\_2\\). 
+As described by Crassin [here](http://maverick.inria.fr/Publications/2011/CNSGE11b/), for each cone trace we keep track of the occlusion value <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\alpha" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\alpha" title="\alpha" /></a> and the color value <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;c" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;c" title="c" /></a> which represents the indirect light towards the cone origin <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;C_o" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;C_o" title="C_o" /></a>. In each step we retrieve from the voxel structure the occlusion value <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\alpha_2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\alpha_2" title="\alpha_2" /></a> and the outgoing radiance <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;c_2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;c_2" title="c_2" /></a>. Then the <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;c" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;c" title="c" /></a> and <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\alpha" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\alpha" title="\alpha" /></a> values are updated using volumetric front-to-back accumulation as follows: <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;c&space;=\alpha&space;c&space;&plus;&space;(1-\alpha)\alpha_2c_2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;c&space;=\alpha&space;c&space;&plus;&space;(1-\alpha)\alpha_2c_2" title="c =\alpha c + (1-\alpha)\alpha_2c_2" /></a> and <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\alpha=\alpha&plus;(1-\alpha)\alpha_2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\alpha=\alpha&plus;(1-\alpha)\alpha_2" title="\alpha=\alpha+(1-\alpha)\alpha_2" /></a>. 
 
-To ensure good integration quality between samples the distance \\(d'\\) between steps is modified by a factor \\(\beta\\). With \\(\beta = 1\\) the value of \\(d'\\) is equivalent to the current diameter \\(d\\) of the cone, values less than \\(1\\) produce higher quality results but require more samples which reduces the performance.
+To ensure good integration quality between samples the distance <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;d'" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;d'" title="d'" /></a> between steps is modified by a factor <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\beta" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\beta" title="\beta" /></a>. With <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\beta=1" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\beta=1" title="\beta=1" /></a> the value of <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;d'" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;d'" title="d'" /></a> is equivalent to the current diameter <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;d" title="d" /></a> of the cone, values less than *1* produce higher quality results but require more samples which reduces the performance.
 
 ### 4.1. Indirect Illumination
 
@@ -182,22 +169,22 @@ The distribution of the cones matches the shape of the BRDF, for a Blinn-Phong m
 
 | Diffuse Cones | Specular Cone | BRDF |
 |:-------------:|:-------------:|:----:|
-<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497581804/DVSGI/diffuse_cones_oo7hsx.svg" style="width: 60%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497581807/DVSGI/specular_cones_faycaz.svg" style="width: 60%;"/>|<img src="https://res.cloudinary.com/jose-villegas/image/upload/v1497581810/DVSGI/brdf_cones_b4hmdk.svg" style="width: 60%;"/>
+<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497581804/DVSGI/diffuse_cones_oo7hsx.svg" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497581807/DVSGI/specular_cones_faycaz.svg" style="width: 100%;"/>|<img src="https://res.cloudinary.com/jose-villegas/image/upload/v1497581810/DVSGI/brdf_cones_b4hmdk.svg" style="width: 100%;"/>
 
 ### 4.2. Ambient Occlusion
 
-Ambient occlusion can be approximated using the same cones used for the diffuse reflection for efficiency. For the ambient occlusion term \\(\delta\\) we only accumulate the occlusion value \\(\alpha\_2\\), at each step the accumulated value is multiplied with the weighting function \\(f\(r\) = \frac\{1\}\{1+\lambda r\}\\), where \\(r\\) is the current radius of the cone and \\(\lambda\\) an user defined value which controls how fast \\(f\(r\)\\) decays along the traced distance. At each cone step the ambient occlusion term is updated as: \\(\delta = \delta + (1-\delta)\alpha\_2f\(r\)\\).
+Ambient occlusion can be approximated using the same cones used for the diffuse reflection for efficiency. For the ambient occlusion term <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\delta" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\delta" title="\delta" /></a> we only accumulate the occlusion value <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\alpha_2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\alpha_2" title="\alpha_2" /></a>, at each step the accumulated value is multiplied with the weighting function <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;f(r)&space;=&space;\frac{1}{1&plus;\lambda&space;r}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;f(r)&space;=&space;\frac{1}{1&plus;\lambda&space;r}" title="f(r) = \frac{1}{1+\lambda r}" /></a>, where <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;r" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;r" title="r" /></a> is the current radius of the cone and <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\lambda" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\lambda" title="\lambda" /></a> an user defined value which controls how fast <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;f(r)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;f(r)" title="f(r)" /></a> decays along the traced distance. At each cone step the ambient occlusion term is updated as: <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\delta&space;=&space;\delta&space;&plus;&space;(1-\delta)\alpha_2f(r)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\delta&space;=&space;\delta&space;&plus;&space;(1-\delta)\alpha_2f(r)" title="\delta = \delta + (1-\delta)\alpha_2f(r)" /></a>.
 
 ### 4.3. Soft Shadows
 
-Cone tracing can also be used to achieve soft shadows tracing a cone from the surface point \\(x\\) towards the direction of the light The cone aperture controls how soft and scattered the resulting shadow is. For soft shadows with cones we only accumulate the occlusion value \\(\alpha\_2\\) at each step.
+Cone tracing can also be used to achieve soft shadows tracing a cone from the surface point *x* towards the direction of the light The cone aperture controls how soft and scattered the resulting shadow is. For soft shadows with cones we only accumulate the occlusion value <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\alpha_2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\alpha_2" title="\alpha_2" /></a> at each step.
 
 <table>
   <tr>
     <th>Cone Soft Shadows</th>
   </tr>
   <tr>
-    <td align="center"><img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497585029/DVSGI/cone_shadow_jwx9pd.svg" style="width: 40%;"/></td>
+    <td align="center"><img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497585029/DVSGI/cone_shadow_jwx9pd.svg" style="width: 100%;"/></td>
   </tr>
 </table>
 
@@ -210,24 +197,15 @@ For each voxel we use its averaged normal vector to generate a set of cones arou
 
 The results here were tested on an AMD 380 R9 GPU on different scenes with increasing geometric complexity and dynamic objects added to the scene. The scenes used for testing are listed below:
 
-<div style="overflow-x:auto;">
-{{% md %}}
-
-| Name | Model | \# Vertices | \# Triangles |
-|:----:|:-----:|:----------:|:------------:|
+| Name | Model | Vertices | Triangles |
+|:----:|:-----:|:--------:|:---------:|
 S1|[Cornell Box](http://graphics.cs.williams.edu/data/meshes.xml)|72|36
 S2|[Sibenik Cathedral](http://graphics.cs.williams.edu/data/meshes.xml)|40.479|75.283
 S3|[Crytek Sponza](http://www.crytek.com/cryengine/cryengine3/downloads)|153.635|278.163
 
-{{% /md %}}
-</div>
-
 ## Voxelization
 
 The times per frame for the dynamic and static voxelization of each scene are show below: 
-
-<div style="overflow-x:auto;">
-{{% md %}}
 
 | Name | Static | Clear Dynamic | Dynamic |
 |:----:|:------:|:-------------:|:-------:|
@@ -235,17 +213,11 @@ S1|0.51 ms|0.78 ms|1.30 ms
 S2|1.80 ms| 0.58 ms| 2.11 ms
 S3|11.29 ms| 0.60 ms| 2.03 ms
 
-{{% /md %}}
-</div>
-
 For the voxelization process, a higher resolution for the voxel representation can actually be beneficial, because it reduces thread collisions for the writing operations, in the scene S3 there is a higher time for the static voxelization this reason, S3 has a higher triangle density per voxel meaning more syncing operations are needed.
 
 ## Voxel Illumination
 
 The table below shows the results for voxel direct illumination with shadow mapping or raycasting for voxel occlusion and voxel global illumination, it also includes the time for anisotropic filtering after both steps. For voxel direct illumination the times are similar between all scenes using shadow mapping, while raycasting costs more performance it enables occlusion for any type of light source without shadow mapping.
-
-<div style="overflow-x:auto;">
-{{% md %}}
 
 | Name | Direct (with Shadow Mapping) | Direct (with Raycasting) | Anistropic Filtering | Global Illumination | Anistropic Filtering |
 |:----:|:----------------------------:|:------------------------:|:--------------------:|:-------------------:|:--------------------:|
@@ -253,34 +225,23 @@ S1|1.33 ms|20.32 ms|1.39 ms|8.41 ms|1.38 ms
 S2|0.95 ms|4.57 ms|1.38 ms|3.88 ms|1.37 ms
 S3|1.13 ms|3.31 ms|1.37 ms|5.44 ms|1.38 ms
 
-{{% /md %}}
-</div>
-
 For raycasting, the amount of empty space in the scene affects how early the traced rays end, which affects the general performance. For high density scenes such as S3 most rays end early, in contrast the scene S1 takes a considerable amount of time using raycasting because the scene is mostly empty space, this same condition also applies for the voxel indirect diffuse step.
 
 | Scene | Voxel Direct | Voxel Direct + Indirect Diffuse |
 |:-----:|:------------:|:-------------------------------:|
-<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497742010/DVSGI/cornell_scene.png" style="width: 99%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/direct_voxel_cornell.png" style="width: 99%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/gi_voxel_cornell.png" style="width: 99%;"/>
-<p style="height: 0px"></p>|<p style="height: 0px"></p>
-<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497742010/DVSGI/sibenik_scene.png" style="width: 99%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/voxel_direct_sibenik.png" style="width: 99%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/voxel_gi_sibenik.png" style="width: 99%;"/>
-<p style="height: 0px"></p>|<p style="height: 0px"></p>
-<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497742010/DVSGI/sponza_scene.png" style="width: 99%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/voxel_direct_sponza.png" style="width: 99%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/voxel_gi_sponza.png" style="width: 99%;"/>
+<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497742010/DVSGI/cornell_scene.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/direct_voxel_cornell.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/gi_voxel_cornell.png" style="width: 100%;"/>
+<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497742010/DVSGI/sibenik_scene.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/voxel_direct_sibenik.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/voxel_gi_sibenik.png" style="width: 100%;"/>
+<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497742010/DVSGI/sponza_scene.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/voxel_direct_sponza.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497740284/DVSGI/voxel_gi_sponza.png" style="width: 100%;"/>
 
 ## Voxel Cone Tracing
 
 Once the voxel structure is anisotropically filtered we can proceed with voxel cone tracing per pixel for the final composition of the image. In my approach six cones with an aperture of 60 degrees are used to approximate the indirect diffuse term, for the indirect specular in these test I utilize a specular cone with an aperture of 10 degrees. The next table shows the performance for indirect lighting on different scenes. For all the scenes my implementation achieves results over 30FPS (\\(< 33.3 ms\\)) under constant dynamic update, meaning objects and lights are changing and moving per frame. The dynamic update includes dynamic voxelization, voxel direct illumination, voxel global illumination and the necessary anistropic filtering steps. For a screen resolution of \\(1920x1080\\) pixels my implementation obtains an average framerate of \\(28.57 ms\\) for the scene S3, \\(27.02 ms\\) for S2 and \\(27.77 ms\\) for S1 under constant dynamic update, these results show that even with a high resolution the technique can achieve over 30FPS for all the scenes.
-
-<div style="overflow-x:auto;">
-{{% md %}}
 
 |Scene | Direct | Indirect (Diffuse + Specular) | Direct + Indirect | Dynamic Stress |
 |:----:|:------:|:-----------------------------:|:-----------------:|:--------------:|
 S1 | 1.03 ms | 7.27 ms | 7.67 ms | 17.81 ms |
 S2 | 1.32 ms | 7.62 ms | 8.32 ms | 17.60 ms |
 S3 | 1.34 ms | 7.81 ms | 8.41 ms | 16.97 ms |
-
-{{% /md %}}
-</div>
 
 ### Optimizations
 
@@ -294,56 +255,19 @@ One optimization to consider that wasn't implemented in my application is to sep
 
 ### Dynamic Update
 
-<table>
-  <tr>
-    <th>Cornell Box</th>
-    <th>Sibenik Cathedral</th>
-    <th>Crytek Sponza</th>
-  </tr>
-  <tr>
-    <td align="center">
-      <video width="100%" autoplay loop>
-        <source src="http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/cornell.webm" type="video/webm">
-        Your browser does not support the video tag.
-      </video>
-    </td>
-    <td align="center">
-      <video width="100%" autoplay loop>
-        <source src="http://res.cloudinary.com/jose-villegas/video/upload/v1497753449/DVSGI/sibenik.webm" type="video/webm">
-        Your browser does not support the video tag.
-      </video>
-    </td>
-    <td align="center">
-      <video width="100%" autoplay loop>
-        <source src="http://res.cloudinary.com/jose-villegas/video/upload/v1497753449/DVSGI/sponza.webm" type="video/webm">
-        Your browser does not support the video tag.
-      </video>
-    </td>
-  </tr>
-</table>
+|Cornell Box|Sibenik Cathedral|Crytek Sponza|
+|:---------:|:---------------:|:-----------:|
+[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/cornell.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/cornell.webm)|[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/sibenik.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/sibenik.webm)|[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/sponza.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/sponza.webm)
+
+(*These are videos*)
 
 ### Indirect Lighting
 
-<table>
-  <tr>
-    <th>Emissive Material</th>
-    <th>Indirect Shadows</th>
-  </tr>
-  <tr>
-    <td align="center">
-      <video width="100%" autoplay loop>
-        <source src="http://res.cloudinary.com/jose-villegas/video/upload/v1497757150/DVSGI/emissive.webm" type="video/webm">
-        Your browser does not support the video tag.
-      </video>
-    </td>
-    <td align="center">
-      <video width="100%" autoplay loop>
-        <source src="http://res.cloudinary.com/jose-villegas/video/upload/v1497757746/DVSGI/indirect_shadows.webm" type="video/webm">
-        Your browser does not support the video tag.
-      </video>
-    </td>
-  </tr>
-</table>
+|Emissive Material|Indirect Shadows|
+|:---------------:|:--------------:|
+[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497757150/DVSGI/emissive.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497757150/DVSGI/emissive.webm)|[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497757746/DVSGI/indirect_shadows.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497757746/DVSGI/indirect_shadows.webm)
+
+(*These are videos*)
 
 ### Ambient Occlusion
 
@@ -359,7 +283,7 @@ One optimization to consider that wasn't implemented in my application is to sep
 
 ### Comparison
 
-| Reference (3~ hours) | [Light Propagation Volumes](http://www.crytek.com/download/Light_Propagation_Volumes.pdf) (18.86 ms) | My approach (17.34 ms) |
+| Reference (3~ hours) | [LPV](http://www.crytek.com/download/Light_Propagation_Volumes.pdf) (18.86 ms) | My approach (17.34 ms) |
 |:------:|:------:|:------:|
 <img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497758681/DVSGI/reference.png" style="width: 100%;"/>|<img src="http://res.cloudinary.com/jose-villegas/image/upload/v1497758675/DVSGI/lpv_comp.png" style="width: 100%;"/>|<img src="https://res.cloudinary.com/jose-villegas/image/upload/v1497758664/DVSGI/sponza_comp.png" style="width: 100%;"/>
 
@@ -379,14 +303,10 @@ One optimization to consider that wasn't implemented in my application is to sep
 
 ### Recording
 
-{{< youtube HwGSoTyP-oM >}}
+[![](https://img.youtube.com/vi/HwGSoTyP-oM/0.jpg)](http://www.youtube.com/watch?v=HwGSoTyP-oM)
+[![](https://img.youtube.com/vi/52nkpkVZt-g/0.jpg)](http://www.youtube.com/watch?v=52nkpkVZt-g)
+[![](https://img.youtube.com/vi/e1r5VrDtG7k/0.jpg)](http://www.youtube.com/watch?v=e1r5VrDtG7k)
 
-{{< youtube 52nkpkVZt-g >}}
-
-{{< youtube e1r5VrDtG7k >}}
-
-# Source Code & Executable
-
-All the source code for this project can be found in this link [here](https://github.com/jose-villegas/VCTRenderer)
+# Executable
 
 The executable application for this technique can be found in this link [here](https://github.com/jose-villegas/VCTRenderer/releases)
