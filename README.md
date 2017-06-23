@@ -1,5 +1,38 @@
 # Deferred Voxel Shading for Real Time Global Illumination
 
+Table of Contents
+=================
+* [Overview](#overview)
+  * [1. Voxelization](#1-voxelization)
+     * [1.1. Voxel Structure](#11-voxel-structure)
+     * [1.2. Dynamic Voxelization](#12-dynamic-voxelization)
+  * [2. Voxel Illumination](#2-voxel-illumination)
+     * [2.1. Normal-Weighted Attenuation](#21-normal-weighted-attenuation)
+     * [2.2. Voxel Occlusion](#22-voxel-occlusion)
+        * [2.2.1. Soft Voxel Shadows](#221-soft-voxel-shadows)
+     * [2.3. Emission](#23-emission)
+  * [3. Anisotropic Voxels](#3-anisotropic-voxels)
+  * [4. Voxel Cone Tracing](#4-voxel-cone-tracing)
+     * [4.1. Indirect Illumination](#41-indirect-illumination)
+     * [4.2. Ambient Occlusion](#42-ambient-occlusion)
+     * [4.3. Soft Shadows](#43-soft-shadows)
+  * [Voxel Global Illumination](#voxel-global-illumination)
+* [Results](#results)
+  * [Voxelization](#voxelization)
+  * [Voxel Illumination](#voxel-illumination)
+  * [Voxel Cone Tracing](#voxel-cone-tracing)
+  * [Comparison](#comparison)
+     * [Optimizations](#optimizations)
+  * [Show Off](#show-off)
+     * [Dynamic Update](#dynamic-update)
+     * [Indirect Lighting](#indirect-lighting)
+     * [Ambient Occlusion](#ambient-occlusion)
+     * [Soft Shadows](#soft-shadows)
+     * [Emissive Materials / Area Lights](#emissive-materials--area-lights)
+     * [Teasers](#teasers)
+     * [Recording](#recording)
+* [Executable](#executable)
+
 *Peer-review published paper for this technique can be found here:* http://ieeexplore.ieee.org/abstract/document/7833375/
 
 Computing indirect illumination is a challenging and complex problem for real-time rendering in 3D applications. This global illumination approach computes indirect lighting in real time utilizing a simpliﬁed version of the outgoing radiance and the scene stored in voxels.
