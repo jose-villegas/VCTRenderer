@@ -346,4 +346,5 @@ One optimization to consider that wasn't implemented in my application is to sep
 
 # Executable
 
-The executable application for this technique can be found in this link [here](https://github.com/jose-villegas/VCTRenderer/releases)
+The executable application for this technique can be found in this link [here](https://github.com/jose-villegas/VCTRenderer/releases) 
+Press Shift + F to enable free camera mode.

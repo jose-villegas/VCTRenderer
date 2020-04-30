@@ -142,7 +142,7 @@ void RenderWindow::Open(const WindowInfo &windowConfig, bool setPosition,
 {
     if (isOpen || !glfwInit()) { return; }
 
-    windowInfo = std::move(windowConfig);
+    windowInfo = windowConfig;
     windowHandler = glfwCreateWindow(windowInfo.displayWidth,
                                      windowInfo.displayHeight,
                                      windowInfo.title.c_str(), monitor, share);

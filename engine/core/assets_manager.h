@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <map>
+#include <string>
 
 class Renderer;
 class Behavior;

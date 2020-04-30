@@ -1,6 +1,8 @@
 #pragma once
+
 #include <chrono>
 #include <map>
+#include <string>
 
 class IMetric
 {
@@ -63,7 +65,7 @@ Metric<T>::Metric(const T &value)
     this->value = value;
 }
 
-template<class _Duration = std::chrono::nanoseconds>
+template<class _Duration>
 void ElapsedTime::End()
 {
     time[1] = std::chrono::steady_clock::now();
