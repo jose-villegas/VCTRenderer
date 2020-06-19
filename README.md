@@ -33,9 +33,13 @@ Table of Contents
      * [Recording](#recording)
 * [Executable](#executable)
 
-*Peer-review published paper for this technique can be found here:* http://ieeexplore.ieee.org/abstract/document/7833375/
+*Peer-review published paper for this technique can be found here:* 
 
-My thesis can be found here (Spanish) here: https://raw.githubusercontent.com/jose-villegas/ThesisDocument/master/Tesis.pdf
+https://github.com/jose-villegas/VCTRenderer/blob/master/paper_final.pdf
+http://ieeexplore.ieee.org/abstract/document/7833375/
+
+My thesis can be found here (Spanish) here:
+https://raw.githubusercontent.com/jose-villegas/ThesisDocument/master/Tesis.pdf
 
 Computing indirect illumination is a challenging and complex problem for real-time rendering in 3D applications. This global illumination approach computes indirect lighting in real time utilizing a simpliﬁed version of the outgoing radiance and the scene stored in voxels.
 <!--more-->
