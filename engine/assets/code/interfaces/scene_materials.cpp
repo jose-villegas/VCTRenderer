@@ -5,6 +5,7 @@
 #include "../../../scene/scene.h"
 #include "../../../scene/material.h"
 #include <glm/gtc/type_ptr.hpp>
+#include <iterator>
 #include "../renderers/voxelizer_renderer.h"
 #include "../../../core/assets_manager.h"
 
