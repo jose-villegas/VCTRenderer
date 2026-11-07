@@ -26,6 +26,14 @@ SceneImporter::~SceneImporter()
 bool SceneImporter::Import(const std::string &filepath, Scene * scene,
                            unsigned flags)
 {
+    // ImportMesh needs triangles with normals, whatever preset the UI picked
+    flags |= aiProcess_Triangulate;
+
+    if (!(flags & (aiProcess_GenNormals | aiProcess_GenSmoothNormals)))
+    {
+        flags |= aiProcess_GenSmoothNormals;
+    }
+
     Assimp::Importer importer;
     const aiScene * mScene = importer.ReadFile(filepath, flags);
 
@@ -221,11 +229,14 @@ void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &mesh)
                                   mMesh->mVertices[i].y,
                                   mMesh->mVertices[i].z
                               );
-            vertex.normal = glm::vec3(
-                                mMesh->mNormals[i].x,
-                                mMesh->mNormals[i].y,
-                                mMesh->mNormals[i].z
-                            );
+            if (mMesh->HasNormals())
+            {
+                vertex.normal = glm::vec3(
+                                    mMesh->mNormals[i].x,
+                                    mMesh->mNormals[i].y,
+                                    mMesh->mNormals[i].z
+                                );
+            }
 
             if (mMesh->HasTextureCoords(0))
             {
@@ -262,6 +273,9 @@ void SceneImporter::ImportMesh(aiMesh * mMesh, Mesh &mesh)
 
     for (unsigned int i = 0; i < mMesh->mNumFaces; i++)
     {
+        // triangulation leaves point and line primitives as they are
+        if (mMesh->mFaces[i].mNumIndices != 3) { continue; }
+
         mesh.indices.push_back(mMesh->mFaces[i].mIndices[0]);
         mesh.indices.push_back(mMesh->mFaces[i].mIndices[1]);
         mesh.indices.push_back(mMesh->mFaces[i].mIndices[2]);
