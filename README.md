@@ -127,17 +127,23 @@ A disvantage of this technique is the loss of precision averaging all the geomet
 
 To reduce this issue our proposal utilizes a normal-weighted attenuation, where first the normal attenuation is calculated per every face of the voxel as follows:
 
-<img src="https://latex.codecogs.com/png.image?\inline&space;\LARGE&space;\dpi{110}\bg{white}D_{x,y,z}=(\hat{i}\cdot\Psi,\hat{j}\cdot\Psi,\hat{k}\cdot\Psi)" title="D_{x,y,z}=(\hat{i}\cdot\Psi,\hat{j}\cdot\Psi,\hat{k}\cdot\Psi)" />
+```math
+D_{x,y,z}=(\hat{i}\cdot\Psi,\ \hat{j}\cdot\Psi,\ \hat{k}\cdot\Psi)
+```
 
 Then three dominant faces are selected depending on the axes sign of the voxel averaged normal vector:
 
-<img src="https://latex.codecogs.com/png.image?\inline&space;\LARGE&space;\dpi{110}\bg{white}D_{\omega}=\begin{cases}max\{D_{\omega},0\},&N_{\omega}>0\\max\{-D_{\omega},0\},&\text{otherwise}\end{cases}" title="D_{\omega}=\begin{cases}max\{D_{\omega},0\},&N_{\omega}>0\\max\{-D_{\omega},0\},&\text{otherwise}\end{cases}" />
+```math
+D_{\omega}=\begin{cases}\max\{D_{\omega},0\}, & N_{\omega}>0 \\ \max\{-D_{\omega},0\}, & \text{otherwise}\end{cases}
+```
 
 And finally, the resulting attenuation is the product of every dominant face normal attenuation, multiplied with the weight per axis of the averaged normal vector of the voxel, the resulting reflectance model is computed as follows:
 
-<img src="https://latex.codecogs.com/png.image?\inline&space;\LARGE&space;\dpi{110}\bg{white}W=N^2\\V_{r}=L_{i}\frac{\rho}{\pi}(W_x&space;D_x&plus;W_y&space;D_y&plus;W_z&space;D_z)" title="W=N^2\\V_{r}=L_{i}\frac{\rho}{\pi}(W_x D_x+W_y D_y+W_z D_z)" />
+```math
+\begin{aligned}W &= N^2 \\ V_{r} &= L_{i}\frac{\rho}{\pi}(W_x D_x+W_y D_y+W_z D_z)\end{aligned}
+```
 
-where <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}L_i" title="L_i" /> is the light source intensity, <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\rho" title="\rho" /> the voxel albedo, <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}N" title="N" /> the normal vector of the voxel and <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\Psi" title="\Psi" /> the light direction.
+where $`L_i`$ is the light source intensity, $`\rho`$ the voxel albedo, $`N`$ the normal vector of the voxel and $`\Psi`$ the light direction.
 
 | Normal Attenuation | Normal-weighted Attenuation |
 |--------------------|-----------------------------|
@@ -153,7 +159,7 @@ Our proposal also computes occlusion using raycasting within a volume. Any of th
 
 #### 2.2.1. Soft Voxel Shadows
 
-Instead of stopping the ray as soon a voxel is found, soft shadows can be approximated with a single ray accumulating a value <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\kappa" title="\kappa" /> per collision and dividing by the traced distance <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}t" title="t" />, i.e.<img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\nu=\nu&plus;(1-\nu)\kappa\div&space;t" title="\nu=\nu+(1-\nu)\kappa\div t" />, where <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}1-\nu" title="1-\nu" /> represents the occlusion value after the accumulation is finished. This technique exploits the observation that, from the light point of view, the number of collisions will usually be higher for the rays that pass through the borders of the voxelized geometry.
+Instead of stopping the ray as soon a voxel is found, soft shadows can be approximated with a single ray accumulating a value $`\kappa`$ per collision and dividing by the traced distance $`t`$, i.e. $`\nu=\nu+(1-\nu)\kappa\div t`$, where $`1-\nu`$ represents the occlusion value after the accumulation is finished. This technique exploits the observation that, from the light point of view, the number of collisions will usually be higher for the rays that pass through the borders of the voxelized geometry.
 
 | Hard Voxel Shadows | Soft Voxel Shadows |
 |:------------------:|:------------------:|
@@ -194,11 +200,11 @@ The shape of the cone is meant to exploit the spatial and directional coherence 
   </tr>
 </table>
 
-As seen in the figure above each cone is defined by an origin <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}&space;C_o" title=" C_o" />, a direction <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}C_d" title="C_d" /> and an aperture angle <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\theta" title="\theta" />. During the cone steps the diameter of the cone is defined by <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}d" title="d" />, this value can be extracted using the traced distance <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}t" title="t" /> with the following equation: <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}d=2t\times\tan(\theta\div&space;2)" title="d=2t\times\tan(\theta\div 2)" />. Which mipmap level should be sampled depending on the diameter of the cone can be obtained using the following equation: <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}V_{level}=log_2(d\div&space;V_{size})" title="V_{level}=log_2(d\div V_{size})" />, where <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}V_{size}" title="V_{size}" /> is the size of a voxel at the maximum level of detail.
+As seen in the figure above each cone is defined by an origin $`C_o`$, a direction $`C_d`$ and an aperture angle $`\theta`$. During the cone steps the diameter of the cone is defined by $`d`$, this value can be extracted using the traced distance $`t`$ with the following equation: $`d=2t\times\tan(\theta\div 2)`$. Which mipmap level should be sampled depending on the diameter of the cone can be obtained using the following equation: $`V_{level}=\log_2(d\div V_{size})`$, where $`V_{size}`$ is the size of a voxel at the maximum level of detail.
 
-As described by Crassin [here](http://maverick.inria.fr/Publications/2011/CNSGE11b/), for each cone trace we keep track of the occlusion value <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\alpha" title="\alpha" /> and the color value <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}c" title="c" /> which represents the indirect light towards the cone origin <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}C_o" title="C_o" />. In each step we retrieve from the voxel structure the occlusion value <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\alpha_2" title="\alpha_2" /> and the outgoing radiance <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;c_2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;c_2" title="c_2" /></a>. Then the <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\alpha" title="\alpha" /> and the color value <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}c" title="c" /> and <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\alpha" title="\alpha" /> values are updated using volumetric front-to-back accumulation as follows: <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}c=\alpha&space;c&plus;(1-\alpha)\alpha_2c_2" title="c=\alpha c+(1-\alpha)\alpha_2c_2" /> and <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\alpha=\alpha&plus;(1-\alpha)\alpha_2" title="\alpha=\alpha+(1-\alpha)\alpha_2" />. 
+As described by Crassin [here](http://maverick.inria.fr/Publications/2011/CNSGE11b/), for each cone trace we keep track of the occlusion value $`\alpha`$ and the color value $`c`$ which represents the indirect light towards the cone origin $`C_o`$. In each step we retrieve from the voxel structure the occlusion value $`\alpha_2`$ and the outgoing radiance $`c_2`$. Then the $`\alpha`$ and the color value $`c`$ and $`\alpha`$ values are updated using volumetric front-to-back accumulation as follows: $`c=\alpha c+(1-\alpha)\alpha_2c_2`$ and $`\alpha=\alpha+(1-\alpha)\alpha_2`$. 
 
-To ensure good integration quality between samples the distance <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}d'" title="d'" /> between steps is modified by a factor <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\beta" title="\beta" /> With <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\beta=1" title="\beta=1" /> the value of <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}d'" title="d'" /> is equivalent to the current diameter <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}d" title="d" /> of the cone, values less than *1* produce higher quality results but require more samples which reduces the performance.
+To ensure good integration quality between samples the distance $`d'`$ between steps is modified by a factor $`\beta`$ With $`\beta=1`$ the value of $`d'`$ is equivalent to the current diameter $`d`$ of the cone, values less than *1* produce higher quality results but require more samples which reduces the performance.
 
 ### 4.1. Indirect Illumination
 
@@ -212,11 +218,11 @@ The distribution of the cones matches the shape of the BRDF, for a Blinn-Phong m
 
 ### 4.2. Ambient Occlusion
 
-Ambient occlusion can be approximated using the same cones used for the diffuse reflection for efficiency. For the ambient occlusion term <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\delta" title="\delta" /> we only accumulate the occlusion value <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\alpha_2" title="\alpha_2" />, at each step the accumulated value is multiplied with the weighting function <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}f(r)=\frac{1}{1&plus;\lambda&space;r}" title="f(r)=\frac{1}{1+\lambda r}" />, where <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}r" title="r" /> is the current radius of the cone and <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\lambda" title="\lambda" /> an user defined value which controls how fast <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}f(r)" title="f(r)" /> decays along the traced distance. At each cone step the ambient occlusion term is updated as: <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\delta=\delta&plus;(1-\delta)\alpha_2f(r)" title="\delta=\delta+(1-\delta)\alpha_2f(r)" />
+Ambient occlusion can be approximated using the same cones used for the diffuse reflection for efficiency. For the ambient occlusion term $`\delta`$ we only accumulate the occlusion value $`\alpha_2`$, at each step the accumulated value is multiplied with the weighting function $`f(r)=\frac{1}{1+\lambda r}`$, where $`r`$ is the current radius of the cone and $`\lambda`$ an user defined value which controls how fast $`f(r)`$ decays along the traced distance. At each cone step the ambient occlusion term is updated as: $`\delta=\delta+(1-\delta)\alpha_2f(r)`$
 
 ### 4.3. Soft Shadows
 
-Cone tracing can also be used to achieve soft shadows tracing a cone from the surface point *x* towards the direction of the light The cone aperture controls how soft and scattered the resulting shadow is. For soft shadows with cones we only accumulate the occlusion value <img src="https://latex.codecogs.com/png.image?\inline&space;\large&space;\dpi{110}\bg{white}\alpha_2" title="\alpha_2" /> at each step.
+Cone tracing can also be used to achieve soft shadows tracing a cone from the surface point *x* towards the direction of the light The cone aperture controls how soft and scattered the resulting shadow is. For soft shadows with cones we only accumulate the occlusion value $`\alpha_2`$ at each step.
 
 <table>
   <tr>
