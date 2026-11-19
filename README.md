@@ -346,9 +346,10 @@ One optimization to consider that wasn't implemented in our application is to se
 
 ### Recording
 
-[![](https://img.youtube.com/vi/HwGSoTyP-oM/0.jpg)](http://www.youtube.com/watch?v=HwGSoTyP-oM)
-[![](https://img.youtube.com/vi/52nkpkVZt-g/0.jpg)](http://www.youtube.com/watch?v=52nkpkVZt-g)
-[![](https://img.youtube.com/vi/e1r5VrDtG7k/0.jpg)](http://www.youtube.com/watch?v=e1r5VrDtG7k)
+|Soft Shadows|Emissive Materials|Voxel Views|
+|:----------:|:----------------:|:---------:|
+|[![Soft Shadows](images/showcase/soft_shadows.gif)](https://www.youtube.com/watch?v=HwGSoTyP-oM)|[![Emissive Materials](images/showcase/emissive_sponza.gif)](https://www.youtube.com/watch?v=52nkpkVZt-g)|[![Voxel Views](images/showcase/voxel_views.gif)](https://www.youtube.com/watch?v=e1r5VrDtG7k)|
+|[Full video](https://www.youtube.com/watch?v=HwGSoTyP-oM)|[Full video](https://www.youtube.com/watch?v=52nkpkVZt-g)|[Full video](https://www.youtube.com/watch?v=e1r5VrDtG7k)|
 
 # Executable
 
