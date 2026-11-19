@@ -310,17 +310,13 @@ One optimization to consider that wasn't implemented in our application is to se
 
 |Cornell Box|Sibenik Cathedral|Crytek Sponza|
 |:---------:|:---------------:|:-----------:|
-[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/cornell.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/cornell.webm)|[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/sibenik.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/sibenik.webm)|[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/sponza.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497754650/DVSGI/sponza.webm)
-
-(*These are videos*)
+![Cornell Box](images/showcase/cornell.gif)|![Sibenik Cathedral](images/showcase/sibenik.gif)|![Crytek Sponza](images/showcase/sponza.gif)
 
 ### Indirect Lighting
 
 |Emissive Material|Indirect Shadows|
 |:---------------:|:--------------:|
-[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497757150/DVSGI/emissive.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497757150/DVSGI/emissive.webm)|[![](http://res.cloudinary.com/jose-villegas/video/upload/v1497757746/DVSGI/indirect_shadows.jpg)](http://res.cloudinary.com/jose-villegas/video/upload/v1497757746/DVSGI/indirect_shadows.webm)
-
-(*These are videos*)
+![Emissive Material](images/showcase/emissive.gif)|![Indirect Shadows](images/showcase/indirect_shadows.gif)
 
 ### Ambient Occlusion
 
@@ -350,9 +346,10 @@ One optimization to consider that wasn't implemented in our application is to se
 
 ### Recording
 
-[![](https://img.youtube.com/vi/HwGSoTyP-oM/0.jpg)](http://www.youtube.com/watch?v=HwGSoTyP-oM)
-[![](https://img.youtube.com/vi/52nkpkVZt-g/0.jpg)](http://www.youtube.com/watch?v=52nkpkVZt-g)
-[![](https://img.youtube.com/vi/e1r5VrDtG7k/0.jpg)](http://www.youtube.com/watch?v=e1r5VrDtG7k)
+|Soft Shadows|Emissive Materials|Voxel Views|
+|:----------:|:----------------:|:---------:|
+|[![Soft Shadows](images/showcase/soft_shadows.gif)](https://www.youtube.com/watch?v=HwGSoTyP-oM)|[![Emissive Materials](images/showcase/emissive_sponza.gif)](https://www.youtube.com/watch?v=52nkpkVZt-g)|[![Voxel Views](images/showcase/voxel_views.gif)](https://www.youtube.com/watch?v=e1r5VrDtG7k)|
+|[Full video](https://www.youtube.com/watch?v=HwGSoTyP-oM)|[Full video](https://www.youtube.com/watch?v=52nkpkVZt-g)|[Full video](https://www.youtube.com/watch?v=e1r5VrDtG7k)|
 
 # Executable
 
